@@ -308,8 +308,7 @@ set_openair_env(){
   [ -f "/.$fullpath" ] || fullpath=`readlink -f $PWD/$fullpath`
   openair_path=${fullpath%/build/*}
   openair_path=${openair_path%/scripts/*}
-  openair_path=${openair_path%/src/nas/*}
-  openair_path=${openair_path%/src/s6a/*}
+  openair_path=${openair_path%/src/lpp/*}
   export OPENAIRCN_DIR=$openair_path
 }
 
