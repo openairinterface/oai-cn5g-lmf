@@ -32,6 +32,8 @@
 #include "lmf_event.hpp"
 
 #include "lmf.h"
+#include "InputData.h"
+#include "lpp-ie-headers.hpp"
 #include <map>
 #include <pistache/http.h>
 #include <shared_mutex>
@@ -52,8 +54,11 @@ class lmf_app {
 
   virtual ~lmf_app();
 
+  void handle_determine_location(const oai::lmf_server::model::InputData& inputData, nlohmann::json& json_data, Pistache::Http::Code& code, uint8_t http_version = 1);
+
  private:
   lmf_event& event_sub;
+  void build_request_location_lpp_pdu(LPP_Message_t *lppMsg);
 };
 }  // namespace app
 }  // namespace lmf

@@ -149,7 +149,9 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   oai::lmf_server::model::PatchItem patch_item = {};
   std::vector<oai::lmf_server::model::PatchItem> patch_items;
   //{"op":"replace","path":"/nfStatus", "value": "REGISTERED"}
-  patch_item.setOp("replace");
+  oai::lmf_server::model::PatchOperation patch_operation;
+  patch_operation.setEnumValue(oai::lmf_server::model::PatchOperation_anyOf::ePatchOperation_anyOf::REPLACE);
+  patch_item.setOp(patch_operation);
   patch_item.setPath("/nfStatus");
   patch_item.setValue("REGISTERED");
   patch_items.push_back(patch_item);
