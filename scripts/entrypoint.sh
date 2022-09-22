@@ -4,14 +4,21 @@ set -euo pipefail
 
 CONFIG_DIR="/openair-lmf/etc"
 SBI_PORT=${SBI_PORT:-80}
+AMF_PORT=${AMF_PORT:-80}
 SBI_HTTP2_PORT=${SBI_HTTP2_PORT:-8080}
 SBI_API_VERSION=${SBI_API_VERSION:-v1}
 USE_HTTP2=${USE_HTTP2:-no}
 REGISTER_NRF=${REGISTER_NRF:-no}
+AMF_FQDN=${AMF_FQDN:-oai-amf}
+AMF_VERSION_NB=${AMF_VERSION_NB:-v1}
 NRF_IPV4_ADDRESS=${NRF_IPV4_ADDRESS:-0.0.0.0}
 NRF_PORT=${NRF_PORT:-80}
 NRF_API_VERSION=${NRF_API_VERSION:-v1}
 NRF_FQDN=${NRF_FQDN:-oai-nrf}
+
+if [[ ${USE_FQDN_DNS} == "yes" ]];then
+    AMF_IP_ADDRESS=${AMF_IP_ADDRESS:-0.0.0.0}
+fi
 
 for c in ${CONFIG_DIR}/*.conf; do
     # grep variable names (format: ${VAR}) from template to be rendered
