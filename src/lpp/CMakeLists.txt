@@ -5,4 +5,4 @@ file(GLOB LPP_src_files
     ${LPP_DIR}/*.cpp
 )   
 
-add_library(LPP ${LPP_src_files})
+add_library(LPP STATIC ${LPP_src_files})
