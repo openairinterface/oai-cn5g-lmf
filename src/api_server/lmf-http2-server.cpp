@@ -19,7 +19,7 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_http2-server.cpp
+/*! \file lmf-http2-server.cpp
  \brief
  \author  Tien-Thinh NGUYEN
  \company Eurecom
@@ -64,7 +64,10 @@ void lmf_http2_server::start() {
             std::vector<std::string> split_result;
             boost::split(split_result, request.uri().path, boost::is_any_of("/"));
             if (request.method().compare("POST") == 0 && len > 0) {
-
+              oai::lmf_server::model::InputData inputData;
+              nlohmann::json::parse(msg.c_str()).get_to(inputData);
+              this->detemine_location_post_handler(
+                  inputData, response);
             }
           } catch (std::exception& e) {
             Logger::lmf_server().warn(
