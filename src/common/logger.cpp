@@ -66,8 +66,8 @@ void Logger::_init(
   std::stringstream ss;
   ss << "[%Y-%m-%dT%H:%M:%S.%f] [" << app << "] [%n] [%l] %v";
 
-  m_config      = new _Logger("configurations", m_sinks, ss.str().c_str());
-  m_system      = new _Logger("system", m_sinks, ss.str().c_str());
+  m_config     = new _Logger("configurations", m_sinks, ss.str().c_str());
+  m_system     = new _Logger("system", m_sinks, ss.str().c_str());
   m_lmf_app    = new _Logger("lmf_app", m_sinks, ss.str().c_str());
   m_lmf_nrf    = new _Logger("lmf_nrf", m_sinks, ss.str().c_str());
   m_lmf_server = new _Logger("lmf_server", m_sinks, ss.str().c_str());

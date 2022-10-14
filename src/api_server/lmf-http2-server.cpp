@@ -62,16 +62,15 @@ void lmf_http2_server::start() {
           std::string msg((char*) data, len);
           try {
             std::vector<std::string> split_result;
-            boost::split(split_result, request.uri().path, boost::is_any_of("/"));
+            boost::split(
+                split_result, request.uri().path, boost::is_any_of("/"));
             if (request.method().compare("POST") == 0 && len > 0) {
               oai::lmf_server::model::InputData inputData;
               nlohmann::json::parse(msg.c_str()).get_to(inputData);
-              this->detemine_location_post_handler(
-                  inputData, response);
+              this->detemine_location_post_handler(inputData, response);
             }
           } catch (std::exception& e) {
-            Logger::lmf_server().warn(
-                "Invalid request (error: %s)!", e.what());
+            Logger::lmf_server().warn("Invalid request (error: %s)!", e.what());
             response.write_head(
                 http_status_code_e::HTTP_STATUS_CODE_400_BAD_REQUEST);
             response.end();
@@ -86,11 +85,12 @@ void lmf_http2_server::start() {
 }
 
 void lmf_http2_server::detemine_location_post_handler(
-    const oai::lmf_server::model::InputData& inputData, const response& response) {
+    const oai::lmf_server::model::InputData& inputData,
+    const response& response) {
   Logger::lmf_server().info("Received determine_location_post Request");
 
-  nlohmann::json locationData_json   = {};
-  Pistache::Http::Code code       = {};
+  nlohmann::json locationData_json = {};
+  Pistache::Http::Code code        = {};
   header_map h;
 
   m_lmf_app->handle_determine_location(inputData, locationData_json, code, 2);

@@ -48,7 +48,9 @@ class lmf_http2_server {
   void start();
   void init(size_t thr) {}
 
-  void detemine_location_post_handler(const oai::lmf_server::model::InputData& inputData, const response& response);
+  void detemine_location_post_handler(
+      const oai::lmf_server::model::InputData& inputData,
+      const response& response);
 
   void stop();
 

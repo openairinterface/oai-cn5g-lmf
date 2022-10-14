@@ -41,7 +41,7 @@ using namespace config;
 
 lmf_config lmf_cfg;
 lmf_app* lmf_app_inst              = nullptr;
-LMFApiServer* api_server            = nullptr;
+LMFApiServer* api_server           = nullptr;
 lmf_http2_server* lmf_api_server_2 = nullptr;
 
 //------------------------------------------------------------------------------
@@ -120,8 +120,7 @@ int main(int argc, char** argv) {
 
   // LMF NGHTTP API server (HTTP2)
   lmf_api_server_2 = new lmf_http2_server(
-      conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port,
-      lmf_app_inst);
+      conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port, lmf_app_inst);
   std::thread lmf_http2_manager(&lmf_http2_server::start, lmf_api_server_2);
 
   lmf_manager.join();

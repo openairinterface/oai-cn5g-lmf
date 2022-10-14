@@ -49,7 +49,6 @@ extern "C" {
 #define maxKnownAPs_r14 (2048)
 #define maxBT_Beacon_r13 (32)
 
-
 #ifdef __cplusplus
 }
 #endif

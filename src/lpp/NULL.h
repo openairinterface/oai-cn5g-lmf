@@ -2,8 +2,8 @@
  * Copyright (c) 2003-2017 Lev Walkin <vlm@lionet.info>. All rights reserved.
  * Redistribution and modifications are permitted subject to BSD license.
  */
-#ifndef	ASN_TYPE_NULL_H
-#define	ASN_TYPE_NULL_H
+#ifndef ASN_TYPE_NULL_H
+#define ASN_TYPE_NULL_H
 
 #include <asn_application.h>
 #include <BOOLEAN.h>
@@ -32,14 +32,14 @@ per_type_decoder_f NULL_decode_uper;
 per_type_encoder_f NULL_encode_uper;
 per_type_decoder_f NULL_decode_aper;
 per_type_encoder_f NULL_encode_aper;
-asn_random_fill_f  NULL_random_fill;
+asn_random_fill_f NULL_random_fill;
 
-#define NULL_free	BOOLEAN_free
-#define NULL_decode_ber	BOOLEAN_decode_ber
-#define NULL_constraint	asn_generic_no_constraint
+#define NULL_free BOOLEAN_free
+#define NULL_decode_ber BOOLEAN_decode_ber
+#define NULL_constraint asn_generic_no_constraint
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif	/* NULL_H */
+#endif /* NULL_H */

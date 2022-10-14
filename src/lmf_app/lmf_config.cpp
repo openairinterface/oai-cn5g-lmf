@@ -57,8 +57,8 @@ namespace config {
 
 //------------------------------------------------------------------------------
 lmf_config::lmf_config() : sbi(), lmf_name(), pid_dir(), instance() {
-  use_fqdn_dns              = false;
-  use_http2                 = false;
+  use_fqdn_dns = false;
+  use_http2    = false;
 }
 
 //------------------------------------------------------------------------------
