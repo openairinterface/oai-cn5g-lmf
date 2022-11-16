@@ -19,7 +19,7 @@ Please refer to the steps described on our website: [How to contribute to OAI](h
 
 We are using `clang-format` as formatting tool on the C/C++ code.
 
-At the time of writing, we are using `clang-format` version 11.0.0 or above. We perfer to install it manually rather than installing it from ubuntu repositories because the version can change.
+At the time of writing, we are using `clang-format` version 11.0.0 or above. We prefer to install it manually rather than installing it from ubuntu repositories because the version can change.
 
 The working version we found was 11.0.0.
 
