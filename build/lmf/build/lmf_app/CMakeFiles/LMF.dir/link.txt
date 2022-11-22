@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLMF.a  CMakeFiles/LMF.dir/lmf_app.cpp.o CMakeFiles/LMF.dir/lmf_client.cpp.o CMakeFiles/LMF.dir/lmf_config.cpp.o CMakeFiles/LMF.dir/task_manager.cpp.o CMakeFiles/LMF.dir/lmf_event.cpp.o CMakeFiles/LMF.dir/lmf_profile.cpp.o CMakeFiles/LMF.dir/lmf_nrf.cpp.o
+/usr/bin/ranlib libLMF.a

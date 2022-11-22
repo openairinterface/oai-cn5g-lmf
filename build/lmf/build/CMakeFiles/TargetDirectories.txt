@@ -1,0 +1,15 @@
+/code/oai-lmf/build/lmf/build/CMakeFiles/rebuild_cache.dir
+/code/oai-lmf/build/lmf/build/CMakeFiles/lmf.dir
+/code/oai-lmf/build/lmf/build/CMakeFiles/edit_cache.dir
+/code/oai-lmf/build/lmf/build/common/CMakeFiles/rebuild_cache.dir
+/code/oai-lmf/build/lmf/build/common/CMakeFiles/3GPP_COMMON_TYPES.dir
+/code/oai-lmf/build/lmf/build/common/CMakeFiles/edit_cache.dir
+/code/oai-lmf/build/lmf/build/utils/CMakeFiles/rebuild_cache.dir
+/code/oai-lmf/build/lmf/build/utils/CMakeFiles/CN_UTILS.dir
+/code/oai-lmf/build/lmf/build/utils/CMakeFiles/edit_cache.dir
+/code/oai-lmf/build/lmf/build/api_server/CMakeFiles/rebuild_cache.dir
+/code/oai-lmf/build/lmf/build/api_server/CMakeFiles/LMF_API.dir
+/code/oai-lmf/build/lmf/build/api_server/CMakeFiles/edit_cache.dir
+/code/oai-lmf/build/lmf/build/lmf_app/CMakeFiles/rebuild_cache.dir
+/code/oai-lmf/build/lmf/build/lmf_app/CMakeFiles/LMF.dir
+/code/oai-lmf/build/lmf/build/lmf_app/CMakeFiles/edit_cache.dir
