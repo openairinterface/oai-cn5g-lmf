@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-#include "lmf-api-server.h"
-#include "lmf-http2-server.h"
+#include "lmf_api_server.h"
+#include "lmf_http2_server.h"
 #include "lmf_app.hpp"
 #include "lmf_config.hpp"
 #include "logger.hpp"

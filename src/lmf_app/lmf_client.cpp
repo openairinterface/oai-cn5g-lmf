@@ -44,13 +44,13 @@ using namespace oai::lmf::app;
 using namespace config;
 using json = nlohmann::json;
 
-extern lmf_client* lmf_client_inst;
+extern lmf_client *lmf_client_inst;
 extern lmf_config lmf_cfg;
 
 //------------------------------------------------------------------------------
 // To read content of the response from NF
-static std::size_t callback(
-    const char* in, std::size_t size, std::size_t num, std::string* out) {
+static std::size_t callback(const char *in, std::size_t size, std::size_t num,
+                            std::string *out) {
   const std::size_t totalBytes(size * num);
   out->append(in, totalBytes);
   return totalBytes;
@@ -65,25 +65,25 @@ lmf_client::~lmf_client() {
 }
 
 //------------------------------------------------------------------------------
-void lmf_client::curl_http_client(
-    std::string remoteUri, std::string method, std::string msgBody,
-    std::string& response) {
+void lmf_client::curl_http_client(std::string remoteUri, std::string method,
+                                  std::string msgBody, std::string &response) {
   Logger::lmf_app().info("Send HTTP message with body %s", msgBody.c_str());
 
   uint32_t str_len = msgBody.length();
-  char* body_data  = (char*) malloc(str_len + 1);
+  char *body_data = (char *)malloc(str_len + 1);
   memset(body_data, 0, str_len + 1);
-  memcpy((void*) body_data, (void*) msgBody.c_str(), str_len);
+  memcpy((void *)body_data, (void *)msgBody.c_str(), str_len);
 
   curl_global_init(CURL_GLOBAL_ALL);
-  CURL* curl = curl_easy_init();
+  CURL *curl = curl_easy_init();
 
   uint8_t http_version = 1;
-  if (lmf_cfg.use_http2) http_version = 2;
+  if (lmf_cfg.use_http2)
+    http_version = 2;
 
   if (curl) {
-    CURLcode res               = {};
-    struct curl_slist* headers = nullptr;
+    CURLcode res = {};
+    struct curl_slist *headers = nullptr;
     if ((method.compare("POST") == 0) or (method.compare("PUT") == 0) or
         (method.compare("PATCH") == 0)) {
       std::string content_type = "Content-Type: application/json";
@@ -112,8 +112,8 @@ void lmf_client::curl_http_client(
       // we use a self-signed test server, skip verification during debugging
       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
       curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-      curl_easy_setopt(
-          curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_PRIOR_KNOWLEDGE);
+      curl_easy_setopt(curl, CURLOPT_HTTP_VERSION,
+                       CURL_HTTP_VERSION_2_PRIOR_KNOWLEDGE);
     }
 
     // Response information.
@@ -135,13 +135,13 @@ void lmf_client::curl_http_client(
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
 
     // Process the response
-    response            = *httpData.get();
+    response = *httpData.get();
     bool is_response_ok = true;
     Logger::lmf_app().info("Get response with HTTP code (%d)", httpCode);
 
     if (httpCode == 0) {
-      Logger::lmf_app().info(
-          "Cannot get response when calling %s", remoteUri.c_str());
+      Logger::lmf_app().info("Cannot get response when calling %s",
+                             remoteUri.c_str());
       // free curl before returning
       curl_slist_free_all(headers);
       curl_easy_cleanup(curl);
@@ -166,14 +166,14 @@ void lmf_client::curl_http_client(
     if (!is_response_ok) {
       try {
         response_data = nlohmann::json::parse(response);
-      } catch (nlohmann::json::exception& e) {
+      } catch (nlohmann::json::exception &e) {
         Logger::lmf_app().info("Could not get JSON content from the response");
         // Set the default Cause
         response_data["error"]["cause"] = "504 Gateway Timeout";
       }
 
-      Logger::lmf_app().info(
-          "Get response with jsonData: %s", response.c_str());
+      Logger::lmf_app().info("Get response with jsonData: %s",
+                             response.c_str());
 
       std::string cause = response_data["error"]["cause"];
       Logger::lmf_app().info("Call Network Function services failure");

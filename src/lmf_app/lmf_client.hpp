@@ -42,18 +42,17 @@ namespace lmf {
 namespace app {
 
 class lmf_client {
- private:
- public:
+private:
+public:
   lmf_client();
   virtual ~lmf_client();
 
-  lmf_client(lmf_client const&) = delete;
+  lmf_client(lmf_client const &) = delete;
 
-  void curl_http_client(
-      std::string remoteUri, std::string method, std::string msgBody,
-      std::string& response);
+  void curl_http_client(std::string remoteUri, std::string method,
+                        std::string msgBody, std::string &response);
 };
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+} // namespace app
+} // namespace lmf
+} // namespace oai
 #endif /* FILE_LMF_CLIENT_HPP_SEEN */

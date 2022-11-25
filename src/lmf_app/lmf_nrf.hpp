@@ -40,22 +40,22 @@
 #include "lmf_profile.hpp"
 #include "logger.hpp"
 
-//using namespace oai::lmf_server::model;
+// using namespace oai::lmf_server::model;
 
 namespace oai {
 namespace lmf {
 namespace app {
 
 class lmf_nrf {
- private:
- public:
+private:
+public:
   lmf_profile lmf_nf_profile;  // LMF profile
-  std::string lmf_instance_id;  // LMF instance id
+  std::string lmf_instance_id; // LMF instance id
   // timer_id_t timer_lmf_heartbeat;
 
-  lmf_nrf(lmf_event& ev);
-  lmf_nrf(lmf_nrf const&) = delete;
-  void operator=(lmf_nrf const&) = delete;
+  lmf_nrf(lmf_event &ev);
+  lmf_nrf(lmf_nrf const &) = delete;
+  void operator=(lmf_nrf const &) = delete;
 
   void generate_uuid();
   /*
@@ -63,7 +63,7 @@ class lmf_nrf {
    * @param [void]
    * @return void
    */
-  void start_event_nf_heartbeat(std::string& remoteURI);
+  void start_event_nf_heartbeat(std::string &remoteURI);
   /*
    * Trigger NF heartbeat procedure
    * @param [void]
@@ -75,8 +75,8 @@ class lmf_nrf {
    * @param [void]
    * @return void
    */
-  void generate_lmf_profile(
-      lmf_profile& lmf_nf_profile, std::string& lmf_instance_id);
+  void generate_lmf_profile(lmf_profile &lmf_nf_profile,
+                            std::string &lmf_instance_id);
 
   /*
    * Trigger NF instance registration to NRF
@@ -89,13 +89,13 @@ class lmf_nrf {
    * @param [std::string& ] api_root: lmf's API Root
    * @return void
    */
-  void get_lmf_api_root(std::string& api_root);
+  void get_lmf_api_root(std::string &api_root);
 
- private:
-  lmf_event& m_event_sub;
+private:
+  lmf_event &m_event_sub;
   bs2::connection task_connection;
 };
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+} // namespace app
+} // namespace lmf
+} // namespace oai
 #endif /* FILE_LMF_NRF_SEEN */

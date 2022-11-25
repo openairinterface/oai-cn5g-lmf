@@ -21,7 +21,7 @@
 #---------------------------------------------------------------------
 #
 # Dockerfile for the Open-Air-Interface LMF service
-#   Valid for RHEL 8.2
+#   Valid for UBI 8.6 | RHEL 8.6
 #
 #---------------------------------------------------------------------
 
@@ -29,8 +29,6 @@
 # BUILDER IMAGE
 #---------------------------------------------------------------------
 FROM registry.access.redhat.com/ubi8/ubi:latest AS oai-lmf-builder
-
-ARG NEEDED_GIT_PROXY
 
 # Copy the entitlements
 COPY ./etc-pki-entitlement /etc/pki/entitlement
@@ -49,15 +47,16 @@ RUN rm -f /etc/rhsm-host && \
         diffutils \
         file \
         gcc-c++ \
+        ninja-build \
         boost-devel \
         openssl-devel \
         openssl \
+        wget \
         libasan && \
     echo "/usr/local/lib" > /etc/ld.so.conf.d/local-lib.conf && \
     echo "/usr/local/lib64" >> /etc/ld.so.conf.d/local-lib.conf
 
 # Some GIT configuration command quite useful
-RUN /bin/bash -c "if [[ -v NEEDED_GIT_PROXY ]]; then git config --global http.proxy $NEEDED_GIT_PROXY; fi"
 RUN git config --global https.postBuffer 123289600 && \
     git config --global http.sslverify false
 
@@ -65,60 +64,83 @@ RUN git config --global https.postBuffer 123289600 && \
 WORKDIR /openair-lmf
 COPY . /openair-lmf
 
-# Installing and Building LMF
+# Installing all the needed libraries/packages to build and run LMF
 WORKDIR /openair-lmf/build/scripts
 RUN ./build_lmf --install-deps --force
-RUN ./build_lmf --clean --Verbose --build-type Release --jobs && \
+
+# Building LMF
+WORKDIR /openair-lmf/build/scripts
+RUN ldconfig && \
+    ./build_lmf --clean --Verbose --build-type Release --jobs && \
     ldd /openair-lmf/build/lmf/build/lmf && \
-    mv /openair-lmf/build/lmf/build/lmf /openair-lmf/build/lmf/build/oai_lmf
+    mv /openair-lmf/build/lmf/build/lmf /openair-lmf/build/lmf/build/oai_lmf && \
+    # Remove entitlements and Subscription Manager configs
+    rm -rf /etc/pki/entitlement && \
+    rm -rf /etc/rhsm
 
 #---------------------------------------------------------------------
 # TARGET IMAGE
 #---------------------------------------------------------------------
-FROM registry.access.redhat.com/ubi8/ubi:latest as oai-lmf
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest as oai-lmf
 ENV TZ=Europe/Paris
-# We install some debug tools for the moment in addition of mandatory libraries
-RUN yum update -y && \
-    yum install -y --enablerepo="ubi-8-codeready-builder" \
+
+# Copy the entitlements
+COPY ./etc-pki-entitlement /etc/pki/entitlement
+# Copy the subscription manager configurations
+COPY ./rhsm-conf /etc/rhsm
+COPY ./rhsm-ca /etc/rhsm/ca
+
+
+RUN rm -f /etc/rhsm-host && \
+    microdnf update -y && \
+    microdnf install -y \
       tzdata \
       procps-ng \
       psmisc \
       net-tools \
-      nettle \
-      libasan \
-      libevent && \
-    yum clean all -y && \
+      libicu \
+      boost \
+      libevent \
+      findutils \
+      libconfig && \
+    microdnf clean all -y && \
     rm -rf /var/cache/yum /var/cache/dnf && \
-    echo "/usr/local/lib" > /etc/ld.so.conf.d/local-lib.conf && \
-    echo "/usr/local/lib64" >> /etc/ld.so.conf.d/local-lib.conf
+    # Remove entitlements and Subscription Manager configs
+    rm -rf /etc/pki/entitlement && \
+    rm -rf /etc/rhsm
 
 # Copying executable and generated libraries
 WORKDIR /openair-lmf/bin
 COPY --from=oai-lmf-builder \
     /openair-lmf/build/lmf/build/oai_lmf \
     /openair-lmf/scripts/entrypoint.sh \
+    /openair-lmf/scripts/healthcheck.sh \
     ./
 
-WORKDIR /usr/local/lib64
 COPY --from=oai-lmf-builder \
     /usr/local/lib64/libpistache.so.0 \
-    /lib64/libboost_system.so.1.66.0 \
-    /lib64/libboost_thread.so.1.66.0 \
-    /lib64/libboost_date_time.so.1.66.0 \
-    /lib64/libconfig++.so.9 \
-    /lib64/libnghttp2.so.14 \
+    /usr/local/lib/libnghttp2_asio.so \
     /usr/local/lib/libnghttp2_asio.so.1 \
-    ./
+    /openair-lmf/build/lmf/build/nas/libNAS.so \
+    /usr/lib64/
 
 RUN ldconfig -v && \
     ldd /openair-lmf/bin/oai_lmf
 
+# Copying template configuration files
+# The configuration folder will be flat
 WORKDIR /openair-lmf/etc
 COPY --from=oai-lmf-builder /openair-lmf/etc/lmf.conf .
 
 WORKDIR /openair-lmf
 
-EXPOSE 80/tcp
+# expose ports
+EXPOSE 80/tcp 9090/tcp 8805/udp
+# healthcheck
+HEALTHCHECK --interval=10s \
+            --timeout=15s \
+            --retries=6 \
+    CMD /openair-lmf/bin/healthcheck.sh
 
 ENTRYPOINT ["/bin/bash","/openair-lmf/bin/entrypoint.sh"]
 CMD ["/openair-lmf/bin/oai_lmf", "-c" , "/openair-lmf/etc/lmf.conf", "-o"]

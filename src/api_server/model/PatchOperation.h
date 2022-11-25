@@ -55,7 +55,7 @@ namespace model {
 ///
 /// </summary>
 class PatchOperation {
- public:
+public:
   PatchOperation();
   virtual ~PatchOperation();
 
@@ -64,14 +64,14 @@ class PatchOperation {
   /////////////////////////////////////////////
   /// PatchOperation members
 
-  friend void to_json(nlohmann::json& j, const PatchOperation& o);
-  friend void from_json(const nlohmann::json& j, PatchOperation& o);
+  friend void to_json(nlohmann::json &j, const PatchOperation &o);
+  friend void from_json(const nlohmann::json &j, PatchOperation &o);
 
- protected:
+protected:
 };
 
-}  // namespace model
-}  // namespace lmf_server
-}  // namespace oai
+} // namespace model
+} // namespace lmf_server
+} // namespace oai
 
 #endif /* PatchOperation_H_ */

@@ -32,8 +32,8 @@ include_directories(${SRC_TOP_DIR}/common/libngap)
 include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
 
 file(GLOB LMF_API_SERVER_src_files
-    ${LMF_API_SERVER_DIR}/lmf-api-server.cpp
-    ${LMF_API_SERVER_DIR}/lmf_http2-server.cpp
+    ${LMF_API_SERVER_DIR}/lmf_api_server.cpp
+    ${LMF_API_SERVER_DIR}/lmf_http2_server.cpp
     ${LMF_API_SERVER_DIR}/model/*.cpp
     ${LMF_API_SERVER_DIR}/api/*.cpp
     ${LMF_API_SERVER_DIR}/impl/*.cpp

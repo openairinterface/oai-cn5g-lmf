@@ -40,12 +40,12 @@ namespace bs2 = boost::signals2;
 namespace oai::lmf::app {
 class task_manager;
 class lmf_event {
- public:
+public:
   lmf_event(){};
-  lmf_event(lmf_event const&) = delete;
-  void operator=(lmf_event const&) = delete;
+  lmf_event(lmf_event const &) = delete;
+  void operator=(lmf_event const &) = delete;
 
-  static lmf_event& get_instance() {
+  static lmf_event &get_instance() {
     static lmf_event instance;
     return instance;
   }
@@ -63,8 +63,9 @@ class lmf_event {
    * @param [uint64_t] start:
    * @return void
    */
-  bs2::connection subscribe_task_nf_heartbeat(
-      const task_sig_t::slot_type& sig, uint64_t period, uint64_t start = 0);
+  bs2::connection subscribe_task_nf_heartbeat(const task_sig_t::slot_type &sig,
+                                              uint64_t period,
+                                              uint64_t start = 0);
   //------------------------------------------------------------------------------
   /*
    * Subscribe to UE Loss of Connectivity Status signal
@@ -74,7 +75,7 @@ class lmf_event {
    * the slot
    */
   bs2::connection subscribe_loss_of_connectivity(
-      const loss_of_connectivity_sig_t::slot_type& sig);
+      const loss_of_connectivity_sig_t::slot_type &sig);
 
   /*
    * Subscribe to UE Reachability for Data signal
@@ -84,15 +85,15 @@ class lmf_event {
    * the slot
    */
   bs2::connection subscribe_ue_reachability_for_data(
-      const ue_reachability_for_data_sig_t::slot_type& sig);
+      const ue_reachability_for_data_sig_t::slot_type &sig);
 
- private:
+private:
   task_sig_t task_tick;
 
   loss_of_connectivity_sig_t
-      loss_of_connectivity;  // Signal for Loss of Connectivity Report
+      loss_of_connectivity; // Signal for Loss of Connectivity Report
   ue_reachability_for_data_sig_t
-      ue_reachability_for_data;  // Signal for UE Reachability for Data Report
+      ue_reachability_for_data; // Signal for UE Reachability for Data Report
 };
-}  // namespace oai::lmf::app
+} // namespace oai::lmf::app
 #endif

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libLMF_API.a  CMakeFiles/LMF_API.dir/lmf-api-server.cpp.o CMakeFiles/LMF_API.dir/lmf_http2-server.cpp.o CMakeFiles/LMF_API.dir/model/PatchItem.cpp.o CMakeFiles/LMF_API.dir/model/PatchOperation.cpp.o
-/usr/bin/ranlib libLMF_API.a

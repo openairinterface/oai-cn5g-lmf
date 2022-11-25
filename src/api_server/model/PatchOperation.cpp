@@ -19,7 +19,7 @@
  *      contact@openairinterface.org
  */
 /**
- * Nausf_DataRepository API OpenAPI file
+ * Nlmf_DataRepository API OpenAPI file
  * Unified Data Repository Service. © 2020, 3GPP Organizational Partners (ARIB,
  * ATIS, CCSA, ETSI, TSDSI, TTA, TTC). All rights reserved.
  *
@@ -45,12 +45,12 @@ void PatchOperation::validate() {
   // TODO: implement validation
 }
 
-void to_json(nlohmann::json& j, const PatchOperation& o) {
+void to_json(nlohmann::json &j, const PatchOperation &o) {
   j = nlohmann::json();
 }
 
-void from_json(const nlohmann::json& j, PatchOperation& o) {}
+void from_json(const nlohmann::json &j, PatchOperation &o) {}
 
-}  // namespace model
-}  // namespace lmf_server
-}  // namespace oai
+} // namespace model
+} // namespace lmf_server
+} // namespace oai

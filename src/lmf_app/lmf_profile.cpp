@@ -34,31 +34,29 @@
 #include "logger.hpp"
 #include "string.hpp"
 
-// using namespace lmf;
+// using namespace oai::lmf::app;
 using namespace oai::lmf::app;
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_instance_id(const std::string& instance_id) {
+void lmf_profile::set_nf_instance_id(const std::string &instance_id) {
   nf_instance_id = instance_id;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_instance_id(std::string& instance_id) const {
+void lmf_profile::get_nf_instance_id(std::string &instance_id) const {
   instance_id = nf_instance_id;
 }
 
 //------------------------------------------------------------------------------
-std::string lmf_profile::get_nf_instance_id() const {
-  return nf_instance_id;
-}
+std::string lmf_profile::get_nf_instance_id() const { return nf_instance_id; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_instance_name(const std::string& instance_name) {
+void lmf_profile::set_nf_instance_name(const std::string &instance_name) {
   nf_instance_name = instance_name;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_instance_name(std::string& instance_name) const {
+void lmf_profile::get_nf_instance_name(std::string &instance_name) const {
   instance_name = nf_instance_name;
 }
 
@@ -68,122 +66,92 @@ std::string lmf_profile::get_nf_instance_name() const {
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_type(const std::string& type) {
-  nf_type = type;
-}
+void lmf_profile::set_nf_type(const std::string &type) { nf_type = type; }
 
 //------------------------------------------------------------------------------
-std::string lmf_profile::get_nf_type() const {
-  return nf_type;
-}
+std::string lmf_profile::get_nf_type() const { return nf_type; }
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_status(const std::string& status) {
+void lmf_profile::set_nf_status(const std::string &status) {
   nf_status = status;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_status(std::string& status) const {
+void lmf_profile::get_nf_status(std::string &status) const {
   status = nf_status;
 }
 
 //------------------------------------------------------------------------------
-std::string lmf_profile::get_nf_status() const {
-  return nf_status;
-}
+std::string lmf_profile::get_nf_status() const { return nf_status; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_heartBeat_timer(const int32_t& timer) {
+void lmf_profile::set_nf_heartBeat_timer(const int32_t &timer) {
   heartBeat_timer = timer;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_heartBeat_timer(int32_t& timer) const {
+void lmf_profile::get_nf_heartBeat_timer(int32_t &timer) const {
   timer = heartBeat_timer;
 }
 
 //------------------------------------------------------------------------------
-int32_t lmf_profile::get_nf_heartBeat_timer() const {
-  return heartBeat_timer;
-}
+int32_t lmf_profile::get_nf_heartBeat_timer() const { return heartBeat_timer; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_priority(const uint16_t& p) {
-  priority = p;
-}
+void lmf_profile::set_nf_priority(const uint16_t &p) { priority = p; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_priority(uint16_t& p) const {
-  p = priority;
-}
+void lmf_profile::get_nf_priority(uint16_t &p) const { p = priority; }
 
 //------------------------------------------------------------------------------
-uint16_t lmf_profile::get_nf_priority() const {
-  return priority;
-}
+uint16_t lmf_profile::get_nf_priority() const { return priority; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_capacity(const uint16_t& c) {
-  capacity = c;
-}
+void lmf_profile::set_nf_capacity(const uint16_t &c) { capacity = c; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_capacity(uint16_t& c) const {
-  c = capacity;
-}
+void lmf_profile::get_nf_capacity(uint16_t &c) const { c = capacity; }
 
 //------------------------------------------------------------------------------
-uint16_t lmf_profile::get_nf_capacity() const {
-  return capacity;
-}
+uint16_t lmf_profile::get_nf_capacity() const { return capacity; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_snssais(const std::vector<snssai_t>& s) {
+void lmf_profile::set_nf_snssais(const std::vector<snssai_t> &s) {
   snssais = s;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_snssais(std::vector<snssai_t>& s) const {
+void lmf_profile::get_nf_snssais(std::vector<snssai_t> &s) const {
   s = snssais;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::add_snssai(const snssai_t& s) {
-  snssais.push_back(s);
-}
+void lmf_profile::add_snssai(const snssai_t &s) { snssais.push_back(s); }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_fqdn(const std::string& fqdN) {
-  fqdn = fqdN;
-}
+void lmf_profile::set_fqdn(const std::string &fqdN) { fqdn = fqdN; }
 
 //------------------------------------------------------------------------------
-std::string lmf_profile::get_fqdn() const {
-  return fqdn;
-}
+std::string lmf_profile::get_fqdn() const { return fqdn; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_nf_ipv4_addresses(const std::vector<struct in_addr>& a) {
+void lmf_profile::set_nf_ipv4_addresses(const std::vector<struct in_addr> &a) {
   ipv4_addresses = a;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::add_nf_ipv4_addresses(const struct in_addr& a) {
+void lmf_profile::add_nf_ipv4_addresses(const struct in_addr &a) {
   ipv4_addresses.push_back(a);
 }
 //------------------------------------------------------------------------------
-void lmf_profile::get_nf_ipv4_addresses(std::vector<struct in_addr>& a) const {
+void lmf_profile::get_nf_ipv4_addresses(std::vector<struct in_addr> &a) const {
   a = ipv4_addresses;
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_lmf_info(const lmf_info_t& s) {
-  lmf_info = s;
-}
+void lmf_profile::set_lmf_info(const lmf_info_t &s) { lmf_info = s; }
 
 //------------------------------------------------------------------------------
-void lmf_profile::get_lmf_info(lmf_info_t& s) const {
-  s = lmf_info;
-}
+void lmf_profile::get_lmf_info(lmf_info_t &s) const { s = lmf_info; }
 
 //------------------------------------------------------------------------------
 void lmf_profile::display() const {
@@ -226,18 +194,18 @@ void lmf_profile::display() const {
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::to_json(nlohmann::json& data) const {
-  data["nfInstanceId"]   = nf_instance_id;
+void lmf_profile::to_json(nlohmann::json &data) const {
+  data["nfInstanceId"] = nf_instance_id;
   data["nfInstanceName"] = nf_instance_name;
-  data["nfType"]         = nf_type;
-  data["nfStatus"]       = nf_status;
+  data["nfType"] = nf_type;
+  data["nfStatus"] = nf_status;
   data["heartBeatTimer"] = heartBeat_timer;
   // SNSSAIs
   data["sNssais"] = nlohmann::json::array();
   for (auto s : snssais) {
     nlohmann::json tmp = {};
-    tmp["sst"]         = s.sST;
-    tmp["sd"]          = s.sD;
+    tmp["sst"] = s.sST;
+    tmp["sd"] = s.sD;
     data["sNssais"].push_back(tmp);
   }
   data["fqdn"] = fqdn;
@@ -252,14 +220,14 @@ void lmf_profile::to_json(nlohmann::json& data) const {
   data["capacity"] = capacity;
 
   // LMF Info
-  data["lmfInfo"]["groupId"]           = lmf_info.groupid;
-  data["lmfInfo"]["supiRanges"]        = nlohmann::json::array();
+  data["lmfInfo"]["groupId"] = lmf_info.groupid;
+  data["lmfInfo"]["supiRanges"] = nlohmann::json::array();
   data["lmfInfo"]["routingIndicators"] = nlohmann::json::array();
   for (auto supi : lmf_info.supi_ranges) {
     nlohmann::json tmp = {};
-    tmp["start"]       = supi.supi_range.start;
-    tmp["end"]         = supi.supi_range.end;
-    tmp["pattern"]     = supi.supi_range.pattern;
+    tmp["start"] = supi.supi_range.start;
+    tmp["end"] = supi.supi_range.end;
+    tmp["pattern"] = supi.supi_range.pattern;
     data["lmfInfo"]["supiRanges"].push_back(tmp);
   }
   for (auto route_ind : lmf_info.routing_indicators) {
@@ -271,7 +239,7 @@ void lmf_profile::to_json(nlohmann::json& data) const {
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::from_json(const nlohmann::json& data) {
+void lmf_profile::from_json(const nlohmann::json &data) {
   if (data.find("nfInstanceId") != data.end()) {
     nf_instance_id = data["nfInstanceId"].get<std::string>();
   }
@@ -295,8 +263,8 @@ void lmf_profile::from_json(const nlohmann::json& data) {
   if (data.find("sNssais") != data.end()) {
     for (auto it : data["sNssais"]) {
       snssai_t s = {};
-      s.sST      = it["sst"].get<int>();
-      s.sD       = it["sd"].get<std::string>();
+      s.sST = it["sst"].get<int>();
+      s.sD = it["sd"].get<std::string>();
       snssais.push_back(s);
     }
   }
@@ -306,13 +274,13 @@ void lmf_profile::from_json(const nlohmann::json& data) {
 
     for (auto it : addresses) {
       struct in_addr addr4 = {};
-      std::string address  = it.get<std::string>();
+      std::string address = it.get<std::string>();
       unsigned char buf_in_addr[sizeof(struct in_addr)];
       if (inet_pton(AF_INET, util::trim(address).c_str(), buf_in_addr) == 1) {
         memcpy(&addr4, buf_in_addr, sizeof(struct in_addr));
       } else {
-        Logger::lmf_app().warn(
-            "Address conversion: Bad value %s", util::trim(address).c_str());
+        Logger::lmf_app().warn("Address conversion: Bad value %s",
+                               util::trim(address).c_str());
       }
       add_nf_ipv4_addresses(addr4);
     }
@@ -343,8 +311,8 @@ void lmf_profile::from_json(const nlohmann::json& data) {
       nlohmann::json supi_ranges = data["lmfInfo"]["supiRanges"];
       for (auto d : supi_ranges) {
         supi_range_lmf_info_item_t supi;
-        supi.supi_range.start   = d["start"];
-        supi.supi_range.end     = d["end"];
+        supi.supi_range.start = d["start"];
+        supi.supi_range.end = d["end"];
         supi.supi_range.pattern = d["pattern"];
         lmf_info.supi_ranges.push_back(supi);
       }
@@ -355,8 +323,7 @@ void lmf_profile::from_json(const nlohmann::json& data) {
 
 //------------------------------------------------------------------------------
 void lmf_profile::handle_heartbeart_timeout(uint64_t ms) {
-  Logger::lmf_app().info(
-      "Handle heartbeart timeout profile %s, time %d", nf_instance_id.c_str(),
-      ms);
+  Logger::lmf_app().info("Handle heartbeart timeout profile %s, time %d",
+                         nf_instance_id.c_str(), ms);
   set_nf_status("SUSPENDED");
 }

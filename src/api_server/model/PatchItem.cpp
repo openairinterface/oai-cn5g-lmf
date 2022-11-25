@@ -19,7 +19,7 @@
  *      contact@openairinterface.org
  */
 /**
- * Nausf_DataRepository API OpenAPI file
+ * Nlmf_DataRepository API OpenAPI file
  * Unified Data Repository Service. © 2020, 3GPP Organizational Partners (ARIB,
  * ATIS, CCSA, ETSI, TSDSI, TTA, TTC). All rights reserved.
  *
@@ -41,10 +41,10 @@ namespace lmf_server {
 namespace model {
 
 PatchItem::PatchItem() {
-  m_Path       = "";
-  m_From       = "";
-  m_Value      = "";
-  m_FromIsSet  = false;
+  m_Path = "";
+  m_From = "";
+  m_Value = "";
+  m_FromIsSet = false;
   m_ValueIsSet = false;
 }
 
@@ -54,15 +54,17 @@ void PatchItem::validate() {
   // TODO: implement validation
 }
 
-void to_json(nlohmann::json& j, const PatchItem& o) {
-  j         = nlohmann::json();
-  j["op"]   = o.m_Op;
+void to_json(nlohmann::json &j, const PatchItem &o) {
+  j = nlohmann::json();
+  j["op"] = o.m_Op;
   j["path"] = o.m_Path;
-  if (o.fromIsSet()) j["from"] = o.m_From;
-  if (o.valueIsSet()) j["value"] = o.m_Value;
+  if (o.fromIsSet())
+    j["from"] = o.m_From;
+  if (o.valueIsSet())
+    j["value"] = o.m_Value;
 }
 
-void from_json(const nlohmann::json& j, PatchItem& o) {
+void from_json(const nlohmann::json &j, PatchItem &o) {
   j.at("op").get_to(o.m_Op);
   j.at("path").get_to(o.m_Path);
   if (j.find("from") != j.end()) {
@@ -75,45 +77,25 @@ void from_json(const nlohmann::json& j, PatchItem& o) {
   }
 }
 
-std::string PatchItem::getOp() const {
-  return m_Op;
-}
-void PatchItem::setOp(std::string const& value) {
-  m_Op = value;
-}
-std::string PatchItem::getPath() const {
-  return m_Path;
-}
-void PatchItem::setPath(std::string const& value) {
-  m_Path = value;
-}
-std::string PatchItem::getFrom() const {
-  return m_From;
-}
-void PatchItem::setFrom(std::string const& value) {
-  m_From      = value;
+std::string PatchItem::getOp() const { return m_Op; }
+void PatchItem::setOp(std::string const &value) { m_Op = value; }
+std::string PatchItem::getPath() const { return m_Path; }
+void PatchItem::setPath(std::string const &value) { m_Path = value; }
+std::string PatchItem::getFrom() const { return m_From; }
+void PatchItem::setFrom(std::string const &value) {
+  m_From = value;
   m_FromIsSet = true;
 }
-bool PatchItem::fromIsSet() const {
-  return m_FromIsSet;
-}
-void PatchItem::unsetFrom() {
-  m_FromIsSet = false;
-}
-std::string PatchItem::getValue() const {
-  return m_Value;
-}
-void PatchItem::setValue(std::string const& value) {
-  m_Value      = value;
+bool PatchItem::fromIsSet() const { return m_FromIsSet; }
+void PatchItem::unsetFrom() { m_FromIsSet = false; }
+std::string PatchItem::getValue() const { return m_Value; }
+void PatchItem::setValue(std::string const &value) {
+  m_Value = value;
   m_ValueIsSet = true;
 }
-bool PatchItem::valueIsSet() const {
-  return m_ValueIsSet;
-}
-void PatchItem::unsetValue() {
-  m_ValueIsSet = false;
-}
+bool PatchItem::valueIsSet() const { return m_ValueIsSet; }
+void PatchItem::unsetValue() { m_ValueIsSet = false; }
 
-}  // namespace model
-}  // namespace lmf_server
-}  // namespace oai
+} // namespace model
+} // namespace lmf_server
+} // namespace oai

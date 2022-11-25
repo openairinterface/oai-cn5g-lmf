@@ -1,2 +1,0 @@
-/usr/bin/ar qc lib3GPP_COMMON_TYPES.a  CMakeFiles/3GPP_COMMON_TYPES.dir/logger.cpp.o CMakeFiles/3GPP_COMMON_TYPES.dir/conversions.cpp.o
-/usr/bin/ranlib lib3GPP_COMMON_TYPES.a

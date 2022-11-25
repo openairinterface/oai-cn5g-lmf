@@ -45,44 +45,33 @@ namespace lmf {
 namespace app {
 
 class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
- public:
+public:
   lmf_profile()
-      : nf_type("NF_TYPE_UNKNOWN"),
-        heartBeat_timer(0),
-        snssais(),
-        fqdn(),
-        ipv4_addresses(),
-        priority(0),
-        capacity(0) {
+      : nf_type("NF_TYPE_UNKNOWN"), heartBeat_timer(0), snssais(), fqdn(),
+        ipv4_addresses(), priority(0), capacity(0) {
     nf_instance_name = {};
-    nf_status        = {};
+    nf_status = {};
   }
 
-  lmf_profile(const std::string& id)
-      : nf_instance_id(id),
-        heartBeat_timer(0),
-        snssais(),
-        fqdn(),
-        ipv4_addresses(),
-        priority(0),
-        capacity(0),
-        nf_type("NF_TYPE_UNKNOWN") {
+  lmf_profile(const std::string &id)
+      : nf_instance_id(id), heartBeat_timer(0), snssais(), fqdn(),
+        ipv4_addresses(), priority(0), capacity(0), nf_type("NF_TYPE_UNKNOWN") {
     nf_instance_name = {};
-    nf_status        = {};
+    nf_status = {};
   }
 
-  lmf_profile& operator=(const lmf_profile& s) {
-    nf_instance_id   = s.nf_instance_id;
-    heartBeat_timer  = s.heartBeat_timer;
-    snssais          = s.snssais;
-    fqdn             = s.fqdn;
-    ipv4_addresses   = s.ipv4_addresses;
-    priority         = s.priority;
-    capacity         = s.capacity;
-    nf_type          = s.nf_type;
+  lmf_profile &operator=(const lmf_profile &s) {
+    nf_instance_id = s.nf_instance_id;
+    heartBeat_timer = s.heartBeat_timer;
+    snssais = s.snssais;
+    fqdn = s.fqdn;
+    ipv4_addresses = s.ipv4_addresses;
+    priority = s.priority;
+    capacity = s.capacity;
+    nf_type = s.nf_type;
     nf_instance_name = s.nf_instance_name;
-    nf_status        = s.nf_status;
-    lmf_info        = s.lmf_info;
+    nf_status = s.nf_status;
+    lmf_info = s.lmf_info;
     return *this;
   }
   // lmf_profile(lmf_profile &b) = delete;
@@ -96,13 +85,13 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const std::string &] instance_id: instance id
    * @return void
    */
-  void set_nf_instance_id(const std::string& instance_id);
+  void set_nf_instance_id(const std::string &instance_id);
   /*
    * Get NF instance ID
    * @param [std::string &] instance_id: store instance id
    * @return void:
    */
-  void get_nf_instance_id(std::string& instance_id) const;
+  void get_nf_instance_id(std::string &instance_id) const;
 
   /*
    * Get NF instance ID
@@ -116,14 +105,14 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const std::string &] instance_name: instance name
    * @return void
    */
-  void set_nf_instance_name(const std::string& instance_name);
+  void set_nf_instance_name(const std::string &instance_name);
 
   /*
    * Get NF instance ID
    * @param [std::string &] instance_name: store instance name
    * @return void:
    */
-  void get_nf_instance_name(std::string& instance_name) const;
+  void get_nf_instance_name(std::string &instance_name) const;
 
   /*
    * Get NF instance name
@@ -137,14 +126,14 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const std::string &] status: instance status
    * @return void
    */
-  void set_nf_status(const std::string& status);
+  void set_nf_status(const std::string &status);
 
   /*
    * Get NF instance status
    * @param [std::string &] status: store instance status
    * @return void:
    */
-  void get_nf_status(std::string& status) const;
+  void get_nf_status(std::string &status) const;
 
   /*
    * Get NF status
@@ -165,21 +154,21 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const nf_type_t &] type: nf type
    * @return void
    */
-  void set_nf_type(const std::string& type);
+  void set_nf_type(const std::string &type);
 
   /*
    * Set NF instance heartBeat_timer
    * @param [const std::string &] timer: heartBeat_timer
    * @return void
    */
-  void set_nf_heartBeat_timer(const int32_t& timer);
+  void set_nf_heartBeat_timer(const int32_t &timer);
 
   /*
    * Get NF instance heartBeat_timer
    * @param [std::string &] timer: store heartBeat_timer
    * @return void:
    */
-  void get_nf_heartBeat_timer(int32_t& timer) const;
+  void get_nf_heartBeat_timer(int32_t &timer) const;
 
   /*
    * Get NF heartBeat_timer
@@ -193,14 +182,14 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const uint16_t] p: instance priority
    * @return void
    */
-  void set_nf_priority(const uint16_t& p);
+  void set_nf_priority(const uint16_t &p);
 
   /*
    * Get NF instance priority
    * @param [uint16_t] p: store instance priority
    * @return void:
    */
-  void get_nf_priority(uint16_t& p) const;
+  void get_nf_priority(uint16_t &p) const;
 
   /*
    * Get NF instance priority
@@ -214,14 +203,14 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const uint16_t] c: instance capacity
    * @return void
    */
-  void set_nf_capacity(const uint16_t& c);
+  void set_nf_capacity(const uint16_t &c);
 
   /*
    * Get NF instance priority
    * @param [uint16_t ] c: store instance capacity
    * @return void:
    */
-  void get_nf_capacity(uint16_t& c) const;
+  void get_nf_capacity(uint16_t &c) const;
 
   /*
    * Get NF instance priority
@@ -235,21 +224,21 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [std::vector<snssai_t> &] s: SNSSAIs
    * @return void
    */
-  void set_nf_snssais(const std::vector<snssai_t>& s);
+  void set_nf_snssais(const std::vector<snssai_t> &s);
 
   /*
    * Add SNSSAI
    * @param [snssai_t &] s: SNSSAI
    * @return void
    */
-  void add_snssai(const snssai_t& s);
+  void add_snssai(const snssai_t &s);
 
   /*
    * Get NF instance SNSSAIs
    * @param [std::vector<snssai_t> &] s: store instance's SNSSAIs
    * @return void:
    */
-  void get_nf_snssais(std::vector<snssai_t>& s) const;
+  void get_nf_snssais(std::vector<snssai_t> &s) const;
 
   /*
    * Get NF fqdn
@@ -263,42 +252,42 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [const fqdn_t &] fqdn: nf fqdn
    * @return void
    */
-  void set_fqdn(const std::string& fqdn);
+  void set_fqdn(const std::string &fqdn);
 
   /*
    * Set NF instance ipv4_addresses
    * @param [std::vector<struct in_addr> &] a: ipv4_addresses
    * @return void
    */
-  void set_nf_ipv4_addresses(const std::vector<struct in_addr>& a);
+  void set_nf_ipv4_addresses(const std::vector<struct in_addr> &a);
 
   /*
    * Add an IPv4 address to the list of addresses
    * @param [const struct in_addr &] a: ipv4_address
    * @return void
    */
-  void add_nf_ipv4_addresses(const struct in_addr& a);
+  void add_nf_ipv4_addresses(const struct in_addr &a);
 
   /*
    * Get NF instance ipv4_addresses
    * @param [std::vector<struct in_addr> &] a: store instance's ipv4_addresses
    * @return void:
    */
-  void get_nf_ipv4_addresses(std::vector<struct in_addr>& a) const;
+  void get_nf_ipv4_addresses(std::vector<struct in_addr> &a) const;
 
   /*
    * Set lmf info
    * @param [lmf_info_t &] s: lmf info
    * @return void
    */
-  void set_lmf_info(const lmf_info_t& s);
+  void set_lmf_info(const lmf_info_t &s);
 
   /*
    * Get NF instance lmf info
    * @param [lmf_info_t &] s: store instance's lmf info
    * @return void:
    */
-  void get_lmf_info(lmf_info_t& s) const;
+  void get_lmf_info(lmf_info_t &s) const;
 
   /*
    * Print related-information for NF profile
@@ -312,14 +301,14 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @param [nlohmann::json &] data: Json data
    * @return void
    */
-  void to_json(nlohmann::json& data) const;
+  void to_json(nlohmann::json &data) const;
 
   /*
    * Covert from a json represetation to lmf profile
    * @param [nlohmann::json &] data: Json data
    * @return void
    */
-  void from_json(const nlohmann::json& data);
+  void from_json(const nlohmann::json &data);
 
   /*
    * Handle heartbeart timeout event
@@ -328,7 +317,7 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    */
   void handle_heartbeart_timeout(uint64_t ms);
 
- protected:
+protected:
   // From NFProfile (Section 6.1.6.2.2@3GPP TS 29.510 V16.0.0 (2019-06))
   std::string nf_instance_id;
   std::string nf_instance_name;
@@ -343,8 +332,8 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
   lmf_info_t lmf_info;
 };
 
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+} // namespace app
+} // namespace lmf
+} // namespace oai
 
 #endif

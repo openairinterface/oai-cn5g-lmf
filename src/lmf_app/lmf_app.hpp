@@ -29,7 +29,13 @@
 
 #ifndef FILE_LMF_APP_HPP_SEEN
 #define FILE_LMF_APP_HPP_SEEN
+#include "lmf_config.hpp"
 #include "lmf_event.hpp"
+
+#include "CancelLocData.h"
+#include "CipherRequestData.h"
+#include "InputData.h"
+#include "LocContextData.h"
 
 #include "lmf.h"
 #include <map>
@@ -41,23 +47,37 @@ namespace oai {
 namespace lmf {
 namespace app {
 
-//using namespace oai::lmf_server::model;
+using namespace oai::lmf_server::model;
 
-// class lmf_config;
 class lmf_app {
- public:
-  explicit lmf_app(const std::string& config_file, lmf_event& ev);
-  lmf_app(lmf_app const&) = delete;
-  void operator=(lmf_app const&) = delete;
+public:
+  explicit lmf_app(const std::string &config_file, lmf_event &ev);
+  lmf_app(lmf_app const &) = delete;
+  void operator=(lmf_app const &) = delete;
 
   virtual ~lmf_app();
 
- private:
-  lmf_event& event_sub;
+  void handle_determine_location(const InputData &inputData,
+                                 nlohmann::json &json_data,
+                                 Pistache::Http::Code &code);
+
+  void handle_cancel_location(const CancelLocData &cancelLocData,
+                              nlohmann::json &json_data,
+                              Pistache::Http::Code &code);
+
+  void handle_location_context_transfer(const LocContextData &locContextData,
+                                        nlohmann::json &json_data,
+                                        Pistache::Http::Code &code);
+
+  void handle_ciphering_key_data(const CipherRequestData &cipherRequestData,
+                                 nlohmann::json &json_data,
+                                 Pistache::Http::Code &code);
+
+private:
+  lmf_event &event_sub;
 };
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
-#include "lmf_config.hpp"
+} // namespace app
+} // namespace lmf
+} // namespace oai
 
 #endif /* FILE_LMF_APP_HPP_SEEN */
