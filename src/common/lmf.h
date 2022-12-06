@@ -107,20 +107,45 @@ enum http_response_codes_e {
 #define NLMF_AUTH_BASE "/nlmf-loc/"
 #define NLMF_DETERMINE_LOCATION "/determine-location"
 
-typedef struct supi_range_s {
-  std::string start;
-  std::string end;
-  std::string pattern;
-} supi_range_t;
+enum class ExternalClientType : int {
+  EMERGENCY_SERVICES = 1,
+  VALUE_ADDED_SERVICES,
+  PLMN_OPERATOR_SERVICES,
+  LAWFUL_INTERCEPT_SERVICES,
+  PLMN_OPERATOR_BROADCAST_SERVICES,
+  PLMN_OPERATOR_OM,
+  PLMN_OPERATOR_ANONYMOUS_STATISTICS,
+  PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT
+};
 
-typedef struct supi_range_lmf_info_item_s {
-  supi_range_t supi_range;
-} supi_range_lmf_info_item_t;
+enum class AccessType : int { _3GPP_ACCESS = 1, NON_3GPP_ACCESS };
+
+enum class AnNodeType : int { GNB = 1, NG_ENB };
+
+enum class RatType : int {
+  NR = 1,
+  EUTRA,
+  WLAN,
+  VIRTUAL,
+  NBIOT,
+  WIRELINE,
+  WIRELINE_CABLE,
+  WIRELINE_BBF,
+  LTE_M,
+  NR_U,
+  EUTRA_U,
+  TRUSTED_N3GA,
+  TRUSTED_WLAN,
+  UTRA,
+  GERA
+};
 
 typedef struct lmf_info_s {
-  std::string groupid;
-  std::vector<supi_range_lmf_info_item_t> supi_ranges;
-  std::vector<std::string> routing_indicators;
+  std::vector<ExternalClientType> servingClientTypes;
+  std::string lmfId;
+  std::vector<AccessType> servingAccessTypes;
+  std::vector<AnNodeType> servingAnNodeTypes;
+  std::vector<RatType> servingRatTypes;
 } lmf_info_t;
 
 #endif

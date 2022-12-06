@@ -78,15 +78,34 @@ void lmf_nrf::generate_lmf_profile(
   lmf_nf_profile.add_nf_ipv4_addresses(lmf_cfg.sbi.addr4);  // N4's Addr
 
   // LMF info (Hardcoded for now)
+
+  lmf_instance_id = to_string(boost::uuids::random_generator()());
+
   lmf_info_t lmf_info_item;
-  supi_range_lmf_info_item_t supi_ranges;
-  lmf_info_item.groupid = "oai-lmf-testgroupid";
-  lmf_info_item.routing_indicators.push_back("0210");
-  lmf_info_item.routing_indicators.push_back("9876");
-  supi_ranges.supi_range.start   = "109238210938";
-  supi_ranges.supi_range.pattern = "209238210938";
-  supi_ranges.supi_range.start   = "q0930j0c80283ncjf";
-  lmf_info_item.supi_ranges.push_back(supi_ranges);
+  lmf_info_item.lmfId = lmf_instance_id;
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::EMERGENCY_SERVICES);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::VALUE_ADDED_SERVICES);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::PLMN_OPERATOR_SERVICES);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::LAWFUL_INTERCEPT_SERVICES);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::PLMN_OPERATOR_BROADCAST_SERVICES);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::PLMN_OPERATOR_OM);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::PLMN_OPERATOR_ANONYMOUS_STATISTICS);
+  lmf_info_item.servingClientTypes.push_back(
+      ExternalClientType::PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT);
+  lmf_info_item.servingAccessTypes.push_back(AccessType::_3GPP_ACCESS);
+  lmf_info_item.servingAccessTypes.push_back(AccessType::NON_3GPP_ACCESS);
+  lmf_info_item.servingAnNodeTypes.push_back(AnNodeType::GNB);
+  lmf_info_item.servingAnNodeTypes.push_back(AnNodeType::NG_ENB);
+  lmf_info_item.servingRatTypes.push_back(RatType::NR);
+  lmf_info_item.servingRatTypes.push_back(RatType::EUTRA);
+  lmf_info_item.servingRatTypes.push_back(RatType::WLAN);
   lmf_nf_profile.set_lmf_info(lmf_info_item);
   // LMF info item end
 
@@ -94,8 +113,6 @@ void lmf_nrf::generate_lmf_profile(
 }
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::register_to_nrf() {
-  // generate UUID
-  lmf_instance_id              = to_string(boost::uuids::random_generator()());
   nlohmann::json response_data = {};
 
   // Generate NF Profile

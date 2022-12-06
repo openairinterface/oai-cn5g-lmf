@@ -213,15 +213,27 @@ void lmf_profile::display() const {
   }
 
   Logger::lmf_app().debug("\tLMF Info");
-  Logger::lmf_app().debug("\t\tGroupId: %s", lmf_info.groupid);
+  Logger::lmf_app().debug("\t\tLmfId: %s", lmf_info.lmfId);
   /* TODO: is this needed in lmf */
-  for (auto supi : lmf_info.supi_ranges) {
-    Logger::lmf_app().debug(
-        "\t\t SupiRanges: Start - %s, End - %s, Pattern - %s",
-        supi.supi_range.start, supi.supi_range.end, supi.supi_range.pattern);
+
+  Logger::lmf_app().debug("\t\t ServingClientTypes: ");
+  for (auto clientType : lmf_info.servingClientTypes) {
+    Logger::lmf_app().debug("\t\t\t %s", clientType);
   }
-  for (auto route_ind : lmf_info.routing_indicators) {
-    Logger::lmf_app().debug("\t\t Routing Indicators: %s", route_ind);
+
+  Logger::lmf_app().debug("\t\t ServingAccessTypes: ");
+  for (auto accessType : lmf_info.servingAccessTypes) {
+    Logger::lmf_app().debug("\t\t\t %s", accessType);
+  }
+
+  Logger::lmf_app().debug("\t\t ServingAnNodeTypes: ");
+  for (auto nodeType : lmf_info.servingAnNodeTypes) {
+    Logger::lmf_app().debug("\t\t\t %s", nodeType);
+  }
+
+  Logger::lmf_app().debug("\t\t ServingRatTypes: ");
+  for (auto ratType : lmf_info.servingRatTypes) {
+    Logger::lmf_app().debug("\t\t\t %s", ratType);
   }
 }
 
@@ -252,19 +264,22 @@ void lmf_profile::to_json(nlohmann::json& data) const {
   data["capacity"] = capacity;
 
   // LMF Info
-  data["lmfInfo"]["groupId"]           = lmf_info.groupid;
-  data["lmfInfo"]["supiRanges"]        = nlohmann::json::array();
-  data["lmfInfo"]["routingIndicators"] = nlohmann::json::array();
-  for (auto supi : lmf_info.supi_ranges) {
-    nlohmann::json tmp = {};
-    tmp["start"]       = supi.supi_range.start;
-    tmp["end"]         = supi.supi_range.end;
-    tmp["pattern"]     = supi.supi_range.pattern;
-    data["lmfInfo"]["supiRanges"].push_back(tmp);
+  data["lmfInfo"]["lmfId"]              = lmf_info.lmfId;
+  data["lmfInfo"]["servingClientTypes"] = nlohmann::json::array();
+  data["lmfInfo"]["servingAccessTypes"] = nlohmann::json::array();
+  data["lmfInfo"]["servingAnNodeTypes"] = nlohmann::json::array();
+  data["lmfInfo"]["servingRatTypes"]    = nlohmann::json::array();
+  for (auto clientType : lmf_info.servingClientTypes) {
+    data["lmfInfo"]["servingClientTypes"].push_back(clientType);
   }
-  for (auto route_ind : lmf_info.routing_indicators) {
-    std::string tmp = route_ind;
-    data["lmfInfo"]["routingIndicators"].push_back(route_ind);
+  for (auto accessType : lmf_info.servingAccessTypes) {
+    data["lmfInfo"]["servingAccessTypes"].push_back(accessType);
+  }
+  for (auto nodeType : lmf_info.servingAnNodeTypes) {
+    data["lmfInfo"]["servingAnNodeTypes"].push_back(nodeType);
+  }
+  for (auto ratType : lmf_info.servingRatTypes) {
+    data["lmfInfo"]["servingRatTypes"].push_back(ratType);
   }
 
   Logger::lmf_app().debug("lmf profile to JSON:\n %s", data.dump().c_str());
@@ -329,24 +344,31 @@ void lmf_profile::from_json(const nlohmann::json& data) {
   // LMF info
   if (data.find("lmfInfo") != data.end()) {
     nlohmann::json info = data["lmfInfo"];
-    if (info.find("groupId") != info.end()) {
-      lmf_info.groupid = info["groupId"].get<std::string>();
+    if (info.find("lmfId") != info.end()) {
+      lmf_info.lmfId = info["lmfId"].get<std::string>();
     }
-    if (info.find("routingIndicators") != info.end()) {
-      nlohmann::json routing_indicators_list =
-          data["lmfInfo"]["routingIndicators"];
-      for (auto d : routing_indicators_list) {
-        lmf_info.routing_indicators.push_back(d);
+    if (info.find("servingClientTypes") != info.end()) {
+      nlohmann::json servingClientTypes = data["lmfInfo"]["servingClientTypes"];
+      for (auto clientType : servingClientTypes) {
+        lmf_info.servingClientTypes.push_back(clientType);
       }
     }
-    if (info.find("supiRanges") != info.end()) {
-      nlohmann::json supi_ranges = data["lmfInfo"]["supiRanges"];
-      for (auto d : supi_ranges) {
-        supi_range_lmf_info_item_t supi;
-        supi.supi_range.start   = d["start"];
-        supi.supi_range.end     = d["end"];
-        supi.supi_range.pattern = d["pattern"];
-        lmf_info.supi_ranges.push_back(supi);
+    if (info.find("servingAccessTypes") != info.end()) {
+      nlohmann::json servingAccessTypes = data["lmfInfo"]["servingAccessTypes"];
+      for (auto accessType : servingAccessTypes) {
+        lmf_info.servingAccessTypes.push_back(accessType);
+      }
+    }
+    if (info.find("servingAnNodeTypes") != info.end()) {
+      nlohmann::json servingAnNodeTypes = data["lmfInfo"]["servingAnNodeTypes"];
+      for (auto nodeType : servingAnNodeTypes) {
+        lmf_info.servingAnNodeTypes.push_back(nodeType);
+      }
+    }
+    if (info.find("servingRatTypes") != info.end()) {
+      nlohmann::json servingRatTypes = data["lmfInfo"]["servingRatTypes"];
+      for (auto ratType : servingRatTypes) {
+        lmf_info.servingRatTypes.push_back(ratType);
       }
     }
   }
