@@ -57,6 +57,10 @@
 #define LMF_CONFIG_STRING_PORT "PORT"
 #define LMF_CONFIG_STRING_API_VERSION "API_VERSION"
 
+#define LMF_CONFIG_STRING_AMF "AMF"
+#define LMF_CONFIG_STRING_AMF_IPV4_ADDRESS "IPV4_ADDRESS"
+#define LMF_CONFIG_STRING_AMF_PORT "PORT"
+
 #define LMF_CONFIG_STRING_NRF "NRF"
 #define LMF_CONFIG_STRING_NRF_IPV4_ADDRESS "IPV4_ADDRESS"
 #define LMF_CONFIG_STRING_NRF_PORT "PORT"
@@ -95,6 +99,13 @@ class lmf_config {
   interface_cfg_t sbi;
   unsigned int sbi_http2_port;
   std::string sbi_api_version;
+
+  struct {
+    struct in_addr ipv4_addr;
+    unsigned int port;
+    std::string api_version;
+    std::string fqdn;
+  } amf_addr;
 
   struct {
     struct in_addr ipv4_addr;

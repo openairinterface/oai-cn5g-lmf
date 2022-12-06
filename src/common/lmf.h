@@ -104,7 +104,8 @@ enum http_response_codes_e {
   HTTP_RESPONSE_CODE_GATEWAY_TIMEOUT        = 504
 };
 
-#define NLMF_AUTH_BASE "/nlmf-auth/"
+#define NLMF_AUTH_BASE "/nlmf-loc/"
+#define NLMF_DETERMINE_LOCATION "/determine-location"
 
 typedef struct supi_range_s {
   std::string start;

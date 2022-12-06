@@ -57,8 +57,8 @@ namespace config {
 
 //------------------------------------------------------------------------------
 lmf_config::lmf_config() : sbi(), lmf_name(), pid_dir(), instance() {
-  use_fqdn_dns              = false;
-  use_http2                 = false;
+  use_fqdn_dns = false;
+  use_http2    = false;
 }
 
 //------------------------------------------------------------------------------
@@ -171,6 +171,70 @@ int lmf_config::load(const std::string& config_file) {
   } catch (const SettingNotFoundException& nfex) {
     Logger::lmf_app().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
+    return RETURNerror;
+  }
+
+  try {
+    std::string astring = {};
+
+    const Setting& amf_cfg       = lmf_cfg[LMF_CONFIG_STRING_AMF];
+    struct in_addr amf_ipv4_addr = {};
+    unsigned int amf_port        = 0;
+    std::string amf_api_version  = {};
+
+    if (!use_fqdn_dns) {
+      amf_cfg.lookupValue(LMF_CONFIG_STRING_AMF_IPV4_ADDRESS, astring);
+      IPV4_STR_ADDR_TO_INADDR(
+          util::trim(astring).c_str(), amf_ipv4_addr,
+          "BAD IPv4 ADDRESS FORMAT FOR AMF !");
+      amf_addr.ipv4_addr = amf_ipv4_addr;
+      if (!(amf_cfg.lookupValue(LMF_CONFIG_STRING_AMF_PORT, amf_port))) {
+        Logger::lmf_app().error(LMF_CONFIG_STRING_AMF_PORT "failed");
+        throw(LMF_CONFIG_STRING_AMF_PORT "failed");
+      }
+      amf_addr.port = amf_port;
+
+      if (!(amf_cfg.lookupValue(
+              LMF_CONFIG_STRING_API_VERSION, amf_api_version))) {
+        Logger::lmf_app().error(LMF_CONFIG_STRING_API_VERSION "failed");
+        throw(LMF_CONFIG_STRING_API_VERSION "failed");
+      }
+      amf_addr.api_version = amf_api_version;
+
+    } else {
+      amf_cfg.lookupValue(LMF_CONFIG_STRING_FQDN_DNS, astring);
+      uint8_t addr_type   = {0};
+      std::string address = {};
+      fqdn::resolve(astring, address, amf_port, addr_type);
+      if (addr_type != 0) {  // IPv6
+        // TODO:
+        throw("DO NOT SUPPORT IPV6 ADDR FOR AMF!");
+      } else {  // IPv4
+        IPV4_STR_ADDR_TO_INADDR(
+            util::trim(address).c_str(), amf_ipv4_addr,
+            "BAD IPv4 ADDRESS FORMAT FOR NRF !");
+        amf_addr.ipv4_addr = amf_ipv4_addr;
+        // amf_addr.port               = amf_port;
+        // We hardcode amf port from config for the moment
+        if (!(amf_cfg.lookupValue(LMF_CONFIG_STRING_AMF_PORT, amf_port))) {
+          Logger::lmf_app().error(LMF_CONFIG_STRING_AMF_PORT "failed");
+          throw(LMF_CONFIG_STRING_AMF_PORT "failed");
+        }
+        amf_addr.port               = amf_port;
+        std::string amf_api_version = {};
+        if (!(amf_cfg.lookupValue(
+                LMF_CONFIG_STRING_API_VERSION, amf_api_version))) {
+          Logger::lmf_app().error(LMF_CONFIG_STRING_API_VERSION "failed");
+          throw(LMF_CONFIG_STRING_API_VERSION "failed");
+        }
+        amf_addr.api_version =
+            amf_api_version;  // TODO: to get API version from DNS
+        amf_addr.fqdn = astring;
+      }
+    }
+
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::lmf_app().error("%s : %s", nfex.what(), nfex.getPath());
     return RETURNerror;
   }
 

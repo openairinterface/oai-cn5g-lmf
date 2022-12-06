@@ -19,7 +19,7 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_http2-server.h
+/*! \file lmf-http2-server.h
  \brief
  \author  Tien-Thinh NGUYEN
  \company Eurecom
@@ -34,6 +34,7 @@
 
 #include "lmf_app.hpp"
 #include <nghttp2/asio_http2_server.h>
+#include "InputData.h"
 
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
@@ -46,6 +47,10 @@ class lmf_http2_server {
       : m_address(addr), m_port(port), server(), m_lmf_app(lmf_app_inst) {}
   void start();
   void init(size_t thr) {}
+
+  void detemine_location_post_handler(
+      const oai::lmf_server::model::InputData& inputData,
+      const response& response);
 
   void stop();
 

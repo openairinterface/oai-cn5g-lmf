@@ -40,7 +40,7 @@
 #include "lmf_profile.hpp"
 #include "logger.hpp"
 
-//using namespace oai::lmf_server::model;
+// using namespace oai::lmf_server::model;
 
 namespace oai {
 namespace lmf {
@@ -49,7 +49,7 @@ namespace app {
 class lmf_nrf {
  private:
  public:
-  lmf_profile lmf_nf_profile;  // LMF profile
+  lmf_profile lmf_nf_profile;   // LMF profile
   std::string lmf_instance_id;  // LMF instance id
   // timer_id_t timer_lmf_heartbeat;
 

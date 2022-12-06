@@ -20,14 +20,15 @@
 ################################################################################
 
 include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
-#include_directories(${SRC_TOP_DIR}/api_server/api)
-#include_directories(${SRC_TOP_DIR}/api_server/impl)
-#include_directories(${SRC_TOP_DIR}/api_server/model)
+include_directories(${SRC_TOP_DIR}/api_server/api)
+include_directories(${SRC_TOP_DIR}/api_server/impl)
+include_directories(${SRC_TOP_DIR}/api_server/model)
 include_directories(${SRC_TOP_DIR}/api_server/)
 include_directories(${SRC_TOP_DIR}/common/)
 include_directories(${SRC_TOP_DIR}/common/utils)
+include_directories(${SRC_TOP_DIR}/lpp)
 
-add_library (LMF STATIC
+file(GLOB LMF_src_files
   lmf_app.cpp
   lmf_client.cpp 
   lmf_config.cpp 
@@ -36,3 +37,9 @@ add_library (LMF STATIC
   lmf_profile.cpp
   lmf_nrf.cpp 
 )
+
+
+add_library (LMF STATIC
+  ${LMF_src_files}
+)
+target_link_libraries(LMF LPP)

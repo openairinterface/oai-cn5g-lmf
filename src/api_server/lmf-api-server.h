@@ -45,7 +45,7 @@
 
 #include "lmf_app.hpp"
 
-//using namespace oai::lmf_server::api;
+// using namespace oai::lmf_server::api;
 using namespace oai::lmf::app;
 
 class LMFApiServer {

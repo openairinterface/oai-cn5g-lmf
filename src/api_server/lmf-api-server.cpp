@@ -70,7 +70,7 @@ void setUpUnixSignals(std::vector<int> quitSignals) {
 }
 #endif
 
-//using namespace oai::lmf_server::api;
+// using namespace oai::lmf_server::api;
 using namespace oai::lmf::app;
 
 void LMFApiServer::init(size_t thr) {
@@ -79,8 +79,8 @@ void LMFApiServer::init(size_t thr) {
   opts.maxRequestSize(PISTACHE_SERVER_MAX_PAYLOAD);
   m_httpEndpoint->init(opts);
 
-  //m_authenticationResultDeletionApiImpl->init();
-  //m_defaultApiImpl->init();
+  // m_authenticationResultDeletionApiImpl->init();
+  // m_defaultApiImpl->init();
 }
 void LMFApiServer::start() {
   Logger::lmf_server().info("HTTP1 server started");

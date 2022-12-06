@@ -19,7 +19,6 @@
  *      contact@openairinterface.org
  */
 
-
 /* TODO: check if actually needed in lmf */
 #ifndef FILE_3GPP_29_510_nssf_SEEN
 #define FILE_3GPP_29_510_nssf_SEEN

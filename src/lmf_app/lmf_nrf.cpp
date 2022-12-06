@@ -57,10 +57,10 @@ lmf_client* lmf_client_instance = nullptr;
 lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {}
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::get_lmf_api_root(std::string& api_root) {
-  api_root = std::string(
-                 inet_ntoa(*((struct in_addr*) &lmf_cfg.nrf_addr.ipv4_addr))) +
-             ":" + std::to_string(lmf_cfg.nrf_addr.port) + NNRF_NFM_BASE +
-             lmf_cfg.nrf_addr.api_version;
+  api_root =
+      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.nrf_addr.ipv4_addr))) +
+      ":" + std::to_string(lmf_cfg.nrf_addr.port) + NNRF_NFM_BASE +
+      lmf_cfg.nrf_addr.api_version;
 }
 
 //---------------------------------------------------------------------------------------------
@@ -95,7 +95,7 @@ void lmf_nrf::generate_lmf_profile(
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::register_to_nrf() {
   // generate UUID
-  lmf_instance_id             = to_string(boost::uuids::random_generator()());
+  lmf_instance_id              = to_string(boost::uuids::random_generator()());
   nlohmann::json response_data = {};
 
   // Generate NF Profile
@@ -104,11 +104,10 @@ void lmf_nrf::register_to_nrf() {
 
   // Send NF registeration request
   std::string lmf_api_root = {};
-  std::string response      = {};
-  std::string method        = {"PUT"};
+  std::string response     = {};
+  std::string method       = {"PUT"};
   get_lmf_api_root(lmf_api_root);
-  std::string remoteUri =
-      lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
+  std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
   nlohmann::json json_data = {};
   lmf_nf_profile.to_json(json_data);
 
@@ -140,8 +139,8 @@ void lmf_nrf::start_event_nf_heartbeat(std::string& remoteURI) {
       its.it_value.tv_nsec / 1000000;  // convert sec, nsec to msec
 
   task_connection = m_event_sub.subscribe_task_nf_heartbeat(
-      boost::bind(&lmf_nrf::trigger_nf_heartbeat_procedure, this, _1),
-      interval, ms + interval);
+      boost::bind(&lmf_nrf::trigger_nf_heartbeat_procedure, this, _1), interval,
+      ms + interval);
 }
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
@@ -149,7 +148,10 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   oai::lmf_server::model::PatchItem patch_item = {};
   std::vector<oai::lmf_server::model::PatchItem> patch_items;
   //{"op":"replace","path":"/nfStatus", "value": "REGISTERED"}
-  patch_item.setOp("replace");
+  oai::lmf_server::model::PatchOperation patch_operation;
+  patch_operation.setEnumValue(oai::lmf_server::model::PatchOperation_anyOf::
+                                   ePatchOperation_anyOf::REPLACE);
+  patch_item.setOp(patch_operation);
   patch_item.setPath("/nfStatus");
   patch_item.setValue("REGISTERED");
   patch_items.push_back(patch_item);
@@ -166,8 +168,7 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
 
   std::string lmf_api_root = {};
   get_lmf_api_root(lmf_api_root);
-  std::string remoteUri =
-      lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
+  std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
   lmf_client_instance->curl_http_client(
       remoteUri, method, json_data.dump().c_str(), response);
   if (!response.empty()) task_connection.disconnect();

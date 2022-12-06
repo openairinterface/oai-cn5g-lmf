@@ -82,7 +82,7 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
     nf_type          = s.nf_type;
     nf_instance_name = s.nf_instance_name;
     nf_status        = s.nf_status;
-    lmf_info        = s.lmf_info;
+    lmf_info         = s.lmf_info;
     return *this;
   }
   // lmf_profile(lmf_profile &b) = delete;
