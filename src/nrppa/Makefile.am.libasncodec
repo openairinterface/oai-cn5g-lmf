@@ -1,0 +1,744 @@
+ASN_MODULE_SRCS=	\
+	NRPPA-PDU.c	\
+	InitiatingMessage.c	\
+	SuccessfulOutcome.c	\
+	UnsuccessfulOutcome.c	\
+	E-CIDMeasurementInitiationRequest.c	\
+	E-CIDMeasurementInitiationResponse.c	\
+	E-CIDMeasurementInitiationFailure.c	\
+	E-CIDMeasurementFailureIndication.c	\
+	E-CIDMeasurementReport.c	\
+	E-CIDMeasurementTerminationCommand.c	\
+	OTDOAInformationRequest.c	\
+	OTDOA-Information-Type.c	\
+	OTDOA-Information-Type-Item.c	\
+	OTDOAInformationResponse.c	\
+	OTDOAInformationFailure.c	\
+	AssistanceInformationControl.c	\
+	AssistanceInformationFeedback.c	\
+	ErrorIndication.c	\
+	PrivateMessage.c	\
+	PositioningInformationRequest.c	\
+	PositioningInformationResponse.c	\
+	PositioningInformationFailure.c	\
+	PositioningInformationUpdate.c	\
+	MeasurementRequest.c	\
+	MeasurementResponse.c	\
+	MeasurementFailure.c	\
+	MeasurementReport.c	\
+	MeasurementUpdate.c	\
+	MeasurementAbort.c	\
+	MeasurementFailureIndication.c	\
+	TRPInformationRequest.c	\
+	TRPInformationResponse.c	\
+	TRPInformationFailure.c	\
+	PositioningActivationRequest.c	\
+	SRSType.c	\
+	SemipersistentSRS.c	\
+	AperiodicSRS.c	\
+	PositioningActivationResponse.c	\
+	PositioningActivationFailure.c	\
+	PositioningDeactivation.c	\
+	AbortTransmission.c	\
+	ActiveULBWP.c	\
+	AdditionalPathList.c	\
+	AdditionalPathListItem.c	\
+	AperiodicSRSResourceTriggerList.c	\
+	AperiodicSRSResourceTrigger.c	\
+	Assistance-Information.c	\
+	AssistanceInformationFailureList.c	\
+	AssistanceInformationMetaData.c	\
+	BandwidthSRS.c	\
+	BCCH.c	\
+	Broadcast.c	\
+	BroadcastPeriodicity.c	\
+	PositioningBroadcastCells.c	\
+	BSSID.c	\
+	Cause.c	\
+	CauseMisc.c	\
+	CauseProtocol.c	\
+	CauseRadioNetwork.c	\
+	Cell-Portion-ID.c	\
+	CGI-EUTRA.c	\
+	CGI-NR.c	\
+	CPLength-EUTRA.c	\
+	CriticalityDiagnostics.c	\
+	CriticalityDiagnostics-IE-List.c	\
+	DL-Bandwidth-EUTRA.c	\
+	DL-PRS.c	\
+	DL-PRSMutingPattern.c	\
+	DLPRSResourceCoordinates.c	\
+	DLPRSResourceSetARP.c	\
+	DL-PRSResourceSetARPLocation.c	\
+	DLPRSResourceARP.c	\
+	DL-PRSResourceARPLocation.c	\
+	E-CID-MeasurementResult.c	\
+	EUTRACellIdentifier.c	\
+	EARFCN.c	\
+	GeographicalCoordinates.c	\
+	GNB-RxTxTimeDiff.c	\
+	GNBRxTxTimeDiffMeas.c	\
+	HESSID.c	\
+	LCS-to-GCS-TranslationAoA.c	\
+	LCS-to-GCS-TranslationItem.c	\
+	LocationUncertainty.c	\
+	Measurement-ID.c	\
+	MeasurementBeamInfoRequest.c	\
+	MeasurementBeamInfo.c	\
+	MeasurementPeriodicity.c	\
+	MeasurementPeriodicityExtended.c	\
+	MeasurementPeriodicityNR-AoA.c	\
+	MeasurementQuantities.c	\
+	MeasurementQuantities-Item.c	\
+	MeasurementQuantitiesValue.c	\
+	MeasuredResults.c	\
+	MeasuredResultsValue.c	\
+	NarrowBandIndex.c	\
+	NG-RANAccessPointPosition.c	\
+	NGRANHighAccuracyAccessPointPosition.c	\
+	NG-RAN-CGI.c	\
+	NG-RANCell.c	\
+	NR-ARFCN.c	\
+	NRCellIdentifier.c	\
+	NR-PCI.c	\
+	NR-PRS-Beam-Information.c	\
+	NR-PRS-Beam-InformationItem.c	\
+	NumberOfAntennaPorts-EUTRA.c	\
+	NumberOfDlFrames-EUTRA.c	\
+	NumberOfDlFrames-Extended-EUTRA.c	\
+	NumberOfFrequencyHoppingBands.c	\
+	NZP-CSI-RS-ResourceID.c	\
+	OTDOACells.c	\
+	OTDOACell-Information.c	\
+	OTDOACell-Information-Item.c	\
+	OTDOA-Information-Item.c	\
+	OtherRATMeasurementQuantities.c	\
+	OtherRATMeasurementQuantities-Item.c	\
+	OtherRATMeasurementQuantitiesValue.c	\
+	OtherRATMeasurementResult.c	\
+	OtherRATMeasuredResultsValue.c	\
+	Outcome.c	\
+	PathlossReferenceInformation.c	\
+	PathlossReferenceSignal.c	\
+	PCI-EUTRA.c	\
+	PhysCellIDGERAN.c	\
+	PhysCellIDUTRA-FDD.c	\
+	PhysCellIDUTRA-TDD.c	\
+	PLMN-Identity.c	\
+	PeriodicityList.c	\
+	PeriodicityItem.c	\
+	PosSIBs.c	\
+	PosSIB-Segments.c	\
+	PosSIB-Type.c	\
+	PosSRSResource-List.c	\
+	PosSRSResource-Item.c	\
+	PosSRSResourceSet-List.c	\
+	PosSRSResourceID-List.c	\
+	PosSRSResourceSet-Item.c	\
+	PosResourceSetType.c	\
+	PosResourceSetTypePeriodic.c	\
+	PosResourceSetTypeSemi-persistent.c	\
+	PosResourceSetTypeAperiodic.c	\
+	PRS-Bandwidth-EUTRA.c	\
+	PRSAngleItem.c	\
+	PRSInformationPos.c	\
+	PRSConfiguration.c	\
+	PRS-ConfigurationIndex-EUTRA.c	\
+	PRS-ID-EUTRA.c	\
+	PRSMutingConfiguration-EUTRA.c	\
+	PRSOccasionGroup-EUTRA.c	\
+	PRSFrequencyHoppingConfiguration-EUTRA.c	\
+	PRSMuting.c	\
+	PRSMutingOption1.c	\
+	PRSMutingOption2.c	\
+	PRSResource-List.c	\
+	PRSResource-Item.c	\
+	PRSResource-QCLInfo.c	\
+	PRSResource-QCLSourceSSB.c	\
+	PRSResource-QCLSourcePRS.c	\
+	PRSResourceSet-List.c	\
+	PRSResourceSet-Item.c	\
+	PRS-Resource-ID.c	\
+	PRS-Resource-Set-ID.c	\
+	PRS-ID.c	\
+	ReferenceSignal.c	\
+	ReferencePoint.c	\
+	CoordinateID.c	\
+	RelativeGeodeticLocation.c	\
+	RelativeCartesianLocation.c	\
+	RelativePathDelay.c	\
+	ReportCharacteristics.c	\
+	RequestedSRSTransmissionCharacteristics.c	\
+	SRSResourceSet-Item.c	\
+	ResourceSetType.c	\
+	ResourceSetTypePeriodic.c	\
+	ResourceSetTypeSemi-persistent.c	\
+	ResourceSetTypeAperiodic.c	\
+	ResourceType.c	\
+	ResourceTypePeriodic.c	\
+	ResourceTypeSemi-persistent.c	\
+	ResourceTypeAperiodic.c	\
+	ResourceTypePos.c	\
+	ResourceTypePeriodicPos.c	\
+	ResourceTypeSemi-persistentPos.c	\
+	ResourceTypeAperiodicPos.c	\
+	ResultCSI-RSRP.c	\
+	ResultCSI-RSRP-Item.c	\
+	ResultCSI-RSRP-PerCSI-RS.c	\
+	ResultCSI-RSRP-PerCSI-RS-Item.c	\
+	ResultCSI-RSRQ.c	\
+	ResultCSI-RSRQ-Item.c	\
+	ResultCSI-RSRQ-PerCSI-RS.c	\
+	ResultCSI-RSRQ-PerCSI-RS-Item.c	\
+	ResultEUTRA.c	\
+	ResultEUTRA-Item.c	\
+	ResultRSRP-EUTRA.c	\
+	ResultRSRP-EUTRA-Item.c	\
+	ResultRSRQ-EUTRA.c	\
+	ResultRSRQ-EUTRA-Item.c	\
+	ResultSS-RSRP.c	\
+	ResultSS-RSRP-Item.c	\
+	ResultSS-RSRP-PerSSB.c	\
+	ResultSS-RSRP-PerSSB-Item.c	\
+	ResultSS-RSRQ.c	\
+	ResultSS-RSRQ-Item.c	\
+	ResultSS-RSRQ-PerSSB.c	\
+	ResultSS-RSRQ-PerSSB-Item.c	\
+	ResultGERAN.c	\
+	ResultGERAN-Item.c	\
+	ResultNR.c	\
+	ResultNR-Item.c	\
+	ResultUTRAN.c	\
+	ResultUTRAN-Item.c	\
+	RSSI.c	\
+	SCS-SpecificCarrier.c	\
+	Search-window-information.c	\
+	RelativeTime1900.c	\
+	SFNInitialisationTime-EUTRA.c	\
+	SlotNumber.c	\
+	SpatialDirectionInformation.c	\
+	SpatialRelationInfo.c	\
+	SpatialRelationforResourceID.c	\
+	SpatialRelationforResourceIDItem.c	\
+	SpatialRelationPerSRSResource.c	\
+	SpatialRelationPerSRSResource-List.c	\
+	SpatialRelationPerSRSResourceItem.c	\
+	SpatialRelationPos.c	\
+	SRSConfig.c	\
+	SRSCarrier-List.c	\
+	SRSCarrier-List-Item.c	\
+	SRSConfiguration.c	\
+	SrsFrequency.c	\
+	SRSPosResourceID.c	\
+	SRSResource.c	\
+	SRSResourceID.c	\
+	SRSResource-List.c	\
+	SRSResourceSet-List.c	\
+	SRSResourceID-List.c	\
+	SRSResourceSet.c	\
+	SRSResourceSetID.c	\
+	SRSResourceTrigger.c	\
+	SSBInfo.c	\
+	SSBInfoItem.c	\
+	SSB.c	\
+	SSBBurstPosition.c	\
+	SSB-Index.c	\
+	SSID.c	\
+	SystemFrameNumber.c	\
+	SystemInformation.c	\
+	TAC.c	\
+	TDD-Config-EUTRA-Item.c	\
+	TF-Configuration.c	\
+	TimeStamp.c	\
+	TimeStampSlotIndex.c	\
+	TP-ID-EUTRA.c	\
+	TP-Type-EUTRA.c	\
+	TransmissionComb.c	\
+	TransmissionCombPos.c	\
+	TRPMeasurementQuantities.c	\
+	TRPMeasurementQuantitiesList-Item.c	\
+	TRPMeasurementQuantities-Item.c	\
+	TrpMeasurementResult.c	\
+	TrpMeasurementResultItem.c	\
+	TrpMeasuredResultsValue.c	\
+	TrpMeasurementQuality.c	\
+	TrpMeasurementTimingQuality.c	\
+	TrpMeasurementAngleQuality.c	\
+	TRP-MeasurementRequestList.c	\
+	TRP-MeasurementRequestItem.c	\
+	TRP-MeasurementResponseList.c	\
+	TRP-MeasurementResponseItem.c	\
+	TRPInformationListTRPResp.c	\
+	TRPInformation.c	\
+	TRPInformationTypeResponseList.c	\
+	TRPInformationTypeResponseItem.c	\
+	TRPInformationTypeListTRPReq.c	\
+	TRPInformationTypeItem.c	\
+	TRPList.c	\
+	TRPItem.c	\
+	TRP-ID.c	\
+	TRPPositionDefinitionType.c	\
+	TRPPositionDirect.c	\
+	TRPPositionDirectAccuracy.c	\
+	TRPPositionReferenced.c	\
+	TRPReferencePointType.c	\
+	TRPType.c	\
+	TypeOfError.c	\
+	UARFCN.c	\
+	UE-Measurement-ID.c	\
+	UTRA-EcN0.c	\
+	UTRA-RSCP.c	\
+	UL-AoA.c	\
+	UL-RTOAMeasurement.c	\
+	ULRTOAMeas.c	\
+	UL-SRS-RSRP.c	\
+	UplinkChannelBW-PerSCS-List.c	\
+	ValueRSRP-EUTRA.c	\
+	ValueRSRQ-EUTRA.c	\
+	ValueRSRP-NR.c	\
+	ValueRSRQ-NR.c	\
+	WLANMeasurementQuantities.c	\
+	WLANMeasurementQuantities-Item.c	\
+	WLANMeasurementQuantitiesValue.c	\
+	WLANMeasurementResult.c	\
+	WLANMeasurementResult-Item.c	\
+	WLAN-RSSI.c	\
+	WLANBand.c	\
+	WLANChannelList.c	\
+	WLANChannel.c	\
+	WLANCountryCode.c	\
+	WLANOperatingClass.c	\
+	Criticality.c	\
+	NRPPATransactionID.c	\
+	Presence.c	\
+	PrivateIE-ID.c	\
+	ProcedureCode.c	\
+	ProtocolIE-ID.c	\
+	TriggeringMessage.c	\
+	ProtocolIE-Container.c	\
+	ProtocolIE-Single-Container.c	\
+	ProtocolIE-Field.c	\
+	ProtocolIE-ContainerList.c	\
+	ProtocolExtensionContainer.c	\
+	ProtocolExtensionField.c	\
+	PrivateIE-Container.c	\
+	PrivateIE-Field.c
+
+ASN_MODULE_HDRS=	\
+	NRPPA-PDU.h	\
+	InitiatingMessage.h	\
+	SuccessfulOutcome.h	\
+	UnsuccessfulOutcome.h	\
+	E-CIDMeasurementInitiationRequest.h	\
+	E-CIDMeasurementInitiationResponse.h	\
+	E-CIDMeasurementInitiationFailure.h	\
+	E-CIDMeasurementFailureIndication.h	\
+	E-CIDMeasurementReport.h	\
+	E-CIDMeasurementTerminationCommand.h	\
+	OTDOAInformationRequest.h	\
+	OTDOA-Information-Type.h	\
+	OTDOA-Information-Type-Item.h	\
+	OTDOAInformationResponse.h	\
+	OTDOAInformationFailure.h	\
+	AssistanceInformationControl.h	\
+	AssistanceInformationFeedback.h	\
+	ErrorIndication.h	\
+	PrivateMessage.h	\
+	PositioningInformationRequest.h	\
+	PositioningInformationResponse.h	\
+	PositioningInformationFailure.h	\
+	PositioningInformationUpdate.h	\
+	MeasurementRequest.h	\
+	MeasurementResponse.h	\
+	MeasurementFailure.h	\
+	MeasurementReport.h	\
+	MeasurementUpdate.h	\
+	MeasurementAbort.h	\
+	MeasurementFailureIndication.h	\
+	TRPInformationRequest.h	\
+	TRPInformationResponse.h	\
+	TRPInformationFailure.h	\
+	PositioningActivationRequest.h	\
+	SRSType.h	\
+	SemipersistentSRS.h	\
+	AperiodicSRS.h	\
+	PositioningActivationResponse.h	\
+	PositioningActivationFailure.h	\
+	PositioningDeactivation.h	\
+	AbortTransmission.h	\
+	ActiveULBWP.h	\
+	AdditionalPathList.h	\
+	AdditionalPathListItem.h	\
+	AperiodicSRSResourceTriggerList.h	\
+	AperiodicSRSResourceTrigger.h	\
+	Assistance-Information.h	\
+	AssistanceInformationFailureList.h	\
+	AssistanceInformationMetaData.h	\
+	BandwidthSRS.h	\
+	BCCH.h	\
+	Broadcast.h	\
+	BroadcastPeriodicity.h	\
+	PositioningBroadcastCells.h	\
+	BSSID.h	\
+	Cause.h	\
+	CauseMisc.h	\
+	CauseProtocol.h	\
+	CauseRadioNetwork.h	\
+	Cell-Portion-ID.h	\
+	CGI-EUTRA.h	\
+	CGI-NR.h	\
+	CPLength-EUTRA.h	\
+	CriticalityDiagnostics.h	\
+	CriticalityDiagnostics-IE-List.h	\
+	DL-Bandwidth-EUTRA.h	\
+	DL-PRS.h	\
+	DL-PRSMutingPattern.h	\
+	DLPRSResourceCoordinates.h	\
+	DLPRSResourceSetARP.h	\
+	DL-PRSResourceSetARPLocation.h	\
+	DLPRSResourceARP.h	\
+	DL-PRSResourceARPLocation.h	\
+	E-CID-MeasurementResult.h	\
+	EUTRACellIdentifier.h	\
+	EARFCN.h	\
+	GeographicalCoordinates.h	\
+	GNB-RxTxTimeDiff.h	\
+	GNBRxTxTimeDiffMeas.h	\
+	HESSID.h	\
+	LCS-to-GCS-TranslationAoA.h	\
+	LCS-to-GCS-TranslationItem.h	\
+	LocationUncertainty.h	\
+	Measurement-ID.h	\
+	MeasurementBeamInfoRequest.h	\
+	MeasurementBeamInfo.h	\
+	MeasurementPeriodicity.h	\
+	MeasurementPeriodicityExtended.h	\
+	MeasurementPeriodicityNR-AoA.h	\
+	MeasurementQuantities.h	\
+	MeasurementQuantities-Item.h	\
+	MeasurementQuantitiesValue.h	\
+	MeasuredResults.h	\
+	MeasuredResultsValue.h	\
+	NarrowBandIndex.h	\
+	NG-RANAccessPointPosition.h	\
+	NGRANHighAccuracyAccessPointPosition.h	\
+	NG-RAN-CGI.h	\
+	NG-RANCell.h	\
+	NR-ARFCN.h	\
+	NRCellIdentifier.h	\
+	NR-PCI.h	\
+	NR-PRS-Beam-Information.h	\
+	NR-PRS-Beam-InformationItem.h	\
+	NumberOfAntennaPorts-EUTRA.h	\
+	NumberOfDlFrames-EUTRA.h	\
+	NumberOfDlFrames-Extended-EUTRA.h	\
+	NumberOfFrequencyHoppingBands.h	\
+	NZP-CSI-RS-ResourceID.h	\
+	OTDOACells.h	\
+	OTDOACell-Information.h	\
+	OTDOACell-Information-Item.h	\
+	OTDOA-Information-Item.h	\
+	OtherRATMeasurementQuantities.h	\
+	OtherRATMeasurementQuantities-Item.h	\
+	OtherRATMeasurementQuantitiesValue.h	\
+	OtherRATMeasurementResult.h	\
+	OtherRATMeasuredResultsValue.h	\
+	Outcome.h	\
+	PathlossReferenceInformation.h	\
+	PathlossReferenceSignal.h	\
+	PCI-EUTRA.h	\
+	PhysCellIDGERAN.h	\
+	PhysCellIDUTRA-FDD.h	\
+	PhysCellIDUTRA-TDD.h	\
+	PLMN-Identity.h	\
+	PeriodicityList.h	\
+	PeriodicityItem.h	\
+	PosSIBs.h	\
+	PosSIB-Segments.h	\
+	PosSIB-Type.h	\
+	PosSRSResource-List.h	\
+	PosSRSResource-Item.h	\
+	PosSRSResourceSet-List.h	\
+	PosSRSResourceID-List.h	\
+	PosSRSResourceSet-Item.h	\
+	PosResourceSetType.h	\
+	PosResourceSetTypePeriodic.h	\
+	PosResourceSetTypeSemi-persistent.h	\
+	PosResourceSetTypeAperiodic.h	\
+	PRS-Bandwidth-EUTRA.h	\
+	PRSAngleItem.h	\
+	PRSInformationPos.h	\
+	PRSConfiguration.h	\
+	PRS-ConfigurationIndex-EUTRA.h	\
+	PRS-ID-EUTRA.h	\
+	PRSMutingConfiguration-EUTRA.h	\
+	PRSOccasionGroup-EUTRA.h	\
+	PRSFrequencyHoppingConfiguration-EUTRA.h	\
+	PRSMuting.h	\
+	PRSMutingOption1.h	\
+	PRSMutingOption2.h	\
+	PRSResource-List.h	\
+	PRSResource-Item.h	\
+	PRSResource-QCLInfo.h	\
+	PRSResource-QCLSourceSSB.h	\
+	PRSResource-QCLSourcePRS.h	\
+	PRSResourceSet-List.h	\
+	PRSResourceSet-Item.h	\
+	PRS-Resource-ID.h	\
+	PRS-Resource-Set-ID.h	\
+	PRS-ID.h	\
+	ReferenceSignal.h	\
+	ReferencePoint.h	\
+	CoordinateID.h	\
+	RelativeGeodeticLocation.h	\
+	RelativeCartesianLocation.h	\
+	RelativePathDelay.h	\
+	ReportCharacteristics.h	\
+	RequestedSRSTransmissionCharacteristics.h	\
+	SRSResourceSet-Item.h	\
+	ResourceSetType.h	\
+	ResourceSetTypePeriodic.h	\
+	ResourceSetTypeSemi-persistent.h	\
+	ResourceSetTypeAperiodic.h	\
+	ResourceType.h	\
+	ResourceTypePeriodic.h	\
+	ResourceTypeSemi-persistent.h	\
+	ResourceTypeAperiodic.h	\
+	ResourceTypePos.h	\
+	ResourceTypePeriodicPos.h	\
+	ResourceTypeSemi-persistentPos.h	\
+	ResourceTypeAperiodicPos.h	\
+	ResultCSI-RSRP.h	\
+	ResultCSI-RSRP-Item.h	\
+	ResultCSI-RSRP-PerCSI-RS.h	\
+	ResultCSI-RSRP-PerCSI-RS-Item.h	\
+	ResultCSI-RSRQ.h	\
+	ResultCSI-RSRQ-Item.h	\
+	ResultCSI-RSRQ-PerCSI-RS.h	\
+	ResultCSI-RSRQ-PerCSI-RS-Item.h	\
+	ResultEUTRA.h	\
+	ResultEUTRA-Item.h	\
+	ResultRSRP-EUTRA.h	\
+	ResultRSRP-EUTRA-Item.h	\
+	ResultRSRQ-EUTRA.h	\
+	ResultRSRQ-EUTRA-Item.h	\
+	ResultSS-RSRP.h	\
+	ResultSS-RSRP-Item.h	\
+	ResultSS-RSRP-PerSSB.h	\
+	ResultSS-RSRP-PerSSB-Item.h	\
+	ResultSS-RSRQ.h	\
+	ResultSS-RSRQ-Item.h	\
+	ResultSS-RSRQ-PerSSB.h	\
+	ResultSS-RSRQ-PerSSB-Item.h	\
+	ResultGERAN.h	\
+	ResultGERAN-Item.h	\
+	ResultNR.h	\
+	ResultNR-Item.h	\
+	ResultUTRAN.h	\
+	ResultUTRAN-Item.h	\
+	RSSI.h	\
+	SCS-SpecificCarrier.h	\
+	Search-window-information.h	\
+	RelativeTime1900.h	\
+	SFNInitialisationTime-EUTRA.h	\
+	SlotNumber.h	\
+	SpatialDirectionInformation.h	\
+	SpatialRelationInfo.h	\
+	SpatialRelationforResourceID.h	\
+	SpatialRelationforResourceIDItem.h	\
+	SpatialRelationPerSRSResource.h	\
+	SpatialRelationPerSRSResource-List.h	\
+	SpatialRelationPerSRSResourceItem.h	\
+	SpatialRelationPos.h	\
+	SRSConfig.h	\
+	SRSCarrier-List.h	\
+	SRSCarrier-List-Item.h	\
+	SRSConfiguration.h	\
+	SrsFrequency.h	\
+	SRSPosResourceID.h	\
+	SRSResource.h	\
+	SRSResourceID.h	\
+	SRSResource-List.h	\
+	SRSResourceSet-List.h	\
+	SRSResourceID-List.h	\
+	SRSResourceSet.h	\
+	SRSResourceSetID.h	\
+	SRSResourceTrigger.h	\
+	SSBInfo.h	\
+	SSBInfoItem.h	\
+	SSB.h	\
+	SSBBurstPosition.h	\
+	SSB-Index.h	\
+	SSID.h	\
+	SystemFrameNumber.h	\
+	SystemInformation.h	\
+	TAC.h	\
+	TDD-Config-EUTRA-Item.h	\
+	TF-Configuration.h	\
+	TimeStamp.h	\
+	TimeStampSlotIndex.h	\
+	TP-ID-EUTRA.h	\
+	TP-Type-EUTRA.h	\
+	TransmissionComb.h	\
+	TransmissionCombPos.h	\
+	TRPMeasurementQuantities.h	\
+	TRPMeasurementQuantitiesList-Item.h	\
+	TRPMeasurementQuantities-Item.h	\
+	TrpMeasurementResult.h	\
+	TrpMeasurementResultItem.h	\
+	TrpMeasuredResultsValue.h	\
+	TrpMeasurementQuality.h	\
+	TrpMeasurementTimingQuality.h	\
+	TrpMeasurementAngleQuality.h	\
+	TRP-MeasurementRequestList.h	\
+	TRP-MeasurementRequestItem.h	\
+	TRP-MeasurementResponseList.h	\
+	TRP-MeasurementResponseItem.h	\
+	TRPInformationListTRPResp.h	\
+	TRPInformation.h	\
+	TRPInformationTypeResponseList.h	\
+	TRPInformationTypeResponseItem.h	\
+	TRPInformationTypeListTRPReq.h	\
+	TRPInformationTypeItem.h	\
+	TRPList.h	\
+	TRPItem.h	\
+	TRP-ID.h	\
+	TRPPositionDefinitionType.h	\
+	TRPPositionDirect.h	\
+	TRPPositionDirectAccuracy.h	\
+	TRPPositionReferenced.h	\
+	TRPReferencePointType.h	\
+	TRPType.h	\
+	TypeOfError.h	\
+	UARFCN.h	\
+	UE-Measurement-ID.h	\
+	UTRA-EcN0.h	\
+	UTRA-RSCP.h	\
+	UL-AoA.h	\
+	UL-RTOAMeasurement.h	\
+	ULRTOAMeas.h	\
+	UL-SRS-RSRP.h	\
+	UplinkChannelBW-PerSCS-List.h	\
+	ValueRSRP-EUTRA.h	\
+	ValueRSRQ-EUTRA.h	\
+	ValueRSRP-NR.h	\
+	ValueRSRQ-NR.h	\
+	WLANMeasurementQuantities.h	\
+	WLANMeasurementQuantities-Item.h	\
+	WLANMeasurementQuantitiesValue.h	\
+	WLANMeasurementResult.h	\
+	WLANMeasurementResult-Item.h	\
+	WLAN-RSSI.h	\
+	WLANBand.h	\
+	WLANChannelList.h	\
+	WLANChannel.h	\
+	WLANCountryCode.h	\
+	WLANOperatingClass.h	\
+	Criticality.h	\
+	NRPPATransactionID.h	\
+	Presence.h	\
+	PrivateIE-ID.h	\
+	ProcedureCode.h	\
+	ProtocolIE-ID.h	\
+	TriggeringMessage.h	\
+	ProtocolIE-Container.h	\
+	ProtocolIE-Single-Container.h	\
+	ProtocolIE-Field.h	\
+	ProtocolIE-ContainerList.h	\
+	ProtocolExtensionContainer.h	\
+	ProtocolExtensionField.h	\
+	PrivateIE-Container.h	\
+	PrivateIE-Field.h
+
+ASN_MODULE_HDRS+=ANY.h
+ASN_MODULE_SRCS+=ANY.c
+ASN_MODULE_HDRS+=OCTET_STRING.h
+ASN_MODULE_HDRS+=OPEN_TYPE.h
+ASN_MODULE_SRCS+=OPEN_TYPE.c
+ASN_MODULE_HDRS+=constr_CHOICE.h
+ASN_MODULE_HDRS+=INTEGER.h
+ASN_MODULE_SRCS+=INTEGER.c
+ASN_MODULE_HDRS+=NULL.h
+ASN_MODULE_SRCS+=NULL.c
+ASN_MODULE_HDRS+=NativeEnumerated.h
+ASN_MODULE_SRCS+=NativeEnumerated.c
+ASN_MODULE_HDRS+=NativeInteger.h
+ASN_MODULE_SRCS+=NativeInteger.c
+ASN_MODULE_HDRS+=OBJECT_IDENTIFIER.h
+ASN_MODULE_SRCS+=OBJECT_IDENTIFIER.c
+ASN_MODULE_HDRS+=asn_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=asn_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=asn_SET_OF.h
+ASN_MODULE_SRCS+=asn_SET_OF.c
+ASN_MODULE_SRCS+=constr_CHOICE.c
+ASN_MODULE_HDRS+=constr_SEQUENCE.h
+ASN_MODULE_SRCS+=constr_SEQUENCE.c
+ASN_MODULE_HDRS+=constr_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=constr_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=constr_SET_OF.h
+ASN_MODULE_SRCS+=constr_SET_OF.c
+ASN_MODULE_HDRS+=asn_application.h
+ASN_MODULE_SRCS+=asn_application.c
+ASN_MODULE_HDRS+=asn_ioc.h
+ASN_MODULE_HDRS+=asn_system.h
+ASN_MODULE_HDRS+=asn_codecs.h
+ASN_MODULE_HDRS+=asn_internal.h
+ASN_MODULE_SRCS+=asn_internal.c
+ASN_MODULE_HDRS+=asn_random_fill.h
+ASN_MODULE_SRCS+=asn_random_fill.c
+ASN_MODULE_HDRS+=asn_bit_data.h
+ASN_MODULE_SRCS+=asn_bit_data.c
+ASN_MODULE_SRCS+=OCTET_STRING.c
+ASN_MODULE_HDRS+=BIT_STRING.h
+ASN_MODULE_SRCS+=BIT_STRING.c
+ASN_MODULE_SRCS+=asn_codecs_prim.c
+ASN_MODULE_HDRS+=asn_codecs_prim.h
+ASN_MODULE_HDRS+=ber_tlv_length.h
+ASN_MODULE_SRCS+=ber_tlv_length.c
+ASN_MODULE_HDRS+=ber_tlv_tag.h
+ASN_MODULE_SRCS+=ber_tlv_tag.c
+ASN_MODULE_HDRS+=ber_decoder.h
+ASN_MODULE_SRCS+=ber_decoder.c
+ASN_MODULE_HDRS+=der_encoder.h
+ASN_MODULE_SRCS+=der_encoder.c
+ASN_MODULE_HDRS+=constr_TYPE.h
+ASN_MODULE_SRCS+=constr_TYPE.c
+ASN_MODULE_HDRS+=constraints.h
+ASN_MODULE_SRCS+=constraints.c
+ASN_MODULE_HDRS+=xer_support.h
+ASN_MODULE_SRCS+=xer_support.c
+ASN_MODULE_HDRS+=xer_decoder.h
+ASN_MODULE_SRCS+=xer_decoder.c
+ASN_MODULE_HDRS+=xer_encoder.h
+ASN_MODULE_SRCS+=xer_encoder.c
+ASN_MODULE_HDRS+=per_support.h
+ASN_MODULE_SRCS+=per_support.c
+ASN_MODULE_HDRS+=per_decoder.h
+ASN_MODULE_SRCS+=per_decoder.c
+ASN_MODULE_HDRS+=per_encoder.h
+ASN_MODULE_SRCS+=per_encoder.c
+ASN_MODULE_HDRS+=per_opentype.h
+ASN_MODULE_SRCS+=per_opentype.c
+ASN_MODULE_HDRS+=oer_decoder.h
+ASN_MODULE_HDRS+=oer_encoder.h
+ASN_MODULE_HDRS+=oer_support.h
+ASN_MODULE_SRCS+=oer_decoder.c
+ASN_MODULE_SRCS+=oer_encoder.c
+ASN_MODULE_SRCS+=oer_support.c
+ASN_MODULE_SRCS+=OPEN_TYPE_oer.c
+ASN_MODULE_SRCS+=INTEGER_oer.c
+ASN_MODULE_SRCS+=BIT_STRING_oer.c
+ASN_MODULE_SRCS+=OCTET_STRING_oer.c
+ASN_MODULE_SRCS+=NativeInteger_oer.c
+ASN_MODULE_SRCS+=NativeEnumerated_oer.c
+ASN_MODULE_SRCS+=constr_CHOICE_oer.c
+ASN_MODULE_SRCS+=constr_SEQUENCE_oer.c
+ASN_MODULE_SRCS+=constr_SET_OF_oer.c
+
+ASN_MODULE_CFLAGS=
+
+lib_LTLIBRARIES+=libasncodec.la
+libasncodec_la_SOURCES=$(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS)
+libasncodec_la_CPPFLAGS=-I$(top_srcdir)/
+libasncodec_la_CFLAGS=$(ASN_MODULE_CFLAGS)
+libasncodec_la_LDFLAGS=-lm
