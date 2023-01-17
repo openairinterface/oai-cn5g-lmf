@@ -44,8 +44,9 @@
 #endif
 
 #include "lmf_app.hpp"
+#include "DetermineLocationApiImpl.h"
 
-// using namespace oai::lmf_server::api;
+using namespace oai::lmf_server::api;
 using namespace oai::lmf::app;
 
 class LMFApiServer {
@@ -54,6 +55,10 @@ class LMFApiServer {
       : m_httpEndpoint(std::make_shared<Pistache::Http::Endpoint>(address)) {
     m_router  = std::make_shared<Pistache::Rest::Router>();
     m_address = address.host() + ":" + (address.port()).toString();
+
+    m_determineLocationApiImpl =
+        std::make_shared<DetermineLocationApiImpl>(
+            m_router, lmf_app_inst);
   }
   void init(size_t thr = 1);
   void start();
@@ -63,6 +68,8 @@ class LMFApiServer {
   std::shared_ptr<Pistache::Http::Endpoint> m_httpEndpoint;
   std::shared_ptr<Pistache::Rest::Router> m_router;
   std::string m_address;
+  std::shared_ptr<DetermineLocationApiImpl>
+      m_determineLocationApiImpl;
 };
 
 #endif

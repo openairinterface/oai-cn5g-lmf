@@ -12,6 +12,10 @@
  */
 
 #include "DetermineLocationApiImpl.h"
+#include "lmf_config.hpp"
+#include "logger.hpp"
+
+extern config::lmf_config lmf_cfg;
 
 namespace oai {
 namespace lmf_server {
@@ -20,12 +24,25 @@ namespace api {
 using namespace oai::lmf_server::model;
 
 DetermineLocationApiImpl::DetermineLocationApiImpl(
-    const std::shared_ptr<Pistache::Rest::Router>& rtr)
-    : DetermineLocationApi(rtr) {}
+    const std::shared_ptr<Pistache::Rest::Router>& rtr, oai::lmf::app::lmf_app* lmf_app_inst)
+    : DetermineLocationApi(rtr), m_lmf_app(lmf_app_inst) {}
 
 void DetermineLocationApiImpl::determine_location(
     const InputData& inputData, Pistache::Http::ResponseWriter& response) {
-  response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+  Logger::lmf_server().info(
+      "Get Determine Location\n");
+  nlohmann::json locationData_json = {};
+  Pistache::Http::Code code        = {};
+  m_lmf_app->handle_determine_location(inputData, locationData_json, code, 1);
+  if (code == Pistache::Http::Code::Ok) {
+    response.send(Pistache::Http::Code::Ok, locationData_json.dump().c_str());
+  } else {
+    nlohmann::json json_data                              = {};
+    oai::lmf_server::model::ProblemDetails problem_details = {};
+    problem_details.setCause("Internal Error Occured");
+    to_json(json_data, problem_details);
+    response.send(Pistache::Http::Code::Not_Found, json_data.dump().c_str());
+  }
 }
 
 }  // namespace api

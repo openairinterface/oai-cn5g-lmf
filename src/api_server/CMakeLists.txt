@@ -29,6 +29,7 @@ include_directories(${SRC_TOP_DIR}/lmf_app)
 include_directories(${SRC_TOP_DIR}/common)
 include_directories(${SRC_TOP_DIR}/common/utils)
 include_directories(${SRC_TOP_DIR}/lpp)
+include_directories(${SRC_TOP_DIR}/nrppa)
 include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
 
 file(GLOB LMF_API_SERVER_src_files
@@ -42,4 +43,4 @@ file(GLOB LMF_API_SERVER_src_files
 add_library(LMF_API STATIC
            ${LMF_API_SERVER_src_files})
 
-target_link_libraries(LMF_API LPP)
+target_link_libraries(LMF_API LPP NRPPA)

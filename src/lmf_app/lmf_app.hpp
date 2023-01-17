@@ -34,6 +34,7 @@
 #include "lmf.h"
 #include "InputData.h"
 #include "lpp-ie-headers.hpp"
+#include "nrppa-ie-headers.hpp"
 #include <map>
 #include <pistache/http.h>
 #include <shared_mutex>
@@ -62,6 +63,7 @@ class lmf_app {
  private:
   lmf_event& event_sub;
   void build_request_location_lpp_pdu(LPP_Message_t* lppMsg);
+  void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
 };
 }  // namespace app
 }  // namespace lmf

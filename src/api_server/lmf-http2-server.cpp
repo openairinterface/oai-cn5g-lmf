@@ -56,7 +56,7 @@ void lmf_http2_server::start() {
   // Default API
   /* TODO: Confirm base uri */
   server.handle(
-      NLMF_AUTH_BASE + lmf_cfg.sbi_api_version + NLMF_DETERMINE_LOCATION,
+      NLMF_BASE + lmf_cfg.sbi_api_version + NLMF_DETERMINE_LOCATION,
       [&](const request& request, const response& response) {
         request.on_data([&](const uint8_t* data, std::size_t len) {
           std::string msg((char*) data, len);

@@ -70,7 +70,8 @@ void setUpUnixSignals(std::vector<int> quitSignals) {
 }
 #endif
 
-// using namespace oai::lmf_server::api;
+using namespace oai::lmf_server::api;
+using namespace oai::lmf_server::model;
 using namespace oai::lmf::app;
 
 void LMFApiServer::init(size_t thr) {
@@ -81,8 +82,12 @@ void LMFApiServer::init(size_t thr) {
 
   // m_authenticationResultDeletionApiImpl->init();
   // m_defaultApiImpl->init();
+  m_determineLocationApiImpl->init();
 }
 void LMFApiServer::start() {
+  if (m_determineLocationApiImpl != nullptr)
+    Logger::lmf_server().debug(
+        "LMF handler for DetermineLocationApiImpl");
   Logger::lmf_server().info("HTTP1 server started");
   m_httpEndpoint->setHandler(m_router->handler());
   m_httpEndpoint->serve();

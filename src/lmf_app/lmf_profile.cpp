@@ -213,27 +213,27 @@ void lmf_profile::display() const {
   }
 
   Logger::lmf_app().debug("\tLMF Info");
-  Logger::lmf_app().debug("\t\tLmfId: %s", lmf_info.lmfId);
+  Logger::lmf_app().debug("\t\t LmfId: %s", lmf_info.lmfId.c_str());
   /* TODO: is this needed in lmf */
 
   Logger::lmf_app().debug("\t\t ServingClientTypes: ");
   for (auto clientType : lmf_info.servingClientTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", clientType);
+    Logger::lmf_app().debug("\t\t\t %s", externalClientType_e2str[clientType].c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingAccessTypes: ");
   for (auto accessType : lmf_info.servingAccessTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", accessType);
+    Logger::lmf_app().debug("\t\t\t %s", accessType_e2str[accessType].c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingAnNodeTypes: ");
   for (auto nodeType : lmf_info.servingAnNodeTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", nodeType);
+    Logger::lmf_app().debug("\t\t\t %s", anNodeType_e2str[nodeType].c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingRatTypes: ");
   for (auto ratType : lmf_info.servingRatTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", ratType);
+    Logger::lmf_app().debug("\t\t\t %s", ratType_e2str[ratType].c_str());
   }
 }
 

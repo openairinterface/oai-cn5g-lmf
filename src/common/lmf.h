@@ -104,10 +104,10 @@ enum http_response_codes_e {
   HTTP_RESPONSE_CODE_GATEWAY_TIMEOUT        = 504
 };
 
-#define NLMF_AUTH_BASE "/nlmf-loc/"
+#define NLMF_BASE "/nlmf-loc/"
 #define NLMF_DETERMINE_LOCATION "/determine-location"
 
-enum class ExternalClientType : int {
+typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,
   VALUE_ADDED_SERVICES,
   PLMN_OPERATOR_SERVICES,
@@ -116,13 +116,37 @@ enum class ExternalClientType : int {
   PLMN_OPERATOR_OM,
   PLMN_OPERATOR_ANONYMOUS_STATISTICS,
   PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT
+} ExternalClientType_t;
+
+static const std::vector<std::string> externalClientType_e2str = {
+  "UNKNOWN_TYPE",
+  "EMERGENCY_SERVICES",
+  "VALUE_ADDED_SERVICES",
+  "PLMN_OPERATOR_SERVICES",
+  "LAWFUL_INTERCEPT_SERVICES",
+  "PLMN_OPERATOR_BROADCAST_SERVICES",
+  "PLMN_OPERATOR_OM",
+  "PLMN_OPERATOR_ANONYMOUS_STATISTICS",
+  "PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT"
 };
 
-enum class AccessType : int { _3GPP_ACCESS = 1, NON_3GPP_ACCESS };
+typedef enum AccessType_s { _3GPP_ACCESS = 1, NON_3GPP_ACCESS } AccessType_t;
 
-enum class AnNodeType : int { GNB = 1, NG_ENB };
+static const std::vector<std::string> accessType_e2str = {
+  "UNKNOWN_TYPE",
+  "3GPP_ACCESS",
+  "NON_3GPP_ACCESS"
+};
 
-enum class RatType : int {
+typedef enum AnNodeType_s { GNB = 1, NG_ENB } AnNodeType_t;
+
+static const std::vector<std::string> anNodeType_e2str = {
+  "UNKNOWN_TYPE",
+  "GNB",
+  "NG_ENB"
+};
+
+typedef enum RatType_s {
   NR = 1,
   EUTRA,
   WLAN,
@@ -138,14 +162,33 @@ enum class RatType : int {
   TRUSTED_WLAN,
   UTRA,
   GERA
+} RatType_t;
+
+static const std::vector<std::string> ratType_e2str = {
+  "UNKNOWN_TYPE",
+  "NR",
+  "EUTRA",
+  "WLAN",
+  "VIRTUAL",
+  "NBIOT",
+  "WIRELINE",
+  "WIRELINE_CABLE",
+  "WIRELINE_BBF",
+  "LTE_M",
+  "NR_U",
+  "EUTRA_U",
+  "TRUSTED_N3GA",
+  "TRUSTED_WLAN",
+  "UTRA",
+  "GERA"
 };
 
 typedef struct lmf_info_s {
-  std::vector<ExternalClientType> servingClientTypes;
+  std::vector<ExternalClientType_t> servingClientTypes;
   std::string lmfId;
-  std::vector<AccessType> servingAccessTypes;
-  std::vector<AnNodeType> servingAnNodeTypes;
-  std::vector<RatType> servingRatTypes;
+  std::vector<AccessType_t> servingAccessTypes;
+  std::vector<AnNodeType_t> servingAnNodeTypes;
+  std::vector<RatType_t> servingRatTypes;
 } lmf_info_t;
 
 #endif

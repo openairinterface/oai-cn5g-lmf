@@ -35,6 +35,8 @@
 #include "RedirectResponse.h"
 #include <string>
 
+#include "lmf_app.hpp"
+
 namespace oai::lmf_server::api {
 
 using namespace oai::lmf_server::model;
@@ -43,11 +45,13 @@ class DetermineLocationApiImpl
     : public oai::lmf_server::api::DetermineLocationApi {
  public:
   explicit DetermineLocationApiImpl(
-      const std::shared_ptr<Pistache::Rest::Router>& rtr);
+      const std::shared_ptr<Pistache::Rest::Router>& rtr, oai::lmf::app::lmf_app* lmf_app_inst);
   ~DetermineLocationApiImpl() override = default;
 
   void determine_location(
       const InputData& inputData, Pistache::Http::ResponseWriter& response);
+  private:
+  oai::lmf::app::lmf_app* m_lmf_app;
 };
 
 }  // namespace oai::lmf_server::api

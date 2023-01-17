@@ -27,6 +27,7 @@ include_directories(${SRC_TOP_DIR}/api_server/)
 include_directories(${SRC_TOP_DIR}/common/)
 include_directories(${SRC_TOP_DIR}/common/utils)
 include_directories(${SRC_TOP_DIR}/lpp)
+include_directories(${SRC_TOP_DIR}/nrppa)
 
 file(GLOB LMF_src_files
   lmf_app.cpp
@@ -42,4 +43,4 @@ file(GLOB LMF_src_files
 add_library (LMF STATIC
   ${LMF_src_files}
 )
-target_link_libraries(LMF LPP)
+target_link_libraries(LMF LPP NRPPA)

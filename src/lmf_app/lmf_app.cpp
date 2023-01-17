@@ -119,6 +119,34 @@ void lmf_app::handle_determine_location(
     return;
   }
 
+  /*NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
+  build_positioning_information_request_nrppa_pdu(nrppaPdu);
+
+  asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
+      0, ATS_UNALIGNED_BASIC_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  if (nrppaPduEnc.result.encoded == -1) {
+    Logger::lmf_app().error(
+        "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
+                                          nrppaPduEnc.result.failed_type->name :
+                                          "unknown");
+
+    ProblemDetails problemDetails;
+    nlohmann::json problemDetails_json = {};
+    problemDetails.setCause("INTERNAL_SERVER_ERROR");
+    problemDetails.setStatus(500);
+    std::string errorMsg = "Could not encode (at ";
+    errorMsg +=
+        (nrppaPduEnc.result.failed_type ? nrppaPduEnc.result.failed_type->name :
+                                        "unknown");
+    errorMsg += ")\n";
+    problemDetails.setDetail(errorMsg);
+    to_json(problemDetails_json, problemDetails);
+
+    code      = Pistache::Http::Code::Internal_Server_Error;
+    json_data = problemDetails_json;
+    return;
+  }*/
+
   std::string amf_uri  = {};
   std::string method   = "POST";
   std::string response = {};
@@ -225,4 +253,23 @@ void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {
       ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
       ->commonIEsRequestLocationInformation->velocityTypes->horizontalVelocity =
       true;
+}
+
+void lmf_app::build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu){
+    nrppaPdu->present = NRPPA_PDU_PR_initiatingMessage;
+    nrppaPdu->choice.initiatingMessage = (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
+    nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
+    nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
+    nrppaPdu->choice.initiatingMessage->value.present = InitiatingMessage__value_PR::InitiatingMessage__value_PR_PositioningInformationRequest;
+
+    asn_set_empty(&nrppaPdu->choice.initiatingMessage->value.choice.PositioningInformationRequest.protocolIEs.list);
+    
+    RequestedSRSTransmissionCharacteristics_t *requestedSRSTransmissionCharacteristics = (RequestedSRSTransmissionCharacteristics_t*)calloc(1, sizeof(RequestedSRSTransmissionCharacteristics_t));
+    requestedSRSTransmissionCharacteristics->resourceType = RequestedSRSTransmissionCharacteristics__resourceType::RequestedSRSTransmissionCharacteristics__resourceType_aperiodic;
+    requestedSRSTransmissionCharacteristics->bandwidth.present = BandwidthSRS_PR::BandwidthSRS_PR_fR1;
+    requestedSRSTransmissionCharacteristics->bandwidth.choice.fR1 = BandwidthSRS__fR1::BandwidthSRS__fR1_mHz5;
+    asn_set_empty(&requestedSRSTransmissionCharacteristics->listOfSRSResourceSet->list);
+    
+    ASN_SEQUENCE_ADD(
+      &nrppaPdu->choice.initiatingMessage->value.choice.PositioningInformationRequest.protocolIEs.list, requestedSRSTransmissionCharacteristics);
 }
