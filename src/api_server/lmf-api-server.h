@@ -57,8 +57,7 @@ class LMFApiServer {
     m_address = address.host() + ":" + (address.port()).toString();
 
     m_determineLocationApiImpl =
-        std::make_shared<DetermineLocationApiImpl>(
-            m_router, lmf_app_inst);
+        std::make_shared<DetermineLocationApiImpl>(m_router, lmf_app_inst);
   }
   void init(size_t thr = 1);
   void start();
@@ -68,8 +67,7 @@ class LMFApiServer {
   std::shared_ptr<Pistache::Http::Endpoint> m_httpEndpoint;
   std::shared_ptr<Pistache::Rest::Router> m_router;
   std::string m_address;
-  std::shared_ptr<DetermineLocationApiImpl>
-      m_determineLocationApiImpl;
+  std::shared_ptr<DetermineLocationApiImpl> m_determineLocationApiImpl;
 };
 
 #endif

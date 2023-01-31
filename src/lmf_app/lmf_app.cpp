@@ -41,6 +41,7 @@
 #include "RefToBinaryData.h"
 #include "ProblemDetails.h"
 #include "conversions.hpp"
+#include "mime_parser.hpp"
 #include "iostream"
 #include <iterator>
 #include <string>
@@ -119,8 +120,10 @@ void lmf_app::handle_determine_location(
     return;
   }
 
-  /*NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
+  NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
   build_positioning_information_request_nrppa_pdu(nrppaPdu);
+
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_UNALIGNED_BASIC_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
@@ -137,7 +140,7 @@ void lmf_app::handle_determine_location(
     std::string errorMsg = "Could not encode (at ";
     errorMsg +=
         (nrppaPduEnc.result.failed_type ? nrppaPduEnc.result.failed_type->name :
-                                        "unknown");
+                                          "unknown");
     errorMsg += ")\n";
     problemDetails.setDetail(errorMsg);
     to_json(problemDetails_json, problemDetails);
@@ -145,7 +148,7 @@ void lmf_app::handle_determine_location(
     code      = Pistache::Http::Code::Internal_Server_Error;
     json_data = problemDetails_json;
     return;
-  }*/
+  }
 
   std::string amf_uri  = {};
   std::string method   = "POST";
@@ -153,12 +156,12 @@ void lmf_app::handle_determine_location(
   amf_uri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf_comm/" +
+      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
       lmf_cfg.amf_addr.api_version + "/ue-contexts/" + ueSupi +
       "/n1-n2-messages";
   Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
 
-  N1MessageContainer n1MessageContainer = {};
+  /**N1MessageContainer n1MessageContainer = {};
 
   // N1 Message Class
   N1MessageClass lppN1MessageClass = {};
@@ -172,15 +175,47 @@ void lmf_app::handle_determine_location(
       (char*) (lppMsgEnc.buffer) + lppMsgEnc.result.encoded);
   RefToBinaryData n1MessageData = {};
   n1MessageData.setContentId(n1MessageDataStr);
-  n1MessageContainer.setN1MessageContent(n1MessageData);
-  N1N2MessageTransferReqData n1n2MessageTransferReq = {};
-  n1n2MessageTransferReq.setN1MessageContainer(n1MessageContainer);
+  n1MessageContainer.setN1MessageContent(n1MessageData);*/
+
+  std::string nrppaMsgStr(
+      (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
+  std::string nrppaMsgHex = {};
+  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+
+  RefToBinaryData ngapData = {};
+  ngapData.setContentId("n2msg");
+
+  NgapIeType ngapIeType = {};
+  ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+
+  N2InfoContent n2InfoContent = {};
+  n2InfoContent.setNgapIeType(ngapIeType);
+  n2InfoContent.setNgapData(ngapData);
+
+  NrppaInformation nrppaInformation = {};
+  lmf_info_t lmf_info;
+  lmf_nrf_inst->lmf_nf_profile.get_lmf_info(lmf_info);
+  nrppaInformation.setNfId(lmf_info.lmfId);
+  nrppaInformation.setNrppaPdu(n2InfoContent);
+
+  N2InfoContainer n2InfoContainer = {};
+  n2InfoContainer.setNrppaInfo(nrppaInformation);
+
+  N1N2MessageTransferReqData n1n2MessageTransferReqData = {};
+  n1n2MessageTransferReqData.setN2InfoContainer(n2InfoContainer);
 
   nlohmann::json n1n2MessageTransferReq_json;
-  to_json(n1n2MessageTransferReq_json, n1n2MessageTransferReq);
+  to_json(n1n2MessageTransferReq_json, n1n2MessageTransferReqData);
 
-  lmf_client_inst->curl_http_client(
-      amf_uri, method, n1n2MessageTransferReq_json.dump(), response);
+  std::string body      = {};
+  std::string json_part = {};
+  json_part             = n1n2MessageTransferReq_json.dump();
+
+  mime_parser::create_multipart_related_content(
+      body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
+      multipart_related_content_part_e::NGAP);
+
+  lmf_client_inst->curl_http_client(amf_uri, method, body, response);
 
   Logger::lmf_app().info("Response from AMF: %s", response.c_str());
 }
@@ -255,21 +290,38 @@ void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {
       true;
 }
 
-void lmf_app::build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu){
-    nrppaPdu->present = NRPPA_PDU_PR_initiatingMessage;
-    nrppaPdu->choice.initiatingMessage = (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
-    nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
-    nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
-    nrppaPdu->choice.initiatingMessage->value.present = InitiatingMessage__value_PR::InitiatingMessage__value_PR_PositioningInformationRequest;
+void lmf_app::build_positioning_information_request_nrppa_pdu(
+    NRPPA_PDU_t* nrppaPdu) {
+  nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
+  nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
+  nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
+  nrppaPdu->choice.initiatingMessage->criticality        = Criticality_reject;
+  nrppaPdu->choice.initiatingMessage->value.present =
+      InitiatingMessage__value_PR::
+          InitiatingMessage__value_PR_PositioningInformationRequest;
 
-    asn_set_empty(&nrppaPdu->choice.initiatingMessage->value.choice.PositioningInformationRequest.protocolIEs.list);
-    
-    RequestedSRSTransmissionCharacteristics_t *requestedSRSTransmissionCharacteristics = (RequestedSRSTransmissionCharacteristics_t*)calloc(1, sizeof(RequestedSRSTransmissionCharacteristics_t));
-    requestedSRSTransmissionCharacteristics->resourceType = RequestedSRSTransmissionCharacteristics__resourceType::RequestedSRSTransmissionCharacteristics__resourceType_aperiodic;
-    requestedSRSTransmissionCharacteristics->bandwidth.present = BandwidthSRS_PR::BandwidthSRS_PR_fR1;
-    requestedSRSTransmissionCharacteristics->bandwidth.choice.fR1 = BandwidthSRS__fR1::BandwidthSRS__fR1_mHz5;
-    asn_set_empty(&requestedSRSTransmissionCharacteristics->listOfSRSResourceSet->list);
-    
-    ASN_SEQUENCE_ADD(
-      &nrppaPdu->choice.initiatingMessage->value.choice.PositioningInformationRequest.protocolIEs.list, requestedSRSTransmissionCharacteristics);
+  PositioningInformationRequest_IEs_t* positioningInformationRequestIEs =
+      new PositioningInformationRequest_IEs_t();
+  positioningInformationRequestIEs->id =
+      ProtocolIE_ID_id_RequestedSRSTransmissionCharacteristics;
+  positioningInformationRequestIEs->criticality = Criticality_ignore;
+  positioningInformationRequestIEs->value
+      .present = PositioningInformationRequest_IEs__value_PR::
+      PositioningInformationRequest_IEs__value_PR_RequestedSRSTransmissionCharacteristics;
+
+  RequestedSRSTransmissionCharacteristics_t*
+      requestedSRSTransmissionCharacteristics =
+          &positioningInformationRequestIEs->value.choice
+               .RequestedSRSTransmissionCharacteristics;
+  requestedSRSTransmissionCharacteristics->resourceType =
+      RequestedSRSTransmissionCharacteristics__resourceType::
+          RequestedSRSTransmissionCharacteristics__resourceType_aperiodic;
+  requestedSRSTransmissionCharacteristics->bandwidth.present =
+      BandwidthSRS_PR::BandwidthSRS_PR_fR1;
+  requestedSRSTransmissionCharacteristics->bandwidth.choice.fR1 =
+      BandwidthSRS__fR1::BandwidthSRS__fR1_mHz5;
+  ASN_SEQUENCE_ADD(
+      &nrppaPdu->choice.initiatingMessage->value.choice
+           .PositioningInformationRequest.protocolIEs.list,
+      positioningInformationRequestIEs);
 }

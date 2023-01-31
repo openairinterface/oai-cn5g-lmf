@@ -1,4 +1,6 @@
+#include "asn_config.h"
 #include "NRPPA-PDU.h"
 #include "InitiatingMessage.h"
+#include "ProtocolIE-Field.h"
 #include "RequestedSRSTransmissionCharacteristics.h"
 #include "SRSResourceSet.h"

@@ -42,8 +42,8 @@ void CancelLocationApi::setupRoutes() {
 }
 
 std::pair<Pistache::Http::Code, std::string>
-CancelLocationApi::handleParsingException(const std::exception& ex) const
-    noexcept {
+CancelLocationApi::handleParsingException(
+    const std::exception& ex) const noexcept {
   try {
     throw;
   } catch (nlohmann::detail::exception& e) {
@@ -57,8 +57,8 @@ CancelLocationApi::handleParsingException(const std::exception& ex) const
 }
 
 std::pair<Pistache::Http::Code, std::string>
-CancelLocationApi::handleOperationException(const std::exception& ex) const
-    noexcept {
+CancelLocationApi::handleOperationException(
+    const std::exception& ex) const noexcept {
   return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
 }
 

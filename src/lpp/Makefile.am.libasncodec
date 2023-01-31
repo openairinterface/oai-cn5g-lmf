@@ -1,0 +1,1407 @@
+ASN_MODULE_SRCS=	\
+	oai-lmf/src/lpp/LPP-Message.c	\
+	oai-lmf/src/lpp/SequenceNumber.c	\
+	oai-lmf/src/lpp/Acknowledgement.c	\
+	oai-lmf/src/lpp/LPP-MessageBody.c	\
+	oai-lmf/src/lpp/LPP-TransactionID.c	\
+	oai-lmf/src/lpp/Initiator.c	\
+	oai-lmf/src/lpp/TransactionNumber.c	\
+	oai-lmf/src/lpp/RequestCapabilities.c	\
+	oai-lmf/src/lpp/RequestCapabilities-r9-IEs.c	\
+	oai-lmf/src/lpp/ProvideCapabilities.c	\
+	oai-lmf/src/lpp/ProvideCapabilities-r9-IEs.c	\
+	oai-lmf/src/lpp/RequestAssistanceData.c	\
+	oai-lmf/src/lpp/RequestAssistanceData-r9-IEs.c	\
+	oai-lmf/src/lpp/ProvideAssistanceData.c	\
+	oai-lmf/src/lpp/ProvideAssistanceData-r9-IEs.c	\
+	oai-lmf/src/lpp/RequestLocationInformation.c	\
+	oai-lmf/src/lpp/RequestLocationInformation-r9-IEs.c	\
+	oai-lmf/src/lpp/ProvideLocationInformation.c	\
+	oai-lmf/src/lpp/ProvideLocationInformation-r9-IEs.c	\
+	oai-lmf/src/lpp/Abort.c	\
+	oai-lmf/src/lpp/Abort-r9-IEs.c	\
+	oai-lmf/src/lpp/Error.c	\
+	oai-lmf/src/lpp/Error-r9-IEs.c	\
+	oai-lmf/src/lpp/AccessTypes.c	\
+	oai-lmf/src/lpp/ARFCN-ValueEUTRA.c	\
+	oai-lmf/src/lpp/ARFCN-ValueEUTRA-v9a0.c	\
+	oai-lmf/src/lpp/ARFCN-ValueEUTRA-r14.c	\
+	oai-lmf/src/lpp/ARFCN-ValueNR-r15.c	\
+	oai-lmf/src/lpp/ARFCN-ValueUTRA.c	\
+	oai-lmf/src/lpp/CarrierFreq-NB-r14.c	\
+	oai-lmf/src/lpp/CarrierFreqOffsetNB-r14.c	\
+	oai-lmf/src/lpp/CellGlobalIdEUTRA-AndUTRA.c	\
+	oai-lmf/src/lpp/CellGlobalIdGERAN.c	\
+	oai-lmf/src/lpp/ECGI.c	\
+	oai-lmf/src/lpp/Ellipsoid-Point.c	\
+	oai-lmf/src/lpp/Ellipsoid-PointWithUncertaintyCircle.c	\
+	oai-lmf/src/lpp/EllipsoidPointWithUncertaintyEllipse.c	\
+	oai-lmf/src/lpp/EllipsoidPointWithAltitude.c	\
+	oai-lmf/src/lpp/EllipsoidPointWithAltitudeAndUncertaintyEllipsoid.c	\
+	oai-lmf/src/lpp/EllipsoidArc.c	\
+	oai-lmf/src/lpp/EPDU-Sequence.c	\
+	oai-lmf/src/lpp/EPDU.c	\
+	oai-lmf/src/lpp/EPDU-Identifier.c	\
+	oai-lmf/src/lpp/EPDU-ID.c	\
+	oai-lmf/src/lpp/EPDU-Name.c	\
+	oai-lmf/src/lpp/EPDU-Body.c	\
+	oai-lmf/src/lpp/FreqBandIndicatorNR-r16.c	\
+	oai-lmf/src/lpp/HA-EllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoid-r16.c	\
+	oai-lmf/src/lpp/HA-EllipsoidPointWithScalableUncertaintyEllipse-r16.c	\
+	oai-lmf/src/lpp/HighAccuracyEllipsoidPointWithUncertaintyEllipse-r15.c	\
+	oai-lmf/src/lpp/HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoid-r15.c	\
+	oai-lmf/src/lpp/HorizontalVelocity.c	\
+	oai-lmf/src/lpp/HorizontalWithVerticalVelocity.c	\
+	oai-lmf/src/lpp/HorizontalVelocityWithUncertainty.c	\
+	oai-lmf/src/lpp/HorizontalWithVerticalVelocityAndUncertainty.c	\
+	oai-lmf/src/lpp/LocationCoordinateTypes.c	\
+	oai-lmf/src/lpp/NCGI-r15.c	\
+	oai-lmf/src/lpp/NR-PhysCellID-r16.c	\
+	oai-lmf/src/lpp/PeriodicAssistanceDataControlParameters-r15.c	\
+	oai-lmf/src/lpp/PeriodicSessionID-r15.c	\
+	oai-lmf/src/lpp/UpdateCapabilities-r15.c	\
+	oai-lmf/src/lpp/Polygon.c	\
+	oai-lmf/src/lpp/PolygonPoints.c	\
+	oai-lmf/src/lpp/PositioningModes.c	\
+	oai-lmf/src/lpp/SegmentationInfo-r14.c	\
+	oai-lmf/src/lpp/VelocityTypes.c	\
+	oai-lmf/src/lpp/CommonIEsRequestCapabilities.c	\
+	oai-lmf/src/lpp/CommonIEsProvideCapabilities.c	\
+	oai-lmf/src/lpp/CommonIEsRequestAssistanceData.c	\
+	oai-lmf/src/lpp/CommonIEsProvideAssistanceData.c	\
+	oai-lmf/src/lpp/CommonIEsRequestLocationInformation.c	\
+	oai-lmf/src/lpp/LocationInformationType.c	\
+	oai-lmf/src/lpp/PeriodicalReportingCriteria.c	\
+	oai-lmf/src/lpp/TriggeredReportingCriteria.c	\
+	oai-lmf/src/lpp/ReportingDuration.c	\
+	oai-lmf/src/lpp/AdditionalInformation.c	\
+	oai-lmf/src/lpp/QoS.c	\
+	oai-lmf/src/lpp/HorizontalAccuracy.c	\
+	oai-lmf/src/lpp/VerticalAccuracy.c	\
+	oai-lmf/src/lpp/HorizontalAccuracyExt-r15.c	\
+	oai-lmf/src/lpp/VerticalAccuracyExt-r15.c	\
+	oai-lmf/src/lpp/ResponseTime.c	\
+	oai-lmf/src/lpp/ResponseTimeNB-r14.c	\
+	oai-lmf/src/lpp/Environment.c	\
+	oai-lmf/src/lpp/MessageSizeLimitNB-r14.c	\
+	oai-lmf/src/lpp/CommonIEsProvideLocationInformation.c	\
+	oai-lmf/src/lpp/LocationCoordinates.c	\
+	oai-lmf/src/lpp/Velocity.c	\
+	oai-lmf/src/lpp/LocationError.c	\
+	oai-lmf/src/lpp/LocationFailureCause.c	\
+	oai-lmf/src/lpp/EarlyFixReport-r12.c	\
+	oai-lmf/src/lpp/LocationSource-r13.c	\
+	oai-lmf/src/lpp/CommonIEsAbort.c	\
+	oai-lmf/src/lpp/CommonIEsError.c	\
+	oai-lmf/src/lpp/DL-PRS-ID-Info-r16.c	\
+	oai-lmf/src/lpp/NR-AdditionalPathList-r16.c	\
+	oai-lmf/src/lpp/NR-AdditionalPath-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-AssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-AssistanceDataPerFreq-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-AssistanceDataPerTRP-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-PositioningFrequencyLayer-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-SFN0-Offset-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-BeamInfo-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-BeamInfoPerFreqLayer-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-BeamInfoPerTRP-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-BeamInfoSet-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-BeamInfoResourceSet-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-BeamInfoElement-r16.c	\
+	oai-lmf/src/lpp/LCS-GCS-TranslationParameter-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-Info-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourceSet-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-MutingOption1-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-MutingOption2-r16.c	\
+	oai-lmf/src/lpp/NR-MutingPattern-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-Resource-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-QCL-Info-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-Periodicity-and-ResourceSetSlotOffset-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-ProcessingCapability-r16.c	\
+	oai-lmf/src/lpp/PRS-ProcessingCapabilityPerBand-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-QCL-ProcessingCapability-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-QCL-ProcessingCapabilityPerBand-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourceID-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourcesCapability-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-ResourcesCapabilityPerBand-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-ResourcesBandCombinationList-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-ResourcesBandCombination-r16.c	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourceSetID-r16.c	\
+	oai-lmf/src/lpp/NR-PositionCalculationAssistance-r16.c	\
+	oai-lmf/src/lpp/NR-RTD-Info-r16.c	\
+	oai-lmf/src/lpp/ReferenceTRP-RTD-Info-r16.c	\
+	oai-lmf/src/lpp/RTD-InfoList-r16.c	\
+	oai-lmf/src/lpp/RTD-InfoListPerFreqLayer-r16.c	\
+	oai-lmf/src/lpp/RTD-InfoElement-r16.c	\
+	oai-lmf/src/lpp/NR-SelectedDL-PRS-IndexList-r16.c	\
+	oai-lmf/src/lpp/NR-SelectedDL-PRS-PerFreq-r16.c	\
+	oai-lmf/src/lpp/NR-SelectedDL-PRS-IndexPerTRP-r16.c	\
+	oai-lmf/src/lpp/DL-SelectedPRS-ResourceSetIndex-r16.c	\
+	oai-lmf/src/lpp/DL-SelectedPRS-ResourceIndex-r16.c	\
+	oai-lmf/src/lpp/NR-SSB-Config-r16.c	\
+	oai-lmf/src/lpp/NR-TimeStamp-r16.c	\
+	oai-lmf/src/lpp/NR-TimingQuality-r16.c	\
+	oai-lmf/src/lpp/NR-TRP-LocationInfo-r16.c	\
+	oai-lmf/src/lpp/NR-TRP-LocationInfoPerFreqLayer-r16.c	\
+	oai-lmf/src/lpp/TRP-LocationInfoElement-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-ResourceSets-TRP-Element-r16.c	\
+	oai-lmf/src/lpp/DL-PRS-Resource-ARP-Element-r16.c	\
+	oai-lmf/src/lpp/NR-UL-SRS-Capability-r16.c	\
+	oai-lmf/src/lpp/SRS-CapabilityPerBand-r16.c	\
+	oai-lmf/src/lpp/OLPC-SRS-Pos-r16.c	\
+	oai-lmf/src/lpp/SpatialRelationsSRS-Pos-r16.c	\
+	oai-lmf/src/lpp/SRS-PosResourcesPerBand-r16.c	\
+	oai-lmf/src/lpp/ReferencePoint-r16.c	\
+	oai-lmf/src/lpp/RelativeLocation-r16.c	\
+	oai-lmf/src/lpp/Delta-Latitude-r16.c	\
+	oai-lmf/src/lpp/Delta-Longitude-r16.c	\
+	oai-lmf/src/lpp/Delta-Height-r16.c	\
+	oai-lmf/src/lpp/LocationUncertainty-r16.c	\
+	oai-lmf/src/lpp/OTDOA-ProvideAssistanceData.c	\
+	oai-lmf/src/lpp/OTDOA-ReferenceCellInfo.c	\
+	oai-lmf/src/lpp/PRS-Info.c	\
+	oai-lmf/src/lpp/TDD-Config-v1520.c	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoList.c	\
+	oai-lmf/src/lpp/OTDOA-NeighbourFreqInfo.c	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoElement.c	\
+	oai-lmf/src/lpp/Add-PRSconfigNeighbourElement-r14.c	\
+	oai-lmf/src/lpp/OTDOA-ReferenceCellInfoNB-r14.c	\
+	oai-lmf/src/lpp/PRS-Info-NB-r14.c	\
+	oai-lmf/src/lpp/NPRS-Info-r14.c	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoListNB-r14.c	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoNB-r14.c	\
+	oai-lmf/src/lpp/OTDOA-RequestAssistanceData.c	\
+	oai-lmf/src/lpp/OTDOA-ProvideLocationInformation.c	\
+	oai-lmf/src/lpp/OTDOA-SignalMeasurementInformation.c	\
+	oai-lmf/src/lpp/NeighbourMeasurementList.c	\
+	oai-lmf/src/lpp/NeighbourMeasurementElement.c	\
+	oai-lmf/src/lpp/AdditionalPathList-r14.c	\
+	oai-lmf/src/lpp/MotionTimeSource-r15.c	\
+	oai-lmf/src/lpp/OTDOA-SignalMeasurementInformation-NB-r14.c	\
+	oai-lmf/src/lpp/NeighbourMeasurementList-NB-r14.c	\
+	oai-lmf/src/lpp/NeighbourMeasurementElement-NB-r14.c	\
+	oai-lmf/src/lpp/OTDOA-MeasQuality.c	\
+	oai-lmf/src/lpp/AdditionalPath-r14.c	\
+	oai-lmf/src/lpp/OTDOA-RequestLocationInformation.c	\
+	oai-lmf/src/lpp/OTDOA-ProvideCapabilities.c	\
+	oai-lmf/src/lpp/SupportedBandEUTRA.c	\
+	oai-lmf/src/lpp/SupportedBandEUTRA-v9a0.c	\
+	oai-lmf/src/lpp/OTDOA-RequestCapabilities.c	\
+	oai-lmf/src/lpp/OTDOA-Error.c	\
+	oai-lmf/src/lpp/OTDOA-LocationServerErrorCauses.c	\
+	oai-lmf/src/lpp/OTDOA-TargetDeviceErrorCauses.c	\
+	oai-lmf/src/lpp/A-GNSS-ProvideAssistanceData.c	\
+	oai-lmf/src/lpp/GNSS-CommonAssistData.c	\
+	oai-lmf/src/lpp/GNSS-GenericAssistData.c	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataElement.c	\
+	oai-lmf/src/lpp/GNSS-PeriodicAssistData-r15.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceTime.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceTimeForOneCell.c	\
+	oai-lmf/src/lpp/GNSS-SystemTime.c	\
+	oai-lmf/src/lpp/GPS-TOW-Assist.c	\
+	oai-lmf/src/lpp/GPS-TOW-AssistElement.c	\
+	oai-lmf/src/lpp/NetworkTime.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceLocation.c	\
+	oai-lmf/src/lpp/GNSS-IonosphericModel.c	\
+	oai-lmf/src/lpp/KlobucharModelParameter.c	\
+	oai-lmf/src/lpp/KlobucharModel2Parameter-r16.c	\
+	oai-lmf/src/lpp/NeQuickModelParameter.c	\
+	oai-lmf/src/lpp/GNSS-EarthOrientationParameters.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ReferenceStationInfo-r15.c	\
+	oai-lmf/src/lpp/AntennaDescription-r15.c	\
+	oai-lmf/src/lpp/AntennaReferencePointUnc-r15.c	\
+	oai-lmf/src/lpp/PhysicalReferenceStationInfo-r15.c	\
+	oai-lmf/src/lpp/EqualIntegerAmbiguityLevel-r16.c	\
+	oai-lmf/src/lpp/ReferenceStationList-r16.c	\
+	oai-lmf/src/lpp/GNSS-RTK-CommonObservationInfo-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-AuxiliaryStationData-r15.c	\
+	oai-lmf/src/lpp/AuxiliaryStationList-r15.c	\
+	oai-lmf/src/lpp/AuxiliaryStationElement-r15.c	\
+	oai-lmf/src/lpp/Aux-ARP-Unc-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-CorrectionPoints-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-ListOfCorrectionPoints-r16.c	\
+	oai-lmf/src/lpp/RelativeLocationElement-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-ArrayOfCorrectionPoints-r16.c	\
+	oai-lmf/src/lpp/GNSS-TimeModelList.c	\
+	oai-lmf/src/lpp/GNSS-TimeModelElement.c	\
+	oai-lmf/src/lpp/GNSS-DifferentialCorrections.c	\
+	oai-lmf/src/lpp/DGNSS-SgnTypeList.c	\
+	oai-lmf/src/lpp/DGNSS-SgnTypeElement.c	\
+	oai-lmf/src/lpp/DGNSS-SatList.c	\
+	oai-lmf/src/lpp/DGNSS-CorrectionsElement.c	\
+	oai-lmf/src/lpp/GNSS-NavigationModel.c	\
+	oai-lmf/src/lpp/GNSS-NavModelSatelliteList.c	\
+	oai-lmf/src/lpp/GNSS-NavModelSatelliteElement.c	\
+	oai-lmf/src/lpp/GNSS-ClockModel.c	\
+	oai-lmf/src/lpp/GNSS-OrbitModel.c	\
+	oai-lmf/src/lpp/StandardClockModelList.c	\
+	oai-lmf/src/lpp/StandardClockModelElement.c	\
+	oai-lmf/src/lpp/NAV-ClockModel.c	\
+	oai-lmf/src/lpp/CNAV-ClockModel.c	\
+	oai-lmf/src/lpp/GLONASS-ClockModel.c	\
+	oai-lmf/src/lpp/SBAS-ClockModel.c	\
+	oai-lmf/src/lpp/BDS-ClockModel-r12.c	\
+	oai-lmf/src/lpp/BDS-ClockModel2-r16.c	\
+	oai-lmf/src/lpp/NavIC-ClockModel-r16.c	\
+	oai-lmf/src/lpp/NavModelKeplerianSet.c	\
+	oai-lmf/src/lpp/NavModelNAV-KeplerianSet.c	\
+	oai-lmf/src/lpp/NavModelCNAV-KeplerianSet.c	\
+	oai-lmf/src/lpp/NavModel-GLONASS-ECEF.c	\
+	oai-lmf/src/lpp/NavModel-SBAS-ECEF.c	\
+	oai-lmf/src/lpp/NavModel-BDS-KeplerianSet-r12.c	\
+	oai-lmf/src/lpp/NavModel-BDS-KeplerianSet2-r16.c	\
+	oai-lmf/src/lpp/NavModel-NavIC-KeplerianSet-r16.c	\
+	oai-lmf/src/lpp/GNSS-RealTimeIntegrity.c	\
+	oai-lmf/src/lpp/GNSS-BadSignalList.c	\
+	oai-lmf/src/lpp/BadSignalElement.c	\
+	oai-lmf/src/lpp/GNSS-DataBitAssistance.c	\
+	oai-lmf/src/lpp/GNSS-DataBitsSatList.c	\
+	oai-lmf/src/lpp/GNSS-DataBitsSatElement.c	\
+	oai-lmf/src/lpp/GNSS-DataBitsSgnList.c	\
+	oai-lmf/src/lpp/GNSS-DataBitsSgnElement.c	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistance.c	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistList.c	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistElement.c	\
+	oai-lmf/src/lpp/GNSS-Almanac.c	\
+	oai-lmf/src/lpp/GNSS-AlmanacList.c	\
+	oai-lmf/src/lpp/GNSS-AlmanacElement.c	\
+	oai-lmf/src/lpp/AlmanacKeplerianSet.c	\
+	oai-lmf/src/lpp/AlmanacNAV-KeplerianSet.c	\
+	oai-lmf/src/lpp/AlmanacReducedKeplerianSet.c	\
+	oai-lmf/src/lpp/AlmanacMidiAlmanacSet.c	\
+	oai-lmf/src/lpp/AlmanacGLONASS-AlmanacSet.c	\
+	oai-lmf/src/lpp/AlmanacECEF-SBAS-AlmanacSet.c	\
+	oai-lmf/src/lpp/AlmanacBDS-AlmanacSet-r12.c	\
+	oai-lmf/src/lpp/AlmanacNavIC-AlmanacSet-r16.c	\
+	oai-lmf/src/lpp/GNSS-UTC-Model.c	\
+	oai-lmf/src/lpp/UTC-ModelSet1.c	\
+	oai-lmf/src/lpp/UTC-ModelSet2.c	\
+	oai-lmf/src/lpp/UTC-ModelSet3.c	\
+	oai-lmf/src/lpp/UTC-ModelSet4.c	\
+	oai-lmf/src/lpp/UTC-ModelSet5-r12.c	\
+	oai-lmf/src/lpp/GNSS-AuxiliaryInformation.c	\
+	oai-lmf/src/lpp/GNSS-ID-GPS.c	\
+	oai-lmf/src/lpp/GNSS-ID-GPS-SatElement.c	\
+	oai-lmf/src/lpp/GNSS-ID-GLONASS.c	\
+	oai-lmf/src/lpp/GNSS-ID-GLONASS-SatElement.c	\
+	oai-lmf/src/lpp/GNSS-ID-BDS-r16.c	\
+	oai-lmf/src/lpp/GNSS-ID-BDS-SatElement-r16.c	\
+	oai-lmf/src/lpp/BDS-DifferentialCorrections-r12.c	\
+	oai-lmf/src/lpp/BDS-SgnTypeList-r12.c	\
+	oai-lmf/src/lpp/BDS-SgnTypeElement-r12.c	\
+	oai-lmf/src/lpp/DBDS-CorrectionList-r12.c	\
+	oai-lmf/src/lpp/DBDS-CorrectionElement-r12.c	\
+	oai-lmf/src/lpp/BDS-GridModelParameter-r12.c	\
+	oai-lmf/src/lpp/GridIonList-r12.c	\
+	oai-lmf/src/lpp/GridIonElement-r12.c	\
+	oai-lmf/src/lpp/GNSS-RTK-Observations-r15.c	\
+	oai-lmf/src/lpp/GNSS-ObservationList-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-SatelliteDataElement-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-SatelliteSignalDataList-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-SatelliteSignalDataElement-r15.c	\
+	oai-lmf/src/lpp/GLO-RTK-BiasInformation-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-MAC-CorrectionDifferences-r15.c	\
+	oai-lmf/src/lpp/RTK-CorrectionDifferencesList-r15.c	\
+	oai-lmf/src/lpp/RTK-CorrectionDifferencesElement-r15.c	\
+	oai-lmf/src/lpp/Geometric-Ionospheric-Corrections-Differences-r15.c	\
+	oai-lmf/src/lpp/Geometric-Ionospheric-Corrections-Differences-Element-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-Residuals-r15.c	\
+	oai-lmf/src/lpp/RTK-Residuals-List-r15.c	\
+	oai-lmf/src/lpp/RTK-Residuals-Element-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-FKP-Gradients-r15.c	\
+	oai-lmf/src/lpp/FKP-Gradients-List-r15.c	\
+	oai-lmf/src/lpp/FKP-Gradients-Element-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-OrbitCorrections-r15.c	\
+	oai-lmf/src/lpp/SSR-OrbitCorrectionList-r15.c	\
+	oai-lmf/src/lpp/SSR-OrbitCorrectionSatelliteElement-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-ClockCorrections-r15.c	\
+	oai-lmf/src/lpp/SSR-ClockCorrectionList-r15.c	\
+	oai-lmf/src/lpp/SSR-ClockCorrectionSatelliteElement-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-CodeBias-r15.c	\
+	oai-lmf/src/lpp/SSR-CodeBiasSatList-r15.c	\
+	oai-lmf/src/lpp/SSR-CodeBiasSatElement-r15.c	\
+	oai-lmf/src/lpp/SSR-CodeBiasSignalList-r15.c	\
+	oai-lmf/src/lpp/SSR-CodeBiasSignalElement-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-URA-r16.c	\
+	oai-lmf/src/lpp/SSR-URA-SatList-r16.c	\
+	oai-lmf/src/lpp/SSR-URA-SatElement-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-PhaseBias-r16.c	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSatList-r16.c	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSatElement-r16.c	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSignalList-r16.c	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSignalElement-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-STEC-Correction-r16.c	\
+	oai-lmf/src/lpp/STEC-SatList-r16.c	\
+	oai-lmf/src/lpp/STEC-SatElement-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-GriddedCorrection-r16.c	\
+	oai-lmf/src/lpp/GridList-r16.c	\
+	oai-lmf/src/lpp/GridElement-r16.c	\
+	oai-lmf/src/lpp/TropospericDelayCorrection-r16.c	\
+	oai-lmf/src/lpp/STEC-ResidualSatList-r16.c	\
+	oai-lmf/src/lpp/STEC-ResidualSatElement-r16.c	\
+	oai-lmf/src/lpp/NavIC-DifferentialCorrections-r16.c	\
+	oai-lmf/src/lpp/NavIC-CorrectionListAutoNav-r16.c	\
+	oai-lmf/src/lpp/NavIC-CorrectionElementAutoNav-r16.c	\
+	oai-lmf/src/lpp/NavIC-EDC-r16.c	\
+	oai-lmf/src/lpp/NavIC-CDC-r16.c	\
+	oai-lmf/src/lpp/NavIC-GridModelParameter-r16.c	\
+	oai-lmf/src/lpp/RegionIgpList-r16.c	\
+	oai-lmf/src/lpp/RegionIgpElement-r16.c	\
+	oai-lmf/src/lpp/A-GNSS-RequestAssistanceData.c	\
+	oai-lmf/src/lpp/GNSS-CommonAssistDataReq.c	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataReq.c	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataReqElement.c	\
+	oai-lmf/src/lpp/GNSS-PeriodicAssistDataReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceTimeReq.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceLocationReq.c	\
+	oai-lmf/src/lpp/GNSS-IonosphericModelReq.c	\
+	oai-lmf/src/lpp/GNSS-EarthOrientationParametersReq.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ReferenceStationInfoReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-AuxiliaryStationDataReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-CorrectionPointsReq-r16.c	\
+	oai-lmf/src/lpp/GNSS-TimeModelListReq.c	\
+	oai-lmf/src/lpp/GNSS-TimeModelElementReq.c	\
+	oai-lmf/src/lpp/GNSS-DifferentialCorrectionsReq.c	\
+	oai-lmf/src/lpp/GNSS-NavigationModelReq.c	\
+	oai-lmf/src/lpp/StoredNavListInfo.c	\
+	oai-lmf/src/lpp/SatListRelatedDataList.c	\
+	oai-lmf/src/lpp/SatListRelatedDataElement.c	\
+	oai-lmf/src/lpp/ReqNavListInfo.c	\
+	oai-lmf/src/lpp/GNSS-RealTimeIntegrityReq.c	\
+	oai-lmf/src/lpp/GNSS-DataBitAssistanceReq.c	\
+	oai-lmf/src/lpp/GNSS-DataBitsReqSatList.c	\
+	oai-lmf/src/lpp/GNSS-DataBitsReqSatElement.c	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistanceReq.c	\
+	oai-lmf/src/lpp/GNSS-AlmanacReq.c	\
+	oai-lmf/src/lpp/GNSS-UTC-ModelReq.c	\
+	oai-lmf/src/lpp/GNSS-AuxiliaryInformationReq.c	\
+	oai-lmf/src/lpp/BDS-DifferentialCorrectionsReq-r12.c	\
+	oai-lmf/src/lpp/BDS-GridModelReq-r12.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ObservationsReq-r15.c	\
+	oai-lmf/src/lpp/GLO-RTK-BiasInformationReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-MAC-CorrectionDifferencesReq-r15.c	\
+	oai-lmf/src/lpp/AUX-ReferenceStationList-r15.c	\
+	oai-lmf/src/lpp/AUX-ReferenceStationID-Element-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ResidualsReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-FKP-GradientsReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-OrbitCorrectionsReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-ClockCorrectionsReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-CodeBiasReq-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-URA-Req-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-PhaseBiasReq-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-STEC-CorrectionReq-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-GriddedCorrectionReq-r16.c	\
+	oai-lmf/src/lpp/NavIC-DifferentialCorrectionsReq-r16.c	\
+	oai-lmf/src/lpp/NavIC-GridModelReq-r16.c	\
+	oai-lmf/src/lpp/A-GNSS-ProvideLocationInformation.c	\
+	oai-lmf/src/lpp/GNSS-SignalMeasurementInformation.c	\
+	oai-lmf/src/lpp/MeasurementReferenceTime.c	\
+	oai-lmf/src/lpp/GNSS-MeasurementList.c	\
+	oai-lmf/src/lpp/GNSS-MeasurementForOneGNSS.c	\
+	oai-lmf/src/lpp/GNSS-SgnMeasList.c	\
+	oai-lmf/src/lpp/GNSS-SgnMeasElement.c	\
+	oai-lmf/src/lpp/GNSS-SatMeasList.c	\
+	oai-lmf/src/lpp/GNSS-SatMeasElement.c	\
+	oai-lmf/src/lpp/GNSS-LocationInformation.c	\
+	oai-lmf/src/lpp/A-GNSS-RequestLocationInformation.c	\
+	oai-lmf/src/lpp/GNSS-PositioningInstructions.c	\
+	oai-lmf/src/lpp/A-GNSS-ProvideCapabilities.c	\
+	oai-lmf/src/lpp/GNSS-SupportList.c	\
+	oai-lmf/src/lpp/GNSS-SupportElement.c	\
+	oai-lmf/src/lpp/AssistanceDataSupportList.c	\
+	oai-lmf/src/lpp/GNSS-CommonAssistanceDataSupport.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceTimeSupport.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceLocationSupport.c	\
+	oai-lmf/src/lpp/GNSS-IonosphericModelSupport.c	\
+	oai-lmf/src/lpp/GNSS-EarthOrientationParametersSupport.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ReferenceStationInfoSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-AuxiliaryStationDataSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-GenericAssistanceDataSupport.c	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataSupportElement.c	\
+	oai-lmf/src/lpp/GNSS-TimeModelListSupport.c	\
+	oai-lmf/src/lpp/GNSS-DifferentialCorrectionsSupport.c	\
+	oai-lmf/src/lpp/GNSS-NavigationModelSupport.c	\
+	oai-lmf/src/lpp/GNSS-RealTimeIntegritySupport.c	\
+	oai-lmf/src/lpp/GNSS-DataBitAssistanceSupport.c	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistanceSupport.c	\
+	oai-lmf/src/lpp/GNSS-AlmanacSupport.c	\
+	oai-lmf/src/lpp/GNSS-UTC-ModelSupport.c	\
+	oai-lmf/src/lpp/GNSS-AuxiliaryInformationSupport.c	\
+	oai-lmf/src/lpp/BDS-DifferentialCorrectionsSupport-r12.c	\
+	oai-lmf/src/lpp/BDS-GridModelSupport-r12.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ObservationsSupport-r15.c	\
+	oai-lmf/src/lpp/GLO-RTK-BiasInformationSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-MAC-CorrectionDifferencesSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-ResidualsSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-RTK-FKP-GradientsSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-OrbitCorrectionsSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-ClockCorrectionsSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-CodeBiasSupport-r15.c	\
+	oai-lmf/src/lpp/GNSS-SSR-URA-Support-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-PhaseBiasSupport-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-STEC-CorrectionSupport-r16.c	\
+	oai-lmf/src/lpp/GNSS-SSR-GriddedCorrectionSupport-r16.c	\
+	oai-lmf/src/lpp/NavIC-DifferentialCorrectionsSupport-r16.c	\
+	oai-lmf/src/lpp/NavIC-GridModelSupport-r16.c	\
+	oai-lmf/src/lpp/A-GNSS-RequestCapabilities.c	\
+	oai-lmf/src/lpp/A-GNSS-Error.c	\
+	oai-lmf/src/lpp/GNSS-LocationServerErrorCauses.c	\
+	oai-lmf/src/lpp/GNSS-TargetDeviceErrorCauses.c	\
+	oai-lmf/src/lpp/GNSS-FrequencyID-r15.c	\
+	oai-lmf/src/lpp/GNSS-ID.c	\
+	oai-lmf/src/lpp/GNSS-ID-Bitmap.c	\
+	oai-lmf/src/lpp/GNSS-Link-CombinationsList-r15.c	\
+	oai-lmf/src/lpp/GNSS-Link-Combinations-r15.c	\
+	oai-lmf/src/lpp/GNSS-NavListInfo-r15.c	\
+	oai-lmf/src/lpp/SatListElement-r15.c	\
+	oai-lmf/src/lpp/GNSS-NetworkID-r15.c	\
+	oai-lmf/src/lpp/GNSS-PeriodicControlParam-r15.c	\
+	oai-lmf/src/lpp/GNSS-ReferenceStationID-r15.c	\
+	oai-lmf/src/lpp/GNSS-SignalID.c	\
+	oai-lmf/src/lpp/GNSS-SignalIDs.c	\
+	oai-lmf/src/lpp/GNSS-SubNetworkID-r15.c	\
+	oai-lmf/src/lpp/SBAS-ID.c	\
+	oai-lmf/src/lpp/SBAS-IDs.c	\
+	oai-lmf/src/lpp/SV-ID.c	\
+	oai-lmf/src/lpp/ECID-ProvideLocationInformation.c	\
+	oai-lmf/src/lpp/ECID-SignalMeasurementInformation.c	\
+	oai-lmf/src/lpp/MeasuredResultsList.c	\
+	oai-lmf/src/lpp/MeasuredResultsElement.c	\
+	oai-lmf/src/lpp/ECID-RequestLocationInformation.c	\
+	oai-lmf/src/lpp/ECID-ProvideCapabilities.c	\
+	oai-lmf/src/lpp/ECID-RequestCapabilities.c	\
+	oai-lmf/src/lpp/ECID-Error.c	\
+	oai-lmf/src/lpp/ECID-LocationServerErrorCauses.c	\
+	oai-lmf/src/lpp/ECID-TargetDeviceErrorCauses.c	\
+	oai-lmf/src/lpp/TBS-ProvideLocationInformation-r13.c	\
+	oai-lmf/src/lpp/TBS-MeasurementInformation-r13.c	\
+	oai-lmf/src/lpp/MBS-BeaconMeasList-r13.c	\
+	oai-lmf/src/lpp/MBS-BeaconMeasElement-r13.c	\
+	oai-lmf/src/lpp/TBS-RequestLocationInformation-r13.c	\
+	oai-lmf/src/lpp/TBS-ProvideCapabilities-r13.c	\
+	oai-lmf/src/lpp/MBS-AssistanceDataSupportList-r14.c	\
+	oai-lmf/src/lpp/TBS-RequestCapabilities-r13.c	\
+	oai-lmf/src/lpp/TBS-Error-r13.c	\
+	oai-lmf/src/lpp/TBS-LocationServerErrorCauses-r13.c	\
+	oai-lmf/src/lpp/TBS-TargetDeviceErrorCauses-r13.c	\
+	oai-lmf/src/lpp/TBS-ProvideAssistanceData-r14.c	\
+	oai-lmf/src/lpp/TBS-AssistanceDataList-r14.c	\
+	oai-lmf/src/lpp/MBS-AssistanceDataList-r14.c	\
+	oai-lmf/src/lpp/MBS-AssistanceDataElement-r14.c	\
+	oai-lmf/src/lpp/MBS-AlmanacAssistance-r14.c	\
+	oai-lmf/src/lpp/MBS-AcquisitionAssistance-r14.c	\
+	oai-lmf/src/lpp/TBS-RequestAssistanceData-r14.c	\
+	oai-lmf/src/lpp/Sensor-ProvideLocationInformation-r13.c	\
+	oai-lmf/src/lpp/Sensor-MeasurementInformation-r13.c	\
+	oai-lmf/src/lpp/Sensor-MotionInformation-r15.c	\
+	oai-lmf/src/lpp/DisplacementInfoList-r15.c	\
+	oai-lmf/src/lpp/DisplacementInfoListElement-r15.c	\
+	oai-lmf/src/lpp/DisplacementTimeStamp-r15.c	\
+	oai-lmf/src/lpp/DeltaTime-r15.c	\
+	oai-lmf/src/lpp/SFN-r15.c	\
+	oai-lmf/src/lpp/Displacement-r15.c	\
+	oai-lmf/src/lpp/UTC-Time-r15.c	\
+	oai-lmf/src/lpp/Sensor-RequestLocationInformation-r13.c	\
+	oai-lmf/src/lpp/Sensor-ProvideCapabilities-r13.c	\
+	oai-lmf/src/lpp/Sensor-AssistanceDataSupportList-r14.c	\
+	oai-lmf/src/lpp/Sensor-RequestCapabilities-r13.c	\
+	oai-lmf/src/lpp/Sensor-Error-r13.c	\
+	oai-lmf/src/lpp/Sensor-LocationServerErrorCauses-r13.c	\
+	oai-lmf/src/lpp/Sensor-TargetDeviceErrorCauses-r13.c	\
+	oai-lmf/src/lpp/Sensor-ProvideAssistanceData-r14.c	\
+	oai-lmf/src/lpp/Sensor-AssistanceDataList-r14.c	\
+	oai-lmf/src/lpp/PressureValidityArea-v1520.c	\
+	oai-lmf/src/lpp/PressureValidityPeriod-v1520.c	\
+	oai-lmf/src/lpp/Sensor-RequestAssistanceData-r14.c	\
+	oai-lmf/src/lpp/WLAN-ProvideLocationInformation-r13.c	\
+	oai-lmf/src/lpp/WLAN-MeasurementInformation-r13.c	\
+	oai-lmf/src/lpp/WLAN-MeasurementList-r13.c	\
+	oai-lmf/src/lpp/WLAN-MeasurementElement-r13.c	\
+	oai-lmf/src/lpp/WLAN-AP-Identifier-r13.c	\
+	oai-lmf/src/lpp/WLAN-RTT-r13.c	\
+	oai-lmf/src/lpp/WLAN-RequestLocationInformation-r13.c	\
+	oai-lmf/src/lpp/WLAN-ProvideCapabilities-r13.c	\
+	oai-lmf/src/lpp/WLAN-RequestCapabilities-r13.c	\
+	oai-lmf/src/lpp/WLAN-Error-r13.c	\
+	oai-lmf/src/lpp/WLAN-LocationServerErrorCauses-r13.c	\
+	oai-lmf/src/lpp/WLAN-TargetDeviceErrorCauses-r13.c	\
+	oai-lmf/src/lpp/WLAN-ProvideAssistanceData-r14.c	\
+	oai-lmf/src/lpp/WLAN-DataSet-r14.c	\
+	oai-lmf/src/lpp/SupportedChannels-11a-r14.c	\
+	oai-lmf/src/lpp/SupportedChannels-11bg-r14.c	\
+	oai-lmf/src/lpp/WLAN-AP-Data-r14.c	\
+	oai-lmf/src/lpp/WLAN-AP-Location-r14.c	\
+	oai-lmf/src/lpp/LocationDataLCI-r14.c	\
+	oai-lmf/src/lpp/WLAN-RequestAssistanceData-r14.c	\
+	oai-lmf/src/lpp/BT-ProvideLocationInformation-r13.c	\
+	oai-lmf/src/lpp/BT-MeasurementInformation-r13.c	\
+	oai-lmf/src/lpp/BT-MeasurementList-r13.c	\
+	oai-lmf/src/lpp/BT-MeasurementElement-r13.c	\
+	oai-lmf/src/lpp/BT-RequestLocationInformation-r13.c	\
+	oai-lmf/src/lpp/BT-ProvideCapabilities-r13.c	\
+	oai-lmf/src/lpp/BT-RequestCapabilities-r13.c	\
+	oai-lmf/src/lpp/BT-Error-r13.c	\
+	oai-lmf/src/lpp/BT-LocationServerErrorCauses-r13.c	\
+	oai-lmf/src/lpp/BT-TargetDeviceErrorCauses-r13.c	\
+	oai-lmf/src/lpp/NR-UL-ProvideCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-UL-RequestCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-ProvideLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-SignalMeasurementInformation-r16.c	\
+	oai-lmf/src/lpp/NR-MeasuredResultsList-r16.c	\
+	oai-lmf/src/lpp/NR-MeasuredResultsElement-r16.c	\
+	oai-lmf/src/lpp/MeasQuantityResults-r16.c	\
+	oai-lmf/src/lpp/ResultsPerSSB-IndexList-r16.c	\
+	oai-lmf/src/lpp/ResultsPerSSB-Index-r16.c	\
+	oai-lmf/src/lpp/ResultsPerCSI-RS-IndexList-r16.c	\
+	oai-lmf/src/lpp/ResultsPerCSI-RS-Index-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-RequestLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-ProvideCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-RequestCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-Error-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-LocationServerErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-ECID-TargetDeviceErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ProvideAssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-RequestAssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ProvideLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-SignalMeasurementInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-MeasList-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-MeasElement-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-AdditionalMeasurements-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-AdditionalMeasurementElement-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-LocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-RequestLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ReportConfig-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ProvideCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-MeasurementCapability-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-RequestCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-Error-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-LocationServerErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-DL-TDOA-TargetDeviceErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-ProvideAssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-RequestAssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-ProvideLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-SignalMeasurementInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-MeasList-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-MeasElement-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-AdditionalMeasurements-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-AdditionalMeasurementElement-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-LocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-RequestLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-ReportConfig-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-ProvideCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-MeasurementCapability-r16.c	\
+	oai-lmf/src/lpp/DL-AoD-MeasCapabilityPerBand-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-RequestCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-Error-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-LocationServerErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-DL-AoD-TargetDeviceErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ProvideAssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-RequestAssistanceData-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ProvideLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-SignalMeasurementInformation-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-MeasList-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-MeasElement-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-AdditionalMeasurements-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-AdditionalMeasurementElement-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-RequestLocationInformation-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ReportConfig-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ProvideCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-MeasurementCapability-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-RequestCapabilities-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-Error-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-LocationServerErrorCauses-r16.c	\
+	oai-lmf/src/lpp/NR-Multi-RTT-TargetDeviceErrorCauses-r16.c	\
+	oai-lmf/src/lpp/AssistanceDataSIBelement-r15.c	\
+	oai-lmf/src/lpp/CipheringKeyData-r15.c	\
+	oai-lmf/src/lpp/SegmentationInfo-r15.c	\
+	oai-lmf/src/lpp/OTDOA-UE-Assisted-r15.c	\
+	oai-lmf/src/lpp/NR-UEB-TRP-LocationData-r16.c	\
+	oai-lmf/src/lpp/NR-UEB-TRP-RTD-Info-r16.c	\
+	oai-lmf/src/lpp/EXTERNAL.c
+
+ASN_MODULE_HDRS=	\
+	oai-lmf/src/lpp/LPP-Message.h	\
+	oai-lmf/src/lpp/SequenceNumber.h	\
+	oai-lmf/src/lpp/Acknowledgement.h	\
+	oai-lmf/src/lpp/LPP-MessageBody.h	\
+	oai-lmf/src/lpp/LPP-TransactionID.h	\
+	oai-lmf/src/lpp/Initiator.h	\
+	oai-lmf/src/lpp/TransactionNumber.h	\
+	oai-lmf/src/lpp/RequestCapabilities.h	\
+	oai-lmf/src/lpp/RequestCapabilities-r9-IEs.h	\
+	oai-lmf/src/lpp/ProvideCapabilities.h	\
+	oai-lmf/src/lpp/ProvideCapabilities-r9-IEs.h	\
+	oai-lmf/src/lpp/RequestAssistanceData.h	\
+	oai-lmf/src/lpp/RequestAssistanceData-r9-IEs.h	\
+	oai-lmf/src/lpp/ProvideAssistanceData.h	\
+	oai-lmf/src/lpp/ProvideAssistanceData-r9-IEs.h	\
+	oai-lmf/src/lpp/RequestLocationInformation.h	\
+	oai-lmf/src/lpp/RequestLocationInformation-r9-IEs.h	\
+	oai-lmf/src/lpp/ProvideLocationInformation.h	\
+	oai-lmf/src/lpp/ProvideLocationInformation-r9-IEs.h	\
+	oai-lmf/src/lpp/Abort.h	\
+	oai-lmf/src/lpp/Abort-r9-IEs.h	\
+	oai-lmf/src/lpp/Error.h	\
+	oai-lmf/src/lpp/Error-r9-IEs.h	\
+	oai-lmf/src/lpp/AccessTypes.h	\
+	oai-lmf/src/lpp/ARFCN-ValueEUTRA.h	\
+	oai-lmf/src/lpp/ARFCN-ValueEUTRA-v9a0.h	\
+	oai-lmf/src/lpp/ARFCN-ValueEUTRA-r14.h	\
+	oai-lmf/src/lpp/ARFCN-ValueNR-r15.h	\
+	oai-lmf/src/lpp/ARFCN-ValueUTRA.h	\
+	oai-lmf/src/lpp/CarrierFreq-NB-r14.h	\
+	oai-lmf/src/lpp/CarrierFreqOffsetNB-r14.h	\
+	oai-lmf/src/lpp/CellGlobalIdEUTRA-AndUTRA.h	\
+	oai-lmf/src/lpp/CellGlobalIdGERAN.h	\
+	oai-lmf/src/lpp/ECGI.h	\
+	oai-lmf/src/lpp/Ellipsoid-Point.h	\
+	oai-lmf/src/lpp/Ellipsoid-PointWithUncertaintyCircle.h	\
+	oai-lmf/src/lpp/EllipsoidPointWithUncertaintyEllipse.h	\
+	oai-lmf/src/lpp/EllipsoidPointWithAltitude.h	\
+	oai-lmf/src/lpp/EllipsoidPointWithAltitudeAndUncertaintyEllipsoid.h	\
+	oai-lmf/src/lpp/EllipsoidArc.h	\
+	oai-lmf/src/lpp/EPDU-Sequence.h	\
+	oai-lmf/src/lpp/EPDU.h	\
+	oai-lmf/src/lpp/EPDU-Identifier.h	\
+	oai-lmf/src/lpp/EPDU-ID.h	\
+	oai-lmf/src/lpp/EPDU-Name.h	\
+	oai-lmf/src/lpp/EPDU-Body.h	\
+	oai-lmf/src/lpp/FreqBandIndicatorNR-r16.h	\
+	oai-lmf/src/lpp/HA-EllipsoidPointWithAltitudeAndScalableUncertaintyEllipsoid-r16.h	\
+	oai-lmf/src/lpp/HA-EllipsoidPointWithScalableUncertaintyEllipse-r16.h	\
+	oai-lmf/src/lpp/HighAccuracyEllipsoidPointWithUncertaintyEllipse-r15.h	\
+	oai-lmf/src/lpp/HighAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoid-r15.h	\
+	oai-lmf/src/lpp/HorizontalVelocity.h	\
+	oai-lmf/src/lpp/HorizontalWithVerticalVelocity.h	\
+	oai-lmf/src/lpp/HorizontalVelocityWithUncertainty.h	\
+	oai-lmf/src/lpp/HorizontalWithVerticalVelocityAndUncertainty.h	\
+	oai-lmf/src/lpp/LocationCoordinateTypes.h	\
+	oai-lmf/src/lpp/NCGI-r15.h	\
+	oai-lmf/src/lpp/NR-PhysCellID-r16.h	\
+	oai-lmf/src/lpp/PeriodicAssistanceDataControlParameters-r15.h	\
+	oai-lmf/src/lpp/PeriodicSessionID-r15.h	\
+	oai-lmf/src/lpp/UpdateCapabilities-r15.h	\
+	oai-lmf/src/lpp/Polygon.h	\
+	oai-lmf/src/lpp/PolygonPoints.h	\
+	oai-lmf/src/lpp/PositioningModes.h	\
+	oai-lmf/src/lpp/SegmentationInfo-r14.h	\
+	oai-lmf/src/lpp/VelocityTypes.h	\
+	oai-lmf/src/lpp/CommonIEsRequestCapabilities.h	\
+	oai-lmf/src/lpp/CommonIEsProvideCapabilities.h	\
+	oai-lmf/src/lpp/CommonIEsRequestAssistanceData.h	\
+	oai-lmf/src/lpp/CommonIEsProvideAssistanceData.h	\
+	oai-lmf/src/lpp/CommonIEsRequestLocationInformation.h	\
+	oai-lmf/src/lpp/LocationInformationType.h	\
+	oai-lmf/src/lpp/PeriodicalReportingCriteria.h	\
+	oai-lmf/src/lpp/TriggeredReportingCriteria.h	\
+	oai-lmf/src/lpp/ReportingDuration.h	\
+	oai-lmf/src/lpp/AdditionalInformation.h	\
+	oai-lmf/src/lpp/QoS.h	\
+	oai-lmf/src/lpp/HorizontalAccuracy.h	\
+	oai-lmf/src/lpp/VerticalAccuracy.h	\
+	oai-lmf/src/lpp/HorizontalAccuracyExt-r15.h	\
+	oai-lmf/src/lpp/VerticalAccuracyExt-r15.h	\
+	oai-lmf/src/lpp/ResponseTime.h	\
+	oai-lmf/src/lpp/ResponseTimeNB-r14.h	\
+	oai-lmf/src/lpp/Environment.h	\
+	oai-lmf/src/lpp/MessageSizeLimitNB-r14.h	\
+	oai-lmf/src/lpp/CommonIEsProvideLocationInformation.h	\
+	oai-lmf/src/lpp/LocationCoordinates.h	\
+	oai-lmf/src/lpp/Velocity.h	\
+	oai-lmf/src/lpp/LocationError.h	\
+	oai-lmf/src/lpp/LocationFailureCause.h	\
+	oai-lmf/src/lpp/EarlyFixReport-r12.h	\
+	oai-lmf/src/lpp/LocationSource-r13.h	\
+	oai-lmf/src/lpp/CommonIEsAbort.h	\
+	oai-lmf/src/lpp/CommonIEsError.h	\
+	oai-lmf/src/lpp/DL-PRS-ID-Info-r16.h	\
+	oai-lmf/src/lpp/NR-AdditionalPathList-r16.h	\
+	oai-lmf/src/lpp/NR-AdditionalPath-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-AssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-AssistanceDataPerFreq-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-AssistanceDataPerTRP-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-PositioningFrequencyLayer-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-SFN0-Offset-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-BeamInfo-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-BeamInfoPerFreqLayer-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-BeamInfoPerTRP-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-BeamInfoSet-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-BeamInfoResourceSet-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-BeamInfoElement-r16.h	\
+	oai-lmf/src/lpp/LCS-GCS-TranslationParameter-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-Info-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourceSet-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-MutingOption1-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-MutingOption2-r16.h	\
+	oai-lmf/src/lpp/NR-MutingPattern-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-Resource-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-QCL-Info-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-Periodicity-and-ResourceSetSlotOffset-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-ProcessingCapability-r16.h	\
+	oai-lmf/src/lpp/PRS-ProcessingCapabilityPerBand-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-QCL-ProcessingCapability-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-QCL-ProcessingCapabilityPerBand-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourceID-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourcesCapability-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-ResourcesCapabilityPerBand-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-ResourcesBandCombinationList-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-ResourcesBandCombination-r16.h	\
+	oai-lmf/src/lpp/NR-DL-PRS-ResourceSetID-r16.h	\
+	oai-lmf/src/lpp/NR-PositionCalculationAssistance-r16.h	\
+	oai-lmf/src/lpp/NR-RTD-Info-r16.h	\
+	oai-lmf/src/lpp/ReferenceTRP-RTD-Info-r16.h	\
+	oai-lmf/src/lpp/RTD-InfoList-r16.h	\
+	oai-lmf/src/lpp/RTD-InfoListPerFreqLayer-r16.h	\
+	oai-lmf/src/lpp/RTD-InfoElement-r16.h	\
+	oai-lmf/src/lpp/NR-SelectedDL-PRS-IndexList-r16.h	\
+	oai-lmf/src/lpp/NR-SelectedDL-PRS-PerFreq-r16.h	\
+	oai-lmf/src/lpp/NR-SelectedDL-PRS-IndexPerTRP-r16.h	\
+	oai-lmf/src/lpp/DL-SelectedPRS-ResourceSetIndex-r16.h	\
+	oai-lmf/src/lpp/DL-SelectedPRS-ResourceIndex-r16.h	\
+	oai-lmf/src/lpp/NR-SSB-Config-r16.h	\
+	oai-lmf/src/lpp/NR-TimeStamp-r16.h	\
+	oai-lmf/src/lpp/NR-TimingQuality-r16.h	\
+	oai-lmf/src/lpp/NR-TRP-LocationInfo-r16.h	\
+	oai-lmf/src/lpp/NR-TRP-LocationInfoPerFreqLayer-r16.h	\
+	oai-lmf/src/lpp/TRP-LocationInfoElement-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-ResourceSets-TRP-Element-r16.h	\
+	oai-lmf/src/lpp/DL-PRS-Resource-ARP-Element-r16.h	\
+	oai-lmf/src/lpp/NR-UL-SRS-Capability-r16.h	\
+	oai-lmf/src/lpp/SRS-CapabilityPerBand-r16.h	\
+	oai-lmf/src/lpp/OLPC-SRS-Pos-r16.h	\
+	oai-lmf/src/lpp/SpatialRelationsSRS-Pos-r16.h	\
+	oai-lmf/src/lpp/SRS-PosResourcesPerBand-r16.h	\
+	oai-lmf/src/lpp/ReferencePoint-r16.h	\
+	oai-lmf/src/lpp/RelativeLocation-r16.h	\
+	oai-lmf/src/lpp/Delta-Latitude-r16.h	\
+	oai-lmf/src/lpp/Delta-Longitude-r16.h	\
+	oai-lmf/src/lpp/Delta-Height-r16.h	\
+	oai-lmf/src/lpp/LocationUncertainty-r16.h	\
+	oai-lmf/src/lpp/OTDOA-ProvideAssistanceData.h	\
+	oai-lmf/src/lpp/OTDOA-ReferenceCellInfo.h	\
+	oai-lmf/src/lpp/PRS-Info.h	\
+	oai-lmf/src/lpp/TDD-Config-v1520.h	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoList.h	\
+	oai-lmf/src/lpp/OTDOA-NeighbourFreqInfo.h	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoElement.h	\
+	oai-lmf/src/lpp/Add-PRSconfigNeighbourElement-r14.h	\
+	oai-lmf/src/lpp/OTDOA-ReferenceCellInfoNB-r14.h	\
+	oai-lmf/src/lpp/PRS-Info-NB-r14.h	\
+	oai-lmf/src/lpp/NPRS-Info-r14.h	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoListNB-r14.h	\
+	oai-lmf/src/lpp/OTDOA-NeighbourCellInfoNB-r14.h	\
+	oai-lmf/src/lpp/OTDOA-RequestAssistanceData.h	\
+	oai-lmf/src/lpp/OTDOA-ProvideLocationInformation.h	\
+	oai-lmf/src/lpp/OTDOA-SignalMeasurementInformation.h	\
+	oai-lmf/src/lpp/NeighbourMeasurementList.h	\
+	oai-lmf/src/lpp/NeighbourMeasurementElement.h	\
+	oai-lmf/src/lpp/AdditionalPathList-r14.h	\
+	oai-lmf/src/lpp/MotionTimeSource-r15.h	\
+	oai-lmf/src/lpp/OTDOA-SignalMeasurementInformation-NB-r14.h	\
+	oai-lmf/src/lpp/NeighbourMeasurementList-NB-r14.h	\
+	oai-lmf/src/lpp/NeighbourMeasurementElement-NB-r14.h	\
+	oai-lmf/src/lpp/OTDOA-MeasQuality.h	\
+	oai-lmf/src/lpp/AdditionalPath-r14.h	\
+	oai-lmf/src/lpp/OTDOA-RequestLocationInformation.h	\
+	oai-lmf/src/lpp/OTDOA-ProvideCapabilities.h	\
+	oai-lmf/src/lpp/SupportedBandEUTRA.h	\
+	oai-lmf/src/lpp/SupportedBandEUTRA-v9a0.h	\
+	oai-lmf/src/lpp/OTDOA-RequestCapabilities.h	\
+	oai-lmf/src/lpp/OTDOA-Error.h	\
+	oai-lmf/src/lpp/OTDOA-LocationServerErrorCauses.h	\
+	oai-lmf/src/lpp/OTDOA-TargetDeviceErrorCauses.h	\
+	oai-lmf/src/lpp/A-GNSS-ProvideAssistanceData.h	\
+	oai-lmf/src/lpp/GNSS-CommonAssistData.h	\
+	oai-lmf/src/lpp/GNSS-GenericAssistData.h	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataElement.h	\
+	oai-lmf/src/lpp/GNSS-PeriodicAssistData-r15.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceTime.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceTimeForOneCell.h	\
+	oai-lmf/src/lpp/GNSS-SystemTime.h	\
+	oai-lmf/src/lpp/GPS-TOW-Assist.h	\
+	oai-lmf/src/lpp/GPS-TOW-AssistElement.h	\
+	oai-lmf/src/lpp/NetworkTime.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceLocation.h	\
+	oai-lmf/src/lpp/GNSS-IonosphericModel.h	\
+	oai-lmf/src/lpp/KlobucharModelParameter.h	\
+	oai-lmf/src/lpp/KlobucharModel2Parameter-r16.h	\
+	oai-lmf/src/lpp/NeQuickModelParameter.h	\
+	oai-lmf/src/lpp/GNSS-EarthOrientationParameters.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ReferenceStationInfo-r15.h	\
+	oai-lmf/src/lpp/AntennaDescription-r15.h	\
+	oai-lmf/src/lpp/AntennaReferencePointUnc-r15.h	\
+	oai-lmf/src/lpp/PhysicalReferenceStationInfo-r15.h	\
+	oai-lmf/src/lpp/EqualIntegerAmbiguityLevel-r16.h	\
+	oai-lmf/src/lpp/ReferenceStationList-r16.h	\
+	oai-lmf/src/lpp/GNSS-RTK-CommonObservationInfo-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-AuxiliaryStationData-r15.h	\
+	oai-lmf/src/lpp/AuxiliaryStationList-r15.h	\
+	oai-lmf/src/lpp/AuxiliaryStationElement-r15.h	\
+	oai-lmf/src/lpp/Aux-ARP-Unc-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-CorrectionPoints-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-ListOfCorrectionPoints-r16.h	\
+	oai-lmf/src/lpp/RelativeLocationElement-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-ArrayOfCorrectionPoints-r16.h	\
+	oai-lmf/src/lpp/GNSS-TimeModelList.h	\
+	oai-lmf/src/lpp/GNSS-TimeModelElement.h	\
+	oai-lmf/src/lpp/GNSS-DifferentialCorrections.h	\
+	oai-lmf/src/lpp/DGNSS-SgnTypeList.h	\
+	oai-lmf/src/lpp/DGNSS-SgnTypeElement.h	\
+	oai-lmf/src/lpp/DGNSS-SatList.h	\
+	oai-lmf/src/lpp/DGNSS-CorrectionsElement.h	\
+	oai-lmf/src/lpp/GNSS-NavigationModel.h	\
+	oai-lmf/src/lpp/GNSS-NavModelSatelliteList.h	\
+	oai-lmf/src/lpp/GNSS-NavModelSatelliteElement.h	\
+	oai-lmf/src/lpp/GNSS-ClockModel.h	\
+	oai-lmf/src/lpp/GNSS-OrbitModel.h	\
+	oai-lmf/src/lpp/StandardClockModelList.h	\
+	oai-lmf/src/lpp/StandardClockModelElement.h	\
+	oai-lmf/src/lpp/NAV-ClockModel.h	\
+	oai-lmf/src/lpp/CNAV-ClockModel.h	\
+	oai-lmf/src/lpp/GLONASS-ClockModel.h	\
+	oai-lmf/src/lpp/SBAS-ClockModel.h	\
+	oai-lmf/src/lpp/BDS-ClockModel-r12.h	\
+	oai-lmf/src/lpp/BDS-ClockModel2-r16.h	\
+	oai-lmf/src/lpp/NavIC-ClockModel-r16.h	\
+	oai-lmf/src/lpp/NavModelKeplerianSet.h	\
+	oai-lmf/src/lpp/NavModelNAV-KeplerianSet.h	\
+	oai-lmf/src/lpp/NavModelCNAV-KeplerianSet.h	\
+	oai-lmf/src/lpp/NavModel-GLONASS-ECEF.h	\
+	oai-lmf/src/lpp/NavModel-SBAS-ECEF.h	\
+	oai-lmf/src/lpp/NavModel-BDS-KeplerianSet-r12.h	\
+	oai-lmf/src/lpp/NavModel-BDS-KeplerianSet2-r16.h	\
+	oai-lmf/src/lpp/NavModel-NavIC-KeplerianSet-r16.h	\
+	oai-lmf/src/lpp/GNSS-RealTimeIntegrity.h	\
+	oai-lmf/src/lpp/GNSS-BadSignalList.h	\
+	oai-lmf/src/lpp/BadSignalElement.h	\
+	oai-lmf/src/lpp/GNSS-DataBitAssistance.h	\
+	oai-lmf/src/lpp/GNSS-DataBitsSatList.h	\
+	oai-lmf/src/lpp/GNSS-DataBitsSatElement.h	\
+	oai-lmf/src/lpp/GNSS-DataBitsSgnList.h	\
+	oai-lmf/src/lpp/GNSS-DataBitsSgnElement.h	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistance.h	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistList.h	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistElement.h	\
+	oai-lmf/src/lpp/GNSS-Almanac.h	\
+	oai-lmf/src/lpp/GNSS-AlmanacList.h	\
+	oai-lmf/src/lpp/GNSS-AlmanacElement.h	\
+	oai-lmf/src/lpp/AlmanacKeplerianSet.h	\
+	oai-lmf/src/lpp/AlmanacNAV-KeplerianSet.h	\
+	oai-lmf/src/lpp/AlmanacReducedKeplerianSet.h	\
+	oai-lmf/src/lpp/AlmanacMidiAlmanacSet.h	\
+	oai-lmf/src/lpp/AlmanacGLONASS-AlmanacSet.h	\
+	oai-lmf/src/lpp/AlmanacECEF-SBAS-AlmanacSet.h	\
+	oai-lmf/src/lpp/AlmanacBDS-AlmanacSet-r12.h	\
+	oai-lmf/src/lpp/AlmanacNavIC-AlmanacSet-r16.h	\
+	oai-lmf/src/lpp/GNSS-UTC-Model.h	\
+	oai-lmf/src/lpp/UTC-ModelSet1.h	\
+	oai-lmf/src/lpp/UTC-ModelSet2.h	\
+	oai-lmf/src/lpp/UTC-ModelSet3.h	\
+	oai-lmf/src/lpp/UTC-ModelSet4.h	\
+	oai-lmf/src/lpp/UTC-ModelSet5-r12.h	\
+	oai-lmf/src/lpp/GNSS-AuxiliaryInformation.h	\
+	oai-lmf/src/lpp/GNSS-ID-GPS.h	\
+	oai-lmf/src/lpp/GNSS-ID-GPS-SatElement.h	\
+	oai-lmf/src/lpp/GNSS-ID-GLONASS.h	\
+	oai-lmf/src/lpp/GNSS-ID-GLONASS-SatElement.h	\
+	oai-lmf/src/lpp/GNSS-ID-BDS-r16.h	\
+	oai-lmf/src/lpp/GNSS-ID-BDS-SatElement-r16.h	\
+	oai-lmf/src/lpp/BDS-DifferentialCorrections-r12.h	\
+	oai-lmf/src/lpp/BDS-SgnTypeList-r12.h	\
+	oai-lmf/src/lpp/BDS-SgnTypeElement-r12.h	\
+	oai-lmf/src/lpp/DBDS-CorrectionList-r12.h	\
+	oai-lmf/src/lpp/DBDS-CorrectionElement-r12.h	\
+	oai-lmf/src/lpp/BDS-GridModelParameter-r12.h	\
+	oai-lmf/src/lpp/GridIonList-r12.h	\
+	oai-lmf/src/lpp/GridIonElement-r12.h	\
+	oai-lmf/src/lpp/GNSS-RTK-Observations-r15.h	\
+	oai-lmf/src/lpp/GNSS-ObservationList-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-SatelliteDataElement-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-SatelliteSignalDataList-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-SatelliteSignalDataElement-r15.h	\
+	oai-lmf/src/lpp/GLO-RTK-BiasInformation-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-MAC-CorrectionDifferences-r15.h	\
+	oai-lmf/src/lpp/RTK-CorrectionDifferencesList-r15.h	\
+	oai-lmf/src/lpp/RTK-CorrectionDifferencesElement-r15.h	\
+	oai-lmf/src/lpp/Geometric-Ionospheric-Corrections-Differences-r15.h	\
+	oai-lmf/src/lpp/Geometric-Ionospheric-Corrections-Differences-Element-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-Residuals-r15.h	\
+	oai-lmf/src/lpp/RTK-Residuals-List-r15.h	\
+	oai-lmf/src/lpp/RTK-Residuals-Element-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-FKP-Gradients-r15.h	\
+	oai-lmf/src/lpp/FKP-Gradients-List-r15.h	\
+	oai-lmf/src/lpp/FKP-Gradients-Element-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-OrbitCorrections-r15.h	\
+	oai-lmf/src/lpp/SSR-OrbitCorrectionList-r15.h	\
+	oai-lmf/src/lpp/SSR-OrbitCorrectionSatelliteElement-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-ClockCorrections-r15.h	\
+	oai-lmf/src/lpp/SSR-ClockCorrectionList-r15.h	\
+	oai-lmf/src/lpp/SSR-ClockCorrectionSatelliteElement-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-CodeBias-r15.h	\
+	oai-lmf/src/lpp/SSR-CodeBiasSatList-r15.h	\
+	oai-lmf/src/lpp/SSR-CodeBiasSatElement-r15.h	\
+	oai-lmf/src/lpp/SSR-CodeBiasSignalList-r15.h	\
+	oai-lmf/src/lpp/SSR-CodeBiasSignalElement-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-URA-r16.h	\
+	oai-lmf/src/lpp/SSR-URA-SatList-r16.h	\
+	oai-lmf/src/lpp/SSR-URA-SatElement-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-PhaseBias-r16.h	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSatList-r16.h	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSatElement-r16.h	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSignalList-r16.h	\
+	oai-lmf/src/lpp/SSR-PhaseBiasSignalElement-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-STEC-Correction-r16.h	\
+	oai-lmf/src/lpp/STEC-SatList-r16.h	\
+	oai-lmf/src/lpp/STEC-SatElement-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-GriddedCorrection-r16.h	\
+	oai-lmf/src/lpp/GridList-r16.h	\
+	oai-lmf/src/lpp/GridElement-r16.h	\
+	oai-lmf/src/lpp/TropospericDelayCorrection-r16.h	\
+	oai-lmf/src/lpp/STEC-ResidualSatList-r16.h	\
+	oai-lmf/src/lpp/STEC-ResidualSatElement-r16.h	\
+	oai-lmf/src/lpp/NavIC-DifferentialCorrections-r16.h	\
+	oai-lmf/src/lpp/NavIC-CorrectionListAutoNav-r16.h	\
+	oai-lmf/src/lpp/NavIC-CorrectionElementAutoNav-r16.h	\
+	oai-lmf/src/lpp/NavIC-EDC-r16.h	\
+	oai-lmf/src/lpp/NavIC-CDC-r16.h	\
+	oai-lmf/src/lpp/NavIC-GridModelParameter-r16.h	\
+	oai-lmf/src/lpp/RegionIgpList-r16.h	\
+	oai-lmf/src/lpp/RegionIgpElement-r16.h	\
+	oai-lmf/src/lpp/A-GNSS-RequestAssistanceData.h	\
+	oai-lmf/src/lpp/GNSS-CommonAssistDataReq.h	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataReq.h	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataReqElement.h	\
+	oai-lmf/src/lpp/GNSS-PeriodicAssistDataReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceTimeReq.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceLocationReq.h	\
+	oai-lmf/src/lpp/GNSS-IonosphericModelReq.h	\
+	oai-lmf/src/lpp/GNSS-EarthOrientationParametersReq.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ReferenceStationInfoReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-AuxiliaryStationDataReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-CorrectionPointsReq-r16.h	\
+	oai-lmf/src/lpp/GNSS-TimeModelListReq.h	\
+	oai-lmf/src/lpp/GNSS-TimeModelElementReq.h	\
+	oai-lmf/src/lpp/GNSS-DifferentialCorrectionsReq.h	\
+	oai-lmf/src/lpp/GNSS-NavigationModelReq.h	\
+	oai-lmf/src/lpp/StoredNavListInfo.h	\
+	oai-lmf/src/lpp/SatListRelatedDataList.h	\
+	oai-lmf/src/lpp/SatListRelatedDataElement.h	\
+	oai-lmf/src/lpp/ReqNavListInfo.h	\
+	oai-lmf/src/lpp/GNSS-RealTimeIntegrityReq.h	\
+	oai-lmf/src/lpp/GNSS-DataBitAssistanceReq.h	\
+	oai-lmf/src/lpp/GNSS-DataBitsReqSatList.h	\
+	oai-lmf/src/lpp/GNSS-DataBitsReqSatElement.h	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistanceReq.h	\
+	oai-lmf/src/lpp/GNSS-AlmanacReq.h	\
+	oai-lmf/src/lpp/GNSS-UTC-ModelReq.h	\
+	oai-lmf/src/lpp/GNSS-AuxiliaryInformationReq.h	\
+	oai-lmf/src/lpp/BDS-DifferentialCorrectionsReq-r12.h	\
+	oai-lmf/src/lpp/BDS-GridModelReq-r12.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ObservationsReq-r15.h	\
+	oai-lmf/src/lpp/GLO-RTK-BiasInformationReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-MAC-CorrectionDifferencesReq-r15.h	\
+	oai-lmf/src/lpp/AUX-ReferenceStationList-r15.h	\
+	oai-lmf/src/lpp/AUX-ReferenceStationID-Element-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ResidualsReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-FKP-GradientsReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-OrbitCorrectionsReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-ClockCorrectionsReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-CodeBiasReq-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-URA-Req-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-PhaseBiasReq-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-STEC-CorrectionReq-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-GriddedCorrectionReq-r16.h	\
+	oai-lmf/src/lpp/NavIC-DifferentialCorrectionsReq-r16.h	\
+	oai-lmf/src/lpp/NavIC-GridModelReq-r16.h	\
+	oai-lmf/src/lpp/A-GNSS-ProvideLocationInformation.h	\
+	oai-lmf/src/lpp/GNSS-SignalMeasurementInformation.h	\
+	oai-lmf/src/lpp/MeasurementReferenceTime.h	\
+	oai-lmf/src/lpp/GNSS-MeasurementList.h	\
+	oai-lmf/src/lpp/GNSS-MeasurementForOneGNSS.h	\
+	oai-lmf/src/lpp/GNSS-SgnMeasList.h	\
+	oai-lmf/src/lpp/GNSS-SgnMeasElement.h	\
+	oai-lmf/src/lpp/GNSS-SatMeasList.h	\
+	oai-lmf/src/lpp/GNSS-SatMeasElement.h	\
+	oai-lmf/src/lpp/GNSS-LocationInformation.h	\
+	oai-lmf/src/lpp/A-GNSS-RequestLocationInformation.h	\
+	oai-lmf/src/lpp/GNSS-PositioningInstructions.h	\
+	oai-lmf/src/lpp/A-GNSS-ProvideCapabilities.h	\
+	oai-lmf/src/lpp/GNSS-SupportList.h	\
+	oai-lmf/src/lpp/GNSS-SupportElement.h	\
+	oai-lmf/src/lpp/AssistanceDataSupportList.h	\
+	oai-lmf/src/lpp/GNSS-CommonAssistanceDataSupport.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceTimeSupport.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceLocationSupport.h	\
+	oai-lmf/src/lpp/GNSS-IonosphericModelSupport.h	\
+	oai-lmf/src/lpp/GNSS-EarthOrientationParametersSupport.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ReferenceStationInfoSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-AuxiliaryStationDataSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-GenericAssistanceDataSupport.h	\
+	oai-lmf/src/lpp/GNSS-GenericAssistDataSupportElement.h	\
+	oai-lmf/src/lpp/GNSS-TimeModelListSupport.h	\
+	oai-lmf/src/lpp/GNSS-DifferentialCorrectionsSupport.h	\
+	oai-lmf/src/lpp/GNSS-NavigationModelSupport.h	\
+	oai-lmf/src/lpp/GNSS-RealTimeIntegritySupport.h	\
+	oai-lmf/src/lpp/GNSS-DataBitAssistanceSupport.h	\
+	oai-lmf/src/lpp/GNSS-AcquisitionAssistanceSupport.h	\
+	oai-lmf/src/lpp/GNSS-AlmanacSupport.h	\
+	oai-lmf/src/lpp/GNSS-UTC-ModelSupport.h	\
+	oai-lmf/src/lpp/GNSS-AuxiliaryInformationSupport.h	\
+	oai-lmf/src/lpp/BDS-DifferentialCorrectionsSupport-r12.h	\
+	oai-lmf/src/lpp/BDS-GridModelSupport-r12.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ObservationsSupport-r15.h	\
+	oai-lmf/src/lpp/GLO-RTK-BiasInformationSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-MAC-CorrectionDifferencesSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-ResidualsSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-RTK-FKP-GradientsSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-OrbitCorrectionsSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-ClockCorrectionsSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-CodeBiasSupport-r15.h	\
+	oai-lmf/src/lpp/GNSS-SSR-URA-Support-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-PhaseBiasSupport-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-STEC-CorrectionSupport-r16.h	\
+	oai-lmf/src/lpp/GNSS-SSR-GriddedCorrectionSupport-r16.h	\
+	oai-lmf/src/lpp/NavIC-DifferentialCorrectionsSupport-r16.h	\
+	oai-lmf/src/lpp/NavIC-GridModelSupport-r16.h	\
+	oai-lmf/src/lpp/A-GNSS-RequestCapabilities.h	\
+	oai-lmf/src/lpp/A-GNSS-Error.h	\
+	oai-lmf/src/lpp/GNSS-LocationServerErrorCauses.h	\
+	oai-lmf/src/lpp/GNSS-TargetDeviceErrorCauses.h	\
+	oai-lmf/src/lpp/GNSS-FrequencyID-r15.h	\
+	oai-lmf/src/lpp/GNSS-ID.h	\
+	oai-lmf/src/lpp/GNSS-ID-Bitmap.h	\
+	oai-lmf/src/lpp/GNSS-Link-CombinationsList-r15.h	\
+	oai-lmf/src/lpp/GNSS-Link-Combinations-r15.h	\
+	oai-lmf/src/lpp/GNSS-NavListInfo-r15.h	\
+	oai-lmf/src/lpp/SatListElement-r15.h	\
+	oai-lmf/src/lpp/GNSS-NetworkID-r15.h	\
+	oai-lmf/src/lpp/GNSS-PeriodicControlParam-r15.h	\
+	oai-lmf/src/lpp/GNSS-ReferenceStationID-r15.h	\
+	oai-lmf/src/lpp/GNSS-SignalID.h	\
+	oai-lmf/src/lpp/GNSS-SignalIDs.h	\
+	oai-lmf/src/lpp/GNSS-SubNetworkID-r15.h	\
+	oai-lmf/src/lpp/SBAS-ID.h	\
+	oai-lmf/src/lpp/SBAS-IDs.h	\
+	oai-lmf/src/lpp/SV-ID.h	\
+	oai-lmf/src/lpp/ECID-ProvideLocationInformation.h	\
+	oai-lmf/src/lpp/ECID-SignalMeasurementInformation.h	\
+	oai-lmf/src/lpp/MeasuredResultsList.h	\
+	oai-lmf/src/lpp/MeasuredResultsElement.h	\
+	oai-lmf/src/lpp/ECID-RequestLocationInformation.h	\
+	oai-lmf/src/lpp/ECID-ProvideCapabilities.h	\
+	oai-lmf/src/lpp/ECID-RequestCapabilities.h	\
+	oai-lmf/src/lpp/ECID-Error.h	\
+	oai-lmf/src/lpp/ECID-LocationServerErrorCauses.h	\
+	oai-lmf/src/lpp/ECID-TargetDeviceErrorCauses.h	\
+	oai-lmf/src/lpp/TBS-ProvideLocationInformation-r13.h	\
+	oai-lmf/src/lpp/TBS-MeasurementInformation-r13.h	\
+	oai-lmf/src/lpp/MBS-BeaconMeasList-r13.h	\
+	oai-lmf/src/lpp/MBS-BeaconMeasElement-r13.h	\
+	oai-lmf/src/lpp/TBS-RequestLocationInformation-r13.h	\
+	oai-lmf/src/lpp/TBS-ProvideCapabilities-r13.h	\
+	oai-lmf/src/lpp/MBS-AssistanceDataSupportList-r14.h	\
+	oai-lmf/src/lpp/TBS-RequestCapabilities-r13.h	\
+	oai-lmf/src/lpp/TBS-Error-r13.h	\
+	oai-lmf/src/lpp/TBS-LocationServerErrorCauses-r13.h	\
+	oai-lmf/src/lpp/TBS-TargetDeviceErrorCauses-r13.h	\
+	oai-lmf/src/lpp/TBS-ProvideAssistanceData-r14.h	\
+	oai-lmf/src/lpp/TBS-AssistanceDataList-r14.h	\
+	oai-lmf/src/lpp/MBS-AssistanceDataList-r14.h	\
+	oai-lmf/src/lpp/MBS-AssistanceDataElement-r14.h	\
+	oai-lmf/src/lpp/MBS-AlmanacAssistance-r14.h	\
+	oai-lmf/src/lpp/MBS-AcquisitionAssistance-r14.h	\
+	oai-lmf/src/lpp/TBS-RequestAssistanceData-r14.h	\
+	oai-lmf/src/lpp/Sensor-ProvideLocationInformation-r13.h	\
+	oai-lmf/src/lpp/Sensor-MeasurementInformation-r13.h	\
+	oai-lmf/src/lpp/Sensor-MotionInformation-r15.h	\
+	oai-lmf/src/lpp/DisplacementInfoList-r15.h	\
+	oai-lmf/src/lpp/DisplacementInfoListElement-r15.h	\
+	oai-lmf/src/lpp/DisplacementTimeStamp-r15.h	\
+	oai-lmf/src/lpp/DeltaTime-r15.h	\
+	oai-lmf/src/lpp/SFN-r15.h	\
+	oai-lmf/src/lpp/Displacement-r15.h	\
+	oai-lmf/src/lpp/UTC-Time-r15.h	\
+	oai-lmf/src/lpp/Sensor-RequestLocationInformation-r13.h	\
+	oai-lmf/src/lpp/Sensor-ProvideCapabilities-r13.h	\
+	oai-lmf/src/lpp/Sensor-AssistanceDataSupportList-r14.h	\
+	oai-lmf/src/lpp/Sensor-RequestCapabilities-r13.h	\
+	oai-lmf/src/lpp/Sensor-Error-r13.h	\
+	oai-lmf/src/lpp/Sensor-LocationServerErrorCauses-r13.h	\
+	oai-lmf/src/lpp/Sensor-TargetDeviceErrorCauses-r13.h	\
+	oai-lmf/src/lpp/Sensor-ProvideAssistanceData-r14.h	\
+	oai-lmf/src/lpp/Sensor-AssistanceDataList-r14.h	\
+	oai-lmf/src/lpp/PressureValidityArea-v1520.h	\
+	oai-lmf/src/lpp/PressureValidityPeriod-v1520.h	\
+	oai-lmf/src/lpp/Sensor-RequestAssistanceData-r14.h	\
+	oai-lmf/src/lpp/WLAN-ProvideLocationInformation-r13.h	\
+	oai-lmf/src/lpp/WLAN-MeasurementInformation-r13.h	\
+	oai-lmf/src/lpp/WLAN-MeasurementList-r13.h	\
+	oai-lmf/src/lpp/WLAN-MeasurementElement-r13.h	\
+	oai-lmf/src/lpp/WLAN-AP-Identifier-r13.h	\
+	oai-lmf/src/lpp/WLAN-RTT-r13.h	\
+	oai-lmf/src/lpp/WLAN-RequestLocationInformation-r13.h	\
+	oai-lmf/src/lpp/WLAN-ProvideCapabilities-r13.h	\
+	oai-lmf/src/lpp/WLAN-RequestCapabilities-r13.h	\
+	oai-lmf/src/lpp/WLAN-Error-r13.h	\
+	oai-lmf/src/lpp/WLAN-LocationServerErrorCauses-r13.h	\
+	oai-lmf/src/lpp/WLAN-TargetDeviceErrorCauses-r13.h	\
+	oai-lmf/src/lpp/WLAN-ProvideAssistanceData-r14.h	\
+	oai-lmf/src/lpp/WLAN-DataSet-r14.h	\
+	oai-lmf/src/lpp/SupportedChannels-11a-r14.h	\
+	oai-lmf/src/lpp/SupportedChannels-11bg-r14.h	\
+	oai-lmf/src/lpp/WLAN-AP-Data-r14.h	\
+	oai-lmf/src/lpp/WLAN-AP-Location-r14.h	\
+	oai-lmf/src/lpp/LocationDataLCI-r14.h	\
+	oai-lmf/src/lpp/WLAN-RequestAssistanceData-r14.h	\
+	oai-lmf/src/lpp/BT-ProvideLocationInformation-r13.h	\
+	oai-lmf/src/lpp/BT-MeasurementInformation-r13.h	\
+	oai-lmf/src/lpp/BT-MeasurementList-r13.h	\
+	oai-lmf/src/lpp/BT-MeasurementElement-r13.h	\
+	oai-lmf/src/lpp/BT-RequestLocationInformation-r13.h	\
+	oai-lmf/src/lpp/BT-ProvideCapabilities-r13.h	\
+	oai-lmf/src/lpp/BT-RequestCapabilities-r13.h	\
+	oai-lmf/src/lpp/BT-Error-r13.h	\
+	oai-lmf/src/lpp/BT-LocationServerErrorCauses-r13.h	\
+	oai-lmf/src/lpp/BT-TargetDeviceErrorCauses-r13.h	\
+	oai-lmf/src/lpp/NR-UL-ProvideCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-UL-RequestCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-ProvideLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-SignalMeasurementInformation-r16.h	\
+	oai-lmf/src/lpp/NR-MeasuredResultsList-r16.h	\
+	oai-lmf/src/lpp/NR-MeasuredResultsElement-r16.h	\
+	oai-lmf/src/lpp/MeasQuantityResults-r16.h	\
+	oai-lmf/src/lpp/ResultsPerSSB-IndexList-r16.h	\
+	oai-lmf/src/lpp/ResultsPerSSB-Index-r16.h	\
+	oai-lmf/src/lpp/ResultsPerCSI-RS-IndexList-r16.h	\
+	oai-lmf/src/lpp/ResultsPerCSI-RS-Index-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-RequestLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-ProvideCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-RequestCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-Error-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-LocationServerErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-ECID-TargetDeviceErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ProvideAssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-RequestAssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ProvideLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-SignalMeasurementInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-MeasList-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-MeasElement-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-AdditionalMeasurements-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-AdditionalMeasurementElement-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-LocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-RequestLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ReportConfig-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-ProvideCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-MeasurementCapability-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-RequestCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-Error-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-LocationServerErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-DL-TDOA-TargetDeviceErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-ProvideAssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-RequestAssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-ProvideLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-SignalMeasurementInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-MeasList-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-MeasElement-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-AdditionalMeasurements-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-AdditionalMeasurementElement-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-LocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-RequestLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-ReportConfig-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-ProvideCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-MeasurementCapability-r16.h	\
+	oai-lmf/src/lpp/DL-AoD-MeasCapabilityPerBand-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-RequestCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-Error-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-LocationServerErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-DL-AoD-TargetDeviceErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ProvideAssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-RequestAssistanceData-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ProvideLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-SignalMeasurementInformation-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-MeasList-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-MeasElement-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-AdditionalMeasurements-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-AdditionalMeasurementElement-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-RequestLocationInformation-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ReportConfig-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-ProvideCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-MeasurementCapability-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-RequestCapabilities-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-Error-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-LocationServerErrorCauses-r16.h	\
+	oai-lmf/src/lpp/NR-Multi-RTT-TargetDeviceErrorCauses-r16.h	\
+	oai-lmf/src/lpp/AssistanceDataSIBelement-r15.h	\
+	oai-lmf/src/lpp/CipheringKeyData-r15.h	\
+	oai-lmf/src/lpp/SegmentationInfo-r15.h	\
+	oai-lmf/src/lpp/OTDOA-UE-Assisted-r15.h	\
+	oai-lmf/src/lpp/NR-UEB-TRP-LocationData-r16.h	\
+	oai-lmf/src/lpp/NR-UEB-TRP-RTD-Info-r16.h	\
+	oai-lmf/src/lpp/EXTERNAL.h
+
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/ANY.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ANY.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/OCTET_STRING.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/OPEN_TYPE.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OPEN_TYPE.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/constr_CHOICE.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/BOOLEAN.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BOOLEAN.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/GeneralizedTime.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/GeneralizedTime.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/GraphicString.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/GraphicString.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/INTEGER.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/INTEGER.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/NULL.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NULL.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/NativeEnumerated.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeEnumerated.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/NativeInteger.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeInteger.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/OBJECT_IDENTIFIER.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OBJECT_IDENTIFIER.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_codecs_prim.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/ObjectDescriptor.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ObjectDescriptor.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/UTCTime.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/UTCTime.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/VisibleString.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/VisibleString.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_SET_OF.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_SET_OF.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_CHOICE.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/constr_SEQUENCE.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/constr_SEQUENCE_OF.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_OF.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/constr_SET_OF.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SET_OF.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_application.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_application.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_ioc.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_system.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_codecs.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_internal.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_internal.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_bit_data.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_bit_data.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OCTET_STRING.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/BIT_STRING.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BIT_STRING.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_codecs_prim.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/ber_tlv_length.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ber_tlv_length.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/ber_tlv_tag.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ber_tlv_tag.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/constr_TYPE.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_TYPE.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/constraints.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constraints.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/xer_support.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/xer_decoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/xer_encoder.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/xer_support.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/xer_decoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/xer_encoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ANY_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BIT_STRING_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BOOLEAN_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/GeneralizedTime_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/INTEGER_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NULL_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeEnumerated_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeInteger_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OBJECT_IDENTIFIER_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OCTET_STRING_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OPEN_TYPE_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/UTCTime_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_codecs_prim_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_CHOICE_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_OF_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_xer.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SET_OF_xer.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/per_decoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/per_encoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/per_support.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/per_opentype.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/per_decoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/per_encoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/per_support.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/per_opentype.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/uper_decoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/uper_encoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/uper_support.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/uper_opentype.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/uper_decoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/uper_encoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/uper_support.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/uper_opentype.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ANY_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BIT_STRING_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BOOLEAN_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/INTEGER_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NULL_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeEnumerated_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeInteger_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OCTET_STRING_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OPEN_TYPE_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_CHOICE_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_OF_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_uper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SET_OF_uper.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/aper_decoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/aper_encoder.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/aper_support.h
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/aper_opentype.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/aper_decoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/aper_encoder.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/aper_support.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/aper_opentype.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/ANY_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BOOLEAN_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/INTEGER_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NULL_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeEnumerated_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeInteger_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OCTET_STRING_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OPEN_TYPE_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_CHOICE_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_OF_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SET_OF_aper.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BIT_STRING_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BOOLEAN_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/GeneralizedTime_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/INTEGER_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NULL_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeInteger_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OBJECT_IDENTIFIER_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OCTET_STRING_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/UTCTime_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_CHOICE_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_print.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SET_OF_print.c
+ASN_MODULE_HDRS+=oai-lmf/src/lpp/asn_random_fill.h
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/asn_random_fill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BIT_STRING_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/BOOLEAN_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/GeneralizedTime_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/INTEGER_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NULL_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/NativeInteger_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OBJECT_IDENTIFIER_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/OCTET_STRING_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/UTCTime_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_CHOICE_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SEQUENCE_rfill.c
+ASN_MODULE_SRCS+=oai-lmf/src/lpp/constr_SET_OF_rfill.c
+
+ASN_MODULE_CFLAGS=-DASN_DISABLE_BER_SUPPORT -DASN_DISABLE_OER_SUPPORT 
+
+lib_LTLIBRARIES+=libasncodec.la
+libasncodec_la_SOURCES=$(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS)
+libasncodec_la_CPPFLAGS=-I$(top_srcdir)/oai-lmf/src/lpp/
+libasncodec_la_CFLAGS=$(ASN_MODULE_CFLAGS)
+libasncodec_la_LDFLAGS=-lm

@@ -28,6 +28,7 @@ include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
 add_library(3GPP_COMMON_TYPES STATIC
   ${CMAKE_CURRENT_SOURCE_DIR}/logger.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/conversions.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/mime_parser.cpp
 )
 
 

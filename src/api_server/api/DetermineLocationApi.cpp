@@ -42,8 +42,8 @@ void DetermineLocationApi::setupRoutes() {
 }
 
 std::pair<Pistache::Http::Code, std::string>
-DetermineLocationApi::handleParsingException(const std::exception& ex) const
-    noexcept {
+DetermineLocationApi::handleParsingException(
+    const std::exception& ex) const noexcept {
   try {
     throw;
   } catch (nlohmann::detail::exception& e) {
@@ -57,8 +57,8 @@ DetermineLocationApi::handleParsingException(const std::exception& ex) const
 }
 
 std::pair<Pistache::Http::Code, std::string>
-DetermineLocationApi::handleOperationException(const std::exception& ex) const
-    noexcept {
+DetermineLocationApi::handleOperationException(
+    const std::exception& ex) const noexcept {
   return std::make_pair(Pistache::Http::Code::Internal_Server_Error, ex.what());
 }
 

@@ -86,8 +86,7 @@ void LMFApiServer::init(size_t thr) {
 }
 void LMFApiServer::start() {
   if (m_determineLocationApiImpl != nullptr)
-    Logger::lmf_server().debug(
-        "LMF handler for DetermineLocationApiImpl");
+    Logger::lmf_server().debug("LMF handler for DetermineLocationApiImpl");
   Logger::lmf_server().info("HTTP1 server started");
   m_httpEndpoint->setHandler(m_router->handler());
   m_httpEndpoint->serve();

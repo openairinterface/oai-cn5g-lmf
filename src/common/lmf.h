@@ -28,6 +28,7 @@
 
 #define NNRF_NFM_BASE "/nnrf-nfm/"
 #define LMF_NF_REGISTER_URL "/nf-instances/"
+constexpr auto CURL_MIME_BOUNDARY = "----Boundary";
 
 typedef enum nf_type_s {
   NF_TYPE_NRF     = 0,
@@ -119,32 +120,25 @@ typedef enum ExternalClientType_s {
 } ExternalClientType_t;
 
 static const std::vector<std::string> externalClientType_e2str = {
-  "UNKNOWN_TYPE",
-  "EMERGENCY_SERVICES",
-  "VALUE_ADDED_SERVICES",
-  "PLMN_OPERATOR_SERVICES",
-  "LAWFUL_INTERCEPT_SERVICES",
-  "PLMN_OPERATOR_BROADCAST_SERVICES",
-  "PLMN_OPERATOR_OM",
-  "PLMN_OPERATOR_ANONYMOUS_STATISTICS",
-  "PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT"
-};
+    "UNKNOWN_TYPE",
+    "EMERGENCY_SERVICES",
+    "VALUE_ADDED_SERVICES",
+    "PLMN_OPERATOR_SERVICES",
+    "LAWFUL_INTERCEPT_SERVICES",
+    "PLMN_OPERATOR_BROADCAST_SERVICES",
+    "PLMN_OPERATOR_OM",
+    "PLMN_OPERATOR_ANONYMOUS_STATISTICS",
+    "PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT"};
 
 typedef enum AccessType_s { _3GPP_ACCESS = 1, NON_3GPP_ACCESS } AccessType_t;
 
 static const std::vector<std::string> accessType_e2str = {
-  "UNKNOWN_TYPE",
-  "3GPP_ACCESS",
-  "NON_3GPP_ACCESS"
-};
+    "UNKNOWN_TYPE", "3GPP_ACCESS", "NON_3GPP_ACCESS"};
 
 typedef enum AnNodeType_s { GNB = 1, NG_ENB } AnNodeType_t;
 
 static const std::vector<std::string> anNodeType_e2str = {
-  "UNKNOWN_TYPE",
-  "GNB",
-  "NG_ENB"
-};
+    "UNKNOWN_TYPE", "GNB", "NG_ENB"};
 
 typedef enum RatType_s {
   NR = 1,
@@ -165,23 +159,10 @@ typedef enum RatType_s {
 } RatType_t;
 
 static const std::vector<std::string> ratType_e2str = {
-  "UNKNOWN_TYPE",
-  "NR",
-  "EUTRA",
-  "WLAN",
-  "VIRTUAL",
-  "NBIOT",
-  "WIRELINE",
-  "WIRELINE_CABLE",
-  "WIRELINE_BBF",
-  "LTE_M",
-  "NR_U",
-  "EUTRA_U",
-  "TRUSTED_N3GA",
-  "TRUSTED_WLAN",
-  "UTRA",
-  "GERA"
-};
+    "UNKNOWN_TYPE", "NR",           "EUTRA",    "WLAN",
+    "VIRTUAL",      "NBIOT",        "WIRELINE", "WIRELINE_CABLE",
+    "WIRELINE_BBF", "LTE_M",        "NR_U",     "EUTRA_U",
+    "TRUSTED_N3GA", "TRUSTED_WLAN", "UTRA",     "GERA"};
 
 typedef struct lmf_info_s {
   std::vector<ExternalClientType_t> servingClientTypes;

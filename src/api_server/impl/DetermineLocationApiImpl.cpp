@@ -24,20 +24,23 @@ namespace api {
 using namespace oai::lmf_server::model;
 
 DetermineLocationApiImpl::DetermineLocationApiImpl(
-    const std::shared_ptr<Pistache::Rest::Router>& rtr, oai::lmf::app::lmf_app* lmf_app_inst)
+    const std::shared_ptr<Pistache::Rest::Router>& rtr,
+    oai::lmf::app::lmf_app* lmf_app_inst)
     : DetermineLocationApi(rtr), m_lmf_app(lmf_app_inst) {}
 
 void DetermineLocationApiImpl::determine_location(
     const InputData& inputData, Pistache::Http::ResponseWriter& response) {
+  nlohmann::json inputData_json = {};
+  to_json(inputData_json, inputData);
   Logger::lmf_server().info(
-      "Get Determine Location\n");
+      "Get Determine Location %s\n", inputData_json.dump().c_str());
   nlohmann::json locationData_json = {};
   Pistache::Http::Code code        = {};
   m_lmf_app->handle_determine_location(inputData, locationData_json, code, 1);
   if (code == Pistache::Http::Code::Ok) {
     response.send(Pistache::Http::Code::Ok, locationData_json.dump().c_str());
   } else {
-    nlohmann::json json_data                              = {};
+    nlohmann::json json_data                               = {};
     oai::lmf_server::model::ProblemDetails problem_details = {};
     problem_details.setCause("Internal Error Occured");
     to_json(json_data, problem_details);

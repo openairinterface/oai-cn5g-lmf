@@ -218,7 +218,8 @@ void lmf_profile::display() const {
 
   Logger::lmf_app().debug("\t\t ServingClientTypes: ");
   for (auto clientType : lmf_info.servingClientTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", externalClientType_e2str[clientType].c_str());
+    Logger::lmf_app().debug(
+        "\t\t\t %s", externalClientType_e2str[clientType].c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingAccessTypes: ");

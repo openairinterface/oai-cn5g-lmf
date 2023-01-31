@@ -40,6 +40,8 @@
 #include <shared_mutex>
 #include <string>
 
+#define BUF_LEN 1024
+
 namespace oai {
 namespace lmf {
 namespace app {
