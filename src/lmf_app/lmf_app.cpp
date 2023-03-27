@@ -126,7 +126,8 @@ void lmf_app::handle_determine_location(
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-      0, ATS_UNALIGNED_BASIC_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
         "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
@@ -198,7 +199,11 @@ void lmf_app::handle_determine_location(
   nrppaInformation.setNfId(lmf_info.lmfId);
   nrppaInformation.setNrppaPdu(n2InfoContent);
 
+  N2InformationClass n2InformationClass = {};
+  n2InformationClass.setEnumValue(
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
   N2InfoContainer n2InfoContainer = {};
+  n2InfoContainer.setN2InformationClass(n2InformationClass);
   n2InfoContainer.setNrppaInfo(nrppaInformation);
 
   N1N2MessageTransferReqData n1n2MessageTransferReqData = {};
@@ -295,6 +300,8 @@ void lmf_app::build_positioning_information_request_nrppa_pdu(
   nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
   nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
   nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
+
+  nrppaPdu->choice.initiatingMessage->procedureCode = ProcedureCode_id_oTDOAInformationExchange;
   nrppaPdu->choice.initiatingMessage->criticality        = Criticality_reject;
   nrppaPdu->choice.initiatingMessage->value.present =
       InitiatingMessage__value_PR::
