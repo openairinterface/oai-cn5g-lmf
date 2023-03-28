@@ -67,7 +67,7 @@ lmf_client::~lmf_client() {
 //------------------------------------------------------------------------------
 void lmf_client::curl_http_client(
     std::string remoteUri, std::string method, std::string msgBody,
-    std::string& response) {
+    std::string& response, bool is_multipart) {
   Logger::lmf_app().info("Send HTTP message with body %s", msgBody.c_str());
 
   uint32_t str_len = msgBody.length();
@@ -86,8 +86,13 @@ void lmf_client::curl_http_client(
     struct curl_slist* headers = nullptr;
     if ((method.compare("POST") == 0) or (method.compare("PUT") == 0) or
         (method.compare("PATCH") == 0)) {
-      std::string content_type = "Content-Type: application/json";
-      headers = curl_slist_append(headers, content_type.c_str());
+      if (is_multipart) {
+        std::string content_type = "Content-type: multipart/related; boundary=" +
+                                  std::string(CURL_MIME_BOUNDARY);
+        headers = curl_slist_append(headers, content_type.c_str());
+      } else {
+        headers = curl_slist_append(headers, "Content-Type: application/json");
+      }
       curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     }
 

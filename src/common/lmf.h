@@ -24,6 +24,8 @@
 
 #define HEART_BEAT_TIMER 10
 
+#define N2_NRPPa_CONTENT_ID "n2NrppaMsg"
+
 #define _unused(x) ((void) (x))
 
 #define NNRF_NFM_BASE "/nnrf-nfm/"

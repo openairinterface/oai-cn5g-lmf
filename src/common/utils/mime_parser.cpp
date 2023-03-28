@@ -22,6 +22,7 @@
 #include "mime_parser.hpp"
 #include "logger.hpp"
 #include "conversions.hpp"
+#include "lmf.h"
 
 extern "C" {
 #include "dynamic_memory_check.h"
@@ -124,7 +125,7 @@ void mime_parser::create_multipart_related_content(
   body.append(std::string((char*) n1_msg_hex, n1_message.length() / 2) + CRLF);
   body.append("--" + boundary + CRLF);
   body.append(
-      "Content-Type: application/vnd.3gpp.ngap" + CRLF + "Content-Id: n2msg" +
+      "Content-Type: application/vnd.3gpp.ngap" + CRLF + "Content-Id: " + N2_NRPPa_CONTENT_ID +
       CRLF);
   body.append(CRLF);
   body.append(std::string((char*) n2_msg_hex, n2_message.length() / 2) + CRLF);
@@ -153,7 +154,7 @@ void mime_parser::create_multipart_related_content(
         "Content-Id: n1SmMsg" + CRLF);
   } else if (content_type == multipart_related_content_part_e::NGAP) {  // NGAP
     body.append(
-        "Content-Type: application/vnd.3gpp.ngap" + CRLF + "Content-Id: n2msg" +
+        "Content-Type: application/vnd.3gpp.ngap" + CRLF + "Content-Id: " + N2_NRPPa_CONTENT_ID +
         CRLF);
   }
   body.append(CRLF);

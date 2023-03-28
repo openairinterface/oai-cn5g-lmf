@@ -49,6 +49,7 @@ void lmf_profile::get_nf_instance_id(std::string& instance_id) const {
 
 //------------------------------------------------------------------------------
 std::string lmf_profile::get_nf_instance_id() const {
+  Logger::lmf_app().debug("get_nf_instance_id: %s", nf_instance_id.c_str());
   return nf_instance_id;
 }
 

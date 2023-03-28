@@ -51,7 +51,7 @@ class lmf_client {
 
   void curl_http_client(
       std::string remoteUri, std::string method, std::string msgBody,
-      std::string& response);
+      std::string& response, bool is_multipart);
 };
 }  // namespace app
 }  // namespace lmf

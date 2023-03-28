@@ -184,7 +184,7 @@ void lmf_app::handle_determine_location(
   conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
   RefToBinaryData ngapData = {};
-  ngapData.setContentId("n2msg");
+  ngapData.setContentId(N2_NRPPa_CONTENT_ID);
 
   NgapIeType ngapIeType = {};
   ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
@@ -194,9 +194,7 @@ void lmf_app::handle_determine_location(
   n2InfoContent.setNgapData(ngapData);
 
   NrppaInformation nrppaInformation = {};
-  lmf_info_t lmf_info;
-  lmf_nrf_inst->lmf_nf_profile.get_lmf_info(lmf_info);
-  nrppaInformation.setNfId(lmf_info.lmfId);
+  nrppaInformation.setNfId(lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
   nrppaInformation.setNrppaPdu(n2InfoContent);
 
   N2InformationClass n2InformationClass = {};
@@ -220,7 +218,7 @@ void lmf_app::handle_determine_location(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
-  lmf_client_inst->curl_http_client(amf_uri, method, body, response);
+  lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
   Logger::lmf_app().info("Response from AMF: %s", response.c_str());
 }

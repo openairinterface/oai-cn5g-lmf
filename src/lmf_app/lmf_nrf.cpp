@@ -79,8 +79,6 @@ void lmf_nrf::generate_lmf_profile(
 
   // LMF info (Hardcoded for now)
 
-  lmf_instance_id = to_string(boost::uuids::random_generator()());
-
   lmf_info_t lmf_info_item;
   lmf_info_item.lmfId = lmf_instance_id;
   lmf_info_item.servingClientTypes.push_back(
@@ -112,10 +110,11 @@ void lmf_nrf::generate_lmf_profile(
 }
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::register_to_nrf() {
+  // generate UUID
+  lmf_instance_id             = to_string(boost::uuids::random_generator()());
   nlohmann::json response_data = {};
 
   // Generate NF Profile
-  lmf_profile lmf_nf_profile;
   generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 
   // Send NF registeration request
@@ -129,7 +128,7 @@ void lmf_nrf::register_to_nrf() {
 
   Logger::lmf_nrf().info("Sending NF registeration request");
   lmf_client_instance->curl_http_client(
-      remoteUri, method, json_data.dump().c_str(), response);
+      remoteUri, method, json_data.dump().c_str(), response, false);
 
   try {
     response_data = nlohmann::json::parse(response);
@@ -186,6 +185,6 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   get_lmf_api_root(lmf_api_root);
   std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
   lmf_client_instance->curl_http_client(
-      remoteUri, method, json_data.dump().c_str(), response);
+      remoteUri, method, json_data.dump().c_str(), response, false);
   if (!response.empty()) task_connection.disconnect();
 }
