@@ -65,6 +65,7 @@ class lmf_app {
  private:
   lmf_event& event_sub;
   void build_request_location_lpp_pdu(LPP_Message_t* lppMsg);
+  void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
   void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
 };
 }  // namespace app

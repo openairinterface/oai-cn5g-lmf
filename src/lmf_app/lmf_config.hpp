@@ -69,6 +69,7 @@
 #define LMF_CONFIG_STRING_SUPPORT_FEATURES_USE_FQDN_DNS "USE_FQDN_DNS"
 #define LMF_CONFIG_STRING_SUPPORT_FEATURES_USE_HTTP2 "USE_HTTP2"
 #define LMF_CONFIG_STRING_SUPPORTED_FEATURES_REGISTER_NRF "REGISTER_NRF"
+#define LMF_CONFIG_STRING_SUPPORTED_FEATURES_REQUEST_TRP_INFO "REQUEST_TRP_INFO"
 #define LMF_CONFIG_STRING_FQDN_DNS "FQDN"
 
 using namespace libconfig;
@@ -115,6 +116,7 @@ class lmf_config {
   } nrf_addr;
 
   bool register_nrf;
+  bool request_trp_info;
   ;
   bool use_fqdn_dns;
   bool use_http2;

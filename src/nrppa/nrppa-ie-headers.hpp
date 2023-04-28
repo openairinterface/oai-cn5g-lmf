@@ -4,3 +4,6 @@
 #include "ProtocolIE-Field.h"
 #include "RequestedSRSTransmissionCharacteristics.h"
 #include "SRSResourceSet.h"
+#include "TRPInformationRequest.h"
+#include "TRPItem.h"
+#include "TRPInformationTypeItem.h"

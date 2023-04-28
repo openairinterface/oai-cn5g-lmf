@@ -111,7 +111,7 @@ void lmf_nrf::generate_lmf_profile(
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::register_to_nrf() {
   // generate UUID
-  lmf_instance_id             = to_string(boost::uuids::random_generator()());
+  lmf_instance_id              = to_string(boost::uuids::random_generator()());
   nlohmann::json response_data = {};
 
   // Generate NF Profile

@@ -87,8 +87,9 @@ void lmf_client::curl_http_client(
     if ((method.compare("POST") == 0) or (method.compare("PUT") == 0) or
         (method.compare("PATCH") == 0)) {
       if (is_multipart) {
-        std::string content_type = "Content-type: multipart/related; boundary=" +
-                                  std::string(CURL_MIME_BOUNDARY);
+        std::string content_type =
+            "Content-type: multipart/related; boundary=" +
+            std::string(CURL_MIME_BOUNDARY);
         headers = curl_slist_append(headers, content_type.c_str());
       } else {
         headers = curl_slist_append(headers, "Content-Type: application/json");

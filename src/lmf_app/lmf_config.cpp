@@ -168,6 +168,14 @@ int lmf_config::load(const std::string& config_file) {
       register_nrf = false;
     }
 
+    support_features.lookupValue(
+        LMF_CONFIG_STRING_SUPPORTED_FEATURES_REQUEST_TRP_INFO, opt);
+    if (boost::iequals(opt, "yes")) {
+      request_trp_info = true;
+    } else {
+      request_trp_info = false;
+    }
+
   } catch (const SettingNotFoundException& nfex) {
     Logger::lmf_app().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());

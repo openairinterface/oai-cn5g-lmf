@@ -31,10 +31,16 @@
 #include <map>
 #include <vector>
 
-enum class multipart_related_content_part_e { JSON = 0, NAS = 1, NGAP = 2 };
+enum class multipart_related_content_part_e {
+  JSON  = 0,
+  NAS   = 1,
+  NGAP  = 2,
+  LPP   = 3,
+  NRPPA = 4
+};
 
 static const std::vector<std::string> multipart_related_content_part_e2str = {
-    "JSON", "NAS", "NGAP"};
+    "JSON", "NAS", "NGAP", "LPP", "NRPPA"};
 
 typedef struct mime_part {
   std::string content_type;

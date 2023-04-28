@@ -38,6 +38,7 @@
 #include "N1MessageContainer.h"
 #include "N1MessageClass.h"
 #include "N1N2MessageTransferReqData.h"
+#include "N2InformationTransferReqData.h"
 #include "RefToBinaryData.h"
 #include "ProblemDetails.h"
 #include "conversions.hpp"
@@ -75,6 +76,78 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     } catch (std::exception& e) {
       Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
       throw;
+    }
+  }
+  if (lmf_cfg.request_trp_info) {
+    NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
+    build_trp_information_request_nrppa_pdu(nrppaPdu);
+
+    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+
+    asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
+        0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+
+    if (nrppaPduEnc.result.encoded == -1) {
+      Logger::lmf_app().error(
+          "Could not encode (at %s)\n",
+          nrppaPduEnc.result.failed_type ?
+              nrppaPduEnc.result.failed_type->name :
+              "unknown");
+    } else {
+      std::string amf_uri  = {};
+      std::string method   = "POST";
+      std::string response = {};
+      amf_uri              = "http://" +
+                std::string(inet_ntoa(
+                    *((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
+                ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
+                lmf_cfg.amf_addr.api_version + "/non-ue-n2-messages/transfer";
+      Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
+
+      std::string nrppaMsgStr(
+          (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
+      std::string nrppaMsgHex = {};
+      conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+
+      RefToBinaryData ngapData = {};
+      ngapData.setContentId(N2_NRPPa_CONTENT_ID);
+
+      NgapIeType ngapIeType = {};
+      ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+
+      N2InfoContent n2InfoContent = {};
+      n2InfoContent.setNgapIeType(ngapIeType);
+      n2InfoContent.setNgapData(ngapData);
+
+      NrppaInformation nrppaInformation = {};
+      nrppaInformation.setNfId(
+          lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
+      nrppaInformation.setNrppaPdu(n2InfoContent);
+
+      N2InformationClass n2InformationClass = {};
+      n2InformationClass.setEnumValue(
+          N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+      N2InfoContainer n2InfoContainer = {};
+      n2InfoContainer.setN2InformationClass(n2InformationClass);
+      n2InfoContainer.setNrppaInfo(nrppaInformation);
+
+      N2InformationTransferReqData n2InformationTransferReqData = {};
+      n2InformationTransferReqData.setN2Information(n2InfoContainer);
+
+      nlohmann::json n2InformationTransferReqData_json;
+      to_json(n2InformationTransferReqData_json, n2InformationTransferReqData);
+
+      std::string body      = {};
+      std::string json_part = {};
+      json_part             = n2InformationTransferReqData_json.dump();
+
+      mime_parser::create_multipart_related_content(
+          body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
+          multipart_related_content_part_e::NRPPA);
+
+      lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
+
+      Logger::lmf_app().info("Response from AMF: %s", response.c_str());
     }
   }
   Logger::lmf_app().startup("Started");
@@ -127,7 +200,7 @@ void lmf_app::handle_determine_location(
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-  
+
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
         "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
@@ -216,7 +289,7 @@ void lmf_app::handle_determine_location(
 
   mime_parser::create_multipart_related_content(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
-      multipart_related_content_part_e::NGAP);
+      multipart_related_content_part_e::NRPPA);
 
   lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
@@ -293,14 +366,77 @@ void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {
       true;
 }
 
+void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
+  nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
+  nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
+  nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
+
+  nrppaPdu->choice.initiatingMessage->procedureCode =
+      ProcedureCode_id_tRPInformationExchange;
+  nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
+  nrppaPdu->choice.initiatingMessage->value.present =
+      InitiatingMessage__value_PR::
+          InitiatingMessage__value_PR_TRPInformationRequest;
+
+  TRPInformationRequest_IEs_t* trpList = new TRPInformationRequest_IEs_t();
+  trpList->id                          = ProtocolIE_ID_id_TRPList;
+  trpList->criticality                 = Criticality_reject;
+  trpList->value.present               = TRPInformationRequest_IEs__value_PR::
+      TRPInformationRequest_IEs__value_PR_TRPList;
+
+  // Optional if All TRPs to be included
+  TRPItem_t* trpItem1 = new TRPItem_t();
+  trpItem1->tRP_ID    = 1;
+  TRPItem_t* trpItem2 = new TRPItem_t();
+  trpItem2->tRP_ID    = 2;
+  ASN_SEQUENCE_ADD(&trpList->value.choice.TRPList.list, trpItem1);
+  // ASN_SEQUENCE_ADD(&trpList->value.choice.TRPList.list, trpItem2);
+
+  ASN_SEQUENCE_ADD(
+      &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
+           .protocolIEs.list,
+      trpList);
+
+  TRPInformationRequest_IEs_t* trpInformationTypeList =
+      new TRPInformationRequest_IEs_t();
+  trpInformationTypeList->id = ProtocolIE_ID_id_TRPInformationTypeListTRPReq;
+  trpInformationTypeList->criticality   = Criticality_reject;
+  trpInformationTypeList->value.present = TRPInformationRequest_IEs__value_PR::
+      TRPInformationRequest_IEs__value_PR_TRPInformationTypeListTRPReq;
+
+  for (int i = e_TRPInformationTypeItem::TRPInformationTypeItem_nrPCI;
+       i <= e_TRPInformationTypeItem::TRPInformationTypeItem_geoCoord; i++) {
+    e_TRPInformationTypeItem type = (e_TRPInformationTypeItem) i;
+    Logger::lmf_app().info("Adding TRPInformationTypeItem: %d", (int) type);
+    TRPInformationTypeItemTRPReq_t* trpInformationTypeItem =
+        new TRPInformationTypeItemTRPReq_t();
+    trpInformationTypeItem->id = ProtocolIE_ID_id_TRPInformationTypeItem;
+    trpInformationTypeItem->criticality = Criticality_reject;
+    trpInformationTypeItem->value.present =
+        TRPInformationTypeItemTRPReq__value_PR::
+            TRPInformationTypeItemTRPReq__value_PR_TRPInformationTypeItem;
+    trpInformationTypeItem->value.choice.TRPInformationTypeItem = type;
+
+    ASN_SEQUENCE_ADD(
+        &trpInformationTypeList->value.choice.TRPInformationTypeListTRPReq.list,
+        trpInformationTypeItem);
+  }
+
+  ASN_SEQUENCE_ADD(
+      &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
+           .protocolIEs.list,
+      trpInformationTypeList);
+}
+
 void lmf_app::build_positioning_information_request_nrppa_pdu(
     NRPPA_PDU_t* nrppaPdu) {
   nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
   nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
   nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
 
-  nrppaPdu->choice.initiatingMessage->procedureCode = ProcedureCode_id_oTDOAInformationExchange;
-  nrppaPdu->choice.initiatingMessage->criticality        = Criticality_reject;
+  nrppaPdu->choice.initiatingMessage->procedureCode =
+      ProcedureCode_id_oTDOAInformationExchange;
+  nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
   nrppaPdu->choice.initiatingMessage->value.present =
       InitiatingMessage__value_PR::
           InitiatingMessage__value_PR_PositioningInformationRequest;
