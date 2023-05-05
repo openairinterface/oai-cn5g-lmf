@@ -96,7 +96,7 @@ RUN yum update -y && \
 WORKDIR /openair-lmf/bin
 COPY --from=oai-lmf-builder \
     /openair-lmf/build/lmf/build/oai_lmf \
-    /openair-lmf/scripts/entrypoint.sh \
+    /openair-lmf/scripts/entrypoint.py \
     ./
 
 WORKDIR /usr/local/lib64
@@ -120,5 +120,5 @@ WORKDIR /openair-lmf
 
 EXPOSE 80/tcp
 
-ENTRYPOINT ["/bin/bash","/openair-lmf/bin/entrypoint.sh"]
+ENTRYPOINT ["python3","/openair-lmf/bin/entrypoint.py"]
 CMD ["/openair-lmf/bin/oai_lmf", "-c" , "/openair-lmf/etc/lmf.conf", "-o"]
