@@ -277,7 +277,7 @@ install_nghttp2_from_git() {
 
     git clone $GIT_URL
     cd nghttp2
-    git checkout -f v3.10.3
+    git checkout -f 43ba3125932c1d56addaeded2b7f62637af255cd
     git submodule update --init
     ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
     autoreconf -i
