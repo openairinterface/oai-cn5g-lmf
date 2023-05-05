@@ -28,7 +28,8 @@
 #---------------------------------------------------------------------
 # BUILDER IMAGE
 #---------------------------------------------------------------------
-FROM ubuntu:bionic as oai-lmf-builder
+ARG BASE_IMAGE=ubuntu:bionic
+FROM $BASE_IMAGE as oai-lmf-builder
 
 ARG NEEDED_GIT_PROXY
 
@@ -61,7 +62,7 @@ RUN ./build_lmf --clean --Verbose --build-type Release --jobs && \
 #---------------------------------------------------------------------
 # TARGET IMAGE
 #---------------------------------------------------------------------
-FROM ubuntu:bionic as oai-lmf
+FROM $BASE_IMAGE as oai-lmf
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
 # We install some debug tools for the moment in addition of mandatory libraries
