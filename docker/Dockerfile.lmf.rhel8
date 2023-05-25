@@ -42,6 +42,8 @@ COPY ./rhsm-ca /etc/rhsm/ca
 RUN rm -f /etc/rhsm-host && \
     yum repolist --disablerepo=* && \
     subscription-manager repos --enable codeready-builder-for-rhel-8-x86_64-rpms && \
+    # here just to display the current version
+    cat /etc/os-release && \
     yum update -y && \
     yum install -y \
         psmisc \
