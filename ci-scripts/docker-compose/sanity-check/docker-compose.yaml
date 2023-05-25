@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+    oai-nrf:
+        container_name: "cicd-oai-nrf"
+        image: oaisoftwarealliance/oai-nrf:develop
+        environment:
+            - TZ=Europe/Paris
+            - NRF_INTERFACE_NAME_FOR_SBI=eth0
+        networks:
+            sanity_net:
+                ipv4_address: 192.168.60.130
+    oai-lmf:
+        container_name: "cicd-oai-lmf"
+        image: oaisoftwarealliance/oai-lmf:develop
+        environment:
+            - TZ=Europe/Paris
+            - LMF_NAME=cicd-oai-lmf
+            - SBI_IF_NAME=eth0
+            - USE_FQDN_DNS=yes
+            - USE_HTTP2=no
+            - REGISTER_NRF=yes
+            - REQUEST_TRP_INFO=no
+            - NRF_IPV4_ADDRESS=192.168.60.130
+            - NRF_FQDN=cicd-oai-nrf
+        depends_on:
+            - oai-nrf
+        networks:
+            sanity_net:
+                ipv4_address: 192.168.60.131
+
+networks:
+    sanity_net:
+        driver: bridge
+        name: sanity-oai-public-net
+        ipam:
+            config:
+                - subnet: 192.168.60.128/26
+        driver_opts:
+            com.docker.network.bridge.name: "sanity-oai"

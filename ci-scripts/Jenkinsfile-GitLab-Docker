@@ -302,6 +302,52 @@ pipeline {
         }
       }
     }
+    stage('Sanity checks') {
+      parallel {
+        stage ('Sanity Check on Ubuntu') {
+          steps {
+            lock(ubuntuBuildResource) {
+              script {
+                gitlabCommitStatus(name: "Sanity Check on Ubuntu") {
+                  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+                  sh "docker pull ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
+                  sh "docker image tag ${PrivateRegistryURL}/oai-lmf:${lmf_tag} oai-lmf:${lmf_tag}"
+                  sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-lmf:${lmf_tag}"
+                  sh "docker rmi oai-lmf:${lmf_tag} ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
+                  sh "docker logout ${PrivateRegistryURL}"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    // We are only publishing the Ubuntu image to Docker-Hub
+    // For Post-Merge events.
+    // Temporary Images from Merge-Request Runs are kept in local private registry
+    stage ('Pushing Image to Official Registry') {
+      steps {
+        lock(ubuntuBuildResource) {
+          script {
+            // Only in case of push to target branch!
+            if ("PUSH".equals(env.gitlabActionType)) {
+              withCredentials([
+                [$class: 'UsernamePasswordMultiBinding', credentialsId: "${params.DockerHubCredentials}", usernameVariable: 'DH_Username', passwordVariable: 'DH_Password']
+              ]) {
+                sh "echo ${DH_Password} | docker login --username ${DH_Username} --password-stdin"
+              }
+              sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+              sh "docker pull ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
+              sh "docker image tag ${PrivateRegistryURL}/oai-lmf:${lmf_tag} ${DH_Account}/oai-lmf:develop"
+              sh "docker push ${DH_Account}/oai-lmf:develop"
+              sh "docker rmi ${DH_Account}/oai-lmf:develop ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
+              sh "docker logout ${PrivateRegistryURL}"
+              sh "docker logout"
+            }
+          }
+        }
+      }
+    }
   }
   post {
     success {

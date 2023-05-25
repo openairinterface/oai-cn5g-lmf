@@ -83,6 +83,8 @@ RUN apt-get update && \
       librtmp1 \
       libpsl5 \
       libconfig++9v5 \
+      python3 \
+      python3-jinja2 \
   && rm -rf /var/lib/apt/lists/*
 
 # Copying executable and generated libraries
