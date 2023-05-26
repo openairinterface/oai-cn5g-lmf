@@ -38,6 +38,7 @@
 #include <string>
 #include <sys/socket.h>
 #include <vector>
+#include "logger.hpp"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/classification.hpp>
@@ -47,6 +48,7 @@
 #define LMF_CONFIG_STRING_PID_DIRECTORY "PID_DIRECTORY"
 #define LMF_CONFIG_STRING_INSTANCE_ID "INSTANCE_ID"
 #define LMF_CONFIG_STRING_LMF_NAME "LMF_NAME"
+#define LMF_CONFIG_STRING_LOG_LEVEL "LOG_LEVEL"
 
 #define LMF_CONFIG_STRING_INTERFACES "INTERFACES"
 #define LMF_CONFIG_STRING_INTERFACE_SBI "SBI"
@@ -96,6 +98,7 @@ class lmf_config {
   unsigned int instance;
   std::string pid_dir;
   std::string lmf_name;
+  spdlog::level::level_enum log_level = spdlog::level::debug;
 
   interface_cfg_t sbi;
   unsigned int sbi_http2_port;
@@ -117,7 +120,6 @@ class lmf_config {
 
   bool register_nrf;
   bool request_trp_info;
-  ;
   bool use_fqdn_dns;
   bool use_http2;
 };

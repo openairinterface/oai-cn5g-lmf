@@ -26,90 +26,56 @@ date 2020
 email: contact@openairinterface.org
 */
 
-#ifndef __LOGGER_H
-#define __LOGGER_H
+#pragma once
 
-#include <cstdarg>
-#include <stdexcept>
-#include <vector>
+#include "logger_base.hpp"
 
-#define SPDLOG_LEVEL_NAMES                                                     \
-  {"trace", "debug", "info ", "start", "warn ", "error", "off  "};
-
-#define SPDLOG_ENABLE_SYSLOG
-#include "spdlog/spdlog.h"
-
-class LoggerException : public std::runtime_error {
- public:
-  explicit LoggerException(const char* m) : std::runtime_error(m) {}
-  explicit LoggerException(const std::string& m) : std::runtime_error(m) {}
-};
-
-class _Logger {
- public:
-  _Logger(
-      const char* category, std::vector<spdlog::sink_ptr>& sinks,
-      const char* pattern);
-
-  void trace(const char* format, ...);
-  void trace(const std::string& format, ...);
-  void debug(const char* format, ...);
-  void debug(const std::string& format, ...);
-  void info(const char* format, ...);
-  void info(const std::string& format, ...);
-  void startup(const char* format, ...);
-  void startup(const std::string& format, ...);
-  void warn(const char* format, ...);
-  void warn(const std::string& format, ...);
-  void error(const char* format, ...);
-  void error(const std::string& format, ...);
-
- private:
-  _Logger();
-  enum _LogType { _ltTrace, _ltDebug, _ltInfo, _ltStartup, _ltWarn, _ltError };
-
-  void log(_LogType lt, const char* format, va_list& args);
-  spdlog::logger m_log;
-};
+static const std::string Lmf_Config = "config";
+static const std::string Lmf_App    = "lmf_app";
+static const std::string Lmf_Nrf    = "lmf_nrf";
+static const std::string Lmf_Server = "lmf_server";
+static const std::string Lmf_System = "system";
 
 class Logger {
  public:
   static void init(
-      const char* app, const bool log_stdout, const bool log_rot_file) {
-    singleton()._init(app, log_stdout, log_rot_file);
-  }
-  static void init(
-      const std::string& app, const bool log_stdout, const bool log_rot_file) {
-    init(app.c_str(), log_stdout, log_rot_file);
-  }
-
-  static _Logger& config() { return *singleton().m_config; }
-  static _Logger& system() { return *singleton().m_system; }
-  static _Logger& lmf_app() { return *singleton().m_lmf_app; }
-  static _Logger& lmf_nrf() { return *singleton().m_lmf_nrf; }
-  static _Logger& lmf_server() { return *singleton().m_lmf_server; }
-
- private:
-  static Logger* m_singleton;
-  static Logger& singleton() {
-    if (!m_singleton) m_singleton = new Logger();
-    return *m_singleton;
+      const std::string& name, bool log_stdout, bool log_rot_file) {
+    oai::logger::logger_registry::register_logger(
+        name, Lmf_Config, log_stdout, log_rot_file);
+    oai::logger::logger_registry::register_logger(
+        name, Lmf_App, log_stdout, log_rot_file);
+    oai::logger::logger_registry::register_logger(
+        name, Lmf_Nrf, log_stdout, log_rot_file);
+    oai::logger::logger_registry::register_logger(
+        name, Lmf_Server, log_stdout, log_rot_file);
+    oai::logger::logger_registry::register_logger(
+        name, Lmf_System, log_stdout, log_rot_file);
   }
 
-  Logger() {}
-  ~Logger() {}
+  static void set_level(spdlog::level::level_enum level) {
+    oai::logger::logger_registry::set_level(level);
+  }
+  static bool should_log(spdlog::level::level_enum level) {
+    return oai::logger::logger_registry::should_log(level);
+  }
 
-  void _init(const char* app, const bool log_stdout, const bool log_rot_file);
+  static const oai::logger::printf_logger& config() {
+    return oai::logger::logger_registry::get_logger(Lmf_Config);
+  }
 
-  std::vector<spdlog::sink_ptr> m_sinks;
+  static const oai::logger::printf_logger& lmf_app() {
+    return oai::logger::logger_registry::get_logger(Lmf_App);
+  }
 
-  std::string m_pattern;
+  static const oai::logger::printf_logger& lmf_nrf() {
+    return oai::logger::logger_registry::get_logger(Lmf_Nrf);
+  }
 
-  _Logger* m_config;
-  _Logger* m_system;
-  _Logger* m_lmf_app;
-  _Logger* m_lmf_nrf;
-  _Logger* m_lmf_server;
+  static const oai::logger::printf_logger& lmf_server() {
+    return oai::logger::logger_registry::get_logger(Lmf_Server);
+  }
+
+  static const oai::logger::printf_logger& system() {
+    return oai::logger::logger_registry::get_logger(Lmf_System);
+  }
 };
-
-#endif

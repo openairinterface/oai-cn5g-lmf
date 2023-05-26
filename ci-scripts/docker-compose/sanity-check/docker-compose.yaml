@@ -16,7 +16,7 @@ services:
             - TZ=Europe/Paris
             - LMF_NAME=cicd-oai-lmf
             - SBI_IF_NAME=eth0
-            - USE_FQDN_DNS=yes
+            - USE_FQDN_DNS=no
             - USE_HTTP2=no
             - REGISTER_NRF=yes
             - REQUEST_TRP_INFO=no
