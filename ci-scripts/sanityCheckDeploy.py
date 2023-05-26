@@ -61,6 +61,55 @@ def generic_deployment(tag):
         return -1
 
     status = 0
+    if cli == 'docker':
+        cmd = f'sed -i -e "s@oaisoftwarealliance/oai-lmf:develop@{tag}@" ci-scripts/docker-compose/sanity-check/docker-compose.yaml'
+        myCmds.run(cmd)
+        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose up -d oai-nrf'
+        upStatus = myCmds.run(cmd)
+        for line in upStatus.stdout.split('\n'):
+            print(line)
+        time.sleep(5)
+        cmd = 'sudo rm -f /tmp/sanity-lmf-ubuntu.*'
+        cmd = 'nohup sudo tshark -i sanity-oai -f "sctp or port 80 or port 8080 or port 8805 or icmp or port 3306" -w /tmp/sanity-lmf-ubuntu.pcap > /tmp/sanity-lmf-ubuntu.log 2>&1 &'
+        myCmds.run(cmd)
+        time.sleep(5)
+        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose up -d'
+        upStatus = myCmds.run(cmd)
+        for line in upStatus.stdout.split('\n'):
+            print(line)
+        time.sleep(20)
+        cmd = 'docker logs cicd-oai-lmf 2>&1 | grep REGISTERED'
+        registerCheck = myCmds.run(cmd)
+        if registerCheck.returncode != 0:
+            status = -1
+        cmd = 'docker inspect --format="STATUS: {{.State.Health.Status}}" cicd-oai-lmf'
+        healthStatus = myCmds.run(cmd)
+        for line in healthStatus.stdout.split('\n'):
+            print(line)
+            if re.search('STATUS:', line):
+                if re.search('STATUS: healthy', line):
+                    status = 0
+                else:
+                    status = -1
+        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose stop'
+        stopStatus = myCmds.run(cmd)
+        for line in stopStatus.stdout.split('\n'):
+            print(line)
+        time.sleep(5)
+        cmd = 'mkdir -p archives/sanity-check-ubuntu'
+        myCmds.run(cmd)
+        cmd = 'docker logs cicd-oai-nrf > archives/sanity-check-ubuntu/oai-nrf.log 2>&1'
+        myCmds.run(cmd)
+        cmd = 'docker logs cicd-oai-lmf > archives/sanity-check-ubuntu/oai-lmf.log 2>&1'
+        myCmds.run(cmd)
+        cmd = 'sudo chmod 666 /tmp/sanity-lmf-ubuntu.* && cp /tmp/sanity-lmf-ubuntu.* archives/sanity-check-ubuntu'
+        myCmds.run(cmd)
+        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose down'
+        downStatus = myCmds.run(cmd)
+        for line in downStatus.stdout.split('\n'):
+            print(line)
+        cmd = 'docker volume prune --force || true'
+        myCmds.run(cmd)
     return status
 
 if __name__ == '__main__':
