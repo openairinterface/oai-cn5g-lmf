@@ -284,7 +284,7 @@ pipeline {
           post {
             cleanup {
               script {
-                 stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
+                stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
                 sh 'docker rm -f lmf-ci-clang-format || true'
                 sh 'docker rmi lmf-clang-format-check:test || true'
               }
@@ -335,7 +335,7 @@ pipeline {
           post {
             always {
               script {
-                stash allowEmpty: true, includes: 'archives/podman/*.log', name: 'podmanRunLog'
+                stash allowEmpty: true, includes: 'archives/sanity-check-rhel/*.log', name: 'podmanRunLog'
               }
             }
           }
