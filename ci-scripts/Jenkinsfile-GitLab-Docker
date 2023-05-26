@@ -320,6 +320,19 @@ pipeline {
             }
           }
         }
+        stage ('Sanity Check on RHEL8') {
+          agent { label rhelNode }
+          steps {
+            lock(rhelResource) {
+              script {
+                prepareWorkspaceMergeCase()
+                gitlabCommitStatus(name: "Sanity Check on RHEL8") {
+                  sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-lmf:${lmf_tag}"
+                }
+              }
+            }
+          }
+        }
       }
     }
     // We are only publishing the Ubuntu image to Docker-Hub

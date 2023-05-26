@@ -92,6 +92,7 @@ WORKDIR /openair-lmf/bin
 COPY --from=oai-lmf-builder \
     /openair-lmf/build/lmf/build/oai_lmf \
     /openair-lmf/scripts/entrypoint.py \
+    /openair-lmf/scripts/healthcheck.sh \
     ./
 
 COPY --from=oai-lmf-builder \
@@ -110,6 +111,12 @@ COPY --from=oai-lmf-builder /openair-lmf/etc/lmf.conf .
 WORKDIR /openair-lmf
 
 EXPOSE 80/tcp
+
+# healthcheck
+HEALTHCHECK --interval=10s \
+            --timeout=15s \
+            --retries=6 \
+    CMD /openair-lmf/bin/healthcheck.sh
 
 ENTRYPOINT ["python3","/openair-lmf/bin/entrypoint.py"]
 CMD ["/openair-lmf/bin/oai_lmf", "-c" , "/openair-lmf/etc/lmf.conf", "-o"]
