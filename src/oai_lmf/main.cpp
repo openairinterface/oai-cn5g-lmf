@@ -90,6 +90,7 @@ int main(int argc, char** argv) {
   // Config
   lmf_cfg.load(Options::getlibconfigConfig());
   lmf_cfg.display();
+  Logger::set_level(lmf_cfg.log_level);
 
   // LMF application layer
   lmf_app_inst = new lmf_app(Options::getlibconfigConfig(), ev);

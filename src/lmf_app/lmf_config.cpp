@@ -112,6 +112,16 @@ int lmf_config::load(const std::string& config_file) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
+  // Log Level
+  try {
+    std::string string_level;
+    lmf_cfg.lookupValue(LMF_CONFIG_STRING_LOG_LEVEL, string_level);
+    log_level = spdlog::level::from_str(string_level);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+
   // LMF SBI interface
   try {
     const Setting& new_if_cfg = lmf_cfg[LMF_CONFIG_STRING_INTERFACES];
@@ -316,6 +326,9 @@ void lmf_config::display() {
   Logger::config().info("- Instance ...............: %d", instance);
   Logger::config().info("- PID Dir ................: %s", pid_dir.c_str());
   Logger::config().info("- LMF Name ..............: %s", lmf_name.c_str());
+  Logger::config().info(
+      "- Log Level will be .......: %s",
+      spdlog::level::to_string_view(log_level));
 
   Logger::config().info("- SBI Networking:");
   Logger::config().info("    Iface ................: %s", sbi.if_name.c_str());

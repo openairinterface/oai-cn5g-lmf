@@ -30,7 +30,7 @@ include_directories(${SRC_TOP_DIR}/common)
 include_directories(${SRC_TOP_DIR}/common/utils)
 include_directories(${SRC_TOP_DIR}/lpp)
 include_directories(${SRC_TOP_DIR}/nrppa)
-include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger)
 
 file(GLOB LMF_API_SERVER_src_files
     ${LMF_API_SERVER_DIR}/lmf-api-server.cpp

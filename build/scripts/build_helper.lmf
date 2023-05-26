@@ -29,274 +29,12 @@
 ################################
 SCRIPT=$(readlink -f ${BASH_SOURCE})
 THIS_SCRIPT_PATH=`dirname $SCRIPT`
-source $THIS_SCRIPT_PATH/build_helper
-source $THIS_SCRIPT_PATH/build_helper.libconfig
-#source $THIS_SCRIPT_PATH/build_helper.fb_folly
-
-#-------------------------------------------------------------------------------
-#arg1 is force (0 or 1) (no interactive script)
-#arg2 is debug (0 or 1) (install debug libraries)
-install_fmt() {
-  echo "Starting to install fmt"
-  if [ $1 -eq 0 ]; then
-    read -p "Do you want to install open-source formatting library for C++ ? <y/N> " prompt
-    OPTION=""
-  else
-    prompt='y'
-    OPTION="-y"
-  fi
-
-  echo "Install fmt from source"
-
-  if [[ $prompt =~ [yY](es)* ]]
-  then
-    cd /tmp
-    echo "Downloading fmt"
-    $SUDO rm -rf /tmp/fmt*
-    git clone https://github.com/fmtlib/fmt.git
-    ret=$?;[[ $ret -ne 0 ]] && return $ret
-    cd fmt
-    # Looks like since Nov 11 commits, we cannot build
-    git checkout -f 1936dddc3c53c1c0db55a665cf419dc7a257ba62
-    $CMAKE -DFMT_TEST=FALSE  .
-    ret=$?;[[ $ret -ne 0 ]] && return $ret
-    make -j `nproc`
-    ret=$?;[[ $ret -ne 0 ]] && return $ret
-    $SUDO make install
-    cd /tmp
-    rm -rf /tmp/fmt*
-  fi
-  echo "fmt installation complete"
-  return 0
-}
-
-#-------------------------------------------------------------------------------
-#arg1 is force (0 or 1) (no interactive script)
-#arg2 is debug (0 or 1) (install debug libraries)
-install_spdlog_from_git() {
-  echo "Starting to install spdlog"
-  if [ $1 -eq 0 ]; then
-    read -p "Do you want to install spdlog ? <y/N> " prompt
-    OPTION=""
-  else
-    prompt='y'
-    OPTION="-y"
-  fi
-  if [ $2 -eq 0 ]; then
-    debug=0
-  else
-    debug=1
-  fi
-
-
-  if [[ $prompt =~ [yY](es)* ]]
-  then
-    GIT_URL=https://github.com/gabime/spdlog.git
-    echo "Install spdlog from $GIT_URL"
-    pushd $OPENAIRCN_DIR/build/ext
-    echo "Downloading spdlog"
-    if [[ $OPTION =~ -[yY](es)* ]]
-    then
-      $SUDO rm -rf spdlog
-    fi
-
-    git clone $GIT_URL
-    cd spdlog && git checkout master
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    # enable syslog, Useless (defined in LMF code)
-    sed -i '/#define SPDLOG_ENABLE_SYSLOG/s/^\/\///g' include/spdlog/tweakme.h
-    popd
-  fi
-  echo "spdlog installation complete"
-  return 0
-}
-
-#-------------------------------------------------------------------------------
-#arg1 is force (0 or 1) (no interactive script)
-#arg2 is debug (0 or 1) (install debug libraries)
-install_pistache_from_git() {
-  echo "Starting to install pistache"
-  if [ $1 -eq 0 ]; then
-    read -p "Do you want to install Pistache ? <y/N> " prompt
-    OPTION="-y"
-  else
-    prompt='y'
-    OPTION="-y"
-  fi
-  if [ $2 -eq 0 ]; then
-    debug=0
-  else
-    debug=1
-  fi
-
-
-  if [[ $prompt =~ [yY](es)* ]]
-  then
-    GIT_URL=https://github.com/oktal/pistache.git
-    echo "Install Pistache from $GIT_URL"
-    pushd $OPENAIRCN_DIR/build/ext
-    echo "Downloading Pistache"
-    if [[ $OPTION =~ -[yY](es)* ]]
-    then
-      $SUDO rm -rf pistache
-    fi
-
-    git clone $GIT_URL
-    git submodule update --init
-    cd pistache && git checkout e18ed9baeb2145af6f9ea41246cf48054ffd9907
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    mkdir _build && cd _build
-    $CMAKE -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release \
-        -DPISTACHE_BUILD_EXAMPLES=false \
-        -DPISTACHE_BUILD_TESTS=false \
-        -DPISTACHE_BUILD_DOCS=false \
-        .. 
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    make
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    $SUDO make install
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    popd
-  fi
-  echo "pistache installation complete"
-  return 0
-}
-
-#-------------------------------------------------------------------------------
-#arg1 is force (0 or 1) (no interactive script)
-#arg2 is debug (0 or 1) (install debug libraries)
-install_nlohmann_from_git() {
-  echo "Starting to install Nlohmann Json"
-  if [ $1 -eq 0 ]; then
-    read -p "Do you want to install Nlohmann Json ? <y/N> " prompt
-    OPTION=""
-  else
-    prompt='y'
-    OPTION="-y"
-  fi
-  if [ $2 -eq 0 ]; then
-    debug=0
-  else
-    debug=1
-  fi
-
-
-  if [[ $prompt =~ [yY](es)* ]]
-  then
-    GIT_URL=https://github.com/nlohmann/json.git
-    echo "Install Nlohmann Json from $GIT_URL"
-    pushd $OPENAIRCN_DIR/build/ext
-    echo "Downloading Nlohmann"
-    if [[ $OPTION =~ -[yY](es)* ]]
-    then
-      $SUDO rm -rf json
-    fi
-
-    git clone $GIT_URL
-    cd json && git checkout -f v3.10.3
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    mkdir _build && cd _build
-    $CMAKE -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DJSON_BuildTests=OFF ..
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    make
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    $SUDO make install
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    popd
-  fi
-  echo "Nlohmann Json installation complete"
-  return 0
-}
-
-#-------------------------------------------------------------------------------
-#arg1 is force (0 or 1) (no interactive script)
-#arg2 is debug (0 or 1) (install debug libraries)
-install_nghttp2_from_git() {
-  echo "Starting to install nghttp2"
-  if [ $1 -eq 0 ]; then
-    read -p "Do you want to install nghttp2 ? <y/N> " prompt
-    OPTION=""
-  else
-    prompt='y'
-    OPTION="-y"
-  fi
-  if [ $2 -eq 0 ]; then
-    debug=0
-  else
-    debug=1
-  fi
-
-
-  if [[ $prompt =~ [yY](es)* ]]
-  then
-    if [[ $OS_DISTRO == "ubuntu" ]]; then
-      PACKAGE_LIST="\
-      g++ \
-      $CMAKE \
-      binutils \
-      autoconf \
-      automake \
-      autotools-dev \
-      libtool \
-      pkg-config \
-      zlib1g-dev \
-      libcunit1-dev \
-      libssl-dev \
-      libxml2-dev libev-dev libevent-dev libjansson-dev libc-ares-dev \
-      libjemalloc-dev libsystemd-dev cython python3-dev python-setuptools"
-    elif [[ "$OS_BASEDISTRO" == "fedora" ]]; then
-      PACKAGE_LIST="\
-      gcc-c++ \
-      binutils-devel \
-      autoconf \
-      automake \
-      $CMAKE \
-      make \
-      libtool \
-      pkg-config \
-      zlib-devel \
-      CUnit-devel \
-      openssl-devel \
-      libxml2-devel libev-devel libevent-devel jansson-devel c-ares-devel \
-      jemalloc-devel systemd-devel python3-Cython python3-devel python3-setuptools"
-    else
-      echo_fatal "$OS_DISTRO is not a supported distribution."
-    fi
-    echo "Install build tools"
-    $SUDO $INSTALLER install $OPTION $PACKAGE_LIST
-    ret=$?;[[ $ret -ne 0 ]] && return $ret
-   
-    GIT_URL=https://github.com/nghttp2/nghttp2.git
-    echo "Install nghttp2 from $GIT_URL"
-    pushd $OPENAIRCN_DIR/build/ext
-    echo "Downloading nghttp2"
-    if [[ $OPTION =~ [yY](es)* ]]
-    then
-      $SUDO rm -rf nghttp2
-    fi
-
-    git clone $GIT_URL
-    cd nghttp2
-    git checkout -f 43ba3125932c1d56addaeded2b7f62637af255cd
-    git submodule update --init
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    autoreconf -i
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    automake
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    autoconf
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    ./configure --enable-asio-lib --enable-lib-only
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    make
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    $SUDO make install
-    ret=$?;[[ $ret -ne 0 ]] && popd && return $ret
-    popd
-  fi
-  echo "nghttp2 installation complete"
-  return 0  
-}
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.fmt
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.spdlog
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.pistache
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.nlohmann
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.nghttp2
 
 #-------------------------------------------------------------------------------
 #arg1 is force (0 or 1) (no interactive script)
@@ -324,7 +62,9 @@ check_install_lmf_deps() {
     #$SUDO systemctl mask apt-daily.timer
     #$SUDO systemctl mask apt-daily-upgrade.service
     #$SUDO systemctl mask apt-daily-upgrade.timer
-    $SUDO sed -i 's/1/0/g' /etc/apt/apt.conf.d/10periodic
+    if [ $IS_CONTAINER -eq 0 ]; then
+      $SUDO sed -i 's/1/0/g' /etc/apt/apt.conf.d/10periodic
+    fi
   fi
 
   update_package_db
@@ -337,25 +77,16 @@ check_install_lmf_deps() {
     PACKAGE_LIST="\
       autoconf \
       automake \
-      bison \
       build-essential \
       $CMAKE \
-      daemon \
-      doxygen \
-      flex \
-      gdb \
       git"
   elif [[ "$OS_BASEDISTRO" == "fedora" ]]; then
     PACKAGE_LIST="\
       autoconf \
       automake \
-      make \
-      bison \
       gcc-c++ \
       $CMAKE \
-      doxygen \
-      flex \
-      gdb \
+      make \
       git"
   else
     echo_fatal "$OS_DISTRO is not a supported distribution."
@@ -371,19 +102,21 @@ check_install_lmf_deps() {
         # Currently Ubuntu18.04 has boost 1.65 as the latest
         # We need at least 1.66
         # PPA has 1.67
+        $SUDO $INSTALLER install $OPTION software-properties-common
         $SUDO add-apt-repository ppa:mhier/libboost-latest --yes
         $SUDO $INSTALLER update
-        specific_packages="libconfig++-dev"        
-      ;;
-      *)
-        specific_packages="libconfig++-dev libasio-dev libboost-all-dev"
-      ;;
+        specific_packages="libconfig++-dev libasio-dev libboost-all-dev libasan4"
+        ;;
+      "ubuntu20.04")
+        specific_packages="libconfig++-dev libasio-dev libboost-all-dev libasan5"
+        ;;
+      "ubuntu22.04")
+        specific_packages="libconfig++-dev libasio-dev libboost-all-dev libasan6"
+        ;;
     esac
     # removed libspdlog-dev
     PACKAGE_LIST="\
       $specific_packages \
-      libboost1.67-dev \
-      guile-2.0-dev \
       libcurl4-gnutls-dev \
       libevent-dev \
       libgcrypt11-dev \
@@ -397,21 +130,16 @@ check_install_lmf_deps() {
       libxml2 \
       libxml2-dev \
       openssl \
-      python \
       nettle-dev \
       libcurl4 \
       net-tools \
-      pkg-config \
-      libasan2"
+      pkg-config "
   elif [[ "$OS_BASEDISTRO" == "fedora" ]]; then
     PACKAGE_LIST="\
-      guile-devel \
       libconfig-devel \
       libgcrypt-devel \
       gmp-devel \
       libidn-devel \
-      lksctp-tools \
-      lksctp-tools-devel \
       openssl-devel \
       libtool \
       libxml2 \
@@ -422,28 +150,45 @@ check_install_lmf_deps() {
       libcurl-devel \
       python2 \
       pkgconfig \
+      ninja-build \
+      boost-devel \
       libasan"
   else
     echo_fatal "$OS_DISTRO is not a supported distribution."
   fi
   echo "Install distro libs"
   $SUDO $INSTALLER install $OPTION $PACKAGE_LIST
+
+  # fix issue with libboost in U18 for a bare metal deployment
+  if [[ $OS_DISTRO == "ubuntu" ]]; then
+    case "$(get_distribution_release)" in
+      "ubuntu18.04")
+        $SUDO $INSTALLER remove $OPTION libboost1.65-dev || true
+        $SUDO $INSTALLER autoremove $OPTION || true
+        $SUDO $INSTALLER install $OPTION libboost1.67-dev
+        ;;
+    esac
+  fi
+
   ret=$?;[[ $ret -ne 0 ]] && return $ret
   echo "distro libs installation complete"
 
+  install_fmt_from_git $1 $2
+  ret=$?;[[ $ret -ne 0 ]] && return $ret
+
   install_spdlog_from_git $1 $2
   ret=$?;[[ $ret -ne 0 ]] && return $ret
-   
+
   install_pistache_from_git $1 $2
   ret=$?;[[ $ret -ne 0 ]] && return $ret
-  
+
   install_nlohmann_from_git $1 $2
   ret=$?;[[ $ret -ne 0 ]] && return $ret
 
   install_nghttp2_from_git $1 $2
   ret=$?;[[ $ret -ne 0 ]] && return $ret
-  
-  $SUDO ldconfig  
+
+  $SUDO ldconfig
   return 0
 }
 #-------------------------------------------------------------------------------

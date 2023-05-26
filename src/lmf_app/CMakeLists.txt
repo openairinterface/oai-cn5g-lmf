@@ -19,7 +19,6 @@
 #      contact@openairinterface.org
 ################################################################################
 
-include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
 include_directories(${SRC_TOP_DIR}/api_server/api)
 include_directories(${SRC_TOP_DIR}/api_server/impl)
 include_directories(${SRC_TOP_DIR}/api_server/model)
@@ -28,6 +27,7 @@ include_directories(${SRC_TOP_DIR}/common/)
 include_directories(${SRC_TOP_DIR}/common/utils)
 include_directories(${SRC_TOP_DIR}/lpp)
 include_directories(${SRC_TOP_DIR}/nrppa)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger)
 
 file(GLOB LMF_src_files
   lmf_app.cpp

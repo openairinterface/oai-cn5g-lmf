@@ -125,7 +125,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
   SET(ASAN asan)
 endif()
 if (CMAKE_BUILD_TYPE STREQUAL "Release")
-  SET(ASAN asan)
+  Message("no more asan in Release Mode")
 endif()
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_boolean_option(LOG_OAI True "Thread safe logging API")
@@ -219,7 +219,7 @@ add_definitions("-DPACKAGE_BUGREPORT=\"openaircn-user@lists.eurecom.fr\"")
 # Include CMake modules to find other library
 ###############################################################################
 
-set(CMAKE_MODULE_PATH "${OPENAIRCN_DIR}/build/cmake_modules" "${CMAKE_MODULE_PATH}")
+set(CMAKE_MODULE_PATH "${OPENAIRCN_DIR}/build/common-build/cmake_modules" "${CMAKE_MODULE_PATH}")
 include(FindPkgConfig)
 
 ###############################################################################
@@ -275,7 +275,6 @@ include_directories(${SRC_TOP_DIR}/lmf_app)
 include_directories(${SRC_TOP_DIR}/oai_lmf)
 include_directories(${SRC_TOP_DIR}/common)
 include_directories(${SRC_TOP_DIR}/common/utils)
-include_directories(${SRC_TOP_DIR}/../build/ext/spdlog/include)
 include_directories(${SRC_TOP_DIR}/api_server)
 include_directories(${SRC_TOP_DIR}/api_server/api)
 include_directories(${SRC_TOP_DIR}/api_server/impl)
@@ -288,6 +287,9 @@ add_executable(lmf
   ${SRC_TOP_DIR}/oai_lmf/options.cpp
   )
 
+# Including common modules
+include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger/logger.cmake)
+
 IF(STATIC_LINKING)
     SET(CMAKE_EXE_LINKER_FLAGS "-static")
     SET_TARGET_PROPERTIES(lmf PROPERTIES LINK_SEARCH_END_STATIC 1)
@@ -296,5 +298,5 @@ IF(STATIC_LINKING)
 ENDIF(STATIC_LINKING)   
 
 target_link_libraries (lmf ${ASAN} 
-    -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API LPP NRPPA CN_UTILS -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lgmp -Wl,--end-group pthread m rt config++ boost_system pistache curl)
+    -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API LPP NRPPA CN_UTILS -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lfmt -lgmp -Wl,--end-group pthread m rt config++ boost_system pistache curl)
     
