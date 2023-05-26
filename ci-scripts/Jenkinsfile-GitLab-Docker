@@ -332,6 +332,20 @@ pipeline {
               }
             }
           }
+          post {
+            always {
+              script {
+                stash allowEmpty: true, includes: 'archives/podman/*.log', name: 'podmanRunLog'
+              }
+            }
+          }
+        }
+      }
+      post {
+        always {
+          script {
+            unstash 'podmanRunLog'
+          }
         }
       }
     }
