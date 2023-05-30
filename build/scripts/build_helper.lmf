@@ -119,7 +119,7 @@ check_install_lmf_deps() {
       $specific_packages \
       libcurl4-gnutls-dev \
       libevent-dev \
-      libgcrypt11-dev \
+      libgcrypt??-dev \
       libgmp-dev \
       libhogweed? \
       libidn2-0-dev \

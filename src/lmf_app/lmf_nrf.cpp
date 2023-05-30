@@ -46,6 +46,7 @@
 using namespace config;
 // using namespace lmf;
 using namespace oai::lmf::app;
+using namespace boost::placeholders;
 
 using json = nlohmann::json;
 
