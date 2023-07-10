@@ -345,13 +345,23 @@ void lmf_config::display() {
   Logger::config().info(
       "    Use HTTP2..............: %s", use_http2 ? "Yes" : "No");
 
-  Logger::config().info("- NRF:");
+  if (register_nrf) {
+    Logger::config().info("- NRF:");
+    Logger::config().info(
+        "    IPv4 Addr ............: %s",
+        inet_ntoa(*((struct in_addr*) &nrf_addr.ipv4_addr)));
+    Logger::config().info("    Port .................: %lu  ", nrf_addr.port);
+    Logger::config().info(
+        "    API version ..........: %s", nrf_addr.api_version.c_str());
+  }
+
+  Logger::config().info("- AMF:");
   Logger::config().info(
       "    IPv4 Addr ............: %s",
-      inet_ntoa(*((struct in_addr*) &nrf_addr.ipv4_addr)));
-  Logger::config().info("    Port .................: %lu  ", nrf_addr.port);
+      inet_ntoa(*((struct in_addr*) &amf_addr.ipv4_addr)));
+  Logger::config().info("    Port .................: %lu  ", amf_addr.port);
   Logger::config().info(
-      "    API version ..........: %s", nrf_addr.api_version.c_str());
+      "    API version ..........: %s", amf_addr.api_version.c_str());
 
   if (use_fqdn_dns)
     Logger::config().info(
