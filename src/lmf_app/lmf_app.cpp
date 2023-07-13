@@ -67,17 +67,18 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     Logger::lmf_app().error("Cannot create LMF APP: %s", e.what());
     throw;
   }
-  // Register to NRF
-  if (lmf_cfg.register_nrf) {
-    try {
-      lmf_nrf_inst = new lmf_nrf(ev);
+  try {
+    lmf_nrf_inst = new lmf_nrf(ev);
+    // Register to NRF
+    if (lmf_cfg.register_nrf) {
       lmf_nrf_inst->register_to_nrf();
-      Logger::lmf_app().info("NRF TASK Created ");
-    } catch (std::exception& e) {
-      Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
-      throw;
     }
+    Logger::lmf_app().info("NRF TASK Created ");
+  } catch (std::exception& e) {
+    Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
+    throw;
   }
+
   if (lmf_cfg.request_trp_info) {
     NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
     build_trp_information_request_nrppa_pdu(nrppaPdu);
