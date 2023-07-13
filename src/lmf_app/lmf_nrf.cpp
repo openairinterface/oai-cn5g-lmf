@@ -55,7 +55,9 @@ extern lmf_nrf* lmf_nrf_inst;
 lmf_client* lmf_client_instance = nullptr;
 
 //------------------------------------------------------------------------------
-lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {}
+lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
+  generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
+}
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::get_lmf_api_root(std::string& api_root) {
   api_root =
@@ -116,7 +118,7 @@ void lmf_nrf::register_to_nrf() {
   nlohmann::json response_data = {};
 
   // Generate NF Profile
-  generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
+  // generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 
   // Send NF registeration request
   std::string lmf_api_root = {};
