@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_client.cpp
- \brief
- \author  Jian Yang, Fengjiao He, Hongxin Wang, Tien-Thinh NGUYEN
- \company Eurecom
- \date 2020
- \email:
- */
-
 #include "lmf_client.hpp"
 
 #include <curl/curl.h>

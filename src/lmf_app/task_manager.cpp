@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file task_manager.cpp
- \brief
- \author
- \company Eurecom
- \date 2020
- \email: Tien-Thinh.Nguyen@eurecom.fr
- */
-
 #include "task_manager.hpp"
 
 #include <iostream>

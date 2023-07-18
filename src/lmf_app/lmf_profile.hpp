@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_profile.hpp
- \brief
- \author  Tien-Thinh NGUYEN
- \company Eurecom
- \date 2021
- \email: Tien-Thinh.Nguyen@eurecom.fr
- */
-
 #ifndef FILE_LMF_PROFILE_HPP_SEEN
 #define FILE_LMF_PROFILE_HPP_SEEN
 
