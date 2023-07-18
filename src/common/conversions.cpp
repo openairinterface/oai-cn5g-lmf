@@ -19,11 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file conversions.cpp
-  \brief
-  \author Sebastien ROUX
-  \company Eurecom
-*/
 #include "conversions.hpp"
 #include "logger.hpp"
 
