@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf-http2-server.h
- \brief
- \author  Tien-Thinh NGUYEN
- \company Eurecom
- \date 2021
- \email: tien-thinh.nguyen@eurecom.fr
- */
-
 #ifndef FILE_LMF_HTTP2_SERVER_SEEN
 #define FILE_LMF_HTTP2_SERVER_SEEN
 

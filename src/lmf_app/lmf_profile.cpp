@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_profile.cpp
- \brief
- \author  Tien-Thinh NGUYEN
- \company Eurecom
- \date 2021
- \email: Tien-Thinh.Nguyen@eurecom.fr
- */
-
 #include <boost/algorithm/string/classification.hpp>
 #include <boost/algorithm/string/split.hpp>
 
@@ -34,7 +26,6 @@
 #include "logger.hpp"
 #include "string.hpp"
 
-// using namespace lmf;
 using namespace oai::lmf::app;
 
 //------------------------------------------------------------------------------

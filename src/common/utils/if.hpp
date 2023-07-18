@@ -19,12 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file get_gateway_netlink.h
-  \brief
-  \author Lionel Gauthier
-  \company Eurecom
-  \email: lionel.gauthier@eurecom.fr
-*/
 #ifndef FILE_IF_HPP_SEEN
 #define FILE_IF_HPP_SEEN
 #include <string>

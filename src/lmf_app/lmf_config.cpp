@@ -19,13 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_config.cpp
- \brief
- \author  Fengjiao He, BUPT
- \date 2021
- \email: contact@openairinterface.org
- */
-
 #include "lmf_config.hpp"
 
 #include "string.hpp"

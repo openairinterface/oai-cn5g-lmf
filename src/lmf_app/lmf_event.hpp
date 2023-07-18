@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_event.hpp
- \brief
- \author Tien-Thinh NGUYEN (EURECOM)
- \company
- \date 2022
- \email: contact@openairinterface.org
- */
-
 #ifndef FILE_LMF_EVENT_HPP_SEEN
 #define FILE_LMF_EVENT_HPP_SEEN
 

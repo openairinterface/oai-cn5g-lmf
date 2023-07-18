@@ -19,13 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! file
-brief
-author
-date 2020
-email: contact@openairinterface.org
-*/
-
 #pragma once
 
 #include "logger_base.hpp"

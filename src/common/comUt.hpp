@@ -19,13 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! file
-brief
-author  Jian Yang,Fengjiao He,Hongxin Wang
-date 2020
-email: contact@openairinterface.org
-*/
-
 #ifndef _PRINT_BUFFER_H
 #define _PRINT_BUFFER_H
 

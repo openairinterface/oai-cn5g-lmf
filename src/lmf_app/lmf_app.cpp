@@ -19,14 +19,6 @@
  *      contact@openairinterface.org
  */
 
-/*! \file lmf_app.cpp
- \brief
- \author  Jian Yang, Fengjiao He, Hongxin Wang, Tien-Thinh NGUYEN
- \company Eurecom
- \date 2021
- \email: contact@openairinterface.org
- */
-
 #include "lmf_app.hpp"
 #include "lmf_nrf.hpp"
 
