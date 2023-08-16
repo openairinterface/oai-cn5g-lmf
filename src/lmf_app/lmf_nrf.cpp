@@ -48,6 +48,8 @@ lmf_client* lmf_client_instance = nullptr;
 
 //------------------------------------------------------------------------------
 lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
+  // generate UUID
+  lmf_instance_id = to_string(boost::uuids::random_generator()());
   generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 }
 //---------------------------------------------------------------------------------------------
@@ -105,8 +107,6 @@ void lmf_nrf::generate_lmf_profile(
 }
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::register_to_nrf() {
-  // generate UUID
-  lmf_instance_id              = to_string(boost::uuids::random_generator()());
   nlohmann::json response_data = {};
 
   // Generate NF Profile
