@@ -48,7 +48,7 @@ lmf_client* lmf_client_instance = nullptr;
 
 //------------------------------------------------------------------------------
 lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
-    // generate UUID
+  // generate UUID
   lmf_instance_id = to_string(boost::uuids::random_generator()());
   generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 }
