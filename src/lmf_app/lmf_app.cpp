@@ -428,7 +428,7 @@ void lmf_app::build_positioning_information_request_nrppa_pdu(
   nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
 
   nrppaPdu->choice.initiatingMessage->procedureCode =
-      ProcedureCode_id_oTDOAInformationExchange;
+      ProcedureCode_id_positioningInformationExchange;
   nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
   nrppaPdu->choice.initiatingMessage->value.present =
       InitiatingMessage__value_PR::
