@@ -44,7 +44,7 @@ namespace app {
 class lmf_app {
  public:
   explicit lmf_app(const std::string& config_file, lmf_event& ev);
-  lmf_app(lmf_app const&) = delete;
+  lmf_app(lmf_app const&)        = delete;
   void operator=(lmf_app const&) = delete;
 
   virtual ~lmf_app();
@@ -59,6 +59,12 @@ class lmf_app {
   void build_request_location_lpp_pdu(LPP_Message_t* lppMsg);
   void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
   void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
+  std::string n1_n2_message_subscribe(
+      nlohmann::json& json_data, Pistache::Http::Code& code,
+      std::string ueSupi);
+  void n1_n2_message_unsubscribe(
+      nlohmann::json& json_data, Pistache::Http::Code& code, std::string ueSupi,
+      std::string n1n2NotifySubscriptionId);
 };
 }  // namespace app
 }  // namespace lmf
