@@ -243,7 +243,7 @@ void lmf_app::handle_determine_location(
 
   try {
     auto subId = n1_n2_message_subscribe(json_data, code, ueSupi);
-    n1_n2_message_unsubscribe(json_data, code, ueSupi, subId);
+    // n1_n2_message_unsubscribe(json_data, code, ueSupi, subId);
   } catch (std::exception& e) {
     Logger::lmf_app().error("N2N2InfoSubscribe failed: %s", e.what());
 

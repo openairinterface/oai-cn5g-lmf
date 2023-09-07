@@ -45,6 +45,7 @@
 
 #include "lmf_app.hpp"
 #include "DetermineLocationApiImpl.h"
+#include "N2InfoNotifyApiImpl.h"
 
 using namespace oai::lmf_server::api;
 using namespace oai::lmf::app;
@@ -58,6 +59,8 @@ class LMFApiServer {
 
     m_determineLocationApiImpl =
         std::make_shared<DetermineLocationApiImpl>(m_router, lmf_app_inst);
+    m_n2InfoNotifyApiImpl =
+        std::make_shared<N2InfoNotifyApiImpl>(m_router, lmf_app_inst);
   }
   void init(size_t thr = 1);
   void start();
@@ -68,6 +71,7 @@ class LMFApiServer {
   std::shared_ptr<Pistache::Rest::Router> m_router;
   std::string m_address;
   std::shared_ptr<DetermineLocationApiImpl> m_determineLocationApiImpl;
+  std::shared_ptr<N2InfoNotifyApiImpl> m_n2InfoNotifyApiImpl;
 };
 
 #endif
