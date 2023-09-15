@@ -136,7 +136,7 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
 
       mime_parser::create_multipart_related_content(
           body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
-          multipart_related_content_part_e::NRPPA);
+          multipart_related_content_part_e::NGAP);
 
       lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
@@ -282,7 +282,7 @@ void lmf_app::handle_determine_location(
 
   mime_parser::create_multipart_related_content(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
-      multipart_related_content_part_e::NRPPA);
+      multipart_related_content_part_e::NGAP);
 
   lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 

@@ -159,9 +159,9 @@ void mime_parser::create_multipart_related_content(
     body.append(
         "Content-Type: application/vnd.3gpp.5gnas" + CRLF +
         "Content-Id: " + N2_NRPPa_CONTENT_ID + CRLF);
-  } else if (content_type == multipart_related_content_part_e::NRPPA) {  // NGAP
+  } else if (content_type == multipart_related_content_part_e::NGAP) {  // NGAP
     body.append(
-        "Content-Type: application/vnd.3gpp.nrppa" + CRLF +
+        "Content-Type: application/vnd.3gpp.ngap" + CRLF +
         "Content-Id: " + N2_NRPPa_CONTENT_ID + CRLF);
   }
   body.append(CRLF);
