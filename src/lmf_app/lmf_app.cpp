@@ -201,7 +201,8 @@ std::string lmf_app::n1_n2_message_subscribe(
   std::string n2NotifyCallbackUri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
-      std::to_string(lmf_cfg.sbi_http2_port) + "/n2-info-notify/" + ueSupi;
+      std::to_string(lmf_cfg.sbi_http2_port) +
+      "/nlmf-n2info-notify/v2/nrppa/callback/" + ueSupi;
 
 std:
   string nfId = lmf_nrf_inst->lmf_instance_id;

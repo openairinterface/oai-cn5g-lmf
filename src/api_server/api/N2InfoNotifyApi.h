@@ -33,6 +33,7 @@
 #include <pistache/http_headers.h>
 #include <pistache/optional.h>
 
+#include "mime_parser.hpp"
 #include "N2InformationNotification.h"
 
 using namespace oai::lmf_server::model;
@@ -50,7 +51,7 @@ class N2InfoNotifyApi {
  private:
   void setupRoutes();
 
-  void notify_n2info_handler(
+  void notify_n2info_nrppa_handler(
       const Pistache::Rest::Request& request,
       Pistache::Http::ResponseWriter response);
   void notify_n2info_default_handler(
@@ -66,8 +67,8 @@ class N2InfoNotifyApi {
   ///
   /// </remarks>
   /// <param name="NotificationData"></param>
-  virtual void receive_n2info_notification(
-      const std::string& ueContextId, const N2InformationNotification& n2info,
+  virtual void receive_n2info_nrppa_notification(
+      const std::string& ueContextId, std::vector<mime_part>& parts,
       Pistache::Http::ResponseWriter& response) = 0;
 };
 

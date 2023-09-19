@@ -45,28 +45,54 @@ void N2InfoNotifyApi::setupRoutes() {
   using namespace Pistache::Rest;
 
   Routes::Post(
-      *router,
-      base + lmf_cfg.sbi_api_version +
-          "/position-information-response/callback/:ueContextId",
-      Routes::bind(&N2InfoNotifyApi::notify_n2info_handler, this));
+      *router, base + lmf_cfg.sbi_api_version + "/nrppa/callback/:ueContextId",
+      Routes::bind(&N2InfoNotifyApi::notify_n2info_nrppa_handler, this));
 
   // Default handler, called when a route is not found
   router->addCustomHandler(
       Routes::bind(&N2InfoNotifyApi::notify_n2info_default_handler, this));
 }
 
-void N2InfoNotifyApi::notify_n2info_handler(
+void N2InfoNotifyApi::notify_n2info_nrppa_handler(
     const Pistache::Rest::Request& request,
     Pistache::Http::ResponseWriter response) {
-  // Get SUPI
+  // Getting the path params
   auto ueContextId = request.param(":ueContextId").as<std::string>();
+  Logger::lmf_server().debug(
+      "Received a N2InfoNotify NRPPA notification with ue_ctx_id %s",
+      ueContextId.c_str());
   // Getting the body param
-  N2InformationNotification n2InformationNotification;
+
+  // simple parser
+  mime_parser sp = {};
+  auto const& body{request.body()};
+  if (!sp.parse(body)) {
+    response.send(Pistache::Http::Code::Bad_Request);
+    Logger::lmf_server().debug("Bad request: parse failed: %s", body);
+    return;
+  }
+
+  std::vector<mime_part> parts = {};
+  sp.get_mime_parts(parts);
+  uint8_t size = parts.size();
+  Logger::lmf_server().debug("Number of MIME parts %d", size);
+
+  // 2 parts:Json data and N2)
+  if (size != 2) {
+    response.send(Pistache::Http::Code::Bad_Request);
+    Logger::lmf_server().debug(
+        "Bad request: should have at least 2 MIME parts");
+    return;
+  }
+
+  for (auto it : parts) {
+    Logger::lmf_server().debug(
+        "MIME part: %s (size %d bytes)", it.content_type.c_str(),
+        it.body.size());
+  }
 
   try {
-    nlohmann::json::parse(request.body()).get_to(n2InformationNotification);
-    this->receive_n2info_notification(
-        ueContextId, n2InformationNotification, response);
+    this->receive_n2info_nrppa_notification(ueContextId, parts, response);
   } catch (nlohmann::detail::exception& e) {
     // send a 400 error
     response.send(Pistache::Http::Code::Bad_Request, e.what());

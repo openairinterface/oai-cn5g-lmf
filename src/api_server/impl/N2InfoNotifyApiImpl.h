@@ -52,9 +52,8 @@ class N2InfoNotifyApiImpl : public oai::lmf_server::api::N2InfoNotifyApi {
       oai::lmf::app::lmf_app* lmf_app_inst);
   ~N2InfoNotifyApiImpl() {}
 
-  void receive_n2info_notification(
-      const std::string& ueContextId,
-      const N2InformationNotification& N2InfoNotification,
+  void receive_n2info_nrppa_notification(
+      const std::string& ueContextId, std::vector<mime_part>& parts,
       Pistache::Http::ResponseWriter& response);
 
  private:

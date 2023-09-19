@@ -19,9 +19,13 @@
  *      contact@openairinterface.org
  */
 
+#include "lmf_nrf.hpp"
 #include "logger.hpp"
 #include "N2InfoNotifyApiImpl.h"
 #include "conversions.hpp"
+#include "bstrlib.h"
+
+extern oai::lmf::app::lmf_nrf* lmf_nrf_inst;
 
 namespace oai {
 namespace lmf_server {
@@ -34,11 +38,99 @@ N2InfoNotifyApiImpl::N2InfoNotifyApiImpl(
     oai::lmf::app::lmf_app* lmf_app_inst)
     : N2InfoNotifyApi(rtr), m_lmf_app(lmf_app_inst) {}
 
-void N2InfoNotifyApiImpl::receive_n2info_notification(
-    const std::string& ueContextId,
-    const N2InformationNotification& n2InformationNotification,
+void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
+    const std::string& ueContextId, std::vector<mime_part>& parts,
     Pistache::Http::ResponseWriter& response) {
-  Logger::lmf_server().debug("Receive an N2Info Notify, handling...");
+  Logger::lmf_server().debug("Receive an N2Info NRPPA Notify, handling...");
+
+  std::string supi = ueContextId;
+
+  N2InformationNotification n2InformationNotification = {};
+  nlohmann::json::parse(parts.at(0).body).get_to(n2InformationNotification);
+
+  Logger::lmf_server().debug("SUPI %s", ueContextId);
+
+  // TODO: handle subscrription id
+  n2InformationNotification.getN2NotifySubscriptionId();
+  // TODO: handle lcs corrlation id
+  n2InformationNotification.getLcsCorrelationId();
+
+  if (!n2InformationNotification.n2InfoContainerIsSet()) {
+    Logger::lmf_server().error("N2InfoContainer not present");
+    return;
+  }
+  // N2 Container Present
+  Logger::lmf_server().debug("N2InfoContainer is present, handling...");
+
+  auto const& n2InfoContainer = n2InformationNotification.getN2InfoContainer();
+  auto const& eN2InformationClass =
+      n2InfoContainer.getN2InformationClass().getEnumValue();
+
+  // Check N2 Information Class
+  if (eN2InformationClass !=
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+    Logger::lmf_server().error(
+        "N2 Information Class not NRPPA: %d",
+        static_cast<int>(eN2InformationClass));
+    return;
+  }
+  Logger::lmf_server().debug("N2 Information Class: NRPPA");
+
+  if (!n2InfoContainer.nrppaInfoIsSet()) {
+    Logger::lmf_server().error("nrppaInfo not present");
+    return;
+  }
+  auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
+
+  if (nrppaInfo.getNfId() != lmf_nrf_inst->lmf_instance_id) {
+    Logger::lmf_server().warn(
+        "nfId != '%s': '%s'", lmf_nrf_inst->lmf_instance_id,
+        nrppaInfo.getNfId());
+  }
+
+  auto const& nrppaPdu = nrppaInfo.getNrppaPdu();
+  if (!nrppaPdu.ngapIeTypeIsSet()) {
+    Logger::lmf_server().error("ngapIeType not present");
+    return;
+  }
+  // NGAP IE Type
+  auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
+  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+    Logger::lmf_server().error(
+        "ngapIeType not NRPPA_PDU: %d", static_cast<int>(eNgapIeType));
+    return;
+  }
+  Logger::lmf_server().debug("NGAP IE Type: NRPPA_PDU");
+  auto const& ngapData = nrppaPdu.getNgapData();
+  Logger::lmf_server().debug("content-id: %s", ngapData.getContentId());
+
+  if (parts.at(1).content_type != "application/vnd.3gpp.ngap") {
+    Logger::lmf_server().warn(
+        "content-type != 'application/vnd.3gpp.ngap': '%s'",
+        parts.at(1).content_type);
+  }
+
+  auto const& body = parts.at(1).body;
+  NRPPA_PDU_t nrppa_pdu{};
+  NRPPA_PDU_t* nrppa = nullptr;  //&nrppa_pdu;
+  auto const& rc     = asn_decode(
+          NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
+          body.c_str(), body.length());
+  if (rc.code != RC_OK) {
+    ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+    Logger::lmf_server().error("asn_decode failed: %d", rc.code);
+    return;
+  }
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
+  Logger::lmf_server().debug(
+      "asn_decode ok, consumed: %d %d", rc.consumed, sizeof(nrppa_pdu));
+  if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
+    Logger::lmf_server().error(
+        "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
+    return;
+  }
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+  Logger::lmf_server().debug("");
 }
 
 }  // namespace api
