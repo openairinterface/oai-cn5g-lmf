@@ -34,11 +34,19 @@ void DetermineLocationApiImpl::determine_location(
   to_json(inputData_json, inputData);
   Logger::lmf_server().info(
       "Get Determine Location %s\n", inputData_json.dump().c_str());
+  auto const& supi                 = inputData.getSupi();
   nlohmann::json locationData_json = {};
   Pistache::Http::Code code        = {};
+  if (m_lmf_app->is_supi_2_context(supi)) {
+    Logger::lmf_app().warn(
+        "Already ongoing determine location for supi: '%s'", supi);
+    response.send(Pistache::Http::Code::Bad_Request);
+    return;
+  }
   m_lmf_app->handle_determine_location(inputData, locationData_json, code, 1);
   if (code == Pistache::Http::Code::Ok) {
-    response.send(Pistache::Http::Code::Ok, locationData_json.dump().c_str());
+    m_lmf_app->set_supi_2_context(
+        inputData.getSupi(), std::make_shared<LMFContext>(response));
   } else {
     nlohmann::json json_data                               = {};
     oai::lmf_server::model::ProblemDetails problem_details = {};

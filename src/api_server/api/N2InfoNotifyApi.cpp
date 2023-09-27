@@ -65,10 +65,9 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
 
   // simple parser
   mime_parser sp = {};
-  auto const& body{request.body()};
-  if (!sp.parse(body)) {
+  if (!sp.parse(request.body())) {
+    Logger::lmf_server().error("Bad request: parse failed: %s", request.body());
     response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().debug("Bad request: parse failed: %s", body);
     return;
   }
 
@@ -77,11 +76,11 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
   uint8_t size = parts.size();
   Logger::lmf_server().debug("Number of MIME parts %d", size);
 
-  // 2 parts:Json data and N2)
+  // 2 parts:Json data and N2
   if (size != 2) {
-    response.send(Pistache::Http::Code::Bad_Request);
     Logger::lmf_server().debug(
         "Bad request: should have at least 2 MIME parts");
+    response.send(Pistache::Http::Code::Bad_Request);
     return;
   }
 

@@ -395,6 +395,58 @@ void lmf_app::handle_determine_location(
   lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
   Logger::lmf_app().info("Response from AMF: %s", response.c_str());
+
+  code = Pistache::Http::Code::Ok;
+}
+
+bool lmf_app::is_supi_2_context(const string& supi) const {
+  std::shared_lock lock(m_supi2ctx);
+  return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
+}
+
+bool lmf_app::supi_2_context(
+    const std::string& supi, std::shared_ptr<LMFContext>& lc) const {
+  std::shared_lock lock(m_supi2ctx);
+  if (supi2ctx.count(supi) > 0) {
+    if (supi2ctx.at(supi) == nullptr) {
+      return false;
+    }
+    lc = supi2ctx.at(supi);
+    return true;
+  }
+  return false;
+}
+
+void lmf_app::set_supi_2_context(
+    const string& supi, const std::shared_ptr<LMFContext>& lc) {
+  std::unique_lock lock(m_supi2ctx);
+  supi2ctx[supi] = lc;
+}
+
+void lmf_app::del_supi_2_context(const string& supi) {
+  std::unique_lock lock(m_supi2ctx);
+  supi2ctx.erase(supi);
+}
+
+bool oai::lmf::app::lmf_app::handle_n2info_nrppa_notification(
+    std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
+    uint8_t& http_code) {
+  if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
+    Logger::lmf_server().error(
+        "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
+    return false;
+  }
+
+  LocationData locationData;
+  nlohmann::json locationData_json;
+  to_json(locationData_json, locationData);
+
+  std::shared_ptr<LMFContext> ctx;
+  supi_2_context(supi, ctx);
+  ctx.get()->rw.send(Pistache::Http::Code::Ok, locationData_json.dump());
+  del_supi_2_context(supi);
+
+  return true;
 }
 
 void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {

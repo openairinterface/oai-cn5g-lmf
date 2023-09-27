@@ -27,6 +27,8 @@
 #include "InputData.h"
 #include "lpp-ie-headers.hpp"
 #include "nrppa-ie-headers.hpp"
+#include "ProblemDetails.h"
+#include "lmf_context.hpp"
 #include <map>
 #include <pistache/http.h>
 #include <shared_mutex>
@@ -38,7 +40,7 @@ namespace oai {
 namespace lmf {
 namespace app {
 
-// using namespace oai::lmf_server::model;
+using namespace oai::lmf_server::model;
 
 // class lmf_config;
 class lmf_app {
@@ -54,8 +56,23 @@ class lmf_app {
       nlohmann::json& json_data, Pistache::Http::Code& code,
       uint8_t http_version = 1);
 
+  bool handle_n2info_nrppa_notification(
+      std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
+      uint8_t& http_code);
+
+  bool is_supi_2_context(const std::string& supi) const;
+  bool supi_2_context(
+      const std::string& supi, std::shared_ptr<LMFContext>& lc) const;
+  void set_supi_2_context(
+      const std::string& supi, const std::shared_ptr<LMFContext>& lc);
+  void del_supi_2_context(const std::string& supi);
+
  private:
+  std::map<std::string, std::shared_ptr<LMFContext>> supi2ctx;
+  mutable std::shared_mutex m_supi2ctx;
+
   lmf_event& event_sub;
+
   void build_request_location_lpp_pdu(LPP_Message_t* lppMsg);
   void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
   void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);

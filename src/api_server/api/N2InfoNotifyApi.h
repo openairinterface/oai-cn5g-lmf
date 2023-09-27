@@ -60,13 +60,6 @@ class N2InfoNotifyApi {
 
   std::shared_ptr<Pistache::Rest::Router> router;
 
-  /// <summary>
-  ///
-  /// </summary>
-  /// <remarks>
-  ///
-  /// </remarks>
-  /// <param name="NotificationData"></param>
   virtual void receive_n2info_nrppa_notification(
       const std::string& ueContextId, std::vector<mime_part>& parts,
       Pistache::Http::ResponseWriter& response) = 0;

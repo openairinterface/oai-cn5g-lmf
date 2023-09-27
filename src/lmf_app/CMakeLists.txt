@@ -37,6 +37,7 @@ file(GLOB LMF_src_files
   lmf_event.cpp
   lmf_profile.cpp
   lmf_nrf.cpp 
+  lmf_context.cpp
 )
 
 
