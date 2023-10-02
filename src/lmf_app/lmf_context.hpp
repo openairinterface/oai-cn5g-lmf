@@ -26,9 +26,13 @@
 
 class LMFContext {
  public:
-  LMFContext(Pistache::Http::ResponseWriter& rw) : rw{rw.clone()} {}
+  LMFContext(Pistache::Http::ResponseWriter& rw, std::string supi) : supi{supi}, response_writer{rw.clone()} {}
 
-  Pistache::Http::ResponseWriter rw;
+  void finish();
+
+private:
+  std::string supi;
+  Pistache::Http::ResponseWriter response_writer;
 };
 
 #endif

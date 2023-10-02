@@ -61,8 +61,7 @@ class lmf_app {
       uint8_t& http_code);
 
   bool is_supi_2_context(const std::string& supi) const;
-  bool supi_2_context(
-      const std::string& supi, std::shared_ptr<LMFContext>& lc) const;
+  std::shared_ptr<LMFContext> supi_2_context(const std::string& supi) const;
   void set_supi_2_context(
       const std::string& supi, const std::shared_ptr<LMFContext>& lc);
   void del_supi_2_context(const std::string& supi);

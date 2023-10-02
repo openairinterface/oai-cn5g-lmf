@@ -34,25 +34,21 @@ void DetermineLocationApiImpl::determine_location(
   to_json(inputData_json, inputData);
   Logger::lmf_server().info(
       "Get Determine Location %s\n", inputData_json.dump().c_str());
-  auto const& supi                 = inputData.getSupi();
-  nlohmann::json locationData_json = {};
-  Pistache::Http::Code code        = {};
+  auto const& supi          = inputData.getSupi();
+  nlohmann::json json_data  = {};
+  Pistache::Http::Code code = {};
   if (m_lmf_app->is_supi_2_context(supi)) {
     Logger::lmf_app().warn(
         "Already ongoing determine location for supi: '%s'", supi);
     response.send(Pistache::Http::Code::Bad_Request);
     return;
   }
-  m_lmf_app->handle_determine_location(inputData, locationData_json, code, 1);
+  m_lmf_app->handle_determine_location(inputData, json_data, code, 1);
   if (code == Pistache::Http::Code::Ok) {
     m_lmf_app->set_supi_2_context(
-        inputData.getSupi(), std::make_shared<LMFContext>(response));
+        inputData.getSupi(), std::make_shared<LMFContext>(response, supi));
   } else {
-    nlohmann::json json_data                               = {};
-    oai::lmf_server::model::ProblemDetails problem_details = {};
-    problem_details.setCause("Internal Error Occured");
-    to_json(json_data, problem_details);
-    response.send(Pistache::Http::Code::Not_Found, json_data.dump().c_str());
+    response.send(code, json_data.dump().c_str());
   }
 }
 

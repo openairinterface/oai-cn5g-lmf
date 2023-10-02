@@ -201,7 +201,8 @@ std::string lmf_app::n1_n2_message_subscribe(
   std::string n2NotifyCallbackUri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
-      std::to_string(lmf_cfg.sbi_http2_port) +
+      std::to_string(
+          lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
       "/nlmf-n2info-notify/v2/nrppa/callback/" + ueSupi;
 
 std:
@@ -241,6 +242,23 @@ void lmf_app::handle_determine_location(
     Pistache::Http::Code& code, uint8_t http_version) {
   Logger::lmf_app().info("Handle Determin Location Request");
   std::string ueSupi = inputData.getSupi();
+  if (is_supi_2_context(ueSupi)) {
+    Logger::lmf_app().warn(
+        "Already ongoing determine location for supi: '%s'", ueSupi);
+    ProblemDetails problemDetails;
+    nlohmann::json problemDetails_json = {};
+    problemDetails.setCause("INTERNAL_SERVER_ERROR");
+    problemDetails.setStatus(500);
+    std::string errorMsg =
+        "Already ongoing determine location for supi: " + ueSupi;
+    errorMsg += "\n";
+    problemDetails.setDetail(errorMsg);
+    to_json(problemDetails_json, problemDetails);
+
+    code      = Pistache::Http::Code::Internal_Server_Error;
+    json_data = problemDetails_json;
+    return;
+  }
 
   try {
     auto subId = n1_n2_message_subscribe(json_data, code, ueSupi);
@@ -404,17 +422,10 @@ bool lmf_app::is_supi_2_context(const string& supi) const {
   return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
 }
 
-bool lmf_app::supi_2_context(
-    const std::string& supi, std::shared_ptr<LMFContext>& lc) const {
+std::shared_ptr<LMFContext> lmf_app::supi_2_context(
+    const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
-  if (supi2ctx.count(supi) > 0) {
-    if (supi2ctx.at(supi) == nullptr) {
-      return false;
-    }
-    lc = supi2ctx.at(supi);
-    return true;
-  }
-  return false;
+  return supi2ctx.at(supi);
 }
 
 void lmf_app::set_supi_2_context(
@@ -428,7 +439,7 @@ void lmf_app::del_supi_2_context(const string& supi) {
   supi2ctx.erase(supi);
 }
 
-bool oai::lmf::app::lmf_app::handle_n2info_nrppa_notification(
+bool lmf_app::handle_n2info_nrppa_notification(
     std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
     uint8_t& http_code) {
   if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
@@ -437,13 +448,8 @@ bool oai::lmf::app::lmf_app::handle_n2info_nrppa_notification(
     return false;
   }
 
-  LocationData locationData;
-  nlohmann::json locationData_json;
-  to_json(locationData_json, locationData);
-
-  std::shared_ptr<LMFContext> ctx;
-  supi_2_context(supi, ctx);
-  ctx.get()->rw.send(Pistache::Http::Code::Ok, locationData_json.dump());
+  std::shared_ptr<LMFContext> ctx = supi_2_context(supi);
+  ctx.get()->finish();
   del_supi_2_context(supi);
 
   return true;
