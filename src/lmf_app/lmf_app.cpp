@@ -205,8 +205,7 @@ std::string lmf_app::n1_n2_message_subscribe(
           lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
       "/nlmf-n2info-notify/v2/nrppa/callback/" + ueSupi;
 
-std:
-  string nfId = lmf_nrf_inst->lmf_instance_id;
+  std::string nfId = lmf_nrf_inst->lmf_instance_id;
 
   // 6.1.6.2.12 Type: UeN1N2InfoSubscriptionCreateData
   UeN1N2InfoSubscriptionCreateData ueN1N2InfoSubscriptionCreateData = {};
@@ -262,7 +261,6 @@ void lmf_app::handle_determine_location(
 
   try {
     auto subId = n1_n2_message_subscribe(json_data, code, ueSupi);
-    // n1_n2_message_unsubscribe(json_data, code, ueSupi, subId);
   } catch (std::exception& e) {
     Logger::lmf_app().error("N2N2InfoSubscribe failed: %s", e.what());
 
@@ -410,9 +408,14 @@ void lmf_app::handle_determine_location(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
+  auto ctx = std::make_shared<LMFContext>(ueSupi);
+  set_supi_2_context(inputData.getSupi(), ctx);
+
   lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
   Logger::lmf_app().info("Response from AMF: %s", response.c_str());
+
+  json_data = ctx->promise.get_future().get();
 
   code = Pistache::Http::Code::Ok;
 }
@@ -421,7 +424,15 @@ bool lmf_app::is_supi_2_context(const string& supi) const {
   std::shared_lock lock(m_supi2ctx);
   return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
 }
-
+/*
+std::shared_ptr<LMFContext> lmf_app::create_lmf_context(
+    const string& supi) {
+  std::shared_lock lock(m_supi2ctx);
+  if ((supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr)) {
+    return std::make_shared<LMFContext>(nullptr);
+  }
+}
+*/
 std::shared_ptr<LMFContext> lmf_app::supi_2_context(
     const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
@@ -448,8 +459,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     return false;
   }
 
-  std::shared_ptr<LMFContext> ctx = supi_2_context(supi);
-  ctx.get()->finish();
+  supi_2_context(supi)->finish();
   del_supi_2_context(supi);
 
   return true;

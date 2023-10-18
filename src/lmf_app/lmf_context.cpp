@@ -21,14 +21,11 @@
 
 #include "lmf_context.hpp"
 #include "nlohmann/json.hpp"
-#include "LocationData.h"
 
 using namespace oai::lmf_server::model;
 
 void LMFContext::finish() {
   LocationData locationData;
-  nlohmann::json locationData_json;
-  to_json(locationData_json, locationData);
-
-  response_writer.send(Pistache::Http::Code::Ok, locationData_json.dump());
+  
+  promise.set_value(locationData);
 }

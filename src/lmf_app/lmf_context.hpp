@@ -22,17 +22,20 @@
 #ifndef FILE_LMF_CONTEXT_SEEN
 #define FILE_LMF_CONTEXT_SEEN
 
-#include <pistache/http.h>
+#include <future>
+#include <nlohmann/json.hpp>
+
+#include "LocationData.h"
 
 class LMFContext {
  public:
-  LMFContext(Pistache::Http::ResponseWriter& rw, std::string supi) : supi{supi}, response_writer{rw.clone()} {}
+  LMFContext(std::string supi) : supi{supi} {}
 
   void finish();
+  std::promise<nlohmann::json> promise;
 
-private:
+ private:
   std::string supi;
-  Pistache::Http::ResponseWriter response_writer;
 };
 
 #endif

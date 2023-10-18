@@ -36,9 +36,7 @@
 
 #define BUF_LEN 1024
 
-namespace oai {
-namespace lmf {
-namespace app {
+namespace oai::lmf::app {
 
 using namespace oai::lmf_server::model;
 
@@ -61,6 +59,7 @@ class lmf_app {
       uint8_t& http_code);
 
   bool is_supi_2_context(const std::string& supi) const;
+  std::shared_ptr<LMFContext> create_lmf_context(const std::string& supi);
   std::shared_ptr<LMFContext> supi_2_context(const std::string& supi) const;
   void set_supi_2_context(
       const std::string& supi, const std::shared_ptr<LMFContext>& lc);
@@ -82,9 +81,7 @@ class lmf_app {
       nlohmann::json& json_data, Pistache::Http::Code& code, std::string ueSupi,
       std::string n1n2NotifySubscriptionId);
 };
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+}  // namespace oai::lmf::app
 #include "lmf_config.hpp"
 
 #endif /* FILE_LMF_APP_HPP_SEEN */

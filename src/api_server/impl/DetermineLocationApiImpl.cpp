@@ -17,9 +17,7 @@
 
 extern config::lmf_config lmf_cfg;
 
-namespace oai {
-namespace lmf_server {
-namespace api {
+namespace oai::lmf_server::api {
 
 using namespace oai::lmf_server::model;
 
@@ -30,28 +28,16 @@ DetermineLocationApiImpl::DetermineLocationApiImpl(
 
 void DetermineLocationApiImpl::determine_location(
     const InputData& inputData, Pistache::Http::ResponseWriter& response) {
-  nlohmann::json inputData_json = {};
-  to_json(inputData_json, inputData);
   Logger::lmf_server().info(
-      "Get Determine Location %s\n", inputData_json.dump().c_str());
-  auto const& supi          = inputData.getSupi();
+      "Get Determine Location %s\n", nlohmann::basic_json(inputData).dump());
   nlohmann::json json_data  = {};
   Pistache::Http::Code code = {};
-  if (m_lmf_app->is_supi_2_context(supi)) {
-    Logger::lmf_app().warn(
-        "Already ongoing determine location for supi: '%s'", supi);
-    response.send(Pistache::Http::Code::Bad_Request);
-    return;
-  }
   m_lmf_app->handle_determine_location(inputData, json_data, code, 1);
   if (code == Pistache::Http::Code::Ok) {
-    m_lmf_app->set_supi_2_context(
-        inputData.getSupi(), std::make_shared<LMFContext>(response, supi));
+    response.send(Pistache::Http::Code::Ok, json_data.dump());
   } else {
-    response.send(code, json_data.dump().c_str());
+    response.send(code, json_data.dump());
   }
 }
 
-}  // namespace api
-}  // namespace lmf_server
-}  // namespace oai
+}  // namespace oai::lmf_server::api
