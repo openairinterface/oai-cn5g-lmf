@@ -30,6 +30,7 @@
 #include "N1MessageContainer.h"
 #include "N1MessageClass.h"
 #include "N1N2MessageTransferReqData.h"
+#include "N1N2MessageTransferRspData.h"
 #include "N2InformationTransferReqData.h"
 #include "UeN1N2InfoSubscriptionCreateData.h"
 #include "UeN1N2InfoSubscriptionCreatedData.h"
@@ -37,6 +38,7 @@
 #include "ProblemDetails.h"
 #include "conversions.hpp"
 #include "mime_parser.hpp"
+#include "3gpp_29.518.h"
 #include "iostream"
 #include <iterator>
 #include <string>
@@ -153,134 +155,52 @@ lmf_app::~lmf_app() {
   Logger::lmf_app().debug("Delete LMF_APP instance...");
 }
 
-// 3GPP TS 29.518 version 16.4.0 Release 16 / 5.2.2.3.4 N1N2MessageUnSubscribe
-void lmf_app::n1_n2_message_unsubscribe(
-    nlohmann::json& json_data, Pistache::Http::Code& code, std::string ueSupi,
-    std::string n1n2NotifySubscriptionId) {
-  std::string amf_uri  = {};
-  std::string method   = "DELETE";
-  std::string response = {};
-  // 1. DELETE
-  // ./namf_comm/v1/ue_contexts/{ueContextId}/n1-n2-messages/subscriptions/{subscriptionId}
-  amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + ueSupi +
-      "/n1-n2-messages/subscriptions/" + n1n2NotifySubscriptionId;
-  Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
-
-  // 2. 204 No Content
-  lmf_client_inst->curl_http_client(amf_uri, method, "", response, false);
-
-  Logger::lmf_app().info("Response from AMF: %s", response.c_str());
-}
-
-// 3GPP TS 29.518 version 16.4.0 Release 16 / 5.2.2.3.3 N1N2MessageSubscribe
-std::string lmf_app::n1_n2_message_subscribe(
-    nlohmann::json& json_data, Pistache::Http::Code& code, std::string ueSupi) {
-  std::string amf_uri  = {};
-  std::string method   = "POST";
-  std::string response = {};
-  // 1. POST
-  // ./namf_comm/v1/ue_contexts/{ueContextld}/nl-n2-messages/subscriptions
-  // (UeN1N2lnfoSubscriptionCreateData)
-  amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + ueSupi +
-      "/n1-n2-messages/subscriptions";
-  Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
-
-  N2InformationClass n2InformationClass = {};
-  n2InformationClass.setEnumValue(
-      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
-
-  // 5.2.2.3.6 N2InfoNotify n2InfoNotifyUri
-  std::string n2NotifyCallbackUri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
-      std::to_string(
-          lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
-      "/nlmf-n2info-notify/v2/nrppa/callback/" + ueSupi;
-
-  std::string nfId = lmf_nrf_inst->lmf_instance_id;
-
-  // 6.1.6.2.12 Type: UeN1N2InfoSubscriptionCreateData
-  UeN1N2InfoSubscriptionCreateData ueN1N2InfoSubscriptionCreateData = {};
-  ueN1N2InfoSubscriptionCreateData.setN2InformationClass(n2InformationClass);
-  ueN1N2InfoSubscriptionCreateData.setN2NotifyCallbackUri(n2NotifyCallbackUri);
-  ueN1N2InfoSubscriptionCreateData.setNfId(nfId);
-
-  nlohmann::json ueN1N2InfoSubscriptionCreateData_json;
-  to_json(
-      ueN1N2InfoSubscriptionCreateData_json, ueN1N2InfoSubscriptionCreateData);
-
-  // 2. 201 Created (UeN1MessageSubscriptionCreatedData)
-  lmf_client_inst->curl_http_client(
-      amf_uri, method, ueN1N2InfoSubscriptionCreateData_json.dump().c_str(),
-      response, false);
-
-  Logger::lmf_app().info("Response from AMF: %s", response.c_str());
-
-  // 6.1.6.2.13 Type: UeN1N2InfoSubscriptionCreatedData
-  nlohmann::json ueN1N2InfoSubscriptionCreatedData_json;
-  UeN1N2InfoSubscriptionCreatedData ueN1N2InfoSubscriptionCreatedData = {};
-
-  ueN1N2InfoSubscriptionCreatedData_json = nlohmann::json::parse(response);
-  from_json(
-      ueN1N2InfoSubscriptionCreatedData_json,
-      ueN1N2InfoSubscriptionCreatedData);
-
-  return ueN1N2InfoSubscriptionCreatedData.getN1n2NotifySubscriptionId();
-}
-
 void lmf_app::handle_determine_location(
     const InputData& inputData, nlohmann::json& json_data,
-    Pistache::Http::Code& code, uint8_t http_version) {
+    Pistache::Http::Code& code) {
+  auto const& supi = inputData.getSupi();
+  auto const& ctx  = create_lmf_context(supi);
+  if (!ctx) {
+    auto const& err =
+        "Could not create context for supi '"s + supi + "': already exist"s;
+    Logger::lmf_app().warn(err);
+    ProblemDetails problemDetails;
+    problemDetails.setCause("INTERNAL_SERVER_ERROR");
+    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
+    problemDetails.setDetail(err);
+
+    json_data = problemDetails;
+    code      = Pistache::Http::Code(problemDetails.getStatus());
+
+    return;
+  }
+  auto const& subs = create_n1n2subscription(supi);
+  if (!subs) {
+    auto const& err = "Could not subscribe for n1n2message '"s + supi;
+    Logger::lmf_app().warn(err);
+    ProblemDetails problemDetails;
+    problemDetails.setCause("INTERNAL_SERVER_ERROR");
+    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
+    problemDetails.setDetail(err);
+
+    json_data = problemDetails;
+    code      = Pistache::Http::Code(problemDetails.getStatus());
+
+    return;
+  }
+  determine_location(inputData, json_data, code);
+  json_data = ctx->promise.get_future().get();
+  release_n1n2subscription(supi);
+  code = Pistache::Http::Code::Ok;
+
+  del_supi_2_context(supi);
+}
+
+void lmf_app::determine_location(
+    const InputData& inputData, nlohmann::json& json_data,
+    Pistache::Http::Code& code) {
   Logger::lmf_app().info("Handle Determin Location Request");
   std::string ueSupi = inputData.getSupi();
-  if (is_supi_2_context(ueSupi)) {
-    Logger::lmf_app().warn(
-        "Already ongoing determine location for supi: '%s'", ueSupi);
-    ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg =
-        "Already ongoing determine location for supi: " + ueSupi;
-    errorMsg += "\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-    return;
-  }
-
-  try {
-    auto subId = n1_n2_message_subscribe(json_data, code, ueSupi);
-  } catch (std::exception& e) {
-    Logger::lmf_app().error("N2N2InfoSubscribe failed: %s", e.what());
-
-    ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg = "N2N2InfoSubscribe failed: ";
-    errorMsg += e.what();
-    errorMsg += "\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-
-    return;
-  }
-
-  json_data["supi"] = ueSupi;
 
   LPP_Message_t* lppMsg = new LPP_Message_t();
   build_request_location_lpp_pdu(lppMsg);
@@ -408,31 +328,50 @@ void lmf_app::handle_determine_location(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
-  auto ctx = std::make_shared<LMFContext>(ueSupi);
-  set_supi_2_context(inputData.getSupi(), ctx);
-
   lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
+  Logger::lmf_app().info("Response from AMF: %s", response);
 
-  Logger::lmf_app().info("Response from AMF: %s", response.c_str());
+  auto const& rspData_json = nlohmann::json::parse(response);
+  if (!rspData_json.contains("cause") ||
+      rspData_json["cause"] !=
+          n1_n2_message_transfer_cause_e2str[N1_N2_TRANSFER_INITIATED]) {
+    auto const& cause =
+        rspData_json.contains("cause") ?
+            n1_n2_message_transfer_cause_e2str[rspData_json["cause"]] :
+            "no cause"s;
+    auto const& err =
+        "n1n2message transfer failed supi: '"s + ueSupi + "': cause: "s + cause;
+    Logger::lmf_app().warn(err);
+    ProblemDetails problemDetails;
+    problemDetails.setCause("INTERNAL_SERVER_ERROR");
+    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
+    problemDetails.setDetail(err);
 
-  json_data = ctx->promise.get_future().get();
+    json_data = problemDetails;
+    code      = Pistache::Http::Code(problemDetails.getStatus());
 
-  code = Pistache::Http::Code::Ok;
+    return;
+  }
+}
+
+bool oai::lmf::app::lmf_app::_is_supi_2_context(const std::string& supi) const {
+  return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
 }
 
 bool lmf_app::is_supi_2_context(const string& supi) const {
   std::shared_lock lock(m_supi2ctx);
-  return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
+  return _is_supi_2_context(supi);
 }
-/*
-std::shared_ptr<LMFContext> lmf_app::create_lmf_context(
-    const string& supi) {
-  std::shared_lock lock(m_supi2ctx);
-  if ((supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr)) {
-    return std::make_shared<LMFContext>(nullptr);
+
+std::shared_ptr<LMFContext> lmf_app::create_lmf_context(const string& supi) {
+  std::unique_lock lock(m_supi2ctx);
+
+  if (_is_supi_2_context(supi)) {
+    return {nullptr};
   }
+  return supi2ctx[supi] = std::make_shared<LMFContext>(supi);
 }
-*/
+
 std::shared_ptr<LMFContext> lmf_app::supi_2_context(
     const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
@@ -450,6 +389,25 @@ void lmf_app::del_supi_2_context(const string& supi) {
   supi2ctx.erase(supi);
 }
 
+std::shared_ptr<N1N2MessageSubscription>
+oai::lmf::app::lmf_app::create_n1n2subscription(const std::string& supi) {
+  std::unique_lock lock(m_supi2n1n2subs);
+
+  auto subscription = std::make_shared<N1N2MessageSubscription>(supi);
+
+  if (subscription->is_subscribed()) {
+    return supi2n1n2subs[supi] = subscription;
+  }
+
+  return {nullptr};
+}
+
+void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
+  std::unique_lock lock(m_supi2n1n2subs);
+
+  supi2n1n2subs.erase(supi);
+}
+
 bool lmf_app::handle_n2info_nrppa_notification(
     std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
     uint8_t& http_code) {
@@ -460,7 +418,6 @@ bool lmf_app::handle_n2info_nrppa_notification(
   }
 
   supi_2_context(supi)->finish();
-  del_supi_2_context(supi);
 
   return true;
 }

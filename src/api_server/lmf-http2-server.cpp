@@ -85,7 +85,7 @@ void lmf_http2_server::detemine_location_post_handler(
   Pistache::Http::Code code        = {};
   header_map h;
 
-  m_lmf_app->handle_determine_location(inputData, locationData_json, code, 2);
+  m_lmf_app->handle_determine_location(inputData, locationData_json, code);
 
   if (code == Pistache::Http::Code::Ok) {
     h.insert(std::make_pair<std::string, header_value>(

@@ -27,12 +27,36 @@
 
 #include "LocationData.h"
 
+class N1N2MessageSubscription {
+ public:
+  std::string supi, id;
+
+  N1N2MessageSubscription(const std::string& supi) : supi{supi} {
+    this->subscribe();
+  }
+
+  ~N1N2MessageSubscription() {
+    if (this->is_subscribed()) {
+      unsubscribe();
+    }
+  }
+
+  bool is_subscribed() const {
+    return !this->supi.empty() && !this->id.empty();
+  }
+
+  bool subscribe(std::string supi = "");
+  bool unsubscribe();
+};
+
 class LMFContext {
  public:
   LMFContext(std::string supi) : supi{supi} {}
 
   void finish();
   std::promise<nlohmann::json> promise;
+
+  bool subscribe_n1_n2_notifiction() { return true; };
 
  private:
   std::string supi;

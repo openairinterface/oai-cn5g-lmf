@@ -30,9 +30,9 @@ void DetermineLocationApiImpl::determine_location(
     const InputData& inputData, Pistache::Http::ResponseWriter& response) {
   Logger::lmf_server().info(
       "Get Determine Location %s\n", nlohmann::basic_json(inputData).dump());
-  nlohmann::json json_data  = {};
-  Pistache::Http::Code code = {};
-  m_lmf_app->handle_determine_location(inputData, json_data, code, 1);
+  nlohmann::json json_data;
+  Pistache::Http::Code code;
+  m_lmf_app->handle_determine_location(inputData, json_data, code);
   if (code == Pistache::Http::Code::Ok) {
     response.send(Pistache::Http::Code::Ok, json_data.dump());
   } else {

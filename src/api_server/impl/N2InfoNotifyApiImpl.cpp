@@ -143,7 +143,6 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
     response.send(Pistache::Http::Code(204));
   }
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
-  Logger::lmf_server().debug("");
 }
 
 }  // namespace api

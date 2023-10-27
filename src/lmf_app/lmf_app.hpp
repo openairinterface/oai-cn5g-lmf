@@ -51,8 +51,7 @@ class lmf_app {
 
   void handle_determine_location(
       const oai::lmf_server::model::InputData& inputData,
-      nlohmann::json& json_data, Pistache::Http::Code& code,
-      uint8_t http_version = 1);
+      nlohmann::json& json_data, Pistache::Http::Code& code);
 
   bool handle_n2info_nrppa_notification(
       std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
@@ -65,21 +64,27 @@ class lmf_app {
       const std::string& supi, const std::shared_ptr<LMFContext>& lc);
   void del_supi_2_context(const std::string& supi);
 
+  std::shared_ptr<N1N2MessageSubscription> create_n1n2subscription(
+      const std::string& supi);
+  void release_n1n2subscription(const std::string& supi);
+
  private:
   std::map<std::string, std::shared_ptr<LMFContext>> supi2ctx;
   mutable std::shared_mutex m_supi2ctx;
 
+  std::map<std::string, std::shared_ptr<N1N2MessageSubscription>> supi2n1n2subs;
+  mutable std::shared_mutex m_supi2n1n2subs;
+
   lmf_event& event_sub;
+
+  bool _is_supi_2_context(const std::string& supi) const;
+  void determine_location(
+      const oai::lmf_server::model::InputData& inputData,
+      nlohmann::json& json_data, Pistache::Http::Code& code);
 
   void build_request_location_lpp_pdu(LPP_Message_t* lppMsg);
   void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
   void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
-  std::string n1_n2_message_subscribe(
-      nlohmann::json& json_data, Pistache::Http::Code& code,
-      std::string ueSupi);
-  void n1_n2_message_unsubscribe(
-      nlohmann::json& json_data, Pistache::Http::Code& code, std::string ueSupi,
-      std::string n1n2NotifySubscriptionId);
 };
 }  // namespace oai::lmf::app
 #include "lmf_config.hpp"
