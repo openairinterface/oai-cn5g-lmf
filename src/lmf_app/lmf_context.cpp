@@ -39,6 +39,7 @@ using namespace oai::lmf_server::model;
 using namespace oai::lmf::app;
 using namespace oai::lmf_server::model;
 using namespace config;
+using namespace nlohmann;
 
 extern lmf_config lmf_cfg;
 extern lmf_nrf* lmf_nrf_inst;
@@ -110,20 +111,20 @@ bool N1N2MessageSubscription::subscribe(std::string supi) {
   ueN1N2InfoSubscriptionCreateData.setN2NotifyCallbackUri(n2NotifyCallbackUri);
   ueN1N2InfoSubscriptionCreateData.setNfId(lmf_nrf_inst->lmf_instance_id);
 
-  nlohmann::json ueN1N2InfoSubscriptionCreateData_json{
-      ueN1N2InfoSubscriptionCreateData};
-
   // 2. 201 Created (UeN1MessageSubscriptionCreatedData)
   std::string response;
   lmf_client_inst->curl_http_client(
-      amf_uri, "POST", ueN1N2InfoSubscriptionCreateData_json.dump(), response,
+      amf_uri, "POST"s, json(ueN1N2InfoSubscriptionCreateData).dump(), response,
       false);
-
   Logger::lmf_app().info("Response from AMF: %s", response);
 
+  if (response.empty()) {
+    Logger::lmf_app().warn("subscription failed for supi %s"s, this->supi);
+    return false;
+  }
   // 6.1.6.2.13 Type: UeN1N2InfoSubscriptionCreatedData
   UeN1N2InfoSubscriptionCreatedData ueN1N2InfoSubscriptionCreatedData{
-      nlohmann::json::parse(response)};
+      json::parse(response)};
   this->id = ueN1N2InfoSubscriptionCreatedData.getN1n2NotifySubscriptionId();
 
   return true;

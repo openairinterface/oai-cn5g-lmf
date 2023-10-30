@@ -31,13 +31,18 @@ class N1N2MessageSubscription {
  public:
   std::string supi, id;
 
+  static std::shared_ptr<N1N2MessageSubscription> create(
+      const std::string& supi) {
+    return std::make_shared<N1N2MessageSubscription>(supi);
+  }
+
   N1N2MessageSubscription(const std::string& supi) : supi{supi} {
     this->subscribe();
   }
 
   ~N1N2MessageSubscription() {
     if (this->is_subscribed()) {
-      unsubscribe();
+      this->unsubscribe();
     }
   }
 
@@ -55,8 +60,6 @@ class LMFContext {
 
   void finish();
   std::promise<nlohmann::json> promise;
-
-  bool subscribe_n1_n2_notifiction() { return true; };
 
  private:
   std::string supi;

@@ -190,7 +190,8 @@ void lmf_app::handle_determine_location(
   }
   determine_location(inputData, json_data, code);
   json_data = ctx->promise.get_future().get();
-  release_n1n2subscription(supi);
+  // stay subscribed
+  // release_n1n2subscription(supi);
   code = Pistache::Http::Code::Ok;
 
   del_supi_2_context(supi);
@@ -393,9 +394,20 @@ std::shared_ptr<N1N2MessageSubscription>
 oai::lmf::app::lmf_app::create_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(m_supi2n1n2subs);
 
-  auto subscription = std::make_shared<N1N2MessageSubscription>(supi);
+  if (supi2n1n2subs.count(supi) > 0 && supi2n1n2subs.at(supi) != nullptr) {
+    auto subscription = supi2n1n2subs.at(supi);
+    Logger::lmf_app().info(
+        "n1n2info subscription already subscribed for supi: %s id: %s"s,
+        subscription->supi, subscription->id);
+    return subscription;
+  }
+
+  auto subscription = N1N2MessageSubscription::create(supi);
 
   if (subscription->is_subscribed()) {
+    Logger::lmf_app().info(
+        "n1n2info subscription created for supi: %s id: %s"s,
+        subscription->supi, subscription->id);
     return supi2n1n2subs[supi] = subscription;
   }
 
