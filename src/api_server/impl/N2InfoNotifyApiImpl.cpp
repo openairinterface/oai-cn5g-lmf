@@ -124,8 +124,8 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   auto const& body   = parts.at(1).body;
   NRPPA_PDU_t* nrppa = nullptr;
   auto const& rc     = asn_decode(
-          NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
-          body.c_str(), body.length());
+      NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
+      body.c_str(), body.length());
   if (rc.code != RC_OK) {
     ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
     response.send(Pistache::Http::Code::Bad_Request);

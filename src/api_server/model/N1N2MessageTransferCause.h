@@ -23,7 +23,6 @@
 
 namespace oai::lmf_server::model {
 
-
 /// <summary>
 ///
 /// </summary>
@@ -44,6 +43,5 @@ class N1N2MessageTransferCause {
 };
 
 }  // namespace oai::lmf_server::model
-
 
 #endif /* N1N2MessageTransferCause_H_ */

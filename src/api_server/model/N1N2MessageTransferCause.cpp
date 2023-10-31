@@ -15,7 +15,6 @@
 
 namespace oai::lmf_server::model {
 
-
 N1N2MessageTransferCause::N1N2MessageTransferCause() {}
 
 N1N2MessageTransferCause::~N1N2MessageTransferCause() {}
@@ -31,4 +30,3 @@ void to_json(nlohmann::json& j, const N1N2MessageTransferCause& o) {
 void from_json(const nlohmann::json& j, N1N2MessageTransferCause& o) {}
 
 }  // namespace oai::lmf_server::model
-
