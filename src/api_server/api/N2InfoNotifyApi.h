@@ -30,13 +30,8 @@
 
 #include <pistache/http.h>
 #include <pistache/router.h>
-#include <pistache/http_headers.h>
-#include <pistache/optional.h>
 
 #include "mime_parser.hpp"
-#include "N2InformationNotification.h"
-
-using namespace oai::lmf_server::model;
 
 namespace oai::lmf_server::api {
 

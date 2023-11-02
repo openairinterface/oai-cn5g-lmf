@@ -23,36 +23,8 @@
 #define FILE_LMF_CONTEXT_SEEN
 
 #include <future>
+
 #include <nlohmann/json.hpp>
-
-#include "LocationData.h"
-
-class N1N2MessageSubscription {
- public:
-  std::string supi, id;
-
-  static std::shared_ptr<N1N2MessageSubscription> create(
-      const std::string& supi) {
-    return std::make_shared<N1N2MessageSubscription>(supi);
-  }
-
-  N1N2MessageSubscription(const std::string& supi) : supi{supi} {
-    this->subscribe();
-  }
-
-  ~N1N2MessageSubscription() {
-    if (this->is_subscribed()) {
-      this->unsubscribe();
-    }
-  }
-
-  bool is_subscribed() const {
-    return !this->supi.empty() && !this->id.empty();
-  }
-
-  bool subscribe(std::string supi = "");
-  bool unsubscribe();
-};
 
 class LMFContext {
  public:

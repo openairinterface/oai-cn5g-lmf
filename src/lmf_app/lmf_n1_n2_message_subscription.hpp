@@ -19,13 +19,37 @@
  *      contact@openairinterface.org
  */
 
-#include "lmf_context.hpp"
+#ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
+#define FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
 
-#include "LocationData.h"
-using namespace oai::lmf_server::model;
+#include <string>
+#include <memory>
 
-void LMFContext::finish() {
-  LocationData locationData;
+class N1N2MessageSubscription {
+ public:
+  std::string supi, id;
 
-  promise.set_value(locationData);
-}
+  static std::shared_ptr<N1N2MessageSubscription> create(
+      const std::string& supi) {
+    return std::make_shared<N1N2MessageSubscription>(supi);
+  }
+
+  N1N2MessageSubscription(const std::string& supi) : supi{supi} {
+    this->subscribe();
+  }
+
+  ~N1N2MessageSubscription() {
+    if (this->is_subscribed()) {
+      this->unsubscribe();
+    }
+  }
+
+  bool is_subscribed() const {
+    return !this->supi.empty() && !this->id.empty();
+  }
+
+  bool subscribe(std::string supi = "");
+  bool unsubscribe();
+};
+
+#endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN

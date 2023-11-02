@@ -39,11 +39,7 @@
 #include "ProblemDetails.h"
 #include "lmf_app.hpp"
 
-namespace oai {
-namespace lmf_server {
-namespace api {
-
-using namespace oai::lmf_server::model;
+namespace oai::lmf_server::api {
 
 class N2InfoNotifyApiImpl : public oai::lmf_server::api::N2InfoNotifyApi {
  public:
@@ -61,8 +57,6 @@ class N2InfoNotifyApiImpl : public oai::lmf_server::api::N2InfoNotifyApi {
   // std::string m_address;
 };
 
-}  // namespace api
-}  // namespace lmf_server
-}  // namespace oai
+}  // namespace oai::lmf_server::api
 
 #endif

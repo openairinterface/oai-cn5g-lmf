@@ -21,17 +21,14 @@
 
 #include "N2InfoNotifyApi.h"
 
-#include "Helpers.h"
+#include <nlohmann/json.hpp>
+
 #include "lmf_config.hpp"
+#include "logger.hpp"
 
-extern config::lmf_config lmf_cfg;
+using namespace Pistache;
 
-namespace oai {
-namespace lmf_server {
-namespace api {
-
-// using namespace oai::lmf_server::helpers;
-using namespace oai::lmf_server::model;
+namespace oai::lmf_server::api {
 
 N2InfoNotifyApi::N2InfoNotifyApi(std::shared_ptr<Pistache::Rest::Router> rtr) {
   router = rtr;
@@ -42,20 +39,17 @@ void N2InfoNotifyApi::init() {
 }
 
 void N2InfoNotifyApi::setupRoutes() {
-  using namespace Pistache::Rest;
-
-  Routes::Post(
+  Rest::Routes::Post(
       *router, base + lmf_cfg.sbi_api_version + "/nrppa/callback/:ueContextId",
-      Routes::bind(&N2InfoNotifyApi::notify_n2info_nrppa_handler, this));
+      Rest::Routes::bind(&N2InfoNotifyApi::notify_n2info_nrppa_handler, this));
 
   // Default handler, called when a route is not found
-  router->addCustomHandler(
-      Routes::bind(&N2InfoNotifyApi::notify_n2info_default_handler, this));
+  router->addCustomHandler(Rest::Routes::bind(
+      &N2InfoNotifyApi::notify_n2info_default_handler, this));
 }
 
 void N2InfoNotifyApi::notify_n2info_nrppa_handler(
-    const Pistache::Rest::Request& request,
-    Pistache::Http::ResponseWriter response) {
+    const Rest::Request& request, Http::ResponseWriter response) {
   // Getting the path params
   auto ueContextId = request.param(":ueContextId").as<std::string>();
   Logger::lmf_server().debug(
@@ -67,7 +61,7 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
   mime_parser sp = {};
   if (!sp.parse(request.body())) {
     Logger::lmf_server().error("Bad request: parse failed: %s", request.body());
-    response.send(Pistache::Http::Code::Bad_Request);
+    response.send(Http::Code::Bad_Request);
     return;
   }
 
@@ -80,7 +74,7 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
   if (size != 2) {
     Logger::lmf_server().debug(
         "Bad request: should have at least 2 MIME parts");
-    response.send(Pistache::Http::Code::Bad_Request);
+    response.send(Http::Code::Bad_Request);
     return;
   }
 
@@ -94,24 +88,21 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
     this->receive_n2info_nrppa_notification(ueContextId, parts, response);
   } catch (nlohmann::detail::exception& e) {
     // send a 400 error
-    response.send(Pistache::Http::Code::Bad_Request, e.what());
+    response.send(Http::Code::Bad_Request, e.what());
     return;
-  } catch (Pistache::Http::HttpError& e) {
-    response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+  } catch (Http::HttpError& e) {
+    response.send(static_cast<Http::Code>(e.code()), e.what());
     return;
   } catch (std::exception& e) {
     // send a 500 error
-    response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
+    response.send(Http::Code::Internal_Server_Error, e.what());
     return;
   }
 }
 
 void N2InfoNotifyApi::notify_n2info_default_handler(
-    const Pistache::Rest::Request&, Pistache::Http::ResponseWriter response) {
-  response.send(
-      Pistache::Http::Code::Not_Found, "The requested method does not exist");
+    const Rest::Request&, Http::ResponseWriter response) {
+  response.send(Http::Code::Not_Found, "The requested method does not exist");
 }
 
-}  // namespace api
-}  // namespace lmf_server
-}  // namespace oai
+}  // namespace oai::lmf_server::api

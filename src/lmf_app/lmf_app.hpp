@@ -21,26 +21,26 @@
 
 #ifndef FILE_LMF_APP_HPP_SEEN
 #define FILE_LMF_APP_HPP_SEEN
-#include "lmf_event.hpp"
 
-#include "lmf.h"
-#include "InputData.h"
-#include "lpp-ie-headers.hpp"
-#include "nrppa-ie-headers.hpp"
-#include "ProblemDetails.h"
-#include "lmf_context.hpp"
-#include <map>
-#include <pistache/http.h>
 #include <shared_mutex>
 #include <string>
+#include <map>
 
-#define BUF_LEN 1024
+#include <pistache/http.h>
+
+#include "lmf.h"
+#include "lmf_event.hpp"
+#include "lmf_context.hpp"
+#include "lmf_n1_n2_message_subscription.hpp"
+
+#include "ProblemDetails.h"
+#include "InputData.h"
+
+#include "lpp-ie-headers.hpp"
+#include "nrppa-ie-headers.hpp"
 
 namespace oai::lmf::app {
 
-using namespace oai::lmf_server::model;
-
-// class lmf_config;
 class lmf_app {
  public:
   explicit lmf_app(const std::string& config_file, lmf_event& ev);
@@ -54,7 +54,8 @@ class lmf_app {
       nlohmann::json& json_data, Pistache::Http::Code& code);
 
   bool handle_n2info_nrppa_notification(
-      std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
+      std::string supi, NRPPA_PDU_t* nrppa,
+      oai::lmf_server::model::ProblemDetails& problem_details,
       uint8_t& http_code);
 
   bool is_supi_2_context(const std::string& supi) const;
@@ -87,6 +88,5 @@ class lmf_app {
   void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
 };
 }  // namespace oai::lmf::app
-#include "lmf_config.hpp"
 
 #endif /* FILE_LMF_APP_HPP_SEEN */

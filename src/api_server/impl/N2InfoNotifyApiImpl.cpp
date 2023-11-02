@@ -19,19 +19,16 @@
  *      contact@openairinterface.org
  */
 
+#include "N2InfoNotifyApiImpl.h"
+
 #include "lmf_nrf.hpp"
 #include "logger.hpp"
-#include "N2InfoNotifyApiImpl.h"
 #include "conversions.hpp"
 #include "bstrlib.h"
 
-extern oai::lmf::app::lmf_nrf* lmf_nrf_inst;
+#include "N2InformationNotification.h"
 
-namespace oai {
-namespace lmf_server {
-namespace api {
-
-using namespace oai::lmf_server::model;
+namespace oai::lmf_server::api {
 
 N2InfoNotifyApiImpl::N2InfoNotifyApiImpl(
     std::shared_ptr<Pistache::Rest::Router> rtr,
@@ -41,6 +38,8 @@ N2InfoNotifyApiImpl::N2InfoNotifyApiImpl(
 void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
     const std::string& ueContextId, std::vector<mime_part>& parts,
     Pistache::Http::ResponseWriter& response) {
+  using namespace oai::lmf_server;
+
   Logger::lmf_server().debug("Receive an N2Info NRPPA Notify, handling...");
 
   std::string supi = ueContextId;
@@ -51,8 +50,8 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
     return;
   }
 
-  N2InformationNotification n2InformationNotification = {};
-  nlohmann::json::parse(parts.at(0).body).get_to(n2InformationNotification);
+  model::N2InformationNotification n2InformationNotification{
+      nlohmann::json::parse(parts.at(0).body)};
 
   Logger::lmf_server().debug("SUPI %s", ueContextId);
 
@@ -75,7 +74,7 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
 
   // Check N2 Information Class
   if (eN2InformationClass !=
-      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
     response.send(Pistache::Http::Code::Bad_Request);
     Logger::lmf_server().error(
         "N2 Information Class not NRPPA: %d",
@@ -105,7 +104,7 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   }
   // NGAP IE Type
   auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
-  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+  if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
     response.send(Pistache::Http::Code::Bad_Request);
     Logger::lmf_server().error(
         "ngapIeType not NRPPA_PDU: %d", static_cast<int>(eNgapIeType));
@@ -135,8 +134,8 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
   Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
-  ProblemDetails problem_details = {};
-  uint8_t http_code              = 0;
+  model::ProblemDetails problem_details = {};
+  uint8_t http_code                     = 0;
 
   if (m_lmf_app->handle_n2info_nrppa_notification(
           supi, nrppa, problem_details, http_code)) {
@@ -145,6 +144,4 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
-}  // namespace api
-}  // namespace lmf_server
-}  // namespace oai
+}  // namespace oai::lmf_server::api

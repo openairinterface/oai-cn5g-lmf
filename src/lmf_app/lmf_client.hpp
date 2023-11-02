@@ -30,9 +30,7 @@
 #include "lmf_config.hpp"
 #include "logger.hpp"
 
-namespace oai {
-namespace lmf {
-namespace app {
+namespace oai::lmf::app {
 
 class lmf_client {
  private:
@@ -46,7 +44,9 @@ class lmf_client {
       std::string remoteUri, std::string method, std::string msgBody,
       std::string& response, bool is_multipart);
 };
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+
+}  // namespace oai::lmf::app
+
+extern oai::lmf::app::lmf_client* lmf_client_inst;
+
 #endif /* FILE_LMF_CLIENT_HPP_SEEN */
