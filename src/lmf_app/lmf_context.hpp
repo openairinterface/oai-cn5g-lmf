@@ -26,12 +26,27 @@
 
 #include <nlohmann/json.hpp>
 
+#include <pistache/http.h>
+#include <pistache/router.h>
+
+#include "NRPPA-PDU.h"
+
+#include "InputData.h"
+
 class LMFContext {
  public:
   LMFContext(std::string supi) : supi{supi} {}
 
   void finish();
   std::promise<nlohmann::json> promise;
+
+  void determine_location(
+      const oai::lmf_server::model::InputData& inputData,
+      nlohmann::json& json_data, Pistache::Http::Code& code);
+
+  bool n1_n2_transfer(
+      NRPPA_PDU_t* nrppaPdu, nlohmann::json& json_data,
+      Pistache::Http::Code& code);
 
  private:
   std::string supi;

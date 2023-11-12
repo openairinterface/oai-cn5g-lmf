@@ -79,14 +79,11 @@ class lmf_app {
   lmf_event& event_sub;
 
   bool _is_supi_2_context(const std::string& supi) const;
-  void determine_location(
-      const oai::lmf_server::model::InputData& inputData,
-      nlohmann::json& json_data, Pistache::Http::Code& code);
 
-  void build_request_location_lpp_pdu(LPP_Message_t* lppMsg);
   void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
-  void build_positioning_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
 };
 }  // namespace oai::lmf::app
+
+extern oai::lmf::app::lmf_app* lmf_app_inst;
 
 #endif /* FILE_LMF_APP_HPP_SEEN */

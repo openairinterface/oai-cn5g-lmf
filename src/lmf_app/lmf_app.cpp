@@ -47,12 +47,10 @@
 using namespace std;
 using namespace oai::lmf::app;
 using namespace oai::lmf_server::model;
-
-extern lmf_app* lmf_app_inst;
-lmf_client* lmf_client_inst = nullptr;
 using namespace config;
-extern lmf_config lmf_cfg;
-lmf_nrf* lmf_nrf_inst = nullptr;
+
+lmf_client* lmf_client_inst = nullptr;
+lmf_nrf* lmf_nrf_inst       = nullptr;
 
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
@@ -189,174 +187,57 @@ void lmf_app::handle_determine_location(
 
     return;
   }
-  determine_location(inputData, json_data, code);
+  ctx->determine_location(inputData, json_data, code);
   json_data = ctx->promise.get_future().get();
   // stay subscribed
   // release_n1n2subscription(supi);
   code = Pistache::Http::Code::Ok;
 
+  auto initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_Measurement,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = 11,
+      .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
+  };
+  auto ies =
+      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+
+  auto lmfMeasurementId = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
+              .choice  = {.Measurement_ID = 1},
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
+
+  auto reportCharacteristics = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_ReportCharacteristics,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
+              .choice =
+                  {.ReportCharacteristics = ReportCharacteristics_onDemand},
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
+
+  auto nrppaPdu = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = &initiatingMessage},
+  };
+
+  ctx->promise = {};
+  ctx->n1_n2_transfer(&nrppaPdu, json_data, code);
+  json_data = ctx->promise.get_future().get();
+
   del_supi_2_context(supi);
 }
 
-void lmf_app::determine_location(
-    const InputData& inputData, nlohmann::json& json_data,
-    Pistache::Http::Code& code) {
-  Logger::lmf_app().info("Handle Determin Location Request");
-  std::string ueSupi = inputData.getSupi();
-
-  LPP_Message_t* lppMsg = new LPP_Message_t();
-  build_request_location_lpp_pdu(lppMsg);
-
-  asn_encode_to_new_buffer_result_t lppMsgEnc = asn_encode_to_new_buffer(
-      0, ATS_UNALIGNED_BASIC_PER, &asn_DEF_LPP_Message, lppMsg);
-  if (lppMsgEnc.result.encoded == -1) {
-    Logger::lmf_app().error(
-        "Could not encode (at %s)\n", lppMsgEnc.result.failed_type ?
-                                          lppMsgEnc.result.failed_type->name :
-                                          "unknown");
-
-    ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg = "Could not encode (at ";
-    errorMsg +=
-        (lppMsgEnc.result.failed_type ? lppMsgEnc.result.failed_type->name :
-                                        "unknown");
-    errorMsg += ")\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-    return;
-  }
-
-  NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
-  build_positioning_information_request_nrppa_pdu(nrppaPdu);
-
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
-  asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
-  if (nrppaPduEnc.result.encoded == -1) {
-    Logger::lmf_app().error(
-        "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
-                                          nrppaPduEnc.result.failed_type->name :
-                                          "unknown");
-
-    ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg = "Could not encode (at ";
-    errorMsg +=
-        (nrppaPduEnc.result.failed_type ? nrppaPduEnc.result.failed_type->name :
-                                          "unknown");
-    errorMsg += ")\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-    return;
-  }
-
-  std::string amf_uri  = {};
-  std::string method   = "POST";
-  std::string response = {};
-  amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + ueSupi +
-      "/n1-n2-messages";
-  Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
-
-  /**N1MessageContainer n1MessageContainer = {};
-
-  // N1 Message Class
-  N1MessageClass lppN1MessageClass = {};
-  lppN1MessageClass.setEnumValue(
-      N1MessageClass_anyOf::eN1MessageClass_anyOf::LPP);
-  n1MessageContainer.setN1MessageClass(lppN1MessageClass);
-
-  // N1 Message Container
-  std::string n1MessageDataStr(
-      (char*) lppMsgEnc.buffer,
-      (char*) (lppMsgEnc.buffer) + lppMsgEnc.result.encoded);
-  RefToBinaryData n1MessageData = {};
-  n1MessageData.setContentId(n1MessageDataStr);
-  n1MessageContainer.setN1MessageContent(n1MessageData);*/
-
-  std::string nrppaMsgStr(
-      (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
-  std::string nrppaMsgHex = {};
-  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
-
-  RefToBinaryData ngapData = {};
-  ngapData.setContentId(N2_NRPPa_CONTENT_ID);
-
-  NgapIeType ngapIeType = {};
-  ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
-
-  N2InfoContent n2InfoContent = {};
-  n2InfoContent.setNgapIeType(ngapIeType);
-  n2InfoContent.setNgapData(ngapData);
-
-  NrppaInformation nrppaInformation = {};
-  nrppaInformation.setNfId(lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
-  nrppaInformation.setNrppaPdu(n2InfoContent);
-
-  N2InformationClass n2InformationClass = {};
-  n2InformationClass.setEnumValue(
-      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
-  N2InfoContainer n2InfoContainer = {};
-  n2InfoContainer.setN2InformationClass(n2InformationClass);
-  n2InfoContainer.setNrppaInfo(nrppaInformation);
-
-  N1N2MessageTransferReqData n1n2MessageTransferReqData = {};
-  n1n2MessageTransferReqData.setN2InfoContainer(n2InfoContainer);
-
-  nlohmann::json n1n2MessageTransferReq_json;
-  to_json(n1n2MessageTransferReq_json, n1n2MessageTransferReqData);
-
-  std::string body      = {};
-  std::string json_part = {};
-  json_part             = n1n2MessageTransferReq_json.dump();
-
-  mime_parser::create_multipart_related_content(
-      body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
-      multipart_related_content_part_e::NGAP);
-
-  lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
-  Logger::lmf_app().info("Response from AMF: %s", response);
-
-  auto const& rspData_json = nlohmann::json::parse(response);
-  if (!rspData_json.contains("cause") ||
-      rspData_json["cause"] !=
-          n1_n2_message_transfer_cause_e2str[N1_N2_TRANSFER_INITIATED]) {
-    auto const& cause =
-        rspData_json.contains("cause") ?
-            n1_n2_message_transfer_cause_e2str[rspData_json["cause"]] :
-            "no cause"s;
-    auto const& err =
-        "n1n2message transfer failed supi: '"s + ueSupi + "': cause: "s + cause;
-    Logger::lmf_app().warn(err);
-    ProblemDetails problemDetails;
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
-    problemDetails.setDetail(err);
-
-    json_data = problemDetails;
-    code      = Pistache::Http::Code(problemDetails.getStatus());
-
-    return;
-  }
-}
-
-bool oai::lmf::app::lmf_app::_is_supi_2_context(const std::string& supi) const {
+bool lmf_app::_is_supi_2_context(const std::string& supi) const {
   return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
 }
 
@@ -435,76 +316,6 @@ bool lmf_app::handle_n2info_nrppa_notification(
   return true;
 }
 
-void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {
-  lppMsg->endTransaction = true;
-
-  lppMsg->transactionID =
-      (LPP_TransactionID_t*) calloc(1, sizeof(LPP_TransactionID_t));
-  lppMsg->transactionID->initiator         = Initiator_locationServer;
-  long transno                             = 10;
-  lppMsg->transactionID->transactionNumber = transno;
-
-  lppMsg->lpp_MessageBody =
-      (LPP_MessageBody_t*) calloc(1, sizeof(LPP_MessageBody_t));
-  lppMsg->lpp_MessageBody->present = LPP_MessageBody_PR_c1;
-  lppMsg->lpp_MessageBody->choice.c1 =
-      (LPP_MessageBody::LPP_MessageBody_u::LPP_MessageBody__c1*) calloc(
-          1, sizeof(LPP_MessageBody::LPP_MessageBody_u::LPP_MessageBody__c1));
-  lppMsg->lpp_MessageBody->choice.c1->present =
-      LPP_MessageBody__c1_PR_requestLocationInformation;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation =
-      (RequestLocationInformation_t*) calloc(
-          1, sizeof(RequestLocationInformation_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.present =
-      RequestLocationInformation__criticalExtensions_PR_c1;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice
-      .c1 = (RequestLocationInformation::
-                 RequestLocationInformation__criticalExtensions::
-                     RequestLocationInformation__criticalExtensions_u::
-                         RequestLocationInformation__criticalExtensions__c1*)
-      calloc(
-          1,
-          sizeof(
-              RequestLocationInformation::
-                  RequestLocationInformation__criticalExtensions::
-                      RequestLocationInformation__criticalExtensions_u::
-                          RequestLocationInformation__criticalExtensions__c1));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->present =
-      RequestLocationInformation__criticalExtensions__c1_PR_requestLocationInformation_r9;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9 =
-      (RequestLocationInformation_r9_IEs_t*) calloc(
-          1, sizeof(RequestLocationInformation_r9_IEs_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation =
-      (CommonIEsRequestLocationInformation_t*) calloc(
-          1, sizeof(CommonIEsRequestLocationInformation_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationInformationType =
-      LocationInformationType_locationMeasurementsRequired;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationCoordinateTypes =
-      (LocationCoordinateTypes_t*) calloc(1, sizeof(LocationCoordinateTypes_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationCoordinateTypes
-      ->ellipsoidPoint = true;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->velocityTypes =
-      (VelocityTypes_t*) calloc(1, sizeof(VelocityTypes_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->velocityTypes->horizontalVelocity =
-      true;
-}
-
 void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
   nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
   nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
@@ -565,43 +376,4 @@ void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
       &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
            .protocolIEs.list,
       trpInformationTypeList);
-}
-
-void lmf_app::build_positioning_information_request_nrppa_pdu(
-    NRPPA_PDU_t* nrppaPdu) {
-  nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
-  nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
-  nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
-
-  nrppaPdu->choice.initiatingMessage->procedureCode =
-      ProcedureCode_id_positioningInformationExchange;
-  nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
-  nrppaPdu->choice.initiatingMessage->value.present =
-      InitiatingMessage__value_PR::
-          InitiatingMessage__value_PR_PositioningInformationRequest;
-
-  PositioningInformationRequest_IEs_t* positioningInformationRequestIEs =
-      new PositioningInformationRequest_IEs_t();
-  positioningInformationRequestIEs->id =
-      ProtocolIE_ID_id_RequestedSRSTransmissionCharacteristics;
-  positioningInformationRequestIEs->criticality = Criticality_ignore;
-  positioningInformationRequestIEs->value
-      .present = PositioningInformationRequest_IEs__value_PR::
-      PositioningInformationRequest_IEs__value_PR_RequestedSRSTransmissionCharacteristics;
-
-  RequestedSRSTransmissionCharacteristics_t*
-      requestedSRSTransmissionCharacteristics =
-          &positioningInformationRequestIEs->value.choice
-               .RequestedSRSTransmissionCharacteristics;
-  requestedSRSTransmissionCharacteristics->resourceType =
-      RequestedSRSTransmissionCharacteristics__resourceType::
-          RequestedSRSTransmissionCharacteristics__resourceType_aperiodic;
-  requestedSRSTransmissionCharacteristics->bandwidth.present =
-      BandwidthSRS_PR::BandwidthSRS_PR_fR1;
-  requestedSRSTransmissionCharacteristics->bandwidth.choice.fR1 =
-      BandwidthSRS__fR1::BandwidthSRS__fR1_mHz5;
-  ASN_SEQUENCE_ADD(
-      &nrppaPdu->choice.initiatingMessage->value.choice
-           .PositioningInformationRequest.protocolIEs.list,
-      positioningInformationRequestIEs);
 }
