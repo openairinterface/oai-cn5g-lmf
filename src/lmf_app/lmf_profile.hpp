@@ -24,17 +24,13 @@
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#include <nlohmann/json.hpp>
 #include <shared_mutex>
 #include <vector>
 
 #include "3gpp_29.510.h"
 #include "lmf.h"
-#include "logger.hpp"
 
-namespace oai {
-namespace lmf {
-namespace app {
+namespace oai::lmf::app {
 
 class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
  public:
@@ -335,8 +331,6 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
   lmf_info_t lmf_info;
 };
 
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+}  // namespace oai::lmf::app
 
 #endif

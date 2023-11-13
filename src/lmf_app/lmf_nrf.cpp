@@ -35,6 +35,8 @@
 #include "lmf.h"
 #include "logger.hpp"
 
+#include "PatchItem.h"
+
 using namespace config;
 // using namespace lmf;
 using namespace oai::lmf::app;

@@ -19,34 +19,44 @@
  *      contact@openairinterface.org
  */
 
-#ifndef FILE_LMF_CLIENT_HPP_SEEN
-#define FILE_LMF_CLIENT_HPP_SEEN
+/*
+ * N2InfoNotifyApiImpl.h
+ *
+ *
+ */
 
-#include <map>
-#include <thread>
+#ifndef N2Info_NOTIFY_API_IMPL_H_
+#define N2Info_NOTIFY_API_IMPL_H_
 
-#include <curl/curl.h>
+#include <pistache/endpoint.h>
+#include <pistache/http.h>
+#include <pistache/router.h>
+#include <memory>
 
-#include "lmf_config.hpp"
-#include "logger.hpp"
+#include <pistache/optional.h>
 
-namespace oai::lmf::app {
+#include "N2InfoNotifyApi.h"
+#include "ProblemDetails.h"
+#include "lmf_app.hpp"
 
-class lmf_client {
- private:
+namespace oai::lmf_server::api {
+
+class N2InfoNotifyApiImpl : public oai::lmf_server::api::N2InfoNotifyApi {
  public:
-  lmf_client();
-  virtual ~lmf_client();
+  N2InfoNotifyApiImpl(
+      std::shared_ptr<Pistache::Rest::Router>,
+      oai::lmf::app::lmf_app* lmf_app_inst);
+  ~N2InfoNotifyApiImpl() {}
 
-  lmf_client(lmf_client const&) = delete;
+  void receive_n2info_nrppa_notification(
+      const std::string& ueContextId, std::vector<mime_part>& parts,
+      Pistache::Http::ResponseWriter& response);
 
-  void curl_http_client(
-      std::string remoteUri, std::string method, std::string msgBody,
-      std::string& response, bool is_multipart);
+ private:
+  oai::lmf::app::lmf_app* m_lmf_app;
+  // std::string m_address;
 };
 
-}  // namespace oai::lmf::app
+}  // namespace oai::lmf_server::api
 
-extern oai::lmf::app::lmf_client* lmf_client_inst;
-
-#endif /* FILE_LMF_CLIENT_HPP_SEEN */
+#endif

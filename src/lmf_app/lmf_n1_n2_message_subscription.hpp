@@ -19,34 +19,37 @@
  *      contact@openairinterface.org
  */
 
-#ifndef FILE_LMF_CLIENT_HPP_SEEN
-#define FILE_LMF_CLIENT_HPP_SEEN
+#ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
+#define FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
 
-#include <map>
-#include <thread>
+#include <string>
+#include <memory>
 
-#include <curl/curl.h>
-
-#include "lmf_config.hpp"
-#include "logger.hpp"
-
-namespace oai::lmf::app {
-
-class lmf_client {
- private:
+class N1N2MessageSubscription {
  public:
-  lmf_client();
-  virtual ~lmf_client();
+  std::string supi, id;
 
-  lmf_client(lmf_client const&) = delete;
+  static std::shared_ptr<N1N2MessageSubscription> create(
+      const std::string& supi) {
+    return std::make_shared<N1N2MessageSubscription>(supi);
+  }
 
-  void curl_http_client(
-      std::string remoteUri, std::string method, std::string msgBody,
-      std::string& response, bool is_multipart);
+  N1N2MessageSubscription(const std::string& supi) : supi{supi} {
+    this->subscribe();
+  }
+
+  ~N1N2MessageSubscription() {
+    if (this->is_subscribed()) {
+      this->unsubscribe();
+    }
+  }
+
+  bool is_subscribed() const {
+    return !this->supi.empty() && !this->id.empty();
+  }
+
+  bool subscribe(std::string supi = "");
+  bool unsubscribe();
 };
 
-}  // namespace oai::lmf::app
-
-extern oai::lmf::app::lmf_client* lmf_client_inst;
-
-#endif /* FILE_LMF_CLIENT_HPP_SEEN */
+#endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN

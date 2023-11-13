@@ -22,22 +22,10 @@
 #ifndef FILE_LMF_NRF_SEEN
 #define FILE_LMF_NRF_SEEN
 
-#include <map>
-#include <thread>
-
-#include <curl/curl.h>
-
-#include "PatchItem.h"
-#include "lmf_config.hpp"
 #include "lmf_event.hpp"
 #include "lmf_profile.hpp"
-#include "logger.hpp"
 
-// using namespace oai::lmf_server::model;
-
-namespace oai {
-namespace lmf {
-namespace app {
+namespace oai::lmf::app {
 
 class lmf_nrf {
  private:
@@ -88,7 +76,9 @@ class lmf_nrf {
   lmf_event& m_event_sub;
   bs2::connection task_connection;
 };
-}  // namespace app
-}  // namespace lmf
-}  // namespace oai
+
+}  // namespace oai::lmf::app
+
+extern oai::lmf::app::lmf_nrf* lmf_nrf_inst;
+
 #endif /* FILE_LMF_NRF_SEEN */

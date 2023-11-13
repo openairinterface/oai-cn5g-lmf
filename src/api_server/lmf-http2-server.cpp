@@ -85,11 +85,15 @@ void lmf_http2_server::detemine_location_post_handler(
   Pistache::Http::Code code        = {};
   header_map h;
 
-  m_lmf_app->handle_determine_location(inputData, locationData_json, code, 2);
+  m_lmf_app->handle_determine_location(inputData, locationData_json, code);
 
-  if (code == Pistache::Http::Code::Ok)
+  if (code == Pistache::Http::Code::Ok) {
+    h.insert(std::make_pair<std::string, header_value>(
+        "Content-Type", {"application/json", false}));
     response.write_head(HTTP_STATUS_CODE_200_OK, h);
-  else if (code == Pistache::Http::Code::Internal_Server_Error)
-    response.write_head(HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR, h);
-  response.end(locationData_json.dump().c_str());
+    response.end(locationData_json.dump().c_str());
+  } else {
+    response.write_head(static_cast<uint32_t>(code), h);
+    response.end();
+  }
 }
