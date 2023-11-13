@@ -28,7 +28,7 @@
 
 #include <pistache/http.h>
 #include <pistache/router.h>
-
+#define ASN_DISABLE_OER_SUPPORT
 #include "NRPPA-PDU.h"
 
 #include "InputData.h"

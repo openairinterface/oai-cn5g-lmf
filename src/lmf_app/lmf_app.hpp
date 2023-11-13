@@ -37,7 +37,6 @@
 #include "InputData.h"
 
 #include "lpp-ie-headers.hpp"
-#include "nrppa-ie-headers.hpp"
 
 namespace oai::lmf::app {
 

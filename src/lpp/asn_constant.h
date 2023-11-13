@@ -73,6 +73,7 @@ extern "C" {
 #define maxBandComb_r16 (1024)
 #define nrMaxConfiguredBands_r16 (16)
 
+
 #ifdef __cplusplus
 }
 #endif

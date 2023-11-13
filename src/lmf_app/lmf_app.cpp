@@ -44,6 +44,9 @@
 #include "RefToBinaryData.h"
 #include "ProblemDetails.h"
 
+#include "InitiatingMessage.h"
+#include "ProtocolIE-Field.h"
+
 using namespace std;
 using namespace oai::lmf::app;
 using namespace oai::lmf_server::model;
@@ -75,6 +78,7 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
   }
 
   if (lmf_cfg.request_trp_info) {
+#if 0
     NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
     build_trp_information_request_nrppa_pdu(nrppaPdu);
 
@@ -145,6 +149,7 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
 
       Logger::lmf_app().info("Response from AMF: %s", response.c_str());
     }
+#endif
   }
   Logger::lmf_app().startup("Started");
 }
@@ -315,7 +320,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
 
   return true;
 }
-
+#if 0
 void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
   nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
   nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
@@ -377,3 +382,4 @@ void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
            .protocolIEs.list,
       trpInformationTypeList);
 }
+#endif

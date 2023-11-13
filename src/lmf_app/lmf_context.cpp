@@ -193,7 +193,8 @@ void LMFContext::determine_location(
                               .bandwidth =
                                   {
                                       .present = BandwidthSRS_PR_fR1,
-                                      .choice = {.fR1 = BandwidthSRS__fR1_mHz5},
+                                      .choice =
+                                          {.fR1 = BandwidthSRS__fR1_kHz100},
                                   },
                           },
                   },
