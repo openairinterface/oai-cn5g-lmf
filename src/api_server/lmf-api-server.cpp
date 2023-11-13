@@ -83,10 +83,13 @@ void LMFApiServer::init(size_t thr) {
   // m_authenticationResultDeletionApiImpl->init();
   // m_defaultApiImpl->init();
   m_determineLocationApiImpl->init();
+  m_n2InfoNotifyApiImpl->init();
 }
 void LMFApiServer::start() {
   if (m_determineLocationApiImpl != nullptr)
     Logger::lmf_server().debug("LMF handler for DetermineLocationApiImpl");
+  if (m_n2InfoNotifyApiImpl != nullptr)
+    Logger::lmf_server().debug("LMF handler for N2InfoNotifyApiImpl");
   Logger::lmf_server().info("HTTP1 server started");
   m_httpEndpoint->setHandler(m_router->handler());
   m_httpEndpoint->serve();

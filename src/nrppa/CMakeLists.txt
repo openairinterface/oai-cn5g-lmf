@@ -6,3 +6,5 @@ file(GLOB NRPPA_src_files
 )   
 
 add_library(NRPPA STATIC ${NRPPA_src_files})
+#add_definitions(-DASN_EMIT_DEBUG=1)
+#add_definitions(-DASN_THREAD_SAFE)

@@ -22,20 +22,12 @@
 #ifndef _LMF_CONFIG_H_
 #define _LMF_CONFIG_H_
 
-#include "lmf_config.hpp"
-
 #include <arpa/inet.h>
-#include <libconfig.h++>
-#include <mutex>
-#include <netinet/in.h>
-#include <string>
-#include <sys/socket.h>
-#include <vector>
-#include "logger.hpp"
 
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
+#include <libconfig.h++>
+#include <string>
+
+#include "logger_base.hpp"
 
 #define LMF_CONFIG_STRING_LMF_CONFIG "LMF"
 #define LMF_CONFIG_STRING_PID_DIRECTORY "PID_DIRECTORY"
@@ -67,8 +59,6 @@
 #define LMF_CONFIG_STRING_SUPPORTED_FEATURES_REQUEST_TRP_INFO "REQUEST_TRP_INFO"
 #define LMF_CONFIG_STRING_FQDN_DNS "FQDN"
 
-using namespace libconfig;
-
 namespace config {
 
 typedef struct interface_cfg_s {
@@ -85,7 +75,7 @@ class lmf_config {
   lmf_config();
   ~lmf_config();
   int load(const std::string& config_file);
-  int load_interface(const Setting& if_cfg, interface_cfg_t& cfg);
+  int load_interface(const libconfig::Setting& if_cfg, interface_cfg_t& cfg);
   void display();
 
   unsigned int instance;
@@ -118,5 +108,7 @@ class lmf_config {
 };
 
 }  // namespace config
+
+extern config::lmf_config lmf_cfg;
 
 #endif
