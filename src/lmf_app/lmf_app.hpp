@@ -25,8 +25,11 @@
 #include <shared_mutex>
 #include <string>
 #include <map>
+#include <boost/range/combine.hpp>
 
 #include <pistache/http.h>
+
+#include "uint_generator.hpp"
 
 #include "lmf.h"
 #include "lmf_event.hpp"
@@ -35,6 +38,8 @@
 
 #include "ProblemDetails.h"
 #include "InputData.h"
+
+#include "NRPPATransactionID.h"
 
 #include "lpp-ie-headers.hpp"
 
@@ -79,7 +84,9 @@ class lmf_app {
 
   bool _is_supi_2_context(const std::string& supi) const;
 
-  void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
+  asn_encode_to_new_buffer_result_t build_trp_information_request_nrppa_pdu();
+
+  util::uint_generator<NRPPATransactionID_t> nrppa_tid_gen;
 };
 }  // namespace oai::lmf::app
 

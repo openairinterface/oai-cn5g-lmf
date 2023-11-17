@@ -46,6 +46,9 @@
 
 #include "InitiatingMessage.h"
 #include "ProtocolIE-Field.h"
+// TRPItem.h should be included in TRPList.h not forward decl as
+// TRPInformationTypeItem.h is included in TRPInformationTypeList.h
+#include "TRPItem.h"
 
 using namespace std;
 using namespace oai::lmf::app;
@@ -78,14 +81,7 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
   }
 
   if (lmf_cfg.request_trp_info) {
-#if 0
-    NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
-    build_trp_information_request_nrppa_pdu(nrppaPdu);
-
-    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
-    asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-        0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+    auto nrppaPduEnc = build_trp_information_request_nrppa_pdu();
 
     if (nrppaPduEnc.result.encoded == -1) {
       Logger::lmf_app().error(
@@ -148,8 +144,9 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
       lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
       Logger::lmf_app().info("Response from AMF: %s", response.c_str());
+
+      free(nrppaPduEnc.buffer);
     }
-#endif
   }
   Logger::lmf_app().startup("Started");
 }
@@ -198,14 +195,8 @@ void lmf_app::handle_determine_location(
   // release_n1n2subscription(supi);
   code = Pistache::Http::Code::Ok;
 
-  auto initiatingMessage = InitiatingMessage_t{
-      .procedureCode      = ProcedureCode_id_Measurement,
-      .criticality        = Criticality_reject,
-      .nrppatransactionID = 11,
-      .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
-  };
-  auto ies =
-      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+  auto measurementID        = Measurement_ID_t{1};
+  auto reportCharacteristic = ReportCharacteristics_onDemand;
 
   auto lmfMeasurementId = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
@@ -213,10 +204,9 @@ void lmf_app::handle_determine_location(
       .value =
           {
               .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
-              .choice  = {.Measurement_ID = 1},
+              .choice  = {.Measurement_ID = measurementID},
           },
   };
-  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
 
   auto reportCharacteristics = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_ReportCharacteristics,
@@ -225,9 +215,20 @@ void lmf_app::handle_determine_location(
           {
               .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
               .choice =
-                  {.ReportCharacteristics = ReportCharacteristics_onDemand},
+                  {.ReportCharacteristics =
+                       ReportCharacteristics_t{reportCharacteristic}},
           },
   };
+
+  auto initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_Measurement,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = 11,
+      .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
+  };
+  auto ies =
+      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
   ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
 
   auto nrppaPdu = NRPPA_PDU_t{
@@ -320,66 +321,67 @@ bool lmf_app::handle_n2info_nrppa_notification(
 
   return true;
 }
-#if 0
-void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
-  nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
-  nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
-  nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
 
-  nrppaPdu->choice.initiatingMessage->procedureCode =
-      ProcedureCode_id_tRPInformationExchange;
-  nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
-  nrppaPdu->choice.initiatingMessage->value.present =
-      InitiatingMessage__value_PR::
-          InitiatingMessage__value_PR_TRPInformationRequest;
+// 9.1.1.14 TRP INFORMATION REQUEST
+asn_encode_to_new_buffer_result_t
+lmf_app::build_trp_information_request_nrppa_pdu() {
+  // 9.2.4 NRPPa Transaction ID
+  auto const nrppatransactionID = NRPPATransactionID_t{12};
+  // 9.2.24 TRP ID
+  auto const ids = std::array<TRP_ID_t, 2>{1, 2};  // c++20: std::to_array
+  // TRP Information Type Item's
+  auto const informationTypes =
+      std::array{TRPInformationTypeItem_nrPCI, TRPInformationTypeItem_geoCoord};
 
-  TRPInformationRequest_IEs_t* trpList = new TRPInformationRequest_IEs_t();
-  trpList->id                          = ProtocolIE_ID_id_TRPList;
-  trpList->criticality                 = Criticality_reject;
-  trpList->value.present               = TRPInformationRequest_IEs__value_PR::
-      TRPInformationRequest_IEs__value_PR_TRPList;
-
-  // Optional if All TRPs to be included
-  TRPItem_t* trpItem1 = new TRPItem_t();
-  trpItem1->tRP_ID    = 1;
-  TRPItem_t* trpItem2 = new TRPItem_t();
-  trpItem2->tRP_ID    = 2;
-  ASN_SEQUENCE_ADD(&trpList->value.choice.TRPList.list, trpItem1);
-  // ASN_SEQUENCE_ADD(&trpList->value.choice.TRPList.list, trpItem2);
-
-  ASN_SEQUENCE_ADD(
-      &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
-           .protocolIEs.list,
-      trpList);
-
-  TRPInformationRequest_IEs_t* trpInformationTypeList =
-      new TRPInformationRequest_IEs_t();
-  trpInformationTypeList->id = ProtocolIE_ID_id_TRPInformationTypeListTRPReq;
-  trpInformationTypeList->criticality   = Criticality_reject;
-  trpInformationTypeList->value.present = TRPInformationRequest_IEs__value_PR::
-      TRPInformationRequest_IEs__value_PR_TRPInformationTypeListTRPReq;
-
-  for (int i = e_TRPInformationTypeItem::TRPInformationTypeItem_nrPCI;
-       i <= e_TRPInformationTypeItem::TRPInformationTypeItem_geoCoord; i++) {
-    e_TRPInformationTypeItem type = (e_TRPInformationTypeItem) i;
-    Logger::lmf_app().info("Adding TRPInformationTypeItem: %d", (int) type);
-    TRPInformationTypeItemTRPReq_t* trpInformationTypeItem =
-        new TRPInformationTypeItemTRPReq_t();
-    trpInformationTypeItem->id = ProtocolIE_ID_id_TRPInformationTypeItem;
-    trpInformationTypeItem->criticality = Criticality_reject;
-    trpInformationTypeItem->value.present =
-        TRPInformationTypeItemTRPReq__value_PR::
-            TRPInformationTypeItemTRPReq__value_PR_TRPInformationTypeItem;
-    trpInformationTypeItem->value.choice.TRPInformationTypeItem = type;
-
-    ASN_SEQUENCE_ADD(
-        &trpInformationTypeList->value.choice.TRPInformationTypeListTRPReq.list,
-        trpInformationTypeItem);
+  auto listIe = TRPInformationRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_TRPList,
+      .criticality = Criticality_reject,
+      .value       = {.present = TRPInformationRequest_IEs__value_PR_TRPList},
+  };
+  auto list  = &listIe.value.choice.TRPList.list;
+  auto items = std::array<TRPItem_t, ids.size()>{};
+  // c++23: std::views::zip
+  for (auto const& [id, item] : boost::combine(ids, items)) {
+    item = TRPItem_t{.tRP_ID = id};
+    ASN_SEQUENCE_ADD(list, &item);
   }
 
-  ASN_SEQUENCE_ADD(
-      &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
-           .protocolIEs.list,
-      trpInformationTypeList);
+  auto informationTypeIe = TRPInformationRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_TRPInformationTypeList,
+      .criticality = Criticality_reject,
+      .value =
+          {.present =
+               TRPInformationRequest_IEs__value_PR_TRPInformationTypeList},
+  };
+  auto informationTypeList =
+      &informationTypeIe.value.choice.TRPInformationTypeList.list;
+  auto informationTypeItems =
+      std::array<TRPInformationTypeItem_t, informationTypes.size()>{};
+  for (auto const& [infoType, informationTypeItem] :
+       boost::combine(informationTypes, informationTypeItems)) {
+    // e_TRPInformationTypeItem (enum) to TRPInformationTypeItem_t (long)
+    informationTypeItem = infoType;
+    ASN_SEQUENCE_ADD(informationTypeList, &informationTypeItem);
+  }
+
+  auto initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_tRPInformationExchange,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = nrppatransactionID,
+      .value = {.present = InitiatingMessage__value_PR_TRPInformationRequest},
+  };
+  auto informationRequest =
+      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+  ASN_SEQUENCE_ADD(informationRequest, &listIe);
+  ASN_SEQUENCE_ADD(informationRequest, &informationTypeIe);
+
+  auto nrppaPdu = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = &initiatingMessage},
+  };
+
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, &nrppaPdu);
+
+  return asn_encode_to_new_buffer(
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);
 }
-#endif

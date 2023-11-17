@@ -79,7 +79,6 @@ bool LMFContext::n1_n2_transfer(
     json_data = problemDetails_json;
     return false;
   }
-  Logger::lmf_server().debug("<<- vor asn_decode ->>");
 
   std::string amf_uri  = {};
   std::string method   = "POST";
