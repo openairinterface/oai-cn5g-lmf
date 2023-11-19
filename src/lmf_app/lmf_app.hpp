@@ -84,9 +84,12 @@ class lmf_app {
 
   bool _is_supi_2_context(const std::string& supi) const;
 
-  asn_encode_to_new_buffer_result_t build_trp_information_request_nrppa_pdu();
+  std::pair<
+      asn_encode_to_new_buffer_result_t, std::unique_ptr<void, decltype(&free)>>
+  build_trp_information_request_nrppa_pdu();
 
   util::uint_generator<NRPPATransactionID_t> nrppa_tid_gen;
+  NRPPATransactionID_t const nrppa_id_trp_information = nrppa_tid_gen.get_uid();
 };
 }  // namespace oai::lmf::app
 

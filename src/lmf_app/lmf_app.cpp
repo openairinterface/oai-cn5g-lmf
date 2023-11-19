@@ -81,7 +81,7 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
   }
 
   if (lmf_cfg.request_trp_info) {
-    auto nrppaPduEnc = build_trp_information_request_nrppa_pdu();
+    auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
 
     if (nrppaPduEnc.result.encoded == -1) {
       Logger::lmf_app().error(
@@ -144,8 +144,6 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
       lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
 
       Logger::lmf_app().info("Response from AMF: %s", response.c_str());
-
-      free(nrppaPduEnc.buffer);
     }
   }
   Logger::lmf_app().startup("Started");
@@ -323,10 +321,13 @@ bool lmf_app::handle_n2info_nrppa_notification(
 }
 
 // 9.1.1.14 TRP INFORMATION REQUEST
-asn_encode_to_new_buffer_result_t
+// asn_encode_to_new_buffer_result_t
+std::pair<
+    asn_encode_to_new_buffer_result_t, std::unique_ptr<void, decltype(&free)>>
 lmf_app::build_trp_information_request_nrppa_pdu() {
   // 9.2.4 NRPPa Transaction ID
-  auto const nrppatransactionID = NRPPATransactionID_t{12};
+  auto const nrppatransactionID =
+      NRPPATransactionID_t{this->nrppa_id_trp_information};
   // 9.2.24 TRP ID
   auto const ids = std::array<TRP_ID_t, 2>{1, 2};  // c++20: std::to_array
   // TRP Information Type Item's
@@ -382,6 +383,9 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
 
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, &nrppaPdu);
 
-  return asn_encode_to_new_buffer(
+  asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);
+  auto gc = std::unique_ptr<void, decltype(&free)>{rc.buffer, free};
+
+  return {rc, std::move(gc)};
 }
