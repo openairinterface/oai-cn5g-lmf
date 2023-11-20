@@ -46,6 +46,7 @@
 #include "lmf_app.hpp"
 #include "DetermineLocationApiImpl.h"
 #include "N2InfoNotifyApiImpl.h"
+#include "NonUeN2InfoNotifyApiImpl.h"
 
 using namespace oai::lmf_server::api;
 using namespace oai::lmf::app;
@@ -72,6 +73,7 @@ class LMFApiServer {
   std::string m_address;
   std::shared_ptr<DetermineLocationApiImpl> m_determineLocationApiImpl;
   std::shared_ptr<N2InfoNotifyApiImpl> m_n2InfoNotifyApiImpl;
+  std::shared_ptr<NonUeN2InfoNotifyApiImpl> m_nonUeN2InfoNotifyApiImpl;
 };
 
 #endif

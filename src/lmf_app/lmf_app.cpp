@@ -46,9 +46,7 @@
 
 #include "InitiatingMessage.h"
 #include "ProtocolIE-Field.h"
-// TRPItem.h should be included in TRPList.h not forward decl as
-// TRPInformationTypeItem.h is included in TRPInformationTypeList.h
-#include "TRPItem.h"
+#include "TRPItem.h"  // not included in TRPList.h for wre
 
 using namespace std;
 using namespace oai::lmf::app;
@@ -81,6 +79,15 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
   }
 
   if (lmf_cfg.request_trp_info) {
+    this->nonUeN2MessageSubscription = NonUeN2MessageSubscription::create();
+    if (!this->nonUeN2MessageSubscription->is_subscribed()) {
+      Logger::lmf_app().error(
+          "Could not subscribe AMFs non ue n2 message service\n");
+    }
+  }
+
+  if (lmf_cfg.request_trp_info &&
+      this->nonUeN2MessageSubscription->is_subscribed()) {
     auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
 
     if (nrppaPduEnc.result.encoded == -1) {
@@ -306,6 +313,17 @@ void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
   supi2n1n2subs.erase(supi);
 }
 
+bool lmf_app::handle_non_ue_n2info_nrppa_notification(
+    NRPPA_PDU_t* nrppa, ProblemDetails& problem_details, uint8_t& http_code) {
+  if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
+    Logger::lmf_server().error(
+        "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
+    return false;
+  }
+
+  return true;
+}
+
 bool lmf_app::handle_n2info_nrppa_notification(
     std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
     uint8_t& http_code) {
@@ -321,32 +339,32 @@ bool lmf_app::handle_n2info_nrppa_notification(
 }
 
 // 9.1.1.14 TRP INFORMATION REQUEST
-// asn_encode_to_new_buffer_result_t
-std::pair<
-    asn_encode_to_new_buffer_result_t, std::unique_ptr<void, decltype(&free)>>
+std::pair<asn_encode_to_new_buffer_result_t, lmf_app::gc_c_ptr>
 lmf_app::build_trp_information_request_nrppa_pdu() {
   // 9.2.4 NRPPa Transaction ID
-  auto const nrppatransactionID =
-      NRPPATransactionID_t{this->nrppa_id_trp_information};
+  auto const nrppatransactionID = NRPPATransactionID_t{
+      this->nrppa_tid_trp_information = nrppa_tid_gen.get_uid()};
   // 9.2.24 TRP ID
   auto const ids = std::array<TRP_ID_t, 2>{1, 2};  // c++20: std::to_array
   // TRP Information Type Item's
   auto const informationTypes =
       std::array{TRPInformationTypeItem_nrPCI, TRPInformationTypeItem_geoCoord};
-
+  // TRP List
   auto listIe = TRPInformationRequest_IEs_t{
       .id          = ProtocolIE_ID_id_TRPList,
       .criticality = Criticality_reject,
       .value       = {.present = TRPInformationRequest_IEs__value_PR_TRPList},
   };
-  auto list  = &listIe.value.choice.TRPList.list;
+  auto list = &listIe.value.choice.TRPList.list;
+  // >TRP Item 1 .. <maxnoTRPs>
   auto items = std::array<TRPItem_t, ids.size()>{};
-  // c++23: std::views::zip
-  for (auto const& [id, item] : boost::combine(ids, items)) {
+  // >>TRP ID 9.2.24
+  for (auto const& [id, item] :
+       boost::combine(ids, items)) {  // c++23: std::views::zip
     item = TRPItem_t{.tRP_ID = id};
     ASN_SEQUENCE_ADD(list, &item);
   }
-
+  // TRP Information Type List
   auto informationTypeIe = TRPInformationRequest_IEs_t{
       .id          = ProtocolIE_ID_id_TRPInformationTypeList,
       .criticality = Criticality_reject,
@@ -356,11 +374,13 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
   };
   auto informationTypeList =
       &informationTypeIe.value.choice.TRPInformationTypeList.list;
+  // >TRP Information Type Item 1 .. <maxnoTRPInfoTypes>
   auto informationTypeItems =
       std::array<TRPInformationTypeItem_t, informationTypes.size()>{};
+  // >>TRP Information Type ENUMERATED
   for (auto const& [infoType, informationTypeItem] :
        boost::combine(informationTypes, informationTypeItems)) {
-    // e_TRPInformationTypeItem (enum) to TRPInformationTypeItem_t (long)
+    // e_TRPInformationType (enum) to TRPInformationTypeItem_t (long)
     informationTypeItem = infoType;
     ASN_SEQUENCE_ADD(informationTypeList, &informationTypeItem);
   }
@@ -385,7 +405,6 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
 
   asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);
-  auto gc = std::unique_ptr<void, decltype(&free)>{rc.buffer, free};
 
-  return {rc, std::move(gc)};
+  return {rc, gc_c_ptr{rc.buffer}};
 }

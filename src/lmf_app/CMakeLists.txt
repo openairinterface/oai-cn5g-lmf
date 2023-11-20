@@ -39,6 +39,7 @@ file(GLOB LMF_src_files
   lmf_nrf.cpp 
   lmf_context.cpp
   lmf_n1_n2_message_subscription.cpp
+  lmf_non_ue_n2_message_subscription.cpp
 )
 
 

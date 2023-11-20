@@ -35,6 +35,7 @@
 #include "lmf_event.hpp"
 #include "lmf_context.hpp"
 #include "lmf_n1_n2_message_subscription.hpp"
+#include "lmf_non_ue_n2_message_subscription.hpp"
 
 #include "ProblemDetails.h"
 #include "InputData.h"
@@ -62,6 +63,11 @@ class lmf_app {
       oai::lmf_server::model::ProblemDetails& problem_details,
       uint8_t& http_code);
 
+  bool handle_non_ue_n2info_nrppa_notification(
+      NRPPA_PDU_t* nrppa,
+      oai::lmf_server::model::ProblemDetails& problem_details,
+      uint8_t& http_code);
+
   bool is_supi_2_context(const std::string& supi) const;
   std::shared_ptr<LMFContext> create_lmf_context(const std::string& supi);
   std::shared_ptr<LMFContext> supi_2_context(const std::string& supi) const;
@@ -80,16 +86,20 @@ class lmf_app {
   std::map<std::string, std::shared_ptr<N1N2MessageSubscription>> supi2n1n2subs;
   mutable std::shared_mutex m_supi2n1n2subs;
 
+  std::shared_ptr<NonUeN2MessageSubscription> nonUeN2MessageSubscription;
+
   lmf_event& event_sub;
 
   bool _is_supi_2_context(const std::string& supi) const;
 
-  std::pair<
-      asn_encode_to_new_buffer_result_t, std::unique_ptr<void, decltype(&free)>>
+  template<auto t>
+  using val      = std::integral_constant<std::decay_t<decltype(t)>, t>;
+  using gc_c_ptr = std::unique_ptr<void, val<std::free>>;
+  std::pair<asn_encode_to_new_buffer_result_t, gc_c_ptr>
   build_trp_information_request_nrppa_pdu();
 
   util::uint_generator<NRPPATransactionID_t> nrppa_tid_gen;
-  NRPPATransactionID_t const nrppa_id_trp_information = nrppa_tid_gen.get_uid();
+  NRPPATransactionID_t nrppa_tid_trp_information;
 };
 }  // namespace oai::lmf::app
 
