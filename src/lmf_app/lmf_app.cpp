@@ -80,14 +80,6 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
 
   if (lmf_cfg.request_trp_info) {
     this->nonUeN2MessageSubscription = NonUeN2MessageSubscription::create();
-    if (!this->nonUeN2MessageSubscription->is_subscribed()) {
-      Logger::lmf_app().error(
-          "Could not subscribe AMFs non ue n2 message service\n");
-    }
-  }
-
-  if (lmf_cfg.request_trp_info &&
-      this->nonUeN2MessageSubscription->is_subscribed()) {
     auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
 
     if (nrppaPduEnc.result.encoded == -1) {
@@ -180,20 +172,7 @@ void lmf_app::handle_determine_location(
 
     return;
   }
-  auto const& subs = create_n1n2subscription(supi);
-  if (!subs) {
-    auto const& err = "Could not subscribe for n1n2message '"s + supi;
-    Logger::lmf_app().warn(err);
-    ProblemDetails problemDetails;
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
-    problemDetails.setDetail(err);
-
-    json_data = problemDetails;
-    code      = Pistache::Http::Code(problemDetails.getStatus());
-
-    return;
-  }
+  this->create_n1n2subscription(supi);
   ctx->determine_location(inputData, json_data, code);
   json_data = ctx->promise.get_future().get();
   // stay subscribed
@@ -283,28 +262,15 @@ void lmf_app::del_supi_2_context(const string& supi) {
   supi2ctx.erase(supi);
 }
 
-std::shared_ptr<N1N2MessageSubscription>
-oai::lmf::app::lmf_app::create_n1n2subscription(const std::string& supi) {
+void lmf_app::create_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(m_supi2n1n2subs);
 
-  if (supi2n1n2subs.count(supi) > 0 && supi2n1n2subs.at(supi) != nullptr) {
-    auto subscription = supi2n1n2subs.at(supi);
-    Logger::lmf_app().info(
-        "n1n2info subscription already subscribed for supi: %s id: %s"s,
-        subscription->supi, subscription->id);
-    return subscription;
-  }
-
-  auto subscription = N1N2MessageSubscription::create(supi);
-
-  if (subscription->is_subscribed()) {
-    Logger::lmf_app().info(
-        "n1n2info subscription created for supi: %s id: %s"s,
-        subscription->supi, subscription->id);
-    return supi2n1n2subs[supi] = subscription;
-  }
-
-  return {nullptr};
+  auto const& [iter, inserted] = supi2n1n2subs.try_emplace(supi, supi);
+  auto const& subscription     = iter->second;
+  Logger::lmf_app().info(
+      "n1n2info %s for supi: %s id: %s"s,
+      inserted ? "subscription created"s : "already subscribed"s,
+      subscription.supi, subscription.id);
 }
 
 void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
@@ -341,6 +307,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
 // 9.1.1.14 TRP INFORMATION REQUEST
 std::pair<asn_encode_to_new_buffer_result_t, lmf_app::gc_c_ptr>
 lmf_app::build_trp_information_request_nrppa_pdu() {
+  if (this->nrppa_tid_trp_information != 0) {
+    nrppa_tid_gen.free_uid(this->nrppa_tid_trp_information);
+  }
   // 9.2.4 NRPPa Transaction ID
   auto const nrppatransactionID = NRPPATransactionID_t{
       this->nrppa_tid_trp_information = nrppa_tid_gen.get_uid()};

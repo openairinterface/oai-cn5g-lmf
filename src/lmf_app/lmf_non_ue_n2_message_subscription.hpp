@@ -25,27 +25,21 @@
 #include <string>
 #include <memory>
 
+#include <boost/core/noncopyable.hpp>
+
 // 3GPP TS 29.518 version 16.4.0 Release 16
-class NonUeN2MessageSubscription {
+class NonUeN2MessageSubscription : private boost::noncopyable {
  public:
-  std::string id;
+  const std::string id;
 
-  static std::shared_ptr<NonUeN2MessageSubscription> create() {
-    return std::make_shared<NonUeN2MessageSubscription>();
-  }
+  static std::unique_ptr<NonUeN2MessageSubscription> create();
 
-  NonUeN2MessageSubscription() { this->subscribe(); }
+  ~NonUeN2MessageSubscription() { this->unsubscribe(); }
 
-  ~NonUeN2MessageSubscription() {
-    if (this->is_subscribed()) {
-      this->unsubscribe();
-    }
-  }
+ private:
+  NonUeN2MessageSubscription(std::string const& id) : id{id} {}
 
-  bool is_subscribed() const { return !this->id.empty(); }
-
-  bool subscribe();
-  bool unsubscribe();
+  void unsubscribe();
 };
 
 #endif  // ifndef FILE_NON_UE_N2_MESSAGE_SUBSCRIPTION_SEEN

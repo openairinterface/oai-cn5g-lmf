@@ -24,8 +24,10 @@
 #include <arpa/inet.h>
 
 #include <string>
+using namespace std::string_literals;
 
 #include "nlohmann/json.hpp"
+#include "pistache/http_defs.h"
 
 #include "lmf_config.hpp"
 #include "lmf_client.hpp"
@@ -33,11 +35,12 @@
 
 #include "NonUeN2InfoSubscriptionCreateData.h"
 #include "NonUeN2InfoSubscriptionCreatedData.h"
+#include "ProblemDetails.h"
 
 using namespace oai::lmf_server;
 
 // 5.2.2.4.3 NonUeN2InfoUnsubscribe
-bool NonUeN2MessageSubscription::unsubscribe() {
+void NonUeN2MessageSubscription::unsubscribe() {
   // 1. DELETE
   // ./namf_comm/v1/non-ue-n2-messages/subscriptions/{n2NotifySubscriptionId}
   auto const& amf_uri =
@@ -51,21 +54,26 @@ bool NonUeN2MessageSubscription::unsubscribe() {
 
   // 2. 204 No Content
   std::string response;
-  lmf_client_inst->curl_http_client(amf_uri, "DELETE", "", response, false);
+  lmf_client_inst->curl_http_client(amf_uri, "DELETE"s, "", response, false);
 
-  Logger::lmf_app().info("Response from AMF: %s", response);
+  Logger::lmf_app().debug("Response from AMF: %s"s, response);
+  if (!response.empty()) {
+    using namespace Pistache::Http;
 
-  this->id.clear();
-
-  return true;
+    model::ProblemDetails pd;
+    pd.setTitle("delete NonUeN2InfoSubscription failed");
+    pd.setDetail(
+        "amf_uri: '" + amf_uri + "', id: '" + this->id + "', respone: '" +
+        response + "'");
+    throw HttpError{Code::Internal_Server_Error, nlohmann::json(pd).dump()};
+  }
+  Logger::lmf_app().info(
+      "deleted NonUeN2InfoUnsubscribe %d successfully", this->id);
 }
 
 // 5.2.2.4.2 NonUeN2InfoSubscribe
-bool NonUeN2MessageSubscription::subscribe() {
-  if (this->is_subscribed()) {
-    this->unsubscribe();
-  }
-
+std::unique_ptr<NonUeN2MessageSubscription>
+NonUeN2MessageSubscription::create() {
   // 1. POST
   // ./namf_comm/v1/non-ue-n2-messages/subscriptions
   // (NonUeN2InfoSubscriptionCreateData)
@@ -75,7 +83,7 @@ bool NonUeN2MessageSubscription::subscribe() {
       ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
       lmf_cfg.amf_addr.api_version + "/non-ue-n2-messages/subscriptions";
 
-  // 5.2.2.3.6 N2InfoNotify n2InfoNotifyUri
+  // 5.2.2.4.4 NonUeN2InfoNotify n2NotifyCallbackUri
   auto const& n2NotifyCallbackUri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
@@ -95,23 +103,30 @@ bool NonUeN2MessageSubscription::subscribe() {
   nonUeN2InfoSubscriptionCreateData.setN2NotifyCallbackUri(n2NotifyCallbackUri);
   nonUeN2InfoSubscriptionCreateData.setNfId(lmf_nrf_inst->lmf_instance_id);
 
-  // 2. 201 Created (UeN1MessageSubscriptionCreatedData)
+  // 2. 201 Created (nonUeN2InfoSubscriptionCreateData)
   std::string response;
   lmf_client_inst->curl_http_client(
       amf_uri, "POST", nlohmann::json(nonUeN2InfoSubscriptionCreateData).dump(),
       response, false);
-  Logger::lmf_app().info("Response from AMF: %s", response);
+  Logger::lmf_app().debug("Response from AMF: %s", response);
 
   try {
     // 6.1.6.2.11 Type: NonUeN2InfoSubscriptionCreatedData
     model::NonUeN2InfoSubscriptionCreatedData
         nonUeN2InfoSubscriptionCreatedData{nlohmann::json::parse(response)};
-    this->id = nonUeN2InfoSubscriptionCreatedData.getN2NotifySubscriptionId();
+    auto const& id =
+        nonUeN2InfoSubscriptionCreatedData.getN2NotifySubscriptionId();
+    auto const& subs = new NonUeN2MessageSubscription(id);
+    return std::unique_ptr<NonUeN2MessageSubscription>(subs);
   } catch (nlohmann::detail::exception const& ex) {
-    Logger::lmf_app().error(
-        "subscription failed: respones: '%s', ex: '%s'", response, ex.what());
-    return false;
-  }
+    using namespace Pistache::Http;
 
-  return true;
+    model::ProblemDetails pd;
+    pd.setTitle("NonUeN2InfoSubscription failed");
+    pd.setDetail(
+        "amf_uri: '" + amf_uri + "', respone: '" + response +
+        "', ex: " + ex.what());
+    auto const& reason = nlohmann::json(pd).dump();
+    throw HttpError{Code::Internal_Server_Error, reason};
+  }
 }

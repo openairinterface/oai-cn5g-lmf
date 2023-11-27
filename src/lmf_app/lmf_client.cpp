@@ -143,6 +143,9 @@ void lmf_client::curl_http_client(
       // free curl before returning
       curl_slist_free_all(headers);
       curl_easy_cleanup(curl);
+      if (response.size() < 1) {
+        response = "Cannot get response when calling " + remoteUri;
+      }
       return;
     }
 
@@ -155,6 +158,8 @@ void lmf_client::curl_http_client(
       if (response.size() < 1) {
         Logger::lmf_app().info("There's no content in the response");
         // TODO: send context response error
+        response = "failed with code " + std::to_string(httpCode) +
+                   " and empty resonse";
         return;
       }
       Logger::lmf_app().warn("Receive response with HTTP code %d", httpCode);

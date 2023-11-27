@@ -75,18 +75,17 @@ class lmf_app {
       const std::string& supi, const std::shared_ptr<LMFContext>& lc);
   void del_supi_2_context(const std::string& supi);
 
-  std::shared_ptr<N1N2MessageSubscription> create_n1n2subscription(
-      const std::string& supi);
+  void create_n1n2subscription(const std::string& supi);
   void release_n1n2subscription(const std::string& supi);
 
  private:
   std::map<std::string, std::shared_ptr<LMFContext>> supi2ctx;
   mutable std::shared_mutex m_supi2ctx;
 
-  std::map<std::string, std::shared_ptr<N1N2MessageSubscription>> supi2n1n2subs;
+  std::map<std::string, N1N2MessageSubscription> supi2n1n2subs;
   mutable std::shared_mutex m_supi2n1n2subs;
 
-  std::shared_ptr<NonUeN2MessageSubscription> nonUeN2MessageSubscription;
+  std::unique_ptr<NonUeN2MessageSubscription> nonUeN2MessageSubscription;
 
   lmf_event& event_sub;
 

@@ -62,6 +62,8 @@ class LMFApiServer {
         std::make_shared<DetermineLocationApiImpl>(m_router, lmf_app_inst);
     m_n2InfoNotifyApiImpl =
         std::make_shared<N2InfoNotifyApiImpl>(m_router, lmf_app_inst);
+    m_nonUeN2InfoNotifyApiImpl =
+        std::make_shared<NonUeN2InfoNotifyApiImpl>(m_router, lmf_app_inst);
   }
   void init(size_t thr = 1);
   void start();
