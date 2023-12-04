@@ -44,15 +44,16 @@ using namespace oai::lmf_server;
 // Location and LCS Periodic-Triggered Invoke Procedures
 
 // 5.2.2.3.4 N1N2MessageUnSubscribe
-void N1N2MessageSubscription::unsubscribe() {
+void N1N2MessageSubscription::unsubscribe(
+    std::string const& id, std::string const& supi) {
   // 1. DELETE
   // ./namf_comm/v1/ue_contexts/{ueContextId}/n1-n2-messages/subscriptions/{subscriptionId}
   auto const& amf_uri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
       ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + this->supi +
-      "/n1-n2-messages/subscriptions/" + this->id;
+      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + supi +
+      "/n1-n2-messages/subscriptions/" + id;
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 
@@ -70,12 +71,11 @@ void N1N2MessageSubscription::unsubscribe() {
     auto const& reason = nlohmann::json(pd).dump();
     throw HttpError{Code::Internal_Server_Error, reason};
   }
-  Logger::lmf_app().info(
-      "deleted UeN1N2InfoSubscription %s successfully", this->id);
+  Logger::lmf_app().info("deleted UeN1N2InfoSubscription %s successfully", id);
 }
 
 // 3GPP TS 29.518 version 16.4.0 Release 16 / 5.2.2.3.3 N1N2MessageSubscribe
-std::string N1N2MessageSubscription::create(std::string const& supi) {
+std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
   // 1. POST
   // ./namf_comm/v1/ue_contexts/{ueContextld}/nl-n2-messages/subscriptions
   // (UeN1N2lnfoSubscriptionCreateData)
@@ -123,7 +123,7 @@ std::string N1N2MessageSubscription::create(std::string const& supi) {
   } catch (nlohmann::detail::exception const& ex) {
     using namespace Pistache::Http;
     model::ProblemDetails pd;
-    pd.setTitle("create ueN1N2InfoSubscription failed");
+    pd.setTitle("subscribe ueN1N2InfoSubscription failed");
     pd.setDetail(
         "amf_uri: '" + amf_uri + "', respone: '" + response +
         "', ex: " + ex.what());

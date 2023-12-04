@@ -30,15 +30,16 @@
 class N1N2MessageSubscription : private boost::noncopyable {
  public:
   const std::string id, supi;
+
   N1N2MessageSubscription(const std::string& supi)
-      : id{N1N2MessageSubscription::create(supi)}, supi{supi} {}
+      : id{N1N2MessageSubscription::subscribe(supi)}, supi{supi} {}
 
-  ~N1N2MessageSubscription() { this->unsubscribe(); }
+  ~N1N2MessageSubscription() {
+    N1N2MessageSubscription::unsubscribe(this->id, this->supi);
+  }
 
- private:
-  static std::string create(std::string const& supi);
-
-  void unsubscribe();
+  static void unsubscribe(std::string const& id, std::string const& supi);
+  static std::string subscribe(std::string const& supi);
 };
 
 #endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN

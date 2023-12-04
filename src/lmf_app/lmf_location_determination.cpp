@@ -19,7 +19,7 @@
  *      contact@openairinterface.org
  */
 
-#include "lmf_context.hpp"
+#include "lmf_location_determination.hpp"
 
 #include "lmf.h"
 #include "lmf_nrf.hpp"
@@ -44,13 +44,13 @@
 using namespace std::string_literals;
 using namespace oai::lmf_server;
 
-void LMFContext::finish() {
+void LocationDetermination::finish() {
   model::LocationData locationData;
 
   promise.set_value(locationData);
 }
 
-bool LMFContext::n1_n2_transfer(
+bool LocationDetermination::n1_n2_message_transfer(
     NRPPA_PDU_t* nrppaPdu, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
@@ -160,10 +160,10 @@ bool LMFContext::n1_n2_transfer(
   return true;
 }
 
-void LMFContext::determine_location(
+void LocationDetermination::position_information_request(
     const model::InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
-  Logger::lmf_app().info("Handle Determin Location Request");
+  Logger::lmf_app().info("Position Information Request");
 
   auto initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningInformationExchange,
@@ -206,7 +206,7 @@ void LMFContext::determine_location(
       .choice  = {.initiatingMessage = &initiatingMessage},
   };
 
-  this->n1_n2_transfer(&nrppaPdu, json_data, code);
+  this->n1_n2_message_transfer(&nrppaPdu, json_data, code);
 }
 
 /*

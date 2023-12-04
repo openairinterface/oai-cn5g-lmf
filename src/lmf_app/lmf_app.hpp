@@ -33,7 +33,7 @@
 
 #include "lmf.h"
 #include "lmf_event.hpp"
-#include "lmf_context.hpp"
+#include "lmf_location_determination.hpp"
 #include "lmf_n1_n2_message_subscription.hpp"
 #include "lmf_non_ue_n2_message_subscription.hpp"
 
@@ -45,6 +45,11 @@
 #include "lpp-ie-headers.hpp"
 
 namespace oai::lmf::app {
+
+void throwHttpError(
+    std::string const& title, std::string const& detail,
+    Pistache::Http::Code const& code =
+        Pistache::Http::Code::Internal_Server_Error);
 
 class lmf_app {
  public:
@@ -58,10 +63,7 @@ class lmf_app {
       const oai::lmf_server::model::InputData& inputData,
       nlohmann::json& json_data, Pistache::Http::Code& code);
 
-  bool handle_n2info_nrppa_notification(
-      std::string supi, NRPPA_PDU_t* nrppa,
-      oai::lmf_server::model::ProblemDetails& problem_details,
-      uint8_t& http_code);
+  bool handle_n2info_nrppa_notification(std::string supi, NRPPA_PDU_t* nrppa);
 
   bool handle_non_ue_n2info_nrppa_notification(
       NRPPA_PDU_t* nrppa,
@@ -69,17 +71,20 @@ class lmf_app {
       uint8_t& http_code);
 
   bool is_supi_2_context(const std::string& supi) const;
-  std::shared_ptr<LMFContext> create_lmf_context(const std::string& supi);
-  std::shared_ptr<LMFContext> supi_2_context(const std::string& supi) const;
+  std::shared_ptr<LocationDetermination> create_lmf_context(
+      const std::string& supi);
+  std::shared_ptr<LocationDetermination> supi_2_context(
+      const std::string& supi) const;
   void set_supi_2_context(
-      const std::string& supi, const std::shared_ptr<LMFContext>& lc);
+      const std::string& supi,
+      const std::shared_ptr<LocationDetermination>& lc);
   void del_supi_2_context(const std::string& supi);
 
   void create_n1n2subscription(const std::string& supi);
   void release_n1n2subscription(const std::string& supi);
 
  private:
-  std::map<std::string, std::shared_ptr<LMFContext>> supi2ctx;
+  std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;
   mutable std::shared_mutex m_supi2ctx;
 
   std::map<std::string, N1N2MessageSubscription> supi2n1n2subs;

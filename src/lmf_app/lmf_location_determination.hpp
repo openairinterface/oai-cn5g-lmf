@@ -19,8 +19,8 @@
  *      contact@openairinterface.org
  */
 
-#ifndef FILE_LMF_CONTEXT_SEEN
-#define FILE_LMF_CONTEXT_SEEN
+#ifndef FILE_LMF_LOCATION_DETERMINATION_SEEN
+#define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
 #include <future>
 
@@ -33,18 +33,18 @@
 
 #include "InputData.h"
 
-class LMFContext {
+class LocationDetermination {
  public:
-  LMFContext(std::string supi) : supi{supi} {}
+  LocationDetermination(std::string supi) : supi{supi} {}
 
   void finish();
   std::promise<nlohmann::json> promise;
 
-  void determine_location(
+  void position_information_request(
       const oai::lmf_server::model::InputData& inputData,
       nlohmann::json& json_data, Pistache::Http::Code& code);
 
-  bool n1_n2_transfer(
+  bool n1_n2_message_transfer(
       NRPPA_PDU_t* nrppaPdu, nlohmann::json& json_data,
       Pistache::Http::Code& code);
 
@@ -52,4 +52,4 @@ class LMFContext {
   std::string supi;
 };
 
-#endif
+#endif  // FILE_LMF_LOCATION_DETERMINATION_SEEN

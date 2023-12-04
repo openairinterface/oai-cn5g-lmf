@@ -45,6 +45,8 @@
 #include "ProblemDetails.h"
 
 #include "InitiatingMessage.h"
+#include "SuccessfulOutcome.h"
+#include "UnsuccessfulOutcome.h"
 #include "ProtocolIE-Field.h"
 #include "TRPItem.h"  // not included in TRPList.h for wre
 
@@ -55,6 +57,19 @@ using namespace config;
 
 lmf_client* lmf_client_inst = nullptr;
 lmf_nrf* lmf_nrf_inst       = nullptr;
+
+void oai::lmf::app::throwHttpError(
+    std::string const& title, std::string const& detail,
+    Pistache::Http::Code const& code) {
+  using namespace Pistache::Http;
+  oai::lmf_server::model::ProblemDetails problemDetails;
+  problemDetails.setTitle(title);
+  problemDetails.setDetail(detail);
+  Logger::lmf_server().error(
+      problemDetails.getTitle() + ": " + problemDetails.getDetail());
+  auto const& reason = nlohmann::json(problemDetails).dump();
+  throw HttpError{code, reason};
+}
 
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
@@ -173,7 +188,7 @@ void lmf_app::handle_determine_location(
     return;
   }
   this->create_n1n2subscription(supi);
-  ctx->determine_location(inputData, json_data, code);
+  ctx->position_information_request(inputData, json_data, code);
   json_data = ctx->promise.get_future().get();
   // stay subscribed
   // release_n1n2subscription(supi);
@@ -221,7 +236,7 @@ void lmf_app::handle_determine_location(
   };
 
   ctx->promise = {};
-  ctx->n1_n2_transfer(&nrppaPdu, json_data, code);
+  ctx->n1_n2_message_transfer(&nrppaPdu, json_data, code);
   json_data = ctx->promise.get_future().get();
 
   del_supi_2_context(supi);
@@ -236,23 +251,28 @@ bool lmf_app::is_supi_2_context(const string& supi) const {
   return _is_supi_2_context(supi);
 }
 
-std::shared_ptr<LMFContext> lmf_app::create_lmf_context(const string& supi) {
+std::shared_ptr<LocationDetermination> lmf_app::create_lmf_context(
+    const string& supi) {
   std::unique_lock lock(m_supi2ctx);
 
   if (_is_supi_2_context(supi)) {
     return {nullptr};
   }
-  return supi2ctx[supi] = std::make_shared<LMFContext>(supi);
+  return supi2ctx[supi] = std::make_shared<LocationDetermination>(supi);
 }
 
-std::shared_ptr<LMFContext> lmf_app::supi_2_context(
+std::shared_ptr<LocationDetermination> lmf_app::supi_2_context(
     const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
+
+  if (!_is_supi_2_context(supi)) {
+    return {nullptr};
+  }
   return supi2ctx.at(supi);
 }
 
 void lmf_app::set_supi_2_context(
-    const string& supi, const std::shared_ptr<LMFContext>& lc) {
+    const string& supi, const std::shared_ptr<LocationDetermination>& lc) {
   std::unique_lock lock(m_supi2ctx);
   supi2ctx[supi] = lc;
 }
@@ -290,18 +310,146 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(
   return true;
 }
 
+// check 1:1 relationship between procedureCode and value.present
+template<typename T, typename U>
+static void checkPresent(T const& present, U const& expected) {
+  if (present != expected) {
+    auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
+               &ps     = "present: "s + std::to_string(present),
+               &es     = "expected: "s + std::to_string(expected),
+               &detail = ps + ": "s + es;
+    throwHttpError(title, detail);
+  }
+}
+
 bool lmf_app::handle_n2info_nrppa_notification(
-    std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
-    uint8_t& http_code) {
-  if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
-    Logger::lmf_server().error(
-        "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
+    std::string supi, NRPPA_PDU_t* nrppa) {
+  auto ctx = this->supi_2_context(supi);
+  if (!ctx) {
+    Logger::lmf_server().error("N2InfoNotify: unknown supi: %s", supi);
     return false;
   }
 
-  supi_2_context(supi)->finish();
+  switch (nrppa->present) {
+    case NRPPA_PDU_PR_initiatingMessage: {
+      auto const& initiatingMessage = nrppa->choice.initiatingMessage;
+      auto const& value             = initiatingMessage->value;
 
-  return true;
+      switch (initiatingMessage->procedureCode) {
+        case ProcedureCode_id_positioningInformationUpdate: {
+          checkPresent(
+              value.present,
+              InitiatingMessage__value_PR_PositioningInformationUpdate);
+          auto const& positioningInformationUpdate =
+              value.choice.PositioningInformationUpdate;
+        } break;
+
+        case ProcedureCode_id_MeasurementReport: {
+          checkPresent(
+              value.present, InitiatingMessage__value_PR_MeasurementReport);
+          auto const& MeasurementReport = value.choice.MeasurementReport;
+        } break;
+
+        case ProcedureCode_id_MeasurementFailureIndication: {
+          checkPresent(
+              value.present,
+              InitiatingMessage__value_PR_MeasurementFailureIndication);
+          auto const& measurementFailureIndication =
+              value.choice.MeasurementFailureIndication;
+        } break;
+
+        default:;
+      }
+    } break;
+
+    case NRPPA_PDU_PR_successfulOutcome: {
+      auto const& successfulOutcome = nrppa->choice.successfulOutcome;
+      auto const& value             = successfulOutcome->value;
+
+      switch (successfulOutcome->procedureCode) {
+        case ProcedureCode_id_positioningInformationExchange: {
+          checkPresent(
+              value.present,
+              SuccessfulOutcome__value_PR_PositioningInformationResponse);
+          auto const& positioningInformationResponse =
+              value.choice.PositioningInformationResponse;
+          ctx->finish();
+          return true;
+        } break;
+
+        case ProcedureCode_id_Measurement: {
+          checkPresent(
+              value.present, SuccessfulOutcome__value_PR_MeasurementResponse);
+          auto const& measurementResponse = value.choice.MeasurementResponse;
+          ctx->finish();
+          return true;
+        } break;
+
+        case ProcedureCode_id_positioningActivation: {
+          checkPresent(
+              value.present,
+              SuccessfulOutcome__value_PR_PositioningActivationResponse);
+          auto const& positioningActivationResponse =
+              value.choice.PositioningActivationResponse;
+        } break;
+
+        case ProcedureCode_id_tRPInformationExchange: {
+          checkPresent(
+              value.present,
+              SuccessfulOutcome__value_PR_TRPInformationResponse);
+          auto const& TRPInformationResponse =
+              value.choice.TRPInformationResponse;
+        } break;
+
+        default:;
+      }
+    } break;
+
+    case NRPPA_PDU_PR_unsuccessfulOutcome: {
+      auto const& unsuccessfulOutcome = nrppa->choice.unsuccessfulOutcome;
+      auto const& value               = unsuccessfulOutcome->value;
+
+      switch (unsuccessfulOutcome->procedureCode) {
+        case ProcedureCode_id_positioningInformationExchange: {
+          checkPresent(
+              value.present,
+              UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
+          auto const& PositioningInformationFailure =
+              value.choice.PositioningInformationFailure;
+        } break;
+
+        case ProcedureCode_id_positioningActivation: {
+          checkPresent(
+              value.present,
+              UnsuccessfulOutcome__value_PR_PositioningActivationFailure);
+          auto const& PositioningActivationFailure =
+              value.choice.PositioningActivationFailure;
+        } break;
+
+        case ProcedureCode_id_Measurement: {
+          checkPresent(
+              value.present, UnsuccessfulOutcome__value_PR_MeasurementFailure);
+          auto const& MeasurementFailure = value.choice.MeasurementFailure;
+        } break;
+
+        case ProcedureCode_id_tRPInformationExchange: {
+          checkPresent(
+              value.present,
+              UnsuccessfulOutcome__value_PR_TRPInformationFailure);
+          auto const& TRPInformationFailure =
+              value.choice.TRPInformationFailure;
+        } break;
+
+        default:;
+      }
+    }
+  }
+
+  auto titel  = "n2info nrppa notifiaction pdu error"s;
+  auto detail = "unhandled nrppa  pdu: " + std::to_string(nrppa->present);
+  throwHttpError(titel, detail);
+
+  return false;
 }
 
 // 9.1.1.14 TRP INFORMATION REQUEST
