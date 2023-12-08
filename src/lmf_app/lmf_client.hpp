@@ -26,6 +26,7 @@
 #include <thread>
 
 #include <curl/curl.h>
+#include <pistache/http.h>
 
 #include "lmf_config.hpp"
 #include "logger.hpp"
@@ -44,6 +45,11 @@ class lmf_client {
       std::string remoteUri, std::string method, std::string msgBody,
       std::string& response, bool is_multipart);
 };
+
+void throwHttpError(
+    std::string const& title, std::string const& detail,
+    Pistache::Http::Code const& code =
+        Pistache::Http::Code::Internal_Server_Error);
 
 }  // namespace oai::lmf::app
 

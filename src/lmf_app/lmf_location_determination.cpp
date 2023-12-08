@@ -44,15 +44,7 @@
 using namespace std::string_literals;
 using namespace oai::lmf_server;
 
-void LocationDetermination::finish() {
-  model::LocationData locationData;
-
-  promise.set_value(locationData);
-}
-
-bool LocationDetermination::n1_n2_message_transfer(
-    NRPPA_PDU_t* nrppaPdu, nlohmann::json& json_data,
-    Pistache::Http::Code& code) {
+bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
@@ -63,21 +55,12 @@ bool LocationDetermination::n1_n2_message_transfer(
         "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
                                           nrppaPduEnc.result.failed_type->name :
                                           "unknown");
-    model::ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg = "Could not encode (at ";
-    errorMsg +=
-        (nrppaPduEnc.result.failed_type ? nrppaPduEnc.result.failed_type->name :
-                                          "unknown");
-    errorMsg += ")\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-    return false;
+    auto const& title  = "asn nrppa encode failed"s;
+    auto const& field  = nrppaPduEnc.result.failed_type ?
+                             nrppaPduEnc.result.failed_type->name :
+                             "unknown";
+    auto const& detail = "Could not encode at; "s + field;
+    throwHttpError(title, detail);
   }
 
   std::string amf_uri  = {};
@@ -140,35 +123,35 @@ bool LocationDetermination::n1_n2_message_transfer(
   if (!rspData_json.contains("cause") ||
       rspData_json["cause"] !=
           n1_n2_message_transfer_cause_e2str[N1_N2_TRANSFER_INITIATED]) {
+    auto const& title = "n1n2message transfer failed"s;
     auto const& cause =
         rspData_json.contains("cause") ?
             n1_n2_message_transfer_cause_e2str[rspData_json["cause"]] :
             "no cause"s;
-    auto const& err = "n1n2message transfer failed supi: '"s + this->supi +
-                      "': cause: "s + cause;
-    Logger::lmf_app().warn(err);
-    model::ProblemDetails problemDetails;
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
-    problemDetails.setDetail(err);
-
-    json_data = problemDetails;
-    code      = Pistache::Http::Code(problemDetails.getStatus());
-
-    return false;
+    auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
+    throwHttpError(title, detail);
   }
   return true;
 }
 
 void LocationDetermination::position_information_request(
-    const model::InputData& inputData, nlohmann::json& json_data,
-    Pistache::Http::Code& code) {
+    NRPPATransactionID_t const& tId) {
   Logger::lmf_app().info("Position Information Request");
+
+  this->position_information_response = {};  // reset promise
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(tId, ResponseType::PositionInformation);
+      !inserted) {
+    throwHttpError(
+        "Position Information Request"s,
+        "nrppa id "s + std::to_string(tId) + " reuse"s);
+  }
 
   auto initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningInformationExchange,
       .criticality        = Criticality_reject,
-      .nrppatransactionID = 10,
+      .nrppatransactionID = tId,
       .value =
           {.present =
                InitiatingMessage__value_PR_PositioningInformationRequest},
@@ -206,7 +189,86 @@ void LocationDetermination::position_information_request(
       .choice  = {.initiatingMessage = &initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu, json_data, code);
+  this->n1_n2_message_transfer(&nrppaPdu);
+}
+
+void LocationDetermination::measurement_request(
+    NRPPATransactionID_t const& tId) {
+  this->measurement_response = {};
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(tId, ResponseType::Measurement);
+      !inserted) {
+    throwHttpError(
+        "Measurement request"s, "nrppa id "s + std::to_string(tId) + " reuse"s);
+  }
+
+  auto measurementID        = Measurement_ID_t{1};
+  auto reportCharacteristic = ReportCharacteristics_onDemand;
+
+  auto initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_Measurement,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = tId,
+      .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
+  };
+  auto ies =
+      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+
+  auto lmfMeasurementId = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
+              .choice  = {.Measurement_ID = measurementID},
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
+
+  auto reportCharacteristics = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_ReportCharacteristics,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
+              .choice =
+                  {.ReportCharacteristics =
+                       ReportCharacteristics_t{reportCharacteristic}},
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
+
+  auto nrppaPdu = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = &initiatingMessage},
+  };
+
+  this->n1_n2_message_transfer(&nrppaPdu);
+}
+
+void LocationDetermination::handle_position_information_response(
+    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+    PositioningInformationResponse_t const& positioningInformationResponse) {
+  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
+    throwHttpError(
+        "handle_position_information_response",
+        "no such tId: "s + std::to_string(tId));
+  }
+
+  this->position_information_response.set_value(
+      {nrppaPdu, positioningInformationResponse});
+}
+
+void LocationDetermination::handle_measurement_response(
+    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+    MeasurementResponse_t const& measurementResponse) {
+  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
+    throwHttpError(
+        "handle_measurement_response", "no such tId: "s + std::to_string(tId));
+  }
+
+  this->measurement_response.set_value({nrppaPdu, measurementResponse});
 }
 
 /*

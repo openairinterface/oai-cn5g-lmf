@@ -23,6 +23,7 @@
 #define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
 #include <future>
+#include <map>
 
 #include <nlohmann/json.hpp>
 
@@ -30,23 +31,40 @@
 #include <pistache/router.h>
 #define ASN_DISABLE_OER_SUPPORT
 #include "NRPPA-PDU.h"
+#include "NRPPATransactionID.h"
+#include "PositioningInformationResponse.h"
+#include "MeasurementResponse.h"
 
 #include "InputData.h"
+
+enum class ResponseType { PositionInformation, Measurement };
 
 class LocationDetermination {
  public:
   LocationDetermination(std::string supi) : supi{supi} {}
 
-  void finish();
-  std::promise<nlohmann::json> promise;
+  std::promise<std::pair<NRPPA_PDU_t*, PositioningInformationResponse_t const&>>
+      position_information_response;
+  std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
+      measurement_response;
 
-  void position_information_request(
-      const oai::lmf_server::model::InputData& inputData,
-      nlohmann::json& json_data, Pistache::Http::Code& code);
+  void position_information_request(NRPPATransactionID_t const& nrppa_tId);
 
-  bool n1_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu, nlohmann::json& json_data,
-      Pistache::Http::Code& code);
+  void handle_position_information_response(
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      PositioningInformationResponse_t const& positioningInformationResponse);
+  void handle_measurement_response(
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      MeasurementResponse_t const& measurementResponse);
+
+  void measurement_request(NRPPATransactionID_t const& tId);
+
+  bool n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);
+
+  // mapping between nrppa transaction and transaction type
+  // TODO: use individual reponse object as value not ResposeType
+  //       to have more than one measurement at same time
+  std::map<NRPPATransactionID_t, ResponseType> nrppa_tId;
 
  private:
   std::string supi;

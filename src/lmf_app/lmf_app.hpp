@@ -46,11 +46,6 @@
 
 namespace oai::lmf::app {
 
-void throwHttpError(
-    std::string const& title, std::string const& detail,
-    Pistache::Http::Code const& code =
-        Pistache::Http::Code::Internal_Server_Error);
-
 class lmf_app {
  public:
   explicit lmf_app(const std::string& config_file, lmf_event& ev);
@@ -103,7 +98,8 @@ class lmf_app {
   build_trp_information_request_nrppa_pdu();
 
   util::uint_generator<NRPPATransactionID_t> nrppa_tid_gen;
-  NRPPATransactionID_t nrppa_tid_trp_information;
+  NRPPATransactionID_t nrppa_tid_trp_information,
+      nrppa_tid_position_information;
 };
 }  // namespace oai::lmf::app
 

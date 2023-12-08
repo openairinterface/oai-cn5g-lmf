@@ -113,7 +113,7 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   }
 
   auto const& body   = parts.at(1).body;
-  NRPPA_PDU_t* nrppa = nullptr;
+  NRPPA_PDU_t* nrppa = nullptr;  // TODO: warp in unigue_ptr with custom deleter
   auto const& rc     = asn_decode(
       NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
       body.c_str(), body.length());
@@ -129,7 +129,8 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
     N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+  // done in lmf_app later
+  // ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
 }  // namespace oai::lmf_server::api

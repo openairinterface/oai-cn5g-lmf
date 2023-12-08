@@ -58,19 +58,6 @@ using namespace config;
 lmf_client* lmf_client_inst = nullptr;
 lmf_nrf* lmf_nrf_inst       = nullptr;
 
-void oai::lmf::app::throwHttpError(
-    std::string const& title, std::string const& detail,
-    Pistache::Http::Code const& code) {
-  using namespace Pistache::Http;
-  oai::lmf_server::model::ProblemDetails problemDetails;
-  problemDetails.setTitle(title);
-  problemDetails.setDetail(detail);
-  Logger::lmf_server().error(
-      problemDetails.getTitle() + ": " + problemDetails.getDetail());
-  auto const& reason = nlohmann::json(problemDetails).dump();
-  throw HttpError{code, reason};
-}
-
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     : event_sub(ev) {
@@ -188,57 +175,50 @@ void lmf_app::handle_determine_location(
     return;
   }
   this->create_n1n2subscription(supi);
-  ctx->position_information_request(inputData, json_data, code);
-  json_data = ctx->promise.get_future().get();
+  // TODO: move nrppa_tid_gen to LocationDetermination
+  // and use RAII (unique_ptr) for auto free_uid()
+  auto const& pir_tId = this->nrppa_tid_gen.get_uid();
+  ctx->position_information_request(pir_tId);
+  auto const& [nrppaPduPIR, positioningInformationResponse] =
+      ctx->position_information_response.get_future().get();
+  // don't free tId, avoid re-use for easier debugging
+  // this->nrppa_tid_gen.free_uid(tId); // after response handle done
   // stay subscribed
   // release_n1n2subscription(supi);
-  code = Pistache::Http::Code::Ok;
 
-  auto measurementID        = Measurement_ID_t{1};
-  auto reportCharacteristic = ReportCharacteristics_onDemand;
+  auto const& mr_tId = this->nrppa_tid_gen.get_uid();
+  ctx->measurement_request(mr_tId);
+  auto const& [nrppaPduMR, measurementResponse] =
+      ctx->measurement_response.get_future().get();
 
-  auto lmfMeasurementId = MeasurementRequest_IEs_t{
-      .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
-      .criticality = Criticality_reject,
-      .value =
-          {
-              .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
-              .choice  = {.Measurement_ID = measurementID},
-          },
-  };
+  // nrppaPduPIR contain position information
+  // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
+  std::cout << "--> position information <<--" << std::endl;
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR);
 
-  auto reportCharacteristics = MeasurementRequest_IEs_t{
-      .id          = ProtocolIE_ID_id_ReportCharacteristics,
-      .criticality = Criticality_reject,
-      .value =
-          {
-              .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
-              .choice =
-                  {.ReportCharacteristics =
-                       ReportCharacteristics_t{reportCharacteristic}},
-          },
-  };
+  // TRP INFORMATION RESPONSE ( 9.1.1.15 NRPPa TS 38.455 )
+  // not availalbe right now, because no AMF non-ue-message-service
 
-  auto initiatingMessage = InitiatingMessage_t{
-      .procedureCode      = ProcedureCode_id_Measurement,
-      .criticality        = Criticality_reject,
-      .nrppatransactionID = 11,
-      .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
-  };
-  auto ies =
-      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
-  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
-  ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
+  // nrppaPduMR contain measurement
+  // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
+  std::cout << "--> measurement <<--" << std::endl;
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
 
-  auto nrppaPdu = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
-  };
+  // --> calculate position here <--
+  // double position_estimation(
+  //    double trp_pos[][3], int trp_pos_size,
+  //    double dd_estimated[], int dd_estimated_size,
+  //    double pos_est[]);
 
-  ctx->promise = {};
-  ctx->n1_n2_message_transfer(&nrppaPdu, json_data, code);
-  json_data = ctx->promise.get_future().get();
+  // --> set the location calculation results here <--
+  LocationData locationData;
+  locationData.setBarometricPressure(1);
 
+  code      = Pistache::Http::Code::Ok;
+  json_data = locationData;
+
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPIR);
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
   del_supi_2_context(supi);
 }
 
@@ -312,7 +292,7 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(
 
 // check 1:1 relationship between procedureCode and value.present
 template<typename T, typename U>
-static void checkPresent(T const& present, U const& expected) {
+static void check(T const& present, U const& expected) {
   if (present != expected) {
     auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
                &ps     = "present: "s + std::to_string(present),
@@ -320,6 +300,32 @@ static void checkPresent(T const& present, U const& expected) {
                &detail = ps + ": "s + es;
     throwHttpError(title, detail);
   }
+}
+
+template<typename T, typename U, typename V>
+static U const& get(U const& choice, T const& present, V const& expected) {
+  if (present != expected) {
+    auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
+               &ps     = "present: "s + std::to_string(present),
+               &es     = "expected: "s + std::to_string(expected),
+               &detail = ps + ": "s + es;
+    throwHttpError(title, detail);
+  }
+  return choice;
+}
+
+NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
+  switch (nrppa->present) {
+    case NRPPA_PDU_PR_initiatingMessage:
+      return nrppa->choice.initiatingMessage->nrppatransactionID;
+    case NRPPA_PDU_PR_successfulOutcome:
+      return nrppa->choice.successfulOutcome->nrppatransactionID;
+    case NRPPA_PDU_PR_unsuccessfulOutcome:
+      return nrppa->choice.unsuccessfulOutcome->nrppatransactionID;
+    default:
+      throwHttpError("getNrppaId"s, "malformed nrppa message"s);
+  }
+  return 0;
 }
 
 bool lmf_app::handle_n2info_nrppa_notification(
@@ -330,119 +336,41 @@ bool lmf_app::handle_n2info_nrppa_notification(
     return false;
   }
 
-  switch (nrppa->present) {
-    case NRPPA_PDU_PR_initiatingMessage: {
-      auto const& initiatingMessage = nrppa->choice.initiatingMessage;
-      auto const& value             = initiatingMessage->value;
+  auto const& tId = getNrppaId(nrppa);
+  if (ctx->nrppa_tId.count(tId) != 1) {
+    throwHttpError(
+        "handle_n2info_nrppa_notification"s,
+        "unknown nrppa transaction id: "s + std::to_string(tId));
+  }
 
-      switch (initiatingMessage->procedureCode) {
-        case ProcedureCode_id_positioningInformationUpdate: {
-          checkPresent(
-              value.present,
-              InitiatingMessage__value_PR_PositioningInformationUpdate);
-          auto const& positioningInformationUpdate =
-              value.choice.PositioningInformationUpdate;
-        } break;
-
-        case ProcedureCode_id_MeasurementReport: {
-          checkPresent(
-              value.present, InitiatingMessage__value_PR_MeasurementReport);
-          auto const& MeasurementReport = value.choice.MeasurementReport;
-        } break;
-
-        case ProcedureCode_id_MeasurementFailureIndication: {
-          checkPresent(
-              value.present,
-              InitiatingMessage__value_PR_MeasurementFailureIndication);
-          auto const& measurementFailureIndication =
-              value.choice.MeasurementFailureIndication;
-        } break;
-
-        default:;
-      }
-    } break;
-
-    case NRPPA_PDU_PR_successfulOutcome: {
-      auto const& successfulOutcome = nrppa->choice.successfulOutcome;
-      auto const& value             = successfulOutcome->value;
-
-      switch (successfulOutcome->procedureCode) {
-        case ProcedureCode_id_positioningInformationExchange: {
-          checkPresent(
-              value.present,
+  auto const& successfulOutcome =
+      get(nrppa->choice.successfulOutcome, nrppa->present,
+          NRPPA_PDU_PR_successfulOutcome);
+  switch (ctx->nrppa_tId.at(tId)) {
+    case ResponseType::PositionInformation: {
+      check(
+          successfulOutcome->procedureCode,
+          ProcedureCode_id_positioningInformationExchange);
+      auto const& value = successfulOutcome->value;
+      auto const& positioningInformationResponse =
+          get(value.choice.PositioningInformationResponse, value.present,
               SuccessfulOutcome__value_PR_PositioningInformationResponse);
-          auto const& positioningInformationResponse =
-              value.choice.PositioningInformationResponse;
-          ctx->finish();
-          return true;
-        } break;
-
-        case ProcedureCode_id_Measurement: {
-          checkPresent(
-              value.present, SuccessfulOutcome__value_PR_MeasurementResponse);
-          auto const& measurementResponse = value.choice.MeasurementResponse;
-          ctx->finish();
-          return true;
-        } break;
-
-        case ProcedureCode_id_positioningActivation: {
-          checkPresent(
-              value.present,
-              SuccessfulOutcome__value_PR_PositioningActivationResponse);
-          auto const& positioningActivationResponse =
-              value.choice.PositioningActivationResponse;
-        } break;
-
-        case ProcedureCode_id_tRPInformationExchange: {
-          checkPresent(
-              value.present,
-              SuccessfulOutcome__value_PR_TRPInformationResponse);
-          auto const& TRPInformationResponse =
-              value.choice.TRPInformationResponse;
-        } break;
-
-        default:;
-      }
+      ctx->handle_position_information_response(
+          nrppa, tId, positioningInformationResponse);
+      return true;
     } break;
-
-    case NRPPA_PDU_PR_unsuccessfulOutcome: {
-      auto const& unsuccessfulOutcome = nrppa->choice.unsuccessfulOutcome;
-      auto const& value               = unsuccessfulOutcome->value;
-
-      switch (unsuccessfulOutcome->procedureCode) {
-        case ProcedureCode_id_positioningInformationExchange: {
-          checkPresent(
-              value.present,
-              UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
-          auto const& PositioningInformationFailure =
-              value.choice.PositioningInformationFailure;
-        } break;
-
-        case ProcedureCode_id_positioningActivation: {
-          checkPresent(
-              value.present,
-              UnsuccessfulOutcome__value_PR_PositioningActivationFailure);
-          auto const& PositioningActivationFailure =
-              value.choice.PositioningActivationFailure;
-        } break;
-
-        case ProcedureCode_id_Measurement: {
-          checkPresent(
-              value.present, UnsuccessfulOutcome__value_PR_MeasurementFailure);
-          auto const& MeasurementFailure = value.choice.MeasurementFailure;
-        } break;
-
-        case ProcedureCode_id_tRPInformationExchange: {
-          checkPresent(
-              value.present,
-              UnsuccessfulOutcome__value_PR_TRPInformationFailure);
-          auto const& TRPInformationFailure =
-              value.choice.TRPInformationFailure;
-        } break;
-
-        default:;
-      }
-    }
+    case ResponseType::Measurement: {
+      check(successfulOutcome->procedureCode, ProcedureCode_id_Measurement);
+      auto const& value = successfulOutcome->value;
+      auto const& measurementResponse =
+          get(value.choice.MeasurementResponse, value.present,
+              SuccessfulOutcome__value_PR_MeasurementResponse);
+      ctx->handle_measurement_response(nrppa, tId, measurementResponse);
+      return true;
+    } break;
+    default:
+      throwHttpError(
+          "handle_n2info_nrppa_notification"s, "unhandled response type"s);
   }
 
   auto titel  = "n2info nrppa notifiaction pdu error"s;
