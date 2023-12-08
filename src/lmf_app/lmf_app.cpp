@@ -286,11 +286,6 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(
         "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
     return false;
   }
-  ctx->determine_location(inputData, json_data, code);
-  json_data = ctx->promise.get_future().get();
-  // stay subscribed
-  // release_n1n2subscription(supi);
-  code = Pistache::Http::Code::Ok;
 
   return true;
 }
