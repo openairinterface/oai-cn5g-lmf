@@ -12179,32 +12179,27 @@ asn_SEQUENCE_specifics_t
         0,  /* Optional elements (not needed) */
         -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs =
-    {
-        "PRSFrequencyHoppingConfiguration-EUTRA-Item-IEs",
-        "PRSFrequencyHoppingConfiguration-EUTRA-Item-IEs",
-        &asn_OP_SEQUENCE,
-        asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153,
-        sizeof(
-            asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153) /
-            sizeof(
-                asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153
-                    [0]), /* 1 */
-        asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153, /* Same
-                                                                             as
-                                                                             above
-                                                                           */
-        sizeof(
-            asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153) /
-            sizeof(
-                asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153
-                    [0]), /* 1 */
-        {0, 0, SEQUENCE_constraint},
-        asn_MBR_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_153,
-        3, /* Elements count */
-        &asn_SPC_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_specs_153 /* Additional
-                                                                              specs
-                                                                            */
+asn_TYPE_descriptor_t asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs = {
+    "PRSFrequencyHoppingConfiguration-EUTRA-Item-IEs",
+    "PRSFrequencyHoppingConfiguration-EUTRA-Item-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153,
+    sizeof(asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153) /
+        sizeof(asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153
+                   [0]),                                              /* 1 */
+    asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153, /* Same
+                                                                         as
+                                                                         above
+                                                                       */
+    sizeof(asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153) /
+        sizeof(asn_DEF_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_tags_153
+                   [0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_153,
+    3, /* Elements count */
+    &asn_SPC_PRSFrequencyHoppingConfiguration_EUTRA_Item_IEs_specs_153 /* Additional
+                                                                          specs
+                                                                        */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_extensionValue_specs_160 = {

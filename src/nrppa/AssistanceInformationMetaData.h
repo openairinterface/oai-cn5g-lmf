@@ -69,8 +69,8 @@ typedef struct AssistanceInformationMetaData {
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_encrypted_2;	// (Use
  * -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_gNSSID_5;	// (Use -fall-defs-global
- * to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_gNSSID_5;	// (Use
+ * -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_sBASID_14;	// (Use
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_AssistanceInformationMetaData;
