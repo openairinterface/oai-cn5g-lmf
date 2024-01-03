@@ -214,35 +214,30 @@ static const ber_tlv_tag_t
         (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_18 = {
-            "maxNumberPeriodicSRS-PosResourcesPerBWP-r16",
-            "maxNumberPeriodicSRS-PosResourcesPerBWP-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18,
-            sizeof(
-                asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18) /
-                    sizeof(
-                        asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18
-                            [0]) -
-                1,                                                       /* 1 */
-            asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18, /* Same
-                                                                            as
-                                                                            above
-                                                                          */
-            sizeof(
-                asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18) /
+    asn_TYPE_descriptor_t asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_18 = {
+        "maxNumberPeriodicSRS-PosResourcesPerBWP-r16",
+        "maxNumberPeriodicSRS-PosResourcesPerBWP-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18,
+        sizeof(asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18) /
                 sizeof(
                     asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_constr_18,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_specs_18 /* Additional
-                                                                             specs
-                                                                           */
+                        [0]) -
+            1,                                                       /* 1 */
+        asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18, /* Same
+                                                                        as
+                                                                        above
+                                                                      */
+        sizeof(asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18) /
+            sizeof(asn_DEF_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_tags_18
+                       [0]), /* 2 */
+        {0, &asn_PER_type_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_constr_18,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_maxNumberPeriodicSRS_PosResourcesPerBWP_r16_specs_18 /* Additional
+                                                                         specs
+                                                                       */
 };
 
 static const asn_INTEGER_enum_map_t

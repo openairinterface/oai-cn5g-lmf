@@ -75,8 +75,8 @@ typedef struct Sensor_ProvideCapabilities_r13 {
 } Sensor_ProvideCapabilities_r13_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_idleStateForMeasurements_r14_10;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_idleStateForMeasurements_r14_10;
+ * // (Use -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_sensor_MotionInformationSup_r15_13;
  * // (Use -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_adjustmentSupported_r16_16;	// (Use

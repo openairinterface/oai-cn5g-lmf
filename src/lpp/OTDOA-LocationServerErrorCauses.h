@@ -43,8 +43,8 @@ typedef struct OTDOA_LocationServerErrorCauses {
 } OTDOA_LocationServerErrorCauses_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_cause_2;	// (Use -fall-defs-global
- * to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_cause_2;	// (Use
+ * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_OTDOA_LocationServerErrorCauses;
 extern asn_SEQUENCE_specifics_t asn_SPC_OTDOA_LocationServerErrorCauses_specs_1;
 extern asn_TYPE_member_t asn_MBR_OTDOA_LocationServerErrorCauses_1[1];

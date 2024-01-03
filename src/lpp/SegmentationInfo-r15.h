@@ -47,8 +47,8 @@ typedef struct SegmentationInfo_r15 {
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_segmentationOption_r15_2;	// (Use
  * -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_assistanceDataSegmentType_r15_5;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_assistanceDataSegmentType_r15_5;
+ * // (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_SegmentationInfo_r15;
 extern asn_SEQUENCE_specifics_t asn_SPC_SegmentationInfo_r15_specs_1;
 extern asn_TYPE_member_t asn_MBR_SegmentationInfo_r15_1[3];

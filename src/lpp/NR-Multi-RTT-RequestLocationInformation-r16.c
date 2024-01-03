@@ -102,35 +102,30 @@ static const ber_tlv_tag_t
         (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_2 = {
-            "nr-UE-RxTxTimeDiffMeasurementInfoRequest-r16",
-            "nr-UE-RxTxTimeDiffMeasurementInfoRequest-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2,
-            sizeof(
-                asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2) /
-                    sizeof(
-                        asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2
-                            [0]) -
-                1,                                                       /* 1 */
-            asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2, /* Same
-                                                                            as
-                                                                            above
-                                                                          */
-            sizeof(
-                asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2) /
+    asn_TYPE_descriptor_t asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_2 = {
+        "nr-UE-RxTxTimeDiffMeasurementInfoRequest-r16",
+        "nr-UE-RxTxTimeDiffMeasurementInfoRequest-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2,
+        sizeof(asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2) /
                 sizeof(
                     asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_constr_2,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_specs_2 /* Additional
-                                                                             specs
-                                                                           */
+                        [0]) -
+            1,                                                       /* 1 */
+        asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2, /* Same
+                                                                        as
+                                                                        above
+                                                                      */
+        sizeof(asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2) /
+            sizeof(asn_DEF_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_tags_2
+                       [0]), /* 2 */
+        {0, &asn_PER_type_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_constr_2,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_nr_UE_RxTxTimeDiffMeasurementInfoRequest_r16_specs_2 /* Additional
+                                                                         specs
+                                                                       */
 };
 
 static const asn_INTEGER_enum_map_t asn_MAP_additionalPaths_r16_value2enum_8[] =

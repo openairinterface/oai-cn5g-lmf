@@ -48,8 +48,8 @@ typedef struct Sensor_AssistanceDataSupportList_r14 {
 } Sensor_AssistanceDataSupportList_r14_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_validityPeriodSupported_v1520_4;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_validityPeriodSupported_v1520_4;
+ * // (Use -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_validityAreaSupported_v1520_6;	//
  * (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_Sensor_AssistanceDataSupportList_r14;

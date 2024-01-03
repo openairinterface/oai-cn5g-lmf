@@ -86,58 +86,56 @@ static const unsigned int
     asn_MAP_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_enum2value_2[] = {
         0 /* supported(0) */
 };
-static const asn_INTEGER_specifics_t asn_SPC_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_specs_2 =
-    {asn_MAP_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_value2enum_2, /* "tag"
-                                                                            =>
-                                                                            N;
-                                                                            sorted
-                                                                            by
-                                                                            tag
-                                                                          */
-     asn_MAP_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_enum2value_2, /* N =>
-                                                                            "tag";
-                                                                            sorted
-                                                                            by N
-                                                                          */
-     1, /* Number of elements in the maps */
-     0, /* Enumeration is not extensible */
-     1, /* Strict enumeration */
-     0, /* Native long size */
-     0};
+static const asn_INTEGER_specifics_t
+    asn_SPC_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_specs_2 = {
+        asn_MAP_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_value2enum_2, /* "tag"
+                                                                               =>
+                                                                               N;
+                                                                               sorted
+                                                                               by
+                                                                               tag
+                                                                             */
+        asn_MAP_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_enum2value_2, /* N
+                                                                               =>
+                                                                               "tag";
+                                                                               sorted
+                                                                               by N
+                                                                             */
+        1, /* Number of elements in the maps */
+        0, /* Enumeration is not extensible */
+        1, /* Strict enumeration */
+        0, /* Native long size */
+        0};
 static const ber_tlv_tag_t
     asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2[] = {
         (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_2 = {
-            "spatialRelation-SRS-PosBasedOnSSB-Serving-r16",
-            "spatialRelation-SRS-PosBasedOnSSB-Serving-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2,
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2) /
-                    sizeof(
-                        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2
-                            [0]) -
-                1, /* 1 */
-            asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2, /* Same
-                                                                             as
-                                                                             above
-                                                                           */
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2) /
+    asn_TYPE_descriptor_t asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_2 = {
+        "spatialRelation-SRS-PosBasedOnSSB-Serving-r16",
+        "spatialRelation-SRS-PosBasedOnSSB-Serving-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2,
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2) /
                 sizeof(
                     asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_constr_2,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_specs_2 /* Additional
-                                                                              specs
-                                                                            */
+                        [0]) -
+            1,                                                        /* 1 */
+        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2, /* Same
+                                                                         as
+                                                                         above
+                                                                       */
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2) /
+            sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_tags_2
+                       [0]), /* 2 */
+        {0,
+         &asn_PER_type_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_constr_2,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_spatialRelation_SRS_PosBasedOnSSB_Serving_r16_specs_2 /* Additional
+                                                                          specs
+                                                                        */
 };
 
 static const asn_INTEGER_enum_map_t
@@ -198,58 +196,56 @@ static const unsigned int
     asn_MAP_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_enum2value_6[] = {
         0 /* supported(0) */
 };
-static const asn_INTEGER_specifics_t asn_SPC_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_specs_6 =
-    {asn_MAP_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_value2enum_6, /* "tag"
-                                                                            =>
-                                                                            N;
-                                                                            sorted
-                                                                            by
-                                                                            tag
-                                                                          */
-     asn_MAP_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_enum2value_6, /* N =>
-                                                                            "tag";
-                                                                            sorted
-                                                                            by N
-                                                                          */
-     1, /* Number of elements in the maps */
-     0, /* Enumeration is not extensible */
-     1, /* Strict enumeration */
-     0, /* Native long size */
-     0};
+static const asn_INTEGER_specifics_t
+    asn_SPC_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_specs_6 = {
+        asn_MAP_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_value2enum_6, /* "tag"
+                                                                               =>
+                                                                               N;
+                                                                               sorted
+                                                                               by
+                                                                               tag
+                                                                             */
+        asn_MAP_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_enum2value_6, /* N
+                                                                               =>
+                                                                               "tag";
+                                                                               sorted
+                                                                               by N
+                                                                             */
+        1, /* Number of elements in the maps */
+        0, /* Enumeration is not extensible */
+        1, /* Strict enumeration */
+        0, /* Native long size */
+        0};
 static const ber_tlv_tag_t
     asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6[] = {
         (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_6 = {
-            "spatialRelation-SRS-PosBasedOnPRS-Serving-r16",
-            "spatialRelation-SRS-PosBasedOnPRS-Serving-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6,
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6) /
-                    sizeof(
-                        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6
-                            [0]) -
-                1, /* 1 */
-            asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6, /* Same
-                                                                             as
-                                                                             above
-                                                                           */
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6) /
+    asn_TYPE_descriptor_t asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_6 = {
+        "spatialRelation-SRS-PosBasedOnPRS-Serving-r16",
+        "spatialRelation-SRS-PosBasedOnPRS-Serving-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6,
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6) /
                 sizeof(
                     asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_constr_6,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_specs_6 /* Additional
-                                                                              specs
-                                                                            */
+                        [0]) -
+            1,                                                        /* 1 */
+        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6, /* Same
+                                                                         as
+                                                                         above
+                                                                       */
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6) /
+            sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_tags_6
+                       [0]), /* 2 */
+        {0,
+         &asn_PER_type_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_constr_6,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_spatialRelation_SRS_PosBasedOnPRS_Serving_r16_specs_6 /* Additional
+                                                                          specs
+                                                                        */
 };
 
 static const asn_INTEGER_enum_map_t
@@ -334,35 +330,30 @@ static const ber_tlv_tag_t
         (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_10 = {
-            "spatialRelation-SRS-PosBasedOnSSB-Neigh-r16",
-            "spatialRelation-SRS-PosBasedOnSSB-Neigh-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10,
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10) /
-                    sizeof(
-                        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10
-                            [0]) -
-                1,                                                       /* 1 */
-            asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10, /* Same
-                                                                            as
-                                                                            above
-                                                                          */
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10) /
+    asn_TYPE_descriptor_t asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_10 = {
+        "spatialRelation-SRS-PosBasedOnSSB-Neigh-r16",
+        "spatialRelation-SRS-PosBasedOnSSB-Neigh-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10,
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10) /
                 sizeof(
                     asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_constr_10,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_specs_10 /* Additional
-                                                                             specs
-                                                                           */
+                        [0]) -
+            1,                                                       /* 1 */
+        asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10, /* Same
+                                                                        as
+                                                                        above
+                                                                      */
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10) /
+            sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_tags_10
+                       [0]), /* 2 */
+        {0, &asn_PER_type_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_constr_10,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_spatialRelation_SRS_PosBasedOnSSB_Neigh_r16_specs_10 /* Additional
+                                                                         specs
+                                                                       */
 };
 
 static const asn_INTEGER_enum_map_t
@@ -398,35 +389,30 @@ static const ber_tlv_tag_t
         (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_12 = {
-            "spatialRelation-SRS-PosBasedOnPRS-Neigh-r16",
-            "spatialRelation-SRS-PosBasedOnPRS-Neigh-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12,
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12) /
-                    sizeof(
-                        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12
-                            [0]) -
-                1,                                                       /* 1 */
-            asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12, /* Same
-                                                                            as
-                                                                            above
-                                                                          */
-            sizeof(
-                asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12) /
+    asn_TYPE_descriptor_t asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_12 = {
+        "spatialRelation-SRS-PosBasedOnPRS-Neigh-r16",
+        "spatialRelation-SRS-PosBasedOnPRS-Neigh-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12,
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12) /
                 sizeof(
                     asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_constr_12,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_specs_12 /* Additional
-                                                                             specs
-                                                                           */
+                        [0]) -
+            1,                                                       /* 1 */
+        asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12, /* Same
+                                                                        as
+                                                                        above
+                                                                      */
+        sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12) /
+            sizeof(asn_DEF_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_tags_12
+                       [0]), /* 2 */
+        {0, &asn_PER_type_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_constr_12,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_spatialRelation_SRS_PosBasedOnPRS_Neigh_r16_specs_12 /* Additional
+                                                                         specs
+                                                                       */
 };
 
 asn_TYPE_member_t asn_MBR_SpatialRelationsSRS_Pos_r16_1[] = {

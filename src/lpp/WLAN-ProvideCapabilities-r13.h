@@ -64,8 +64,8 @@ typedef struct WLAN_ProvideCapabilities_r13 {
 } WLAN_ProvideCapabilities_r13_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_idleStateForMeasurements_r14_15;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_idleStateForMeasurements_r14_15;
+ * // (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_WLAN_ProvideCapabilities_r13;
 extern asn_SEQUENCE_specifics_t asn_SPC_WLAN_ProvideCapabilities_r13_specs_1;
 extern asn_TYPE_member_t asn_MBR_WLAN_ProvideCapabilities_r13_1[3];

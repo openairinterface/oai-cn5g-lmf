@@ -72,31 +72,28 @@ static const ber_tlv_tag_t
         (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
         (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_3 =
-        {
-            "maxNrOfDL-PRS-ResourcesPerResourceSet-r16",
-            "maxNrOfDL-PRS-ResourcesPerResourceSet-r16",
-            &asn_OP_NativeEnumerated,
-            asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3,
-            sizeof(asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3) /
-                    sizeof(
-                        asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3
-                            [0]) -
-                1,                                                    /* 1 */
-            asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3, /* Same as
-                                                                         above
-                                                                       */
-            sizeof(asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3) /
+    asn_TYPE_descriptor_t asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_3 = {
+        "maxNrOfDL-PRS-ResourcesPerResourceSet-r16",
+        "maxNrOfDL-PRS-ResourcesPerResourceSet-r16",
+        &asn_OP_NativeEnumerated,
+        asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3,
+        sizeof(asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3) /
                 sizeof(asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3
-                           [0]), /* 2 */
-            {0,
-             &asn_PER_type_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_constr_3,
-             NativeEnumerated_constraint},
-            0,
-            0, /* Defined elsewhere */
-            &asn_SPC_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_specs_3 /* Additional
-                                                                          specs
-                                                                        */
+                           [0]) -
+            1,                                                    /* 1 */
+        asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3, /* Same as
+                                                                     above
+                                                                   */
+        sizeof(asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3) /
+            sizeof(asn_DEF_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_tags_3
+                       [0]), /* 2 */
+        {0, &asn_PER_type_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_constr_3,
+         NativeEnumerated_constraint},
+        0,
+        0, /* Defined elsewhere */
+        &asn_SPC_maxNrOfDL_PRS_ResourcesPerResourceSet_r16_specs_3 /* Additional
+                                                                      specs
+                                                                    */
 };
 
 static const asn_INTEGER_enum_map_t

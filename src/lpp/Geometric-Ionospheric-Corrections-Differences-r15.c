@@ -41,32 +41,27 @@ asn_SET_OF_specifics_t
             struct Geometric_Ionospheric_Corrections_Differences_r15, _asn_ctx),
         0, /* XER encoding is XMLDelimitedItemList */
 };
-asn_TYPE_descriptor_t
-    asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15 = {
-        "Geometric-Ionospheric-Corrections-Differences-r15",
-        "Geometric-Ionospheric-Corrections-Differences-r15",
-        &asn_OP_SEQUENCE_OF,
-        asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1,
-        sizeof(
-            asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1) /
-            sizeof(
-                asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1
-                    [0]), /* 1 */
-        asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1, /* Same
-                                                                             as
-                                                                             above
-                                                                           */
-        sizeof(
-            asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1) /
-            sizeof(
-                asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1
-                    [0]), /* 1 */
-        {0,
-         &asn_PER_type_Geometric_Ionospheric_Corrections_Differences_r15_constr_1,
-         SEQUENCE_OF_constraint},
-        asn_MBR_Geometric_Ionospheric_Corrections_Differences_r15_1,
-        1, /* Single element */
-        &asn_SPC_Geometric_Ionospheric_Corrections_Differences_r15_specs_1 /* Additional
-                                                                              specs
-                                                                            */
+asn_TYPE_descriptor_t asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15 = {
+    "Geometric-Ionospheric-Corrections-Differences-r15",
+    "Geometric-Ionospheric-Corrections-Differences-r15",
+    &asn_OP_SEQUENCE_OF,
+    asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1,
+    sizeof(asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1) /
+        sizeof(asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1
+                   [0]),                                              /* 1 */
+    asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1, /* Same
+                                                                         as
+                                                                         above
+                                                                       */
+    sizeof(asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1) /
+        sizeof(asn_DEF_Geometric_Ionospheric_Corrections_Differences_r15_tags_1
+                   [0]), /* 1 */
+    {0,
+     &asn_PER_type_Geometric_Ionospheric_Corrections_Differences_r15_constr_1,
+     SEQUENCE_OF_constraint},
+    asn_MBR_Geometric_Ionospheric_Corrections_Differences_r15_1,
+    1, /* Single element */
+    &asn_SPC_Geometric_Ionospheric_Corrections_Differences_r15_specs_1 /* Additional
+                                                                          specs
+                                                                        */
 };

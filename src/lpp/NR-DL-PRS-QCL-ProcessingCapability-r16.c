@@ -82,33 +82,30 @@ static asn_SET_OF_specifics_t
         0, /* XER encoding is XMLDelimitedItemList */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t
-        asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_2 = {
-            "dl-PRS-QCL-ProcessingCapabilityBandList-r16",
-            "dl-PRS-QCL-ProcessingCapabilityBandList-r16",
-            &asn_OP_SEQUENCE_OF,
-            asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2,
-            sizeof(asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2) /
-                    sizeof(
-                        asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2
-                            [0]) -
-                1,                                                      /* 1 */
-            asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2, /* Same
-                                                                           as
-                                                                           above
-                                                                         */
-            sizeof(asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2) /
+    asn_TYPE_descriptor_t asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_2 = {
+        "dl-PRS-QCL-ProcessingCapabilityBandList-r16",
+        "dl-PRS-QCL-ProcessingCapabilityBandList-r16",
+        &asn_OP_SEQUENCE_OF,
+        asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2,
+        sizeof(asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2) /
                 sizeof(
                     asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2
-                        [0]), /* 2 */
-            {0,
-             &asn_PER_type_dl_PRS_QCL_ProcessingCapabilityBandList_r16_constr_2,
-             SEQUENCE_OF_constraint},
-            asn_MBR_dl_PRS_QCL_ProcessingCapabilityBandList_r16_2,
-            1, /* Single element */
-            &asn_SPC_dl_PRS_QCL_ProcessingCapabilityBandList_r16_specs_2 /* Additional
-                                                                            specs
-                                                                          */
+                        [0]) -
+            1,                                                      /* 1 */
+        asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2, /* Same
+                                                                       as
+                                                                       above
+                                                                     */
+        sizeof(asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2) /
+            sizeof(asn_DEF_dl_PRS_QCL_ProcessingCapabilityBandList_r16_tags_2
+                       [0]), /* 2 */
+        {0, &asn_PER_type_dl_PRS_QCL_ProcessingCapabilityBandList_r16_constr_2,
+         SEQUENCE_OF_constraint},
+        asn_MBR_dl_PRS_QCL_ProcessingCapabilityBandList_r16_2,
+        1, /* Single element */
+        &asn_SPC_dl_PRS_QCL_ProcessingCapabilityBandList_r16_specs_2 /* Additional
+                                                                        specs
+                                                                      */
 };
 
 asn_TYPE_member_t asn_MBR_NR_DL_PRS_QCL_ProcessingCapability_r16_1[] = {

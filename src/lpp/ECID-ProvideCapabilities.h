@@ -74,8 +74,8 @@ typedef struct ECID_ProvideCapabilities {
  * -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_triggeredReporting_r14_15;	// (Use
  * -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_idleStateForMeasurements_r14_17;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_idleStateForMeasurements_r14_17;
+ * // (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_ECID_ProvideCapabilities;
 extern asn_SEQUENCE_specifics_t asn_SPC_ECID_ProvideCapabilities_specs_1;
 extern asn_TYPE_member_t asn_MBR_ECID_ProvideCapabilities_1[3];

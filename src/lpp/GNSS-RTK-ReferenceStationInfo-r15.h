@@ -65,8 +65,8 @@ typedef struct GNSS_RTK_ReferenceStationInfo_r15 {
 } GNSS_RTK_ReferenceStationInfo_r15_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_referenceStationIndicator_r15_3;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_referenceStationIndicator_r15_3;
+ * // (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_GNSS_RTK_ReferenceStationInfo_r15;
 extern asn_SEQUENCE_specifics_t
     asn_SPC_GNSS_RTK_ReferenceStationInfo_r15_specs_1;

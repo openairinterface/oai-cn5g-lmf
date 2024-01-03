@@ -149,8 +149,9 @@ static const asn_TYPE_tag2member_t asn_MAP_LocationCoordinates_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (6 << 2)), 6, 0, 0}, /* ellipsoidArc */
     {(ASN_TAG_CLASS_CONTEXT | (7 << 2)), 7, 0,
      0}, /* highAccuracyEllipsoidPointWithUncertaintyEllipse-v1510 */
-    {(ASN_TAG_CLASS_CONTEXT | (8 << 2)), 8, 0, 0} /* highAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoid-v1510
-                                                   */
+    {(ASN_TAG_CLASS_CONTEXT | (8 << 2)), 8, 0,
+     0} /* highAccuracyEllipsoidPointWithAltitudeAndUncertaintyEllipsoid-v1510
+         */
 };
 asn_CHOICE_specifics_t asn_SPC_LocationCoordinates_specs_1 = {
     sizeof(struct LocationCoordinates),

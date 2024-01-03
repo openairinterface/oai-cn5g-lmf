@@ -375,26 +375,27 @@ static const unsigned int
         0, /* n8(0) */
         5  /* n80(5) */
 };
-static const asn_INTEGER_specifics_t asn_SPC_durationOfPRS_ProcessingSymbolsInEveryTms_r16_specs_42 =
-    {asn_MAP_durationOfPRS_ProcessingSymbolsInEveryTms_r16_value2enum_42, /* "tag"
-                                                                             =>
-                                                                             N;
-                                                                             sorted
-                                                                             by
-                                                                             tag
-                                                                           */
-     asn_MAP_durationOfPRS_ProcessingSymbolsInEveryTms_r16_enum2value_42, /* N
-                                                                             =>
-                                                                             "tag";
-                                                                             sorted
-                                                                             by
-                                                                             N
-                                                                           */
-     10, /* Number of elements in the maps */
-     0,  /* Enumeration is not extensible */
-     1,  /* Strict enumeration */
-     0,  /* Native long size */
-     0};
+static const asn_INTEGER_specifics_t
+    asn_SPC_durationOfPRS_ProcessingSymbolsInEveryTms_r16_specs_42 = {
+        asn_MAP_durationOfPRS_ProcessingSymbolsInEveryTms_r16_value2enum_42, /* "tag"
+                                                                                =>
+                                                                                N;
+                                                                                sorted
+                                                                                by
+                                                                                tag
+                                                                              */
+        asn_MAP_durationOfPRS_ProcessingSymbolsInEveryTms_r16_enum2value_42, /* N
+                                                                                =>
+                                                                                "tag";
+                                                                                sorted
+                                                                                by
+                                                                                N
+                                                                              */
+        10, /* Number of elements in the maps */
+        0,  /* Enumeration is not extensible */
+        1,  /* Strict enumeration */
+        0,  /* Native long size */
+        0};
 static const ber_tlv_tag_t
     asn_DEF_durationOfPRS_ProcessingSymbolsInEveryTms_r16_tags_42[] = {
         (ASN_TAG_CLASS_CONTEXT | (1 << 2)),

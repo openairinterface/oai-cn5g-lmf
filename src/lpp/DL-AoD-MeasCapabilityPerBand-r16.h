@@ -45,8 +45,8 @@ typedef struct DL_AoD_MeasCapabilityPerBand_r16 {
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_simul_NR_DL_AoD_DL_TDOA_r16_3;	//
  * (Use -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_simul_NR_DL_AoD_Multi_RTT_r16_5;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_simul_NR_DL_AoD_Multi_RTT_r16_5;
+ * // (Use -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_DL_AoD_MeasCapabilityPerBand_r16;
 extern asn_SEQUENCE_specifics_t
     asn_SPC_DL_AoD_MeasCapabilityPerBand_r16_specs_1;
