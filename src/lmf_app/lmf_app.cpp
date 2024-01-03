@@ -404,9 +404,14 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
   // >TRP Item 1 .. <maxnoTRPs>
   auto items = std::array<TRPItem_t, ids.size()>{};
   // >>TRP ID 9.2.24
-  for (auto const& [id, item] :
+  for (auto const& [id, _item] :
        boost::combine(ids, items)) {  // c++23: std::views::zip
-    item = TRPItem_t{.tRP_ID = id};
+#if BOOST_VERSION / 100 % 1000 >= 74 // ubuntu 22
+    auto& item = _item;
+#else // ubuntu 20 / rhel8
+    auto& item = boost::get<0>(_item);
+#endif
+    item = TRPItem_t{.tRP_ID = id}; 
     ASN_SEQUENCE_ADD(list, &item);
   }
   // TRP Information Type List
@@ -423,8 +428,13 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
   auto informationTypeItems =
       std::array<TRPInformationTypeItem_t, informationTypes.size()>{};
   // >>TRP Information Type ENUMERATED
-  for (auto const& [infoType, informationTypeItem] :
+  for (auto const& [infoType, informationTypeItem_] :
        boost::combine(informationTypes, informationTypeItems)) {
+#if BOOST_VERSION / 100 % 1000 >= 74 // ubuntu 22
+    auto& informationTypeItem = informationTypeItem_;
+#else // ubuntu 20 / rhel8
+    auto& informationTypeItem = boost::get<0>(informationTypeItem_);
+#endif
     // e_TRPInformationType (enum) to TRPInformationTypeItem_t (long)
     informationTypeItem = infoType;
     ASN_SEQUENCE_ADD(informationTypeList, &informationTypeItem);
