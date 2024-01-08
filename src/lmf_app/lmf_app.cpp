@@ -178,14 +178,21 @@ void lmf_app::handle_determine_location(
   // TODO: move nrppa_tid_gen to LocationDetermination
   // and use RAII (unique_ptr) for auto free_uid()
   auto const& pir_tId = this->nrppa_tid_gen.get_uid();
-  ctx->position_information_request(pir_tId);
+  ctx->positioning_information_request(pir_tId);
   auto const& [nrppaPduPIR, positioningInformationResponse] =
-      ctx->position_information_response.get_future().get();
+      ctx->positioning_information_response.get_future().get();
   // don't free tId, avoid re-use for easier debugging
   // this->nrppa_tid_gen.free_uid(tId); // after response handle done
   // stay subscribed
   // release_n1n2subscription(supi);
-
+#if 0  // at gNb not implemented 
+  // 5. NRPPa Request UE SRS activation
+  // 9.1.1.17 POSITIONING ACTIVATION REQUEST
+  auto const& pa_tId = this->nrppa_tid_gen.get_uid();
+  ctx->positioning_activation_request(pa_tId);
+  auto const& [nrppaPduPA, positionActivationResponse] =
+      ctx->positioning_activation_response.get_future().get();
+#endif
   auto const& mr_tId = this->nrppa_tid_gen.get_uid();
   ctx->measurement_request(mr_tId);
   auto const& [nrppaPduMR, measurementResponse] =
@@ -355,10 +362,11 @@ bool lmf_app::handle_n2info_nrppa_notification(
       auto const& positioningInformationResponse =
           get(value.choice.PositioningInformationResponse, value.present,
               SuccessfulOutcome__value_PR_PositioningInformationResponse);
-      ctx->handle_position_information_response(
+      ctx->handle_positioning_information_response(
           nrppa, tId, positioningInformationResponse);
       return true;
     } break;
+
     case ResponseType::Measurement: {
       check(successfulOutcome->procedureCode, ProcedureCode_id_Measurement);
       auto const& value = successfulOutcome->value;
@@ -368,6 +376,20 @@ bool lmf_app::handle_n2info_nrppa_notification(
       ctx->handle_measurement_response(nrppa, tId, measurementResponse);
       return true;
     } break;
+
+    case ResponseType::PositioningActivation: {
+      check(
+          successfulOutcome->procedureCode,
+          ProcedureCode_id_positioningActivation);
+      auto const& value = successfulOutcome->value;
+      auto const& positioningActivationResponse =
+          get(value.choice.PositioningActivationResponse, value.present,
+              SuccessfulOutcome__value_PR_PositioningActivationResponse);
+      ctx->handle_positioning_activation_response(
+          nrppa, tId, positioningActivationResponse);
+      return true;
+    }
+
     default:
       throwHttpError(
           "handle_n2info_nrppa_notification"s, "unhandled response type"s);

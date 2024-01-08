@@ -40,6 +40,8 @@
 
 #include "InitiatingMessage.h"
 #include "ProtocolIE-Field.h"
+#include <SemipersistentSRS.h>
+#include <AperiodicSRS.h>
 
 using namespace std::string_literals;
 using namespace oai::lmf_server;
@@ -134,11 +136,11 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
   return true;
 }
 
-void LocationDetermination::position_information_request(
+void LocationDetermination::positioning_information_request(
     NRPPATransactionID_t const& tId) {
   Logger::lmf_app().info("Position Information Request");
 
-  this->position_information_response = {};  // reset promise
+  this->positioning_information_response = {};  // reset promise
 
   if (auto const& [iter, inserted] =
           this->nrppa_tId.try_emplace(tId, ResponseType::PositionInformation);
@@ -247,16 +249,16 @@ void LocationDetermination::measurement_request(
   this->n1_n2_message_transfer(&nrppaPdu);
 }
 
-void LocationDetermination::handle_position_information_response(
+void LocationDetermination::handle_positioning_information_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
   if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
     throwHttpError(
-        "handle_position_information_response",
+        "handle_positioning_information_response",
         "no such tId: "s + std::to_string(tId));
   }
 
-  this->position_information_response.set_value(
+  this->positioning_information_response.set_value(
       {nrppaPdu, positioningInformationResponse});
 }
 
@@ -269,6 +271,102 @@ void LocationDetermination::handle_measurement_response(
   }
 
   this->measurement_response.set_value({nrppaPdu, measurementResponse});
+}
+
+// 9.1.1.17 POSITIONING ACTIVATION REQUEST
+void LocationDetermination::positioning_activation_request(
+    NRPPATransactionID_t const& tId) {
+  this->positioning_activation_response = {};
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(tId, ResponseType::PositioningActivation);
+      !inserted) {
+    throwHttpError(
+        "Position information request"s,
+        "nrppa id "s + std::to_string(tId) + " reuse"s);
+  }
+
+  auto initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_positioningActivation,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = tId,
+      .value =
+          {.present = InitiatingMessage__value_PR_PositioningActivationRequest},
+  };
+  auto ies = &initiatingMessage.value.choice.PositioningActivationRequest
+                  .protocolIEs.list;
+
+  // >Aperiodic
+  auto aperiodicSRS = AperiodicSRS_t{
+      .aperiodic = AperiodicSRS__aperiodic_true,
+  };
+  // CHOICE SRS type
+  auto aperiodicSRS_ie = PositioningActivationRequestIEs_t{
+      .id          = ProtocolIE_ID_id_SRSType,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present = PositioningActivationRequestIEs__value_PR_SRSType,
+              .choice =
+                  {
+                      .SRSType =
+                          {
+                              .present = SRSType_PR_aperiodicSRS,
+                              .choice =
+                                  {
+                                      .aperiodicSRS = &aperiodicSRS,
+                                  },
+                          },
+                  },
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, &aperiodicSRS_ie);
+
+  // >Semi-persistent
+  auto semipersistentSRS = SemipersistentSRS_t{
+      .sRSResourceSetID = 1,
+  };
+  // CHOICE SRS type
+  auto semipersistentSRS_ie = PositioningActivationRequestIEs_t{
+      .id          = ProtocolIE_ID_id_SRSType,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present = PositioningActivationRequestIEs__value_PR_SRSType,
+              .choice =
+                  {
+                      .SRSType =
+                          {
+                              .present = SRSType_PR_semipersistentSRS,
+                              .choice =
+                                  {
+                                      .semipersistentSRS = &semipersistentSRS,
+                                  },
+                          },
+                  },
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, &semipersistentSRS_ie);
+
+  auto nrppaPdu = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = &initiatingMessage},
+  };
+
+  this->n1_n2_message_transfer(&nrppaPdu);
+}
+
+void LocationDetermination::handle_positioning_activation_response(
+    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+    PositioningActivationResponse_t const& positioningActivationResponse) {
+  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
+    throwHttpError(
+        "handle_positioning_activation_response",
+        "no such tId: "s + std::to_string(tId));
+  }
+
+  this->positioning_activation_response.set_value(
+      {nrppaPdu, positioningActivationResponse});
 }
 
 /*

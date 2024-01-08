@@ -98,8 +98,7 @@ class lmf_app {
   build_trp_information_request_nrppa_pdu();
 
   util::uint_generator<NRPPATransactionID_t> nrppa_tid_gen;
-  NRPPATransactionID_t nrppa_tid_trp_information,
-      nrppa_tid_position_information;
+  NRPPATransactionID_t nrppa_tid_trp_information;
 };
 }  // namespace oai::lmf::app
 

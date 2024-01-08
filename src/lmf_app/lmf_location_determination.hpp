@@ -34,28 +34,40 @@
 #include "NRPPATransactionID.h"
 #include "PositioningInformationResponse.h"
 #include "MeasurementResponse.h"
+#include "PositioningActivationResponse.h"
 
 #include "InputData.h"
 
-enum class ResponseType { PositionInformation, Measurement };
+enum class ResponseType {
+  PositionInformation,
+  Measurement,
+  PositioningActivation
+};
 
 class LocationDetermination {
  public:
   LocationDetermination(std::string supi) : supi{supi} {}
 
   std::promise<std::pair<NRPPA_PDU_t*, PositioningInformationResponse_t const&>>
-      position_information_response;
+      positioning_information_response;
   std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
       measurement_response;
+  std::promise<std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>>
+      positioning_activation_response;
 
-  void position_information_request(NRPPATransactionID_t const& nrppa_tId);
+  void positioning_information_request(NRPPATransactionID_t const& nrppa_tId);
 
-  void handle_position_information_response(
+  void handle_positioning_information_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
   void handle_measurement_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       MeasurementResponse_t const& measurementResponse);
+  void handle_positioning_activation_response(
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      PositioningActivationResponse_t const& positioningActivationResponse);
+
+  void positioning_activation_request(NRPPATransactionID_t const& tId);
 
   void measurement_request(NRPPATransactionID_t const& tId);
 
