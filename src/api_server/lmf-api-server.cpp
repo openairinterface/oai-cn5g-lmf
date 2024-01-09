@@ -84,6 +84,7 @@ void LMFApiServer::init(size_t thr) {
   // m_defaultApiImpl->init();
   m_determineLocationApiImpl->init();
   m_n2InfoNotifyApiImpl->init();
+  m_nonUeN2InfoNotifyApiImpl->init();
 }
 void LMFApiServer::start() {
   if (m_determineLocationApiImpl != nullptr)

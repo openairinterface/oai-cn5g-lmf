@@ -37,8 +37,9 @@ file(GLOB LMF_src_files
   lmf_event.cpp
   lmf_profile.cpp
   lmf_nrf.cpp 
-  lmf_context.cpp
+  lmf_location_determination.cpp
   lmf_n1_n2_message_subscription.cpp
+  lmf_non_ue_n2_message_subscription.cpp
 )
 
 

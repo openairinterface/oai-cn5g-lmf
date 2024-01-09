@@ -1,802 +1,456 @@
-ASN_MODULE_SRCS=	\
-	oai-lmf/src/nrppa/NRPPA-PDU.c	\
-	oai-lmf/src/nrppa/InitiatingMessage.c	\
-	oai-lmf/src/nrppa/SuccessfulOutcome.c	\
-	oai-lmf/src/nrppa/UnsuccessfulOutcome.c	\
-	oai-lmf/src/nrppa/E-CIDMeasurementInitiationRequest.c	\
-	oai-lmf/src/nrppa/E-CIDMeasurementInitiationResponse.c	\
-	oai-lmf/src/nrppa/E-CIDMeasurementInitiationFailure.c	\
-	oai-lmf/src/nrppa/E-CIDMeasurementFailureIndication.c	\
-	oai-lmf/src/nrppa/E-CIDMeasurementReport.c	\
-	oai-lmf/src/nrppa/E-CIDMeasurementTerminationCommand.c	\
-	oai-lmf/src/nrppa/OTDOAInformationRequest.c	\
-	oai-lmf/src/nrppa/OTDOA-Information-Type.c	\
-	oai-lmf/src/nrppa/OTDOA-Information-Type-Item.c	\
-	oai-lmf/src/nrppa/OTDOAInformationResponse.c	\
-	oai-lmf/src/nrppa/OTDOAInformationFailure.c	\
-	oai-lmf/src/nrppa/AssistanceInformationControl.c	\
-	oai-lmf/src/nrppa/AssistanceInformationFeedback.c	\
-	oai-lmf/src/nrppa/ErrorIndication.c	\
-	oai-lmf/src/nrppa/PrivateMessage.c	\
-	oai-lmf/src/nrppa/PositioningInformationRequest.c	\
-	oai-lmf/src/nrppa/PositioningInformationResponse.c	\
-	oai-lmf/src/nrppa/PositioningInformationFailure.c	\
-	oai-lmf/src/nrppa/PositioningInformationUpdate.c	\
-	oai-lmf/src/nrppa/MeasurementRequest.c	\
-	oai-lmf/src/nrppa/MeasurementResponse.c	\
-	oai-lmf/src/nrppa/MeasurementFailure.c	\
-	oai-lmf/src/nrppa/MeasurementReport.c	\
-	oai-lmf/src/nrppa/MeasurementUpdate.c	\
-	oai-lmf/src/nrppa/MeasurementAbort.c	\
-	oai-lmf/src/nrppa/MeasurementFailureIndication.c	\
-	oai-lmf/src/nrppa/TRPInformationRequest.c	\
-	oai-lmf/src/nrppa/TRPInformationResponse.c	\
-	oai-lmf/src/nrppa/TRPInformationFailure.c	\
-	oai-lmf/src/nrppa/PositioningActivationRequest.c	\
-	oai-lmf/src/nrppa/SRSType.c	\
-	oai-lmf/src/nrppa/SemipersistentSRS.c	\
-	oai-lmf/src/nrppa/AperiodicSRS.c	\
-	oai-lmf/src/nrppa/PositioningActivationResponse.c	\
-	oai-lmf/src/nrppa/PositioningActivationFailure.c	\
-	oai-lmf/src/nrppa/PositioningDeactivation.c	\
-	oai-lmf/src/nrppa/AbortTransmission.c	\
-	oai-lmf/src/nrppa/ActiveULBWP.c	\
-	oai-lmf/src/nrppa/AdditionalPathList.c	\
-	oai-lmf/src/nrppa/AdditionalPathListItem.c	\
-	oai-lmf/src/nrppa/AperiodicSRSResourceTriggerList.c	\
-	oai-lmf/src/nrppa/AperiodicSRSResourceTrigger.c	\
-	oai-lmf/src/nrppa/Assistance-Information.c	\
-	oai-lmf/src/nrppa/AssistanceInformationFailureList.c	\
-	oai-lmf/src/nrppa/AssistanceInformationMetaData.c	\
-	oai-lmf/src/nrppa/BandwidthSRS.c	\
-	oai-lmf/src/nrppa/BCCH.c	\
-	oai-lmf/src/nrppa/Broadcast.c	\
-	oai-lmf/src/nrppa/BroadcastPeriodicity.c	\
-	oai-lmf/src/nrppa/PositioningBroadcastCells.c	\
-	oai-lmf/src/nrppa/BSSID.c	\
-	oai-lmf/src/nrppa/Cause.c	\
-	oai-lmf/src/nrppa/CauseMisc.c	\
-	oai-lmf/src/nrppa/CauseProtocol.c	\
-	oai-lmf/src/nrppa/CauseRadioNetwork.c	\
-	oai-lmf/src/nrppa/Cell-Portion-ID.c	\
-	oai-lmf/src/nrppa/CGI-EUTRA.c	\
-	oai-lmf/src/nrppa/CGI-NR.c	\
-	oai-lmf/src/nrppa/CPLength-EUTRA.c	\
-	oai-lmf/src/nrppa/CriticalityDiagnostics.c	\
-	oai-lmf/src/nrppa/CriticalityDiagnostics-IE-List.c	\
-	oai-lmf/src/nrppa/DL-Bandwidth-EUTRA.c	\
-	oai-lmf/src/nrppa/DL-PRS.c	\
-	oai-lmf/src/nrppa/DL-PRSMutingPattern.c	\
-	oai-lmf/src/nrppa/DLPRSResourceCoordinates.c	\
-	oai-lmf/src/nrppa/DLPRSResourceSetARP.c	\
-	oai-lmf/src/nrppa/DL-PRSResourceSetARPLocation.c	\
-	oai-lmf/src/nrppa/DLPRSResourceARP.c	\
-	oai-lmf/src/nrppa/DL-PRSResourceARPLocation.c	\
-	oai-lmf/src/nrppa/E-CID-MeasurementResult.c	\
-	oai-lmf/src/nrppa/EUTRACellIdentifier.c	\
-	oai-lmf/src/nrppa/EARFCN.c	\
-	oai-lmf/src/nrppa/GeographicalCoordinates.c	\
-	oai-lmf/src/nrppa/GNB-RxTxTimeDiff.c	\
-	oai-lmf/src/nrppa/GNBRxTxTimeDiffMeas.c	\
-	oai-lmf/src/nrppa/HESSID.c	\
-	oai-lmf/src/nrppa/LCS-to-GCS-TranslationAoA.c	\
-	oai-lmf/src/nrppa/LCS-to-GCS-TranslationItem.c	\
-	oai-lmf/src/nrppa/LocationUncertainty.c	\
-	oai-lmf/src/nrppa/Measurement-ID.c	\
-	oai-lmf/src/nrppa/MeasurementBeamInfoRequest.c	\
-	oai-lmf/src/nrppa/MeasurementBeamInfo.c	\
-	oai-lmf/src/nrppa/MeasurementPeriodicity.c	\
-	oai-lmf/src/nrppa/MeasurementPeriodicityExtended.c	\
-	oai-lmf/src/nrppa/MeasurementPeriodicityNR-AoA.c	\
-	oai-lmf/src/nrppa/MeasurementQuantities.c	\
-	oai-lmf/src/nrppa/MeasurementQuantities-Item.c	\
-	oai-lmf/src/nrppa/MeasurementQuantitiesValue.c	\
-	oai-lmf/src/nrppa/MeasuredResults.c	\
-	oai-lmf/src/nrppa/MeasuredResultsValue.c	\
-	oai-lmf/src/nrppa/NarrowBandIndex.c	\
-	oai-lmf/src/nrppa/NG-RANAccessPointPosition.c	\
-	oai-lmf/src/nrppa/NGRANHighAccuracyAccessPointPosition.c	\
-	oai-lmf/src/nrppa/NG-RAN-CGI.c	\
-	oai-lmf/src/nrppa/NG-RANCell.c	\
-	oai-lmf/src/nrppa/NR-ARFCN.c	\
-	oai-lmf/src/nrppa/NRCellIdentifier.c	\
-	oai-lmf/src/nrppa/NR-PCI.c	\
-	oai-lmf/src/nrppa/NR-PRS-Beam-Information.c	\
-	oai-lmf/src/nrppa/NR-PRS-Beam-InformationItem.c	\
-	oai-lmf/src/nrppa/NumberOfAntennaPorts-EUTRA.c	\
-	oai-lmf/src/nrppa/NumberOfDlFrames-EUTRA.c	\
-	oai-lmf/src/nrppa/NumberOfDlFrames-Extended-EUTRA.c	\
-	oai-lmf/src/nrppa/NumberOfFrequencyHoppingBands.c	\
-	oai-lmf/src/nrppa/NZP-CSI-RS-ResourceID.c	\
-	oai-lmf/src/nrppa/OTDOACells.c	\
-	oai-lmf/src/nrppa/OTDOACell-Information.c	\
-	oai-lmf/src/nrppa/OTDOACell-Information-Item.c	\
-	oai-lmf/src/nrppa/OTDOA-Information-Item.c	\
-	oai-lmf/src/nrppa/OtherRATMeasurementQuantities.c	\
-	oai-lmf/src/nrppa/OtherRATMeasurementQuantities-Item.c	\
-	oai-lmf/src/nrppa/OtherRATMeasurementQuantitiesValue.c	\
-	oai-lmf/src/nrppa/OtherRATMeasurementResult.c	\
-	oai-lmf/src/nrppa/OtherRATMeasuredResultsValue.c	\
-	oai-lmf/src/nrppa/Outcome.c	\
-	oai-lmf/src/nrppa/PathlossReferenceInformation.c	\
-	oai-lmf/src/nrppa/PathlossReferenceSignal.c	\
-	oai-lmf/src/nrppa/PCI-EUTRA.c	\
-	oai-lmf/src/nrppa/PhysCellIDGERAN.c	\
-	oai-lmf/src/nrppa/PhysCellIDUTRA-FDD.c	\
-	oai-lmf/src/nrppa/PhysCellIDUTRA-TDD.c	\
-	oai-lmf/src/nrppa/PLMN-Identity.c	\
-	oai-lmf/src/nrppa/PeriodicityList.c	\
-	oai-lmf/src/nrppa/PeriodicityItem.c	\
-	oai-lmf/src/nrppa/PosSIBs.c	\
-	oai-lmf/src/nrppa/PosSIB-Segments.c	\
-	oai-lmf/src/nrppa/PosSIB-Type.c	\
-	oai-lmf/src/nrppa/PosSRSResource-List.c	\
-	oai-lmf/src/nrppa/PosSRSResource-Item.c	\
-	oai-lmf/src/nrppa/PosSRSResourceSet-List.c	\
-	oai-lmf/src/nrppa/PosSRSResourceID-List.c	\
-	oai-lmf/src/nrppa/PosSRSResourceSet-Item.c	\
-	oai-lmf/src/nrppa/PosResourceSetType.c	\
-	oai-lmf/src/nrppa/PosResourceSetTypePeriodic.c	\
-	oai-lmf/src/nrppa/PosResourceSetTypeSemi-persistent.c	\
-	oai-lmf/src/nrppa/PosResourceSetTypeAperiodic.c	\
-	oai-lmf/src/nrppa/PRS-Bandwidth-EUTRA.c	\
-	oai-lmf/src/nrppa/PRSAngleItem.c	\
-	oai-lmf/src/nrppa/PRSInformationPos.c	\
-	oai-lmf/src/nrppa/PRSConfiguration.c	\
-	oai-lmf/src/nrppa/PRS-ConfigurationIndex-EUTRA.c	\
-	oai-lmf/src/nrppa/PRS-ID-EUTRA.c	\
-	oai-lmf/src/nrppa/PRSMutingConfiguration-EUTRA.c	\
-	oai-lmf/src/nrppa/PRSOccasionGroup-EUTRA.c	\
-	oai-lmf/src/nrppa/PRSFrequencyHoppingConfiguration-EUTRA.c	\
-	oai-lmf/src/nrppa/PRSMuting.c	\
-	oai-lmf/src/nrppa/PRSMutingOption1.c	\
-	oai-lmf/src/nrppa/PRSMutingOption2.c	\
-	oai-lmf/src/nrppa/PRSResource-List.c	\
-	oai-lmf/src/nrppa/PRSResource-Item.c	\
-	oai-lmf/src/nrppa/PRSResource-QCLInfo.c	\
-	oai-lmf/src/nrppa/PRSResource-QCLSourceSSB.c	\
-	oai-lmf/src/nrppa/PRSResource-QCLSourcePRS.c	\
-	oai-lmf/src/nrppa/PRSResourceSet-List.c	\
-	oai-lmf/src/nrppa/PRSResourceSet-Item.c	\
-	oai-lmf/src/nrppa/PRS-Resource-ID.c	\
-	oai-lmf/src/nrppa/PRS-Resource-Set-ID.c	\
-	oai-lmf/src/nrppa/PRS-ID.c	\
-	oai-lmf/src/nrppa/ReferenceSignal.c	\
-	oai-lmf/src/nrppa/ReferencePoint.c	\
-	oai-lmf/src/nrppa/CoordinateID.c	\
-	oai-lmf/src/nrppa/RelativeGeodeticLocation.c	\
-	oai-lmf/src/nrppa/RelativeCartesianLocation.c	\
-	oai-lmf/src/nrppa/RelativePathDelay.c	\
-	oai-lmf/src/nrppa/ReportCharacteristics.c	\
-	oai-lmf/src/nrppa/RequestedSRSTransmissionCharacteristics.c	\
-	oai-lmf/src/nrppa/SRSResourceSet-Item.c	\
-	oai-lmf/src/nrppa/ResourceSetType.c	\
-	oai-lmf/src/nrppa/ResourceSetTypePeriodic.c	\
-	oai-lmf/src/nrppa/ResourceSetTypeSemi-persistent.c	\
-	oai-lmf/src/nrppa/ResourceSetTypeAperiodic.c	\
-	oai-lmf/src/nrppa/ResourceType.c	\
-	oai-lmf/src/nrppa/ResourceTypePeriodic.c	\
-	oai-lmf/src/nrppa/ResourceTypeSemi-persistent.c	\
-	oai-lmf/src/nrppa/ResourceTypeAperiodic.c	\
-	oai-lmf/src/nrppa/ResourceTypePos.c	\
-	oai-lmf/src/nrppa/ResourceTypePeriodicPos.c	\
-	oai-lmf/src/nrppa/ResourceTypeSemi-persistentPos.c	\
-	oai-lmf/src/nrppa/ResourceTypeAperiodicPos.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP-Item.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP-PerCSI-RS.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP-PerCSI-RS-Item.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ-Item.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ-PerCSI-RS.c	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ-PerCSI-RS-Item.c	\
-	oai-lmf/src/nrppa/ResultEUTRA.c	\
-	oai-lmf/src/nrppa/ResultEUTRA-Item.c	\
-	oai-lmf/src/nrppa/ResultRSRP-EUTRA.c	\
-	oai-lmf/src/nrppa/ResultRSRP-EUTRA-Item.c	\
-	oai-lmf/src/nrppa/ResultRSRQ-EUTRA.c	\
-	oai-lmf/src/nrppa/ResultRSRQ-EUTRA-Item.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRP.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRP-Item.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRP-PerSSB.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRP-PerSSB-Item.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ-Item.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ-PerSSB.c	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ-PerSSB-Item.c	\
-	oai-lmf/src/nrppa/ResultGERAN.c	\
-	oai-lmf/src/nrppa/ResultGERAN-Item.c	\
-	oai-lmf/src/nrppa/ResultNR.c	\
-	oai-lmf/src/nrppa/ResultNR-Item.c	\
-	oai-lmf/src/nrppa/ResultUTRAN.c	\
-	oai-lmf/src/nrppa/ResultUTRAN-Item.c	\
-	oai-lmf/src/nrppa/RSSI.c	\
-	oai-lmf/src/nrppa/SCS-SpecificCarrier.c	\
-	oai-lmf/src/nrppa/Search-window-information.c	\
-	oai-lmf/src/nrppa/RelativeTime1900.c	\
-	oai-lmf/src/nrppa/SFNInitialisationTime-EUTRA.c	\
-	oai-lmf/src/nrppa/SlotNumber.c	\
-	oai-lmf/src/nrppa/SpatialDirectionInformation.c	\
-	oai-lmf/src/nrppa/SpatialRelationInfo.c	\
-	oai-lmf/src/nrppa/SpatialRelationforResourceID.c	\
-	oai-lmf/src/nrppa/SpatialRelationforResourceIDItem.c	\
-	oai-lmf/src/nrppa/SpatialRelationPerSRSResource.c	\
-	oai-lmf/src/nrppa/SpatialRelationPerSRSResource-List.c	\
-	oai-lmf/src/nrppa/SpatialRelationPerSRSResourceItem.c	\
-	oai-lmf/src/nrppa/SpatialRelationPos.c	\
-	oai-lmf/src/nrppa/SRSConfig.c	\
-	oai-lmf/src/nrppa/SRSCarrier-List.c	\
-	oai-lmf/src/nrppa/SRSCarrier-List-Item.c	\
-	oai-lmf/src/nrppa/SRSConfiguration.c	\
-	oai-lmf/src/nrppa/SrsFrequency.c	\
-	oai-lmf/src/nrppa/SRSPosResourceID.c	\
-	oai-lmf/src/nrppa/SRSResource.c	\
-	oai-lmf/src/nrppa/SRSResourceID.c	\
-	oai-lmf/src/nrppa/SRSResource-List.c	\
-	oai-lmf/src/nrppa/SRSResourceSet-List.c	\
-	oai-lmf/src/nrppa/SRSResourceID-List.c	\
-	oai-lmf/src/nrppa/SRSResourceSet.c	\
-	oai-lmf/src/nrppa/SRSResourceSetID.c	\
-	oai-lmf/src/nrppa/SRSResourceTrigger.c	\
-	oai-lmf/src/nrppa/SSBInfo.c	\
-	oai-lmf/src/nrppa/SSBInfoItem.c	\
-	oai-lmf/src/nrppa/SSB.c	\
-	oai-lmf/src/nrppa/SSBBurstPosition.c	\
-	oai-lmf/src/nrppa/SSB-Index.c	\
-	oai-lmf/src/nrppa/SSID.c	\
-	oai-lmf/src/nrppa/SystemFrameNumber.c	\
-	oai-lmf/src/nrppa/SystemInformation.c	\
-	oai-lmf/src/nrppa/TAC.c	\
-	oai-lmf/src/nrppa/TDD-Config-EUTRA-Item.c	\
-	oai-lmf/src/nrppa/TF-Configuration.c	\
-	oai-lmf/src/nrppa/TimeStamp.c	\
-	oai-lmf/src/nrppa/TimeStampSlotIndex.c	\
-	oai-lmf/src/nrppa/TP-ID-EUTRA.c	\
-	oai-lmf/src/nrppa/TP-Type-EUTRA.c	\
-	oai-lmf/src/nrppa/TransmissionComb.c	\
-	oai-lmf/src/nrppa/TransmissionCombPos.c	\
-	oai-lmf/src/nrppa/TRPMeasurementQuantities.c	\
-	oai-lmf/src/nrppa/TRPMeasurementQuantitiesList-Item.c	\
-	oai-lmf/src/nrppa/TRPMeasurementQuantities-Item.c	\
-	oai-lmf/src/nrppa/TrpMeasurementResult.c	\
-	oai-lmf/src/nrppa/TrpMeasurementResultItem.c	\
-	oai-lmf/src/nrppa/TrpMeasuredResultsValue.c	\
-	oai-lmf/src/nrppa/TrpMeasurementQuality.c	\
-	oai-lmf/src/nrppa/TrpMeasurementTimingQuality.c	\
-	oai-lmf/src/nrppa/TrpMeasurementAngleQuality.c	\
-	oai-lmf/src/nrppa/TRP-MeasurementRequestList.c	\
-	oai-lmf/src/nrppa/TRP-MeasurementRequestItem.c	\
-	oai-lmf/src/nrppa/TRP-MeasurementResponseList.c	\
-	oai-lmf/src/nrppa/TRP-MeasurementResponseItem.c	\
-	oai-lmf/src/nrppa/TRPInformationListTRPResp.c	\
-	oai-lmf/src/nrppa/TRPInformation.c	\
-	oai-lmf/src/nrppa/TRPInformationTypeResponseList.c	\
-	oai-lmf/src/nrppa/TRPInformationTypeResponseItem.c	\
-	oai-lmf/src/nrppa/TRPInformationTypeListTRPReq.c	\
-	oai-lmf/src/nrppa/TRPInformationTypeItem.c	\
-	oai-lmf/src/nrppa/TRPList.c	\
-	oai-lmf/src/nrppa/TRPItem.c	\
-	oai-lmf/src/nrppa/TRP-ID.c	\
-	oai-lmf/src/nrppa/TRPPositionDefinitionType.c	\
-	oai-lmf/src/nrppa/TRPPositionDirect.c	\
-	oai-lmf/src/nrppa/TRPPositionDirectAccuracy.c	\
-	oai-lmf/src/nrppa/TRPPositionReferenced.c	\
-	oai-lmf/src/nrppa/TRPReferencePointType.c	\
-	oai-lmf/src/nrppa/TRPType.c	\
-	oai-lmf/src/nrppa/TypeOfError.c	\
-	oai-lmf/src/nrppa/UARFCN.c	\
-	oai-lmf/src/nrppa/UE-Measurement-ID.c	\
-	oai-lmf/src/nrppa/UTRA-EcN0.c	\
-	oai-lmf/src/nrppa/UTRA-RSCP.c	\
-	oai-lmf/src/nrppa/UL-AoA.c	\
-	oai-lmf/src/nrppa/UL-RTOAMeasurement.c	\
-	oai-lmf/src/nrppa/ULRTOAMeas.c	\
-	oai-lmf/src/nrppa/UL-SRS-RSRP.c	\
-	oai-lmf/src/nrppa/UplinkChannelBW-PerSCS-List.c	\
-	oai-lmf/src/nrppa/ValueRSRP-EUTRA.c	\
-	oai-lmf/src/nrppa/ValueRSRQ-EUTRA.c	\
-	oai-lmf/src/nrppa/ValueRSRP-NR.c	\
-	oai-lmf/src/nrppa/ValueRSRQ-NR.c	\
-	oai-lmf/src/nrppa/WLANMeasurementQuantities.c	\
-	oai-lmf/src/nrppa/WLANMeasurementQuantities-Item.c	\
-	oai-lmf/src/nrppa/WLANMeasurementQuantitiesValue.c	\
-	oai-lmf/src/nrppa/WLANMeasurementResult.c	\
-	oai-lmf/src/nrppa/WLANMeasurementResult-Item.c	\
-	oai-lmf/src/nrppa/WLAN-RSSI.c	\
-	oai-lmf/src/nrppa/WLANBand.c	\
-	oai-lmf/src/nrppa/WLANChannelList.c	\
-	oai-lmf/src/nrppa/WLANChannel.c	\
-	oai-lmf/src/nrppa/WLANCountryCode.c	\
-	oai-lmf/src/nrppa/WLANOperatingClass.c	\
-	oai-lmf/src/nrppa/Criticality.c	\
-	oai-lmf/src/nrppa/NRPPATransactionID.c	\
-	oai-lmf/src/nrppa/Presence.c	\
-	oai-lmf/src/nrppa/PrivateIE-ID.c	\
-	oai-lmf/src/nrppa/ProcedureCode.c	\
-	oai-lmf/src/nrppa/ProtocolIE-ID.c	\
-	oai-lmf/src/nrppa/TriggeringMessage.c	\
-	oai-lmf/src/nrppa/ProtocolIE-Container.c	\
-	oai-lmf/src/nrppa/ProtocolIE-Single-Container.c	\
-	oai-lmf/src/nrppa/ProtocolIE-Field.c	\
-	oai-lmf/src/nrppa/ProtocolIE-ContainerList.c	\
-	oai-lmf/src/nrppa/ProtocolExtensionContainer.c	\
-	oai-lmf/src/nrppa/ProtocolExtensionField.c	\
-	oai-lmf/src/nrppa/PrivateIE-Container.c	\
-	oai-lmf/src/nrppa/PrivateIE-Field.c	\
-	oai-lmf/src/nrppa/EXTERNAL.c
+ASN_MODULE_SRCS =
+    nrppa / NRPPA -
+    PDU.c nrppa / InitiatingMessage.c nrppa / SuccessfulOutcome.c nrppa /
+        UnsuccessfulOutcome.c nrppa / E -
+    CIDMeasurementInitiationRequest.c nrppa / E -
+    CIDMeasurementInitiationResponse.c nrppa / E -
+    CIDMeasurementInitiationFailure.c nrppa / E -
+    CIDMeasurementFailureIndication.c nrppa / E -
+    CIDMeasurementReport.c nrppa / E -
+    CIDMeasurementTerminationCommand.c nrppa / OTDOAInformationRequest.c nrppa /
+        OTDOA -
+    Information - Type.c nrppa / OTDOA - Information - Type -
+    Item.c nrppa / OTDOAInformationResponse.c nrppa /
+        OTDOAInformationFailure.c nrppa / AssistanceInformationControl.c nrppa /
+        AssistanceInformationFeedback.c nrppa / ErrorIndication.c nrppa /
+        PrivateMessage.c nrppa / PositioningInformationRequest.c nrppa /
+        PositioningInformationResponse.c nrppa /
+        PositioningInformationFailure.c nrppa /
+        PositioningInformationUpdate.c nrppa / MeasurementRequest.c nrppa /
+        MeasurementResponse.c nrppa / MeasurementFailure.c nrppa /
+        MeasurementReport.c nrppa / MeasurementUpdate.c nrppa /
+        MeasurementAbort.c nrppa / MeasurementFailureIndication.c nrppa /
+        TRPInformationRequest.c nrppa / TRPInformationResponse.c nrppa /
+        TRPInformationFailure.c nrppa / PositioningActivationRequest.c nrppa /
+        SRSType.c nrppa / SemipersistentSRS.c nrppa / AperiodicSRS.c nrppa /
+        PositioningActivationResponse.c nrppa /
+        PositioningActivationFailure.c nrppa / PositioningDeactivation.c nrppa /
+        AbortTransmission.c nrppa / ActiveULBWP.c nrppa /
+        ActivationTime.c nrppa / AdditionalPathList.c nrppa /
+        AdditionalPathListItem.c nrppa /
+        AperiodicSRSResourceTriggerList.c nrppa /
+        AperiodicSRSResourceTrigger.c nrppa / Assistance -
+    Information.c nrppa / AssistanceInformationFailureList.c nrppa /
+        AssistanceInformationMetaData.c nrppa / BandwidthSRS.c nrppa /
+        BCCH.c nrppa / Broadcast.c nrppa / BroadcastPeriodicity.c nrppa /
+        PositioningBroadcastCells.c nrppa / BSSID.c nrppa / Cause.c nrppa /
+        CauseMisc.c nrppa / CauseProtocol.c nrppa / CauseRadioNetwork.c nrppa /
+        Cell -
+    Portion - ID.c nrppa / CGI - EUTRA.c nrppa / CGI - NR.c nrppa / CPLength -
+    EUTRA.c nrppa / CriticalityDiagnostics.c nrppa / CriticalityDiagnostics -
+    IE - List.c nrppa / DL - Bandwidth - EUTRA.c nrppa / DL - PRS.c nrppa / DL -
+    PRSMutingPattern.c nrppa / DLPRSResourceCoordinates.c nrppa /
+        DLPRSResourceSetARP.c nrppa / DL -
+    PRSResourceSetARPLocation.c nrppa / DLPRSResourceARP.c nrppa / DL -
+    PRSResourceARPLocation.c nrppa / E - CID -
+    MeasurementResult.c nrppa / EUTRACellIdentifier.c nrppa / EARFCN.c nrppa /
+        GeographicalCoordinates.c nrppa / GNB -
+    RxTxTimeDiff.c nrppa / GNBRxTxTimeDiffMeas.c nrppa / HESSID.c nrppa / LCG -
+    to - GCS -
+    TranslationItem.c nrppa / LocationUncertainty.c nrppa / Measurement -
+    ID.c nrppa / MeasurementBeamInfoRequest.c nrppa /
+        MeasurementBeamInfo.c nrppa / MeasurementPeriodicity.c nrppa /
+        MeasurementQuantities.c nrppa / MeasurementQuantities -
+    Item.c nrppa / MeasurementQuantitiesValue.c nrppa /
+        MeasuredResults.c nrppa / MeasuredResultsValue.c nrppa /
+        NarrowBandIndex.c nrppa / NG -
+    RANAccessPointPosition.c nrppa /
+        NGRANHighAccuracyAccessPointPosition.c nrppa / NG -
+    RAN - CGI.c nrppa / NG - RANCell.c nrppa / NR -
+    ARFCN.c nrppa / NRCellIdentifier.c nrppa / NR - PCI.c nrppa / NR - PRS -
+    Beam - Information.c nrppa / NR - PRS - Beam -
+    InformationItem.c nrppa / NumberOfAntennaPorts -
+    EUTRA.c nrppa / NumberOfDlFrames - EUTRA.c nrppa / NumberOfDlFrames -
+    Extended - EUTRA.c nrppa / NumberOfFrequencyHoppingBands.c nrppa / NZP -
+    CSI - RS - ResourceID.c nrppa / OTDOACells.c nrppa / OTDOACell -
+    Information.c nrppa / OTDOACell - Information - Item.c nrppa / OTDOA -
+    Information -
+    Item.c nrppa / OtherRATMeasurementQuantities.c nrppa /
+        OtherRATMeasurementQuantities -
+    Item.c nrppa / OtherRATMeasurementQuantitiesValue.c nrppa /
+        OtherRATMeasurementResult.c nrppa /
+        OtherRATMeasuredResultsValue.c nrppa / Outcome.c nrppa /
+        PathlossReferenceInformation.c nrppa / PathlossReferenceSignal.c nrppa /
+        PCI -
+    EUTRA.c nrppa / PhysCellIDGERAN.c nrppa / PhysCellIDUTRA -
+    FDD.c nrppa / PhysCellIDUTRA - TDD.c nrppa / PLMN -
+    Identity.c nrppa / PeriodicityList.c nrppa / PeriodicityItem.c nrppa /
+        PosSIBs.c nrppa / PosSIB -
+    Segments.c nrppa / PosSIB - Type.c nrppa / PosSRSResource -
+    List.c nrppa / PosSRSResource - Item.c nrppa / PosSRSResourceSet -
+    List.c nrppa / PosSRSResourceID - List.c nrppa / PosSRSResourceSet -
+    Item.c nrppa / PosResourceSetType.c nrppa /
+        PosResourceSetTypePeriodic.c nrppa / PosResourceSetTypeSemi -
+    persistent.c nrppa / PosResourceSetTypeAperiodic.c nrppa / PRS - Bandwidth -
+    EUTRA.c nrppa / PRSAngleItem.c nrppa / PRSInformationPos.c nrppa /
+        PRSConfiguration.c nrppa / PRS -
+    ConfigurationIndex - EUTRA.c nrppa / PRS - ID -
+    EUTRA.c nrppa / PRSMutingConfiguration - EUTRA.c nrppa / PRSOccasionGroup -
+    EUTRA.c nrppa / PRSFrequencyHoppingConfiguration -
+    EUTRA.c nrppa / PRSMuting.c nrppa / PRSMutingOption1.c nrppa /
+        PRSMutingOption2.c nrppa / PRSResource -
+    List.c nrppa / PRSResource - Item.c nrppa / PRSResource -
+    QCLInfo.c nrppa / PRSResource - QCLSourcePRSInfo.c nrppa / PRSResourceSet -
+    List.c nrppa / PRSResourceSet - Item.c nrppa / PRS - Resource -
+    ID.c nrppa / PRS - Resource - Set - ID.c nrppa / PRS -
+    ID.c nrppa / ReferenceSignal.c nrppa / ReferencePoint.c nrppa /
+        CoordinateID.c nrppa / RelativeGeodeticLocation.c nrppa /
+        RelativeCartesianLocation.c nrppa / RelativePathDelay.c nrppa /
+        ReportCharacteristics.c nrppa /
+        RequestedSRSTransmissionCharacteristics.c nrppa / SRSResourceSet -
+    Item.c nrppa / ResourceSetType.c nrppa / ResourceSetTypePeriodic.c nrppa /
+        ResourceSetTypeSemi -
+    persistent.c nrppa / ResourceSetTypeAperiodic.c nrppa /
+        ResourceType.c nrppa / ResourceTypePeriodic.c nrppa / ResourceTypeSemi -
+    persistent.c nrppa / ResourceTypeAperiodic.c nrppa /
+        ResourceTypePos.c nrppa / ResourceTypePeriodicPos.c nrppa /
+        ResourceTypeSemi -
+    persistentPos.c nrppa / ResourceTypeAperiodicPos.c nrppa / ResultCSI -
+    RSRP.c nrppa / ResultCSI - RSRP - Item.c nrppa / ResultCSI - RSRP - PerCSI -
+    RS.c nrppa / ResultCSI - RSRP - PerCSI - RS - Item.c nrppa / ResultCSI -
+    RSRQ.c nrppa / ResultCSI - RSRQ - Item.c nrppa / ResultCSI - RSRQ - PerCSI -
+    RS.c nrppa / ResultCSI - RSRQ - PerCSI - RS -
+    Item.c nrppa / ResultEUTRA.c nrppa / ResultEUTRA -
+    Item.c nrppa / ResultRSRP - EUTRA.c nrppa / ResultRSRP - EUTRA -
+    Item.c nrppa / ResultRSRQ - EUTRA.c nrppa / ResultRSRQ - EUTRA -
+    Item.c nrppa / ResultSS - RSRP.c nrppa / ResultSS - RSRP -
+    Item.c nrppa / ResultSS - RSRP - PerSSB.c nrppa / ResultSS - RSRP - PerSSB -
+    Item.c nrppa / ResultSS - RSRQ.c nrppa / ResultSS - RSRQ -
+    Item.c nrppa / ResultSS - RSRQ - PerSSB.c nrppa / ResultSS - RSRQ - PerSSB -
+    Item.c nrppa / ResultGERAN.c nrppa / ResultGERAN -
+    Item.c nrppa / ResultNR.c nrppa / ResultNR -
+    Item.c nrppa / ResultUTRAN.c nrppa / ResultUTRAN -
+    Item.c nrppa / RSSI.c nrppa / SCS - SpecificCarrier.c nrppa / Search -
+    window -
+    information.c nrppa / SFNInitialisationTime.c nrppa /
+        SFNInitialisationTime -
+    EUTRA.c nrppa / SlotNumber.c nrppa / SpatialDirectionInformation.c nrppa /
+        SpatialRelationInfo.c nrppa / SpatialRelationforResourceID.c nrppa /
+        SpatialRelationforResourceIDItem.c nrppa / SpatialRelationPos.c nrppa /
+        SRSConfig.c nrppa / SRSCarrier -
+    List.c nrppa / SRSCarrier - List -
+    Item.c nrppa / SRSConfiguration.c nrppa / SRSPosResourceID.c nrppa /
+        SRSResource.c nrppa / SRSResourceID.c nrppa / SRSResource -
+    List.c nrppa / SRSResourceSet - List.c nrppa / SRSResourceID -
+    List.c nrppa / SRSResourceSet.c nrppa / SRSResourceSetID.c nrppa /
+        SRSResourceTrigger.c nrppa / SRSSpatialRelation.c nrppa /
+        SSBInfo.c nrppa / SSBInfoList.c nrppa / SSB.c nrppa / SSBPos.c nrppa /
+        SSBBurstPosition.c nrppa / SSB -
+    Index.c nrppa / SSID.c nrppa / SystemFrameNumber.c nrppa /
+        SystemInformation.c nrppa / TAC.c nrppa / TDD -
+    Config - EUTRA - Item.c nrppa / TF -
+    Configuration.c nrppa / TimeStamp.c nrppa / TimeStampSlotIndex.c nrppa /
+        TP -
+    ID - EUTRA.c nrppa / TP - Type -
+    EUTRA.c nrppa / TransmissionComb.c nrppa / TransmissionCombPos.c nrppa /
+        TRPMeasurementQuantities.c nrppa / TRPMeasurementQuantitiesList -
+    Item.c nrppa / TRPMeasurementQuantities -
+    Item.c nrppa / TrpMeasurementResult.c nrppa /
+        TrpMeasurementResultItem.c nrppa / TrpMeasuredResultsValue.c nrppa /
+        TrpMeasurementQuality.c nrppa / TrpMeasurementTimingQuality.c nrppa /
+        TrpMeasurementAngleQuality.c nrppa / TRP -
+    MeasurementRequestList.c nrppa / TRP -
+    MeasurementRequestItem.c nrppa / TRP -
+    MeasurementResponseList.c nrppa / TRP -
+    MeasurementResponseItem.c nrppa / TRPInformationList.c nrppa /
+        TRPInformation.c nrppa / TRPInformationItem.c nrppa /
+        TRPInformationTypeList.c nrppa / TRPInformationTypeItem.c nrppa /
+        TRPList.c nrppa / TRPItem.c nrppa / TRP -
+    ID.c nrppa / TRPPositionDefinitionType.c nrppa / TRPPositionDirect.c nrppa /
+        TRPPositionDirectAccuracy.c nrppa / TRPPositionReferenced.c nrppa /
+        TRPReferencePointType.c nrppa / TypeOfError.c nrppa / UARFCN.c nrppa /
+        UE -
+    Measurement - ID.c nrppa / UTRA - EcN0.c nrppa / UTRA - RSCP.c nrppa / UL -
+    AoA.c nrppa / UL - RTOAMeasurement.c nrppa / ULRTOAMeas.c nrppa / UL - SRS -
+    RSRP.c nrppa / UplinkChannelBW - PerSCS - List.c nrppa / ValueRSRP -
+    EUTRA.c nrppa / ValueRSRQ - EUTRA.c nrppa / ValueRSRP -
+    NR.c nrppa / ValueRSRQ -
+    NR.c nrppa / WLANMeasurementQuantities.c nrppa / WLANMeasurementQuantities -
+    Item.c nrppa / WLANMeasurementQuantitiesValue.c nrppa /
+        WLANMeasurementResult.c nrppa / WLANMeasurementResult -
+    Item.c nrppa / WLAN -
+    RSSI.c nrppa / WLANBand.c nrppa / WLANChannelList.c nrppa /
+        WLANChannel.c nrppa / WLANCountryCode.c nrppa /
+        WLANOperatingClass.c nrppa / Criticality.c nrppa /
+        NRPPATransactionID.c nrppa / Presence.c nrppa / PrivateIE -
+    ID.c nrppa / ProcedureCode.c nrppa / ProtocolIE -
+    ID.c nrppa / TriggeringMessage.c nrppa / ProtocolIE -
+    Container.c nrppa / ProtocolIE - Single - Container.c nrppa / ProtocolIE -
+    Field.c nrppa / ProtocolIE -
+    ContainerList.c nrppa / ProtocolExtensionContainer.c nrppa /
+        ProtocolExtensionField.c nrppa / PrivateIE -
+    Container.c nrppa / PrivateIE -
+    Field.c
 
-ASN_MODULE_HDRS=	\
-	oai-lmf/src/nrppa/NRPPA-PDU.h	\
-	oai-lmf/src/nrppa/InitiatingMessage.h	\
-	oai-lmf/src/nrppa/SuccessfulOutcome.h	\
-	oai-lmf/src/nrppa/UnsuccessfulOutcome.h	\
-	oai-lmf/src/nrppa/E-CIDMeasurementInitiationRequest.h	\
-	oai-lmf/src/nrppa/E-CIDMeasurementInitiationResponse.h	\
-	oai-lmf/src/nrppa/E-CIDMeasurementInitiationFailure.h	\
-	oai-lmf/src/nrppa/E-CIDMeasurementFailureIndication.h	\
-	oai-lmf/src/nrppa/E-CIDMeasurementReport.h	\
-	oai-lmf/src/nrppa/E-CIDMeasurementTerminationCommand.h	\
-	oai-lmf/src/nrppa/OTDOAInformationRequest.h	\
-	oai-lmf/src/nrppa/OTDOA-Information-Type.h	\
-	oai-lmf/src/nrppa/OTDOA-Information-Type-Item.h	\
-	oai-lmf/src/nrppa/OTDOAInformationResponse.h	\
-	oai-lmf/src/nrppa/OTDOAInformationFailure.h	\
-	oai-lmf/src/nrppa/AssistanceInformationControl.h	\
-	oai-lmf/src/nrppa/AssistanceInformationFeedback.h	\
-	oai-lmf/src/nrppa/ErrorIndication.h	\
-	oai-lmf/src/nrppa/PrivateMessage.h	\
-	oai-lmf/src/nrppa/PositioningInformationRequest.h	\
-	oai-lmf/src/nrppa/PositioningInformationResponse.h	\
-	oai-lmf/src/nrppa/PositioningInformationFailure.h	\
-	oai-lmf/src/nrppa/PositioningInformationUpdate.h	\
-	oai-lmf/src/nrppa/MeasurementRequest.h	\
-	oai-lmf/src/nrppa/MeasurementResponse.h	\
-	oai-lmf/src/nrppa/MeasurementFailure.h	\
-	oai-lmf/src/nrppa/MeasurementReport.h	\
-	oai-lmf/src/nrppa/MeasurementUpdate.h	\
-	oai-lmf/src/nrppa/MeasurementAbort.h	\
-	oai-lmf/src/nrppa/MeasurementFailureIndication.h	\
-	oai-lmf/src/nrppa/TRPInformationRequest.h	\
-	oai-lmf/src/nrppa/TRPInformationResponse.h	\
-	oai-lmf/src/nrppa/TRPInformationFailure.h	\
-	oai-lmf/src/nrppa/PositioningActivationRequest.h	\
-	oai-lmf/src/nrppa/SRSType.h	\
-	oai-lmf/src/nrppa/SemipersistentSRS.h	\
-	oai-lmf/src/nrppa/AperiodicSRS.h	\
-	oai-lmf/src/nrppa/PositioningActivationResponse.h	\
-	oai-lmf/src/nrppa/PositioningActivationFailure.h	\
-	oai-lmf/src/nrppa/PositioningDeactivation.h	\
-	oai-lmf/src/nrppa/AbortTransmission.h	\
-	oai-lmf/src/nrppa/ActiveULBWP.h	\
-	oai-lmf/src/nrppa/AdditionalPathList.h	\
-	oai-lmf/src/nrppa/AdditionalPathListItem.h	\
-	oai-lmf/src/nrppa/AperiodicSRSResourceTriggerList.h	\
-	oai-lmf/src/nrppa/AperiodicSRSResourceTrigger.h	\
-	oai-lmf/src/nrppa/Assistance-Information.h	\
-	oai-lmf/src/nrppa/AssistanceInformationFailureList.h	\
-	oai-lmf/src/nrppa/AssistanceInformationMetaData.h	\
-	oai-lmf/src/nrppa/BandwidthSRS.h	\
-	oai-lmf/src/nrppa/BCCH.h	\
-	oai-lmf/src/nrppa/Broadcast.h	\
-	oai-lmf/src/nrppa/BroadcastPeriodicity.h	\
-	oai-lmf/src/nrppa/PositioningBroadcastCells.h	\
-	oai-lmf/src/nrppa/BSSID.h	\
-	oai-lmf/src/nrppa/Cause.h	\
-	oai-lmf/src/nrppa/CauseMisc.h	\
-	oai-lmf/src/nrppa/CauseProtocol.h	\
-	oai-lmf/src/nrppa/CauseRadioNetwork.h	\
-	oai-lmf/src/nrppa/Cell-Portion-ID.h	\
-	oai-lmf/src/nrppa/CGI-EUTRA.h	\
-	oai-lmf/src/nrppa/CGI-NR.h	\
-	oai-lmf/src/nrppa/CPLength-EUTRA.h	\
-	oai-lmf/src/nrppa/CriticalityDiagnostics.h	\
-	oai-lmf/src/nrppa/CriticalityDiagnostics-IE-List.h	\
-	oai-lmf/src/nrppa/DL-Bandwidth-EUTRA.h	\
-	oai-lmf/src/nrppa/DL-PRS.h	\
-	oai-lmf/src/nrppa/DL-PRSMutingPattern.h	\
-	oai-lmf/src/nrppa/DLPRSResourceCoordinates.h	\
-	oai-lmf/src/nrppa/DLPRSResourceSetARP.h	\
-	oai-lmf/src/nrppa/DL-PRSResourceSetARPLocation.h	\
-	oai-lmf/src/nrppa/DLPRSResourceARP.h	\
-	oai-lmf/src/nrppa/DL-PRSResourceARPLocation.h	\
-	oai-lmf/src/nrppa/E-CID-MeasurementResult.h	\
-	oai-lmf/src/nrppa/EUTRACellIdentifier.h	\
-	oai-lmf/src/nrppa/EARFCN.h	\
-	oai-lmf/src/nrppa/GeographicalCoordinates.h	\
-	oai-lmf/src/nrppa/GNB-RxTxTimeDiff.h	\
-	oai-lmf/src/nrppa/GNBRxTxTimeDiffMeas.h	\
-	oai-lmf/src/nrppa/HESSID.h	\
-	oai-lmf/src/nrppa/LCS-to-GCS-TranslationAoA.h	\
-	oai-lmf/src/nrppa/LCS-to-GCS-TranslationItem.h	\
-	oai-lmf/src/nrppa/LocationUncertainty.h	\
-	oai-lmf/src/nrppa/Measurement-ID.h	\
-	oai-lmf/src/nrppa/MeasurementBeamInfoRequest.h	\
-	oai-lmf/src/nrppa/MeasurementBeamInfo.h	\
-	oai-lmf/src/nrppa/MeasurementPeriodicity.h	\
-	oai-lmf/src/nrppa/MeasurementPeriodicityExtended.h	\
-	oai-lmf/src/nrppa/MeasurementPeriodicityNR-AoA.h	\
-	oai-lmf/src/nrppa/MeasurementQuantities.h	\
-	oai-lmf/src/nrppa/MeasurementQuantities-Item.h	\
-	oai-lmf/src/nrppa/MeasurementQuantitiesValue.h	\
-	oai-lmf/src/nrppa/MeasuredResults.h	\
-	oai-lmf/src/nrppa/MeasuredResultsValue.h	\
-	oai-lmf/src/nrppa/NarrowBandIndex.h	\
-	oai-lmf/src/nrppa/NG-RANAccessPointPosition.h	\
-	oai-lmf/src/nrppa/NGRANHighAccuracyAccessPointPosition.h	\
-	oai-lmf/src/nrppa/NG-RAN-CGI.h	\
-	oai-lmf/src/nrppa/NG-RANCell.h	\
-	oai-lmf/src/nrppa/NR-ARFCN.h	\
-	oai-lmf/src/nrppa/NRCellIdentifier.h	\
-	oai-lmf/src/nrppa/NR-PCI.h	\
-	oai-lmf/src/nrppa/NR-PRS-Beam-Information.h	\
-	oai-lmf/src/nrppa/NR-PRS-Beam-InformationItem.h	\
-	oai-lmf/src/nrppa/NumberOfAntennaPorts-EUTRA.h	\
-	oai-lmf/src/nrppa/NumberOfDlFrames-EUTRA.h	\
-	oai-lmf/src/nrppa/NumberOfDlFrames-Extended-EUTRA.h	\
-	oai-lmf/src/nrppa/NumberOfFrequencyHoppingBands.h	\
-	oai-lmf/src/nrppa/NZP-CSI-RS-ResourceID.h	\
-	oai-lmf/src/nrppa/OTDOACells.h	\
-	oai-lmf/src/nrppa/OTDOACell-Information.h	\
-	oai-lmf/src/nrppa/OTDOACell-Information-Item.h	\
-	oai-lmf/src/nrppa/OTDOA-Information-Item.h	\
-	oai-lmf/src/nrppa/OtherRATMeasurementQuantities.h	\
-	oai-lmf/src/nrppa/OtherRATMeasurementQuantities-Item.h	\
-	oai-lmf/src/nrppa/OtherRATMeasurementQuantitiesValue.h	\
-	oai-lmf/src/nrppa/OtherRATMeasurementResult.h	\
-	oai-lmf/src/nrppa/OtherRATMeasuredResultsValue.h	\
-	oai-lmf/src/nrppa/Outcome.h	\
-	oai-lmf/src/nrppa/PathlossReferenceInformation.h	\
-	oai-lmf/src/nrppa/PathlossReferenceSignal.h	\
-	oai-lmf/src/nrppa/PCI-EUTRA.h	\
-	oai-lmf/src/nrppa/PhysCellIDGERAN.h	\
-	oai-lmf/src/nrppa/PhysCellIDUTRA-FDD.h	\
-	oai-lmf/src/nrppa/PhysCellIDUTRA-TDD.h	\
-	oai-lmf/src/nrppa/PLMN-Identity.h	\
-	oai-lmf/src/nrppa/PeriodicityList.h	\
-	oai-lmf/src/nrppa/PeriodicityItem.h	\
-	oai-lmf/src/nrppa/PosSIBs.h	\
-	oai-lmf/src/nrppa/PosSIB-Segments.h	\
-	oai-lmf/src/nrppa/PosSIB-Type.h	\
-	oai-lmf/src/nrppa/PosSRSResource-List.h	\
-	oai-lmf/src/nrppa/PosSRSResource-Item.h	\
-	oai-lmf/src/nrppa/PosSRSResourceSet-List.h	\
-	oai-lmf/src/nrppa/PosSRSResourceID-List.h	\
-	oai-lmf/src/nrppa/PosSRSResourceSet-Item.h	\
-	oai-lmf/src/nrppa/PosResourceSetType.h	\
-	oai-lmf/src/nrppa/PosResourceSetTypePeriodic.h	\
-	oai-lmf/src/nrppa/PosResourceSetTypeSemi-persistent.h	\
-	oai-lmf/src/nrppa/PosResourceSetTypeAperiodic.h	\
-	oai-lmf/src/nrppa/PRS-Bandwidth-EUTRA.h	\
-	oai-lmf/src/nrppa/PRSAngleItem.h	\
-	oai-lmf/src/nrppa/PRSInformationPos.h	\
-	oai-lmf/src/nrppa/PRSConfiguration.h	\
-	oai-lmf/src/nrppa/PRS-ConfigurationIndex-EUTRA.h	\
-	oai-lmf/src/nrppa/PRS-ID-EUTRA.h	\
-	oai-lmf/src/nrppa/PRSMutingConfiguration-EUTRA.h	\
-	oai-lmf/src/nrppa/PRSOccasionGroup-EUTRA.h	\
-	oai-lmf/src/nrppa/PRSFrequencyHoppingConfiguration-EUTRA.h	\
-	oai-lmf/src/nrppa/PRSMuting.h	\
-	oai-lmf/src/nrppa/PRSMutingOption1.h	\
-	oai-lmf/src/nrppa/PRSMutingOption2.h	\
-	oai-lmf/src/nrppa/PRSResource-List.h	\
-	oai-lmf/src/nrppa/PRSResource-Item.h	\
-	oai-lmf/src/nrppa/PRSResource-QCLInfo.h	\
-	oai-lmf/src/nrppa/PRSResource-QCLSourceSSB.h	\
-	oai-lmf/src/nrppa/PRSResource-QCLSourcePRS.h	\
-	oai-lmf/src/nrppa/PRSResourceSet-List.h	\
-	oai-lmf/src/nrppa/PRSResourceSet-Item.h	\
-	oai-lmf/src/nrppa/PRS-Resource-ID.h	\
-	oai-lmf/src/nrppa/PRS-Resource-Set-ID.h	\
-	oai-lmf/src/nrppa/PRS-ID.h	\
-	oai-lmf/src/nrppa/ReferenceSignal.h	\
-	oai-lmf/src/nrppa/ReferencePoint.h	\
-	oai-lmf/src/nrppa/CoordinateID.h	\
-	oai-lmf/src/nrppa/RelativeGeodeticLocation.h	\
-	oai-lmf/src/nrppa/RelativeCartesianLocation.h	\
-	oai-lmf/src/nrppa/RelativePathDelay.h	\
-	oai-lmf/src/nrppa/ReportCharacteristics.h	\
-	oai-lmf/src/nrppa/RequestedSRSTransmissionCharacteristics.h	\
-	oai-lmf/src/nrppa/SRSResourceSet-Item.h	\
-	oai-lmf/src/nrppa/ResourceSetType.h	\
-	oai-lmf/src/nrppa/ResourceSetTypePeriodic.h	\
-	oai-lmf/src/nrppa/ResourceSetTypeSemi-persistent.h	\
-	oai-lmf/src/nrppa/ResourceSetTypeAperiodic.h	\
-	oai-lmf/src/nrppa/ResourceType.h	\
-	oai-lmf/src/nrppa/ResourceTypePeriodic.h	\
-	oai-lmf/src/nrppa/ResourceTypeSemi-persistent.h	\
-	oai-lmf/src/nrppa/ResourceTypeAperiodic.h	\
-	oai-lmf/src/nrppa/ResourceTypePos.h	\
-	oai-lmf/src/nrppa/ResourceTypePeriodicPos.h	\
-	oai-lmf/src/nrppa/ResourceTypeSemi-persistentPos.h	\
-	oai-lmf/src/nrppa/ResourceTypeAperiodicPos.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP-Item.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP-PerCSI-RS.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRP-PerCSI-RS-Item.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ-Item.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ-PerCSI-RS.h	\
-	oai-lmf/src/nrppa/ResultCSI-RSRQ-PerCSI-RS-Item.h	\
-	oai-lmf/src/nrppa/ResultEUTRA.h	\
-	oai-lmf/src/nrppa/ResultEUTRA-Item.h	\
-	oai-lmf/src/nrppa/ResultRSRP-EUTRA.h	\
-	oai-lmf/src/nrppa/ResultRSRP-EUTRA-Item.h	\
-	oai-lmf/src/nrppa/ResultRSRQ-EUTRA.h	\
-	oai-lmf/src/nrppa/ResultRSRQ-EUTRA-Item.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRP.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRP-Item.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRP-PerSSB.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRP-PerSSB-Item.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ-Item.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ-PerSSB.h	\
-	oai-lmf/src/nrppa/ResultSS-RSRQ-PerSSB-Item.h	\
-	oai-lmf/src/nrppa/ResultGERAN.h	\
-	oai-lmf/src/nrppa/ResultGERAN-Item.h	\
-	oai-lmf/src/nrppa/ResultNR.h	\
-	oai-lmf/src/nrppa/ResultNR-Item.h	\
-	oai-lmf/src/nrppa/ResultUTRAN.h	\
-	oai-lmf/src/nrppa/ResultUTRAN-Item.h	\
-	oai-lmf/src/nrppa/RSSI.h	\
-	oai-lmf/src/nrppa/SCS-SpecificCarrier.h	\
-	oai-lmf/src/nrppa/Search-window-information.h	\
-	oai-lmf/src/nrppa/RelativeTime1900.h	\
-	oai-lmf/src/nrppa/SFNInitialisationTime-EUTRA.h	\
-	oai-lmf/src/nrppa/SlotNumber.h	\
-	oai-lmf/src/nrppa/SpatialDirectionInformation.h	\
-	oai-lmf/src/nrppa/SpatialRelationInfo.h	\
-	oai-lmf/src/nrppa/SpatialRelationforResourceID.h	\
-	oai-lmf/src/nrppa/SpatialRelationforResourceIDItem.h	\
-	oai-lmf/src/nrppa/SpatialRelationPerSRSResource.h	\
-	oai-lmf/src/nrppa/SpatialRelationPerSRSResource-List.h	\
-	oai-lmf/src/nrppa/SpatialRelationPerSRSResourceItem.h	\
-	oai-lmf/src/nrppa/SpatialRelationPos.h	\
-	oai-lmf/src/nrppa/SRSConfig.h	\
-	oai-lmf/src/nrppa/SRSCarrier-List.h	\
-	oai-lmf/src/nrppa/SRSCarrier-List-Item.h	\
-	oai-lmf/src/nrppa/SRSConfiguration.h	\
-	oai-lmf/src/nrppa/SrsFrequency.h	\
-	oai-lmf/src/nrppa/SRSPosResourceID.h	\
-	oai-lmf/src/nrppa/SRSResource.h	\
-	oai-lmf/src/nrppa/SRSResourceID.h	\
-	oai-lmf/src/nrppa/SRSResource-List.h	\
-	oai-lmf/src/nrppa/SRSResourceSet-List.h	\
-	oai-lmf/src/nrppa/SRSResourceID-List.h	\
-	oai-lmf/src/nrppa/SRSResourceSet.h	\
-	oai-lmf/src/nrppa/SRSResourceSetID.h	\
-	oai-lmf/src/nrppa/SRSResourceTrigger.h	\
-	oai-lmf/src/nrppa/SSBInfo.h	\
-	oai-lmf/src/nrppa/SSBInfoItem.h	\
-	oai-lmf/src/nrppa/SSB.h	\
-	oai-lmf/src/nrppa/SSBBurstPosition.h	\
-	oai-lmf/src/nrppa/SSB-Index.h	\
-	oai-lmf/src/nrppa/SSID.h	\
-	oai-lmf/src/nrppa/SystemFrameNumber.h	\
-	oai-lmf/src/nrppa/SystemInformation.h	\
-	oai-lmf/src/nrppa/TAC.h	\
-	oai-lmf/src/nrppa/TDD-Config-EUTRA-Item.h	\
-	oai-lmf/src/nrppa/TF-Configuration.h	\
-	oai-lmf/src/nrppa/TimeStamp.h	\
-	oai-lmf/src/nrppa/TimeStampSlotIndex.h	\
-	oai-lmf/src/nrppa/TP-ID-EUTRA.h	\
-	oai-lmf/src/nrppa/TP-Type-EUTRA.h	\
-	oai-lmf/src/nrppa/TransmissionComb.h	\
-	oai-lmf/src/nrppa/TransmissionCombPos.h	\
-	oai-lmf/src/nrppa/TRPMeasurementQuantities.h	\
-	oai-lmf/src/nrppa/TRPMeasurementQuantitiesList-Item.h	\
-	oai-lmf/src/nrppa/TRPMeasurementQuantities-Item.h	\
-	oai-lmf/src/nrppa/TrpMeasurementResult.h	\
-	oai-lmf/src/nrppa/TrpMeasurementResultItem.h	\
-	oai-lmf/src/nrppa/TrpMeasuredResultsValue.h	\
-	oai-lmf/src/nrppa/TrpMeasurementQuality.h	\
-	oai-lmf/src/nrppa/TrpMeasurementTimingQuality.h	\
-	oai-lmf/src/nrppa/TrpMeasurementAngleQuality.h	\
-	oai-lmf/src/nrppa/TRP-MeasurementRequestList.h	\
-	oai-lmf/src/nrppa/TRP-MeasurementRequestItem.h	\
-	oai-lmf/src/nrppa/TRP-MeasurementResponseList.h	\
-	oai-lmf/src/nrppa/TRP-MeasurementResponseItem.h	\
-	oai-lmf/src/nrppa/TRPInformationListTRPResp.h	\
-	oai-lmf/src/nrppa/TRPInformation.h	\
-	oai-lmf/src/nrppa/TRPInformationTypeResponseList.h	\
-	oai-lmf/src/nrppa/TRPInformationTypeResponseItem.h	\
-	oai-lmf/src/nrppa/TRPInformationTypeListTRPReq.h	\
-	oai-lmf/src/nrppa/TRPInformationTypeItem.h	\
-	oai-lmf/src/nrppa/TRPList.h	\
-	oai-lmf/src/nrppa/TRPItem.h	\
-	oai-lmf/src/nrppa/TRP-ID.h	\
-	oai-lmf/src/nrppa/TRPPositionDefinitionType.h	\
-	oai-lmf/src/nrppa/TRPPositionDirect.h	\
-	oai-lmf/src/nrppa/TRPPositionDirectAccuracy.h	\
-	oai-lmf/src/nrppa/TRPPositionReferenced.h	\
-	oai-lmf/src/nrppa/TRPReferencePointType.h	\
-	oai-lmf/src/nrppa/TRPType.h	\
-	oai-lmf/src/nrppa/TypeOfError.h	\
-	oai-lmf/src/nrppa/UARFCN.h	\
-	oai-lmf/src/nrppa/UE-Measurement-ID.h	\
-	oai-lmf/src/nrppa/UTRA-EcN0.h	\
-	oai-lmf/src/nrppa/UTRA-RSCP.h	\
-	oai-lmf/src/nrppa/UL-AoA.h	\
-	oai-lmf/src/nrppa/UL-RTOAMeasurement.h	\
-	oai-lmf/src/nrppa/ULRTOAMeas.h	\
-	oai-lmf/src/nrppa/UL-SRS-RSRP.h	\
-	oai-lmf/src/nrppa/UplinkChannelBW-PerSCS-List.h	\
-	oai-lmf/src/nrppa/ValueRSRP-EUTRA.h	\
-	oai-lmf/src/nrppa/ValueRSRQ-EUTRA.h	\
-	oai-lmf/src/nrppa/ValueRSRP-NR.h	\
-	oai-lmf/src/nrppa/ValueRSRQ-NR.h	\
-	oai-lmf/src/nrppa/WLANMeasurementQuantities.h	\
-	oai-lmf/src/nrppa/WLANMeasurementQuantities-Item.h	\
-	oai-lmf/src/nrppa/WLANMeasurementQuantitiesValue.h	\
-	oai-lmf/src/nrppa/WLANMeasurementResult.h	\
-	oai-lmf/src/nrppa/WLANMeasurementResult-Item.h	\
-	oai-lmf/src/nrppa/WLAN-RSSI.h	\
-	oai-lmf/src/nrppa/WLANBand.h	\
-	oai-lmf/src/nrppa/WLANChannelList.h	\
-	oai-lmf/src/nrppa/WLANChannel.h	\
-	oai-lmf/src/nrppa/WLANCountryCode.h	\
-	oai-lmf/src/nrppa/WLANOperatingClass.h	\
-	oai-lmf/src/nrppa/Criticality.h	\
-	oai-lmf/src/nrppa/NRPPATransactionID.h	\
-	oai-lmf/src/nrppa/Presence.h	\
-	oai-lmf/src/nrppa/PrivateIE-ID.h	\
-	oai-lmf/src/nrppa/ProcedureCode.h	\
-	oai-lmf/src/nrppa/ProtocolIE-ID.h	\
-	oai-lmf/src/nrppa/TriggeringMessage.h	\
-	oai-lmf/src/nrppa/ProtocolIE-Container.h	\
-	oai-lmf/src/nrppa/ProtocolIE-Single-Container.h	\
-	oai-lmf/src/nrppa/ProtocolIE-Field.h	\
-	oai-lmf/src/nrppa/ProtocolIE-ContainerList.h	\
-	oai-lmf/src/nrppa/ProtocolExtensionContainer.h	\
-	oai-lmf/src/nrppa/ProtocolExtensionField.h	\
-	oai-lmf/src/nrppa/PrivateIE-Container.h	\
-	oai-lmf/src/nrppa/PrivateIE-Field.h	\
-	oai-lmf/src/nrppa/EXTERNAL.h
+        ASN_MODULE_HDRS =
+        nrppa / NRPPA -
+        PDU.h nrppa / InitiatingMessage.h nrppa / SuccessfulOutcome.h nrppa /
+            UnsuccessfulOutcome.h nrppa / E -
+        CIDMeasurementInitiationRequest.h nrppa / E -
+        CIDMeasurementInitiationResponse.h nrppa / E -
+        CIDMeasurementInitiationFailure.h nrppa / E -
+        CIDMeasurementFailureIndication.h nrppa / E -
+        CIDMeasurementReport.h nrppa / E -
+        CIDMeasurementTerminationCommand.h nrppa /
+            OTDOAInformationRequest.h nrppa / OTDOA -
+        Information - Type.h nrppa / OTDOA - Information - Type -
+        Item.h nrppa / OTDOAInformationResponse.h nrppa /
+            OTDOAInformationFailure.h nrppa /
+            AssistanceInformationControl.h nrppa /
+            AssistanceInformationFeedback.h nrppa / ErrorIndication.h nrppa /
+            PrivateMessage.h nrppa / PositioningInformationRequest.h nrppa /
+            PositioningInformationResponse.h nrppa /
+            PositioningInformationFailure.h nrppa /
+            PositioningInformationUpdate.h nrppa / MeasurementRequest.h nrppa /
+            MeasurementResponse.h nrppa / MeasurementFailure.h nrppa /
+            MeasurementReport.h nrppa / MeasurementUpdate.h nrppa /
+            MeasurementAbort.h nrppa / MeasurementFailureIndication.h nrppa /
+            TRPInformationRequest.h nrppa / TRPInformationResponse.h nrppa /
+            TRPInformationFailure.h nrppa /
+            PositioningActivationRequest.h nrppa / SRSType.h nrppa /
+            SemipersistentSRS.h nrppa / AperiodicSRS.h nrppa /
+            PositioningActivationResponse.h nrppa /
+            PositioningActivationFailure.h nrppa /
+            PositioningDeactivation.h nrppa / AbortTransmission.h nrppa /
+            ActiveULBWP.h nrppa / ActivationTime.h nrppa /
+            AdditionalPathList.h nrppa / AdditionalPathListItem.h nrppa /
+            AperiodicSRSResourceTriggerList.h nrppa /
+            AperiodicSRSResourceTrigger.h nrppa / Assistance -
+        Information.h nrppa / AssistanceInformationFailureList.h nrppa /
+            AssistanceInformationMetaData.h nrppa / BandwidthSRS.h nrppa /
+            BCCH.h nrppa / Broadcast.h nrppa / BroadcastPeriodicity.h nrppa /
+            PositioningBroadcastCells.h nrppa / BSSID.h nrppa / Cause.h nrppa /
+            CauseMisc.h nrppa / CauseProtocol.h nrppa /
+            CauseRadioNetwork.h nrppa / Cell -
+        Portion - ID.h nrppa / CGI - EUTRA.h nrppa / CGI -
+        NR.h nrppa / CPLength -
+        EUTRA.h nrppa / CriticalityDiagnostics.h nrppa /
+            CriticalityDiagnostics -
+        IE - List.h nrppa / DL - Bandwidth - EUTRA.h nrppa / DL -
+        PRS.h nrppa / DL -
+        PRSMutingPattern.h nrppa / DLPRSResourceCoordinates.h nrppa /
+            DLPRSResourceSetARP.h nrppa / DL -
+        PRSResourceSetARPLocation.h nrppa / DLPRSResourceARP.h nrppa / DL -
+        PRSResourceARPLocation.h nrppa / E - CID -
+        MeasurementResult.h nrppa / EUTRACellIdentifier.h nrppa /
+            EARFCN.h nrppa / GeographicalCoordinates.h nrppa / GNB -
+        RxTxTimeDiff.h nrppa / GNBRxTxTimeDiffMeas.h nrppa / HESSID.h nrppa /
+            LCG -
+        to - GCS -
+        TranslationItem.h nrppa / LocationUncertainty.h nrppa / Measurement -
+        ID.h nrppa / MeasurementBeamInfoRequest.h nrppa /
+            MeasurementBeamInfo.h nrppa / MeasurementPeriodicity.h nrppa /
+            MeasurementQuantities.h nrppa / MeasurementQuantities -
+        Item.h nrppa / MeasurementQuantitiesValue.h nrppa /
+            MeasuredResults.h nrppa / MeasuredResultsValue.h nrppa /
+            NarrowBandIndex.h nrppa / NG -
+        RANAccessPointPosition.h nrppa /
+            NGRANHighAccuracyAccessPointPosition.h nrppa / NG -
+        RAN - CGI.h nrppa / NG - RANCell.h nrppa / NR -
+        ARFCN.h nrppa / NRCellIdentifier.h nrppa / NR - PCI.h nrppa / NR - PRS -
+        Beam - Information.h nrppa / NR - PRS - Beam -
+        InformationItem.h nrppa / NumberOfAntennaPorts -
+        EUTRA.h nrppa / NumberOfDlFrames - EUTRA.h nrppa / NumberOfDlFrames -
+        Extended - EUTRA.h nrppa / NumberOfFrequencyHoppingBands.h nrppa / NZP -
+        CSI - RS - ResourceID.h nrppa / OTDOACells.h nrppa / OTDOACell -
+        Information.h nrppa / OTDOACell - Information - Item.h nrppa / OTDOA -
+        Information -
+        Item.h nrppa / OtherRATMeasurementQuantities.h nrppa /
+            OtherRATMeasurementQuantities -
+        Item.h nrppa / OtherRATMeasurementQuantitiesValue.h nrppa /
+            OtherRATMeasurementResult.h nrppa /
+            OtherRATMeasuredResultsValue.h nrppa / Outcome.h nrppa /
+            PathlossReferenceInformation.h nrppa /
+            PathlossReferenceSignal.h nrppa / PCI -
+        EUTRA.h nrppa / PhysCellIDGERAN.h nrppa / PhysCellIDUTRA -
+        FDD.h nrppa / PhysCellIDUTRA - TDD.h nrppa / PLMN -
+        Identity.h nrppa / PeriodicityList.h nrppa / PeriodicityItem.h nrppa /
+            PosSIBs.h nrppa / PosSIB -
+        Segments.h nrppa / PosSIB - Type.h nrppa / PosSRSResource -
+        List.h nrppa / PosSRSResource - Item.h nrppa / PosSRSResourceSet -
+        List.h nrppa / PosSRSResourceID - List.h nrppa / PosSRSResourceSet -
+        Item.h nrppa / PosResourceSetType.h nrppa /
+            PosResourceSetTypePeriodic.h nrppa / PosResourceSetTypeSemi -
+        persistent.h nrppa / PosResourceSetTypeAperiodic.h nrppa / PRS -
+        Bandwidth -
+        EUTRA.h nrppa / PRSAngleItem.h nrppa / PRSInformationPos.h nrppa /
+            PRSConfiguration.h nrppa / PRS -
+        ConfigurationIndex - EUTRA.h nrppa / PRS - ID -
+        EUTRA.h nrppa / PRSMutingConfiguration -
+        EUTRA.h nrppa / PRSOccasionGroup -
+        EUTRA.h nrppa / PRSFrequencyHoppingConfiguration -
+        EUTRA.h nrppa / PRSMuting.h nrppa / PRSMutingOption1.h nrppa /
+            PRSMutingOption2.h nrppa / PRSResource -
+        List.h nrppa / PRSResource - Item.h nrppa / PRSResource -
+        QCLInfo.h nrppa / PRSResource -
+        QCLSourcePRSInfo.h nrppa / PRSResourceSet -
+        List.h nrppa / PRSResourceSet - Item.h nrppa / PRS - Resource -
+        ID.h nrppa / PRS - Resource - Set - ID.h nrppa / PRS -
+        ID.h nrppa / ReferenceSignal.h nrppa / ReferencePoint.h nrppa /
+            CoordinateID.h nrppa / RelativeGeodeticLocation.h nrppa /
+            RelativeCartesianLocation.h nrppa / RelativePathDelay.h nrppa /
+            ReportCharacteristics.h nrppa /
+            RequestedSRSTransmissionCharacteristics.h nrppa / SRSResourceSet -
+        Item.h nrppa / ResourceSetType.h nrppa /
+            ResourceSetTypePeriodic.h nrppa / ResourceSetTypeSemi -
+        persistent.h nrppa / ResourceSetTypeAperiodic.h nrppa /
+            ResourceType.h nrppa / ResourceTypePeriodic.h nrppa /
+            ResourceTypeSemi -
+        persistent.h nrppa / ResourceTypeAperiodic.h nrppa /
+            ResourceTypePos.h nrppa / ResourceTypePeriodicPos.h nrppa /
+            ResourceTypeSemi -
+        persistentPos.h nrppa / ResourceTypeAperiodicPos.h nrppa / ResultCSI -
+        RSRP.h nrppa / ResultCSI - RSRP - Item.h nrppa / ResultCSI - RSRP -
+        PerCSI - RS.h nrppa / ResultCSI - RSRP - PerCSI - RS -
+        Item.h nrppa / ResultCSI - RSRQ.h nrppa / ResultCSI - RSRQ -
+        Item.h nrppa / ResultCSI - RSRQ - PerCSI - RS.h nrppa / ResultCSI -
+        RSRQ - PerCSI - RS - Item.h nrppa / ResultEUTRA.h nrppa / ResultEUTRA -
+        Item.h nrppa / ResultRSRP - EUTRA.h nrppa / ResultRSRP - EUTRA -
+        Item.h nrppa / ResultRSRQ - EUTRA.h nrppa / ResultRSRQ - EUTRA -
+        Item.h nrppa / ResultSS - RSRP.h nrppa / ResultSS - RSRP -
+        Item.h nrppa / ResultSS - RSRP - PerSSB.h nrppa / ResultSS - RSRP -
+        PerSSB - Item.h nrppa / ResultSS - RSRQ.h nrppa / ResultSS - RSRQ -
+        Item.h nrppa / ResultSS - RSRQ - PerSSB.h nrppa / ResultSS - RSRQ -
+        PerSSB - Item.h nrppa / ResultGERAN.h nrppa / ResultGERAN -
+        Item.h nrppa / ResultNR.h nrppa / ResultNR -
+        Item.h nrppa / ResultUTRAN.h nrppa / ResultUTRAN -
+        Item.h nrppa / RSSI.h nrppa / SCS - SpecificCarrier.h nrppa / Search -
+        window -
+        information.h nrppa / SFNInitialisationTime.h nrppa /
+            SFNInitialisationTime -
+        EUTRA.h nrppa / SlotNumber.h nrppa /
+            SpatialDirectionInformation.h nrppa / SpatialRelationInfo.h nrppa /
+            SpatialRelationforResourceID.h nrppa /
+            SpatialRelationforResourceIDItem.h nrppa /
+            SpatialRelationPos.h nrppa / SRSConfig.h nrppa / SRSCarrier -
+        List.h nrppa / SRSCarrier - List -
+        Item.h nrppa / SRSConfiguration.h nrppa / SRSPosResourceID.h nrppa /
+            SRSResource.h nrppa / SRSResourceID.h nrppa / SRSResource -
+        List.h nrppa / SRSResourceSet - List.h nrppa / SRSResourceID -
+        List.h nrppa / SRSResourceSet.h nrppa / SRSResourceSetID.h nrppa /
+            SRSResourceTrigger.h nrppa / SRSSpatialRelation.h nrppa /
+            SSBInfo.h nrppa / SSBInfoList.h nrppa / SSB.h nrppa /
+            SSBPos.h nrppa / SSBBurstPosition.h nrppa / SSB -
+        Index.h nrppa / SSID.h nrppa / SystemFrameNumber.h nrppa /
+            SystemInformation.h nrppa / TAC.h nrppa / TDD -
+        Config - EUTRA - Item.h nrppa / TF -
+        Configuration.h nrppa / TimeStamp.h nrppa / TimeStampSlotIndex.h nrppa /
+            TP -
+        ID - EUTRA.h nrppa / TP - Type -
+        EUTRA.h nrppa / TransmissionComb.h nrppa / TransmissionCombPos.h nrppa /
+            TRPMeasurementQuantities.h nrppa / TRPMeasurementQuantitiesList -
+        Item.h nrppa / TRPMeasurementQuantities -
+        Item.h nrppa / TrpMeasurementResult.h nrppa /
+            TrpMeasurementResultItem.h nrppa / TrpMeasuredResultsValue.h nrppa /
+            TrpMeasurementQuality.h nrppa /
+            TrpMeasurementTimingQuality.h nrppa /
+            TrpMeasurementAngleQuality.h nrppa / TRP -
+        MeasurementRequestList.h nrppa / TRP -
+        MeasurementRequestItem.h nrppa / TRP -
+        MeasurementResponseList.h nrppa / TRP -
+        MeasurementResponseItem.h nrppa / TRPInformationList.h nrppa /
+            TRPInformation.h nrppa / TRPInformationItem.h nrppa /
+            TRPInformationTypeList.h nrppa / TRPInformationTypeItem.h nrppa /
+            TRPList.h nrppa / TRPItem.h nrppa / TRP -
+        ID.h nrppa / TRPPositionDefinitionType.h nrppa /
+            TRPPositionDirect.h nrppa / TRPPositionDirectAccuracy.h nrppa /
+            TRPPositionReferenced.h nrppa / TRPReferencePointType.h nrppa /
+            TypeOfError.h nrppa / UARFCN.h nrppa / UE -
+        Measurement - ID.h nrppa / UTRA - EcN0.h nrppa / UTRA -
+        RSCP.h nrppa / UL - AoA.h nrppa / UL -
+        RTOAMeasurement.h nrppa / ULRTOAMeas.h nrppa / UL - SRS -
+        RSRP.h nrppa / UplinkChannelBW - PerSCS - List.h nrppa / ValueRSRP -
+        EUTRA.h nrppa / ValueRSRQ - EUTRA.h nrppa / ValueRSRP -
+        NR.h nrppa / ValueRSRQ -
+        NR.h nrppa / WLANMeasurementQuantities.h nrppa /
+            WLANMeasurementQuantities -
+        Item.h nrppa / WLANMeasurementQuantitiesValue.h nrppa /
+            WLANMeasurementResult.h nrppa / WLANMeasurementResult -
+        Item.h nrppa / WLAN -
+        RSSI.h nrppa / WLANBand.h nrppa / WLANChannelList.h nrppa /
+            WLANChannel.h nrppa / WLANCountryCode.h nrppa /
+            WLANOperatingClass.h nrppa / Criticality.h nrppa /
+            NRPPATransactionID.h nrppa / Presence.h nrppa / PrivateIE -
+        ID.h nrppa / ProcedureCode.h nrppa / ProtocolIE -
+        ID.h nrppa / TriggeringMessage.h nrppa / ProtocolIE -
+        Container.h nrppa / ProtocolIE - Single -
+        Container.h nrppa / ProtocolIE - Field.h nrppa / ProtocolIE -
+        ContainerList.h nrppa / ProtocolExtensionContainer.h nrppa /
+            ProtocolExtensionField.h nrppa / PrivateIE -
+        Container.h nrppa / PrivateIE -
+        Field.h
 
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/ANY.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ANY.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/OCTET_STRING.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/OPEN_TYPE.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OPEN_TYPE.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/constr_CHOICE.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/GraphicString.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/GraphicString.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/INTEGER.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/INTEGER.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/NULL.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NULL.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/NativeEnumerated.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeEnumerated.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/NativeInteger.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeInteger.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/OBJECT_IDENTIFIER.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OBJECT_IDENTIFIER.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_codecs_prim.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/ObjectDescriptor.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ObjectDescriptor.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_SEQUENCE_OF.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_SEQUENCE_OF.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_SET_OF.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_SET_OF.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_CHOICE.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/constr_SEQUENCE.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/constr_SEQUENCE_OF.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_OF.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/constr_SET_OF.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SET_OF.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_application.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_application.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_ioc.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_system.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_codecs.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_internal.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_internal.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_bit_data.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_bit_data.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OCTET_STRING.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/BIT_STRING.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/BIT_STRING.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_codecs_prim.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/ber_tlv_length.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ber_tlv_length.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/ber_tlv_tag.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ber_tlv_tag.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/constr_TYPE.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_TYPE.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/constraints.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constraints.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/xer_support.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/xer_decoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/xer_encoder.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/xer_support.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/xer_decoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/xer_encoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ANY_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/BIT_STRING_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/INTEGER_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NULL_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeEnumerated_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeInteger_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OBJECT_IDENTIFIER_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OCTET_STRING_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OPEN_TYPE_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_codecs_prim_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_CHOICE_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_OF_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_xer.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SET_OF_xer.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/per_decoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/per_encoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/per_support.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/per_opentype.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/per_decoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/per_encoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/per_support.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/per_opentype.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/uper_decoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/uper_encoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/uper_support.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/uper_opentype.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/uper_decoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/uper_encoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/uper_support.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/uper_opentype.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ANY_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/BIT_STRING_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/INTEGER_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NULL_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeEnumerated_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeInteger_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OCTET_STRING_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OPEN_TYPE_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_CHOICE_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_OF_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_uper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SET_OF_uper.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/aper_decoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/aper_encoder.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/aper_support.h
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/aper_opentype.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/aper_decoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/aper_encoder.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/aper_support.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/aper_opentype.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/ANY_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/INTEGER_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NULL_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeEnumerated_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeInteger_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OCTET_STRING_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OPEN_TYPE_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_CHOICE_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_OF_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SET_OF_aper.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/BIT_STRING_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/INTEGER_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NULL_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeInteger_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OBJECT_IDENTIFIER_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OCTET_STRING_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_CHOICE_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_print.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SET_OF_print.c
-ASN_MODULE_HDRS+=oai-lmf/src/nrppa/asn_random_fill.h
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/asn_random_fill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/BIT_STRING_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/INTEGER_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NULL_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/NativeInteger_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OBJECT_IDENTIFIER_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/OCTET_STRING_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_CHOICE_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SEQUENCE_rfill.c
-ASN_MODULE_SRCS+=oai-lmf/src/nrppa/constr_SET_OF_rfill.c
+            ASN_MODULE_HDRS += nrppa / ANY.h ASN_MODULE_SRCS +=
+    nrppa / ANY.c ASN_MODULE_HDRS += nrppa / OCTET_STRING.h ASN_MODULE_HDRS +=
+    nrppa / OPEN_TYPE.h ASN_MODULE_SRCS +=
+    nrppa / OPEN_TYPE.c ASN_MODULE_HDRS +=
+    nrppa / constr_CHOICE.h ASN_MODULE_HDRS +=
+    nrppa / BOOLEAN.h ASN_MODULE_SRCS += nrppa / BOOLEAN.c ASN_MODULE_HDRS +=
+    nrppa / INTEGER.h ASN_MODULE_SRCS += nrppa / INTEGER.c ASN_MODULE_HDRS +=
+    nrppa / NULL.h ASN_MODULE_SRCS += nrppa / NULL.c ASN_MODULE_HDRS +=
+    nrppa / NativeEnumerated.h ASN_MODULE_SRCS +=
+    nrppa / NativeEnumerated.c ASN_MODULE_HDRS +=
+    nrppa / NativeInteger.h ASN_MODULE_SRCS +=
+    nrppa / NativeInteger.c ASN_MODULE_HDRS +=
+    nrppa / OBJECT_IDENTIFIER.h ASN_MODULE_SRCS +=
+    nrppa / OBJECT_IDENTIFIER.c ASN_MODULE_HDRS +=
+    nrppa / asn_SEQUENCE_OF.h ASN_MODULE_SRCS +=
+    nrppa / asn_SEQUENCE_OF.c ASN_MODULE_HDRS +=
+    nrppa / asn_SET_OF.h ASN_MODULE_SRCS +=
+    nrppa / asn_SET_OF.c ASN_MODULE_SRCS +=
+    nrppa / constr_CHOICE.c ASN_MODULE_HDRS +=
+    nrppa / constr_SEQUENCE.h ASN_MODULE_SRCS +=
+    nrppa / constr_SEQUENCE.c ASN_MODULE_HDRS +=
+    nrppa / constr_SEQUENCE_OF.h ASN_MODULE_SRCS +=
+    nrppa / constr_SEQUENCE_OF.c ASN_MODULE_HDRS +=
+    nrppa / constr_SET_OF.h ASN_MODULE_SRCS +=
+    nrppa / constr_SET_OF.c ASN_MODULE_HDRS +=
+    nrppa / asn_application.h ASN_MODULE_SRCS +=
+    nrppa / asn_application.c ASN_MODULE_HDRS +=
+    nrppa / asn_ioc.h ASN_MODULE_HDRS += nrppa / asn_system.h ASN_MODULE_HDRS +=
+    nrppa / asn_codecs.h ASN_MODULE_HDRS +=
+    nrppa / asn_internal.h ASN_MODULE_SRCS +=
+    nrppa / asn_internal.c ASN_MODULE_HDRS +=
+    nrppa / asn_random_fill.h ASN_MODULE_SRCS +=
+    nrppa / asn_random_fill.c ASN_MODULE_HDRS +=
+    nrppa / asn_bit_data.h ASN_MODULE_SRCS +=
+    nrppa / asn_bit_data.c ASN_MODULE_SRCS +=
+    nrppa / OCTET_STRING.c ASN_MODULE_HDRS +=
+    nrppa / BIT_STRING.h ASN_MODULE_SRCS +=
+    nrppa / BIT_STRING.c ASN_MODULE_SRCS +=
+    nrppa / asn_codecs_prim.c ASN_MODULE_HDRS +=
+    nrppa / asn_codecs_prim.h ASN_MODULE_HDRS +=
+    nrppa / ber_tlv_length.h ASN_MODULE_SRCS +=
+    nrppa / ber_tlv_length.c ASN_MODULE_HDRS +=
+    nrppa / ber_tlv_tag.h ASN_MODULE_SRCS +=
+    nrppa / ber_tlv_tag.c ASN_MODULE_HDRS +=
+    nrppa / ber_decoder.h ASN_MODULE_SRCS +=
+    nrppa / ber_decoder.c ASN_MODULE_HDRS +=
+    nrppa / der_encoder.h ASN_MODULE_SRCS +=
+    nrppa / der_encoder.c ASN_MODULE_HDRS +=
+    nrppa / constr_TYPE.h ASN_MODULE_SRCS +=
+    nrppa / constr_TYPE.c ASN_MODULE_HDRS +=
+    nrppa / constraints.h ASN_MODULE_SRCS +=
+    nrppa / constraints.c ASN_MODULE_HDRS +=
+    nrppa / xer_support.h ASN_MODULE_SRCS +=
+    nrppa / xer_support.c ASN_MODULE_HDRS +=
+    nrppa / xer_decoder.h ASN_MODULE_SRCS +=
+    nrppa / xer_decoder.c ASN_MODULE_HDRS +=
+    nrppa / xer_encoder.h ASN_MODULE_SRCS +=
+    nrppa / xer_encoder.c ASN_MODULE_HDRS +=
+    nrppa / per_support.h ASN_MODULE_SRCS +=
+    nrppa / per_support.c ASN_MODULE_HDRS +=
+    nrppa / per_decoder.h ASN_MODULE_SRCS +=
+    nrppa / per_decoder.c ASN_MODULE_HDRS +=
+    nrppa / per_encoder.h ASN_MODULE_SRCS +=
+    nrppa / per_encoder.c ASN_MODULE_HDRS +=
+    nrppa / per_opentype.h ASN_MODULE_SRCS += nrppa / per_opentype.c
 
-ASN_MODULE_CFLAGS=-DASN_DISABLE_BER_SUPPORT -DASN_DISABLE_OER_SUPPORT 
+                                                          ASN_MODULE_CFLAGS =
+                                                  -DASN_DISABLE_OER_SUPPORT
 
-lib_LTLIBRARIES+=libasncodec.la
-libasncodec_la_SOURCES=$(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS)
-libasncodec_la_CPPFLAGS=-I$(top_srcdir)/oai-lmf/src/nrppa/
-libasncodec_la_CFLAGS=$(ASN_MODULE_CFLAGS)
-libasncodec_la_LDFLAGS=-lm
+                                                      lib_LTLIBRARIES +=
+    libasncodec.la libasncodec_la_SOURCES =
+        $(ASN_MODULE_SRCS) $(ASN_MODULE_HDRS) libasncodec_la_CPPFLAGS =
+            -I$(top_srcdir) / nrppa / libasncodec_la_CFLAGS =
+                $(ASN_MODULE_CFLAGS) libasncodec_la_LDFLAGS = -lm

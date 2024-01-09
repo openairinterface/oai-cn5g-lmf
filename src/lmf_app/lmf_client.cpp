@@ -27,6 +27,8 @@
 #include <pistache/mime.h>
 #include <stdexcept>
 
+#include "ProblemDetails.h"
+
 #include "lmf.h"
 #include "logger.hpp"
 
@@ -143,6 +145,9 @@ void lmf_client::curl_http_client(
       // free curl before returning
       curl_slist_free_all(headers);
       curl_easy_cleanup(curl);
+      if (response.size() < 1) {
+        response = "Cannot get response when calling " + remoteUri;
+      }
       return;
     }
 
@@ -155,6 +160,8 @@ void lmf_client::curl_http_client(
       if (response.size() < 1) {
         Logger::lmf_app().info("There's no content in the response");
         // TODO: send context response error
+        response = "failed with code " + std::to_string(httpCode) +
+                   " and empty resonse";
         return;
       }
       Logger::lmf_app().warn("Receive response with HTTP code %d", httpCode);
@@ -188,4 +195,16 @@ void lmf_client::curl_http_client(
     body_data = NULL;
   }
   return;
+}
+
+void oai::lmf::app::throwHttpError(
+    std::string const& title, std::string const& detail,
+    Pistache::Http::Code const& code) {
+  oai::lmf_server::model::ProblemDetails problemDetails;
+  problemDetails.setTitle(title);
+  problemDetails.setDetail(detail);
+  Logger::lmf_server().error(
+      problemDetails.getTitle() + ": " + problemDetails.getDetail());
+  auto const& reason = nlohmann::json(problemDetails).dump();
+  throw HttpError{code, reason};
 }

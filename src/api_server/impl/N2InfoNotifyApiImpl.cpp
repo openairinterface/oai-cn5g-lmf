@@ -42,23 +42,15 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
 
   Logger::lmf_server().debug("Receive an N2Info NRPPA Notify, handling...");
 
-  std::string supi = ueContextId;
-
-  if (!m_lmf_app->is_supi_2_context(supi)) {
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error("N2InfoNotify: unknown supi: %s", supi);
-    return;
-  }
-
   model::N2InformationNotification n2InformationNotification{
       nlohmann::json::parse(parts.at(0).body)};
-
-  Logger::lmf_server().debug("SUPI %s", ueContextId);
-
   // TODO: handle subscrription id
-  n2InformationNotification.getN2NotifySubscriptionId();
+  auto const& n2NotifySubscriptionId =
+      n2InformationNotification.getN2NotifySubscriptionId();
   // TODO: handle lcs corrlation id
   n2InformationNotification.getLcsCorrelationId();
+
+  Logger::lmf_server().debug("SUPI %s", ueContextId);
 
   if (!n2InformationNotification.n2InfoContainerIsSet()) {
     response.send(Pistache::Http::Code::Bad_Request);
@@ -121,7 +113,7 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   }
 
   auto const& body   = parts.at(1).body;
-  NRPPA_PDU_t* nrppa = nullptr;
+  NRPPA_PDU_t* nrppa = nullptr;  // TODO: warp in unigue_ptr with custom deleter
   auto const& rc     = asn_decode(
       NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
       body.c_str(), body.length());
@@ -134,14 +126,11 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
   Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
-  model::ProblemDetails problem_details = {};
-  uint8_t http_code                     = 0;
-
-  if (m_lmf_app->handle_n2info_nrppa_notification(
-          supi, nrppa, problem_details, http_code)) {
-    response.send(Pistache::Http::Code(204));
+  if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
+    N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+  // done in lmf_app later
+  // ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
 }  // namespace oai::lmf_server::api

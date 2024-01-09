@@ -25,31 +25,21 @@
 #include <string>
 #include <memory>
 
-class N1N2MessageSubscription {
+#include <boost/core/noncopyable.hpp>
+
+class N1N2MessageSubscription : private boost::noncopyable {
  public:
-  std::string supi, id;
+  const std::string id, supi;
 
-  static std::shared_ptr<N1N2MessageSubscription> create(
-      const std::string& supi) {
-    return std::make_shared<N1N2MessageSubscription>(supi);
-  }
-
-  N1N2MessageSubscription(const std::string& supi) : supi{supi} {
-    this->subscribe();
-  }
+  N1N2MessageSubscription(const std::string& supi)
+      : id{N1N2MessageSubscription::subscribe(supi)}, supi{supi} {}
 
   ~N1N2MessageSubscription() {
-    if (this->is_subscribed()) {
-      this->unsubscribe();
-    }
+    N1N2MessageSubscription::unsubscribe(this->id, this->supi);
   }
 
-  bool is_subscribed() const {
-    return !this->supi.empty() && !this->id.empty();
-  }
-
-  bool subscribe(std::string supi = "");
-  bool unsubscribe();
+  static void unsubscribe(std::string const& id, std::string const& supi);
+  static std::string subscribe(std::string const& supi);
 };
 
 #endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN

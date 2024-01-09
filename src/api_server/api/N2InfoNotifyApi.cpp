@@ -86,6 +86,7 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
 
   try {
     this->receive_n2info_nrppa_notification(ueContextId, parts, response);
+    response.send(Pistache::Http::Code(204));
   } catch (nlohmann::detail::exception& e) {
     // send a 400 error
     response.send(Http::Code::Bad_Request, e.what());

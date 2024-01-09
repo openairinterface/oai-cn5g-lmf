@@ -44,6 +44,12 @@
 #include "RefToBinaryData.h"
 #include "ProblemDetails.h"
 
+#include "InitiatingMessage.h"
+#include "SuccessfulOutcome.h"
+#include "UnsuccessfulOutcome.h"
+#include "ProtocolIE-Field.h"
+#include "TRPItem.h"  // not included in TRPList.h for wre
+
 using namespace std;
 using namespace oai::lmf::app;
 using namespace oai::lmf_server::model;
@@ -75,13 +81,8 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
   }
 
   if (lmf_cfg.request_trp_info) {
-    NRPPA_PDU_t* nrppaPdu = new NRPPA_PDU_t();
-    build_trp_information_request_nrppa_pdu(nrppaPdu);
-
-    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
-    asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-        0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+    this->nonUeN2MessageSubscription = NonUeN2MessageSubscription::create();
+    auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
 
     if (nrppaPduEnc.result.encoded == -1) {
       Logger::lmf_app().error(
@@ -173,67 +174,58 @@ void lmf_app::handle_determine_location(
 
     return;
   }
-  auto const& subs = create_n1n2subscription(supi);
-  if (!subs) {
-    auto const& err = "Could not subscribe for n1n2message '"s + supi;
-    Logger::lmf_app().warn(err);
-    ProblemDetails problemDetails;
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
-    problemDetails.setDetail(err);
-
-    json_data = problemDetails;
-    code      = Pistache::Http::Code(problemDetails.getStatus());
-
-    return;
-  }
-  ctx->determine_location(inputData, json_data, code);
-  json_data = ctx->promise.get_future().get();
+  this->create_n1n2subscription(supi);
+  // TODO: move nrppa_tid_gen to LocationDetermination
+  // and use RAII (unique_ptr) for auto free_uid()
+  auto const& pir_tId = this->nrppa_tid_gen.get_uid();
+  ctx->positioning_information_request(pir_tId);
+  auto const& [nrppaPduPIR, positioningInformationResponse] =
+      ctx->positioning_information_response.get_future().get();
+  // don't free tId, avoid re-use for easier debugging
+  // this->nrppa_tid_gen.free_uid(tId); // after response handle done
   // stay subscribed
   // release_n1n2subscription(supi);
-  code = Pistache::Http::Code::Ok;
+#if 0  // at gNb not implemented 
+  // 5. NRPPa Request UE SRS activation
+  // 9.1.1.17 POSITIONING ACTIVATION REQUEST
+  auto const& pa_tId = this->nrppa_tid_gen.get_uid();
+  ctx->positioning_activation_request(pa_tId);
+  auto const& [nrppaPduPA, positionActivationResponse] =
+      ctx->positioning_activation_response.get_future().get();
+#endif
+  auto const& mr_tId = this->nrppa_tid_gen.get_uid();
+  ctx->measurement_request(mr_tId);
+  auto const& [nrppaPduMR, measurementResponse] =
+      ctx->measurement_response.get_future().get();
 
-  auto initiatingMessage = InitiatingMessage_t{
-      .procedureCode      = ProcedureCode_id_Measurement,
-      .criticality        = Criticality_reject,
-      .nrppatransactionID = 11,
-      .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
-  };
-  auto ies =
-      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+  // nrppaPduPIR contain position information
+  // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
+  std::cout << "--> position information <<--" << std::endl;
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR);
 
-  auto lmfMeasurementId = MeasurementRequest_IEs_t{
-      .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
-      .criticality = Criticality_reject,
-      .value =
-          {
-              .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
-              .choice  = {.Measurement_ID = 1},
-          },
-  };
-  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
+  // TRP INFORMATION RESPONSE ( 9.1.1.15 NRPPa TS 38.455 )
+  // not availalbe right now, because no AMF non-ue-message-service
 
-  auto reportCharacteristics = MeasurementRequest_IEs_t{
-      .id          = ProtocolIE_ID_id_ReportCharacteristics,
-      .criticality = Criticality_reject,
-      .value =
-          {
-              .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
-              .choice =
-                  {.ReportCharacteristics = ReportCharacteristics_onDemand},
-          },
-  };
-  ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
+  // nrppaPduMR contain measurement
+  // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
+  std::cout << "--> measurement <<--" << std::endl;
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
 
-  auto nrppaPdu = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
-  };
+  // --> calculate position here <--
+  // double position_estimation(
+  //    double trp_pos[][3], int trp_pos_size,
+  //    double dd_estimated[], int dd_estimated_size,
+  //    double pos_est[]);
 
-  ctx->promise = {};
-  ctx->n1_n2_transfer(&nrppaPdu, json_data, code);
-  json_data = ctx->promise.get_future().get();
+  // --> set the location calculation results here <--
+  LocationData locationData;
+  locationData.setBarometricPressure(1);
 
+  code      = Pistache::Http::Code::Ok;
+  json_data = locationData;
+
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPIR);
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
   del_supi_2_context(supi);
 }
 
@@ -246,23 +238,28 @@ bool lmf_app::is_supi_2_context(const string& supi) const {
   return _is_supi_2_context(supi);
 }
 
-std::shared_ptr<LMFContext> lmf_app::create_lmf_context(const string& supi) {
+std::shared_ptr<LocationDetermination> lmf_app::create_lmf_context(
+    const string& supi) {
   std::unique_lock lock(m_supi2ctx);
 
   if (_is_supi_2_context(supi)) {
     return {nullptr};
   }
-  return supi2ctx[supi] = std::make_shared<LMFContext>(supi);
+  return supi2ctx[supi] = std::make_shared<LocationDetermination>(supi);
 }
 
-std::shared_ptr<LMFContext> lmf_app::supi_2_context(
+std::shared_ptr<LocationDetermination> lmf_app::supi_2_context(
     const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
+
+  if (!_is_supi_2_context(supi)) {
+    return {nullptr};
+  }
   return supi2ctx.at(supi);
 }
 
 void lmf_app::set_supi_2_context(
-    const string& supi, const std::shared_ptr<LMFContext>& lc) {
+    const string& supi, const std::shared_ptr<LocationDetermination>& lc) {
   std::unique_lock lock(m_supi2ctx);
   supi2ctx[supi] = lc;
 }
@@ -272,28 +269,15 @@ void lmf_app::del_supi_2_context(const string& supi) {
   supi2ctx.erase(supi);
 }
 
-std::shared_ptr<N1N2MessageSubscription>
-oai::lmf::app::lmf_app::create_n1n2subscription(const std::string& supi) {
+void lmf_app::create_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(m_supi2n1n2subs);
 
-  if (supi2n1n2subs.count(supi) > 0 && supi2n1n2subs.at(supi) != nullptr) {
-    auto subscription = supi2n1n2subs.at(supi);
-    Logger::lmf_app().info(
-        "n1n2info subscription already subscribed for supi: %s id: %s"s,
-        subscription->supi, subscription->id);
-    return subscription;
-  }
-
-  auto subscription = N1N2MessageSubscription::create(supi);
-
-  if (subscription->is_subscribed()) {
-    Logger::lmf_app().info(
-        "n1n2info subscription created for supi: %s id: %s"s,
-        subscription->supi, subscription->id);
-    return supi2n1n2subs[supi] = subscription;
-  }
-
-  return {nullptr};
+  auto const& [iter, inserted] = supi2n1n2subs.try_emplace(supi, supi);
+  auto const& subscription     = iter->second;
+  Logger::lmf_app().info(
+      "n1n2info %s for supi: %s id: %s"s,
+      inserted ? "subscription created"s : "already subscribed"s,
+      subscription.supi, subscription.id);
 }
 
 void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
@@ -302,78 +286,202 @@ void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
   supi2n1n2subs.erase(supi);
 }
 
-bool lmf_app::handle_n2info_nrppa_notification(
-    std::string supi, NRPPA_PDU_t* nrppa, ProblemDetails& problem_details,
-    uint8_t& http_code) {
+bool lmf_app::handle_non_ue_n2info_nrppa_notification(
+    NRPPA_PDU_t* nrppa, ProblemDetails& problem_details, uint8_t& http_code) {
   if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
     Logger::lmf_server().error(
         "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
     return false;
   }
 
-  supi_2_context(supi)->finish();
-
   return true;
 }
 
-void lmf_app::build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu) {
-  nrppaPdu->present                  = NRPPA_PDU_PR_initiatingMessage;
-  nrppaPdu->choice.initiatingMessage = new InitiatingMessage_t();
-  nrppaPdu->choice.initiatingMessage->nrppatransactionID = 10;
+// check 1:1 relationship between procedureCode and value.present
+template<typename T, typename U>
+static void check(T const& present, U const& expected) {
+  if (present != expected) {
+    auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
+               &ps     = "present: "s + std::to_string(present),
+               &es     = "expected: "s + std::to_string(expected),
+               &detail = ps + ": "s + es;
+    throwHttpError(title, detail);
+  }
+}
 
-  nrppaPdu->choice.initiatingMessage->procedureCode =
-      ProcedureCode_id_tRPInformationExchange;
-  nrppaPdu->choice.initiatingMessage->criticality = Criticality_reject;
-  nrppaPdu->choice.initiatingMessage->value.present =
-      InitiatingMessage__value_PR::
-          InitiatingMessage__value_PR_TRPInformationRequest;
+template<typename T, typename U, typename V>
+static U const& get(U const& choice, T const& present, V const& expected) {
+  if (present != expected) {
+    auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
+               &ps     = "present: "s + std::to_string(present),
+               &es     = "expected: "s + std::to_string(expected),
+               &detail = ps + ": "s + es;
+    throwHttpError(title, detail);
+  }
+  return choice;
+}
 
-  TRPInformationRequest_IEs_t* trpList = new TRPInformationRequest_IEs_t();
-  trpList->id                          = ProtocolIE_ID_id_TRPList;
-  trpList->criticality                 = Criticality_reject;
-  trpList->value.present               = TRPInformationRequest_IEs__value_PR::
-      TRPInformationRequest_IEs__value_PR_TRPList;
+NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
+  switch (nrppa->present) {
+    case NRPPA_PDU_PR_initiatingMessage:
+      return nrppa->choice.initiatingMessage->nrppatransactionID;
+    case NRPPA_PDU_PR_successfulOutcome:
+      return nrppa->choice.successfulOutcome->nrppatransactionID;
+    case NRPPA_PDU_PR_unsuccessfulOutcome:
+      return nrppa->choice.unsuccessfulOutcome->nrppatransactionID;
+    default:
+      throwHttpError("getNrppaId"s, "malformed nrppa message"s);
+  }
+  return 0;
+}
 
-  // Optional if All TRPs to be included
-  TRPItem_t* trpItem1 = new TRPItem_t();
-  trpItem1->tRP_ID    = 1;
-  TRPItem_t* trpItem2 = new TRPItem_t();
-  trpItem2->tRP_ID    = 2;
-  ASN_SEQUENCE_ADD(&trpList->value.choice.TRPList.list, trpItem1);
-  // ASN_SEQUENCE_ADD(&trpList->value.choice.TRPList.list, trpItem2);
-
-  ASN_SEQUENCE_ADD(
-      &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
-           .protocolIEs.list,
-      trpList);
-
-  TRPInformationRequest_IEs_t* trpInformationTypeList =
-      new TRPInformationRequest_IEs_t();
-  trpInformationTypeList->id = ProtocolIE_ID_id_TRPInformationTypeListTRPReq;
-  trpInformationTypeList->criticality   = Criticality_reject;
-  trpInformationTypeList->value.present = TRPInformationRequest_IEs__value_PR::
-      TRPInformationRequest_IEs__value_PR_TRPInformationTypeListTRPReq;
-
-  for (int i = e_TRPInformationTypeItem::TRPInformationTypeItem_nrPCI;
-       i <= e_TRPInformationTypeItem::TRPInformationTypeItem_geoCoord; i++) {
-    e_TRPInformationTypeItem type = (e_TRPInformationTypeItem) i;
-    Logger::lmf_app().info("Adding TRPInformationTypeItem: %d", (int) type);
-    TRPInformationTypeItemTRPReq_t* trpInformationTypeItem =
-        new TRPInformationTypeItemTRPReq_t();
-    trpInformationTypeItem->id = ProtocolIE_ID_id_TRPInformationTypeItem;
-    trpInformationTypeItem->criticality = Criticality_reject;
-    trpInformationTypeItem->value.present =
-        TRPInformationTypeItemTRPReq__value_PR::
-            TRPInformationTypeItemTRPReq__value_PR_TRPInformationTypeItem;
-    trpInformationTypeItem->value.choice.TRPInformationTypeItem = type;
-
-    ASN_SEQUENCE_ADD(
-        &trpInformationTypeList->value.choice.TRPInformationTypeListTRPReq.list,
-        trpInformationTypeItem);
+bool lmf_app::handle_n2info_nrppa_notification(
+    std::string supi, NRPPA_PDU_t* nrppa) {
+  auto ctx = this->supi_2_context(supi);
+  if (!ctx) {
+    Logger::lmf_server().error("N2InfoNotify: unknown supi: %s", supi);
+    return false;
   }
 
-  ASN_SEQUENCE_ADD(
-      &nrppaPdu->choice.initiatingMessage->value.choice.TRPInformationRequest
-           .protocolIEs.list,
-      trpInformationTypeList);
+  auto const& tId = getNrppaId(nrppa);
+  if (ctx->nrppa_tId.count(tId) != 1) {
+    throwHttpError(
+        "handle_n2info_nrppa_notification"s,
+        "unknown nrppa transaction id: "s + std::to_string(tId));
+  }
+
+  auto const& successfulOutcome =
+      get(nrppa->choice.successfulOutcome, nrppa->present,
+          NRPPA_PDU_PR_successfulOutcome);
+  switch (ctx->nrppa_tId.at(tId)) {
+    case ResponseType::PositionInformation: {
+      check(
+          successfulOutcome->procedureCode,
+          ProcedureCode_id_positioningInformationExchange);
+      auto const& value = successfulOutcome->value;
+      auto const& positioningInformationResponse =
+          get(value.choice.PositioningInformationResponse, value.present,
+              SuccessfulOutcome__value_PR_PositioningInformationResponse);
+      ctx->handle_positioning_information_response(
+          nrppa, tId, positioningInformationResponse);
+      return true;
+    } break;
+
+    case ResponseType::Measurement: {
+      check(successfulOutcome->procedureCode, ProcedureCode_id_Measurement);
+      auto const& value = successfulOutcome->value;
+      auto const& measurementResponse =
+          get(value.choice.MeasurementResponse, value.present,
+              SuccessfulOutcome__value_PR_MeasurementResponse);
+      ctx->handle_measurement_response(nrppa, tId, measurementResponse);
+      return true;
+    } break;
+
+    case ResponseType::PositioningActivation: {
+      check(
+          successfulOutcome->procedureCode,
+          ProcedureCode_id_positioningActivation);
+      auto const& value = successfulOutcome->value;
+      auto const& positioningActivationResponse =
+          get(value.choice.PositioningActivationResponse, value.present,
+              SuccessfulOutcome__value_PR_PositioningActivationResponse);
+      ctx->handle_positioning_activation_response(
+          nrppa, tId, positioningActivationResponse);
+      return true;
+    }
+
+    default:
+      throwHttpError(
+          "handle_n2info_nrppa_notification"s, "unhandled response type"s);
+  }
+
+  auto titel  = "n2info nrppa notifiaction pdu error"s;
+  auto detail = "unhandled nrppa  pdu: " + std::to_string(nrppa->present);
+  throwHttpError(titel, detail);
+
+  return false;
+}
+
+// 9.1.1.14 TRP INFORMATION REQUEST
+std::pair<asn_encode_to_new_buffer_result_t, lmf_app::gc_c_ptr>
+lmf_app::build_trp_information_request_nrppa_pdu() {
+  if (this->nrppa_tid_trp_information != 0) {
+    nrppa_tid_gen.free_uid(this->nrppa_tid_trp_information);
+  }
+  // 9.2.4 NRPPa Transaction ID
+  auto const nrppatransactionID = NRPPATransactionID_t{
+      this->nrppa_tid_trp_information = nrppa_tid_gen.get_uid()};
+  // 9.2.24 TRP ID
+  auto const ids = std::array<TRP_ID_t, 2>{1, 2};  // c++20: std::to_array
+  // TRP Information Type Item's
+  auto const informationTypes =
+      std::array{TRPInformationTypeItem_nrPCI, TRPInformationTypeItem_geoCoord};
+  // TRP List
+  auto listIe = TRPInformationRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_TRPList,
+      .criticality = Criticality_reject,
+      .value       = {.present = TRPInformationRequest_IEs__value_PR_TRPList},
+  };
+  auto list = &listIe.value.choice.TRPList.list;
+  // >TRP Item 1 .. <maxnoTRPs>
+  auto items = std::array<TRPItem_t, ids.size()>{};
+  // >>TRP ID 9.2.24
+  for (auto const& [id, _item] :
+       boost::combine(ids, items)) {  // c++23: std::views::zip
+#if BOOST_VERSION / 100 % 1000 >= 74  // ubuntu 22
+    auto& item = _item;
+#else  // ubuntu 20 / rhel8
+    auto& item                = boost::get<0>(_item);
+#endif
+    item = TRPItem_t{.tRP_ID = id};
+    ASN_SEQUENCE_ADD(list, &item);
+  }
+  // TRP Information Type List
+  auto informationTypeIe = TRPInformationRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_TRPInformationTypeList,
+      .criticality = Criticality_reject,
+      .value =
+          {.present =
+               TRPInformationRequest_IEs__value_PR_TRPInformationTypeList},
+  };
+  auto informationTypeList =
+      &informationTypeIe.value.choice.TRPInformationTypeList.list;
+  // >TRP Information Type Item 1 .. <maxnoTRPInfoTypes>
+  auto informationTypeItems =
+      std::array<TRPInformationTypeItem_t, informationTypes.size()>{};
+  // >>TRP Information Type ENUMERATED
+  for (auto const& [infoType, informationTypeItem_] :
+       boost::combine(informationTypes, informationTypeItems)) {
+#if BOOST_VERSION / 100 % 1000 >= 74  // ubuntu 22
+    auto& informationTypeItem = informationTypeItem_;
+#else  // ubuntu 20 / rhel8
+    auto& informationTypeItem = boost::get<0>(informationTypeItem_);
+#endif
+    // e_TRPInformationType (enum) to TRPInformationTypeItem_t (long)
+    informationTypeItem = infoType;
+    ASN_SEQUENCE_ADD(informationTypeList, &informationTypeItem);
+  }
+
+  auto initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_tRPInformationExchange,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = nrppatransactionID,
+      .value = {.present = InitiatingMessage__value_PR_TRPInformationRequest},
+  };
+  auto informationRequest =
+      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+  ASN_SEQUENCE_ADD(informationRequest, &listIe);
+  ASN_SEQUENCE_ADD(informationRequest, &informationTypeIe);
+
+  auto nrppaPdu = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = &initiatingMessage},
+  };
+
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, &nrppaPdu);
+
+  asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);
+
+  return {rc, gc_c_ptr{rc.buffer}};
 }

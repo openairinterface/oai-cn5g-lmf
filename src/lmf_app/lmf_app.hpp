@@ -25,19 +25,24 @@
 #include <shared_mutex>
 #include <string>
 #include <map>
+#include <boost/range/combine.hpp>
 
 #include <pistache/http.h>
 
+#include "uint_generator.hpp"
+
 #include "lmf.h"
 #include "lmf_event.hpp"
-#include "lmf_context.hpp"
+#include "lmf_location_determination.hpp"
 #include "lmf_n1_n2_message_subscription.hpp"
+#include "lmf_non_ue_n2_message_subscription.hpp"
 
 #include "ProblemDetails.h"
 #include "InputData.h"
 
+#include "NRPPATransactionID.h"
+
 #include "lpp-ie-headers.hpp"
-#include "nrppa-ie-headers.hpp"
 
 namespace oai::lmf::app {
 
@@ -53,34 +58,47 @@ class lmf_app {
       const oai::lmf_server::model::InputData& inputData,
       nlohmann::json& json_data, Pistache::Http::Code& code);
 
-  bool handle_n2info_nrppa_notification(
-      std::string supi, NRPPA_PDU_t* nrppa,
+  bool handle_n2info_nrppa_notification(std::string supi, NRPPA_PDU_t* nrppa);
+
+  bool handle_non_ue_n2info_nrppa_notification(
+      NRPPA_PDU_t* nrppa,
       oai::lmf_server::model::ProblemDetails& problem_details,
       uint8_t& http_code);
 
   bool is_supi_2_context(const std::string& supi) const;
-  std::shared_ptr<LMFContext> create_lmf_context(const std::string& supi);
-  std::shared_ptr<LMFContext> supi_2_context(const std::string& supi) const;
+  std::shared_ptr<LocationDetermination> create_lmf_context(
+      const std::string& supi);
+  std::shared_ptr<LocationDetermination> supi_2_context(
+      const std::string& supi) const;
   void set_supi_2_context(
-      const std::string& supi, const std::shared_ptr<LMFContext>& lc);
+      const std::string& supi,
+      const std::shared_ptr<LocationDetermination>& lc);
   void del_supi_2_context(const std::string& supi);
 
-  std::shared_ptr<N1N2MessageSubscription> create_n1n2subscription(
-      const std::string& supi);
+  void create_n1n2subscription(const std::string& supi);
   void release_n1n2subscription(const std::string& supi);
 
  private:
-  std::map<std::string, std::shared_ptr<LMFContext>> supi2ctx;
+  std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;
   mutable std::shared_mutex m_supi2ctx;
 
-  std::map<std::string, std::shared_ptr<N1N2MessageSubscription>> supi2n1n2subs;
+  std::map<std::string, N1N2MessageSubscription> supi2n1n2subs;
   mutable std::shared_mutex m_supi2n1n2subs;
+
+  std::unique_ptr<NonUeN2MessageSubscription> nonUeN2MessageSubscription;
 
   lmf_event& event_sub;
 
   bool _is_supi_2_context(const std::string& supi) const;
 
-  void build_trp_information_request_nrppa_pdu(NRPPA_PDU_t* nrppaPdu);
+  template<auto t>
+  using val      = std::integral_constant<std::decay_t<decltype(t)>, t>;
+  using gc_c_ptr = std::unique_ptr<void, val<std::free>>;
+  std::pair<asn_encode_to_new_buffer_result_t, gc_c_ptr>
+  build_trp_information_request_nrppa_pdu();
+
+  util::uint_generator<NRPPATransactionID_t> nrppa_tid_gen;
+  NRPPATransactionID_t nrppa_tid_trp_information;
 };
 }  // namespace oai::lmf::app
 
