@@ -108,7 +108,26 @@ enum http_response_codes_e {
 };
 
 #define NLMF_BASE "/nlmf-loc/"
+
 #define NLMF_DETERMINE_LOCATION "/determine-location"
+#define NLMF_CANCEL_LOCATION "/cancel-location"
+#define NLMF_LOCATION_CONTEXT_TRANSFER "/location-context-transfer"
+
+#define NLMF_NOTIFY_BASE "/nlmf-n2info-notify/"
+#define NLMF_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
+
+#define NLMF_NON_UE_NOTIFY_BASE "/nlmf-non-ue-n2info-notify/"
+#define NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
+
+#define NAMF_BASE "/namf-comm/"
+
+#define NAMF_N1N2_SUBSCRIBE_BASE "/ue-contexts/"
+
+#define NAMF_N1N2_SUBSCRIBE_MESSAGES "/n1-n2-messages"
+#define NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS "/subscriptions"
+
+#define NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES "/non-ue-n2-messages"
+#define NAMF_N1N2_SUBSCRIBE_NON_UE_SUBSCRIPTIONS "/subscriptions"
 
 typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,

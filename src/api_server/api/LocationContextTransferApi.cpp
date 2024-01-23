@@ -11,6 +11,7 @@
  * the class manually.
  */
 
+#include "lmf_client.hpp"
 #include "LocationContextTransferApi.h"
 #include "Helpers.h"
 
@@ -18,8 +19,6 @@ namespace oai::lmf_server::api {
 
 using namespace org::openapitools::server::helpers;
 using namespace oai::lmf_server::model;
-
-const std::string LocationContextTransferApi::base = "/nlmf-loc/v1";
 
 LocationContextTransferApi::LocationContextTransferApi(
     const std::shared_ptr<Pistache::Rest::Router>& rtr)
@@ -33,7 +32,7 @@ void LocationContextTransferApi::setupRoutes() {
   using namespace Pistache::Rest;
 
   Routes::Post(
-      *router, base + "/location-context-transfer",
+      *router, base + lmf_cfg.sbi_api_version + NLMF_LOCATION_CONTEXT_TRANSFER,
       Routes::bind(
           &LocationContextTransferApi::location_context_transfer_handler,
           this));

@@ -51,9 +51,10 @@ void N1N2MessageSubscription::unsubscribe(
   auto const& amf_uri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + supi +
-      "/n1-n2-messages/subscriptions/" + id;
+      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_BASE + supi +
+      NAMF_N1N2_SUBSCRIBE_MESSAGES + NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS + "/" +
+      id;
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 
@@ -82,9 +83,9 @@ std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
   auto const& amf_uri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + supi +
-      "/n1-n2-messages/subscriptions";
+      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_BASE + supi +
+      NAMF_N1N2_SUBSCRIBE_MESSAGES + NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS;
 
   // 5.2.2.3.6 N2InfoNotify n2InfoNotifyUri
   auto const& n2NotifyCallbackUri =
@@ -92,7 +93,8 @@ std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
       std::to_string(
           lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
-      "/nlmf-n2info-notify/v2/nrppa/callback/" + supi;
+      NLMF_NOTIFY_BASE + lmf_cfg.sbi_api_version + NLMF_NOTIFY_NRPPA_CALLBACK +
+      supi;
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 

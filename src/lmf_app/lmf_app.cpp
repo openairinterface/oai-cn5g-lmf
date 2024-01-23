@@ -97,8 +97,8 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
       amf_uri              = "http://" +
                 std::string(inet_ntoa(
                     *((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-                ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-                lmf_cfg.amf_addr.api_version + "/non-ue-n2-messages/transfer";
+                ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+                lmf_cfg.sbi_api_version + "/non-ue-n2-messages/transfer";
       Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
 
       std::string nrppaMsgStr(

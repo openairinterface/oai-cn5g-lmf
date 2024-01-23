@@ -114,6 +114,12 @@ int lmf_config::load(const std::string& config_file) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
+  try {
+    lmf_cfg.lookupValue(LMF_CONFIG_STRING_HTTP2_NUM_THREADS, http2_num_threads);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
 
   // LMF SBI interface
   try {

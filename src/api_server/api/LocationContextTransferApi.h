@@ -19,6 +19,8 @@
 #ifndef LocationContextTransferApi_H_
 #define LocationContextTransferApi_H_
 
+#include "lmf.h"
+
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <pistache/http_headers.h>
@@ -40,7 +42,7 @@ class LocationContextTransferApi {
   virtual ~LocationContextTransferApi() = default;
   void init();
 
-  static const std::string base;
+  const std::string base = NLMF_BASE;
 
  private:
   void setupRoutes();

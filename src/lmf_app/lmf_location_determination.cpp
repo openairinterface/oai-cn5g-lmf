@@ -71,9 +71,9 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
   amf_uri =
       "http://" +
       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + "/namf-comm/" +
-      lmf_cfg.amf_addr.api_version + "/ue-contexts/" + this->supi +
-      "/n1-n2-messages";
+      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_BASE + this->supi +
+      NAMF_N1N2_SUBSCRIBE_MESSAGES;
   Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
 
   std::string nrppaMsgStr(

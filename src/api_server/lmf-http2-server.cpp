@@ -26,6 +26,7 @@
 #include <regex>
 #include <nlohmann/json.hpp>
 #include <string>
+#include <filesystem>
 #include "string.hpp"
 
 #include "logger.hpp"
@@ -51,11 +52,31 @@ void lmf_http2_server::start() {
       NLMF_BASE + lmf_cfg.sbi_api_version + NLMF_DETERMINE_LOCATION,
       [&](const request& request, const response& response) {
         request.on_data([&](const uint8_t* data, std::size_t len) {
+          try {
+            if (request.method().compare("POST") == 0 && len > 0) {
+              oai::lmf_server::model::InputData inputData{
+                  nlohmann::json::parse(data, data + len)};
+              this->detemine_location_post_handler(inputData, response);
+            }
+          } catch (std::exception& e) {
+            Logger::lmf_server().warn("Invalid request (error: %s)!", e.what());
+            response.write_head(
+                http_status_code_e::HTTP_STATUS_CODE_400_BAD_REQUEST);
+            response.end();
+            return;
+          }
+        });
+      });
+
+  // /nlmf-n2info-notify/v1/nrppa/callback/imsi-208950000000131
+  server.handle(
+      NLMF_NOTIFY_BASE + lmf_cfg.sbi_api_version + NLMF_NOTIFY_NRPPA_CALLBACK,
+      [&](const request& request, const response& response) {
+        request.on_data([&](const uint8_t* data, std::size_t len) {
           std::string msg((char*) data, len);
           try {
-            std::vector<std::string> split_result;
-            boost::split(
-                split_result, request.uri().path, boost::is_any_of("/"));
+            std::filesystem::path path{request.uri().path};
+            std::vector<std::string> split_result{path.begin(), path.end()};
             if (request.method().compare("POST") == 0 && len > 0) {
               oai::lmf_server::model::InputData inputData;
               nlohmann::json::parse(msg.c_str()).get_to(inputData);
@@ -71,6 +92,7 @@ void lmf_http2_server::start() {
         });
       });
 
+  server.num_threads(lmf_cfg.http2_num_threads);
   if (server.listen_and_serve(ec, m_address, std::to_string(m_port))) {
     std::cerr << "HTTP Server error: " << ec.message() << std::endl;
   }
