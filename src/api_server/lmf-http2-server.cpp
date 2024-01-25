@@ -82,8 +82,6 @@ void lmf_http2_server::start() {
           }
         });
         response.on_close([](uint32_t cause) {
-          //          Logger::lmf_server().debug("<<-- determine location
-          //          on_close with cause: " + std::to_string(cause));
         });
       });
 
@@ -130,8 +128,6 @@ void lmf_http2_server::start() {
           }
         });
         response.on_close([](uint32_t cause) {
-          //          Logger::lmf_server().debug("<<-- notify on_close with
-          //          cause: " + std::to_string(cause));
         });
       });
 
