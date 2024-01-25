@@ -28,6 +28,7 @@
 #include <boost/range/combine.hpp>
 
 #include <pistache/http.h>
+#include "mime_parser.hpp"
 
 #include "uint_generator.hpp"
 
@@ -39,6 +40,7 @@
 
 #include "ProblemDetails.h"
 #include "InputData.h"
+#include "N2InformationNotification.h"
 
 #include "NRPPATransactionID.h"
 
@@ -77,6 +79,11 @@ class lmf_app {
 
   void create_n1n2subscription(const std::string& supi);
   void release_n1n2subscription(const std::string& supi);
+
+  static NRPPA_PDU_t* parse_n2_info_container_nrppa(
+      oai::lmf_server::model::N2InformationNotification const&
+          n2InformationNotification,
+      mime_part const& nrppa_part);
 
  private:
   std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;

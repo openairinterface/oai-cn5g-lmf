@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
   } else {
     // LMF NGHTTP API server (HTTP2)
     lmf_api_server_2 = new lmf_http2_server(
-        conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port,
+        conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port, 3,
         lmf_app_inst);
     std::thread lmf_http2_manager(&lmf_http2_server::start, lmf_api_server_2);
     lmf_http2_manager.join();

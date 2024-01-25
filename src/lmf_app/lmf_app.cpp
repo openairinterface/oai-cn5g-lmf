@@ -43,6 +43,7 @@
 #include "UeN1N2InfoSubscriptionCreatedData.h"
 #include "RefToBinaryData.h"
 #include "ProblemDetails.h"
+#include "N2InformationNotification.h"
 
 #include "InitiatingMessage.h"
 #include "SuccessfulOutcome.h"
@@ -484,4 +485,74 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);
 
   return {rc, gc_c_ptr{rc.buffer}};
+}
+
+NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
+    N2InformationNotification const& n2InformationNotification,
+    mime_part const& nrppa_part) {
+  if (!n2InformationNotification.n2InfoContainerIsSet()) {
+    throwHttpError(
+        "parse_n2_info_container_nrppa", "N2InfoContainer not present");
+  }
+
+  auto const& n2InfoContainer = n2InformationNotification.getN2InfoContainer();
+  auto const& eN2InformationClass =
+      n2InfoContainer.getN2InformationClass().getEnumValue();
+
+  // Check N2 Information Class
+  if (eN2InformationClass !=
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+    throwHttpError(
+        "parse_n2_info_container_nrppa",
+        "N2 Information Class not NRPPA: " +
+            std::to_string(static_cast<int>(eN2InformationClass)));
+  }
+
+  if (!n2InfoContainer.nrppaInfoIsSet()) {
+    throwHttpError("parse_n2_info_container_nrppa", "nrppaInfo not present");
+  }
+  auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
+
+  if (nrppaInfo.getNfId() != lmf_nrf_inst->lmf_instance_id) {
+    Logger::lmf_server().warn(
+        "nfId != '%s': '%s'", lmf_nrf_inst->lmf_instance_id,
+        nrppaInfo.getNfId());
+  }
+
+  auto const& nrppaPdu = nrppaInfo.getNrppaPdu();
+  if (!nrppaPdu.ngapIeTypeIsSet()) {
+    throwHttpError("parse_n2_info_container_nrppa", "ngapIeType not present");
+  }
+
+  auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
+  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+    throwHttpError(
+        "parse_n2_info_container_nrppa",
+        "ngapIeType not NRPPA_PDU: " +
+            std::to_string(static_cast<int>(eNgapIeType)));
+  }
+  auto const& ngapData = nrppaPdu.getNgapData();
+  Logger::lmf_app().debug(
+      "parse_n2_info_container_nrppa: content-id: " + ngapData.getContentId());
+  if (nrppa_part.content_type != "application/vnd.3gpp.ngap") {
+    Logger::lmf_server().warn(
+        "content-type != 'application/vnd.3gpp.ngap': '%s'",
+        nrppa_part.content_type);
+  }
+
+  auto const& nrppa_bin = nrppa_part.body;
+  NRPPA_PDU_t* nrppa = nullptr;  // TODO: warp in unigue_ptr with custom deleter
+  auto const& rc     = asn_decode(
+      NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
+      nrppa_bin.c_str(), nrppa_bin.length());
+  if (rc.code != RC_OK) {
+    ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+    throwHttpError(
+        "parse_n2_info_container_nrppa",
+        "asn_decode failed: " + std::to_string(rc.code));
+  }
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
+  Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
+
+  return nrppa;
 }

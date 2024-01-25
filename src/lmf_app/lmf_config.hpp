@@ -34,7 +34,6 @@
 #define LMF_CONFIG_STRING_INSTANCE_ID "INSTANCE_ID"
 #define LMF_CONFIG_STRING_LMF_NAME "LMF_NAME"
 #define LMF_CONFIG_STRING_LOG_LEVEL "LOG_LEVEL"
-#define LMF_CONFIG_STRING_HTTP2_NUM_THREADS "HTTP2_NUM_THREADS"
 
 #define LMF_CONFIG_STRING_INTERFACES "INTERFACES"
 #define LMF_CONFIG_STRING_INTERFACE_SBI "SBI"
@@ -83,7 +82,6 @@ class lmf_config {
   std::string pid_dir;
   std::string lmf_name;
   spdlog::level::level_enum log_level = spdlog::level::debug;
-  unsigned http2_num_threads          = 4;
 
   interface_cfg_t sbi;
   unsigned int sbi_http2_port;
