@@ -303,5 +303,5 @@ IF(STATIC_LINKING)
 ENDIF(STATIC_LINKING)   
 
 target_link_libraries (lmf ${ASAN} 
-    -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API LPP NRPPA CN_UTILS -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lfmt -lgmp -Wl,--end-group pthread m rt config++ boost_system pistache curl)
+    -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API LPP NRPPA CN_UTILS -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lfmt -lgmp -lstdc++fs -Wl,--end-group pthread m rt config++ boost_system pistache curl)
     
