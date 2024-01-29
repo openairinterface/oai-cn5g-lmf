@@ -292,9 +292,9 @@
 /* Used to format an uint32_t containing an ipv4 address */
 #define IPV4_ADDR "%u.%u.%u.%u"
 #define IPV4_ADDR_FORMAT(aDDRESS)                                              \
-  (uint8_t)((aDDRESS) &0x000000ff), (uint8_t)(((aDDRESS) &0x0000ff00) >> 8),   \
-      (uint8_t)(((aDDRESS) &0x00ff0000) >> 16),                                \
-      (uint8_t)(((aDDRESS) &0xff000000) >> 24)
+  (uint8_t)((aDDRESS) &0x000000ff), (uint8_t) (((aDDRESS) &0x0000ff00) >> 8),  \
+      (uint8_t) (((aDDRESS) &0x00ff0000) >> 16),                               \
+      (uint8_t) (((aDDRESS) &0xff000000) >> 24)
 
 #define IPV4_ADDR_DISPLAY_8(aDDRESS)                                           \
   (aDDRESS)[0], (aDDRESS)[1], (aDDRESS)[2], (aDDRESS)[3]
