@@ -48,28 +48,27 @@ class LocationDetermination {
  public:
   LocationDetermination(std::string supi) : supi{supi} {}
 
-  std::promise<std::pair<NRPPA_PDU_t*, PositioningInformationResponse_t const&>>
-      positioning_information_response;
-  std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
-      measurement_response;
   std::promise<std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>>
       positioning_activation_response;
-
-  void positioning_information_request(NRPPATransactionID_t const& nrppa_tId);
-
-  void handle_positioning_information_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
-      PositioningInformationResponse_t const& positioningInformationResponse);
-  void handle_measurement_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
-      MeasurementResponse_t const& measurementResponse);
+  void positioning_activation_request(NRPPATransactionID_t const& tId);
   void handle_positioning_activation_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
 
-  void positioning_activation_request(NRPPATransactionID_t const& tId);
+  std::promise<std::pair<NRPPA_PDU_t*, PositioningInformationResponse_t const&>>
+      positioning_information_response;
+  void positioning_information_request(NRPPATransactionID_t const& nrppa_tId);
+  void handle_positioning_information_response(
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      PositioningInformationResponse_t const& positioningInformationResponse);
 
+  std::vector<
+      std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>>
+      resps;
   void measurement_request(NRPPATransactionID_t const& tId);
+  void handle_measurement_response(
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      MeasurementResponse_t const& measurementResponse);
 
   bool n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);
   bool non_ue_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);

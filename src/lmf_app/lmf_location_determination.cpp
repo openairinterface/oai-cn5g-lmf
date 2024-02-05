@@ -22,6 +22,7 @@
 #include "lmf_location_determination.hpp"
 
 #include "lmf.h"
+#include "lmf_app.hpp"
 #include "lmf_nrf.hpp"
 #include "logger.hpp"
 #include "lmf_client.hpp"
@@ -41,17 +42,32 @@
 
 #include "InitiatingMessage.h"
 #include "ProtocolIE-Field.h"
-#include <SemipersistentSRS.h>
-#include <AperiodicSRS.h>
+#include "SemipersistentSRS.h"
+#include "AperiodicSRS.h"
+#include "TRP-MeasurementRequestItem.h"
 
 using namespace std::string_literals;
 using namespace oai::lmf_server;
+
+// provides for asn container.list.array range based for loops
+// for (auto const& xyzIEs : xyzResponse.protocolIEs) {
+template<typename T>
+auto begin(T const& container) {
+  return container.list.array;
+}
+
+template<typename T>
+auto end(T const& container) {
+  return container.list.array + container.list.count;
+}
 
 bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
 
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
@@ -65,6 +81,9 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
     auto const& detail = "Could not encode at; "s + field;
     throwHttpError(title, detail);
   }
+  // gc free(nrppaPduEnc.buffer)
+  std::unique_ptr<void, decltype(&std::free)> gc{
+      nrppaPduEnc.buffer, &std::free};
 
   std::string amf_uri  = {};
   std::string method   = "POST";
@@ -81,7 +100,6 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
   conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
-  free(nrppaPduEnc.buffer);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
@@ -296,8 +314,6 @@ void LocationDetermination::positioning_information_request(
 
 void LocationDetermination::measurement_request(
     NRPPATransactionID_t const& tId) {
-  this->measurement_response = {};
-
   if (auto const& [iter, inserted] =
           this->nrppa_tId.try_emplace(tId, ResponseType::Measurement);
       !inserted) {
@@ -305,19 +321,25 @@ void LocationDetermination::measurement_request(
         "Measurement request"s, "nrppa id "s + std::to_string(tId) + " reuse"s);
   }
 
-  auto measurementID        = Measurement_ID_t{1};
+  this->resps.push_back({});
+  // INTEGER (1..65536)
+  auto measurementID        = Measurement_ID_t(this->resps.size());
   auto reportCharacteristic = ReportCharacteristics_onDemand;
 
-  auto initiatingMessage = InitiatingMessage_t{
+  auto initiatingMessage =
+      (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_Measurement,
       .criticality        = Criticality_reject,
       .nrppatransactionID = tId,
       .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
   };
   auto ies =
-      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+      &initiatingMessage->value.choice.MeasurementRequest.protocolIEs.list;
 
-  auto lmfMeasurementId = MeasurementRequest_IEs_t{
+  auto lmfMeasurementId =
+      (MeasurementRequest_IEs_t*) calloc(1, sizeof(MeasurementRequest_IEs_t));
+  *lmfMeasurementId = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
       .criticality = Criticality_reject,
       .value =
@@ -326,9 +348,29 @@ void LocationDetermination::measurement_request(
               .choice  = {.Measurement_ID = measurementID},
           },
   };
-  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
+  ASN_SEQUENCE_ADD(ies, lmfMeasurementId);
+#if 0
+  auto trpMeasurementRequestList = TRP_MeasurementRequestList_t{};
+  auto const trpIds = std::vector<TRP_ID_t>{1, 2}; 
 
-  auto reportCharacteristics = MeasurementRequest_IEs_t{
+
+  // TRP Measurement Request List
+  auto trpMeasurementRequestIE = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_TRP_MeasurementRequestList,
+      .criticality = Criticality_reject,
+      .value = {.present = MeasurementRequest_IEs__value_PR_TRP_MeasurementRequestList, },
+  };
+  auto const& trpMeasurementRequestList = trpMeasurementRequestIE.value.choice.TRP_MeasurementRequestList.list;
+  auto trpMeasurementRequestItems = std::vector<TRP_MeasurementRequestItem_t>{};
+  std::transform(trpIds.cbegin(), trpIds.cend(), std::back_inserter(trpMeasurementRequestItems),
+  [](auto const& trpId){ return TRP_MeasurementRequestItem_t{.tRP_ID=trpId};});
+
+
+  ASN_SEQUENCE_ADD(ies, &trpMeasurementRequestIE);
+#endif
+  auto reportCharacteristics =
+      (MeasurementRequest_IEs_t*) calloc(1, sizeof(MeasurementRequest_IEs_t));
+  *reportCharacteristics = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_ReportCharacteristics,
       .criticality = Criticality_reject,
       .value =
@@ -339,25 +381,21 @@ void LocationDetermination::measurement_request(
                        ReportCharacteristics_t{reportCharacteristic}},
           },
   };
-  ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
+  ASN_SEQUENCE_ADD(ies, reportCharacteristics);
 
-  auto nrppaPdu = NRPPA_PDU_t{
+  auto nrppaPdu = (NRPPA_PDU_t*) calloc(1, sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
+      .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->non_ue_n2_message_transfer(&nrppaPdu);
+  //this->non_ue_n2_message_transfer(nrppaPdu);
+  this->n1_n2_message_transfer(nrppaPdu);
 }
 
 void LocationDetermination::handle_positioning_information_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
-  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
-    throwHttpError(
-        "handle_positioning_information_response",
-        "no such tId: "s + std::to_string(tId));
-  }
-
   this->positioning_information_response.set_value(
       {nrppaPdu, positioningInformationResponse});
 }
@@ -365,12 +403,19 @@ void LocationDetermination::handle_positioning_information_response(
 void LocationDetermination::handle_measurement_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     MeasurementResponse_t const& measurementResponse) {
-  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
-    throwHttpError(
-        "handle_measurement_response", "no such tId: "s + std::to_string(tId));
+  for (auto const& ie : measurementResponse.protocolIEs) {
+    if (ie->id == ProtocolIE_ID_id_LMF_Measurement_ID &&
+        ie->value.present == MeasurementResponse_IEs__value_PR_Measurement_ID) {
+      auto const& measurementID = ie->value.choice.Measurement_ID;
+      if (measurementID > this->resps.size()) {
+        throwHttpError(
+            "handle_measurement_response",
+            "no such measurement id: "s + std::to_string(measurementID));
+      }
+      this->resps.at(measurementID - 1)
+          .set_value({nrppaPdu, measurementResponse});
+    }
   }
-
-  this->measurement_response.set_value({nrppaPdu, measurementResponse});
 }
 
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST
@@ -386,22 +431,27 @@ void LocationDetermination::positioning_activation_request(
         "nrppa id "s + std::to_string(tId) + " reuse"s);
   }
 
-  auto initiatingMessage = InitiatingMessage_t{
+  auto initiatingMessage =
+      (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningActivation,
       .criticality        = Criticality_reject,
       .nrppatransactionID = tId,
       .value =
           {.present = InitiatingMessage__value_PR_PositioningActivationRequest},
   };
-  auto ies = &initiatingMessage.value.choice.PositioningActivationRequest
+  auto ies = &initiatingMessage->value.choice.PositioningActivationRequest
                   .protocolIEs.list;
 
   // >Aperiodic
-  auto aperiodicSRS = AperiodicSRS_t{
+  auto aperiodicSRS = (AperiodicSRS_t*) calloc(1, sizeof(AperiodicSRS_t));
+  *aperiodicSRS     = AperiodicSRS_t{
       .aperiodic = AperiodicSRS__aperiodic_true,
   };
   // CHOICE SRS type
-  auto aperiodicSRS_ie = PositioningActivationRequestIEs_t{
+  auto aperiodicSRS_ie = (PositioningActivationRequestIEs_t*) calloc(
+      1, sizeof(PositioningActivationRequestIEs_t));
+  *aperiodicSRS_ie = PositioningActivationRequestIEs_t{
       .id          = ProtocolIE_ID_id_SRSType,
       .criticality = Criticality_reject,
       .value =
@@ -414,20 +464,24 @@ void LocationDetermination::positioning_activation_request(
                               .present = SRSType_PR_aperiodicSRS,
                               .choice =
                                   {
-                                      .aperiodicSRS = &aperiodicSRS,
+                                      .aperiodicSRS = aperiodicSRS,
                                   },
                           },
                   },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &aperiodicSRS_ie);
+  ASN_SEQUENCE_ADD(ies, aperiodicSRS_ie);
 
   // >Semi-persistent
-  auto semipersistentSRS = SemipersistentSRS_t{
+  auto semipersistentSRS =
+      (SemipersistentSRS_t*) calloc(1, sizeof(SemipersistentSRS_t));
+  *semipersistentSRS = SemipersistentSRS_t{
       .sRSResourceSetID = 1,
   };
   // CHOICE SRS type
-  auto semipersistentSRS_ie = PositioningActivationRequestIEs_t{
+  auto semipersistentSRS_ie = (PositioningActivationRequestIEs_t*) calloc(
+      1, sizeof(PositioningActivationRequestIEs_t));
+  *semipersistentSRS_ie = PositioningActivationRequestIEs_t{
       .id          = ProtocolIE_ID_id_SRSType,
       .criticality = Criticality_reject,
       .value =
@@ -440,31 +494,26 @@ void LocationDetermination::positioning_activation_request(
                               .present = SRSType_PR_semipersistentSRS,
                               .choice =
                                   {
-                                      .semipersistentSRS = &semipersistentSRS,
+                                      .semipersistentSRS = semipersistentSRS,
                                   },
                           },
                   },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &semipersistentSRS_ie);
+  ASN_SEQUENCE_ADD(ies, semipersistentSRS_ie);
 
-  auto nrppaPdu = NRPPA_PDU_t{
+  auto nrppaPdu = (NRPPA_PDU_t*) calloc(1, sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
+      .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->non_ue_n2_message_transfer(&nrppaPdu);
+  this->n1_n2_message_transfer(nrppaPdu);
 }
 
 void LocationDetermination::handle_positioning_activation_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningActivationResponse_t const& positioningActivationResponse) {
-  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
-    throwHttpError(
-        "handle_positioning_activation_response",
-        "no such tId: "s + std::to_string(tId));
-  }
-
   this->positioning_activation_response.set_value(
       {nrppaPdu, positioningActivationResponse});
 }
