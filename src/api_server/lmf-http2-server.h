@@ -44,6 +44,8 @@ class lmf_http2_server {
         server(),
         m_lmf_app(lmf_app_inst) {}
   void start();
+  void non_ue_n2info_nrppa_notification_post_handler(
+      std::vector<mime_part>& parts, const response& response);
   void n2info_nrppa_notification_post_handler(
       const std::string& ueContextId, std::vector<mime_part>& parts,
       const response& response);

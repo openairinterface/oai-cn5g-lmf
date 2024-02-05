@@ -60,6 +60,8 @@ class lmf_app {
       const oai::lmf_server::model::InputData& inputData,
       nlohmann::json& json_data, Pistache::Http::Code& code);
 
+  bool handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa);
+
   bool handle_n2info_nrppa_notification(std::string supi, NRPPA_PDU_t* nrppa);
 
   bool handle_non_ue_n2info_nrppa_notification(

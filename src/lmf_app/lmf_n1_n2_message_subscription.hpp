@@ -38,8 +38,8 @@ class N1N2MessageSubscription : private boost::noncopyable {
     N1N2MessageSubscription::unsubscribe(this->id, this->supi);
   }
 
-  static void unsubscribe(std::string const& id, std::string const& supi);
   static std::string subscribe(std::string const& supi);
+  static void unsubscribe(std::string const& id, std::string const& supi);
 };
 
 #endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN

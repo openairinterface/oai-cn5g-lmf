@@ -81,8 +81,9 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     throw;
   }
 
+  this->nonUeN2MessageSubscription =
+      std::make_unique<NonUeN2MessageSubscription>();
   if (lmf_cfg.request_trp_info) {
-    this->nonUeN2MessageSubscription = NonUeN2MessageSubscription::create();
     auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
 
     if (nrppaPduEnc.result.encoded == -1) {
@@ -336,6 +337,12 @@ NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
   return 0;
 }
 
+bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
+  return false;
+}
+
+// TODO: replace bool retval with exception
+// shoult not fail
 bool lmf_app::handle_n2info_nrppa_notification(
     std::string supi, NRPPA_PDU_t* nrppa) {
   auto ctx = this->supi_2_context(supi);

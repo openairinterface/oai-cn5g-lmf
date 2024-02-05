@@ -37,6 +37,7 @@
 #include "N2InformationClass.h"
 #include "N2InfoContainer.h"
 #include "N1N2MessageTransferReqData.h"
+#include "N2InformationTransferReqData.h"
 
 #include "InitiatingMessage.h"
 #include "ProtocolIE-Field.h"
@@ -136,6 +137,99 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
   return true;
 }
 
+bool LocationDetermination::non_ue_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+
+  asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+
+  if (nrppaPduEnc.result.encoded == -1) {
+    Logger::lmf_app().error(
+        "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
+                                          nrppaPduEnc.result.failed_type->name :
+                                          "unknown");
+    auto const& title  = "asn nrppa encode failed"s;
+    auto const& field  = nrppaPduEnc.result.failed_type ?
+                             nrppaPduEnc.result.failed_type->name :
+                             "unknown";
+    auto const& detail = "Could not encode at; "s + field;
+    throwHttpError(title, detail);
+  }
+
+  std::string amf_uri  = {};
+  std::string method   = "POST";
+  std::string response = {};
+  amf_uri =
+      "http://" +
+      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
+      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+      lmf_cfg.amf_addr.api_version + NAMF_NON_UE_N2_MESSAGE_TRANSFER;
+  Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
+
+  std::string nrppaMsgStr(
+      (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
+  std::string nrppaMsgHex = {};
+  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+  free(nrppaPduEnc.buffer);
+
+  model::RefToBinaryData ngapData = {};
+  ngapData.setContentId(N2_NRPPa_CONTENT_ID);
+
+  model::NgapIeType ngapIeType = {};
+  ngapIeType.setEnumValue(
+      model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+
+  model::N2InfoContent n2InfoContent = {};
+  n2InfoContent.setNgapIeType(ngapIeType);
+  n2InfoContent.setNgapData(ngapData);
+
+  model::NrppaInformation nrppaInformation = {};
+  nrppaInformation.setNfId(lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
+  nrppaInformation.setNrppaPdu(n2InfoContent);
+
+  model::N2InformationClass n2InformationClass = {};
+  n2InformationClass.setEnumValue(
+      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+  model::N2InfoContainer n2InfoContainer = {};
+  n2InfoContainer.setN2InformationClass(n2InformationClass);
+  n2InfoContainer.setNrppaInfo(nrppaInformation);
+
+  model::N2InformationTransferReqData n2InformationTransferReqData;
+  n2InformationTransferReqData.setN2Information(n2InfoContainer);
+
+  nlohmann::json n2InformationTransferReqData_json;
+  to_json(n2InformationTransferReqData_json, n2InformationTransferReqData);
+
+  std::string body      = {};
+  std::string json_part = {};
+  json_part             = n2InformationTransferReqData_json.dump();
+
+  mime_parser::create_multipart_related_content(
+      body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
+      multipart_related_content_part_e::NGAP);
+
+  lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
+  Logger::lmf_app().info("Response from AMF: %s", response);
+
+  // model::N2InformationTransferRspData;
+  // model::N2InformationTransferError
+  // model::N2InformationTransferResult
+
+  auto const& rspData_json = nlohmann::json::parse(response);
+  if (!rspData_json.contains("cause") ||
+      rspData_json["cause"] != non_ue_n2_message_transfer_cause_e2str
+                                   [NON_UE_N2_TRANSFER_INITIATED]) {
+    auto const& title = "non-ue-n2-message transfer failed"s;
+    auto const& cause =
+        rspData_json.contains("cause") ?
+            non_ue_n2_message_transfer_cause_e2str[rspData_json["cause"]] :
+            "no cause"s;
+    auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
+    throwHttpError(title, detail);
+  }
+  return true;
+}
+
 void LocationDetermination::positioning_information_request(
     NRPPATransactionID_t const& tId) {
   Logger::lmf_app().info("Position Information Request");
@@ -150,7 +244,9 @@ void LocationDetermination::positioning_information_request(
         "nrppa id "s + std::to_string(tId) + " reuse"s);
   }
 
-  auto initiatingMessage = InitiatingMessage_t{
+  auto initiatingMessage =
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningInformationExchange,
       .criticality        = Criticality_reject,
       .nrppatransactionID = tId,
@@ -158,10 +254,13 @@ void LocationDetermination::positioning_information_request(
           {.present =
                InitiatingMessage__value_PR_PositioningInformationRequest},
   };
-  auto ies = &initiatingMessage.value.choice.PositioningInformationRequest
+  auto ies = &initiatingMessage->value.choice.PositioningInformationRequest
                   .protocolIEs.list;
 
-  auto requestedSRSTransmissionCharacteristics = PositioningInformationRequest_IEs_t{
+  auto requestedSRSTransmissionCharacteristics =
+      (PositioningInformationRequest_IEs_t*) malloc(
+          sizeof(PositioningInformationRequest_IEs_t));
+  *requestedSRSTransmissionCharacteristics = PositioningInformationRequest_IEs_t{
       .id          = ProtocolIE_ID_id_RequestedSRSTransmissionCharacteristics,
       .criticality = Criticality_ignore,
       .value =
@@ -184,14 +283,15 @@ void LocationDetermination::positioning_information_request(
                   },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &requestedSRSTransmissionCharacteristics);
+  ASN_SEQUENCE_ADD(ies, requestedSRSTransmissionCharacteristics);
 
-  auto nrppaPdu = NRPPA_PDU_t{
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
+      .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu);
+  this->n1_n2_message_transfer(nrppaPdu);
 }
 
 void LocationDetermination::measurement_request(
@@ -246,7 +346,7 @@ void LocationDetermination::measurement_request(
       .choice  = {.initiatingMessage = &initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu);
+  this->non_ue_n2_message_transfer(&nrppaPdu);
 }
 
 void LocationDetermination::handle_positioning_information_response(
@@ -353,7 +453,7 @@ void LocationDetermination::positioning_activation_request(
       .choice  = {.initiatingMessage = &initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu);
+  this->non_ue_n2_message_transfer(&nrppaPdu);
 }
 
 void LocationDetermination::handle_positioning_activation_response(

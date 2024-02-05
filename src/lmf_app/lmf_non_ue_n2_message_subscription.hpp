@@ -32,14 +32,13 @@ class NonUeN2MessageSubscription : private boost::noncopyable {
  public:
   const std::string id;
 
-  static std::unique_ptr<NonUeN2MessageSubscription> create();
+  NonUeN2MessageSubscription() : id{NonUeN2MessageSubscription::subscribe()} {}
+  ~NonUeN2MessageSubscription() {
+    NonUeN2MessageSubscription::unsubscribe(this->id);
+  }
 
-  ~NonUeN2MessageSubscription() { this->unsubscribe(); }
-
- private:
-  NonUeN2MessageSubscription(std::string const& id) : id{id} {}
-
-  void unsubscribe();
+  static std::string subscribe();
+  static void unsubscribe(std::string const& id);
 };
 
 #endif  // ifndef FILE_NON_UE_N2_MESSAGE_SUBSCRIPTION_SEEN

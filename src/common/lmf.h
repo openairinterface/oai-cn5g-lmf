@@ -129,6 +129,8 @@ enum http_response_codes_e {
 #define NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES "/non-ue-n2-messages"
 #define NAMF_N1N2_SUBSCRIBE_NON_UE_SUBSCRIPTIONS "/subscriptions"
 
+#define NAMF_NON_UE_N2_MESSAGE_TRANSFER "/non-ue-n2-messages/transfer"
+
 typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,
   VALUE_ADDED_SERVICES,

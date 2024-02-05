@@ -72,6 +72,7 @@ class LocationDetermination {
   void measurement_request(NRPPATransactionID_t const& tId);
 
   bool n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);
+  bool non_ue_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);
 
   // mapping between nrppa transaction and transaction type
   // TODO: use individual reponse object as value not ResposeType
