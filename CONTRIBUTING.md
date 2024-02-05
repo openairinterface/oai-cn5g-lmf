@@ -15,22 +15,33 @@ Please refer to the steps described on our website: [How to contribute to OAI](h
       * The Continuous Integration will reject your pull request.
    - All pull requests SHALL have **`develop`** branch as target branch.
 
+## Synchronizing GIT sub-modules ##
+
+We are using nested GIT submodules. To synchronize them, the 2 most important commands to know are :
+
+1. `git submodule deinit --force .`
+2. `git submodule update --init --recursive`
+
+If you have non-tracked files or modified files within git submodules, these commands may not work.
+
+Use the `--verbose` option to see the execution of each command.
+
+If the synchronization fails, you may need to go into the path of the failing git-submodule(s) and clean the workspace from non-tracked/modified files.
+
 ## Coding Styles ##
 
 We are using `clang-format` as formatting tool on the C/C++ code.
 
-At the time of writing, we are using `clang-format` version 11.0.0 or above. We prefer to install it manually rather than installing it from ubuntu repositories because the version can change.
+At the time of writing (September 27th, 2023), we are using `clang-format` version 12.0.0.
 
-The working version we found was 11.0.0.
+On a Ubuntu-20/22 server:
 
 ```bash
-$ wget https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz
-$ mkdir clang_tmp
-$ tar xvfJ  clang+llvm-11.0.0-x86_64-linux-gnu-ubuntu-20.04.tar.xz -C ./clang_tmp
-$ sudo cp clang_tmp/clang+llvm-11.0.0-x86_64-linux-gnu-ubuntu-20.04/bin/clang-format /usr/bin/clang-format
-$ rm -Rf clang*
+$ sudo apt-get update
+$ sudo apt-get install clang-format-12 dos2unix
+$ sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-12 20
 $ clang-format --version
-clang-format version 11.0.0 (https://github.com/llvm/llvm-project.git 0160ad802e899c2922bc9b29564080c22eb0908c)
+Ubuntu clang-format version 12.0.0-3ubuntu1~20.04.5
 ```
 
 How to format:
@@ -38,6 +49,7 @@ How to format:
 ```bash
 $ cd myClonedWorkspace/src
 $ clang-format -i theFilesYouWantToFormat
+$ dos2unix theFilesYouWantToFormat
 ```
 
 ## License ##
@@ -46,9 +58,9 @@ By contributing to OpenAirInterface, you agree that your contributions will be l
 
 ## Continuous Integration process ##
 
-1.  You push your modified code with the new branch onto our [official GitLab repository](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-nef).
+1.  You push your modified code with the new branch onto our [official GitLab repository](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-lmf).
     -  Please make the name of the branch explicit and short.
-2.  You create a pull request from the [dedicated web page](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-nef/-/merge_requests).
+2.  You create a pull request from the [dedicated web page](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-lmf/-/merge_requests).
     -  The `target` (`base` in the web-page) branch **SHALL be `develop`**.
     -  The `source` (`compare` in the web-page) branch is your branch.
 3.  Our Continuous Integration (CI) process will be triggered automatically on your proposed modified code and check the validity.
