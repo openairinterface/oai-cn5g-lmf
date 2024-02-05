@@ -90,14 +90,11 @@ void N2InfoNotifyApi::notify_n2info_nrppa_handler(
   } catch (nlohmann::detail::exception& e) {
     // send a 400 error
     response.send(Http::Code::Bad_Request, e.what());
-    return;
   } catch (Http::HttpError& e) {
     response.send(static_cast<Http::Code>(e.code()), e.what());
-    return;
   } catch (std::exception& e) {
     // send a 500 error
     response.send(Http::Code::Internal_Server_Error, e.what());
-    return;
   }
 }
 

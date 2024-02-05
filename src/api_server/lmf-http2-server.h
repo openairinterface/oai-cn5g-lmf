@@ -35,9 +35,18 @@ using namespace oai::lmf::app;
 
 class lmf_http2_server {
  public:
-  lmf_http2_server(std::string addr, uint32_t port, lmf_app* lmf_app_inst)
-      : m_address(addr), m_port(port), server(), m_lmf_app(lmf_app_inst) {}
+  lmf_http2_server(
+      std::string addr, uint32_t port, unsigned num_threads,
+      lmf_app* lmf_app_inst)
+      : m_address(addr),
+        m_port(port),
+        m_num_threads(num_threads),
+        server(),
+        m_lmf_app(lmf_app_inst) {}
   void start();
+  void n2info_nrppa_notification_post_handler(
+      const std::string& ueContextId, std::vector<mime_part>& parts,
+      const response& response);
   void init(size_t thr) {}
 
   void detemine_location_post_handler(
@@ -49,6 +58,7 @@ class lmf_http2_server {
  private:
   std::string m_address;
   uint32_t m_port;
+  unsigned m_num_threads;
   http2 server;
   lmf_app* m_lmf_app;
 };

@@ -52,79 +52,8 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
 
   Logger::lmf_server().debug("SUPI %s", ueContextId);
 
-  if (!n2InformationNotification.n2InfoContainerIsSet()) {
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error("N2InfoContainer not present");
-    return;
-  }
-  // N2 Container Present
-  Logger::lmf_server().debug("N2InfoContainer is present, handling...");
-
-  auto const& n2InfoContainer = n2InformationNotification.getN2InfoContainer();
-  auto const& eN2InformationClass =
-      n2InfoContainer.getN2InformationClass().getEnumValue();
-
-  // Check N2 Information Class
-  if (eN2InformationClass !=
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error(
-        "N2 Information Class not NRPPA: %d",
-        static_cast<int>(eN2InformationClass));
-    return;
-  }
-  Logger::lmf_server().debug("N2 Information Class: NRPPA");
-
-  if (!n2InfoContainer.nrppaInfoIsSet()) {
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error("nrppaInfo not present");
-    return;
-  }
-  auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
-
-  if (nrppaInfo.getNfId() != lmf_nrf_inst->lmf_instance_id) {
-    Logger::lmf_server().warn(
-        "nfId != '%s': '%s'", lmf_nrf_inst->lmf_instance_id,
-        nrppaInfo.getNfId());
-  }
-
-  auto const& nrppaPdu = nrppaInfo.getNrppaPdu();
-  if (!nrppaPdu.ngapIeTypeIsSet()) {
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error("ngapIeType not present");
-    return;
-  }
-  // NGAP IE Type
-  auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
-  if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error(
-        "ngapIeType not NRPPA_PDU: %d", static_cast<int>(eNgapIeType));
-    return;
-  }
-  Logger::lmf_server().debug("NGAP IE Type: NRPPA_PDU");
-  auto const& ngapData = nrppaPdu.getNgapData();
-  Logger::lmf_server().debug("content-id: %s", ngapData.getContentId());
-
-  if (parts.at(1).content_type != "application/vnd.3gpp.ngap") {
-    Logger::lmf_server().warn(
-        "content-type != 'application/vnd.3gpp.ngap': '%s'",
-        parts.at(1).content_type);
-  }
-
-  auto const& body   = parts.at(1).body;
-  NRPPA_PDU_t* nrppa = nullptr;  // TODO: warp in unigue_ptr with custom deleter
-  auto const& rc     = asn_decode(
-      NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
-      body.c_str(), body.length());
-  if (rc.code != RC_OK) {
-    ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
-    response.send(Pistache::Http::Code::Bad_Request);
-    Logger::lmf_server().error("asn_decode failed: %d", rc.code);
-    return;
-  }
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
-  Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
+  auto nrppa = lmf_app::parse_n2_info_container_nrppa(
+      n2InformationNotification, parts.at(1));
 
   if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
     N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);

@@ -11,6 +11,7 @@
  * the class manually.
  */
 
+#include "lmf_config.hpp"
 #include "DetermineLocationApi.h"
 #include "Helpers.h"
 
@@ -18,8 +19,6 @@ namespace oai::lmf_server::api {
 
 using namespace org::openapitools::server::helpers;
 using namespace oai::lmf_server::model;
-
-const std::string DetermineLocationApi::base = "/nlmf-loc/v1";
 
 DetermineLocationApi::DetermineLocationApi(
     const std::shared_ptr<Pistache::Rest::Router>& rtr)
@@ -33,7 +32,7 @@ void DetermineLocationApi::setupRoutes() {
   using namespace Pistache::Rest;
 
   Routes::Post(
-      *router, base + "/determine-location",
+      *router, base + lmf_cfg.sbi_api_version + NLMF_DETERMINE_LOCATION,
       Routes::bind(&DetermineLocationApi::determine_location_handler, this));
 
   // Default handler, called when a route is not found

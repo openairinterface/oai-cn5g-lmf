@@ -26,6 +26,8 @@
 #include <optional>
 #include <utility>
 
+#include "lmf.h"
+
 #include "CancelLocData.h"
 #include "ProblemDetails.h"
 #include "RedirectResponse.h"
@@ -40,7 +42,7 @@ class CancelLocationApi {
   virtual ~CancelLocationApi() = default;
   void init();
 
-  static const std::string base;
+  const std::string base = NLMF_BASE;
 
  private:
   void setupRoutes();
