@@ -124,7 +124,7 @@ def generic_deployment(tag):
                     nrfTagToUse = res.group('tag')
         if nrfTagToUse == '':
             print('could not find a nrf image')
-            sys.exit(-1)
+            nrfTagToUse = 'v2.0.1'
 
         cmd = 'sudo podman network create --subnet 192.168.28.192/26 --ip-range 192.168.28.192/26 cicd-oai-public-net'
         netUpStatus = myCmds.run(cmd)

@@ -392,7 +392,7 @@ static struct _el_buffer* SET_OF__encode_sorted(
             _el_addbytes, encoding_el);
         if (erval.encoded != -1) {
           size_t extra_bits = erval.encoded % 8;
-          assert(encoding_el->length == (size_t)(erval.encoded + 7) / 8);
+          assert(encoding_el->length == (size_t) (erval.encoded + 7) / 8);
           encoding_el->bits_unused = (8 - extra_bits) & 0x7;
         }
         break;
