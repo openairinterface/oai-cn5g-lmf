@@ -24,6 +24,7 @@
 
 #include <future>
 #include <map>
+#include <tuple>
 
 #include <nlohmann/json.hpp>
 
@@ -35,6 +36,7 @@
 #include "PositioningInformationResponse.h"
 #include "MeasurementResponse.h"
 #include "PositioningActivationResponse.h"
+#include "SRSConfiguration.h"
 
 #include "InputData.h"
 
@@ -55,7 +57,9 @@ class LocationDetermination {
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
 
-  std::promise<std::pair<NRPPA_PDU_t*, PositioningInformationResponse_t const&>>
+  std::promise<std::tuple<
+      NRPPA_PDU_t*, PositioningInformationResponse_t const&,
+      SRSConfiguration_t const&>>
       positioning_information_response;
   void positioning_information_request(NRPPATransactionID_t const& nrppa_tId);
   void handle_positioning_information_response(
@@ -65,13 +69,19 @@ class LocationDetermination {
   std::vector<
       std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>>
       resps;
-  void measurement_request(NRPPATransactionID_t const& tId);
+  void measurement_request(
+      NRPPATransactionID_t const& tId,
+      SRSConfiguration_t const& srsConfiguration);
   void handle_measurement_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       MeasurementResponse_t const& measurementResponse);
 
-  bool n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);
-  bool non_ue_n2_message_transfer(NRPPA_PDU_t* nrppaPdu);
+  bool n1_n2_message_transfer(
+      NRPPA_PDU_t* nrppaPdu,
+      SRSConfiguration_t* const srsConfigurationBorrowed);
+  bool non_ue_n2_message_transfer(
+      NRPPA_PDU_t*
+          nrppaPdu);  //, SRSConfiguration_t* const srsConfigurationBorrowed);
 
   // mapping between nrppa transaction and transaction type
   // TODO: use individual reponse object as value not ResposeType

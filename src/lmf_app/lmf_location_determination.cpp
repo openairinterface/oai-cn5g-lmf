@@ -61,12 +61,16 @@ auto end(T const& container) {
   return container.list.array + container.list.count;
 }
 
-bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
+bool LocationDetermination::n1_n2_message_transfer(
+    NRPPA_PDU_t* nrppaPdu, SRSConfiguration_t* const srsConfigurationBorrowed) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
+  if (srsConfigurationBorrowed != nullptr) {
+    // don't free, it's from positioning information request
+    *srsConfigurationBorrowed = {};
+  }
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
 
   if (nrppaPduEnc.result.encoded == -1) {
@@ -309,11 +313,12 @@ void LocationDetermination::positioning_information_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(nrppaPdu);
+  this->n1_n2_message_transfer(nrppaPdu, nullptr);
 }
 
 void LocationDetermination::measurement_request(
-    NRPPATransactionID_t const& tId) {
+    NRPPATransactionID_t const& tId,
+    SRSConfiguration_t const& srsConfigurationUE) {
   if (auto const& [iter, inserted] =
           this->nrppa_tId.try_emplace(tId, ResponseType::Measurement);
       !inserted) {
@@ -327,7 +332,7 @@ void LocationDetermination::measurement_request(
   auto reportCharacteristic = ReportCharacteristics_onDemand;
 
   auto initiatingMessage =
-      (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
   *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_Measurement,
       .criticality        = Criticality_reject,
@@ -338,7 +343,7 @@ void LocationDetermination::measurement_request(
       &initiatingMessage->value.choice.MeasurementRequest.protocolIEs.list;
 
   auto lmfMeasurementId =
-      (MeasurementRequest_IEs_t*) calloc(1, sizeof(MeasurementRequest_IEs_t));
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
   *lmfMeasurementId = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
       .criticality = Criticality_reject,
@@ -369,7 +374,7 @@ void LocationDetermination::measurement_request(
   ASN_SEQUENCE_ADD(ies, &trpMeasurementRequestIE);
 #endif
   auto reportCharacteristics =
-      (MeasurementRequest_IEs_t*) calloc(1, sizeof(MeasurementRequest_IEs_t));
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
   *reportCharacteristics = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_ReportCharacteristics,
       .criticality = Criticality_reject,
@@ -383,21 +388,59 @@ void LocationDetermination::measurement_request(
   };
   ASN_SEQUENCE_ADD(ies, reportCharacteristics);
 
-  auto nrppaPdu = (NRPPA_PDU_t*) calloc(1, sizeof(NRPPA_PDU_t));
+  auto srsConfigurationIE =
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
+  *srsConfigurationIE = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_SRSConfiguration,
+      .criticality = Criticality_ignore,
+      .value =
+          {
+              .present = MeasurementRequest_IEs__value_PR_SRSConfiguration,
+              .choice =
+                  {
+                      .SRSConfiguration = srsConfigurationUE,
+                  },
+          },
+  };
+  auto srsConfigurationBorrowed =
+      &srsConfigurationIE->value.choice.SRSConfiguration;
+  ASN_SEQUENCE_ADD(ies, srsConfigurationIE);
+
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  //this->non_ue_n2_message_transfer(nrppaPdu);
-  this->n1_n2_message_transfer(nrppaPdu);
+  // this->non_ue_n2_message_transfer(nrppaPdu);
+  this->n1_n2_message_transfer(nrppaPdu, srsConfigurationBorrowed);
 }
 
 void LocationDetermination::handle_positioning_information_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
+  SRSConfiguration_t* srsConfiguration = nullptr;
+  for (auto const& positioningInformationIE :
+       positioningInformationResponse.protocolIEs) {
+    if (positioningInformationIE->id == ProtocolIE_ID_id_SRSConfiguration &&
+        positioningInformationIE->value.present ==
+            PositioningInformationResponse_IEs__value_PR_SRSConfiguration) {
+      srsConfiguration =
+          &positioningInformationIE->value.choice.SRSConfiguration;
+    }
+  }
+  if (srsConfiguration == nullptr) {
+    try {
+      throwHttpError(
+          "handle_positioning_information_response: srsConfiguration missing",
+          "srsConfiguration needed for non-ue measurement request");
+    } catch (...) {
+      this->positioning_information_response.set_exception(
+          std::current_exception());
+    }
+  }
   this->positioning_information_response.set_value(
-      {nrppaPdu, positioningInformationResponse});
+      {nrppaPdu, positioningInformationResponse, *srsConfiguration});
 }
 
 void LocationDetermination::handle_measurement_response(
@@ -432,7 +475,7 @@ void LocationDetermination::positioning_activation_request(
   }
 
   auto initiatingMessage =
-      (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
   *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningActivation,
       .criticality        = Criticality_reject,
@@ -444,7 +487,7 @@ void LocationDetermination::positioning_activation_request(
                   .protocolIEs.list;
 
   // >Aperiodic
-  auto aperiodicSRS = (AperiodicSRS_t*) calloc(1, sizeof(AperiodicSRS_t));
+  auto aperiodicSRS = (AperiodicSRS_t*) malloc(sizeof(AperiodicSRS_t));
   *aperiodicSRS     = AperiodicSRS_t{
       .aperiodic = AperiodicSRS__aperiodic_true,
   };
@@ -474,13 +517,13 @@ void LocationDetermination::positioning_activation_request(
 
   // >Semi-persistent
   auto semipersistentSRS =
-      (SemipersistentSRS_t*) calloc(1, sizeof(SemipersistentSRS_t));
+      (SemipersistentSRS_t*) malloc(sizeof(SemipersistentSRS_t));
   *semipersistentSRS = SemipersistentSRS_t{
       .sRSResourceSetID = 1,
   };
   // CHOICE SRS type
-  auto semipersistentSRS_ie = (PositioningActivationRequestIEs_t*) calloc(
-      1, sizeof(PositioningActivationRequestIEs_t));
+  auto semipersistentSRS_ie = (PositioningActivationRequestIEs_t*) malloc(
+      sizeof(PositioningActivationRequestIEs_t));
   *semipersistentSRS_ie = PositioningActivationRequestIEs_t{
       .id          = ProtocolIE_ID_id_SRSType,
       .criticality = Criticality_reject,
@@ -502,13 +545,13 @@ void LocationDetermination::positioning_activation_request(
   };
   ASN_SEQUENCE_ADD(ies, semipersistentSRS_ie);
 
-  auto nrppaPdu = (NRPPA_PDU_t*) calloc(1, sizeof(NRPPA_PDU_t));
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(nrppaPdu);
+  this->n1_n2_message_transfer(nrppaPdu, nullptr);
 }
 
 void LocationDetermination::handle_positioning_activation_response(

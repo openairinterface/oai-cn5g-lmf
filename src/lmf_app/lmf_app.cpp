@@ -196,7 +196,7 @@ void lmf_app::handle_determine_location(
   this->create_n1n2subscription(supi);
   auto const& pir_tId = this->nrppa_tid_gen.get_uid();
   ctx->positioning_information_request(pir_tId);
-  auto const& [nrppaPduPIR, positioningInformationResponse] =
+  auto const& [nrppaPduPIR, positioningInformationResponse, srsConfiguration] =
       ctx->positioning_information_response.get_future().get();
 #if 0  // at gNb not implemented 
   // 5. NRPPa Request UE SRS activation
@@ -207,7 +207,7 @@ void lmf_app::handle_determine_location(
       ctx->positioning_activation_response.get_future().get();
 #endif
   auto const& mr_tId = this->nrppa_tid_gen.get_uid();
-  ctx->measurement_request(mr_tId);
+  ctx->measurement_request(mr_tId, srsConfiguration);
   // for (auto& prom : ctx->resps) { // boost::wait_for_all
   //   prom.get_future().wait();
   // }

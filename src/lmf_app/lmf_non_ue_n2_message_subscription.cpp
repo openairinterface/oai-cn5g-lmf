@@ -119,14 +119,9 @@ std::string NonUeN2MessageSubscription::subscribe() {
         nonUeN2InfoSubscriptionCreatedData.getN2NotifySubscriptionId();
     return id;
   } catch (nlohmann::detail::exception const& ex) {
-    using namespace Pistache::Http;
-
-    model::ProblemDetails pd;
-    pd.setTitle("NonUeN2InfoSubscription failed");
-    pd.setDetail(
-        "amf_uri: '" + amf_uri + "', respone: '" + response +
-        "', ex: " + ex.what());
-    auto const& reason = nlohmann::json(pd).dump();
-    throw HttpError{Code::Internal_Server_Error, reason};
+    auto title  = "NonUeN2InfoSubscription failed"s;
+    auto detail = "amf_uri: '" + amf_uri + "', respone: '" + response +
+                  "', ex: " + ex.what();
+    throwHttpError(title, detail);
   }
 }
