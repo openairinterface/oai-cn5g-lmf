@@ -196,6 +196,7 @@ pipeline {
                   ]) {
                     sh "oc login -u ${OC_Username} -p ${OC_Password}"
                   }
+                  sh "oc project oaicicd-core"
                   sh "oc delete istag oai-lmf:${lmf_tag} || true"
                   // Copy the RHEL Host certificates for building
                   sh "./ci-scripts/common/python/recreate_entitlement.py"
@@ -341,8 +342,16 @@ pipeline {
                   withCredentials([
                     [$class: 'UsernamePasswordMultiBinding', credentialsId: "${rhelOcCredentials}", usernameVariable: 'OC_Username', passwordVariable: 'OC_Password']
                   ]) {
-                    sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-lmf:${lmf_tag}"
+                    sh "oc login -u ${OC_Username} -p ${OC_Password}"
+                    sh "oc whoami -t | sudo podman login -u ${OC_Username} --password-stdin https://default-route-openshift-image-registry.apps.oai.cs.eurecom.fr --tls-verify=false"
                   }
+                  sh "oc project oaicicd-core"
+                  sh "sudo podman pull --tls-verify=false default-route-openshift-image-registry.apps.oai.cs.eurecom.fr/oaicicd-core/oai-lmf:${lmf_tag}"
+                  sh "sudo podman tag default-route-openshift-image-registry.apps.oai.cs.eurecom.fr/oaicicd-core/oai-lmf:${lmf_tag} oai-lmf:${lmf_tag}"
+                  sh "sudo podman rmi default-route-openshift-image-registry.apps.oai.cs.eurecom.fr/oaicicd-core/oai-lmf:${lmf_tag}"
+                  sh "sudo podman logout https://default-route-openshift-image-registry.apps.oai.cs.eurecom.fr"
+                  sh "oc logout || true"
+                  sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-lmf:${lmf_tag}"
                 }
               }
             }
@@ -350,6 +359,7 @@ pipeline {
           post {
             always {
               script {
+                sh "sudo podman rmi oai-lmf:${lmf_tag}"
                 stash allowEmpty: true, includes: 'archives/sanity-check-rhel/*.log', name: 'podmanRunLog'
               }
             }
