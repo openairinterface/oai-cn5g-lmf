@@ -123,14 +123,10 @@ std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
         ueN1N2InfoSubscriptionCreatedData.getN1n2NotifySubscriptionId();
     return id;
   } catch (nlohmann::detail::exception const& ex) {
-    using namespace Pistache::Http;
-    model::ProblemDetails pd;
-    pd.setTitle("subscribe ueN1N2InfoSubscription failed");
-    pd.setDetail(
-        "amf_uri: '" + amf_uri + "', respone: '" + response +
-        "', ex: " + ex.what());
-    Logger::lmf_server().error(pd.getTitle() + ": " + pd.getDetail());
-    auto const& reason = nlohmann::json(pd).dump();
-    throw HttpError{Code::Internal_Server_Error, reason};
+    auto title  = "subscribe ueN1N2InfoSubscription failed"s;
+    auto detail = "amf_uri: '" + amf_uri + "', respone: '" + response +
+                  "', ex: " + ex.what();
+    throwHttpError(title, detail);
+    return {};  // suppress no return warning
   }
 }

@@ -66,11 +66,6 @@ class lmf_app {
 
   bool handle_n2info_nrppa_notification(std::string supi, NRPPA_PDU_t* nrppa);
 
-  bool handle_non_ue_n2info_nrppa_notification(
-      NRPPA_PDU_t* nrppa,
-      oai::lmf_server::model::ProblemDetails& problem_details,
-      uint8_t& http_code);
-
   bool is_supi_2_context(const std::string& supi) const;
   std::shared_ptr<LocationDetermination> create_lmf_context(
       const std::string& supi);

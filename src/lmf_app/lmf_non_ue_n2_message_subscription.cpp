@@ -123,5 +123,6 @@ std::string NonUeN2MessageSubscription::subscribe() {
     auto detail = "amf_uri: '" + amf_uri + "', respone: '" + response +
                   "', ex: " + ex.what();
     throwHttpError(title, detail);
+    return {};  // suppress no return warning
   }
 }

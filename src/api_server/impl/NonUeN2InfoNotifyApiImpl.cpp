@@ -127,11 +127,10 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
   model::ProblemDetails problem_details = {};
   uint8_t http_code                     = 0;
 
-  if (m_lmf_app->handle_non_ue_n2info_nrppa_notification(
-          nrppa, problem_details, http_code)) {
+  if (m_lmf_app->handle_non_ue_n2info_nrppa_notification(nrppa)) {
     response.send(Pistache::Http::Code(204));
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+  // ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
 }  // namespace oai::lmf_server::api

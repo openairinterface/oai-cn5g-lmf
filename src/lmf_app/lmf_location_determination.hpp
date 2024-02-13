@@ -78,10 +78,10 @@ class LocationDetermination {
 
   bool n1_n2_message_transfer(
       NRPPA_PDU_t* nrppaPdu,
-      SRSConfiguration_t* const srsConfigurationBorrowed);
+      SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
   bool non_ue_n2_message_transfer(
-      NRPPA_PDU_t*
-          nrppaPdu);  //, SRSConfiguration_t* const srsConfigurationBorrowed);
+      NRPPA_PDU_t* nrppaPdu,
+      SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
 
   // mapping between nrppa transaction and transaction type
   // TODO: use individual reponse object as value not ResposeType

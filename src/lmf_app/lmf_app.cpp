@@ -24,6 +24,9 @@
 #include <iterator>
 #include <string>
 
+#include <boost/range/irange.hpp>
+#include <boost/format.hpp>
+
 #include "lmf_app.hpp"
 #include "lmf_nrf.hpp"
 #include "lmf_client.hpp"
@@ -55,6 +58,7 @@
 #include "TrpMeasuredResultsValue.h"
 #include "ULRTOAMeas.h"
 #include "UL-RTOAMeasurement.h"
+#include "TRPInformationItem.h"
 
 using namespace std;
 using namespace oai::lmf::app;
@@ -65,7 +69,7 @@ lmf_client* lmf_client_inst = nullptr;
 lmf_nrf* lmf_nrf_inst       = nullptr;
 
 // provides for asn container.list.array range based for loops
-// for (auto const& xyzIEs : xyzResponse.protocolIEs) {
+// for (auto const& xyzIE : xyzResponse.protocolIEs) {
 template<typename T>
 auto begin(T const& container) {
   return container.list.array;
@@ -76,9 +80,126 @@ auto end(T const& container) {
   return container.list.array + container.list.count;
 }
 
+static NRPPA_PDU_t* build_trp_information_response(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  auto successfulTrpInformationExchange =
+      (SuccessfulOutcome_t*) malloc(sizeof(SuccessfulOutcome_t));
+  *successfulTrpInformationExchange = SuccessfulOutcome_t{
+      .procedureCode      = ProcedureCode_id_tRPInformationExchange,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = nrppaTxnId,
+      .value =
+          {
+              .present = SuccessfulOutcome__value_PR_TRPInformationResponse,
+          },
+  };
+  auto trpInformationIEs = &successfulTrpInformationExchange->value.choice
+                                .TRPInformationResponse.protocolIEs.list;
+
+  auto trpInformationListIE = (TRPInformationResponse_IEs_t*) malloc(
+      sizeof(TRPInformationResponse_IEs_t));
+  *trpInformationListIE = TRPInformationResponse_IEs_t{
+      .id          = ProtocolIE_ID_id_TRPInformationList,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present =
+                  TRPInformationResponse_IEs__value_PR_TRPInformationList,
+          },
+  };
+  ASN_SEQUENCE_ADD(trpInformationIEs, trpInformationListIE);
+  auto trpInformationList =
+      &trpInformationListIE->value.choice.TRPInformationList;
+
+  // 3 trp's attached to different gbn's
+  for (TRP_ID_t trpId : boost::irange(1, 4)) {
+    auto trpInformationListMember = (TRPInformationList__Member*) malloc(
+        sizeof(TRPInformationList__Member));
+    *trpInformationListMember = TRPInformationList__Member{
+        .tRP_ID = trpId,
+    };
+    ASN_SEQUENCE_ADD(trpInformationList, trpInformationListMember);
+    auto trpInformationItemList =
+        &trpInformationListMember->tRPInformation.list;
+
+    // 28bit gnbId 0x400 (1024dez) 8bit cellId 0x10 (16dez) (36bit)
+    // 9.2.9 NR CGI
+    auto ngRanCgi = (NG_RAN_CGI_t*) malloc(sizeof(NG_RAN_CGI_t));
+    *ngRanCgi     = NG_RAN_CGI_t{
+        .pLMN_Identity =
+            PLMN_Identity_t{
+                .buf  = (uint8_t*) malloc(3),
+                .size = 3,
+            },
+        .nG_RANcell =
+            NG_RANCell_t{
+                .present = NG_RANCell_PR_nR_CellID,
+                .choice =
+                    {
+                        .nR_CellID =
+                            NRCellIdentifier_t{
+                                .buf         = (uint8_t*) malloc(5),
+                                .size        = 5,
+                                .bits_unused = 4,  // 36bits
+                            },
+                    },
+            },
+    };
+    // 9.2.8 PLMN Identity
+    auto& plmnIdentity  = ngRanCgi->pLMN_Identity;
+    plmnIdentity.buf[0] = 0x0d;  // first 2 digits mcc 0x0d0 = 208
+    plmnIdentity.buf[1] = 0x0f;  // third digit mcc + filler
+    plmnIdentity.buf[2] = 0x5f;  // mnc 2 digits 0x5f = 95
+    // NR Cell Identity BIT STRING (SIZE(36))
+    auto& nrCellId = ngRanCgi->nG_RANcell.choice.nR_CellID;
+    // gnbId + trpId shift left 8bit cellId
+    uint64_t nci = (0x40010 + (trpInformationListMember->tRP_ID << 8))
+                   << nrCellId.bits_unused;
+    {
+      auto i = 0;
+      for (auto const& s : boost::irange(32, -1, -8)) {
+        nrCellId.buf[i++] = nci >> s;
+      }
+    }
+    auto trpInformationItem =
+        (TRPInformationItem_t*) malloc(sizeof(TRPInformationItem_t));
+    *trpInformationItem = TRPInformationItem_t{
+        .present = TRPInformationItem_PR_nG_RAN_CGI,
+        .choice{
+            .nG_RAN_CGI = ngRanCgi,
+        },
+    };
+    ASN_SEQUENCE_ADD(trpInformationItemList, trpInformationItem);
+  }
+
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_successfulOutcome,
+      .choice =
+          {
+              .successfulOutcome = successfulTrpInformationExchange,
+          },
+  };
+
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  if (nrppaPduEnc.result.encoded == -1) {
+    Logger::lmf_app().error(
+        "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
+                                          nrppaPduEnc.result.failed_type->name :
+                                          "unknown");
+  }
+  free(nrppaPduEnc.buffer);
+
+  return nrppaPdu;
+}
+
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     : event_sub(ev) {
+  // this->handle_non_ue_n2info_nrppa_notification(build_trp_information_response(this->nrppa_tid_trp_information=1));
+
   Logger::lmf_app().startup("Starting...");
   try {
     lmf_client_inst = new lmf_client();
@@ -335,41 +456,6 @@ void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
   supi2n1n2subs.erase(supi);
 }
 
-bool lmf_app::handle_non_ue_n2info_nrppa_notification(
-    NRPPA_PDU_t* nrppa, ProblemDetails& problem_details, uint8_t& http_code) {
-  if (nrppa->present != NRPPA_PDU_PR_successfulOutcome) {
-    Logger::lmf_server().error(
-        "nrppa->present != NRPPA_PDU_PR_successfulOutcome: %d", nrppa->present);
-    return false;
-  }
-
-  return true;
-}
-
-// check 1:1 relationship between procedureCode and value.present
-template<typename T, typename U>
-static void check(T const& present, U const& expected) {
-  if (present != expected) {
-    auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
-               &ps     = "present: "s + std::to_string(present),
-               &es     = "expected: "s + std::to_string(expected),
-               &detail = ps + ": "s + es;
-    throwHttpError(title, detail);
-  }
-}
-
-template<typename T, typename U, typename V>
-static U const& get(U const& choice, T const& present, V const& expected) {
-  if (present != expected) {
-    auto const &title  = "handle_n2info_nrppa_notification: invalid message"s,
-               &ps     = "present: "s + std::to_string(present),
-               &es     = "expected: "s + std::to_string(expected),
-               &detail = ps + ": "s + es;
-    throwHttpError(title, detail);
-  }
-  return choice;
-}
-
 NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
   switch (nrppa->present) {
     case NRPPA_PDU_PR_initiatingMessage:
@@ -384,7 +470,81 @@ NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
   return 0;
 }
 
+// check 1:1 relationship between procedureCode and value.present
+template<typename T, typename U>
+static void checkPC(
+    std::string const& ux, T const& present, U const& expected) {
+  if (present->procedureCode != expected) {
+    auto const &title = "handle_" + ux +
+                        "_n2info_nrppa_notification: invalid procedue code"s,
+               &ps     = "present: "s + std::to_string(present->procedureCode),
+               &es     = "expected: "s + std::to_string(expected),
+               &detail = ps + ": "s + es;
+    throwHttpError(title, detail);
+  }
+}
+
+template<typename T, typename U, typename V>
+static U const& getPR(
+    std::string const& ux, U const& choice, T const& value, V const& expected) {
+  if (value.present != expected) {
+    auto const &title = "handle_" + ux +
+                        "_n2info_nrppa_notification: invalid message"s,
+               &ps     = "present: "s + std::to_string(value.present),
+               &es     = "expected: "s + std::to_string(expected),
+               &detail = ps + ": "s + es;
+    throwHttpError(title, detail);
+  }
+  return choice;
+}
+
 bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
+  auto const& nrppaTxnId = getNrppaId(nrppa);
+
+  if (nrppaTxnId == this->nrppa_tid_trp_information) {
+    Logger::lmf_app().debug("trp information received");
+
+    auto const& successfullTrpInformationExchange = getPR(
+        "non_ue"s, nrppa->choice.successfulOutcome, *nrppa,
+        NRPPA_PDU_PR_successfulOutcome);
+    checkPC(
+        "non_ue"s, successfullTrpInformationExchange,
+        ProcedureCode_id_tRPInformationExchange);
+
+    auto const& trpInformationExchange =
+        successfullTrpInformationExchange->value;
+    auto const& trpInformation = getPR(
+        "non_ue"s, trpInformationExchange.choice.TRPInformationResponse,
+        trpInformationExchange,
+        SuccessfulOutcome__value_PR_TRPInformationResponse);
+    for (auto const& trpInformationIE : trpInformation.protocolIEs) {
+      if (trpInformationIE->id == ProtocolIE_ID_id_TRPInformationList) {
+        auto const& value              = trpInformationIE->value;
+        auto const& trpInformationList = getPR(
+            "non_ue"s, value.choice.TRPInformationList, value,
+            TRPInformationResponse_IEs__value_PR_TRPInformationList);
+        for (auto const& trpInformationListMember : trpInformationList) {
+          trpInformationListMember->tRP_ID;
+          for (auto const& trpInformationItem :
+               trpInformationListMember->tRPInformation) {
+            if (trpInformationItem->present ==
+                TRPInformationItem_PR_nG_RAN_CGI) {
+              auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
+              auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
+
+              if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
+                auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
+                ngRanCell.buf;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
+  }
+
   return false;
 }
 
@@ -423,41 +583,39 @@ bool lmf_app::handle_n2info_nrppa_notification(
         "NRPPA_PDU_PR_unsuccessfulOutcome not implemented");
   }
 
-  auto const& successfulOutcome =
-      get(nrppa->choice.successfulOutcome, nrppa->present,
-          NRPPA_PDU_PR_successfulOutcome);
+  auto const& successfulOutcome = getPR(
+      "ue"s, nrppa->choice.successfulOutcome, *nrppa,
+      NRPPA_PDU_PR_successfulOutcome);
   switch (responseType) {
     case ResponseType::PositionInformation: {
-      check(
-          successfulOutcome->procedureCode,
+      checkPC(
+          "ue"s, successfulOutcome,
           ProcedureCode_id_positioningInformationExchange);
-      auto const& value = successfulOutcome->value;
-      auto const& positioningInformationResponse =
-          get(value.choice.PositioningInformationResponse, value.present,
-              SuccessfulOutcome__value_PR_PositioningInformationResponse);
+      auto const& value                          = successfulOutcome->value;
+      auto const& positioningInformationResponse = getPR(
+          "ue"s, value.choice.PositioningInformationResponse, value,
+          SuccessfulOutcome__value_PR_PositioningInformationResponse);
       ctx->handle_positioning_information_response(
           nrppa, tId, positioningInformationResponse);
       return true;
     } break;
 
     case ResponseType::Measurement: {
-      check(successfulOutcome->procedureCode, ProcedureCode_id_Measurement);
-      auto const& value = successfulOutcome->value;
-      auto const& measurementResponse =
-          get(value.choice.MeasurementResponse, value.present,
-              SuccessfulOutcome__value_PR_MeasurementResponse);
+      checkPC("ue"s, successfulOutcome, ProcedureCode_id_Measurement);
+      auto const& value               = successfulOutcome->value;
+      auto const& measurementResponse = getPR(
+          "ue"s, value.choice.MeasurementResponse, value,
+          SuccessfulOutcome__value_PR_MeasurementResponse);
       ctx->handle_measurement_response(nrppa, tId, measurementResponse);
       return true;
     } break;
 
     case ResponseType::PositioningActivation: {
-      check(
-          successfulOutcome->procedureCode,
-          ProcedureCode_id_positioningActivation);
-      auto const& value = successfulOutcome->value;
-      auto const& positioningActivationResponse =
-          get(value.choice.PositioningActivationResponse, value.present,
-              SuccessfulOutcome__value_PR_PositioningActivationResponse);
+      checkPC("ue"s, successfulOutcome, ProcedureCode_id_positioningActivation);
+      auto const& value                         = successfulOutcome->value;
+      auto const& positioningActivationResponse = getPR(
+          "ue"s, value.choice.PositioningActivationResponse, value,
+          SuccessfulOutcome__value_PR_PositioningActivationResponse);
       ctx->handle_positioning_activation_response(
           nrppa, tId, positioningActivationResponse);
       return true;
@@ -481,68 +639,33 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
   // 9.2.4 NRPPa Transaction ID
   auto const nrppatransactionID = NRPPATransactionID_t{
       this->nrppa_tid_trp_information = nrppa_tid_gen.get_uid()};
-  // 9.2.24 TRP ID
-  auto const trpIds = std::vector<TRP_ID_t>{1, 2};
-  // TRP Information Type Item's
-  auto const trpInformationTypes = std::vector<e_TRPInformationTypeItem>{
-      TRPInformationTypeItem_nrPCI, TRPInformationTypeItem_geoCoord};
 
   auto initiatingMessage =
-      (InitiatingMessage_t*) calloc(1, sizeof(InitiatingMessage_t));
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice =
+          {
+              .initiatingMessage = initiatingMessage,
+          },
+  };
+
   *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_tRPInformationExchange,
       .criticality        = Criticality_reject,
       .nrppatransactionID = nrppatransactionID,
-      .value = {.present = InitiatingMessage__value_PR_TRPInformationRequest},
-  };
-  auto informationRequest =
-      &initiatingMessage->value.choice.MeasurementRequest.protocolIEs.list;
-
-  // TRP List
-  auto trpListIe = (TRPInformationRequest_IEs_t*) calloc(
-      1, sizeof(TRPInformationRequest_IEs_t));
-  *trpListIe = TRPInformationRequest_IEs_t{
-      .id          = ProtocolIE_ID_id_TRPList,
-      .criticality = Criticality_reject,
-      .value       = {.present = TRPInformationRequest_IEs__value_PR_TRPList},
-  };
-  auto trpList = &trpListIe->value.choice.TRPList.list;
-  // >TRP Item 1 .. <maxnoTRPs>
-  for (auto const& trpId : trpIds) {
-    // >>TRP ID 9.2.24
-    auto trpItem = (TRPItem_t*) calloc(1, sizeof(TRPItem_t));
-    *trpItem     = TRPItem_t{.tRP_ID = trpId};
-    ASN_SEQUENCE_ADD(trpList, trpItem);
-  }
-  ASN_SEQUENCE_ADD(informationRequest, trpListIe);
-
-  // TRP Information Type List
-  auto informationTypeIe = (TRPInformationRequest_IEs_t*) calloc(
-      1, sizeof(TRPInformationRequest_IEs_t));
-  *informationTypeIe = TRPInformationRequest_IEs_t{
-      .id          = ProtocolIE_ID_id_TRPInformationTypeList,
-      .criticality = Criticality_reject,
       .value =
-          {.present =
-               TRPInformationRequest_IEs__value_PR_TRPInformationTypeList},
-  };
-  auto trpInformationTypeList =
-      &informationTypeIe->value.choice.TRPInformationTypeList.list;
-  // >TRP Information Type Item 1 .. <maxnoTRPInfoTypes>
-  for (auto const& trpinformationType : trpInformationTypes) {
-    auto trpInformationTypeItem =
-        (TRPInformationTypeItem_t*) calloc(1, sizeof(TRPInformationTypeItem_t));
-    *trpInformationTypeItem = TRPInformationTypeItem_t{trpinformationType};
-    ASN_SEQUENCE_ADD(trpInformationTypeList, trpInformationTypeItem);
-  }
-  ASN_SEQUENCE_ADD(informationRequest, &informationTypeIe);
-
-  auto nrppaPdu = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = initiatingMessage},
+          {
+              .present = InitiatingMessage__value_PR_TRPInformationRequest,
+              .choice =
+                  {
+                      .TRPInformationRequest = TRPInformationRequest_t{},
+                  },
+          },
   };
 
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, &nrppaPdu);
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);

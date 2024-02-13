@@ -159,11 +159,17 @@ bool LocationDetermination::n1_n2_message_transfer(
   return true;
 }
 
-bool LocationDetermination::non_ue_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
+bool LocationDetermination::non_ue_n2_message_transfer(
+    NRPPA_PDU_t* nrppaPdu, SRSConfiguration_t* const srsConfigurationBorrowed) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  if (srsConfigurationBorrowed != nullptr) {
+    // don't free, it's from positioning information request
+    *srsConfigurationBorrowed = {};
+  }
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
 
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
@@ -313,7 +319,7 @@ void LocationDetermination::positioning_information_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(nrppaPdu, nullptr);
+  this->n1_n2_message_transfer(nrppaPdu);
 }
 
 void LocationDetermination::measurement_request(
@@ -412,8 +418,8 @@ void LocationDetermination::measurement_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  // this->non_ue_n2_message_transfer(nrppaPdu);
-  this->n1_n2_message_transfer(nrppaPdu, srsConfigurationBorrowed);
+  this->non_ue_n2_message_transfer(nrppaPdu, srsConfigurationBorrowed);
+  // this->n1_n2_message_transfer(nrppaPdu, srsConfigurationBorrowed);
 }
 
 void LocationDetermination::handle_positioning_information_response(
@@ -551,7 +557,7 @@ void LocationDetermination::positioning_activation_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(nrppaPdu, nullptr);
+  this->n1_n2_message_transfer(nrppaPdu);
 }
 
 void LocationDetermination::handle_positioning_activation_response(
