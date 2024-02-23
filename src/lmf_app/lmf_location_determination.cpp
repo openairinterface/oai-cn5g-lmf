@@ -62,15 +62,12 @@ auto end(T const& container) {
 }
 
 bool LocationDetermination::n1_n2_message_transfer(
-    NRPPA_PDU_t* nrppaPdu, SRSConfiguration_t* const srsConfigurationBorrowed) {
+    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+    ProcedureCode_t const& procedureCode) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-  if (srsConfigurationBorrowed != nullptr) {
-    // don't free, it's from positioning information request
-    *srsConfigurationBorrowed = {};
-  }
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
 
   if (nrppaPduEnc.result.encoded == -1) {
@@ -156,18 +153,29 @@ bool LocationDetermination::n1_n2_message_transfer(
     auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
     throwHttpError(title, detail);
   }
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(txnId, procedureCode);
+      !inserted) {
+    throwHttpError(
+        "n1_n2_message_transfer"s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+
   return true;
 }
 
 bool LocationDetermination::non_ue_n2_message_transfer(
-    NRPPA_PDU_t* nrppaPdu, SRSConfiguration_t* const srsConfigurationBorrowed) {
+    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+    ProcedureCode_t const& procedureCode,
+    SRSConfiguration_t* const ueSrsConfigurationShared) {
   xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-  if (srsConfigurationBorrowed != nullptr) {
+  if (ueSrsConfigurationShared != nullptr) {
     // don't free, it's from positioning information request
-    *srsConfigurationBorrowed = {};
+    *ueSrsConfigurationShared = {};
   }
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
 
@@ -255,6 +263,22 @@ bool LocationDetermination::non_ue_n2_message_transfer(
     auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
     throwHttpError(title, detail);
   }
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(txnId, procedureCode);
+      !inserted) {
+    throwHttpError(
+        "non-ue n2 message transfer: "s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+  if (auto const& [iter, inserted] =
+          lmf_app_inst->supiByNrppaTxnId.try_emplace(txnId, this->supi);
+      !inserted) {
+    throwHttpError(
+        "non-ue n2 message transfer: "s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+
   return true;
 }
 
@@ -263,14 +287,6 @@ void LocationDetermination::positioning_information_request(
   Logger::lmf_app().info("Position Information Request");
 
   this->positioning_information_response = {};  // reset promise
-
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(tId, ResponseType::PositionInformation);
-      !inserted) {
-    throwHttpError(
-        "Position Information Request"s,
-        "nrppa id "s + std::to_string(tId) + " reuse"s);
-  }
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
@@ -319,20 +335,14 @@ void LocationDetermination::positioning_information_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(nrppaPdu);
+  this->n1_n2_message_transfer(
+      nrppaPdu, tId, ProcedureCode_id_positioningInformationExchange);
 }
 
 void LocationDetermination::measurement_request(
     NRPPATransactionID_t const& tId,
     SRSConfiguration_t const& srsConfigurationUE) {
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(tId, ResponseType::Measurement);
-      !inserted) {
-    throwHttpError(
-        "Measurement request"s, "nrppa id "s + std::to_string(tId) + " reuse"s);
-  }
-
-  this->resps.push_back({});
+  this->resps.push_back({});  // new promise each request
   // INTEGER (1..65536)
   auto measurementID        = Measurement_ID_t(this->resps.size());
   auto reportCharacteristic = ReportCharacteristics_onDemand;
@@ -408,7 +418,7 @@ void LocationDetermination::measurement_request(
                   },
           },
   };
-  auto srsConfigurationBorrowed =
+  auto ueSrsConfigurationShared =
       &srsConfigurationIE->value.choice.SRSConfiguration;
   ASN_SEQUENCE_ADD(ies, srsConfigurationIE);
 
@@ -418,8 +428,8 @@ void LocationDetermination::measurement_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->non_ue_n2_message_transfer(nrppaPdu, srsConfigurationBorrowed);
-  // this->n1_n2_message_transfer(nrppaPdu, srsConfigurationBorrowed);
+  this->non_ue_n2_message_transfer(
+      nrppaPdu, tId, ProcedureCode_id_Measurement, ueSrsConfigurationShared);
 }
 
 void LocationDetermination::handle_positioning_information_response(
@@ -471,14 +481,6 @@ void LocationDetermination::handle_measurement_response(
 void LocationDetermination::positioning_activation_request(
     NRPPATransactionID_t const& tId) {
   this->positioning_activation_response = {};
-
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(tId, ResponseType::PositioningActivation);
-      !inserted) {
-    throwHttpError(
-        "Position information request"s,
-        "nrppa id "s + std::to_string(tId) + " reuse"s);
-  }
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
@@ -557,7 +559,8 @@ void LocationDetermination::positioning_activation_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(nrppaPdu);
+  this->n1_n2_message_transfer(
+      nrppaPdu, tId, ProcedureCode_id_positioningActivation);
 }
 
 void LocationDetermination::handle_positioning_activation_response(
@@ -566,122 +569,3 @@ void LocationDetermination::handle_positioning_activation_response(
   this->positioning_activation_response.set_value(
       {nrppaPdu, positioningActivationResponse});
 }
-
-/*
-  LPP_Message_t* lppMsg = new LPP_Message_t();
-  build_request_location_lpp_pdu(lppMsg);
-
-  asn_encode_to_new_buffer_result_t lppMsgEnc = asn_encode_to_new_buffer(
-      0, ATS_UNALIGNED_BASIC_PER, &asn_DEF_LPP_Message, lppMsg);
-  if (lppMsgEnc.result.encoded == -1) {
-    Logger::lmf_app().error(
-        "Could not encode (at %s)\n", lppMsgEnc.result.failed_type ?
-                                          lppMsgEnc.result.failed_type->name :
-                                          "unknown");
-
-    ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg = "Could not encode (at ";
-    errorMsg +=
-        (lppMsgEnc.result.failed_type ? lppMsgEnc.result.failed_type->name :
-                                        "unknown");
-    errorMsg += ")\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-    return;
-  }
-*/
-
-/*
-  /**N1MessageContainer n1MessageContainer = {};
-
-  // N1 Message Class
-  N1MessageClass lppN1MessageClass = {};
-  lppN1MessageClass.setEnumValue(
-      N1MessageClass_anyOf::eN1MessageClass_anyOf::LPP);
-  n1MessageContainer.setN1MessageClass(lppN1MessageClass);
-
-  // N1 Message Container
-  std::string n1MessageDataStr(
-      (char*) lppMsgEnc.buffer,
-      (char*) (lppMsgEnc.buffer) + lppMsgEnc.result.encoded);
-  RefToBinaryData n1MessageData = {};
-  n1MessageData.setContentId(n1MessageDataStr);
-  n1MessageContainer.setN1MessageContent(n1MessageData);
-*/
-/*
-void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {
-  lppMsg->endTransaction = true;
-
-  lppMsg->transactionID =
-      (LPP_TransactionID_t*) calloc(1, sizeof(LPP_TransactionID_t));
-  lppMsg->transactionID->initiator         = Initiator_locationServer;
-  long transno                             = 10;
-  lppMsg->transactionID->transactionNumber = transno;
-
-  lppMsg->lpp_MessageBody =
-      (LPP_MessageBody_t*) calloc(1, sizeof(LPP_MessageBody_t));
-  lppMsg->lpp_MessageBody->present = LPP_MessageBody_PR_c1;
-  lppMsg->lpp_MessageBody->choice.c1 =
-      (LPP_MessageBody::LPP_MessageBody_u::LPP_MessageBody__c1*) calloc(
-          1, sizeof(LPP_MessageBody::LPP_MessageBody_u::LPP_MessageBody__c1));
-  lppMsg->lpp_MessageBody->choice.c1->present =
-      LPP_MessageBody__c1_PR_requestLocationInformation;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation =
-      (RequestLocationInformation_t*) calloc(
-          1, sizeof(RequestLocationInformation_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.present =
-      RequestLocationInformation__criticalExtensions_PR_c1;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice
-      .c1 = (RequestLocationInformation::
-                 RequestLocationInformation__criticalExtensions::
-                     RequestLocationInformation__criticalExtensions_u::
-                         RequestLocationInformation__criticalExtensions__c1*)
-      calloc(
-          1,
-          sizeof(
-              RequestLocationInformation::
-                  RequestLocationInformation__criticalExtensions::
-                      RequestLocationInformation__criticalExtensions_u::
-                          RequestLocationInformation__criticalExtensions__c1));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->present =
-      RequestLocationInformation__criticalExtensions__c1_PR_requestLocationInformation_r9;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9 =
-      (RequestLocationInformation_r9_IEs_t*) calloc(
-          1, sizeof(RequestLocationInformation_r9_IEs_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation =
-      (CommonIEsRequestLocationInformation_t*) calloc(
-          1, sizeof(CommonIEsRequestLocationInformation_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationInformationType =
-      LocationInformationType_locationMeasurementsRequired;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationCoordinateTypes =
-      (LocationCoordinateTypes_t*) calloc(1, sizeof(LocationCoordinateTypes_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationCoordinateTypes
-      ->ellipsoidPoint = true;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->velocityTypes =
-      (VelocityTypes_t*) calloc(1, sizeof(VelocityTypes_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->velocityTypes->horizontalVelocity =
-      true;
-}
-*/

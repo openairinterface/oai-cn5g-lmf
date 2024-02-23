@@ -46,9 +46,14 @@
 #include "Measurement-ID.h"
 #include "TRP-ID.h"
 
-#include "lpp-ie-headers.hpp"
-
 namespace oai::lmf::app {
+
+class Gnb {
+ public:
+  Gnb(oai::lmf_server::model::GlobalRanNodeId const& ncgi) : ncgi{ncgi} {}
+  const oai::lmf_server::model::GlobalRanNodeId ncgi;
+  std::set<TRP_ID_t> trpIds;  // TODO: replace with class TRP
+};
 
 class lmf_app {
  public:
@@ -84,6 +89,9 @@ class lmf_app {
           n2InformationNotification,
       mime_part const& nrppa_part);
 
+  // for non-ue that actually refers to ue
+  std::map<NRPPATransactionID_t, std::string> supiByNrppaTxnId;
+
  private:
   std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;
   mutable std::shared_mutex m_supi2ctx;
@@ -109,8 +117,11 @@ class lmf_app {
   util::uint_generator<Measurement_ID_t, 1, 65536> measurement_id_gen;
 
   // NG_RAN_CGI_t / NG_RANCell_t / NRCellIdentifier_t /
-  using GNB_ID                                 = unsigned;
-  std::map<GNB_ID, std::vector<TRP_ID_t>> trps = {{1, {1}}};
+  // std::map<GNB_ID, std::vector<TRP_ID_t>> trps = {{1, {1}}};
+
+  // globalRanNodeList
+  using GnbId = uint32_t;
+  std::map<GnbId, Gnb> gnb;
 };
 }  // namespace oai::lmf::app
 

@@ -47,6 +47,7 @@
 #include "RefToBinaryData.h"
 #include "ProblemDetails.h"
 #include "N2InformationNotification.h"
+#include "GlobalRanNodeId.h"
 // nrppa
 #include "InitiatingMessage.h"
 #include "SuccessfulOutcome.h"
@@ -111,7 +112,6 @@ static NRPPA_PDU_t* build_trp_information_response(
   auto trpInformationList =
       &trpInformationListIE->value.choice.TRPInformationList;
 
-  // 3 trp's attached to different gbn's
   for (TRP_ID_t trpId : boost::irange(1, 4)) {
     auto trpInformationListMember = (TRPInformationList__Member*) malloc(
         sizeof(TRPInformationList__Member));
@@ -153,7 +153,7 @@ static NRPPA_PDU_t* build_trp_information_response(
     // NR Cell Identity BIT STRING (SIZE(36))
     auto& nrCellId = ngRanCgi->nG_RANcell.choice.nR_CellID;
     // gnbId + trpId shift left 8bit cellId
-    uint64_t nci = (0x40010 + (trpInformationListMember->tRP_ID << 8))
+    uint64_t nci = (0x40010 + (trpId < 3 ? trpId << 8 : (trpId - 1) << 8))
                    << nrCellId.bits_unused;
     {
       auto i = 0;
@@ -198,6 +198,7 @@ static NRPPA_PDU_t* build_trp_information_response(
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     : event_sub(ev) {
+  // fake TRP Information Response
   // this->handle_non_ue_n2info_nrppa_notification(build_trp_information_response(this->nrppa_tid_trp_information=1));
 
   Logger::lmf_app().startup("Starting...");
@@ -456,7 +457,7 @@ void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
   supi2n1n2subs.erase(supi);
 }
 
-NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
+NRPPATransactionID_t getNrppaTxnId(NRPPA_PDU_t const* const nrppa) {
   switch (nrppa->present) {
     case NRPPA_PDU_PR_initiatingMessage:
       return nrppa->choice.initiatingMessage->nrppatransactionID;
@@ -465,7 +466,7 @@ NRPPATransactionID_t getNrppaId(NRPPA_PDU_t const* const nrppa) {
     case NRPPA_PDU_PR_unsuccessfulOutcome:
       return nrppa->choice.unsuccessfulOutcome->nrppatransactionID;
     default:
-      throwHttpError("getNrppaId"s, "malformed nrppa message"s);
+      throwHttpError("getNrppaTxnId"s, "malformed nrppa message"s);
   }
   return 0;
 }
@@ -499,9 +500,20 @@ static U const& getPR(
 }
 
 bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
-  auto const& nrppaTxnId = getNrppaId(nrppa);
+  auto const& nrppaTxnId = getNrppaTxnId(nrppa);
 
-  if (nrppaTxnId == this->nrppa_tid_trp_information) {
+  if (nrppaTxnId != this->nrppa_tid_trp_information) {
+    if (this->supiByNrppaTxnId.count(nrppaTxnId) == 0) {
+      throwHttpError(
+          "handle_non_ue_n2info_nrppa_notification",
+          "unknown nrppa txnid: "s + std::to_string(nrppaTxnId));
+    }
+
+    auto const supi = this->supiByNrppaTxnId.at(nrppaTxnId);
+    this->supiByNrppaTxnId.erase(nrppaTxnId);
+
+    return this->handle_n2info_nrppa_notification(supi, nrppa);
+  } else {
     Logger::lmf_app().debug("trp information received");
 
     auto const& successfullTrpInformationExchange = getPR(
@@ -524,17 +536,76 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
             "non_ue"s, value.choice.TRPInformationList, value,
             TRPInformationResponse_IEs__value_PR_TRPInformationList);
         for (auto const& trpInformationListMember : trpInformationList) {
-          trpInformationListMember->tRP_ID;
+          auto const& trpId = trpInformationListMember->tRP_ID;
           for (auto const& trpInformationItem :
                trpInformationListMember->tRPInformation) {
             if (trpInformationItem->present ==
                 TRPInformationItem_PR_nG_RAN_CGI) {
               auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
               auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
+              if (plmnnIdentity.size != 3) {
+                throwHttpError(
+                    "trp information response",
+                    "plmnnIdentity.size != 3: "s +
+                        std::to_string(plmnnIdentity.size));
+              }
+              auto const& mcc_ =
+                  (plmnnIdentity.buf[0] << 8 | plmnnIdentity.buf[1]) >> 4;
+              auto const& msdMnc      = plmnnIdentity.buf[1] << 4;
+              auto const& twoDigitMnc = msdMnc == 0xf;  // filler
+              auto const& mnc_        = twoDigitMnc ?
+                                            plmnnIdentity.buf[2] :
+                                            msdMnc << 8 | plmnnIdentity.buf[2];
 
               if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
                 auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
-                ngRanCell.buf;
+                if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
+                  throwHttpError(
+                      "trp information response",
+                      "ngRanCell.size != 5: "s +
+                          std::to_string(ngRanCell.size) +
+                          " || ngRanCell.bits_unused != 4: " +
+                          std::to_string(ngRanCell.bits_unused));
+                }
+                auto nci = uint64_t{0};
+                {
+                  auto i = 0;
+                  for (auto const& s : boost::irange(32, -1, -8)) {
+                    nci |= ngRanCell.buf[i++] << s;
+                  }
+                }
+                nci >>= ngRanCell.bits_unused;
+                auto const nciGnbIdBitCnt = 28;
+                auto const cellIdBitCnt   = 36 - nciGnbIdBitCnt;
+                auto const& gnbId         = nci >> cellIdBitCnt;
+
+                if (this->gnb.count(gnbId) == 0) {
+                  auto const& mcc = (boost::format("%03x") % mcc_).str();
+                  auto const& mnc =
+                      (boost::format(twoDigitMnc ? "%02x" : "%03x") % mnc_)
+                          .str();
+                  PlmnId plmnId;
+                  plmnId.setMcc(mcc);
+                  plmnId.setMnc(mnc);
+
+                  auto const& gnbValue = (boost::format("%x") % gnbId).str();
+                  GNbId gNbId;
+                  gNbId.setGNBValue(gnbValue);
+                  gNbId.setBitLength(nciGnbIdBitCnt);
+
+                  GlobalRanNodeId globalRanNodeId;
+                  globalRanNodeId.setPlmnId(plmnId);
+                  globalRanNodeId.setGNbId(gNbId);
+
+                  this->gnb.try_emplace(gnbId, globalRanNodeId);
+                }
+                if (this->gnb.at(gnbId).trpIds.count(trpId) == 0) {
+                  this->gnb.at(gnbId).trpIds.insert(trpId);
+                } else {
+                  Logger::lmf_app().warn(
+                      "trp information: gnb_id: " + std::to_string(gnbId) +
+                      "trp_id: " + std::to_string(trpId) + " not unique");
+                }
               }
             }
           }
@@ -558,7 +629,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     return false;
   }
 
-  auto const& tId = getNrppaId(nrppa);
+  auto const& tId = getNrppaTxnId(nrppa);
 
   // TODO
   if (nrppa->present == NRPPA_PDU_PR_initiatingMessage) {
@@ -573,7 +644,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
         "unknown nrppa transaction id: "s + std::to_string(tId));
   }
 
-  auto const responseType = ctx->nrppa_tId.at(tId);
+  auto const procedureCode = ctx->nrppa_tId.at(tId);
   ctx->nrppa_tId.erase(tId);          // not for incomming!
   this->nrppa_tid_gen.free_uid(tId);  // for reuse
 
@@ -586,11 +657,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
   auto const& successfulOutcome = getPR(
       "ue"s, nrppa->choice.successfulOutcome, *nrppa,
       NRPPA_PDU_PR_successfulOutcome);
-  switch (responseType) {
-    case ResponseType::PositionInformation: {
-      checkPC(
-          "ue"s, successfulOutcome,
-          ProcedureCode_id_positioningInformationExchange);
+  switch (procedureCode) {
+    case ProcedureCode_id_positioningInformationExchange: {
+      checkPC("ue"s, successfulOutcome, procedureCode);
       auto const& value                          = successfulOutcome->value;
       auto const& positioningInformationResponse = getPR(
           "ue"s, value.choice.PositioningInformationResponse, value,
@@ -600,8 +669,8 @@ bool lmf_app::handle_n2info_nrppa_notification(
       return true;
     } break;
 
-    case ResponseType::Measurement: {
-      checkPC("ue"s, successfulOutcome, ProcedureCode_id_Measurement);
+    case ProcedureCode_id_Measurement: {
+      checkPC("ue"s, successfulOutcome, procedureCode);
       auto const& value               = successfulOutcome->value;
       auto const& measurementResponse = getPR(
           "ue"s, value.choice.MeasurementResponse, value,
@@ -610,8 +679,8 @@ bool lmf_app::handle_n2info_nrppa_notification(
       return true;
     } break;
 
-    case ResponseType::PositioningActivation: {
-      checkPC("ue"s, successfulOutcome, ProcedureCode_id_positioningActivation);
+    case ProcedureCode_id_positioningActivation: {
+      checkPC("ue"s, successfulOutcome, procedureCode);
       auto const& value                         = successfulOutcome->value;
       auto const& positioningActivationResponse = getPR(
           "ue"s, value.choice.PositioningActivationResponse, value,
@@ -619,7 +688,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
       ctx->handle_positioning_activation_response(
           nrppa, tId, positioningActivationResponse);
       return true;
-    }
+    } break;
 
     default:
       throwHttpError(

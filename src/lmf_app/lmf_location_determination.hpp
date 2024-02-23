@@ -37,14 +37,9 @@
 #include "MeasurementResponse.h"
 #include "PositioningActivationResponse.h"
 #include "SRSConfiguration.h"
+#include "ProcedureCode.h"
 
 #include "InputData.h"
-
-enum class ResponseType {
-  PositionInformation,
-  Measurement,
-  PositioningActivation
-};
 
 class LocationDetermination {
  public:
@@ -77,16 +72,17 @@ class LocationDetermination {
       MeasurementResponse_t const& measurementResponse);
 
   bool n1_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu,
-      SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+      ProcedureCode_t const& procedureCode);
   bool non_ue_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu,
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+      ProcedureCode_t const& procedureCode,
       SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
 
   // mapping between nrppa transaction and transaction type
   // TODO: use individual reponse object as value not ResposeType
   //       to have more than one measurement at same time
-  std::map<NRPPATransactionID_t, ResponseType> nrppa_tId;
+  std::map<NRPPATransactionID_t, ProcedureCode_t> nrppa_tId;
 
  private:
   std::string supi;
