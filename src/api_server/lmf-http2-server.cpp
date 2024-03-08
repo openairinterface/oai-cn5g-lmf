@@ -28,6 +28,7 @@
 #include <pistache/http.h>
 #include <string>
 #include <filesystem>
+#include <iostream>
 #include "string.hpp"
 
 #include "logger.hpp"
@@ -44,6 +45,11 @@ using namespace config;
 using namespace oai::lmf_server;
 
 extern lmf_config lmf_cfg;
+
+std::string get_thread_id() {
+  return std::to_string(
+      std::hash<std::thread::id>{}(std::this_thread::get_id()));
+}
 
 //------------------------------------------------------------------------------
 void lmf_http2_server::start() {
@@ -65,6 +71,8 @@ void lmf_http2_server::start() {
                   data, data + len,
                   std::ostream_iterator<uint8_t>(*requestBody));
             } else {
+              Logger::lmf_app().debug(
+                  "start determine-location: " + get_thread_id());
               auto const& msg = requestBody->str();
               requestBody->clear();
               if (msg.size() == 0 || request.method().compare("POST") != 0) {
@@ -81,7 +89,10 @@ void lmf_http2_server::start() {
             return;
           }
         });
-        response.on_close([](uint32_t cause) {});
+        response.on_close([](uint32_t cause) {
+          Logger::lmf_app().debug(
+              "stop determine-location: " + get_thread_id());
+        });
       });
 
   // /nlmf-n2info-notify/v1/nrppa/callback/imsi-208950000000131
@@ -97,6 +108,7 @@ void lmf_http2_server::start() {
                   data, data + len,
                   std::ostream_iterator<uint8_t>(*requestBody));
             } else {
+              Logger::lmf_app().debug("start ue: " + get_thread_id());
               auto const& msg = requestBody->str();
               requestBody->clear();
               std::filesystem::path path{request.uri().path};
@@ -126,7 +138,9 @@ void lmf_http2_server::start() {
             return;
           }
         });
-        response.on_close([](uint32_t cause) {});
+        response.on_close([](uint32_t cause) {
+          Logger::lmf_app().debug("stop ue: " + get_thread_id());
+        });
       });
 
   // /nlmf-non-ue-n2info-notify/v1/nrppa/callback/
@@ -143,6 +157,7 @@ void lmf_http2_server::start() {
                   data, data + len,
                   std::ostream_iterator<uint8_t>(*requestBody));
             } else {
+              Logger::lmf_app().debug("start non-ue: " + get_thread_id());
               auto const& msg = requestBody->str();
               requestBody->clear();
               mime_parser sp;
@@ -165,12 +180,15 @@ void lmf_http2_server::start() {
             return;
           }
         });
-        response.on_close([](uint32_t cause) {});
+        response.on_close([](uint32_t cause) {
+          Logger::lmf_app().debug("stop non-ue: " + get_thread_id());
+        });
       });
 
   // multi threaded is needed to handle incomming AMF notifications during
   // processing determine locaiton
   server.num_threads(m_num_threads);
+  server.backlog(0xffff);
   if (server.listen_and_serve(ec, m_address, std::to_string(m_port))) {
     std::cerr << "HTTP Server error: " << ec.message() << std::endl;
   }
@@ -215,6 +233,9 @@ void lmf_http2_server::non_ue_n2info_nrppa_notification_post_handler(
       reason = nlohmann::json(problemDetails).dump();
     }
   }
+  std::cout << "code: " + std::to_string(code) + "reason: " + reason
+            << std::endl;
+
   response.write_head(code, h);
   response.end(reason);
 }
@@ -261,6 +282,8 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
       reason = nlohmann::json(problemDetails).dump();
     }
   }
+  std::cout << "code: " + std::to_string(code) + "reason: " + reason
+            << std::endl;
   response.write_head(code, h);
   response.end(reason);
 }

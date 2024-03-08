@@ -25,11 +25,13 @@
 #include <future>
 #include <map>
 #include <tuple>
+#include <set>
 
 #include <nlohmann/json.hpp>
 
 #include <pistache/http.h>
 #include <pistache/router.h>
+
 #define ASN_DISABLE_OER_SUPPORT
 #include "NRPPA-PDU.h"
 #include "NRPPATransactionID.h"
@@ -38,8 +40,10 @@
 #include "PositioningActivationResponse.h"
 #include "SRSConfiguration.h"
 #include "ProcedureCode.h"
+#include "Measurement-ID.h"
 
-#include "InputData.h"
+#include "GlobalRanNodeId.h"
+#include "TRP-ID.h"
 
 class LocationDetermination {
  public:
@@ -61,11 +65,17 @@ class LocationDetermination {
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
 
-  std::vector<
-      std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>>
-      resps;
-  void measurement_request(
-      NRPPATransactionID_t const& tId,
+  //   std::vector<
+  //       std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>>
+  //       resps;
+  std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
+      measurement_response;
+  std::future<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
+  measurement_request(
+      NRPPATransactionID_t const& tId, Measurement_ID_t const& mId,
+      std::vector<oai::lmf_server::model::GlobalRanNodeId> const&
+          globalRanNodeList,
+      std::set<TRP_ID_t> const& trpIds,
       SRSConfiguration_t const& srsConfiguration);
   void handle_measurement_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
@@ -77,6 +87,7 @@ class LocationDetermination {
   bool non_ue_n2_message_transfer(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode,
+      std::vector<oai::lmf_server::model::GlobalRanNodeId> const& grnidl,
       SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
 
   // mapping between nrppa transaction and transaction type

@@ -64,7 +64,8 @@ auto end(T const& container) {
 bool LocationDetermination::n1_n2_message_transfer(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode) {
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  Logger::lmf_app().info("n1_n2_message_transfer");
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
@@ -168,8 +169,10 @@ bool LocationDetermination::n1_n2_message_transfer(
 bool LocationDetermination::non_ue_n2_message_transfer(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode,
+    std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
     SRSConfiguration_t* const ueSrsConfigurationShared) {
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  Logger::lmf_app().info("non_ue_n2_message_transfer");
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
@@ -230,8 +233,13 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   n2InfoContainer.setN2InformationClass(n2InformationClass);
   n2InfoContainer.setNrppaInfo(nrppaInformation);
 
+  model::RatSelector ratSelector;
+  // ratSelector.setValue("NR"); // no setter there...
+
   model::N2InformationTransferReqData n2InformationTransferReqData;
   n2InformationTransferReqData.setN2Information(n2InfoContainer);
+  n2InformationTransferReqData.setRatSelector(ratSelector);
+  n2InformationTransferReqData.setGlobalRanNodeList(globalRanNodeList);
 
   nlohmann::json n2InformationTransferReqData_json;
   to_json(n2InformationTransferReqData_json, n2InformationTransferReqData);
@@ -271,13 +279,7 @@ bool LocationDetermination::non_ue_n2_message_transfer(
         "non-ue n2 message transfer: "s,
         "nrppa id "s + std::to_string(txnId) + " reuse"s);
   }
-  if (auto const& [iter, inserted] =
-          lmf_app_inst->supiByNrppaTxnId.try_emplace(txnId, this->supi);
-      !inserted) {
-    throwHttpError(
-        "non-ue n2 message transfer: "s,
-        "nrppa id "s + std::to_string(txnId) + " reuse"s);
-  }
+  lmf_app_inst->insert_nrppaTxnId2supi(txnId, this->supi);
 
   return true;
 }
@@ -339,14 +341,13 @@ void LocationDetermination::positioning_information_request(
       nrppaPdu, tId, ProcedureCode_id_positioningInformationExchange);
 }
 
-void LocationDetermination::measurement_request(
-    NRPPATransactionID_t const& tId,
+std::future<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
+LocationDetermination::measurement_request(
+    NRPPATransactionID_t const& tId, Measurement_ID_t const& mId,
+    std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
+    std::set<TRP_ID_t> const& trpIds,
     SRSConfiguration_t const& srsConfigurationUE) {
-  this->resps.push_back({});  // new promise each request
-  // INTEGER (1..65536)
-  auto measurementID        = Measurement_ID_t(this->resps.size());
-  auto reportCharacteristic = ReportCharacteristics_onDemand;
-
+  Logger::lmf_app().info("measurement request");
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
   *initiatingMessage = InitiatingMessage_t{
@@ -358,37 +359,42 @@ void LocationDetermination::measurement_request(
   auto ies =
       &initiatingMessage->value.choice.MeasurementRequest.protocolIEs.list;
 
-  auto lmfMeasurementId =
+  auto lmfMeasurementIdIe =
       (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
-  *lmfMeasurementId = MeasurementRequest_IEs_t{
+  *lmfMeasurementIdIe = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
       .criticality = Criticality_reject,
       .value =
           {
               .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
-              .choice  = {.Measurement_ID = measurementID},
+              .choice  = {.Measurement_ID = mId},
           },
   };
-  ASN_SEQUENCE_ADD(ies, lmfMeasurementId);
-#if 0
-  auto trpMeasurementRequestList = TRP_MeasurementRequestList_t{};
-  auto const trpIds = std::vector<TRP_ID_t>{1, 2}; 
+  ASN_SEQUENCE_ADD(ies, lmfMeasurementIdIe);
 
-
-  // TRP Measurement Request List
-  auto trpMeasurementRequestIE = MeasurementRequest_IEs_t{
+  auto trpMeasurementRequestListIe =
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
+  *trpMeasurementRequestListIe = {
       .id          = ProtocolIE_ID_id_TRP_MeasurementRequestList,
       .criticality = Criticality_reject,
-      .value = {.present = MeasurementRequest_IEs__value_PR_TRP_MeasurementRequestList, },
+      .value =
+          {
+              .present =
+                  MeasurementRequest_IEs__value_PR_TRP_MeasurementRequestList,
+          },
   };
-  auto const& trpMeasurementRequestList = trpMeasurementRequestIE.value.choice.TRP_MeasurementRequestList.list;
-  auto trpMeasurementRequestItems = std::vector<TRP_MeasurementRequestItem_t>{};
-  std::transform(trpIds.cbegin(), trpIds.cend(), std::back_inserter(trpMeasurementRequestItems),
-  [](auto const& trpId){ return TRP_MeasurementRequestItem_t{.tRP_ID=trpId};});
+  auto trpMeasurementRequestList = &trpMeasurementRequestListIe->value.choice
+                                        .TRP_MeasurementRequestList.list;
+  for (auto const& trpId : trpIds) {
+    auto trpMeasurementRequestItem = (TRP_MeasurementRequestItem_t*) malloc(
+        sizeof(TRP_MeasurementRequestItem_t));
+    *trpMeasurementRequestItem = TRP_MeasurementRequestItem_t{
+        .tRP_ID = trpId,
+    };
+    ASN_SEQUENCE_ADD(trpMeasurementRequestList, trpMeasurementRequestItem);
+  }
+  ASN_SEQUENCE_ADD(ies, trpMeasurementRequestListIe);
 
-
-  ASN_SEQUENCE_ADD(ies, &trpMeasurementRequestIE);
-#endif
   auto reportCharacteristics =
       (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
   *reportCharacteristics = MeasurementRequest_IEs_t{
@@ -398,8 +404,9 @@ void LocationDetermination::measurement_request(
           {
               .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
               .choice =
-                  {.ReportCharacteristics =
-                       ReportCharacteristics_t{reportCharacteristic}},
+                  {
+                      .ReportCharacteristics = ReportCharacteristics_onDemand,
+                  },
           },
   };
   ASN_SEQUENCE_ADD(ies, reportCharacteristics);
@@ -429,12 +436,17 @@ void LocationDetermination::measurement_request(
   };
 
   this->non_ue_n2_message_transfer(
-      nrppaPdu, tId, ProcedureCode_id_Measurement, ueSrsConfigurationShared);
+      nrppaPdu, tId, ProcedureCode_id_Measurement, globalRanNodeList,
+      ueSrsConfigurationShared);
+
+  this->measurement_response = {};  // clear promise
+  return this->measurement_response.get_future();
 }
 
 void LocationDetermination::handle_positioning_information_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
+  Logger::lmf_app().info("handle positioning information response");
   SRSConfiguration_t* srsConfiguration = nullptr;
   for (auto const& positioningInformationIE :
        positioningInformationResponse.protocolIEs) {
@@ -462,17 +474,12 @@ void LocationDetermination::handle_positioning_information_response(
 void LocationDetermination::handle_measurement_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     MeasurementResponse_t const& measurementResponse) {
+  Logger::lmf_app().info("handle measurement response");
   for (auto const& ie : measurementResponse.protocolIEs) {
     if (ie->id == ProtocolIE_ID_id_LMF_Measurement_ID &&
         ie->value.present == MeasurementResponse_IEs__value_PR_Measurement_ID) {
       auto const& measurementID = ie->value.choice.Measurement_ID;
-      if (measurementID > this->resps.size()) {
-        throwHttpError(
-            "handle_measurement_response",
-            "no such measurement id: "s + std::to_string(measurementID));
-      }
-      this->resps.at(measurementID - 1)
-          .set_value({nrppaPdu, measurementResponse});
+      this->measurement_response.set_value({nrppaPdu, measurementResponse});
     }
   }
 }
@@ -480,6 +487,7 @@ void LocationDetermination::handle_measurement_response(
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST
 void LocationDetermination::positioning_activation_request(
     NRPPATransactionID_t const& tId) {
+  Logger::lmf_app().info("positioning activation request");
   this->positioning_activation_response = {};
 
   auto initiatingMessage =
@@ -522,7 +530,7 @@ void LocationDetermination::positioning_activation_request(
           },
   };
   ASN_SEQUENCE_ADD(ies, aperiodicSRS_ie);
-
+#if 0
   // >Semi-persistent
   auto semipersistentSRS =
       (SemipersistentSRS_t*) malloc(sizeof(SemipersistentSRS_t));
@@ -552,7 +560,7 @@ void LocationDetermination::positioning_activation_request(
           },
   };
   ASN_SEQUENCE_ADD(ies, semipersistentSRS_ie);
-
+#endif
   auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
@@ -566,6 +574,7 @@ void LocationDetermination::positioning_activation_request(
 void LocationDetermination::handle_positioning_activation_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningActivationResponse_t const& positioningActivationResponse) {
+  Logger::lmf_app().info("handle positioning activation response");
   this->positioning_activation_response.set_value(
       {nrppaPdu, positioningActivationResponse});
 }

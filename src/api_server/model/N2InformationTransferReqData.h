@@ -73,6 +73,7 @@ class N2InformationTransferReqData {
   ///
   /// </summary>
   std::vector<GlobalRanNodeId>& getGlobalRanNodeList();
+  void setGlobalRanNodeList(std::vector<GlobalRanNodeId> const& value);
   bool globalRanNodeListIsSet() const;
   void unsetGlobalRanNodeList();
   /// <summary>

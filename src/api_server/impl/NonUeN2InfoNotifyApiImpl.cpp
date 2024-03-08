@@ -121,8 +121,8 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
     Logger::lmf_server().error("asn_decode failed: %d", rc.code);
     return;
   }
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
-  Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
+  // Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
   model::ProblemDetails problem_details = {};
   uint8_t http_code                     = 0;

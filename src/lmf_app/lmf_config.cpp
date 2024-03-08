@@ -114,6 +114,19 @@ int lmf_config::load(const std::string& config_file) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
+  try {
+    lmf_cfg.lookupValue(
+        LMF_CONFIG_STRING_HTTP_THREADS_COUNT, http_threads_count);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    lmf_cfg.lookupValue(LMF_CONFIG_STRING_GNB_ID_BITS_COUNT, gnb_id_bits_count);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
 
   // LMF SBI interface
   try {
@@ -318,7 +331,8 @@ void lmf_config::display() {
   Logger::config().info("Configuration LMF:");
   Logger::config().info("- Instance ...............: %d", instance);
   Logger::config().info("- PID Dir ................: %s", pid_dir.c_str());
-  Logger::config().info("- LMF Name ..............: %s", lmf_name.c_str());
+  Logger::config().info("- LMF Name ...............: %s", lmf_name.c_str());
+  Logger::config().info("- HTTP Threads ...........: %d", http_threads_count);
   Logger::config().info(
       "- Log Level will be .......: %s",
       spdlog::level::to_string_view(log_level));

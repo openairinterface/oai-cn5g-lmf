@@ -23,9 +23,14 @@
 #include <iostream>
 #include <iterator>
 #include <string>
+#include <chrono>
+using namespace std::chrono_literals;
+#include <thread>
 
 #include <boost/range/irange.hpp>
 #include <boost/format.hpp>
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/algorithm.hpp>
 
 #include "lmf_app.hpp"
 #include "lmf_nrf.hpp"
@@ -81,126 +86,9 @@ auto end(T const& container) {
   return container.list.array + container.list.count;
 }
 
-static NRPPA_PDU_t* build_trp_information_response(
-    NRPPATransactionID_t const& nrppaTxnId) {
-  auto successfulTrpInformationExchange =
-      (SuccessfulOutcome_t*) malloc(sizeof(SuccessfulOutcome_t));
-  *successfulTrpInformationExchange = SuccessfulOutcome_t{
-      .procedureCode      = ProcedureCode_id_tRPInformationExchange,
-      .criticality        = Criticality_reject,
-      .nrppatransactionID = nrppaTxnId,
-      .value =
-          {
-              .present = SuccessfulOutcome__value_PR_TRPInformationResponse,
-          },
-  };
-  auto trpInformationIEs = &successfulTrpInformationExchange->value.choice
-                                .TRPInformationResponse.protocolIEs.list;
-
-  auto trpInformationListIE = (TRPInformationResponse_IEs_t*) malloc(
-      sizeof(TRPInformationResponse_IEs_t));
-  *trpInformationListIE = TRPInformationResponse_IEs_t{
-      .id          = ProtocolIE_ID_id_TRPInformationList,
-      .criticality = Criticality_reject,
-      .value =
-          {
-              .present =
-                  TRPInformationResponse_IEs__value_PR_TRPInformationList,
-          },
-  };
-  ASN_SEQUENCE_ADD(trpInformationIEs, trpInformationListIE);
-  auto trpInformationList =
-      &trpInformationListIE->value.choice.TRPInformationList;
-
-  for (TRP_ID_t trpId : boost::irange(1, 4)) {
-    auto trpInformationListMember = (TRPInformationList__Member*) malloc(
-        sizeof(TRPInformationList__Member));
-    *trpInformationListMember = TRPInformationList__Member{
-        .tRP_ID = trpId,
-    };
-    ASN_SEQUENCE_ADD(trpInformationList, trpInformationListMember);
-    auto trpInformationItemList =
-        &trpInformationListMember->tRPInformation.list;
-
-    // 28bit gnbId 0x400 (1024dez) 8bit cellId 0x10 (16dez) (36bit)
-    // 9.2.9 NR CGI
-    auto ngRanCgi = (NG_RAN_CGI_t*) malloc(sizeof(NG_RAN_CGI_t));
-    *ngRanCgi     = NG_RAN_CGI_t{
-        .pLMN_Identity =
-            PLMN_Identity_t{
-                .buf  = (uint8_t*) malloc(3),
-                .size = 3,
-            },
-        .nG_RANcell =
-            NG_RANCell_t{
-                .present = NG_RANCell_PR_nR_CellID,
-                .choice =
-                    {
-                        .nR_CellID =
-                            NRCellIdentifier_t{
-                                .buf         = (uint8_t*) malloc(5),
-                                .size        = 5,
-                                .bits_unused = 4,  // 36bits
-                            },
-                    },
-            },
-    };
-    // 9.2.8 PLMN Identity
-    auto& plmnIdentity  = ngRanCgi->pLMN_Identity;
-    plmnIdentity.buf[0] = 0x0d;  // first 2 digits mcc 0x0d0 = 208
-    plmnIdentity.buf[1] = 0x0f;  // third digit mcc + filler
-    plmnIdentity.buf[2] = 0x5f;  // mnc 2 digits 0x5f = 95
-    // NR Cell Identity BIT STRING (SIZE(36))
-    auto& nrCellId = ngRanCgi->nG_RANcell.choice.nR_CellID;
-    // gnbId + trpId shift left 8bit cellId
-    uint64_t nci = (0x40010 + (trpId < 3 ? trpId << 8 : (trpId - 1) << 8))
-                   << nrCellId.bits_unused;
-    {
-      auto i = 0;
-      for (auto const& s : boost::irange(32, -1, -8)) {
-        nrCellId.buf[i++] = nci >> s;
-      }
-    }
-    auto trpInformationItem =
-        (TRPInformationItem_t*) malloc(sizeof(TRPInformationItem_t));
-    *trpInformationItem = TRPInformationItem_t{
-        .present = TRPInformationItem_PR_nG_RAN_CGI,
-        .choice{
-            .nG_RAN_CGI = ngRanCgi,
-        },
-    };
-    ASN_SEQUENCE_ADD(trpInformationItemList, trpInformationItem);
-  }
-
-  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
-  *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_successfulOutcome,
-      .choice =
-          {
-              .successfulOutcome = successfulTrpInformationExchange,
-          },
-  };
-
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
-  asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-  if (nrppaPduEnc.result.encoded == -1) {
-    Logger::lmf_app().error(
-        "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
-                                          nrppaPduEnc.result.failed_type->name :
-                                          "unknown");
-  }
-  free(nrppaPduEnc.buffer);
-
-  return nrppaPdu;
-}
-
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     : event_sub(ev) {
-  // fake TRP Information Response
-  // this->handle_non_ue_n2info_nrppa_notification(build_trp_information_response(this->nrppa_tid_trp_information=1));
-
   Logger::lmf_app().startup("Starting...");
   try {
     lmf_client_inst = new lmf_client();
@@ -220,74 +108,6 @@ lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     throw;
   }
 
-  this->nonUeN2MessageSubscription =
-      std::make_unique<NonUeN2MessageSubscription>();
-  if (lmf_cfg.request_trp_info) {
-    auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
-
-    if (nrppaPduEnc.result.encoded == -1) {
-      Logger::lmf_app().error(
-          "Could not encode (at %s)\n",
-          nrppaPduEnc.result.failed_type ?
-              nrppaPduEnc.result.failed_type->name :
-              "unknown");
-    } else {
-      std::string amf_uri  = {};
-      std::string method   = "POST";
-      std::string response = {};
-      amf_uri              = "http://" +
-                std::string(inet_ntoa(
-                    *((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-                ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-                lmf_cfg.sbi_api_version + "/non-ue-n2-messages/transfer";
-      Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
-
-      std::string nrppaMsgStr(
-          (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
-      std::string nrppaMsgHex = {};
-      conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
-
-      RefToBinaryData ngapData = {};
-      ngapData.setContentId(N2_NRPPa_CONTENT_ID);
-
-      NgapIeType ngapIeType = {};
-      ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
-
-      N2InfoContent n2InfoContent = {};
-      n2InfoContent.setNgapIeType(ngapIeType);
-      n2InfoContent.setNgapData(ngapData);
-
-      NrppaInformation nrppaInformation = {};
-      nrppaInformation.setNfId(
-          lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
-      nrppaInformation.setNrppaPdu(n2InfoContent);
-
-      N2InformationClass n2InformationClass = {};
-      n2InformationClass.setEnumValue(
-          N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
-      N2InfoContainer n2InfoContainer = {};
-      n2InfoContainer.setN2InformationClass(n2InformationClass);
-      n2InfoContainer.setNrppaInfo(nrppaInformation);
-
-      N2InformationTransferReqData n2InformationTransferReqData = {};
-      n2InformationTransferReqData.setN2Information(n2InfoContainer);
-
-      nlohmann::json n2InformationTransferReqData_json;
-      to_json(n2InformationTransferReqData_json, n2InformationTransferReqData);
-
-      std::string body      = {};
-      std::string json_part = {};
-      json_part             = n2InformationTransferReqData_json.dump();
-
-      mime_parser::create_multipart_related_content(
-          body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
-          multipart_related_content_part_e::NGAP);
-
-      lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
-
-      Logger::lmf_app().info("Response from AMF: %s", response.c_str());
-    }
-  }
   Logger::lmf_app().startup("Started");
 }
 
@@ -299,6 +119,82 @@ lmf_app::~lmf_app() {
 void lmf_app::handle_determine_location(
     const InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
+  if (!this->nonUeN2MessageSubscription) {
+    this->nonUeN2MessageSubscription =
+        std::make_unique<NonUeN2MessageSubscription>();
+    if (lmf_cfg.request_trp_info) {
+      auto [nrppaPduEnc, gcBuf] = build_trp_information_request_nrppa_pdu();
+
+      if (nrppaPduEnc.result.encoded == -1) {
+        Logger::lmf_app().error(
+            "Could not encode (at %s)\n",
+            nrppaPduEnc.result.failed_type ?
+                nrppaPduEnc.result.failed_type->name :
+                "unknown");
+      } else {
+        std::string amf_uri  = {};
+        std::string method   = "POST";
+        std::string response = {};
+        amf_uri              = "http://" +
+                  std::string(inet_ntoa(
+                      *((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
+                  ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+                  lmf_cfg.sbi_api_version + "/non-ue-n2-messages/transfer";
+        Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
+
+        std::string nrppaMsgStr(
+            (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
+        std::string nrppaMsgHex = {};
+        conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+
+        RefToBinaryData ngapData = {};
+        ngapData.setContentId(N2_NRPPa_CONTENT_ID);
+
+        NgapIeType ngapIeType = {};
+        ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+
+        N2InfoContent n2InfoContent = {};
+        n2InfoContent.setNgapIeType(ngapIeType);
+        n2InfoContent.setNgapData(ngapData);
+
+        NrppaInformation nrppaInformation = {};
+        nrppaInformation.setNfId(
+            lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
+        nrppaInformation.setNrppaPdu(n2InfoContent);
+
+        N2InformationClass n2InformationClass = {};
+        n2InformationClass.setEnumValue(
+            N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+        N2InfoContainer n2InfoContainer = {};
+        n2InfoContainer.setN2InformationClass(n2InformationClass);
+        n2InfoContainer.setNrppaInfo(nrppaInformation);
+
+        N2InformationTransferReqData n2InformationTransferReqData = {};
+        n2InformationTransferReqData.setN2Information(n2InfoContainer);
+
+        nlohmann::json n2InformationTransferReqData_json;
+        to_json(
+            n2InformationTransferReqData_json, n2InformationTransferReqData);
+
+        std::string body      = {};
+        std::string json_part = {};
+        json_part             = n2InformationTransferReqData_json.dump();
+
+        mime_parser::create_multipart_related_content(
+            body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
+            multipart_related_content_part_e::NGAP);
+
+        this->trp_information_received = {};
+        auto f = this->trp_information_received.get_future();
+        lmf_client_inst->curl_http_client(
+            amf_uri, method, body, response, true);
+        Logger::lmf_app().info("Response from AMF: %s", response.c_str());
+        f.wait();
+        std::cout << "--> trp information <<--" << std::endl;
+      }
+    }
+  }
+
   auto const& supi = inputData.getSupi();
   auto const& ctx  = create_lmf_context(supi);
   if (!ctx) {
@@ -315,70 +211,75 @@ void lmf_app::handle_determine_location(
 
     return;
   }
+
   this->create_n1n2subscription(supi);
   auto const& pir_tId = this->nrppa_tid_gen.get_uid();
   ctx->positioning_information_request(pir_tId);
-  auto const& [nrppaPduPIR, positioningInformationResponse, srsConfiguration] =
+  auto const& [nrppaPduPIR, positioningInformationResponse, ueSrsConfiguration] =
       ctx->positioning_information_response.get_future().get();
-#if 0  // at gNb not implemented 
+  // nrppaPduPIR contain position information
+  // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
+  std::cout << "--> position information <<--" << std::endl;
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR);
+
   // 5. NRPPa Request UE SRS activation
   // 9.1.1.17 POSITIONING ACTIVATION REQUEST
   auto const& pa_tId = this->nrppa_tid_gen.get_uid();
   ctx->positioning_activation_request(pa_tId);
   auto const& [nrppaPduPA, positionActivationResponse] =
       ctx->positioning_activation_response.get_future().get();
-#endif
-  auto const& mr_tId = this->nrppa_tid_gen.get_uid();
-  ctx->measurement_request(mr_tId, srsConfiguration);
-  // for (auto& prom : ctx->resps) { // boost::wait_for_all
-  //   prom.get_future().wait();
-  // }
-  auto f = ctx->resps.at(0).get_future();
-  f.wait();
-  auto const& [nrppaPduMR, measurementResponse] = f.get();
+  std::cout << "--> positioning activation <<--" << std::endl;
+  for (auto const& [id, gnb] : this->gnb) {
+    auto const& mr_tId            = this->nrppa_tid_gen.get_uid();
+    auto const& mId               = lmf_app_inst->measurement_id_gen.get_uid();
+    auto const& globalRanNodeList = std::vector{gnb.ncgi};
+    auto const& trpIdRng          = boost::adaptors::keys(gnb.trp);
+    auto const& trpIds            = std::set(trpIdRng.begin(), trpIdRng.end());
+    auto f                        = ctx->measurement_request(
+        mr_tId, mId, globalRanNodeList, trpIds, ueSrsConfiguration);
+    f.wait();
+    auto const& [nrppaPduMR, measurementResponse] = f.get();
+    this->measurement_id_gen.free_uid(mId);
+    // nrppaPduMR contain measurement
+    // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
+    std::cout << "--> measurement <<--" << std::endl;
+    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
 
-  // nrppaPduPIR contain position information
-  // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
-  std::cout << "--> position information <<--" << std::endl;
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR);
-
-  // TRP INFORMATION RESPONSE ( 9.1.1.15 NRPPa TS 38.455 )
-  // not availalbe right now, because no AMF non-ue-message-service
-
-  // nrppaPduMR contain measurement
-  // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
-  std::cout << "--> measurement <<--" << std::endl;
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
-
-  // for each trp_id a map of 9.2.39 UL RTOA Measurement
-  std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>> res;
-  for (auto const& measurementIE : measurementResponse.protocolIEs) {
-    if (measurementIE->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
-        measurementIE->value.present ==
-            MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
-      auto const trpMeasurementList =
-          measurementIE->value.choice.TRP_MeasurementResponseList;
-      for (auto const& trpMeasurement : trpMeasurementList) {
-        auto const& trpId = trpMeasurement->tRP_ID;
-        for (auto const& measurement : trpMeasurement->measurementResult) {
-          if (measurement->measuredResultsValue.present ==
-              TrpMeasuredResultsValue_PR_uL_RTOA) {
-            auto const& uLRTOAmeas =
-                measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
-            auto const& choice = uLRTOAmeas.choice;
-            auto const& key    = uLRTOAmeas.present;
-            auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
-                                 key == ULRTOAMeas_PR_k1 ? choice.k1 :
-                                 key == ULRTOAMeas_PR_k2 ? choice.k2 :
-                                 key == ULRTOAMeas_PR_k3 ? choice.k3 :
-                                 key == ULRTOAMeas_PR_k4 ? choice.k4 :
-                                                           choice.k5;
-            res[trpId].insert({key, val});
+    // for each trp_id a map of 9.2.39 UL RTOA Measurement
+    std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>> res;
+    for (auto const& measurementIE : measurementResponse.protocolIEs) {
+      if (measurementIE->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
+          measurementIE->value.present ==
+              MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
+        auto const trpMeasurementList =
+            measurementIE->value.choice.TRP_MeasurementResponseList;
+        for (auto const& trpMeasurement : trpMeasurementList) {
+          auto const& trpId = trpMeasurement->tRP_ID;
+          for (auto const& measurement : trpMeasurement->measurementResult) {
+            if (measurement->measuredResultsValue.present ==
+                TrpMeasuredResultsValue_PR_uL_RTOA) {
+              auto const& uLRTOAmeas =
+                  measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
+              auto const& choice = uLRTOAmeas.choice;
+              auto const& key    = uLRTOAmeas.present;
+              auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
+                                   key == ULRTOAMeas_PR_k1 ? choice.k1 :
+                                   key == ULRTOAMeas_PR_k2 ? choice.k2 :
+                                   key == ULRTOAMeas_PR_k3 ? choice.k3 :
+                                   key == ULRTOAMeas_PR_k4 ? choice.k4 :
+                                                             choice.k5;
+              res[trpId].insert({key, val});
+            }
           }
         }
       }
     }
+
+    ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
   }
+
+  // TRP INFORMATION RESPONSE ( 9.1.1.15 NRPPa TS 38.455 )
+  // not availalbe right now, because no AMF non-ue-message-service
 
   // --> calculate position here <--
   // double position_estimation(
@@ -394,7 +295,6 @@ void lmf_app::handle_determine_location(
   json_data = locationData;
 
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPIR);
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
   del_supi_2_context(supi);
 
   // release_n1n2subscription(supi);
@@ -503,15 +403,7 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
   auto const& nrppaTxnId = getNrppaTxnId(nrppa);
 
   if (nrppaTxnId != this->nrppa_tid_trp_information) {
-    if (this->supiByNrppaTxnId.count(nrppaTxnId) == 0) {
-      throwHttpError(
-          "handle_non_ue_n2info_nrppa_notification",
-          "unknown nrppa txnid: "s + std::to_string(nrppaTxnId));
-    }
-
-    auto const supi = this->supiByNrppaTxnId.at(nrppaTxnId);
-    this->supiByNrppaTxnId.erase(nrppaTxnId);
-
+    auto const& supi = this->extract_nrppaTxnId2Supi(nrppaTxnId);
     return this->handle_n2info_nrppa_notification(supi, nrppa);
   } else {
     Logger::lmf_app().debug("trp information received");
@@ -551,7 +443,7 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
               }
               auto const& mcc_ =
                   (plmnnIdentity.buf[0] << 8 | plmnnIdentity.buf[1]) >> 4;
-              auto const& msdMnc      = plmnnIdentity.buf[1] << 4;
+              auto const& msdMnc      = plmnnIdentity.buf[1] & 0x0f;
               auto const& twoDigitMnc = msdMnc == 0xf;  // filler
               auto const& mnc_        = twoDigitMnc ?
                                             plmnnIdentity.buf[2] :
@@ -567,7 +459,7 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
                           " || ngRanCell.bits_unused != 4: " +
                           std::to_string(ngRanCell.bits_unused));
                 }
-                auto nci = uint64_t{0};
+                uint64_t nci = 0;
                 {
                   auto i = 0;
                   for (auto const& s : boost::irange(32, -1, -8)) {
@@ -575,15 +467,22 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
                   }
                 }
                 nci >>= ngRanCell.bits_unused;
-                auto const nciGnbIdBitCnt = 28;
-                auto const cellIdBitCnt   = 36 - nciGnbIdBitCnt;
-                auto const& gnbId         = nci >> cellIdBitCnt;
+                auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
+                auto const& gnbId        = nci >> cellIdBitCnt;
 
                 if (this->gnb.count(gnbId) == 0) {
-                  auto const& mcc = (boost::format("%03x") % mcc_).str();
+                  auto const& mcc = (boost::format("%03d") % mcc_).str();
+                  if (mcc.size() > 3) {
+                    throwHttpError(
+                        "trp information response", "invalid mcc: "s + mcc);
+                  }
                   auto const& mnc =
-                      (boost::format(twoDigitMnc ? "%02x" : "%03x") % mnc_)
+                      (boost::format(twoDigitMnc ? "%02d" : "%03d") % mnc_)
                           .str();
+                  if (mnc.size() > (twoDigitMnc ? 2 : 3)) {
+                    throwHttpError(
+                        "trp information response", "invalid mnc: "s + mnc);
+                  }
                   PlmnId plmnId;
                   plmnId.setMcc(mcc);
                   plmnId.setMnc(mnc);
@@ -591,21 +490,52 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
                   auto const& gnbValue = (boost::format("%x") % gnbId).str();
                   GNbId gNbId;
                   gNbId.setGNBValue(gnbValue);
-                  gNbId.setBitLength(nciGnbIdBitCnt);
+                  gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
 
                   GlobalRanNodeId globalRanNodeId;
                   globalRanNodeId.setPlmnId(plmnId);
                   globalRanNodeId.setGNbId(gNbId);
 
-                  this->gnb.try_emplace(gnbId, globalRanNodeId);
+                  Logger::lmf_app().info(
+                      "trp information: adding gnb with id: " +
+                      std::to_string(gnbId) + " mcc: '" + mcc + "' mnc: '" +
+                      mnc + ":");
+
+                  if (auto const& [iter, inserted] =
+                          this->gnb.try_emplace(gnbId, globalRanNodeId);
+                      !inserted) {
+                    throwHttpError(
+                        "trp information response", "gnbId: "s +
+                                                        std::to_string(gnbId) +
+                                                        " already inserted"s);
+                  }
                 }
-                if (this->gnb.at(gnbId).trpIds.count(trpId) == 0) {
-                  this->gnb.at(gnbId).trpIds.insert(trpId);
+                if (this->gnb.at(gnbId).trp.count(trpId) == 0) {
+                  Logger::lmf_app().info(
+                      "trp information: adding to gnbId: " +
+                      std::to_string(gnbId) +
+                      " trpId: " + std::to_string(trpId));
+                  Trp trp;  // TODO set Geographical Coordiantes, ...
+                  if (auto const& [iter, inserted] =
+                          this->gnb.at(gnbId).trp.try_emplace(trpId, trp);
+                      !inserted) {
+                    throwHttpError(
+                        "trp information response", "trpId: "s +
+                                                        std::to_string(trpId) +
+                                                        " already inserted"s);
+                  }
                 } else {
-                  Logger::lmf_app().warn(
-                      "trp information: gnb_id: " + std::to_string(gnbId) +
-                      "trp_id: " + std::to_string(trpId) + " not unique");
+                  throwHttpError(
+                      "trp information response",
+                      "gnb_id: " + std::to_string(gnbId) +
+                          "trp_id: " + std::to_string(trpId) + " not unique");
                 }
+                this->trp_information_received.set_value(true);
+              } else {
+                throwHttpError(
+                    "trp information response",
+                    "TRPInformationItem_PR_nG_RAN_CGI not present, but: "s +
+                        std::to_string(ngRanCgi->nG_RANcell.present));
               }
             }
           }
@@ -734,10 +664,10 @@ lmf_app::build_trp_information_request_nrppa_pdu() {
           },
   };
 
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, &nrppaPdu);
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   return {rc, gc_c_ptr{rc.buffer}};
 }
@@ -806,8 +736,32 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
         "parse_n2_info_container_nrppa",
         "asn_decode failed: " + std::to_string(rc.code));
   }
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
   Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
   return nrppa;
+}
+
+void oai::lmf::app::lmf_app::insert_nrppaTxnId2supi(
+    NRPPATransactionID_t const& nrppaTxnId, std::string const& supi) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& [iter, insered] =
+      this->nrppaTxnId2supi.try_emplace(nrppaTxnId, supi);
+  if (!insered) {
+    throwHttpError(
+        "insert_nrppaTxnId2supi",
+        "nrppa id "s + std::to_string(nrppaTxnId) + " reuse"s);
+  }
+}
+
+std::string oai::lmf::app::lmf_app::extract_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& nh = this->nrppaTxnId2supi.extract(nrppaTxnId);
+  if (nh.empty()) {
+    throwHttpError(
+        "extract_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  return nh.mapped();
 }

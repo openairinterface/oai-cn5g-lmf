@@ -116,6 +116,11 @@ std::vector<GlobalRanNodeId>&
 N2InformationTransferReqData::getGlobalRanNodeList() {
   return m_GlobalRanNodeList;
 }
+void N2InformationTransferReqData::setGlobalRanNodeList(
+    std::vector<GlobalRanNodeId> const& value) {
+  m_GlobalRanNodeList      = value;
+  m_GlobalRanNodeListIsSet = true;
+}
 bool N2InformationTransferReqData::globalRanNodeListIsSet() const {
   return m_GlobalRanNodeListIsSet;
 }
