@@ -233,13 +233,19 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   n2InfoContainer.setN2InformationClass(n2InformationClass);
   n2InfoContainer.setNrppaInfo(nrppaInformation);
 
-  model::RatSelector ratSelector;
-  // ratSelector.setValue("NR"); // no setter there...
-
   model::N2InformationTransferReqData n2InformationTransferReqData;
   n2InformationTransferReqData.setN2Information(n2InfoContainer);
-  n2InformationTransferReqData.setRatSelector(ratSelector);
-  n2InformationTransferReqData.setGlobalRanNodeList(globalRanNodeList);
+  if (globalRanNodeList.size() > 0) {
+    Logger::lmf_app().debug(
+        "non_ue_n2_message_transfer: globalRanNodeList set, send to %d gNBs",
+        globalRanNodeList.size());
+    n2InformationTransferReqData.setGlobalRanNodeList(globalRanNodeList);
+  } else {
+    Logger::lmf_app().debug(
+        "non_ue_n2_message_transfer: globalRanNodeList not set, send to all "
+        "gNBs using ratSelector");
+    n2InformationTransferReqData.setRatSelector("NR");
+  }
 
   nlohmann::json n2InformationTransferReqData_json;
   to_json(n2InformationTransferReqData_json, n2InformationTransferReqData);
@@ -465,6 +471,7 @@ void LocationDetermination::handle_positioning_information_response(
     } catch (...) {
       this->positioning_information_response.set_exception(
           std::current_exception());
+      throw;
     }
   }
   this->positioning_information_response.set_value(

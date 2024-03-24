@@ -25,6 +25,7 @@
 #include <shared_mutex>
 #include <string>
 #include <map>
+#include <condition_variable>
 #include <boost/range/combine.hpp>
 
 #include <pistache/http.h>
@@ -89,6 +90,9 @@ class lmf_app {
   void create_n1n2subscription(const std::string& supi);
   void release_n1n2subscription(const std::string& supi);
 
+  void create_non_ue_subscription();
+  void release_non_ue_subscription();
+
   static NRPPA_PDU_t* parse_n2_info_container_nrppa(
       oai::lmf_server::model::N2InformationNotification const&
           n2InformationNotification,
@@ -110,29 +114,31 @@ class lmf_app {
   std::map<std::string, N1N2MessageSubscription> supi2n1n2subs;
   mutable std::shared_mutex m_supi2n1n2subs;
 
+  mutable std::mutex m_non_ue_subs;
   std::unique_ptr<NonUeN2MessageSubscription> nonUeN2MessageSubscription;
 
+  void trp_information(std::shared_ptr<LocationDetermination> const& ctx);
+  void trp_information_request(
+      std::shared_ptr<LocationDetermination> const& ctx,
+      NRPPATransactionID_t const& nrppatransactionID);
+  void handle_trp_information_response(
+      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      TRPInformationResponse_t const& trpInformation);
   lmf_event& event_sub;
 
   bool _is_supi_2_context(const std::string& supi) const;
 
-  template<auto t>
-  using val      = std::integral_constant<std::decay_t<decltype(t)>, t>;
-  using gc_c_ptr = std::unique_ptr<void, val<std::free>>;
-  std::pair<asn_encode_to_new_buffer_result_t, gc_c_ptr>
-  build_trp_information_request_nrppa_pdu();
-
   util::uint_generator<NRPPATransactionID_t, 0, 32767> nrppa_tid_gen;
-  NRPPATransactionID_t nrppa_tid_trp_information;
+  // NRPPATransactionID_t nrppa_tid_trp_information;
 
   // NG_RAN_CGI_t / NG_RANCell_t / NRCellIdentifier_t /
   // std::map<GNB_ID, std::vector<TRP_ID_t>> trps = {{1, {1}}};
 
   // globalRanNodeList
-  using GnbId = uint32_t;
+  using GnbId = uint64_t;
   std::map<GnbId, Gnb> gnb;
-
-  std::promise<bool> trp_information_received;
+  mutable std::mutex cv_m_gnb;
+  std::condition_variable cv_gnb;
 };
 }  // namespace oai::lmf::app
 

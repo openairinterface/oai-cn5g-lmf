@@ -127,6 +127,20 @@ int lmf_config::load(const std::string& config_file) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
+  try {
+    lmf_cfg.lookupValue(LMF_CONFIG_STRING_NUM_GNB, num_gnb);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    unsigned tmp;
+    lmf_cfg.lookupValue(LMF_CONFIG_STRING_TRP_INFO_WAIT_MS, tmp);
+    trp_info_wait_ms = std::chrono::milliseconds(tmp);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
 
   // LMF SBI interface
   try {
@@ -192,6 +206,13 @@ int lmf_config::load(const std::string& config_file) {
       request_trp_info = false;
     }
 
+    support_features.lookupValue(
+        LMF_CONFIG_STRING_SUPPORTED_FEATURES_DETERMINE_NUM_GNB, opt);
+    if (boost::iequals(opt, "yes")) {
+      determine_num_gnb = true;
+    } else {
+      determine_num_gnb = false;
+    }
   } catch (const SettingNotFoundException& nfex) {
     Logger::lmf_app().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());

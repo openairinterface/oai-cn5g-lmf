@@ -41,6 +41,7 @@
 #include "SRSConfiguration.h"
 #include "ProcedureCode.h"
 #include "Measurement-ID.h"
+#include "TRPInformationResponse.h"
 
 #include "GlobalRanNodeId.h"
 #include "TRP-ID.h"

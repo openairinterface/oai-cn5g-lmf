@@ -26,6 +26,7 @@
 
 #include <libconfig.h++>
 #include <string>
+#include <chrono>
 
 #include "logger_base.hpp"
 
@@ -36,6 +37,8 @@
 #define LMF_CONFIG_STRING_LOG_LEVEL "LOG_LEVEL"
 #define LMF_CONFIG_STRING_HTTP_THREADS_COUNT "HTTP_THREADS_COUNT"
 #define LMF_CONFIG_STRING_GNB_ID_BITS_COUNT "GNB_ID_BITS_COUNT"
+#define LMF_CONFIG_STRING_NUM_GNB "NUM_GNB"
+#define LMF_CONFIG_STRING_TRP_INFO_WAIT_MS "TRP_INFO_WAIT_MS"
 
 #define LMF_CONFIG_STRING_INTERFACES "INTERFACES"
 #define LMF_CONFIG_STRING_INTERFACE_SBI "SBI"
@@ -59,6 +62,8 @@
 #define LMF_CONFIG_STRING_SUPPORT_FEATURES_USE_HTTP2 "USE_HTTP2"
 #define LMF_CONFIG_STRING_SUPPORTED_FEATURES_REGISTER_NRF "REGISTER_NRF"
 #define LMF_CONFIG_STRING_SUPPORTED_FEATURES_REQUEST_TRP_INFO "REQUEST_TRP_INFO"
+#define LMF_CONFIG_STRING_SUPPORTED_FEATURES_DETERMINE_NUM_GNB                 \
+  "DETERMINE_NUM_GNB"
 #define LMF_CONFIG_STRING_FQDN_DNS "FQDN"
 
 namespace config {
@@ -84,8 +89,11 @@ class lmf_config {
   std::string pid_dir;
   std::string lmf_name;
   spdlog::level::level_enum log_level = spdlog::level::debug;
-  unsigned http_threads_count;
-  unsigned gnb_id_bits_count;
+  unsigned http_threads_count         = 8;
+  unsigned gnb_id_bits_count          = 28;
+  bool determine_num_gnb              = false;
+  unsigned num_gnb                    = 1;
+  std::chrono::milliseconds trp_info_wait_ms{3000};
 
   interface_cfg_t sbi;
   unsigned int sbi_http2_port;
