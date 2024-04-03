@@ -163,22 +163,35 @@ void lmf_app::trp_information(
 
   if (this->gnb.size() > 0) {
     Logger::lmf_app().debug(
-        "trp information request: already there: %d", this->gnb.size());
+        "trp information request: alreadey done: gnbs: %d trps: %d",
+        this->gnb.size(), this->numTrps());
     return;
   }
 
   auto const& tId = this->nrppa_tid_gen.get_uid();
   this->trp_information_request(ctx, tId);
 
-  auto const& pred = [&gnb = this->gnb] {
-    return lmf_cfg.determine_num_gnb ? gnb.size() == lmf_cfg.num_gnb : false;
+  // lmf_cfg.determine_num_gnb -> return false to wait until trp_info_wait_ms
+  this->trp_info_error_cause        = nullptr;
+  this->trp_info_error_cause_detail = nullptr;
+  auto const& pred = [&gnb = this->gnb, &cause = this->trp_info_error_cause] {
+    if (cause != nullptr) return true;            // trp info fail recvd
+    if (lmf_cfg.determine_num_gnb) return false;  // wait for timeout
+    return gnb.size() == lmf_cfg.num_gnb;         // stop if cfg'd gnb's recvd
   };
   Logger::lmf_app().debug(
       "trp information request: wait %dms for %s gnb responses",
       lmf_cfg.trp_info_wait_ms.count(),
       lmf_cfg.determine_num_gnb ? "unknown" : std::to_string(lmf_cfg.num_gnb));
   auto const& rc = this->cv_gnb.wait_for(lk, lmf_cfg.trp_info_wait_ms, pred);
-  if (!lmf_cfg.determine_num_gnb && this->gnb.size() < lmf_cfg.num_gnb) {
+  if (this->trp_info_error_cause != nullptr) {
+    throwHttpError(
+        "trp information failure",
+        "cause"s + this->trp_info_error_cause + " detail: "s +
+            this->trp_info_error_cause_detail->enum_name);
+  }
+  if (!lmf_cfg.determine_num_gnb &&
+      (!rc || this->gnb.size() < lmf_cfg.num_gnb)) {
     throwHttpError(
         "trp information request",
         "timeout after "s + std::to_string(lmf_cfg.trp_info_wait_ms.count()) +
@@ -187,11 +200,17 @@ void lmf_app::trp_information(
             std::to_string(this->gnb.size()));
   }
   Logger::lmf_app().debug(
-      "trp information request: received %d gnb responses after %dms",
-      this->gnb.size(), lmf_cfg.trp_info_wait_ms.count());
+      "trp information request: received %d gnb responses", this->gnb.size());
 
   ctx->nrppa_tId.erase(tId);
   this->nrppa_tid_gen.free_uid(tId);
+
+  if (this->gnb.size() == 0) {
+    throwHttpError("trp information request"s, "no gnbs available"s);
+  }
+  if (this->numTrps() == 0) {
+    throwHttpError("trp information request"s, "no trp's available"s);
+  }
 }
 
 void lmf_app::handle_determine_location(
@@ -252,7 +271,7 @@ void lmf_app::handle_determine_location(
     // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
 
     // for each trp_id a map of 9.2.39 UL RTOA Measurement
-    std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>> res;
+    std::map<GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>> res;
     for (auto const& measurementIE : measurementResponse.protocolIEs) {
       if (measurementIE->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
           measurementIE->value.present ==
@@ -274,9 +293,23 @@ void lmf_app::handle_determine_location(
                                    key == ULRTOAMeas_PR_k3 ? choice.k3 :
                                    key == ULRTOAMeas_PR_k4 ? choice.k4 :
                                                              choice.k5;
-              res[trpId].insert({key, val});
+              if (auto const& [iter, inserted] =
+                      res[id][trpId].try_emplace(key, val);
+                  !inserted) {
+                throwHttpError("measurement", "double value");
+              }
             }
           }
+        }
+      }
+    }
+
+    for (auto const& [gndId, trp] : res) {
+      std::cout << "gndId: " << gndId << std::endl;
+      for (auto const& [trpId, uLRTOAmeas] : trp) {
+        std::cout << "trpId: " << trpId << std::endl;
+        for (auto const& [k, v] : uLRTOAmeas) {
+          std::cout << "k: " << k << " v: " << v << std::endl;
         }
       }
     }
@@ -392,11 +425,9 @@ NRPPATransactionID_t getNrppaTxnId(NRPPA_PDU_t const* const nrppa) {
 
 // check 1:1 relationship between procedureCode and value.present
 template<typename T, typename U>
-static void checkPC(
-    std::string const& ux, T const& present, U const& expected) {
+static void checkPC(T const& present, U const& expected) {
   if (present->procedureCode != expected) {
-    auto const &title = "handle_" + ux +
-                        "_n2info_nrppa_notification: invalid procedue code"s,
+    auto const &title  = "handle_nrppa_notification: invalid procedue code"s,
                &ps     = "present: "s + std::to_string(present->procedureCode),
                &es     = "expected: "s + std::to_string(expected),
                &detail = ps + ": "s + es;
@@ -405,11 +436,9 @@ static void checkPC(
 }
 
 template<typename T, typename U, typename V>
-static U const& getPR(
-    std::string const& ux, U const& choice, T const& value, V const& expected) {
+static U const& getPR(U const& choice, T const& value, V const& expected) {
   if (value.present != expected) {
-    auto const &title = "handle_" + ux +
-                        "_n2info_nrppa_notification: invalid message"s,
+    auto const &title  = "handle_nrppa_notification: invalid message"s,
                &ps     = "present: "s + std::to_string(value.present),
                &es     = "expected: "s + std::to_string(expected),
                &detail = ps + ": "s + es;
@@ -427,7 +456,7 @@ void lmf_app::handle_trp_information_response(
     if (trpInformationIE->id == ProtocolIE_ID_id_TRPInformationList) {
       auto const& value              = trpInformationIE->value;
       auto const& trpInformationList = getPR(
-          "non_ue"s, value.choice.TRPInformationList, value,
+          value.choice.TRPInformationList, value,
           TRPInformationResponse_IEs__value_PR_TRPInformationList);
       for (auto const& trpInformationListMember : trpInformationList) {
         auto const& trpId = trpInformationListMember->tRP_ID;
@@ -442,12 +471,6 @@ void lmf_app::handle_trp_information_response(
                   "plmnnIdentity.size != 3: "s +
                       std::to_string(plmnnIdentity.size));
             }
-            auto const& mcc_ =
-                (plmnnIdentity.buf[0] << 8 | plmnnIdentity.buf[1]) >> 4;
-            auto const& msdMnc      = plmnnIdentity.buf[1] & 0x0f;
-            auto const& twoDigitMnc = msdMnc == 0xf;  // filler
-            auto const& mnc_        = twoDigitMnc ? plmnnIdentity.buf[2] :
-                                                    msdMnc << 8 | plmnnIdentity.buf[2];
 
             if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
               std::scoped_lock lk{this->cv_m_gnb};
@@ -461,28 +484,41 @@ void lmf_app::handle_trp_information_response(
                         std::to_string(ngRanCell.bits_unused));
               }
               uint64_t nci = 0;
-              {
-                auto i = 0;
-                for (auto const& s : boost::irange(32, -1, -8)) {
-                  nci |= ngRanCell.buf[i++] << s;
-                }
+              for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
+                nci |= ngRanCell.buf[i++] << s;
               }
               nci >>= ngRanCell.bits_unused;
               auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
               auto const& gnbId        = nci >> cellIdBitCnt;
 
               if (this->gnb.count(gnbId) == 0) {
-                auto const& mcc = (boost::format("%03d") % mcc_).str();
+                static auto constexpr d1 = [](auto const& v) constexpr {
+                  return v & 0xf;
+                };
+                static auto constexpr d2 = [](auto const& v) constexpr {
+                  return v >> 4;
+                };
+                auto const& pb  = plmnnIdentity.buf;
+                auto const& mcc = (boost::format("%0d%0d%0d") % d1(pb[0]) %
+                                   d2(pb[0]) % d1(pb[1]))
+                                      .str();
+                auto const& mncd3 = d2(pb[1]);
+                auto const& mnc2  = (mncd3 == 0xf);
+                auto const& mnc =
+                    mnc2 ? (boost::format("%0d%0d") % d1(pb[2]) % d2(pb[2]))
+                               .str() :
+                           (boost::format("%0d%0d%0d") % d1(pb[2]) % d2(pb[2]) %
+                            mncd3)
+                               .str();
                 if (mcc.size() > 3) {
                   throwHttpError(
                       "trp information response", "invalid mcc: "s + mcc);
                 }
-                auto const& mnc =
-                    (boost::format(twoDigitMnc ? "%02d" : "%03d") % mnc_).str();
-                if (mnc.size() > (twoDigitMnc ? 2 : 3)) {
+                if (mnc.size() > (mnc2 ? 2 : 3)) {
                   throwHttpError(
                       "trp information response", "invalid mnc: "s + mnc);
                 }
+
                 PlmnId plmnId;
                 plmnId.setMcc(mcc);
                 plmnId.setMnc(mnc);
@@ -565,6 +601,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
 
   // TODO
   if (nrppa->present == NRPPA_PDU_PR_initiatingMessage) {
+    // don't forget tId handling ctx->nrppa_tId.erase(tId);
     throwHttpError(
         "handle_n2info_nrppa_notification",
         "NRPPA_PDU_PR_initiatingMessage not implemented");
@@ -584,20 +621,105 @@ bool lmf_app::handle_n2info_nrppa_notification(
   }
 
   if (nrppa->present == NRPPA_PDU_PR_unsuccessfulOutcome) {
-    throwHttpError(
-        "handle_n2info_nrppa_notification",
-        "NRPPA_PDU_PR_unsuccessfulOutcome not implemented");
+    auto const& unsuccessfulOutcome = getPR(
+        nrppa->choice.unsuccessfulOutcome, *nrppa,
+        NRPPA_PDU_PR_unsuccessfulOutcome);
+    checkPC(unsuccessfulOutcome, procedureCode);
+    switch (procedureCode) {
+      case ProcedureCode_id_tRPInformationExchange: {
+        auto const& value                 = unsuccessfulOutcome->value;
+        auto const& trpInformationFailure = getPR(
+            value.choice.TRPInformationFailure, value,
+            UnsuccessfulOutcome__value_PR_TRPInformationFailure);
+
+        for (auto const& trpInformationFailureIe :
+             trpInformationFailure.protocolIEs) {
+          switch (trpInformationFailureIe->id) {
+            case ProtocolIE_ID_id_Cause: {
+              auto const& value = trpInformationFailureIe->value;
+              auto const& cause = getPR(
+                  value.choice.Cause, value,
+                  TRPInformationFailure_IEs__value_PR_Cause);
+              this->trp_info_error_cause =
+                  asn_MBR_Cause_1[cause.present - 1].name;
+              switch (cause.present) {
+                case Cause_PR_radioNetwork: {
+                  auto const& radioNetwork          = cause.choice.radioNetwork;
+                  this->trp_info_error_cause_detail = INTEGER_map_value2enum(
+                      &asn_SPC_CauseRadioNetwork_specs_1, radioNetwork);
+                } break;
+
+                case Cause_PR_protocol: {
+                  auto const& protocol              = cause.choice.protocol;
+                  this->trp_info_error_cause_detail = INTEGER_map_value2enum(
+                      &asn_SPC_CauseProtocol_specs_1, protocol);
+                } break;
+
+                case Cause_PR_misc: {
+                  auto const& misc = cause.choice.misc;
+                  this->trp_info_error_cause_detail =
+                      INTEGER_map_value2enum(&asn_SPC_CauseMisc_specs_1, misc);
+                } break;
+
+                default:
+                  throwHttpError(
+                      "trpInformationFailure",
+                      "unknwon cause IE id: " + std::to_string(cause.present));
+              }
+              Logger::lmf_app().error(
+                  "trp information failed: %s: %s", this->trp_info_error_cause,
+                  this->trp_info_error_cause_detail->enum_name);
+            } break;
+
+            case ProtocolIE_ID_id_CriticalityDiagnostics: {
+            } break;
+
+            default:
+              throwHttpError(
+                  "trpInformationFailure",
+                  "unknwon IE id: " +
+                      std::to_string(trpInformationFailureIe->id));
+          }
+        }
+      }; break;
+
+      case ProcedureCode_id_positioningInformationExchange: {
+        auto const& value                         = unsuccessfulOutcome->value;
+        auto const& positioningInformationFailure = getPR(
+            value.choice.PositioningInformationFailure, value,
+            UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
+      }; break;
+
+      case ProcedureCode_id_positioningActivation: {
+        auto const& value                        = unsuccessfulOutcome->value;
+        auto const& positioningActivationFailure = getPR(
+            value.choice.PositioningActivationFailure, value,
+            UnsuccessfulOutcome__value_PR_PositioningActivationFailure);
+      }; break;
+
+      case ProcedureCode_id_Measurement: {
+        auto const& value              = unsuccessfulOutcome->value;
+        auto const& measurementFailure = getPR(
+            value.choice.MeasurementFailure, value,
+            UnsuccessfulOutcome__value_PR_MeasurementFailure);
+      }; break;
+
+      default:
+        throwHttpError(
+            "handle_nrppa_notification"s,
+            "unsuccessfulOutcome: unhandled procedure code: %d"s +
+                std::to_string(procedureCode));
+    }
   }
 
   auto const& successfulOutcome = getPR(
-      "ue"s, nrppa->choice.successfulOutcome, *nrppa,
-      NRPPA_PDU_PR_successfulOutcome);
-  checkPC("ue"s, successfulOutcome, procedureCode);
+      nrppa->choice.successfulOutcome, *nrppa, NRPPA_PDU_PR_successfulOutcome);
+  checkPC(successfulOutcome, procedureCode);
   switch (procedureCode) {
     case ProcedureCode_id_tRPInformationExchange: {
       auto const& value                  = successfulOutcome->value;
       auto const& trpInformationResponse = getPR(
-          "ue"s, value.choice.TRPInformationResponse, value,
+          value.choice.TRPInformationResponse, value,
           SuccessfulOutcome__value_PR_TRPInformationResponse);
       this->handle_trp_information_response(nrppa, tId, trpInformationResponse);
       return true;
@@ -606,7 +728,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     case ProcedureCode_id_positioningInformationExchange: {
       auto const& value                          = successfulOutcome->value;
       auto const& positioningInformationResponse = getPR(
-          "ue"s, value.choice.PositioningInformationResponse, value,
+          value.choice.PositioningInformationResponse, value,
           SuccessfulOutcome__value_PR_PositioningInformationResponse);
       ctx->handle_positioning_information_response(
           nrppa, tId, positioningInformationResponse);
@@ -616,7 +738,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     case ProcedureCode_id_Measurement: {
       auto const& value               = successfulOutcome->value;
       auto const& measurementResponse = getPR(
-          "ue"s, value.choice.MeasurementResponse, value,
+          value.choice.MeasurementResponse, value,
           SuccessfulOutcome__value_PR_MeasurementResponse);
       ctx->handle_measurement_response(nrppa, tId, measurementResponse);
       return true;
@@ -625,7 +747,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     case ProcedureCode_id_positioningActivation: {
       auto const& value                         = successfulOutcome->value;
       auto const& positioningActivationResponse = getPR(
-          "ue"s, value.choice.PositioningActivationResponse, value,
+          value.choice.PositioningActivationResponse, value,
           SuccessfulOutcome__value_PR_PositioningActivationResponse);
       ctx->handle_positioning_activation_response(
           nrppa, tId, positioningActivationResponse);
@@ -634,7 +756,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
 
     default:
       throwHttpError(
-          "handle_n2info_nrppa_notification"s, "unhandled response type"s);
+          "handle_nrppa_notification"s,
+          "successfulOutcome: unhandled procedure code: %d"s +
+              std::to_string(procedureCode));
   }
 
   auto titel  = "n2info nrppa notifiaction pdu error"s;

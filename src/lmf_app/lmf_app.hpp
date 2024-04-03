@@ -139,6 +139,14 @@ class lmf_app {
   std::map<GnbId, Gnb> gnb;
   mutable std::mutex cv_m_gnb;
   std::condition_variable cv_gnb;
+  auto numTrps() {
+    return std::accumulate(
+        this->gnb.cbegin(), this->gnb.cend(), std::size_t{0},
+        [](auto const& a, auto const& b) { return a + b.second.trp.size(); });
+  }
+
+  /*Cause_PR*/ char const* trp_info_error_cause{nullptr};
+  asn_INTEGER_enum_map_t const* trp_info_error_cause_detail{nullptr};
 };
 }  // namespace oai::lmf::app
 
