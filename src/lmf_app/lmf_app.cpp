@@ -172,23 +172,24 @@ void lmf_app::trp_information(
   this->trp_information_request(ctx, tId);
 
   // lmf_cfg.determine_num_gnb -> return false to wait until trp_info_wait_ms
-  this->trp_info_error_cause        = nullptr;
-  this->trp_info_error_cause_detail = nullptr;
-  auto const& pred = [&gnb = this->gnb, &cause = this->trp_info_error_cause] {
-    if (cause != nullptr) return true;            // trp info fail recvd
+  this->trp_info_err.clear();
+  auto const& pred = [&gnb = this->gnb, &err = this->trp_info_err] {
     if (lmf_cfg.determine_num_gnb) return false;  // wait for timeout
-    return gnb.size() == lmf_cfg.num_gnb;         // stop if cfg'd gnb's recvd
+    return (gnb.size() + err.size()) ==
+           lmf_cfg.num_gnb;  // stop if cfg'd gnb's recvd
   };
   Logger::lmf_app().debug(
       "trp information request: wait %dms for %s gnb responses",
       lmf_cfg.trp_info_wait_ms.count(),
-      lmf_cfg.determine_num_gnb ? "unknown" : std::to_string(lmf_cfg.num_gnb));
+      lmf_cfg.determine_num_gnb ? "until timeout" :
+                                  std::to_string(lmf_cfg.num_gnb));
   auto const& rc = this->cv_gnb.wait_for(lk, lmf_cfg.trp_info_wait_ms, pred);
-  if (this->trp_info_error_cause != nullptr) {
+  ctx->nrppa_tId.erase(tId);
+  this->nrppa_tid_gen.free_uid(tId);
+  if (this->trp_info_err.size() > 0) {
     throwHttpError(
         "trp information failure",
-        "cause"s + this->trp_info_error_cause + " detail: "s +
-            this->trp_info_error_cause_detail->enum_name);
+        "gnb err count: "s + std::to_string(this->trp_info_err.size()));
   }
   if (!lmf_cfg.determine_num_gnb &&
       (!rc || this->gnb.size() < lmf_cfg.num_gnb)) {
@@ -201,9 +202,6 @@ void lmf_app::trp_information(
   }
   Logger::lmf_app().debug(
       "trp information request: received %d gnb responses", this->gnb.size());
-
-  ctx->nrppa_tId.erase(tId);
-  this->nrppa_tid_gen.free_uid(tId);
 
   if (this->gnb.size() == 0) {
     throwHttpError("trp information request"s, "no gnbs available"s);
@@ -451,6 +449,7 @@ void lmf_app::handle_trp_information_response(
     NRPPA_PDU_t* nrppa, NRPPATransactionID_t const& tId,
     TRPInformationResponse_t const& trpInformation) {
   Logger::lmf_app().debug("trp information received");
+  std::scoped_lock lk{this->cv_m_gnb};
 
   for (auto const& trpInformationIE : trpInformation.protocolIEs) {
     if (trpInformationIE->id == ProtocolIE_ID_id_TRPInformationList) {
@@ -473,8 +472,6 @@ void lmf_app::handle_trp_information_response(
             }
 
             if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
-              std::scoped_lock lk{this->cv_m_gnb};
-
               auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
               if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
                 throwHttpError(
@@ -627,6 +624,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
     checkPC(unsuccessfulOutcome, procedureCode);
     switch (procedureCode) {
       case ProcedureCode_id_tRPInformationExchange: {
+        std::scoped_lock lk{this->cv_m_gnb};
+
+        struct trpInfoErr err {};
         auto const& value                 = unsuccessfulOutcome->value;
         auto const& trpInformationFailure = getPR(
             value.choice.TRPInformationFailure, value,
@@ -640,24 +640,22 @@ bool lmf_app::handle_n2info_nrppa_notification(
               auto const& cause = getPR(
                   value.choice.Cause, value,
                   TRPInformationFailure_IEs__value_PR_Cause);
-              this->trp_info_error_cause =
-                  asn_MBR_Cause_1[cause.present - 1].name;
               switch (cause.present) {
                 case Cause_PR_radioNetwork: {
-                  auto const& radioNetwork          = cause.choice.radioNetwork;
-                  this->trp_info_error_cause_detail = INTEGER_map_value2enum(
+                  auto const& radioNetwork = cause.choice.radioNetwork;
+                  err.radio_network        = INTEGER_map_value2enum(
                       &asn_SPC_CauseRadioNetwork_specs_1, radioNetwork);
                 } break;
 
                 case Cause_PR_protocol: {
-                  auto const& protocol              = cause.choice.protocol;
-                  this->trp_info_error_cause_detail = INTEGER_map_value2enum(
+                  auto const& protocol = cause.choice.protocol;
+                  err.protocol         = INTEGER_map_value2enum(
                       &asn_SPC_CauseProtocol_specs_1, protocol);
                 } break;
 
                 case Cause_PR_misc: {
                   auto const& misc = cause.choice.misc;
-                  this->trp_info_error_cause_detail =
+                  err.misc =
                       INTEGER_map_value2enum(&asn_SPC_CauseMisc_specs_1, misc);
                 } break;
 
@@ -666,9 +664,6 @@ bool lmf_app::handle_n2info_nrppa_notification(
                       "trpInformationFailure",
                       "unknwon cause IE id: " + std::to_string(cause.present));
               }
-              Logger::lmf_app().error(
-                  "trp information failed: %s: %s", this->trp_info_error_cause,
-                  this->trp_info_error_cause_detail->enum_name);
             } break;
 
             case ProtocolIE_ID_id_CriticalityDiagnostics: {
@@ -681,6 +676,14 @@ bool lmf_app::handle_n2info_nrppa_notification(
                       std::to_string(trpInformationFailureIe->id));
           }
         }
+        Logger::lmf_app().error(
+            "trp information failed: radio_network: %s protocol: %s misc: %s",
+            err.radio_network ? err.radio_network->enum_name : "not set",
+            err.protocol ? err.protocol->enum_name : "not set",
+            err.misc ? err.misc->enum_name : "not set");
+        this->trp_info_err.push_back(err);
+        this->cv_gnb.notify_one();
+        return true;
       }; break;
 
       case ProcedureCode_id_positioningInformationExchange: {
@@ -688,6 +691,22 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& positioningInformationFailure = getPR(
             value.choice.PositioningInformationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
+        for (auto const& positioningInformationFailureIe :
+             positioningInformationFailure.protocolIEs) {
+          switch (positioningInformationFailureIe->id) {
+            case ProtocolIE_ID_id_Cause: {
+            } break;
+
+            case ProtocolIE_ID_id_CriticalityDiagnostics: {
+            } break;
+
+            default:
+              throwHttpError(
+                  "positioningInformationFailure",
+                  "unknwon IE id: " +
+                      std::to_string(positioningInformationFailureIe->id));
+          }
+        }
       }; break;
 
       case ProcedureCode_id_positioningActivation: {

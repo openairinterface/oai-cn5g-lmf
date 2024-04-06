@@ -297,7 +297,19 @@ void lmf_http2_server::detemine_location_post_handler(
   Pistache::Http::Code code        = {};
   header_map h;
 
-  m_lmf_app->handle_determine_location(inputData, locationData_json, code);
+  try {
+    m_lmf_app->handle_determine_location(inputData, locationData_json, code);
+  } catch (Pistache::Http::HttpError& e) {
+    h.insert(std::make_pair<std::string, header_value>(
+        "Content-Type", {"application/problem+json", false}));
+    response.write_head(e.code(), h);
+    response.end(e.what());
+    return;
+  } catch (std::exception& e) {
+    response.write_head(HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR, h);
+    response.end(e.what());
+    return;
+  }
 
   if (code == Pistache::Http::Code::Ok) {
     h.insert(std::make_pair<std::string, header_value>(

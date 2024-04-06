@@ -145,8 +145,10 @@ class lmf_app {
         [](auto const& a, auto const& b) { return a + b.second.trp.size(); });
   }
 
-  /*Cause_PR*/ char const* trp_info_error_cause{nullptr};
-  asn_INTEGER_enum_map_t const* trp_info_error_cause_detail{nullptr};
+  struct trpInfoErr {
+    asn_INTEGER_enum_map_t const *radio_network, *protocol, *misc;
+  };
+  std::vector<trpInfoErr> trp_info_err;
 };
 }  // namespace oai::lmf::app
 
