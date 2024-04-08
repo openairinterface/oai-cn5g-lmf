@@ -26,6 +26,7 @@
 #include <chrono>
 using namespace std::chrono_literals;
 #include <thread>
+#include <optional>
 
 #include <boost/range/irange.hpp>
 #include <boost/format.hpp>
@@ -66,6 +67,11 @@ using namespace std::chrono_literals;
 #include "ULRTOAMeas.h"
 #include "UL-RTOAMeasurement.h"
 #include "TRPInformationItem.h"
+// do not include model GeographicalCoordinates.h
+#include "../nrppa/GeographicalCoordinates.h"
+#include "TRPPositionDefinitionType.h"
+#include "TRPPositionReferenced.h"
+#include "CoordinateID.h"
 
 using namespace std;
 using namespace oai::lmf::app;
@@ -215,7 +221,8 @@ void lmf_app::handle_determine_location(
     const InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
   auto const& supi = inputData.getSupi();
-  auto const& ctx  = create_lmf_context(supi);
+
+  auto const& ctx = this->create_lmf_context(supi);
   if (!ctx) {
     auto const& err =
         "Could not create context for supi '"s + supi + "': already exist"s;
@@ -302,12 +309,27 @@ void lmf_app::handle_determine_location(
       }
     }
 
+    // TRP information
+    for (auto const& [gnbId, gnb] : this->gnb) {
+      Logger::lmf_app().debug("gnb id: %d", gnbId);
+      for (auto const& [trpId, trp] : gnb.trp) {
+        std::cout << "trp id: " << trpId << std::endl;
+        Logger::lmf_app().debug(
+            "xYZunit (mm:0, cm:1, dm:2): %d",
+            trp.relativeCartesianLocation.xYZunit);
+        Logger::lmf_app().debug(
+            "x: %d, y: %d, z: %d", trp.relativeCartesianLocation.xvalue,
+            trp.relativeCartesianLocation.yvalue,
+            trp.relativeCartesianLocation.zvalue);
+      }
+    }
+    // measurements
     for (auto const& [gndId, trp] : res) {
-      std::cout << "gndId: " << gndId << std::endl;
+      Logger::lmf_app().debug("gndId: %d", gndId);
       for (auto const& [trpId, uLRTOAmeas] : trp) {
-        std::cout << "trpId: " << trpId << std::endl;
+        Logger::lmf_app().debug("trpId: %d", trpId);
         for (auto const& [k, v] : uLRTOAmeas) {
-          std::cout << "k: " << k << " v: " << v << std::endl;
+          Logger::lmf_app().debug("k(1:k0, 2:k1, ..., 6:k5): %d, v: %d", k, v);
         }
       }
     }
@@ -350,8 +372,10 @@ std::shared_ptr<LocationDetermination> lmf_app::create_lmf_context(
     const string& supi) {
   std::unique_lock lock(m_supi2ctx);
 
-  if (_is_supi_2_context(supi)) {
-    return {nullptr};
+  if (this->_is_supi_2_context(supi)) {
+    Logger::lmf_app().warn(
+        "create_lmf_context: %s: already exist, remove", supi);
+    this->supi2ctx.erase(supi);
   }
   return supi2ctx[supi] = std::make_shared<LocationDetermination>(supi);
 }
@@ -459,116 +483,182 @@ void lmf_app::handle_trp_information_response(
           TRPInformationResponse_IEs__value_PR_TRPInformationList);
       for (auto const& trpInformationListMember : trpInformationList) {
         auto const& trpId = trpInformationListMember->tRP_ID;
+        std::optional<GnbId> gnbId;
+        Trp trp;
+
         for (auto const& trpInformationItem :
              trpInformationListMember->tRPInformation) {
-          if (trpInformationItem->present == TRPInformationItem_PR_nG_RAN_CGI) {
-            auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
-            auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
-            if (plmnnIdentity.size != 3) {
-              throwHttpError(
-                  "trp information response",
-                  "plmnnIdentity.size != 3: "s +
-                      std::to_string(plmnnIdentity.size));
-            }
-
-            if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
-              auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
-              if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
+          switch (trpInformationItem->present) {
+            case TRPInformationItem_PR_nG_RAN_CGI: {
+              auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
+              auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
+              if (plmnnIdentity.size != 3) {
                 throwHttpError(
                     "trp information response",
-                    "ngRanCell.size != 5: "s + std::to_string(ngRanCell.size) +
-                        " || ngRanCell.bits_unused != 4: " +
-                        std::to_string(ngRanCell.bits_unused));
+                    "plmnnIdentity.size != 3: "s +
+                        std::to_string(plmnnIdentity.size));
               }
-              uint64_t nci = 0;
-              for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
-                nci |= ngRanCell.buf[i++] << s;
-              }
-              nci >>= ngRanCell.bits_unused;
-              auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
-              auto const& gnbId        = nci >> cellIdBitCnt;
 
-              if (this->gnb.count(gnbId) == 0) {
-                static auto constexpr d1 = [](auto const& v) constexpr {
-                  return v & 0xf;
-                };
-                static auto constexpr d2 = [](auto const& v) constexpr {
-                  return v >> 4;
-                };
-                auto const& pb  = plmnnIdentity.buf;
-                auto const& mcc = (boost::format("%0d%0d%0d") % d1(pb[0]) %
-                                   d2(pb[0]) % d1(pb[1]))
-                                      .str();
-                auto const& mncd3 = d2(pb[1]);
-                auto const& mnc2  = (mncd3 == 0xf);
-                auto const& mnc =
-                    mnc2 ? (boost::format("%0d%0d") % d1(pb[2]) % d2(pb[2]))
-                               .str() :
-                           (boost::format("%0d%0d%0d") % d1(pb[2]) % d2(pb[2]) %
-                            mncd3)
-                               .str();
-                if (mcc.size() > 3) {
+              if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
+                auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
+                if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
                   throwHttpError(
-                      "trp information response", "invalid mcc: "s + mcc);
+                      "trp information response",
+                      "ngRanCell.size != 5: "s +
+                          std::to_string(ngRanCell.size) +
+                          " || ngRanCell.bits_unused != 4: " +
+                          std::to_string(ngRanCell.bits_unused));
                 }
-                if (mnc.size() > (mnc2 ? 2 : 3)) {
-                  throwHttpError(
-                      "trp information response", "invalid mnc: "s + mnc);
+                uint64_t nci = 0;
+                for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
+                  nci |= ngRanCell.buf[i++] << s;
                 }
+                nci >>= ngRanCell.bits_unused;
+                auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
+                gnbId.emplace(nci >> cellIdBitCnt);
 
-                PlmnId plmnId;
-                plmnId.setMcc(mcc);
-                plmnId.setMnc(mnc);
+                if (this->gnb.count(gnbId.value()) == 0) {
+                  static auto constexpr d1 = [](auto const& v) constexpr {
+                    return v & 0xf;
+                  };
+                  static auto constexpr d2 = [](auto const& v) constexpr {
+                    return v >> 4;
+                  };
+                  auto const& pb  = plmnnIdentity.buf;
+                  auto const& mcc = (boost::format("%0d%0d%0d") % d1(pb[0]) %
+                                     d2(pb[0]) % d1(pb[1]))
+                                        .str();
+                  auto const& mncd3 = d2(pb[1]);
+                  auto const& mnc2  = (mncd3 == 0xf);
+                  auto const& mnc =
+                      mnc2 ? (boost::format("%0d%0d") % d1(pb[2]) % d2(pb[2]))
+                                 .str() :
+                             (boost::format("%0d%0d%0d") % d1(pb[2]) %
+                              d2(pb[2]) % mncd3)
+                                 .str();
+                  if (mcc.size() > 3) {
+                    throwHttpError(
+                        "trp information response", "invalid mcc: "s + mcc);
+                  }
+                  if (mnc.size() > (mnc2 ? 2 : 3)) {
+                    throwHttpError(
+                        "trp information response", "invalid mnc: "s + mnc);
+                  }
 
-                auto const& gnbValue = (boost::format("%x") % gnbId).str();
-                GNbId gNbId;
-                gNbId.setGNBValue(gnbValue);
-                gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
+                  PlmnId plmnId;
+                  plmnId.setMcc(mcc);
+                  plmnId.setMnc(mnc);
 
-                GlobalRanNodeId globalRanNodeId;
-                globalRanNodeId.setPlmnId(plmnId);
-                globalRanNodeId.setGNbId(gNbId);
+                  auto const& gnbValue =
+                      (boost::format("%x") % gnbId.value()).str();
+                  GNbId gNbId;
+                  gNbId.setGNBValue(gnbValue);
+                  gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
 
-                Logger::lmf_app().info(
-                    "trp information: adding gnb with id: " +
-                    std::to_string(gnbId) + " mcc: '" + mcc + "' mnc: '" + mnc +
-                    ":");
+                  GlobalRanNodeId globalRanNodeId;
+                  globalRanNodeId.setPlmnId(plmnId);
+                  globalRanNodeId.setGNbId(gNbId);
 
-                if (auto const& [iter, inserted] =
-                        this->gnb.try_emplace(gnbId, globalRanNodeId);
-                    !inserted) {
-                  throwHttpError(
-                      "trp information response", "gnbId: "s +
-                                                      std::to_string(gnbId) +
-                                                      " already inserted"s);
-                }
-              }
-              if (this->gnb.at(gnbId).trp.count(trpId) == 0) {
-                Logger::lmf_app().info(
-                    "trp information: adding to gnbId: " +
-                    std::to_string(gnbId) + " trpId: " + std::to_string(trpId));
-                Trp trp;  // TODO set Geographical Coordiantes, ...
-                if (auto const& [iter, inserted] =
-                        this->gnb.at(gnbId).trp.try_emplace(trpId, trp);
-                    !inserted) {
-                  throwHttpError(
-                      "trp information response", "trpId: "s +
-                                                      std::to_string(trpId) +
-                                                      " already inserted"s);
+                  Logger::lmf_app().info(
+                      "trp information: adding gnb with id: " +
+                      std::to_string(gnbId.value()) + " mcc: '" + mcc +
+                      "' mnc: '" + mnc + ":");
+
+                  if (auto const& [iter, inserted] =
+                          this->gnb.try_emplace(gnbId.value(), globalRanNodeId);
+                      !inserted) {
+                    throwHttpError(
+                        "trp information response",
+                        "gnbId: "s + std::to_string(gnbId.value()) +
+                            " already inserted"s);
+                  }
                 }
               } else {
                 throwHttpError(
                     "trp information response",
-                    "gnb_id: " + std::to_string(gnbId) +
-                        "trp_id: " + std::to_string(trpId) + " not unique");
+                    "TRPInformationItem_PR_nG_RAN_CGI not present, but: "s +
+                        std::to_string(ngRanCgi->nG_RANcell.present));
               }
-            } else {
+
+            } break;
+
+            case TRPInformationItem_PR_geographicalCoordinates: {
+              auto const& geographicalCoordinates =
+                  trpInformationItem->choice.geographicalCoordinates;
+              auto const& trpPositionDefinitionType =
+                  geographicalCoordinates->tRPPositionDefinitionType;
+              switch (trpPositionDefinitionType.present) {
+                case TRPPositionDefinitionType_PR_referenced: {
+                  auto const& referenced =
+                      trpPositionDefinitionType.choice.referenced;
+                  auto const& referencePoint = referenced->referencePoint;
+                  auto const& referencePointType =
+                      referenced->referencePointType;
+
+                  switch (referencePoint.present) {
+                    case ReferencePoint_PR_relativeCoordinateID: {
+                      trp.relativeCoordinateID =
+                          referencePoint.choice.relativeCoordinateID;
+                    } break;
+
+                    default:
+                      Logger::lmf_app().warn(
+                          "trp information: unhandled ReferencePoint_PR: %d",
+                          referencePoint.present);
+                  }
+
+                  switch (referencePointType.present) {
+                    case TRPReferencePointType_PR_tRPPositionRelativeCartesian: {
+                      trp.relativeCartesianLocation =
+                          *referencePointType.choice
+                               .tRPPositionRelativeCartesian;
+                    } break;
+
+                    default:
+                      Logger::lmf_app().warn(
+                          "trp information: unhandled "
+                          "TRPReferencePointType_PR: %d",
+                          referencePointType.present);
+                  }
+
+                } break;
+
+                default:
+                  Logger::lmf_app().warn(
+                      "trp information: unhandled "
+                      "TRPPositionDefinitionType_PR: %d",
+                      trpPositionDefinitionType.present);
+              }
+            } break;
+
+            default:
+              Logger::lmf_app().warn(
+                  "trp information: unhandled TRPInformationItem_PR: %d",
+                  trpInformationItem->present);
+          }
+        }
+
+        if (gnbId.has_value()) {
+          if (this->gnb.at(gnbId.value()).trp.count(trpId) == 0) {
+            Logger::lmf_app().info(
+                "trp information: adding to gnbId: " +
+                std::to_string(gnbId.value()) +
+                " trpId: " + std::to_string(trpId));
+            if (auto const& [iter, inserted] =
+                    this->gnb.at(gnbId.value()).trp.try_emplace(trpId, trp);
+                !inserted) {
               throwHttpError(
                   "trp information response",
-                  "TRPInformationItem_PR_nG_RAN_CGI not present, but: "s +
-                      std::to_string(ngRanCgi->nG_RANcell.present));
+                  "trpId: "s + std::to_string(trpId) + " already inserted"s);
             }
+          } else {
+            throwHttpError(
+                "trp information response",
+                "gnb_id: " + std::to_string(gnbId.value()) +
+                    "trp_id: " + std::to_string(trpId) + " not unique");
           }
+        } else {
+          throwHttpError("trp information", "no gnbId");
         }
       }
     }

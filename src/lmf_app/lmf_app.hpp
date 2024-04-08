@@ -46,12 +46,15 @@
 #include "NRPPATransactionID.h"
 #include "Measurement-ID.h"
 #include "TRP-ID.h"
+#include "CoordinateID.h"
+#include "RelativeCartesianLocation.h"
 
 namespace oai::lmf::app {
 
 class Trp {
  public:
-  Trp() {}
+  CoordinateID_t relativeCoordinateID                   = {};
+  RelativeCartesianLocation_t relativeCartesianLocation = {};
 };
 
 class Gnb {
