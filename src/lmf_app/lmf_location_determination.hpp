@@ -45,6 +45,7 @@
 
 #include "GlobalRanNodeId.h"
 #include "TRP-ID.h"
+#include "PositioningInformationFailure.h"
 
 class LocationDetermination {
  public:
@@ -52,7 +53,8 @@ class LocationDetermination {
 
   std::promise<std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>>
       positioning_activation_response;
-  void positioning_activation_request(NRPPATransactionID_t const& tId);
+  std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>
+  positioning_activation_request();
   void handle_positioning_activation_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
@@ -61,10 +63,17 @@ class LocationDetermination {
       NRPPA_PDU_t*, PositioningInformationResponse_t const&,
       SRSConfiguration_t const&>>
       positioning_information_response;
-  void positioning_information_request(NRPPATransactionID_t const& nrppa_tId);
+  std::tuple<
+      NRPPA_PDU_t*, PositioningInformationResponse_t const&,
+      SRSConfiguration_t const&>
+  positioning_information_request();
   void handle_positioning_information_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
+
+  void handle_positioning_information_failure(
+      NRPPA_PDU_t* nrppaPdu,
+      PositioningInformationFailure_t const& positioningInformationFailure);
 
   //   std::vector<
   //       std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>>
@@ -96,8 +105,17 @@ class LocationDetermination {
   //       to have more than one measurement at same time
   std::map<NRPPATransactionID_t, ProcedureCode_t> nrppa_tId;
 
- private:
+  void throwHttpError(
+      std::string const& title, std::string const& detail,
+      Pistache::Http::Code const& code =
+          Pistache::Http::Code::Internal_Server_Error);
+
   std::string supi;
+
+  template<typename T>
+  T positioning_wait_for(
+      std::string const& kind, NRPPATransactionID_t const& tId,
+      std::promise<T>& p);
 };
 
 #endif  // FILE_LMF_LOCATION_DETERMINATION_SEEN

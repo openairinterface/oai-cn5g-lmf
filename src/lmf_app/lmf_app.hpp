@@ -109,6 +109,7 @@ class lmf_app {
   std::string extract_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
 
   util::uint_generator<Measurement_ID_t, 1, 65536> measurement_id_gen;
+  util::uint_generator<NRPPATransactionID_t, 0, 32767> nrppa_tid_gen;
 
  private:
   std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;
@@ -131,7 +132,6 @@ class lmf_app {
 
   bool _is_supi_2_context(const std::string& supi) const;
 
-  util::uint_generator<NRPPATransactionID_t, 0, 32767> nrppa_tid_gen;
   // NRPPATransactionID_t nrppa_tid_trp_information;
 
   // NG_RAN_CGI_t / NG_RANCell_t / NRCellIdentifier_t /

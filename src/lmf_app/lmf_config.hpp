@@ -39,6 +39,7 @@
 #define LMF_CONFIG_STRING_GNB_ID_BITS_COUNT "GNB_ID_BITS_COUNT"
 #define LMF_CONFIG_STRING_NUM_GNB "NUM_GNB"
 #define LMF_CONFIG_STRING_TRP_INFO_WAIT_MS "TRP_INFO_WAIT_MS"
+#define LMF_CONFIG_STRING_POSITIONING_WAIT_MS "POSITIONING_WAIT_MS"
 
 #define LMF_CONFIG_STRING_INTERFACES "INTERFACES"
 #define LMF_CONFIG_STRING_INTERFACE_SBI "SBI"
@@ -85,15 +86,16 @@ class lmf_config {
   int load_interface(const libconfig::Setting& if_cfg, interface_cfg_t& cfg);
   void display();
 
-  unsigned int instance;
-  std::string pid_dir;
-  std::string lmf_name;
+  unsigned int instance               = 1;
+  std::string pid_dir                 = "/var/run";
+  std::string lmf_name                = "OAI_LMF";
   spdlog::level::level_enum log_level = spdlog::level::debug;
   unsigned http_threads_count         = 8;
   unsigned gnb_id_bits_count          = 28;
   bool determine_num_gnb              = false;
   unsigned num_gnb                    = 1;
-  std::chrono::milliseconds trp_info_wait_ms{3000};
+  std::chrono::milliseconds trp_info_wait_ms{10000};
+  std::chrono::milliseconds positioning_wait_ms{10000};
 
   interface_cfg_t sbi;
   unsigned int sbi_http2_port;

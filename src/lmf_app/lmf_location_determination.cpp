@@ -290,11 +290,42 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   return true;
 }
 
-void LocationDetermination::positioning_information_request(
-    NRPPATransactionID_t const& tId) {
-  Logger::lmf_app().info("Position Information Request");
+template<typename T>
+T LocationDetermination::positioning_wait_for(
+    std::string const& kind, NRPPATransactionID_t const& tId,
+    std::promise<T>& p) {
+  auto const& wait_ms = lmf_cfg.positioning_wait_ms.count();
+  Logger::lmf_app().info(
+      "waiting %dms for positioning %s response for supi %s, tId: %d", wait_ms,
+      kind, this->supi, tId);
 
-  this->positioning_information_response = {};  // reset promise
+  auto f = p.get_future();
+  switch (auto const& rc = f.wait_for(lmf_cfg.positioning_wait_ms); rc) {
+    case std::future_status::timeout: {
+      this->throwHttpError(
+          "positioning "s + kind + " request timeout"s,
+          "waited "s + std::to_string(lmf_cfg.positioning_wait_ms.count()) +
+              "ms"s);
+    } break;
+
+    case std::future_status::ready: {
+      Logger::lmf_app().info(
+          "positioning "s + kind + " received for supi: %s"s, this->supi);
+    } break;
+
+    default:
+      this->throwHttpError(
+          "positioning "s + kind,
+          "unhandled future_status: "s + std::to_string(static_cast<int>(rc)));
+  }
+  return f.get();
+}
+
+std::tuple<
+    NRPPA_PDU_t*, PositioningInformationResponse_t const&,
+    SRSConfiguration_t const&>
+LocationDetermination::positioning_information_request() {
+  auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
@@ -343,8 +374,11 @@ void LocationDetermination::positioning_information_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
+  this->positioning_information_response = {};
   this->n1_n2_message_transfer(
       nrppaPdu, tId, ProcedureCode_id_positioningInformationExchange);
+  return this->positioning_wait_for(
+      "information", tId, this->positioning_information_response);
 }
 
 std::future<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
@@ -441,11 +475,10 @@ LocationDetermination::measurement_request(
       .choice  = {.initiatingMessage = initiatingMessage},
   };
 
+  this->measurement_response = {};  // clear promise
   this->non_ue_n2_message_transfer(
       nrppaPdu, tId, ProcedureCode_id_Measurement, globalRanNodeList,
       ueSrsConfigurationShared);
-
-  this->measurement_response = {};  // clear promise
   return this->measurement_response.get_future();
 }
 
@@ -478,6 +511,26 @@ void LocationDetermination::handle_positioning_information_response(
       {nrppaPdu, positioningInformationResponse, *srsConfiguration});
 }
 
+void LocationDetermination::handle_positioning_information_failure(
+    NRPPA_PDU_t* nrppaPdu,
+    PositioningInformationFailure_t const& positioningInformationFailure) {
+  for (auto const& positioningInformationFailureIe :
+       positioningInformationFailure.protocolIEs) {
+    switch (positioningInformationFailureIe->id) {
+      case ProtocolIE_ID_id_Cause: {
+      } break;
+
+      case ProtocolIE_ID_id_CriticalityDiagnostics: {
+      } break;
+
+      default:
+        Logger::lmf_app().warn(
+            "positioningInformationFailure: unknwon IE id: %d",
+            positioningInformationFailureIe->id);
+    }
+  }
+}
+
 void LocationDetermination::handle_measurement_response(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
     MeasurementResponse_t const& measurementResponse) {
@@ -492,10 +545,9 @@ void LocationDetermination::handle_measurement_response(
 }
 
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST
-void LocationDetermination::positioning_activation_request(
-    NRPPATransactionID_t const& tId) {
-  Logger::lmf_app().info("positioning activation request");
-  this->positioning_activation_response = {};
+std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>
+LocationDetermination::positioning_activation_request() {
+  auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
@@ -573,9 +625,11 @@ void LocationDetermination::positioning_activation_request(
       .present = NRPPA_PDU_PR_initiatingMessage,
       .choice  = {.initiatingMessage = initiatingMessage},
   };
-
+  this->positioning_activation_response = {};
   this->n1_n2_message_transfer(
       nrppaPdu, tId, ProcedureCode_id_positioningActivation);
+  return this->positioning_wait_for(
+      "activation", tId, this->positioning_activation_response);
 }
 
 void LocationDetermination::handle_positioning_activation_response(
@@ -584,4 +638,10 @@ void LocationDetermination::handle_positioning_activation_response(
   Logger::lmf_app().info("handle positioning activation response");
   this->positioning_activation_response.set_value(
       {nrppaPdu, positioningActivationResponse});
+}
+
+void LocationDetermination::throwHttpError(
+    std::string const& title, std::string const& detail,
+    Pistache::Http::Code const& code) {
+  oai::lmf::app::throwHttpError(title, detail, this->supi, code);
 }

@@ -26,6 +26,8 @@
 #include <pistache/http.h>
 #include <pistache/mime.h>
 #include <stdexcept>
+#include <string>
+using namespace std::string_literals;
 
 #include "ProblemDetails.h"
 
@@ -197,14 +199,30 @@ void lmf_client::curl_http_client(
   return;
 }
 
+#include <fmt/args.h>
+
 void oai::lmf::app::throwHttpError(
     std::string const& title, std::string const& detail,
-    Pistache::Http::Code const& code) {
-  oai::lmf_server::model::ProblemDetails problemDetails;
-  problemDetails.setTitle(title);
-  problemDetails.setDetail(detail);
-  Logger::lmf_server().error(
-      problemDetails.getTitle() + ": " + problemDetails.getDetail());
-  auto const& reason = nlohmann::json(problemDetails).dump();
+    std::string const& instance, Pistache::Http::Code const& code) {
+  oai::lmf_server::model::ProblemDetails pd;
+  fmt::dynamic_format_arg_store<fmt::format_context> args;
+  std::string fmt;
+
+  pd.setTitle(title);
+  args.push_back(title);
+  fmt = "{}"s;
+
+  if (!instance.empty()) {
+    pd.setInstance(instance);
+    args.push_back(instance);
+    fmt += "[{}]"s;
+  }
+  pd.setDetail(detail);
+  args.push_back(detail);
+  fmt += ": {}"s;
+
+  Logger::lmf_app().error(fmt::vformat(fmt, args));
+
+  auto const& reason = nlohmann::json(pd).dump();
   throw HttpError{code, reason};
 }

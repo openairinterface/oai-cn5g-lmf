@@ -240,12 +240,11 @@ void lmf_app::handle_determine_location(
 
   this->create_non_ue_subscription();
   this->trp_information(ctx);
-
   this->create_n1n2subscription(supi);
-  auto const& pir_tId = this->nrppa_tid_gen.get_uid();
-  ctx->positioning_information_request(pir_tId);
+
   auto const& [nrppaPduPIR, positioningInformationResponse, ueSrsConfiguration] =
-      ctx->positioning_information_response.get_future().get();
+      ctx->positioning_information_request();
+
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
   std::cout << "--> position information <<--" << std::endl;
@@ -253,10 +252,8 @@ void lmf_app::handle_determine_location(
 
   // 5. NRPPa Request UE SRS activation
   // 9.1.1.17 POSITIONING ACTIVATION REQUEST
-  auto const& pa_tId = this->nrppa_tid_gen.get_uid();
-  ctx->positioning_activation_request(pa_tId);
   auto const& [nrppaPduPA, positionActivationResponse] =
-      ctx->positioning_activation_response.get_future().get();
+      ctx->positioning_activation_request();
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPA);
   std::cout << "--> positioning activation <<--" << std::endl;
   for (auto const& [id, gnb] : this->gnb) {
@@ -750,9 +747,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
                 } break;
 
                 default:
-                  throwHttpError(
-                      "trpInformationFailure",
-                      "unknwon cause IE id: " + std::to_string(cause.present));
+                  Logger::lmf_app().warn(
+                      "trpInformationFailure: unknwon cause IE id: %d",
+                      cause.present);
               }
             } break;
 
@@ -781,22 +778,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& positioningInformationFailure = getPR(
             value.choice.PositioningInformationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
-        for (auto const& positioningInformationFailureIe :
-             positioningInformationFailure.protocolIEs) {
-          switch (positioningInformationFailureIe->id) {
-            case ProtocolIE_ID_id_Cause: {
-            } break;
+        ctx->handle_positioning_information_failure(
+            nrppa, positioningInformationFailure);
 
-            case ProtocolIE_ID_id_CriticalityDiagnostics: {
-            } break;
-
-            default:
-              throwHttpError(
-                  "positioningInformationFailure",
-                  "unknwon IE id: " +
-                      std::to_string(positioningInformationFailureIe->id));
-          }
-        }
       }; break;
 
       case ProcedureCode_id_positioningActivation: {
