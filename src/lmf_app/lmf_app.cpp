@@ -262,10 +262,8 @@ void lmf_app::handle_determine_location(
     auto const& globalRanNodeList = std::vector{gnb.ncgi};
     auto const& trpIdRng          = boost::adaptors::keys(gnb.trp);
     auto const& trpIds            = std::set(trpIdRng.begin(), trpIdRng.end());
-    auto f                        = ctx->measurement_request(
+    auto const& [nrppaPduMR, measurementResponse] = ctx->measurement_request(
         mr_tId, mId, globalRanNodeList, trpIds, ueSrsConfiguration);
-    f.wait();
-    auto const& [nrppaPduMR, measurementResponse] = f.get();
     this->measurement_id_gen.free_uid(mId);
     // nrppaPduMR contain measurement
     // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )

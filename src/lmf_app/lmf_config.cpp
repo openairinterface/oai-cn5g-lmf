@@ -153,6 +153,15 @@ int lmf_config::load(const std::string& config_file) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
+  try {
+    this->measurement_wait_ms = std::chrono::milliseconds(
+        lmf_cfg.lookup(LMF_CONFIG_STRING_MEASUREMENT_WAIT_MS)
+            .
+            operator unsigned int());
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
 
   // LMF SBI interface
   try {

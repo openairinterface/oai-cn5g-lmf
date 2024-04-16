@@ -80,8 +80,7 @@ class LocationDetermination {
   //       resps;
   std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
       measurement_response;
-  std::future<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
-  measurement_request(
+  std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&> measurement_request(
       NRPPATransactionID_t const& tId, Measurement_ID_t const& mId,
       std::vector<oai::lmf_server::model::GlobalRanNodeId> const&
           globalRanNodeList,
@@ -113,9 +112,9 @@ class LocationDetermination {
   std::string supi;
 
   template<typename T>
-  T positioning_wait_for(
+  T wait_for_notification(
       std::string const& kind, NRPPATransactionID_t const& tId,
-      std::promise<T>& p);
+      std::promise<T>& p, std::chrono::milliseconds const& wait_ms);
 };
 
 #endif  // FILE_LMF_LOCATION_DETERMINATION_SEEN

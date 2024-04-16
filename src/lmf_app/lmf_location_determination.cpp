@@ -61,6 +61,14 @@ auto end(T const& container) {
   return container.list.array + container.list.count;
 }
 
+template<
+    class result_t   = std::chrono::milliseconds,
+    class clock_t    = std::chrono::steady_clock,
+    class duration_t = std::chrono::milliseconds>
+auto elapsed_ms(std::chrono::time_point<clock_t, duration_t> const& start) {
+  return std::chrono::duration_cast<result_t>(clock_t::now() - start).count();
+}
+
 bool LocationDetermination::n1_n2_message_transfer(
     NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode) {
@@ -291,31 +299,31 @@ bool LocationDetermination::non_ue_n2_message_transfer(
 }
 
 template<typename T>
-T LocationDetermination::positioning_wait_for(
+T LocationDetermination::wait_for_notification(
     std::string const& kind, NRPPATransactionID_t const& tId,
-    std::promise<T>& p) {
-  auto const& wait_ms = lmf_cfg.positioning_wait_ms.count();
+    std::promise<T>& p, std::chrono::milliseconds const& wait_ms) {
   Logger::lmf_app().info(
-      "waiting %dms for positioning %s response for supi %s, tId: %d", wait_ms,
+      "waiting %dms for %s notification for supi %s, tId: %d", wait_ms.count(),
       kind, this->supi, tId);
 
-  auto f = p.get_future();
-  switch (auto const& rc = f.wait_for(lmf_cfg.positioning_wait_ms); rc) {
+  auto const& start = std::chrono::steady_clock::now();
+  auto f            = p.get_future();
+  switch (auto const& rc = f.wait_for(wait_ms); rc) {
     case std::future_status::timeout: {
       this->throwHttpError(
-          "positioning "s + kind + " request timeout"s,
-          "waited "s + std::to_string(lmf_cfg.positioning_wait_ms.count()) +
-              "ms"s);
+          kind + " notification timeout"s,
+          "waited "s + std::to_string(wait_ms.count()) + "ms"s);
     } break;
 
     case std::future_status::ready: {
       Logger::lmf_app().info(
-          "positioning "s + kind + " received for supi: %s"s, this->supi);
+          kind + " notifiaction received for supi: %s waiting %dms"s,
+          this->supi, elapsed_ms(start));
     } break;
 
     default:
       this->throwHttpError(
-          "positioning "s + kind,
+          kind,
           "unhandled future_status: "s + std::to_string(static_cast<int>(rc)));
   }
   return f.get();
@@ -377,11 +385,12 @@ LocationDetermination::positioning_information_request() {
   this->positioning_information_response = {};
   this->n1_n2_message_transfer(
       nrppaPdu, tId, ProcedureCode_id_positioningInformationExchange);
-  return this->positioning_wait_for(
-      "information", tId, this->positioning_information_response);
+  return this->wait_for_notification(
+      "positioning information", tId, this->positioning_information_response,
+      lmf_cfg.positioning_wait_ms);
 }
 
-std::future<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
+std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>
 LocationDetermination::measurement_request(
     NRPPATransactionID_t const& tId, Measurement_ID_t const& mId,
     std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
@@ -479,7 +488,10 @@ LocationDetermination::measurement_request(
   this->non_ue_n2_message_transfer(
       nrppaPdu, tId, ProcedureCode_id_Measurement, globalRanNodeList,
       ueSrsConfigurationShared);
-  return this->measurement_response.get_future();
+
+  return this->wait_for_notification(
+      "measurement", tId, this->measurement_response,
+      lmf_cfg.measurement_wait_ms);
 }
 
 void LocationDetermination::handle_positioning_information_response(
@@ -628,8 +640,9 @@ LocationDetermination::positioning_activation_request() {
   this->positioning_activation_response = {};
   this->n1_n2_message_transfer(
       nrppaPdu, tId, ProcedureCode_id_positioningActivation);
-  return this->positioning_wait_for(
-      "activation", tId, this->positioning_activation_response);
+  return this->wait_for_notification(
+      "positionong activation", tId, this->positioning_activation_response,
+      lmf_cfg.positioning_wait_ms);
 }
 
 void LocationDetermination::handle_positioning_activation_response(

@@ -40,6 +40,7 @@
 #define LMF_CONFIG_STRING_NUM_GNB "NUM_GNB"
 #define LMF_CONFIG_STRING_TRP_INFO_WAIT_MS "TRP_INFO_WAIT_MS"
 #define LMF_CONFIG_STRING_POSITIONING_WAIT_MS "POSITIONING_WAIT_MS"
+#define LMF_CONFIG_STRING_MEASUREMENT_WAIT_MS "MEASUREMENT_WAIT_MS"
 
 #define LMF_CONFIG_STRING_INTERFACES "INTERFACES"
 #define LMF_CONFIG_STRING_INTERFACE_SBI "SBI"
@@ -96,6 +97,7 @@ class lmf_config {
   unsigned num_gnb                    = 1;
   std::chrono::milliseconds trp_info_wait_ms{10000};
   std::chrono::milliseconds positioning_wait_ms{10000};
+  std::chrono::milliseconds measurement_wait_ms{10000};
 
   interface_cfg_t sbi;
   unsigned int sbi_http2_port;
