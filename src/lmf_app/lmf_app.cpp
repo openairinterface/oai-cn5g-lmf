@@ -257,61 +257,17 @@ void lmf_app::handle_determine_location(
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPA);
   std::cout << "--> positioning activation <<--" << std::endl;
   for (auto const& [id, gnb] : this->gnb) {
-    auto const& mr_tId            = this->nrppa_tid_gen.get_uid();
-    auto const& mId               = lmf_app_inst->measurement_id_gen.get_uid();
-    auto const& globalRanNodeList = std::vector{gnb.ncgi};
-    auto const& trpIdRng          = boost::adaptors::keys(gnb.trp);
-    auto const& trpIds            = std::set(trpIdRng.begin(), trpIdRng.end());
-    auto const& [nrppaPduMR, measurementResponse] = ctx->measurement_request(
-        mr_tId, mId, globalRanNodeList, trpIds, ueSrsConfiguration);
-    this->measurement_id_gen.free_uid(mId);
-    // nrppaPduMR contain measurement
-    // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
-    std::cout << "--> measurement <<--" << std::endl;
-    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
-
-    // for each trp_id a map of 9.2.39 UL RTOA Measurement
-    std::map<GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>> res;
-    for (auto const& measurementIE : measurementResponse.protocolIEs) {
-      if (measurementIE->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
-          measurementIE->value.present ==
-              MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
-        auto const trpMeasurementList =
-            measurementIE->value.choice.TRP_MeasurementResponseList;
-        for (auto const& trpMeasurement : trpMeasurementList) {
-          auto const& trpId = trpMeasurement->tRP_ID;
-          for (auto const& measurement : trpMeasurement->measurementResult) {
-            if (measurement->measuredResultsValue.present ==
-                TrpMeasuredResultsValue_PR_uL_RTOA) {
-              auto const& uLRTOAmeas =
-                  measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
-              auto const& choice = uLRTOAmeas.choice;
-              auto const& key    = uLRTOAmeas.present;
-              auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
-                                   key == ULRTOAMeas_PR_k1 ? choice.k1 :
-                                   key == ULRTOAMeas_PR_k2 ? choice.k2 :
-                                   key == ULRTOAMeas_PR_k3 ? choice.k3 :
-                                   key == ULRTOAMeas_PR_k4 ? choice.k4 :
-                                                             choice.k5;
-              if (auto const& [iter, inserted] =
-                      res[id][trpId].try_emplace(key, val);
-                  !inserted) {
-                throwHttpError("measurement", "double value");
-              }
-            }
-          }
-        }
-      }
-    }
+    ctx->measurement_request(gnb, ueSrsConfiguration);
 
     // TRP information
     for (auto const& [gnbId, gnb] : this->gnb) {
       Logger::lmf_app().debug("gnb id: %d", gnbId);
       for (auto const& [trpId, trp] : gnb.trp) {
         std::cout << "trp id: " << trpId << std::endl;
+        static constexpr auto unit = std::array{"mm", "cm", "dm"};
         Logger::lmf_app().debug(
-            "xYZunit (mm:0, cm:1, dm:2): %d",
-            trp.relativeCartesianLocation.xYZunit);
+            "xYZunit: %d->%s", trp.relativeCartesianLocation.xYZunit,
+            unit.at(trp.relativeCartesianLocation.xYZunit));
         Logger::lmf_app().debug(
             "x: %d, y: %d, z: %d", trp.relativeCartesianLocation.xvalue,
             trp.relativeCartesianLocation.yvalue,
@@ -319,7 +275,7 @@ void lmf_app::handle_determine_location(
       }
     }
     // measurements
-    for (auto const& [gndId, trp] : res) {
+    for (auto const& [gndId, trp] : ctx->result) {
       Logger::lmf_app().debug("gndId: %d", gndId);
       for (auto const& [trpId, uLRTOAmeas] : trp) {
         Logger::lmf_app().debug("trpId: %d", trpId);
@@ -328,8 +284,6 @@ void lmf_app::handle_determine_location(
         }
       }
     }
-
-    ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
   }
 
   // TRP INFORMATION RESPONSE ( 9.1.1.15 NRPPa TS 38.455 )
@@ -349,9 +303,9 @@ void lmf_app::handle_determine_location(
   json_data = locationData;
 
   ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPIR);
-  del_supi_2_context(supi);
+  this->del_supi_2_context(supi);
 
-  // release_n1n2subscription(supi);
+  return;
 }
 
 bool lmf_app::_is_supi_2_context(const std::string& supi) const {
@@ -408,9 +362,15 @@ void lmf_app::create_n1n2subscription(const std::string& supi) {
 }
 
 void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
+  std::unique_lock lock(this->m_supi2n1n2subs);
+
+  this->supi2n1n2subs.erase(supi);
+}
+
+void oai::lmf::app::lmf_app::release_all_n1n2subscriptions() {
   std::unique_lock lock(m_supi2n1n2subs);
 
-  supi2n1n2subs.erase(supi);
+  this->supi2n1n2subs.clear();
 }
 
 void lmf_app::create_non_ue_subscription() {
@@ -423,6 +383,17 @@ void lmf_app::create_non_ue_subscription() {
   } else {
     Logger::lmf_app().debug(
         "non-ue subscription not created: already subscribed");
+  }
+}
+
+void oai::lmf::app::lmf_app::release_non_ue_subscription() {
+  std::scoped_lock lock(this->m_non_ue_subs);
+
+  if (this->nonUeN2MessageSubscription) {
+    this->nonUeN2MessageSubscription.reset();
+    Logger::lmf_app().info("non-ue subscription deleted");
+  } else {
+    Logger::lmf_app().debug("non-ue subscription not deleted: already deleted");
   }
 }
 
@@ -559,8 +530,8 @@ void lmf_app::handle_trp_information_response(
                       std::to_string(gnbId.value()) + " mcc: '" + mcc +
                       "' mnc: '" + mnc + ":");
 
-                  if (auto const& [iter, inserted] =
-                          this->gnb.try_emplace(gnbId.value(), globalRanNodeId);
+                  if (auto const& [iter, inserted] = this->gnb.try_emplace(
+                          gnbId.value(), gnbId.value(), globalRanNodeId);
                       !inserted) {
                     throwHttpError(
                         "trp information response",

@@ -22,6 +22,8 @@
 #ifndef FILE_LMF_LOCATION_DETERMINATION_SEEN
 #define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
+#define ASN_DISABLE_OER_SUPPORT
+
 #include <future>
 #include <map>
 #include <tuple>
@@ -32,7 +34,8 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 
-#define ASN_DISABLE_OER_SUPPORT
+#include "lmf_gnb.hpp"
+
 #include "NRPPA-PDU.h"
 #include "NRPPATransactionID.h"
 #include "PositioningInformationResponse.h"
@@ -46,10 +49,12 @@
 #include "GlobalRanNodeId.h"
 #include "TRP-ID.h"
 #include "PositioningInformationFailure.h"
+#include "ULRTOAMeas.h"
 
 class LocationDetermination {
  public:
-  LocationDetermination(std::string supi) : supi{supi} {}
+  LocationDetermination(std::string supi);
+  virtual ~LocationDetermination();
 
   std::promise<std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>>
       positioning_activation_response;
@@ -80,14 +85,14 @@ class LocationDetermination {
   //       resps;
   std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
       measurement_response;
-  std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&> measurement_request(
-      NRPPATransactionID_t const& tId, Measurement_ID_t const& mId,
-      std::vector<oai::lmf_server::model::GlobalRanNodeId> const&
-          globalRanNodeList,
-      std::set<TRP_ID_t> const& trpIds,
+  void measurement_request(
+      oai::lmf::app::Gnb const& gnb,
       SRSConfiguration_t const& srsConfiguration);
   void handle_measurement_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      MeasurementResponse_t const& measurementResponse);
+  void collectResult(
+      oai::lmf::app::Gnb const& gnb,
       MeasurementResponse_t const& measurementResponse);
 
   bool n1_n2_message_transfer(
@@ -110,6 +115,11 @@ class LocationDetermination {
           Pistache::Http::Code::Internal_Server_Error);
 
   std::string supi;
+  Measurement_ID_t const measurementId;
+
+  std::map<
+      oai::lmf::app::GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>>
+      result;
 
   template<typename T>
   T wait_for_notification(

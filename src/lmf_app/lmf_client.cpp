@@ -134,6 +134,11 @@ void lmf_client::curl_http_client(
       curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body_data);
     }
     res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+      Logger::lmf_app().error(
+          "curl failed: method: '%s' uri: '%s' body: '%s' [%d]: %s", method,
+          remoteUri, msgBody, res, curl_easy_strerror(res));
+    }
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
 
     // Process the response

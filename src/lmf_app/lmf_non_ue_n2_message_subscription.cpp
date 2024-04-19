@@ -58,16 +58,11 @@ void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
 
   Logger::lmf_app().debug("Response from AMF: %s"s, response);
   if (!response.empty()) {
-    using namespace Pistache::Http;
-
-    model::ProblemDetails pd;
-    pd.setTitle("delete NonUeN2InfoSubscription failed");
-    pd.setDetail(
-        "amf_uri: '" + amf_uri + "', id: '" + id + "', respone: '" + response +
-        "'");
-    throw HttpError{Code::Internal_Server_Error, nlohmann::json(pd).dump()};
+    Logger::lmf_app().error("deleted NonUeN2InfoUnsubscribe %s failed", id);
+  } else {
+    Logger::lmf_app().info(
+        "deleted NonUeN2InfoUnsubscribe %s successfully", id);
   }
-  Logger::lmf_app().info("deleted NonUeN2InfoUnsubscribe %d successfully", id);
 }
 
 // 5.2.2.4.2 NonUeN2InfoSubscribe

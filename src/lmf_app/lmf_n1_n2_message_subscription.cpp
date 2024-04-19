@@ -64,15 +64,11 @@ void N1N2MessageSubscription::unsubscribe(
   Logger::lmf_app().debug("Response from AMF: %s", response);
 
   if (!response.empty()) {
-    using namespace Pistache::Http;
-    model::ProblemDetails pd;
-    pd.setTitle("delete ueN1N2InfoSubscription failed");
-    pd.setDetail("amf_uri: '" + amf_uri + "', respone: '" + response);
-    Logger::lmf_server().error(pd.getTitle() + ": " + pd.getDetail());
-    auto const& reason = nlohmann::json(pd).dump();
-    throw HttpError{Code::Internal_Server_Error, reason};
+    Logger::lmf_app().error("deleted UeN1N2InfoSubscription %s failed", id);
+  } else {
+    Logger::lmf_app().info(
+        "deleted UeN1N2InfoSubscription %s successfully", id);
   }
-  Logger::lmf_app().info("deleted UeN1N2InfoSubscription %s successfully", id);
 }
 
 // 3GPP TS 29.518 version 16.4.0 Release 16 / 5.2.2.3.3 N1N2MessageSubscribe

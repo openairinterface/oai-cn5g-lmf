@@ -19,6 +19,8 @@
  *      contact@openairinterface.org
  */
 
+#include <boost/range/adaptor/map.hpp>
+
 #include "lmf_location_determination.hpp"
 
 #include "lmf.h"
@@ -45,6 +47,12 @@
 #include "SemipersistentSRS.h"
 #include "AperiodicSRS.h"
 #include "TRP-MeasurementRequestItem.h"
+#include "TRP-MeasurementResponseItem.h"
+#include "TrpMeasurementResultItem.h"
+#include "TrpMeasuredResultsValue.h"
+#include "TRPInformationItem.h"
+#include "ULRTOAMeas.h"
+#include "UL-RTOAMeasurement.h"
 
 using namespace std::string_literals;
 using namespace oai::lmf_server;
@@ -67,6 +75,13 @@ template<
     class duration_t = std::chrono::milliseconds>
 auto elapsed_ms(std::chrono::time_point<clock_t, duration_t> const& start) {
   return std::chrono::duration_cast<result_t>(clock_t::now() - start).count();
+}
+
+LocationDetermination::LocationDetermination(std::string supi)
+    : supi{supi}, measurementId{lmf_app_inst->measurement_id_gen.get_uid()} {}
+
+LocationDetermination::~LocationDetermination() {
+  lmf_app_inst->measurement_id_gen.free_uid(this->measurementId);
 }
 
 bool LocationDetermination::n1_n2_message_transfer(
@@ -390,13 +405,54 @@ LocationDetermination::positioning_information_request() {
       lmf_cfg.positioning_wait_ms);
 }
 
-std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>
-LocationDetermination::measurement_request(
-    NRPPATransactionID_t const& tId, Measurement_ID_t const& mId,
-    std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
-    std::set<TRP_ID_t> const& trpIds,
-    SRSConfiguration_t const& srsConfigurationUE) {
+void LocationDetermination::collectResult(
+    Gnb const& gnb, MeasurementResponse_t const& measurementResponse) {
+  // for each trp_id a map of 9.2.39 UL RTOA Measurement
+  // std::map<GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>> res;
+  for (auto const& measurementIE : measurementResponse.protocolIEs) {
+    if (measurementIE->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
+        measurementIE->value.present ==
+            MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
+      auto const trpMeasurementList =
+          measurementIE->value.choice.TRP_MeasurementResponseList;
+      for (auto const& trpMeasurement : trpMeasurementList) {
+        auto const& trpId = trpMeasurement->tRP_ID;
+        for (auto const& measurement : trpMeasurement->measurementResult) {
+          if (measurement->measuredResultsValue.present ==
+              TrpMeasuredResultsValue_PR_uL_RTOA) {
+            auto const& uLRTOAmeas =
+                measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
+            auto const& choice = uLRTOAmeas.choice;
+            auto const& key    = uLRTOAmeas.present;
+            auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
+                                 key == ULRTOAMeas_PR_k1 ? choice.k1 :
+                                 key == ULRTOAMeas_PR_k2 ? choice.k2 :
+                                 key == ULRTOAMeas_PR_k3 ? choice.k3 :
+                                 key == ULRTOAMeas_PR_k4 ? choice.k4 :
+                                                           choice.k5;
+            Logger::lmf_app().info(
+                "measurement: gnbId: %d, trpId: %d %s key k%d = %d", gnb.id,
+                trpId,
+                this->result[gnb.id][trpId].count(key) == 0 ? "insert" :
+                                                              "replace",
+                key - 1, val);
+            this->result[gnb.id][trpId][key] = val;
+          }
+        }
+      }
+    }
+  }
+}
+
+void LocationDetermination::measurement_request(
+    Gnb const& gnb, SRSConfiguration_t const& srsConfigurationUE) {
   Logger::lmf_app().info("measurement request");
+
+  auto const& tId               = lmf_app_inst->nrppa_tid_gen.get_uid();
+  auto const& globalRanNodeList = std::vector{gnb.ncgi};
+  auto const& trpIdRng          = boost::adaptors::keys(gnb.trp);
+  auto const& trpIds            = std::set(trpIdRng.begin(), trpIdRng.end());
+
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
   *initiatingMessage = InitiatingMessage_t{
@@ -416,7 +472,7 @@ LocationDetermination::measurement_request(
       .value =
           {
               .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
-              .choice  = {.Measurement_ID = mId},
+              .choice  = {.Measurement_ID = this->measurementId},
           },
   };
   ASN_SEQUENCE_ADD(ies, lmfMeasurementIdIe);
@@ -489,9 +545,15 @@ LocationDetermination::measurement_request(
       nrppaPdu, tId, ProcedureCode_id_Measurement, globalRanNodeList,
       ueSrsConfigurationShared);
 
-  return this->wait_for_notification(
+  auto const& [nrppaPduMR, measurementResponse] = this->wait_for_notification(
       "measurement", tId, this->measurement_response,
       lmf_cfg.measurement_wait_ms);
+  // nrppaPduMR contain measurement
+  // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
+  std::cout << "--> measurement <<--" << std::endl;
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
+  this->collectResult(gnb, measurementResponse);
+  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
 }
 
 void LocationDetermination::handle_positioning_information_response(

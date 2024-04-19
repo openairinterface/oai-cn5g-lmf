@@ -22,6 +22,8 @@
 #ifndef FILE_LMF_APP_HPP_SEEN
 #define FILE_LMF_APP_HPP_SEEN
 
+#define ASN_DISABLE_OER_SUPPORT
+
 #include <shared_mutex>
 #include <string>
 #include <map>
@@ -38,6 +40,7 @@
 #include "lmf_location_determination.hpp"
 #include "lmf_n1_n2_message_subscription.hpp"
 #include "lmf_non_ue_n2_message_subscription.hpp"
+#include "lmf_gnb.hpp"
 
 #include "ProblemDetails.h"
 #include "InputData.h"
@@ -50,19 +53,6 @@
 #include "RelativeCartesianLocation.h"
 
 namespace oai::lmf::app {
-
-class Trp {
- public:
-  CoordinateID_t relativeCoordinateID                   = {};
-  RelativeCartesianLocation_t relativeCartesianLocation = {};
-};
-
-class Gnb {
- public:
-  Gnb(oai::lmf_server::model::GlobalRanNodeId const& ncgi) : ncgi{ncgi} {}
-  const oai::lmf_server::model::GlobalRanNodeId ncgi;
-  std::map<TRP_ID_t, Trp> trp;
-};
 
 class lmf_app {
  public:
@@ -92,6 +82,7 @@ class lmf_app {
 
   void create_n1n2subscription(const std::string& supi);
   void release_n1n2subscription(const std::string& supi);
+  void release_all_n1n2subscriptions();
 
   void create_non_ue_subscription();
   void release_non_ue_subscription();
@@ -138,7 +129,6 @@ class lmf_app {
   // std::map<GNB_ID, std::vector<TRP_ID_t>> trps = {{1, {1}}};
 
   // globalRanNodeList
-  using GnbId = uint64_t;
   std::map<GnbId, Gnb> gnb;
   mutable std::mutex cv_m_gnb;
   std::condition_variable cv_gnb;
