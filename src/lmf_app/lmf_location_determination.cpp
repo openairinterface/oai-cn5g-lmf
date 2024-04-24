@@ -344,9 +344,7 @@ T LocationDetermination::wait_for_notification(
   return f.get();
 }
 
-std::tuple<
-    NRPPA_PDU_t*, PositioningInformationResponse_t const&,
-    SRSConfiguration_t const&>
+LocationDetermination::pos_info_res
 LocationDetermination::positioning_information_request() {
   auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
 
@@ -561,6 +559,9 @@ void LocationDetermination::handle_positioning_information_response(
     PositioningInformationResponse_t const& positioningInformationResponse) {
   Logger::lmf_app().info("handle positioning information response");
   SRSConfiguration_t* srsConfiguration = nullptr;
+  auto pt                              = std::shared_ptr<NRPPA_PDU_t>{
+      nrppaPdu, [](NRPPA_PDU_t* p) { ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, p); }};
+
   for (auto const& positioningInformationIE :
        positioningInformationResponse.protocolIEs) {
     if (positioningInformationIE->id == ProtocolIE_ID_id_SRSConfiguration &&
@@ -581,8 +582,8 @@ void LocationDetermination::handle_positioning_information_response(
       throw;
     }
   }
-  this->positioning_information_response.set_value(
-      {nrppaPdu, positioningInformationResponse, *srsConfiguration});
+
+  this->positioning_information_response.set_value({pt, *srsConfiguration});
 }
 
 void LocationDetermination::handle_positioning_information_failure(
@@ -719,4 +720,61 @@ void LocationDetermination::throwHttpError(
     std::string const& title, std::string const& detail,
     Pistache::Http::Code const& code) {
   oai::lmf::app::throwHttpError(title, detail, this->supi, code);
+}
+
+model::LocationData LocationDetermination::compute_location(
+    std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
+  for (auto const& [gnbId, trp] : this->result) {
+    if (gnbs.count(gnbId) == 0) {
+      Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
+      continue;
+    }
+    Logger::lmf_app().debug("gndId: %d", gnbId);
+    auto const gnb = gnbs.at(gnbId);
+    for (auto const& [trpId, uLRTOAmeas] : trp) {
+      if (gnb.trp.count(trpId) == 0) {
+        Logger::lmf_app().warn(
+            "no such trpId: %d attached to gnbId: %d", trpId, gnbId);
+        continue;
+      }
+      auto const& trp             = gnb.trp.at(trpId);
+      static constexpr auto units = std::array{"mm", "cm", "dm"};
+      auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
+
+      Logger::lmf_app().debug("trpId: %d", trpId);
+      Logger::lmf_app().debug(
+          "xYZunit: %d: %s", trp.relativeCartesianLocation.xYZunit, unit);
+      Logger::lmf_app().debug(
+          "x: %d%s, y: %d%s, z: %d%s", trp.relativeCartesianLocation.xvalue,
+          unit, trp.relativeCartesianLocation.yvalue, unit,
+          trp.relativeCartesianLocation.zvalue, unit);
+      for (auto const& [k, v] : uLRTOAmeas) {
+        Logger::lmf_app().debug("k%d: %d", k - 1, v);
+      }
+    }
+  }
+
+  model::SupportedGADShapes supportedGADShapes;
+  supportedGADShapes.setEnumValue(
+      model::SupportedGADShapes_anyOf::eSupportedGADShapes_anyOf::POINT);
+
+  model::UncertaintyEllipse uncertaintyEllipse;
+  uncertaintyEllipse.setSemiMajor(0.0);
+  uncertaintyEllipse.setSemiMinor(0.0);
+  uncertaintyEllipse.setOrientationMajor(180);
+
+  model::GeographicalCoordinates geographicalCoordinates;
+  geographicalCoordinates.setLat(0.0);
+  geographicalCoordinates.setLon(0.0);
+
+  model::GeographicArea geographicArea;
+  geographicArea.setShape(supportedGADShapes);
+  geographicArea.setPoint(geographicalCoordinates);
+  geographicArea.setUncertaintyEllipse(uncertaintyEllipse);
+  geographicArea.setConfidence(100);
+
+  model::LocationData locationData;
+  locationData.setLocationEstimate(geographicArea);
+
+  return locationData;
 }

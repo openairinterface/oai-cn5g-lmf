@@ -35,6 +35,7 @@
 #include <pistache/router.h>
 
 #include "lmf_gnb.hpp"
+#include "lmf_cause_error.hpp"
 
 #include "NRPPA-PDU.h"
 #include "NRPPATransactionID.h"
@@ -45,6 +46,7 @@
 #include "ProcedureCode.h"
 #include "Measurement-ID.h"
 #include "TRPInformationResponse.h"
+#include "LocationData.h"
 
 #include "GlobalRanNodeId.h"
 #include "TRP-ID.h"
@@ -64,14 +66,10 @@ class LocationDetermination {
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
 
-  std::promise<std::tuple<
-      NRPPA_PDU_t*, PositioningInformationResponse_t const&,
-      SRSConfiguration_t const&>>
-      positioning_information_response;
-  std::tuple<
-      NRPPA_PDU_t*, PositioningInformationResponse_t const&,
-      SRSConfiguration_t const&>
-  positioning_information_request();
+  using pos_info_res =
+      std::tuple<std::shared_ptr<NRPPA_PDU_t>, SRSConfiguration_t const&>;
+  std::promise<pos_info_res> positioning_information_response;
+  pos_info_res positioning_information_request();
   void handle_positioning_information_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
@@ -113,6 +111,9 @@ class LocationDetermination {
       std::string const& title, std::string const& detail,
       Pistache::Http::Code const& code =
           Pistache::Http::Code::Internal_Server_Error);
+
+  oai::lmf_server::model::LocationData compute_location(
+      std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnb);
 
   std::string supi;
   Measurement_ID_t const measurementId;

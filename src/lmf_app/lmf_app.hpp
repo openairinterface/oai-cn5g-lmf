@@ -41,6 +41,7 @@
 #include "lmf_n1_n2_message_subscription.hpp"
 #include "lmf_non_ue_n2_message_subscription.hpp"
 #include "lmf_gnb.hpp"
+#include "lmf_cause_error.hpp"
 
 #include "ProblemDetails.h"
 #include "InputData.h"
@@ -138,10 +139,7 @@ class lmf_app {
         [](auto const& a, auto const& b) { return a + b.second.trp.size(); });
   }
 
-  struct trpInfoErr {
-    asn_INTEGER_enum_map_t const *radio_network, *protocol, *misc;
-  };
-  std::vector<trpInfoErr> trp_info_err;
+  std::vector<CauseError> trp_info_err;
 };
 }  // namespace oai::lmf::app
 

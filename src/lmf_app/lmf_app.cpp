@@ -75,7 +75,7 @@ using namespace std::chrono_literals;
 
 using namespace std;
 using namespace oai::lmf::app;
-using namespace oai::lmf_server::model;
+using namespace oai::lmf_server;
 using namespace config;
 
 lmf_client* lmf_client_inst = nullptr;
@@ -218,7 +218,7 @@ void lmf_app::trp_information(
 }
 
 void lmf_app::handle_determine_location(
-    const InputData& inputData, nlohmann::json& json_data,
+    const model::InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
   auto const& supi = inputData.getSupi();
 
@@ -227,7 +227,7 @@ void lmf_app::handle_determine_location(
     auto const& err =
         "Could not create context for supi '"s + supi + "': already exist"s;
     Logger::lmf_app().warn(err);
-    ProblemDetails problemDetails;
+    model::ProblemDetails problemDetails;
     problemDetails.setCause("INTERNAL_SERVER_ERROR");
     problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
     problemDetails.setDetail(err);
@@ -242,7 +242,7 @@ void lmf_app::handle_determine_location(
   this->trp_information(ctx);
   this->create_n1n2subscription(supi);
 
-  auto const& [nrppaPduPIR, positioningInformationResponse, ueSrsConfiguration] =
+  auto const& [nrppaPduPIR, ueSrsConfiguration] =
       ctx->positioning_information_request();
 
   // nrppaPduPIR contain position information
@@ -258,51 +258,14 @@ void lmf_app::handle_determine_location(
   std::cout << "--> positioning activation <<--" << std::endl;
   for (auto const& [id, gnb] : this->gnb) {
     ctx->measurement_request(gnb, ueSrsConfiguration);
-
-    // TRP information
-    for (auto const& [gnbId, gnb] : this->gnb) {
-      Logger::lmf_app().debug("gnb id: %d", gnbId);
-      for (auto const& [trpId, trp] : gnb.trp) {
-        std::cout << "trp id: " << trpId << std::endl;
-        static constexpr auto unit = std::array{"mm", "cm", "dm"};
-        Logger::lmf_app().debug(
-            "xYZunit: %d->%s", trp.relativeCartesianLocation.xYZunit,
-            unit.at(trp.relativeCartesianLocation.xYZunit));
-        Logger::lmf_app().debug(
-            "x: %d, y: %d, z: %d", trp.relativeCartesianLocation.xvalue,
-            trp.relativeCartesianLocation.yvalue,
-            trp.relativeCartesianLocation.zvalue);
-      }
-    }
-    // measurements
-    for (auto const& [gndId, trp] : ctx->result) {
-      Logger::lmf_app().debug("gndId: %d", gndId);
-      for (auto const& [trpId, uLRTOAmeas] : trp) {
-        Logger::lmf_app().debug("trpId: %d", trpId);
-        for (auto const& [k, v] : uLRTOAmeas) {
-          Logger::lmf_app().debug("k(1:k0, 2:k1, ..., 6:k5): %d, v: %d", k, v);
-        }
-      }
-    }
   }
 
-  // TRP INFORMATION RESPONSE ( 9.1.1.15 NRPPa TS 38.455 )
-  // not availalbe right now, because no AMF non-ue-message-service
-
-  // --> calculate position here <--
-  // double position_estimation(
-  //    double trp_pos[][3], int trp_pos_size,
-  //    double dd_estimated[], int dd_estimated_size,
-  //    double pos_est[]);
-
   // --> set the location calculation results here <--
-  LocationData locationData;
-  locationData.setBarometricPressure(1);
+  model::LocationData locationData{ctx->compute_location(this->gnb)};
 
   code      = Pistache::Http::Code::Ok;
   json_data = locationData;
 
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPIR);
   this->del_supi_2_context(supi);
 
   return;
@@ -511,17 +474,17 @@ void lmf_app::handle_trp_information_response(
                         "trp information response", "invalid mnc: "s + mnc);
                   }
 
-                  PlmnId plmnId;
+                  model::PlmnId plmnId;
                   plmnId.setMcc(mcc);
                   plmnId.setMnc(mnc);
 
                   auto const& gnbValue =
                       (boost::format("%x") % gnbId.value()).str();
-                  GNbId gNbId;
+                  model::GNbId gNbId;
                   gNbId.setGNBValue(gnbValue);
                   gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
 
-                  GlobalRanNodeId globalRanNodeId;
+                  model::GlobalRanNodeId globalRanNodeId;
                   globalRanNodeId.setPlmnId(plmnId);
                   globalRanNodeId.setGNbId(gNbId);
 
@@ -682,7 +645,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
       case ProcedureCode_id_tRPInformationExchange: {
         std::scoped_lock lk{this->cv_m_gnb};
 
-        struct trpInfoErr err {};
+        struct CauseError err {};
         auto const& value                 = unsuccessfulOutcome->value;
         auto const& trpInformationFailure = getPR(
             value.choice.TRPInformationFailure, value,
@@ -696,30 +659,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
               auto const& cause = getPR(
                   value.choice.Cause, value,
                   TRPInformationFailure_IEs__value_PR_Cause);
-              switch (cause.present) {
-                case Cause_PR_radioNetwork: {
-                  auto const& radioNetwork = cause.choice.radioNetwork;
-                  err.radio_network        = INTEGER_map_value2enum(
-                      &asn_SPC_CauseRadioNetwork_specs_1, radioNetwork);
-                } break;
-
-                case Cause_PR_protocol: {
-                  auto const& protocol = cause.choice.protocol;
-                  err.protocol         = INTEGER_map_value2enum(
-                      &asn_SPC_CauseProtocol_specs_1, protocol);
-                } break;
-
-                case Cause_PR_misc: {
-                  auto const& misc = cause.choice.misc;
-                  err.misc =
-                      INTEGER_map_value2enum(&asn_SPC_CauseMisc_specs_1, misc);
-                } break;
-
-                default:
-                  Logger::lmf_app().warn(
-                      "trpInformationFailure: unknwon cause IE id: %d",
-                      cause.present);
-              }
+              err.parse(cause);
             } break;
 
             case ProtocolIE_ID_id_CriticalityDiagnostics: {
@@ -732,11 +672,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
                       std::to_string(trpInformationFailureIe->id));
           }
         }
-        Logger::lmf_app().error(
-            "trp information failed: radio_network: %s protocol: %s misc: %s",
-            err.radio_network ? err.radio_network->enum_name : "not set",
-            err.protocol ? err.protocol->enum_name : "not set",
-            err.misc ? err.misc->enum_name : "not set");
+        err.log();
         this->trp_info_err.push_back(err);
         this->cv_gnb.notify_one();
         return true;
@@ -831,7 +767,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
 }
 
 NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
-    N2InformationNotification const& n2InformationNotification,
+    model::N2InformationNotification const& n2InformationNotification,
     mime_part const& nrppa_part) {
   if (!n2InformationNotification.n2InfoContainerIsSet()) {
     throwHttpError(
@@ -844,7 +780,7 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
 
   // Check N2 Information Class
   if (eN2InformationClass !=
-      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
     throwHttpError(
         "parse_n2_info_container_nrppa",
         "N2 Information Class not NRPPA: " +
@@ -868,7 +804,7 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
   }
 
   auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
-  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+  if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
     throwHttpError(
         "parse_n2_info_container_nrppa",
         "ngapIeType not NRPPA_PDU: " +
