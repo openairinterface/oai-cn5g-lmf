@@ -31,6 +31,7 @@
 #include "conversions.hpp"
 #include "mime_parser.hpp"
 #include "3gpp_29.518.h"
+#include "lmf_cause_error.hpp"
 
 #include "LocationData.h"
 #include "ProblemDetails.h"
@@ -56,6 +57,7 @@
 
 using namespace std::string_literals;
 using namespace oai::lmf_server;
+using namespace oai::lmf::app;
 
 // provides for asn container.list.array range based for loops
 // for (auto const& xyzIEs : xyzResponse.protocolIEs) {
@@ -75,6 +77,11 @@ template<
     class duration_t = std::chrono::milliseconds>
 auto elapsed_ms(std::chrono::time_point<clock_t, duration_t> const& start) {
   return std::chrono::duration_cast<result_t>(clock_t::now() - start).count();
+}
+
+std::shared_ptr<NRPPA_PDU_t> oai::lmf::app::share_nrppa_pdu(NRPPA_PDU_t* ptr) {
+  return {
+      ptr, [](NRPPA_PDU_t* ptr) { ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, ptr); }};
 }
 
 LocationDetermination::LocationDetermination(std::string supi)
@@ -195,7 +202,7 @@ bool LocationDetermination::non_ue_n2_message_transfer(
     std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
     SRSConfiguration_t* const ueSrsConfigurationShared) {
   Logger::lmf_app().info("non_ue_n2_message_transfer");
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
       0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
@@ -443,7 +450,7 @@ void LocationDetermination::collectResult(
 }
 
 void LocationDetermination::measurement_request(
-    Gnb const& gnb, SRSConfiguration_t const& srsConfigurationUE) {
+    Gnb const& gnb, SRSConfiguration_t* srsConfigurationUE) {
   Logger::lmf_app().info("measurement request");
 
   auto const& tId               = lmf_app_inst->nrppa_tid_gen.get_uid();
@@ -524,7 +531,7 @@ void LocationDetermination::measurement_request(
               .present = MeasurementRequest_IEs__value_PR_SRSConfiguration,
               .choice =
                   {
-                      .SRSConfiguration = srsConfigurationUE,
+                      .SRSConfiguration = *srsConfigurationUE,
                   },
           },
   };
@@ -555,12 +562,10 @@ void LocationDetermination::measurement_request(
 }
 
 void LocationDetermination::handle_positioning_information_response(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
   Logger::lmf_app().info("handle positioning information response");
   SRSConfiguration_t* srsConfiguration = nullptr;
-  auto pt                              = std::shared_ptr<NRPPA_PDU_t>{
-      nrppaPdu, [](NRPPA_PDU_t* p) { ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, p); }};
 
   for (auto const& positioningInformationIE :
        positioningInformationResponse.protocolIEs) {
@@ -582,28 +587,17 @@ void LocationDetermination::handle_positioning_information_response(
       throw;
     }
   }
-
-  this->positioning_information_response.set_value({pt, *srsConfiguration});
+  this->positioning_information_response.set_value(
+      std::make_tuple(nrppaPdu, srsConfiguration));
 }
 
 void LocationDetermination::handle_positioning_information_failure(
-    NRPPA_PDU_t* nrppaPdu,
+    NrppaPduShared nrppaPdu,
     PositioningInformationFailure_t const& positioningInformationFailure) {
-  for (auto const& positioningInformationFailureIe :
-       positioningInformationFailure.protocolIEs) {
-    switch (positioningInformationFailureIe->id) {
-      case ProtocolIE_ID_id_Cause: {
-      } break;
-
-      case ProtocolIE_ID_id_CriticalityDiagnostics: {
-      } break;
-
-      default:
-        Logger::lmf_app().warn(
-            "positioningInformationFailure: unknwon IE id: %d",
-            positioningInformationFailureIe->id);
-    }
-  }
+  auto err = CauseError::parse(
+      positioningInformationFailure,
+      PositioningInformationFailure_IEs__value_PR_Cause);
+  this->positioning_information_response.set_value(err);
 }
 
 void LocationDetermination::handle_measurement_response(

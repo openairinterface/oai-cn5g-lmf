@@ -28,6 +28,7 @@
 #include <map>
 #include <tuple>
 #include <set>
+#include <variant>
 
 #include <nlohmann/json.hpp>
 
@@ -53,6 +54,11 @@
 #include "PositioningInformationFailure.h"
 #include "ULRTOAMeas.h"
 
+namespace oai::lmf::app {
+
+using NrppaPduShared = std::shared_ptr<NRPPA_PDU_t>;
+NrppaPduShared share_nrppa_pdu(NRPPA_PDU_t* ptr);
+
 class LocationDetermination {
  public:
   LocationDetermination(std::string supi);
@@ -65,27 +71,22 @@ class LocationDetermination {
   void handle_positioning_activation_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
-
-  using pos_info_res =
-      std::tuple<std::shared_ptr<NRPPA_PDU_t>, SRSConfiguration_t const&>;
+  using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t*>;
+  using pos_info_res  = std::variant<pos_info_succ, CauseError>;
   std::promise<pos_info_res> positioning_information_response;
   pos_info_res positioning_information_request();
   void handle_positioning_information_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
 
   void handle_positioning_information_failure(
-      NRPPA_PDU_t* nrppaPdu,
+      NrppaPduShared nrppaPdu,
       PositioningInformationFailure_t const& positioningInformationFailure);
 
-  //   std::vector<
-  //       std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>>
-  //       resps;
   std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
       measurement_response;
   void measurement_request(
-      oai::lmf::app::Gnb const& gnb,
-      SRSConfiguration_t const& srsConfiguration);
+      oai::lmf::app::Gnb const& gnb, SRSConfiguration_t* srsConfiguration);
   void handle_measurement_response(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
       MeasurementResponse_t const& measurementResponse);
@@ -127,5 +128,6 @@ class LocationDetermination {
       std::string const& kind, NRPPATransactionID_t const& tId,
       std::promise<T>& p, std::chrono::milliseconds const& wait_ms);
 };
+}  // namespace oai::lmf::app
 
 #endif  // FILE_LMF_LOCATION_DETERMINATION_SEEN

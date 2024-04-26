@@ -27,6 +27,8 @@
 
 #include <boost/core/noncopyable.hpp>
 
+namespace oai::lmf::app {
+
 class N1N2MessageSubscription : private boost::noncopyable {
  public:
   const std::string id, supi;
@@ -41,5 +43,7 @@ class N1N2MessageSubscription : private boost::noncopyable {
   static std::string subscribe(std::string const& supi);
   static void unsubscribe(std::string const& id, std::string const& supi);
 };
+
+}  // namespace oai::lmf::app
 
 #endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN

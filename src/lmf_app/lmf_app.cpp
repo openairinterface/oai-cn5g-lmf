@@ -242,9 +242,13 @@ void lmf_app::handle_determine_location(
   this->trp_information(ctx);
   this->create_n1n2subscription(supi);
 
+  auto const& res = ctx->positioning_information_request();
+  if (std::holds_alternative<CauseError>(res)) {
+    auto const& err = std::get<CauseError>(res);
+    ctx->throwHttpError("positioning infromation request failure", err.msg());
+  }
   auto const& [nrppaPduPIR, ueSrsConfiguration] =
-      ctx->positioning_information_request();
-
+      std::get<LocationDetermination::pos_info_succ>(res);
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
   std::cout << "--> position information <<--" << std::endl;
@@ -645,34 +649,12 @@ bool lmf_app::handle_n2info_nrppa_notification(
       case ProcedureCode_id_tRPInformationExchange: {
         std::scoped_lock lk{this->cv_m_gnb};
 
-        struct CauseError err {};
         auto const& value                 = unsuccessfulOutcome->value;
         auto const& trpInformationFailure = getPR(
             value.choice.TRPInformationFailure, value,
             UnsuccessfulOutcome__value_PR_TRPInformationFailure);
-
-        for (auto const& trpInformationFailureIe :
-             trpInformationFailure.protocolIEs) {
-          switch (trpInformationFailureIe->id) {
-            case ProtocolIE_ID_id_Cause: {
-              auto const& value = trpInformationFailureIe->value;
-              auto const& cause = getPR(
-                  value.choice.Cause, value,
-                  TRPInformationFailure_IEs__value_PR_Cause);
-              err.parse(cause);
-            } break;
-
-            case ProtocolIE_ID_id_CriticalityDiagnostics: {
-            } break;
-
-            default:
-              throwHttpError(
-                  "trpInformationFailure",
-                  "unknwon IE id: " +
-                      std::to_string(trpInformationFailureIe->id));
-          }
-        }
-        err.log();
+        auto err = CauseError::parse(
+            trpInformationFailure, TRPInformationFailure_IEs__value_PR_Cause);
         this->trp_info_err.push_back(err);
         this->cv_gnb.notify_one();
         return true;
@@ -684,8 +666,8 @@ bool lmf_app::handle_n2info_nrppa_notification(
             value.choice.PositioningInformationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
         ctx->handle_positioning_information_failure(
-            nrppa, positioningInformationFailure);
-
+            share_nrppa_pdu(nrppa), positioningInformationFailure);
+        return true;
       }; break;
 
       case ProcedureCode_id_positioningActivation: {
@@ -729,7 +711,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
           value.choice.PositioningInformationResponse, value,
           SuccessfulOutcome__value_PR_PositioningInformationResponse);
       ctx->handle_positioning_information_response(
-          nrppa, tId, positioningInformationResponse);
+          share_nrppa_pdu(nrppa), tId, positioningInformationResponse);
       return true;
     } break;
 
