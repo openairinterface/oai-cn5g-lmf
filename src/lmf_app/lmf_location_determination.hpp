@@ -54,6 +54,8 @@
 #include "PositioningInformationFailure.h"
 #include "PositioningActivationFailure.h"
 #include "ULRTOAMeas.h"
+#include "TRP-MeasurementResponseList.h"
+#include "MeasurementFailure.h"
 
 namespace oai::lmf::app {
 
@@ -76,28 +78,33 @@ class LocationDetermination {
       NrppaPduShared nrppa,
       PositioningActivationFailure_t const& positioningActivationFailure);
 
-  using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t*>;
-  using pos_info_res  = std::variant<pos_info_succ, CauseError>;
+  using pos_info_succ =
+      std::tuple<NrppaPduShared, SRSConfiguration_t const* const>;
+  using pos_info_res = std::variant<pos_info_succ, CauseError>;
   std::promise<pos_info_res> positioning_information_response;
   pos_info_res positioning_information_request();
   void handle_positioning_information_response(
       NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
-
   void handle_positioning_information_failure(
       NrppaPduShared nrppaPdu,
       PositioningInformationFailure_t const& positioningInformationFailure);
 
-  std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
-      measurement_response;
-  void measurement_request(
-      oai::lmf::app::Gnb const& gnb, SRSConfiguration_t* srsConfiguration);
+  using mmr_succ =
+      std::tuple<NrppaPduShared, TRP_MeasurementResponseList_t const* const>;
+  using mmr_res = std::variant<mmr_succ, CauseError>;
+  std::promise<mmr_res> measurement_response;
+  mmr_res measurement_request(
+      oai::lmf::app::Gnb const& gnb,
+      SRSConfiguration_t const* const srsConfiguration);
   void handle_measurement_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu,
       MeasurementResponse_t const& measurementResponse);
+  void handle_measurement_failure(
+      NrppaPduShared nrppaPdu, MeasurementFailure_t const& measurementFailure);
   void collectResult(
       oai::lmf::app::Gnb const& gnb,
-      MeasurementResponse_t const& measurementResponse);
+      TRP_MeasurementResponseList_t const* const measurementResponse);
 
   bool n1_n2_message_transfer(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,

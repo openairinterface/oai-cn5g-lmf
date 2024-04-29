@@ -411,46 +411,35 @@ LocationDetermination::positioning_information_request() {
 }
 
 void LocationDetermination::collectResult(
-    Gnb const& gnb, MeasurementResponse_t const& measurementResponse) {
-  // for each trp_id a map of 9.2.39 UL RTOA Measurement
-  // std::map<GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>> res;
-  for (auto const& measurementIE : measurementResponse.protocolIEs) {
-    if (measurementIE->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
-        measurementIE->value.present ==
-            MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
-      auto const trpMeasurementList =
-          measurementIE->value.choice.TRP_MeasurementResponseList;
-      for (auto const& trpMeasurement : trpMeasurementList) {
-        auto const& trpId = trpMeasurement->tRP_ID;
-        for (auto const& measurement : trpMeasurement->measurementResult) {
-          if (measurement->measuredResultsValue.present ==
-              TrpMeasuredResultsValue_PR_uL_RTOA) {
-            auto const& uLRTOAmeas =
-                measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
-            auto const& choice = uLRTOAmeas.choice;
-            auto const& key    = uLRTOAmeas.present;
-            auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
-                                 key == ULRTOAMeas_PR_k1 ? choice.k1 :
-                                 key == ULRTOAMeas_PR_k2 ? choice.k2 :
-                                 key == ULRTOAMeas_PR_k3 ? choice.k3 :
-                                 key == ULRTOAMeas_PR_k4 ? choice.k4 :
-                                                           choice.k5;
-            Logger::lmf_app().info(
-                "measurement: gnbId: %d, trpId: %d %s key k%d = %d", gnb.id,
-                trpId,
-                this->result[gnb.id][trpId].count(key) == 0 ? "insert" :
-                                                              "replace",
-                key - 1, val);
-            this->result[gnb.id][trpId][key] = val;
-          }
-        }
+    Gnb const& gnb,
+    TRP_MeasurementResponseList_t const* const trpMeasurementList) {
+  for (auto const& trpMeasurement : *trpMeasurementList) {
+    auto const& trpId = trpMeasurement->tRP_ID;
+    for (auto const& measurement : trpMeasurement->measurementResult) {
+      if (measurement->measuredResultsValue.present ==
+          TrpMeasuredResultsValue_PR_uL_RTOA) {
+        auto const& uLRTOAmeas =
+            measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
+        auto const& choice = uLRTOAmeas.choice;
+        auto const& key    = uLRTOAmeas.present;
+        auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
+                             key == ULRTOAMeas_PR_k1 ? choice.k1 :
+                             key == ULRTOAMeas_PR_k2 ? choice.k2 :
+                             key == ULRTOAMeas_PR_k3 ? choice.k3 :
+                             key == ULRTOAMeas_PR_k4 ? choice.k4 :
+                                                       choice.k5;
+        Logger::lmf_app().info(
+            "measurement: gnbId: %d, trpId: %d %s key k%d = %d", gnb.id, trpId,
+            this->result[gnb.id][trpId].count(key) == 0 ? "insert" : "replace",
+            key - 1, val);
+        this->result[gnb.id][trpId][key] = val;
       }
     }
   }
 }
 
-void LocationDetermination::measurement_request(
-    Gnb const& gnb, SRSConfiguration_t* srsConfigurationUE) {
+LocationDetermination::mmr_res LocationDetermination::measurement_request(
+    Gnb const& gnb, SRSConfiguration_t const* const srsConfigurationUE) {
   Logger::lmf_app().info("measurement request");
 
   auto const& tId               = lmf_app_inst->nrppa_tid_gen.get_uid();
@@ -550,15 +539,33 @@ void LocationDetermination::measurement_request(
       nrppaPdu, tId, ProcedureCode_id_Measurement, globalRanNodeList,
       ueSrsConfigurationShared);
 
-  auto const& [nrppaPduMR, measurementResponse] = this->wait_for_notification(
+  return this->wait_for_notification(
       "measurement", tId, this->measurement_response,
       lmf_cfg.measurement_wait_ms);
   // nrppaPduMR contain measurement
   // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
-  std::cout << "--> measurement <<--" << std::endl;
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR);
-  this->collectResult(gnb, measurementResponse);
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduMR);
+}
+
+void LocationDetermination::handle_measurement_response(
+    NrppaPduShared nrppaPdu, MeasurementResponse_t const& measurementResponse) {
+  Logger::lmf_app().info("handle measurement response");
+  for (auto const& ie : measurementResponse.protocolIEs) {
+    if (ie->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
+        ie->value.present ==
+            MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
+      auto const& trpMeasurementList =
+          ie->value.choice.TRP_MeasurementResponseList;
+      this->measurement_response.set_value(
+          std::make_tuple(nrppaPdu, &trpMeasurementList));
+    }
+  }
+}
+
+void LocationDetermination::handle_measurement_failure(
+    NrppaPduShared nrppaPdu, MeasurementFailure_t const& measurementFailure) {
+  auto err = CauseError::parse(
+      measurementFailure, MeasurementFailure_IEs__value_PR_Cause);
+  this->measurement_response.set_value(err);
 }
 
 void LocationDetermination::handle_positioning_information_response(
@@ -598,19 +605,6 @@ void LocationDetermination::handle_positioning_information_failure(
       positioningInformationFailure,
       PositioningInformationFailure_IEs__value_PR_Cause);
   this->positioning_information_response.set_value(err);
-}
-
-void LocationDetermination::handle_measurement_response(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
-    MeasurementResponse_t const& measurementResponse) {
-  Logger::lmf_app().info("handle measurement response");
-  for (auto const& ie : measurementResponse.protocolIEs) {
-    if (ie->id == ProtocolIE_ID_id_LMF_Measurement_ID &&
-        ie->value.present == MeasurementResponse_IEs__value_PR_Measurement_ID) {
-      auto const& measurementID = ie->value.choice.Measurement_ID;
-      this->measurement_response.set_value({nrppaPdu, measurementResponse});
-    }
-  }
 }
 
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST

@@ -54,9 +54,7 @@ class CauseError {
         case ProtocolIE_ID_id_CriticalityDiagnostics: {
         } break;
 
-        default:
-          throwHttpError(
-              "Cause Error", "unknwon IE id: " + std::to_string(failureIe->id));
+        default:;  // could be measurement-id in case of measurement-failure
       }
     }
     err.log();

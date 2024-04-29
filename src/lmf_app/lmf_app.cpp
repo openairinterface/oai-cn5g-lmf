@@ -266,7 +266,18 @@ void lmf_app::handle_determine_location(
   std::cout << "--> positioning activation <<--" << std::endl;
 
   for (auto const& [id, gnb] : this->gnb) {
-    ctx->measurement_request(gnb, ueSrsConfiguration);
+    auto const& res = ctx->measurement_request(gnb, ueSrsConfiguration);
+
+    if (std::holds_alternative<CauseError>(res)) {
+      auto const& err = std::get<CauseError>(res);
+      ctx->throwHttpError("measurement request failure", err.msg());
+    }
+    auto const& [nrppaPduMR, trpMeasurementList] =
+        std::get<LocationDetermination::mmr_succ>(res);
+
+    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR.get());
+
+    ctx->collectResult(gnb, trpMeasurementList);
   }
 
   // --> set the location calculation results here <--
@@ -690,6 +701,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& measurementFailure = getPR(
             value.choice.MeasurementFailure, value,
             UnsuccessfulOutcome__value_PR_MeasurementFailure);
+        ctx->handle_measurement_failure(
+            share_nrppa_pdu(nrppa), measurementFailure);
+        return true;
       }; break;
 
       default:
@@ -728,7 +742,8 @@ bool lmf_app::handle_n2info_nrppa_notification(
       auto const& measurementResponse = getPR(
           value.choice.MeasurementResponse, value,
           SuccessfulOutcome__value_PR_MeasurementResponse);
-      ctx->handle_measurement_response(nrppa, tId, measurementResponse);
+      ctx->handle_measurement_response(
+          share_nrppa_pdu(nrppa), measurementResponse);
       return true;
     } break;
 
