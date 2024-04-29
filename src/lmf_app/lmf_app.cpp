@@ -72,6 +72,8 @@ using namespace std::chrono_literals;
 #include "TRPPositionDefinitionType.h"
 #include "TRPPositionReferenced.h"
 #include "CoordinateID.h"
+// position estimation by paas
+#include "RabbitmqBase.h"
 
 using namespace std;
 using namespace oai::lmf::app;
@@ -217,6 +219,22 @@ void lmf_app::trp_information(
   }
 }
 
+void sendAnchorPositions(RabbitmqBase& mq) {
+    // Read anchor positions from file
+    ifstream file("AnchorPositions.json");
+
+    // Check input and remove white-spaces
+    json data = json::parse(file);
+    string msg = data.dump();
+
+    if (DEBUG) {
+        cout << msg << endl;
+    }
+    
+    mq.setExchange("anchors");
+    mq.sendMessage(msg);
+}
+
 void lmf_app::handle_determine_location(
     const model::InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
@@ -265,6 +283,57 @@ void lmf_app::handle_determine_location(
   }
 
   // --> set the location calculation results here <--
+
+  // Fraunhofer IIS Positioning-as-a-Service (PaaS) cloud platform
+  // Establish and open RabbitMQ connection
+  RabbitmqBase mq = RabbitmqBase();  
+  mq.loadConfiguration();
+  mq.openConnection();
+
+  // Send anchor positions
+  // Read anchor positions from file
+  ifstream file("AnchorPositions.json");
+  // Check input and remove white-spaces
+  json data = json::parse(file);
+  string msg = data.dump();
+  if (DEBUG) {
+      cout << msg << endl;
+  }
+  mq.setExchange("anchors");
+  mq.sendMessage(msg);
+
+  // Start sending TOAs to PaaS
+  mq.setExchange("toa_sets");
+  cout << "Start sending ..." << endl;
+  // round(1e12 * (distances / speedOfLight)); TOAs given in picoseconds
+  vector<float> toas = {89518, 97656, 146484, 203451, 65104, 81380, 130208, 195313}; //x,y = 25,25
+  // Serialize and send message
+  string msg_body = RabbitmqBase::serializeTOAs(toas); 
+  bool wasSend = mq.sendMessage(msg_body);
+  if (wasSend) {
+    if (DEBUG)
+      cout << "Message send!" << endl;
+  } else {
+    cout << "Error while sending message!" << endl;
+  }
+  // mq.closeConnection();
+  // cout << "... connection closed!" << endl;
+
+  // Receive position results from the Positioning-as-a-Service cloud platform
+  mq.startConsumer("positions");
+  cout << "Start receiving ..." << endl;
+  string msg_body = "";
+  bool hasReceived = mq.getMessage(msg_body);
+  if (hasReceived) {
+    json data = json::parse(msg_body);
+    json pos = data["position"];
+    cout << "Position: " << pos << endl;
+  } else {
+    sleep(0.5);
+  }
+  //mq.closeConnection();
+  //cout << "... connection closed!" << endl;
+
   model::LocationData locationData{ctx->compute_location(this->gnb)};
 
   code      = Pistache::Http::Code::Ok;
