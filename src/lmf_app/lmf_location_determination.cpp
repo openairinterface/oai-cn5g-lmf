@@ -614,7 +614,7 @@ void LocationDetermination::handle_measurement_response(
 }
 
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST
-std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>
+LocationDetermination::pos_act_res
 LocationDetermination::positioning_activation_request() {
   auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
 
@@ -703,11 +703,19 @@ LocationDetermination::positioning_activation_request() {
 }
 
 void LocationDetermination::handle_positioning_activation_response(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningActivationResponse_t const& positioningActivationResponse) {
   Logger::lmf_app().info("handle positioning activation response");
-  this->positioning_activation_response.set_value(
-      {nrppaPdu, positioningActivationResponse});
+  this->positioning_activation_response.set_value({nrppaPdu});
+}
+
+void LocationDetermination::handle_positioning_activation_failure(
+    NrppaPduShared nrppa,
+    PositioningActivationFailure_t const& positioningActivationFailure) {
+  auto err = CauseError::parse(
+      positioningActivationFailure,
+      PositioningActivationFailureIEs__value_PR_Cause);
+  this->positioning_activation_response.set_value(err);
 }
 
 void LocationDetermination::throwHttpError(

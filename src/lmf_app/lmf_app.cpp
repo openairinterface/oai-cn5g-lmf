@@ -252,14 +252,19 @@ void lmf_app::handle_determine_location(
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
   std::cout << "--> position information <<--" << std::endl;
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR.get());
 
   // 5. NRPPa Request UE SRS activation
   // 9.1.1.17 POSITIONING ACTIVATION REQUEST
-  auto const& [nrppaPduPA, positionActivationResponse] =
-      ctx->positioning_activation_request();
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPA);
+  auto const& pares = ctx->positioning_activation_request();
+  if (std::holds_alternative<CauseError>(pares)) {
+    auto const& err = std::get<CauseError>(pares);
+    ctx->throwHttpError("positioning activation request failure", err.msg());
+  }
+  auto const& nrppaPduPA = std::get<LocationDetermination::pos_act_succ>(pares);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPA.get());
   std::cout << "--> positioning activation <<--" << std::endl;
+
   for (auto const& [id, gnb] : this->gnb) {
     ctx->measurement_request(gnb, ueSrsConfiguration);
   }
@@ -675,6 +680,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& positioningActivationFailure = getPR(
             value.choice.PositioningActivationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningActivationFailure);
+        ctx->handle_positioning_activation_failure(
+            share_nrppa_pdu(nrppa), positioningActivationFailure);
+        return true;
       }; break;
 
       case ProcedureCode_id_Measurement: {
@@ -730,7 +738,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
           value.choice.PositioningActivationResponse, value,
           SuccessfulOutcome__value_PR_PositioningActivationResponse);
       ctx->handle_positioning_activation_response(
-          nrppa, tId, positioningActivationResponse);
+          share_nrppa_pdu(nrppa), tId, positioningActivationResponse);
       return true;
     } break;
 

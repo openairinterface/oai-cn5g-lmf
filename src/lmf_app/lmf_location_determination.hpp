@@ -52,6 +52,7 @@
 #include "GlobalRanNodeId.h"
 #include "TRP-ID.h"
 #include "PositioningInformationFailure.h"
+#include "PositioningActivationFailure.h"
 #include "ULRTOAMeas.h"
 
 namespace oai::lmf::app {
@@ -64,13 +65,17 @@ class LocationDetermination {
   LocationDetermination(std::string supi);
   virtual ~LocationDetermination();
 
-  std::promise<std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>>
-      positioning_activation_response;
-  std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>
-  positioning_activation_request();
+  using pos_act_succ = NrppaPduShared;
+  using pos_act_res  = std::variant<pos_act_succ, CauseError>;
+  std::promise<pos_act_res> positioning_activation_response;
+  pos_act_res positioning_activation_request();
   void handle_positioning_activation_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
+  void handle_positioning_activation_failure(
+      NrppaPduShared nrppa,
+      PositioningActivationFailure_t const& positioningActivationFailure);
+
   using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t*>;
   using pos_info_res  = std::variant<pos_info_succ, CauseError>;
   std::promise<pos_info_res> positioning_information_response;
