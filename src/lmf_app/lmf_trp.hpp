@@ -33,6 +33,6 @@ class Trp {
   RelativeCartesianLocation_t relativeCartesianLocation = {};
 };
 
-} // oai::lmf::app
+}  // namespace oai::lmf::app
 
-#endif // FILE_LMF_TRP_SEEN
+#endif  // FILE_LMF_TRP_SEEN
