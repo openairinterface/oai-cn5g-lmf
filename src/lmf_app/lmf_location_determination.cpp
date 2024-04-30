@@ -19,6 +19,8 @@
  *      contact@openairinterface.org
  */
 
+#include <optional>
+
 #include <boost/range/adaptor/map.hpp>
 
 #include "lmf_location_determination.hpp"
@@ -411,9 +413,8 @@ LocationDetermination::positioning_information_request() {
 }
 
 void LocationDetermination::collectResult(
-    Gnb const& gnb,
-    TRP_MeasurementResponseList_t const* const trpMeasurementList) {
-  for (auto const& trpMeasurement : *trpMeasurementList) {
+    Gnb const& gnb, TRP_MeasurementResponseList_t const& trpMeasurementList) {
+  for (auto const& trpMeasurement : trpMeasurementList) {
     auto const& trpId = trpMeasurement->tRP_ID;
     for (auto const& measurement : trpMeasurement->measurementResult) {
       if (measurement->measuredResultsValue.present ==
@@ -439,7 +440,7 @@ void LocationDetermination::collectResult(
 }
 
 LocationDetermination::mmr_res LocationDetermination::measurement_request(
-    Gnb const& gnb, SRSConfiguration_t const* const srsConfigurationUE) {
+    Gnb const& gnb, SRSConfiguration_t const& srsConfigurationUE) {
   Logger::lmf_app().info("measurement request");
 
   auto const& tId               = lmf_app_inst->nrppa_tid_gen.get_uid();
@@ -520,7 +521,7 @@ LocationDetermination::mmr_res LocationDetermination::measurement_request(
               .present = MeasurementRequest_IEs__value_PR_SRSConfiguration,
               .choice =
                   {
-                      .SRSConfiguration = *srsConfigurationUE,
+                      .SRSConfiguration = srsConfigurationUE,
                   },
           },
   };
@@ -556,7 +557,7 @@ void LocationDetermination::handle_measurement_response(
       auto const& trpMeasurementList =
           ie->value.choice.TRP_MeasurementResponseList;
       this->measurement_response.set_value(
-          std::make_tuple(nrppaPdu, &trpMeasurementList));
+          std::make_tuple(nrppaPdu, std::ref(trpMeasurementList)));
     }
   }
 }
@@ -572,18 +573,19 @@ void LocationDetermination::handle_positioning_information_response(
     NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
   Logger::lmf_app().info("handle positioning information response");
-  SRSConfiguration_t* srsConfiguration = nullptr;
+  std::optional<pos_info_res> res;
 
   for (auto const& positioningInformationIE :
        positioningInformationResponse.protocolIEs) {
     if (positioningInformationIE->id == ProtocolIE_ID_id_SRSConfiguration &&
         positioningInformationIE->value.present ==
             PositioningInformationResponse_IEs__value_PR_SRSConfiguration) {
-      srsConfiguration =
-          &positioningInformationIE->value.choice.SRSConfiguration;
+      auto const& srsCfg =
+          positioningInformationIE->value.choice.SRSConfiguration;
+      res.emplace(std::make_tuple(nrppaPdu, std::ref(srsCfg)));
     }
   }
-  if (srsConfiguration == nullptr) {
+  if (!res.has_value()) {
     try {
       throwHttpError(
           "handle_positioning_information_response: srsConfiguration missing",
@@ -594,8 +596,7 @@ void LocationDetermination::handle_positioning_information_response(
       throw;
     }
   }
-  this->positioning_information_response.set_value(
-      std::make_tuple(nrppaPdu, srsConfiguration));
+  this->positioning_information_response.set_value(res.value());
 }
 
 void LocationDetermination::handle_positioning_information_failure(

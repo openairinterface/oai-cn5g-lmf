@@ -78,9 +78,8 @@ class LocationDetermination {
       NrppaPduShared nrppa,
       PositioningActivationFailure_t const& positioningActivationFailure);
 
-  using pos_info_succ =
-      std::tuple<NrppaPduShared, SRSConfiguration_t const* const>;
-  using pos_info_res = std::variant<pos_info_succ, CauseError>;
+  using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t const&>;
+  using pos_info_res  = std::variant<pos_info_succ, CauseError>;
   std::promise<pos_info_res> positioning_information_response;
   pos_info_res positioning_information_request();
   void handle_positioning_information_response(
@@ -91,12 +90,12 @@ class LocationDetermination {
       PositioningInformationFailure_t const& positioningInformationFailure);
 
   using mmr_succ =
-      std::tuple<NrppaPduShared, TRP_MeasurementResponseList_t const* const>;
+      std::tuple<NrppaPduShared, TRP_MeasurementResponseList_t const&>;
   using mmr_res = std::variant<mmr_succ, CauseError>;
   std::promise<mmr_res> measurement_response;
   mmr_res measurement_request(
       oai::lmf::app::Gnb const& gnb,
-      SRSConfiguration_t const* const srsConfiguration);
+      SRSConfiguration_t const& srsConfiguration);
   void handle_measurement_response(
       NrppaPduShared nrppaPdu,
       MeasurementResponse_t const& measurementResponse);
@@ -104,7 +103,7 @@ class LocationDetermination {
       NrppaPduShared nrppaPdu, MeasurementFailure_t const& measurementFailure);
   void collectResult(
       oai::lmf::app::Gnb const& gnb,
-      TRP_MeasurementResponseList_t const* const measurementResponse);
+      TRP_MeasurementResponseList_t const& measurementResponse);
 
   bool n1_n2_message_transfer(
       NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
