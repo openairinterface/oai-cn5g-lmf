@@ -58,8 +58,6 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
     N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);
   }
-  // done in lmf_app later
-  // ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
 }  // namespace oai::lmf_server::api

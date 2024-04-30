@@ -380,7 +380,7 @@ void oai::lmf::app::lmf_app::release_non_ue_subscription() {
   }
 }
 
-NRPPATransactionID_t getNrppaTxnId(NRPPA_PDU_t const* const nrppa) {
+NRPPATransactionID_t getNrppaTxnId(NrppaPduShared nrppa) {
   switch (nrppa->present) {
     case NRPPA_PDU_PR_initiatingMessage:
       return nrppa->choice.initiatingMessage->nrppatransactionID;
@@ -419,7 +419,7 @@ static U const& getPR(U const& choice, T const& value, V const& expected) {
 }
 
 void lmf_app::handle_trp_information_response(
-    NRPPA_PDU_t* nrppa, NRPPATransactionID_t const& tId,
+    NrppaPduShared nrppa, NRPPATransactionID_t const& tId,
     TRPInformationResponse_t const& trpInformation) {
   Logger::lmf_app().debug("trp information received");
   std::scoped_lock lk{this->cv_m_gnb};
@@ -612,11 +612,10 @@ void lmf_app::handle_trp_information_response(
       }
     }
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
   this->cv_gnb.notify_one();
 }
 
-bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
+bool lmf_app::handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa) {
   auto const& nrppaTxnId = getNrppaTxnId(nrppa);
   auto const& supi       = this->extract_nrppaTxnId2Supi(nrppaTxnId);
 
@@ -626,7 +625,7 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
 // TODO: replace bool retval with exception
 // shoult not fail
 bool lmf_app::handle_n2info_nrppa_notification(
-    std::string supi, NRPPA_PDU_t* nrppa) {
+    std::string supi, NrppaPduShared nrppa) {
   auto ctx = this->supi_2_context(supi);
   if (!ctx) {
     Logger::lmf_server().error("N2InfoNotify: unknown supi: %s", supi);
@@ -682,7 +681,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
             value.choice.PositioningInformationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
         ctx->handle_positioning_information_failure(
-            share_nrppa_pdu(nrppa), positioningInformationFailure);
+            nrppa, positioningInformationFailure);
         return true;
       }; break;
 
@@ -692,7 +691,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
             value.choice.PositioningActivationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningActivationFailure);
         ctx->handle_positioning_activation_failure(
-            share_nrppa_pdu(nrppa), positioningActivationFailure);
+            nrppa, positioningActivationFailure);
         return true;
       }; break;
 
@@ -701,8 +700,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& measurementFailure = getPR(
             value.choice.MeasurementFailure, value,
             UnsuccessfulOutcome__value_PR_MeasurementFailure);
-        ctx->handle_measurement_failure(
-            share_nrppa_pdu(nrppa), measurementFailure);
+        ctx->handle_measurement_failure(nrppa, measurementFailure);
         return true;
       }; break;
 
@@ -733,7 +731,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
           value.choice.PositioningInformationResponse, value,
           SuccessfulOutcome__value_PR_PositioningInformationResponse);
       ctx->handle_positioning_information_response(
-          share_nrppa_pdu(nrppa), tId, positioningInformationResponse);
+          nrppa, tId, positioningInformationResponse);
       return true;
     } break;
 
@@ -742,8 +740,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
       auto const& measurementResponse = getPR(
           value.choice.MeasurementResponse, value,
           SuccessfulOutcome__value_PR_MeasurementResponse);
-      ctx->handle_measurement_response(
-          share_nrppa_pdu(nrppa), measurementResponse);
+      ctx->handle_measurement_response(nrppa, measurementResponse);
       return true;
     } break;
 
@@ -753,7 +750,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
           value.choice.PositioningActivationResponse, value,
           SuccessfulOutcome__value_PR_PositioningActivationResponse);
       ctx->handle_positioning_activation_response(
-          share_nrppa_pdu(nrppa), tId, positioningActivationResponse);
+          nrppa, tId, positioningActivationResponse);
       return true;
     } break;
 
@@ -771,7 +768,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
   return false;
 }
 
-NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
+NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
     model::N2InformationNotification const& n2InformationNotification,
     mime_part const& nrppa_part) {
   if (!n2InformationNotification.n2InfoContainerIsSet()) {
@@ -825,8 +822,8 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
   }
 
   auto const& nrppa_bin = nrppa_part.body;
-  NRPPA_PDU_t* nrppa = nullptr;  // TODO: warp in unigue_ptr with custom deleter
-  auto const& rc     = asn_decode(
+  NRPPA_PDU_t* nrppa    = nullptr;
+  auto const& rc        = asn_decode(
       NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
       nrppa_bin.c_str(), nrppa_bin.length());
   if (rc.code != RC_OK) {
@@ -838,7 +835,7 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
   Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
-  return nrppa;
+  return share_nrppa_pdu(nrppa);
 }
 
 void oai::lmf::app::lmf_app::insert_nrppaTxnId2supi(

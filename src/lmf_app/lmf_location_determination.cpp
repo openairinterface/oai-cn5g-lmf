@@ -557,7 +557,7 @@ void LocationDetermination::handle_measurement_response(
       auto const& trpMeasurementList =
           ie->value.choice.TRP_MeasurementResponseList;
       this->measurement_response.set_value(
-          std::make_tuple(nrppaPdu, std::ref(trpMeasurementList)));
+          std::make_tuple(nrppaPdu, std::cref(trpMeasurementList)));
     }
   }
 }
@@ -582,7 +582,7 @@ void LocationDetermination::handle_positioning_information_response(
             PositioningInformationResponse_IEs__value_PR_SRSConfiguration) {
       auto const& srsCfg =
           positioningInformationIE->value.choice.SRSConfiguration;
-      res.emplace(std::make_tuple(nrppaPdu, std::ref(srsCfg)));
+      res.emplace(std::make_tuple(nrppaPdu, std::cref(srsCfg)));
     }
   }
   if (!res.has_value()) {

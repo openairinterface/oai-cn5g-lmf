@@ -67,9 +67,9 @@ class lmf_app {
       const oai::lmf_server::model::InputData& inputData,
       nlohmann::json& json_data, Pistache::Http::Code& code);
 
-  bool handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa);
+  bool handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa);
 
-  bool handle_n2info_nrppa_notification(std::string supi, NRPPA_PDU_t* nrppa);
+  bool handle_n2info_nrppa_notification(std::string supi, NrppaPduShared nrppa);
 
   bool is_supi_2_context(const std::string& supi) const;
   std::shared_ptr<LocationDetermination> create_lmf_context(
@@ -88,7 +88,7 @@ class lmf_app {
   void create_non_ue_subscription();
   void release_non_ue_subscription();
 
-  static NRPPA_PDU_t* parse_n2_info_container_nrppa(
+  static NrppaPduShared parse_n2_info_container_nrppa(
       oai::lmf_server::model::N2InformationNotification const&
           n2InformationNotification,
       mime_part const& nrppa_part);
@@ -118,7 +118,7 @@ class lmf_app {
       std::shared_ptr<LocationDetermination> const& ctx,
       NRPPATransactionID_t const& nrppatransactionID);
   void handle_trp_information_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       TRPInformationResponse_t const& trpInformation);
   lmf_event& event_sub;
 
