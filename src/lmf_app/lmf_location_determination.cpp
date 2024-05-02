@@ -719,14 +719,13 @@ void LocationDetermination::throwHttpError(
   oai::lmf::app::throwHttpError(title, detail, this->supi, code);
 }
 
-model::LocationData LocationDetermination::compute_location(
+nlohmann::json LocationDetermination::compute_location(
     std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
   for (auto const& [gnbId, trp] : this->result) {
     if (gnbs.count(gnbId) == 0) {
       Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
       continue;
     }
-    Logger::lmf_app().debug("gndId: %d", gnbId);
     auto const gnb = gnbs.at(gnbId);
     for (auto const& [trpId, uLRTOAmeas] : trp) {
       if (gnb.trp.count(trpId) == 0) {
@@ -738,15 +737,13 @@ model::LocationData LocationDetermination::compute_location(
       static constexpr auto units = std::array{"mm", "cm", "dm"};
       auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
 
-      Logger::lmf_app().debug("trpId: %d", trpId);
-      Logger::lmf_app().debug(
-          "xYZunit: %d: %s", trp.relativeCartesianLocation.xYZunit, unit);
-      Logger::lmf_app().debug(
-          "x: %d%s, y: %d%s, z: %d%s", trp.relativeCartesianLocation.xvalue,
-          unit, trp.relativeCartesianLocation.yvalue, unit,
-          trp.relativeCartesianLocation.zvalue, unit);
       for (auto const& [k, v] : uLRTOAmeas) {
-        Logger::lmf_app().debug("k%d: %d", k - 1, v);
+        Logger::lmf_app().debug(
+            "gnbId: %d, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
+            "k%d: %d",
+            gnbId, trpId, trp.relativeCartesianLocation.xvalue, unit,
+            trp.relativeCartesianLocation.yvalue, unit,
+            trp.relativeCartesianLocation.zvalue, unit, k - 1, v);
       }
     }
   }
@@ -773,5 +770,22 @@ model::LocationData LocationDetermination::compute_location(
   model::LocationData locationData;
   locationData.setLocationEstimate(geographicArea);
 
-  return locationData;
+  nlohmann::json j;
+  j["locationEstimate"]["altitude"]      = 0.0;
+  j["locationEstimate"]["confidence"]    = 100;
+  j["locationEstimate"]["includedAngle"] = 0;
+  j["locationEstimate"]["innerRadius"]   = 0;
+  j["locationEstimate"]["offsetAngle"]   = 0;
+  j["locationEstimate"]["point"]["lat"]  = 0.0;
+  j["locationEstimate"]["point"]["lon"]  = 0.0;
+  j["locationEstimate"]["pointList"]     = nlohmann::json::array();  // {1,2,3}
+  j["locationEstimate"]["shape"]         = "POINT";
+  j["locationEstimate"]["uncertainty"]   = 0.0;
+  j["locationEstimate"]["uncertaintyAltitude"]                    = 0.0;
+  j["locationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
+  j["locationEstimate"]["uncertaintyEllipse"]["semiMajor"]        = 0.0;
+  j["locationEstimate"]["uncertaintyEllipse"]["semiMinor"]        = 0.0;
+  j["locationEstimate"]["uncertaintyRadius"]                      = 0.0;
+
+  return j;  // locationData;
 }

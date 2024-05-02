@@ -124,7 +124,7 @@ class LocationDetermination {
       Pistache::Http::Code const& code =
           Pistache::Http::Code::Internal_Server_Error);
 
-  oai::lmf_server::model::LocationData compute_location(
+  nlohmann::json compute_location(
       std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnb);
 
   std::string supi;
