@@ -94,14 +94,13 @@ LocationDetermination::~LocationDetermination() {
 }
 
 bool LocationDetermination::n1_n2_message_transfer(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode) {
   Logger::lmf_app().info("n1_n2_message_transfer");
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
 
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
@@ -199,20 +198,19 @@ bool LocationDetermination::n1_n2_message_transfer(
 }
 
 bool LocationDetermination::non_ue_n2_message_transfer(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode,
     std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
     SRSConfiguration_t* const ueSrsConfigurationShared) {
   Logger::lmf_app().info("non_ue_n2_message_transfer");
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
   if (ueSrsConfigurationShared != nullptr) {
     // don't free, it's from positioning information request
     *ueSrsConfigurationShared = {};
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPdu);
 
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
@@ -226,6 +224,8 @@ bool LocationDetermination::non_ue_n2_message_transfer(
     auto const& detail = "Could not encode at; "s + field;
     throwHttpError(title, detail);
   }
+  std::unique_ptr<void, decltype(&std::free)> gc{
+      nrppaPduEnc.buffer, &std::free};
 
   std::string amf_uri  = {};
   std::string method   = "POST";
@@ -241,7 +241,6 @@ bool LocationDetermination::non_ue_n2_message_transfer(
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
   conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
-  free(nrppaPduEnc.buffer);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
@@ -406,7 +405,8 @@ LocationDetermination::positioning_information_request() {
 
   this->positioning_information_response = {};
   this->n1_n2_message_transfer(
-      nrppaPdu, tId, ProcedureCode_id_positioningInformationExchange);
+      share_nrppa_pdu(nrppaPdu), tId,
+      ProcedureCode_id_positioningInformationExchange);
   return this->wait_for_notification(
       "positioning information", tId, this->positioning_information_response,
       lmf_cfg.positioning_wait_ms);
@@ -537,8 +537,8 @@ LocationDetermination::mmr_res LocationDetermination::measurement_request(
 
   this->measurement_response = {};  // clear promise
   this->non_ue_n2_message_transfer(
-      nrppaPdu, tId, ProcedureCode_id_Measurement, globalRanNodeList,
-      ueSrsConfigurationShared);
+      share_nrppa_pdu(nrppaPdu), tId, ProcedureCode_id_Measurement,
+      globalRanNodeList, ueSrsConfigurationShared);
 
   return this->wait_for_notification(
       "measurement", tId, this->measurement_response,
@@ -631,8 +631,8 @@ LocationDetermination::positioning_activation_request() {
       .aperiodic = AperiodicSRS__aperiodic_true,
   };
   // CHOICE SRS type
-  auto aperiodicSRS_ie = (PositioningActivationRequestIEs_t*) calloc(
-      1, sizeof(PositioningActivationRequestIEs_t));
+  auto aperiodicSRS_ie = (PositioningActivationRequestIEs_t*) malloc(
+      sizeof(PositioningActivationRequestIEs_t));
   *aperiodicSRS_ie = PositioningActivationRequestIEs_t{
       .id          = ProtocolIE_ID_id_SRSType,
       .criticality = Criticality_reject,
@@ -691,10 +691,63 @@ LocationDetermination::positioning_activation_request() {
   };
   this->positioning_activation_response = {};
   this->n1_n2_message_transfer(
-      nrppaPdu, tId, ProcedureCode_id_positioningActivation);
+      share_nrppa_pdu(nrppaPdu), tId, ProcedureCode_id_positioningActivation);
   return this->wait_for_notification(
       "positionong activation", tId, this->positioning_activation_response,
       lmf_cfg.positioning_wait_ms);
+}
+
+// 9.1.1.20 POSITIONING DEACTIVATION
+bool LocationDetermination::positioning_deactivation_request() {
+  auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
+
+  auto initiatingMessage =
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_positioningDeactivation,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = tId,
+      .value = {.present = InitiatingMessage__value_PR_PositioningDeactivation},
+  };
+  auto ies =
+      &initiatingMessage->value.choice.PositioningDeactivation.protocolIEs.list;
+
+  // >Release ALL
+  auto positioningDeactivationIe = (PositioningDeactivationIEs_t*) malloc(
+      sizeof(PositioningDeactivationIEs_t));
+  *positioningDeactivationIe = PositioningDeactivationIEs_t{
+      .id          = ProtocolIE_ID_id_AbortTransmission,
+      .criticality = Criticality_ignore,
+      .value =
+          {
+              .present = PositioningDeactivationIEs__value_PR_AbortTransmission,
+              .choice =
+                  {
+                      .AbortTransmission =
+                          {
+                              .present = AbortTransmission_PR_releaseALL,
+                              .choice =
+                                  {
+                                      .releaseALL = true,  // meaningless
+                                  },
+                          },
+                  },
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, positioningDeactivationIe);
+
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = initiatingMessage},
+  };
+
+  this->n1_n2_message_transfer(
+      share_nrppa_pdu(nrppaPdu), tId, ProcedureCode_id_positioningDeactivation);
+  // no success/failure notifiaction defined, nothing to wait for
+  this->nrppa_tId.erase(tId);
+
+  return true;
 }
 
 void LocationDetermination::handle_positioning_activation_response(

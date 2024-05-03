@@ -63,6 +63,7 @@ void my_app_signal_handler(int s) {
 
   std::cout << "LMF APP memory done" << std::endl;
   std::cout << "Freeing allocated memory done" << std::endl;
+  std::this_thread::sleep_for(3s);
 
   exit(0);
 }

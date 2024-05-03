@@ -130,15 +130,6 @@ void lmf_app::trp_information_request(
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
-  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
-  *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice =
-          {
-              .initiatingMessage = initiatingMessage,
-          },
-  };
-
   *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_tRPInformationExchange,
       .criticality        = Criticality_reject,
@@ -153,14 +144,18 @@ void lmf_app::trp_information_request(
           },
   };
 
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
-  asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice =
+          {
+              .initiatingMessage = initiatingMessage,
+          },
+  };
 
   ctx->non_ue_n2_message_transfer(
-      nrppaPdu, nrppatransactionID, ProcedureCode_id_tRPInformationExchange, {},
-      nullptr);
+      share_nrppa_pdu(nrppaPdu), nrppatransactionID,
+      ProcedureCode_id_tRPInformationExchange, {}, nullptr);
 }
 
 void lmf_app::trp_information(
@@ -279,6 +274,11 @@ void lmf_app::handle_determine_location(
 
     ctx->collectResult(gnb, trpMeasurementList);
   }
+
+  // In positioning_deactivation()
+  // openairinterface5g/openair2/LAYER2/NR_MAC_gNB/mac_rrc_dl_handler.c:792
+  // Not Implemented
+  // ctx->positioning_deactivation_request();
 
   // --> set the location calculation results here <--
   model::LocationData locationData{ctx->compute_location(this->gnb)};

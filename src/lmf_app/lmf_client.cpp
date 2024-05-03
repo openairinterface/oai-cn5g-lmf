@@ -67,9 +67,10 @@ void lmf_client::curl_http_client(
   Logger::lmf_app().info("Send HTTP message with body %s", msgBody.c_str());
 
   uint32_t str_len = msgBody.length();
-  char* body_data  = (char*) malloc(str_len + 1);
-  memset(body_data, 0, str_len + 1);
-  memcpy((void*) body_data, (void*) msgBody.c_str(), str_len);
+  std::unique_ptr<void, decltype(&std::free)> body_data{
+      std::malloc(str_len + 1), &std::free};
+  memset(body_data.get(), 0, str_len + 1);
+  memcpy((void*) body_data.get(), (void*) msgBody.c_str(), str_len);
 
   curl_global_init(CURL_GLOBAL_ALL);
   CURL* curl = curl_easy_init();
@@ -131,7 +132,7 @@ void lmf_client::curl_http_client(
     if ((method.compare("POST") == 0) or (method.compare("PUT") == 0) or
         (method.compare("PATCH") == 0)) {
       curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, msgBody.length());
-      curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body_data);
+      curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body_data.get());
     }
     res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
@@ -197,10 +198,6 @@ void lmf_client::curl_http_client(
 
   curl_global_cleanup();
 
-  if (body_data) {
-    free(body_data);
-    body_data = NULL;
-  }
   return;
 }
 

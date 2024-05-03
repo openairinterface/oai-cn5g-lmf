@@ -77,6 +77,7 @@ class LocationDetermination {
   void handle_positioning_activation_failure(
       NrppaPduShared nrppa,
       PositioningActivationFailure_t const& positioningActivationFailure);
+  bool positioning_deactivation_request();
 
   using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t const&>;
   using pos_info_res  = std::variant<pos_info_succ, CauseError>;
@@ -106,10 +107,10 @@ class LocationDetermination {
       TRP_MeasurementResponseList_t const& measurementResponse);
 
   bool n1_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode);
   bool non_ue_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode,
       std::vector<oai::lmf_server::model::GlobalRanNodeId> const& grnidl,
       SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
