@@ -188,11 +188,11 @@ static const std::vector<std::string> ratType_e2str = {
     "TRUSTED_N3GA", "TRUSTED_WLAN", "UTRA",     "GERA"};
 
 typedef struct lmf_info_s {
-  std::vector<ExternalClientType_t> servingClientTypes;
+  std::vector<std::string> servingClientTypes;
   std::string lmfId;
-  std::vector<AccessType_t> servingAccessTypes;
-  std::vector<AnNodeType_t> servingAnNodeTypes;
-  std::vector<RatType_t> servingRatTypes;
+  std::vector<std::string> servingAccessTypes;
+  std::vector<std::string> servingAnNodeTypes;
+  std::vector<std::string> servingRatTypes;
 } lmf_info_t;
 
 #endif
