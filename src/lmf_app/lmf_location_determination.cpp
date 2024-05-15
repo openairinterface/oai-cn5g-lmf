@@ -824,21 +824,17 @@ nlohmann::json LocationDetermination::compute_location(
   locationData.setLocationEstimate(geographicArea);
 
   nlohmann::json j;
-  j["locationEstimate"]["altitude"]      = 0.0;
-  j["locationEstimate"]["confidence"]    = 100;
-  j["locationEstimate"]["includedAngle"] = 0;
-  j["locationEstimate"]["innerRadius"]   = 0;
-  j["locationEstimate"]["offsetAngle"]   = 0;
-  j["locationEstimate"]["point"]["lat"]  = 0.0;
-  j["locationEstimate"]["point"]["lon"]  = 0.0;
-  j["locationEstimate"]["pointList"]     = nlohmann::json::array();  // {1,2,3}
-  j["locationEstimate"]["shape"]         = "POINT";
-  j["locationEstimate"]["uncertainty"]   = 0.0;
-  j["locationEstimate"]["uncertaintyAltitude"]                    = 0.0;
-  j["locationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
-  j["locationEstimate"]["uncertaintyEllipse"]["semiMajor"]        = 0.0;
-  j["locationEstimate"]["uncertaintyEllipse"]["semiMinor"]        = 0.0;
-  j["locationEstimate"]["uncertaintyRadius"]                      = 0.0;
+  j["localLocationEstimate"]["shape"]                           = "POINT";
+  j["localLocationEstimate"]["localOrigin"]["coordinateId"]     = "string";
+  j["localLocationEstimate"]["localOrigin"]["point"]["lon"]     = 180;
+  j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
+  j["localLocationEstimate"]["point"]["x"]                      = 20;
+  j["localLocationEstimate"]["point"]["y"]                      = 10;
+  j["localLocationEstimate"]["point"]["z"]                      = 15;
+  j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
+  j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
+  j["localLocationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
+  j["localLocationEstimate"]["confidence"]                             = 100;
 
   return j;  // locationData;
 }

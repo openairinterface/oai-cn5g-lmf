@@ -280,11 +280,12 @@ void lmf_app::handle_determine_location(
   // Not Implemented
   // ctx->positioning_deactivation_request();
 
-  // --> set the location calculation results here <--
-  model::LocationData locationData{ctx->compute_location(this->gnb)};
-
-  code      = Pistache::Http::Code::Ok;
-  json_data = locationData;
+  code                = Pistache::Http::Code::Ok;
+  auto const& locData = ctx->compute_location(this->gnb);
+  // using hard coded location data as adeel requiered
+  // can not use rel16 LocationData here, incompatible with rel17 values
+  // model::LocationData locationData{locData};
+  json_data = locData;  // locationData;
 
   this->del_supi_2_context(supi);
 
