@@ -61,6 +61,7 @@ class lmf_http2_server {
   unsigned m_num_threads;
   http2 server;
   lmf_app* m_lmf_app;
+  bool running_server;
 };
 
 #endif

@@ -31,6 +31,9 @@ using namespace oai::lmf::app;
 
 //------------------------------------------------------------------------------
 task_manager::task_manager(lmf_event& ev) : event_sub_(ev) {
+  terminate  = false;
+  terminated = false;
+
   struct itimerspec its;
 
   sfd = timerfd_create(CLOCK_MONOTONIC, 0);
@@ -47,7 +50,17 @@ task_manager::task_manager(lmf_event& ev) : event_sub_(ev) {
 }
 
 //------------------------------------------------------------------------------
+task_manager::~task_manager() {
+  terminate = true;
+  while (!terminated) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
+}
+
+//------------------------------------------------------------------------------
 void task_manager::run() {
+  terminate  = false;
+  terminated = false;
   manage_tasks();
 }
 
@@ -62,6 +75,11 @@ void task_manager::manage_tasks() {
     event_sub_.task_tick(t);
     t++;
     wait_for_cycle();
+    if (terminate) {
+      Logger::lmf_app().debug("Exit loop in manage_tasks");
+      terminated = true;
+      return;
+    }
   }
 }
 

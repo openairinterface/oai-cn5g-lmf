@@ -91,7 +91,7 @@ def generic_deployment(tag):
                     status = 0
                 else:
                     status = -1
-        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose stop'
+        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose stop -t 30'
         stopStatus = myCmds.run(cmd)
         for line in stopStatus.stdout.split('\n'):
             print(line)
@@ -104,7 +104,7 @@ def generic_deployment(tag):
         myCmds.run(cmd)
         cmd = 'sudo chmod 666 /tmp/sanity-lmf-ubuntu.* && cp /tmp/sanity-lmf-ubuntu.* archives/sanity-check-ubuntu'
         myCmds.run(cmd)
-        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose down'
+        cmd = 'cd ci-scripts/docker-compose/sanity-check && docker-compose down -v'
         downStatus = myCmds.run(cmd)
         for line in downStatus.stdout.split('\n'):
             print(line)

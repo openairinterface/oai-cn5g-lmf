@@ -49,7 +49,7 @@ extern lmf_config lmf_cfg;
 void lmf_http2_server::start() {
   boost::system::error_code ec;
 
-  Logger::lmf_server().info("HTTP2 server started");
+  Logger::lmf_server().info("HTTP2 server being started");
 
   // Default API
   /* TODO: Confirm base uri */
@@ -137,10 +137,13 @@ void lmf_http2_server::start() {
 
   // multi threaded is needed to handle incomming AMF notifications during
   // processing determine locaiton
+  running_server = true;
   server.num_threads(m_num_threads);
   if (server.listen_and_serve(ec, m_address, std::to_string(m_port))) {
-    std::cerr << "HTTP Server error: " << ec.message() << std::endl;
+    Logger::lmf_server().error("HTTP2 server status: %s", ec.message());
   }
+  running_server = false;
+  Logger::lmf_server().info("HTTP2 server fully stopped");
 }
 
 void lmf_http2_server::n2info_nrppa_notification_post_handler(
@@ -211,4 +214,14 @@ void lmf_http2_server::detemine_location_post_handler(
     response.write_head(static_cast<uint32_t>(code), h);
     response.end();
   }
+}
+
+//------------------------------------------------------------------------------
+void lmf_http2_server::stop() {
+  server.stop();
+  while (running_server) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+  Logger::lmf_server().info("HTTP2 server should be fully stopped");
+  std::this_thread::sleep_for(std::chrono::milliseconds(50));
 }
