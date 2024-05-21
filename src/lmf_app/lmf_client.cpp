@@ -88,6 +88,8 @@ void lmf_client::curl_http_client(
             "Content-type: multipart/related; boundary=" +
             std::string(CURL_MIME_BOUNDARY);
         headers = curl_slist_append(headers, content_type.c_str());
+      } else if (method == "PATCH") {
+        headers = curl_slist_append(headers, "Content-Type: application/json-patch+json");
       } else {
         headers = curl_slist_append(headers, "Content-Type: application/json");
       }
