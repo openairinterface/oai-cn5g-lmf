@@ -24,7 +24,6 @@
 #include "Tai.h"
 #include <string>
 #include "N2InfoContainer.h"
-#include "RatSelector.h"
 #include "GlobalRanNodeId.h"
 #include <vector>
 #include <nlohmann/json.hpp>
@@ -53,8 +52,8 @@ class N2InformationTransferReqData {
   /// <summary>
   ///
   /// </summary>
-  RatSelector getRatSelector() const;
-  void setRatSelector(RatSelector const& value);
+  std::string getRatSelector() const;
+  void setRatSelector(std::string const& value);
   bool ratSelectorIsSet() const;
   void unsetRatSelector();
   /// <summary>
@@ -73,6 +72,7 @@ class N2InformationTransferReqData {
   ///
   /// </summary>
   std::vector<GlobalRanNodeId>& getGlobalRanNodeList();
+  void setGlobalRanNodeList(std::vector<GlobalRanNodeId> const& value);
   bool globalRanNodeListIsSet() const;
   void unsetGlobalRanNodeList();
   /// <summary>
@@ -95,7 +95,7 @@ class N2InformationTransferReqData {
  protected:
   std::vector<Tai> m_TaiList;
   bool m_TaiListIsSet;
-  RatSelector m_RatSelector;
+  std::string m_RatSelector;
   bool m_RatSelectorIsSet;
   std::vector<Ecgi> m_EcgiList;
   bool m_EcgiListIsSet;

@@ -24,6 +24,8 @@
 
 #include <map>
 #include <thread>
+#include <string>
+using namespace std::string_literals;
 
 #include <curl/curl.h>
 #include <pistache/http.h>
@@ -48,6 +50,7 @@ class lmf_client {
 
 void throwHttpError(
     std::string const& title, std::string const& detail,
+    std::string const& instance = ""s,
     Pistache::Http::Code const& code =
         Pistache::Http::Code::Internal_Server_Error);
 

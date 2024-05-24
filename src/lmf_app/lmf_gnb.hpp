@@ -19,31 +19,27 @@
  *      contact@openairinterface.org
  */
 
-#ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
-#define FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
+#ifndef FILE_LMF_GNB_SEEN
+#define FILE_LMF_GNB_SEEN
 
-#include <string>
-#include <memory>
+#include "lmf_trp.hpp"
 
-#include <boost/core/noncopyable.hpp>
+#include "GlobalRanNodeId.h"
+
+#include "TRP-ID.h"
 
 namespace oai::lmf::app {
+using GnbId = uint64_t;
 
-class N1N2MessageSubscription : private boost::noncopyable {
+class Gnb {
  public:
-  const std::string id, supi;
-
-  N1N2MessageSubscription(const std::string& supi)
-      : id{N1N2MessageSubscription::subscribe(supi)}, supi{supi} {}
-
-  ~N1N2MessageSubscription() {
-    N1N2MessageSubscription::unsubscribe(this->id, this->supi);
-  }
-
-  static std::string subscribe(std::string const& supi);
-  static void unsubscribe(std::string const& id, std::string const& supi);
+  Gnb(GnbId const& id, oai::lmf_server::model::GlobalRanNodeId const& ncgi)
+      : id{id}, ncgi{ncgi} {}
+  const GnbId id;
+  const oai::lmf_server::model::GlobalRanNodeId ncgi;
+  std::map<TRP_ID_t, Trp> trp;
 };
 
 }  // namespace oai::lmf::app
 
-#endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
+#endif  // FILE_LMF_GNB_SEEN

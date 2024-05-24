@@ -26,6 +26,8 @@
 #include <pistache/http.h>
 #include <pistache/mime.h>
 #include <stdexcept>
+#include <string>
+using namespace std::string_literals;
 
 #include "ProblemDetails.h"
 
@@ -65,9 +67,10 @@ void lmf_client::curl_http_client(
   Logger::lmf_app().info("Send HTTP message with body %s", msgBody.c_str());
 
   uint32_t str_len = msgBody.length();
-  char* body_data  = (char*) malloc(str_len + 1);
-  memset(body_data, 0, str_len + 1);
-  memcpy((void*) body_data, (void*) msgBody.c_str(), str_len);
+  std::unique_ptr<void, decltype(&std::free)> body_data{
+      std::malloc(str_len + 1), &std::free};
+  memset(body_data.get(), 0, str_len + 1);
+  memcpy((void*) body_data.get(), (void*) msgBody.c_str(), str_len);
 
   curl_global_init(CURL_GLOBAL_ALL);
   CURL* curl = curl_easy_init();
@@ -85,6 +88,9 @@ void lmf_client::curl_http_client(
             "Content-type: multipart/related; boundary=" +
             std::string(CURL_MIME_BOUNDARY);
         headers = curl_slist_append(headers, content_type.c_str());
+      } else if (method == "PATCH") {
+        headers = curl_slist_append(
+            headers, "Content-Type: application/json-patch+json");
       } else {
         headers = curl_slist_append(headers, "Content-Type: application/json");
       }
@@ -129,9 +135,14 @@ void lmf_client::curl_http_client(
     if ((method.compare("POST") == 0) or (method.compare("PUT") == 0) or
         (method.compare("PATCH") == 0)) {
       curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, msgBody.length());
-      curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body_data);
+      curl_easy_setopt(curl, CURLOPT_POSTFIELDS, body_data.get());
     }
     res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+      Logger::lmf_app().error(
+          "curl failed: method: '%s' uri: '%s' body: '%s' [%d]: %s", method,
+          remoteUri, msgBody, res, curl_easy_strerror(res));
+    }
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
 
     // Process the response
@@ -190,21 +201,33 @@ void lmf_client::curl_http_client(
 
   curl_global_cleanup();
 
-  if (body_data) {
-    free(body_data);
-    body_data = NULL;
-  }
   return;
 }
 
+#include <fmt/args.h>
+
 void oai::lmf::app::throwHttpError(
     std::string const& title, std::string const& detail,
-    Pistache::Http::Code const& code) {
-  oai::lmf_server::model::ProblemDetails problemDetails;
-  problemDetails.setTitle(title);
-  problemDetails.setDetail(detail);
-  Logger::lmf_server().error(
-      problemDetails.getTitle() + ": " + problemDetails.getDetail());
-  auto const& reason = nlohmann::json(problemDetails).dump();
+    std::string const& instance, Pistache::Http::Code const& code) {
+  oai::lmf_server::model::ProblemDetails pd;
+  fmt::dynamic_format_arg_store<fmt::format_context> args;
+  std::string fmt;
+
+  pd.setTitle(title);
+  args.push_back(title);
+  fmt = "{}"s;
+
+  if (!instance.empty()) {
+    pd.setInstance(instance);
+    args.push_back(instance);
+    fmt += "[{}]"s;
+  }
+  pd.setDetail(detail);
+  args.push_back(detail);
+  fmt += ": {}"s;
+
+  Logger::lmf_app().error(fmt::vformat(fmt, args));
+
+  auto const& reason = nlohmann::json(pd).dump();
   throw HttpError{code, reason};
 }
