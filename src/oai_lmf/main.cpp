@@ -43,28 +43,50 @@ lmf_config lmf_cfg;
 lmf_app* lmf_app_inst              = nullptr;
 LMFApiServer* api_server           = nullptr;
 lmf_http2_server* lmf_api_server_2 = nullptr;
+task_manager* tm_inst              = nullptr;
 
 //------------------------------------------------------------------------------
 void my_app_signal_handler(int s) {
-  std::cout << "Caught signal " << s << std::endl;
-  Logger::system().startup("exiting");
-  std::cout << "Freeing Allocated memory..." << std::endl;
+  // Setting log level arbitrarly to debug to show the whole
+  // shutdown procedure in the logs even in case of off-logging
+  Logger::set_level(spdlog::level::debug);
+  Logger::system().info("Caught signal %d", s);
+
+  // Stop on-going tasks
   if (api_server) {
     api_server->shutdown();
+  }
+  if (lmf_api_server_2) {
+    lmf_api_server_2->stop();
+  }
+
+  Logger::system().debug("Freeing Allocated memory...");
+  // Delete instances
+  if (api_server) {
     delete api_server;
     api_server = nullptr;
   }
-  std::cout << "LMF API Server memory done" << std::endl;
+  if (lmf_api_server_2) {
+    delete lmf_api_server_2;
+    lmf_api_server_2 = nullptr;
+  }
+  Logger::system().debug("LMF API Server memory done");
+
+  if (tm_inst) {
+    delete tm_inst;
+    tm_inst = nullptr;
+  }
+  Logger::system().debug("Stopped the LMF Task Manager.");
 
   if (lmf_app_inst) {
     delete lmf_app_inst;
     lmf_app_inst = nullptr;
   }
 
-  std::cout << "LMF APP memory done" << std::endl;
-  std::cout << "Freeing allocated memory done" << std::endl;
+  Logger::system().debug("LMF APP memory done");
+  Logger::system().info("Freeing allocated memory done");
   std::this_thread::sleep_for(3s);
-
+  Logger::system().info("Bye.");
   exit(0);
 }
 
@@ -97,8 +119,8 @@ int main(int argc, char** argv) {
   lmf_app_inst = new lmf_app(Options::getlibconfigConfig(), ev);
 
   // Task Manager
-  task_manager tm(ev);
-  std::thread task_manager_thread(&task_manager::run, &tm);
+  tm_inst = new task_manager(ev);
+  std::thread task_manager_thread(&task_manager::run, tm_inst);
 
   // PID file
   // Currently hard-coded value. TODO: add as config option.
