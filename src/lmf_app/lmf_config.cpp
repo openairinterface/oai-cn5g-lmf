@@ -49,7 +49,7 @@ using namespace libconfig;
 namespace config {
 
 //------------------------------------------------------------------------------
-lmf_config::lmf_config() : sbi(), lmf_name(), pid_dir(), instance() {
+lmf_config::lmf_config() : sbi() {
   use_fqdn_dns = false;
   use_http2    = false;
 }
@@ -87,29 +87,77 @@ int lmf_config::load(const std::string& config_file) {
   }
   const Setting& lmf_cfg = root[LMF_CONFIG_STRING_LMF_CONFIG];
   try {
-    lmf_cfg.lookupValue(LMF_CONFIG_STRING_INSTANCE_ID, instance);
+    this->instance = lmf_cfg.lookup(LMF_CONFIG_STRING_INSTANCE_ID);
   } catch (const SettingNotFoundException& nfex) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
 
   try {
-    lmf_cfg.lookupValue(LMF_CONFIG_STRING_PID_DIRECTORY, pid_dir);
+    this->pid_dir =
+        lmf_cfg.lookup(LMF_CONFIG_STRING_PID_DIRECTORY).operator std::string();
   } catch (const SettingNotFoundException& nfex) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
   try {
-    lmf_cfg.lookupValue(LMF_CONFIG_STRING_LMF_NAME, lmf_name);
+    this->lmf_name =
+        lmf_cfg.lookup(LMF_CONFIG_STRING_LMF_NAME).operator std::string();
   } catch (const SettingNotFoundException& nfex) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
   }
   // Log Level
   try {
-    std::string string_level;
-    lmf_cfg.lookupValue(LMF_CONFIG_STRING_LOG_LEVEL, string_level);
-    log_level = spdlog::level::from_str(string_level);
+    this->log_level = spdlog::level::from_str(
+        lmf_cfg.lookup(LMF_CONFIG_STRING_LOG_LEVEL).operator std::string());
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    this->http_threads_count =
+        lmf_cfg.lookup(LMF_CONFIG_STRING_HTTP_THREADS_COUNT);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    this->gnb_id_bits_count =
+        lmf_cfg.lookup(LMF_CONFIG_STRING_GNB_ID_BITS_COUNT);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    this->num_gnb = lmf_cfg.lookup(LMF_CONFIG_STRING_NUM_GNB);
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    this->trp_info_wait_ms = std::chrono::milliseconds(
+        lmf_cfg.lookup(LMF_CONFIG_STRING_TRP_INFO_WAIT_MS)
+            .
+            operator unsigned int());
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    this->positioning_wait_ms = std::chrono::milliseconds(
+        lmf_cfg.lookup(LMF_CONFIG_STRING_POSITIONING_WAIT_MS)
+            .
+            operator unsigned int());
+  } catch (const SettingNotFoundException& nfex) {
+    Logger::config().error(
+        "%s : %s, using defaults", nfex.what(), nfex.getPath());
+  }
+  try {
+    this->measurement_wait_ms = std::chrono::milliseconds(
+        lmf_cfg.lookup(LMF_CONFIG_STRING_MEASUREMENT_WAIT_MS)
+            .
+            operator unsigned int());
   } catch (const SettingNotFoundException& nfex) {
     Logger::config().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
@@ -179,6 +227,13 @@ int lmf_config::load(const std::string& config_file) {
       request_trp_info = false;
     }
 
+    support_features.lookupValue(
+        LMF_CONFIG_STRING_SUPPORTED_FEATURES_DETERMINE_NUM_GNB, opt);
+    if (boost::iequals(opt, "yes")) {
+      determine_num_gnb = true;
+    } else {
+      determine_num_gnb = false;
+    }
   } catch (const SettingNotFoundException& nfex) {
     Logger::lmf_app().error(
         "%s : %s, using defaults", nfex.what(), nfex.getPath());
@@ -318,10 +373,17 @@ void lmf_config::display() {
   Logger::config().info("Configuration LMF:");
   Logger::config().info("- Instance ...............: %d", instance);
   Logger::config().info("- PID Dir ................: %s", pid_dir.c_str());
-  Logger::config().info("- LMF Name ..............: %s", lmf_name.c_str());
+  Logger::config().info("- LMF Name ...............: %s", lmf_name.c_str());
   Logger::config().info(
       "- Log Level will be .......: %s",
       spdlog::level::to_string_view(log_level));
+  Logger::config().info("- HTTP Threads ...........: %d", http_threads_count);
+  Logger::config().info("- GNB ID bits count ......: %d", gnb_id_bits_count);
+  Logger::config().info("- mum GNB ................: %d", num_gnb);
+  Logger::config().info(
+      "- TRP info wait time .....: %dms", trp_info_wait_ms.count());
+  Logger::config().info(
+      "- Positioning wait time ..: %dms", positioning_wait_ms.count());
 
   Logger::config().info("- SBI Networking:");
   Logger::config().info("    Iface ................: %s", sbi.if_name.c_str());
@@ -337,6 +399,8 @@ void lmf_config::display() {
       "    Use FQDN ..............: %s", use_fqdn_dns ? "Yes" : "No");
   Logger::config().info(
       "    Use HTTP2..............: %s", use_http2 ? "Yes" : "No");
+  Logger::config().info(
+      "    determine num gnb......: %s", determine_num_gnb ? "Yes" : "No");
 
   if (register_nrf) {
     Logger::config().info("- NRF:");

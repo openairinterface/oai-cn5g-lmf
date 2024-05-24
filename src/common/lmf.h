@@ -129,6 +129,8 @@ enum http_response_codes_e {
 #define NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES "/non-ue-n2-messages"
 #define NAMF_N1N2_SUBSCRIBE_NON_UE_SUBSCRIPTIONS "/subscriptions"
 
+#define NAMF_NON_UE_N2_MESSAGE_TRANSFER "/non-ue-n2-messages/transfer"
+
 typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,
   VALUE_ADDED_SERVICES,
@@ -186,11 +188,11 @@ static const std::vector<std::string> ratType_e2str = {
     "TRUSTED_N3GA", "TRUSTED_WLAN", "UTRA",     "GERA"};
 
 typedef struct lmf_info_s {
-  std::vector<ExternalClientType_t> servingClientTypes;
+  std::vector<std::string> servingClientTypes;
   std::string lmfId;
-  std::vector<AccessType_t> servingAccessTypes;
-  std::vector<AnNodeType_t> servingAnNodeTypes;
-  std::vector<RatType_t> servingRatTypes;
+  std::vector<std::string> servingAccessTypes;
+  std::vector<std::string> servingAnNodeTypes;
+  std::vector<std::string> servingRatTypes;
 } lmf_info_t;
 
 #endif

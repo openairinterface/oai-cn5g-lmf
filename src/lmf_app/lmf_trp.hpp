@@ -19,31 +19,20 @@
  *      contact@openairinterface.org
  */
 
-#ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
-#define FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
+#ifndef FILE_LMF_TRP_SEEN
+#define FILE_LMF_TRP_SEEN
 
-#include <string>
-#include <memory>
-
-#include <boost/core/noncopyable.hpp>
+#include "CoordinateID.h"
+#include "RelativeCartesianLocation.h"
 
 namespace oai::lmf::app {
 
-class N1N2MessageSubscription : private boost::noncopyable {
+class Trp {
  public:
-  const std::string id, supi;
-
-  N1N2MessageSubscription(const std::string& supi)
-      : id{N1N2MessageSubscription::subscribe(supi)}, supi{supi} {}
-
-  ~N1N2MessageSubscription() {
-    N1N2MessageSubscription::unsubscribe(this->id, this->supi);
-  }
-
-  static std::string subscribe(std::string const& supi);
-  static void unsubscribe(std::string const& id, std::string const& supi);
+  CoordinateID_t relativeCoordinateID                   = {};
+  RelativeCartesianLocation_t relativeCartesianLocation = {};
 };
 
 }  // namespace oai::lmf::app
 
-#endif  // ifndef FILE_N1_N2_MESSAGE_SUBSCRIPTION_SEEN
+#endif  // FILE_LMF_TRP_SEEN

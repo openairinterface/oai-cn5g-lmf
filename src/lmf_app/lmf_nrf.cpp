@@ -81,28 +81,12 @@ void lmf_nrf::generate_lmf_profile(
   lmf_info_t lmf_info_item;
   lmf_info_item.lmfId = lmf_instance_id;
   lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::EMERGENCY_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::VALUE_ADDED_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::LAWFUL_INTERCEPT_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_BROADCAST_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_OM);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_ANONYMOUS_STATISTICS);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT);
-  lmf_info_item.servingAccessTypes.push_back(AccessType_t::_3GPP_ACCESS);
-  lmf_info_item.servingAccessTypes.push_back(AccessType_t::NON_3GPP_ACCESS);
-  lmf_info_item.servingAnNodeTypes.push_back(AnNodeType_t::GNB);
-  lmf_info_item.servingAnNodeTypes.push_back(AnNodeType_t::NG_ENB);
-  lmf_info_item.servingRatTypes.push_back(RatType_t::NR);
-  lmf_info_item.servingRatTypes.push_back(RatType_t::EUTRA);
-  lmf_info_item.servingRatTypes.push_back(RatType_t::WLAN);
+      externalClientType_e2str.at(ExternalClientType_t::VALUE_ADDED_SERVICES));
+  lmf_info_item.servingAccessTypes.push_back(
+      accessType_e2str.at(AccessType_t::_3GPP_ACCESS));
+  lmf_info_item.servingAnNodeTypes.push_back(
+      anNodeType_e2str.at(AnNodeType_t::GNB));
+  lmf_info_item.servingRatTypes.push_back(ratType_e2str.at(RatType_t::NR));
   lmf_nf_profile.set_lmf_info(lmf_info_item);
 
   lmf_nf_profile.display();

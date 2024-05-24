@@ -17,6 +17,7 @@ namespace oai::lmf_server::model {
 
 N2InformationTransferReqData::N2InformationTransferReqData() {
   m_TaiListIsSet           = false;
+  m_RatSelector            = "";
   m_RatSelectorIsSet       = false;
   m_EcgiListIsSet          = false;
   m_NcgiListIsSet          = false;
@@ -81,10 +82,10 @@ bool N2InformationTransferReqData::taiListIsSet() const {
 void N2InformationTransferReqData::unsetTaiList() {
   m_TaiListIsSet = false;
 }
-RatSelector N2InformationTransferReqData::getRatSelector() const {
+std::string N2InformationTransferReqData::getRatSelector() const {
   return m_RatSelector;
 }
-void N2InformationTransferReqData::setRatSelector(RatSelector const& value) {
+void N2InformationTransferReqData::setRatSelector(std::string const& value) {
   m_RatSelector      = value;
   m_RatSelectorIsSet = true;
 }
@@ -115,6 +116,11 @@ void N2InformationTransferReqData::unsetNcgiList() {
 std::vector<GlobalRanNodeId>&
 N2InformationTransferReqData::getGlobalRanNodeList() {
   return m_GlobalRanNodeList;
+}
+void N2InformationTransferReqData::setGlobalRanNodeList(
+    std::vector<GlobalRanNodeId> const& value) {
+  m_GlobalRanNodeList      = value;
+  m_GlobalRanNodeListIsSet = true;
 }
 bool N2InformationTransferReqData::globalRanNodeListIsSet() const {
   return m_GlobalRanNodeListIsSet;

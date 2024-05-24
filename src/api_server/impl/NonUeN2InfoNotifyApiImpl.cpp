@@ -121,17 +121,16 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
     Logger::lmf_server().error("asn_decode failed: %d", rc.code);
     return;
   }
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
-  Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
+  // Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
   model::ProblemDetails problem_details = {};
   uint8_t http_code                     = 0;
 
   if (m_lmf_app->handle_non_ue_n2info_nrppa_notification(
-          nrppa, problem_details, http_code)) {
+          share_nrppa_pdu(nrppa))) {
     response.send(Pistache::Http::Code(204));
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
 }  // namespace oai::lmf_server::api

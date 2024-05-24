@@ -19,15 +19,21 @@
  *      contact@openairinterface.org
  */
 
+#include <optional>
+
+#include <boost/range/adaptor/map.hpp>
+
 #include "lmf_location_determination.hpp"
 
 #include "lmf.h"
+#include "lmf_app.hpp"
 #include "lmf_nrf.hpp"
 #include "logger.hpp"
 #include "lmf_client.hpp"
 #include "conversions.hpp"
 #include "mime_parser.hpp"
 #include "3gpp_29.518.h"
+#include "lmf_cause_error.hpp"
 
 #include "LocationData.h"
 #include "ProblemDetails.h"
@@ -37,20 +43,64 @@
 #include "N2InformationClass.h"
 #include "N2InfoContainer.h"
 #include "N1N2MessageTransferReqData.h"
+#include "N2InformationTransferReqData.h"
 
 #include "InitiatingMessage.h"
 #include "ProtocolIE-Field.h"
-#include <SemipersistentSRS.h>
-#include <AperiodicSRS.h>
+#include "SemipersistentSRS.h"
+#include "AperiodicSRS.h"
+#include "TRP-MeasurementRequestItem.h"
+#include "TRP-MeasurementResponseItem.h"
+#include "TrpMeasurementResultItem.h"
+#include "TrpMeasuredResultsValue.h"
+#include "TRPInformationItem.h"
+#include "ULRTOAMeas.h"
+#include "UL-RTOAMeasurement.h"
 
 using namespace std::string_literals;
 using namespace oai::lmf_server;
+using namespace oai::lmf::app;
 
-bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
-  xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
+// provides for asn container.list.array range based for loops
+// for (auto const& xyzIEs : xyzResponse.protocolIEs) {
+template<typename T>
+auto begin(T const& container) {
+  return container.list.array;
+}
+
+template<typename T>
+auto end(T const& container) {
+  return container.list.array + container.list.count;
+}
+
+template<
+    class result_t   = std::chrono::milliseconds,
+    class clock_t    = std::chrono::steady_clock,
+    class duration_t = std::chrono::milliseconds>
+auto elapsed_ms(std::chrono::time_point<clock_t, duration_t> const& start) {
+  return std::chrono::duration_cast<result_t>(clock_t::now() - start).count();
+}
+
+std::shared_ptr<NRPPA_PDU_t> oai::lmf::app::share_nrppa_pdu(NRPPA_PDU_t* ptr) {
+  return {
+      ptr, [](NRPPA_PDU_t* ptr) { ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, ptr); }};
+}
+
+LocationDetermination::LocationDetermination(std::string supi)
+    : supi{supi}, measurementId{lmf_app_inst->measurement_id_gen.get_uid()} {}
+
+LocationDetermination::~LocationDetermination() {
+  lmf_app_inst->measurement_id_gen.free_uid(this->measurementId);
+}
+
+bool LocationDetermination::n1_n2_message_transfer(
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
+    ProcedureCode_t const& procedureCode) {
+  Logger::lmf_app().info("n1_n2_message_transfer");
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
 
   asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
 
   if (nrppaPduEnc.result.encoded == -1) {
     Logger::lmf_app().error(
@@ -64,6 +114,9 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
     auto const& detail = "Could not encode at; "s + field;
     throwHttpError(title, detail);
   }
+  // gc free(nrppaPduEnc.buffer)
+  std::unique_ptr<void, decltype(&std::free)> gc{
+      nrppaPduEnc.buffer, &std::free};
 
   std::string amf_uri  = {};
   std::string method   = "POST";
@@ -80,7 +133,6 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
   conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
-  free(nrppaPduEnc.buffer);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
@@ -133,24 +185,180 @@ bool LocationDetermination::n1_n2_message_transfer(NRPPA_PDU_t* nrppaPdu) {
     auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
     throwHttpError(title, detail);
   }
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(txnId, procedureCode);
+      !inserted) {
+    throwHttpError(
+        "n1_n2_message_transfer"s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+
   return true;
 }
 
-void LocationDetermination::positioning_information_request(
-    NRPPATransactionID_t const& tId) {
-  Logger::lmf_app().info("Position Information Request");
+bool LocationDetermination::non_ue_n2_message_transfer(
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
+    ProcedureCode_t const& procedureCode,
+    std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
+    SRSConfiguration_t* const ueSrsConfigurationShared) {
+  Logger::lmf_app().info("non_ue_n2_message_transfer");
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
 
-  this->positioning_information_response = {};  // reset promise
-
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(tId, ResponseType::PositionInformation);
-      !inserted) {
-    throwHttpError(
-        "Position Information Request"s,
-        "nrppa id "s + std::to_string(tId) + " reuse"s);
+  asn_encode_to_new_buffer_result_t nrppaPduEnc = asn_encode_to_new_buffer(
+      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
+  if (ueSrsConfigurationShared != nullptr) {
+    // don't free, it's from positioning information request
+    *ueSrsConfigurationShared = {};
   }
 
-  auto initiatingMessage = InitiatingMessage_t{
+  if (nrppaPduEnc.result.encoded == -1) {
+    Logger::lmf_app().error(
+        "Could not encode (at %s)\n", nrppaPduEnc.result.failed_type ?
+                                          nrppaPduEnc.result.failed_type->name :
+                                          "unknown");
+    auto const& title  = "asn nrppa encode failed"s;
+    auto const& field  = nrppaPduEnc.result.failed_type ?
+                             nrppaPduEnc.result.failed_type->name :
+                             "unknown";
+    auto const& detail = "Could not encode at; "s + field;
+    throwHttpError(title, detail);
+  }
+  std::unique_ptr<void, decltype(&std::free)> gc{
+      nrppaPduEnc.buffer, &std::free};
+
+  std::string amf_uri  = {};
+  std::string method   = "POST";
+  std::string response = {};
+  amf_uri =
+      "http://" +
+      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
+      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
+      lmf_cfg.amf_addr.api_version + NAMF_NON_UE_N2_MESSAGE_TRANSFER;
+  Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
+
+  std::string nrppaMsgStr(
+      (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
+  std::string nrppaMsgHex = {};
+  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+
+  model::RefToBinaryData ngapData = {};
+  ngapData.setContentId(N2_NRPPa_CONTENT_ID);
+
+  model::NgapIeType ngapIeType = {};
+  ngapIeType.setEnumValue(
+      model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+
+  model::N2InfoContent n2InfoContent = {};
+  n2InfoContent.setNgapIeType(ngapIeType);
+  n2InfoContent.setNgapData(ngapData);
+
+  model::NrppaInformation nrppaInformation = {};
+  nrppaInformation.setNfId(lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
+  nrppaInformation.setNrppaPdu(n2InfoContent);
+
+  model::N2InformationClass n2InformationClass = {};
+  n2InformationClass.setEnumValue(
+      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+  model::N2InfoContainer n2InfoContainer = {};
+  n2InfoContainer.setN2InformationClass(n2InformationClass);
+  n2InfoContainer.setNrppaInfo(nrppaInformation);
+
+  model::N2InformationTransferReqData n2InformationTransferReqData;
+  n2InformationTransferReqData.setN2Information(n2InfoContainer);
+  if (globalRanNodeList.size() > 0) {
+    Logger::lmf_app().debug(
+        "non_ue_n2_message_transfer: globalRanNodeList set, send to %d gNBs",
+        globalRanNodeList.size());
+    n2InformationTransferReqData.setGlobalRanNodeList(globalRanNodeList);
+  } else {
+    Logger::lmf_app().debug(
+        "non_ue_n2_message_transfer: globalRanNodeList not set, send to all "
+        "gNBs using ratSelector");
+    n2InformationTransferReqData.setRatSelector("NR");
+  }
+
+  nlohmann::json n2InformationTransferReqData_json;
+  to_json(n2InformationTransferReqData_json, n2InformationTransferReqData);
+
+  std::string body      = {};
+  std::string json_part = {};
+  json_part             = n2InformationTransferReqData_json.dump();
+
+  mime_parser::create_multipart_related_content(
+      body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
+      multipart_related_content_part_e::NGAP);
+
+  lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
+  Logger::lmf_app().info("Response from AMF: %s", response);
+
+  // model::N2InformationTransferRspData;
+  // model::N2InformationTransferError
+  // model::N2InformationTransferResult
+
+  auto const& rspData_json = nlohmann::json::parse(response);
+  if (!rspData_json.contains("cause") ||
+      rspData_json["cause"] != non_ue_n2_message_transfer_cause_e2str
+                                   [NON_UE_N2_TRANSFER_INITIATED]) {
+    auto const& title = "non-ue-n2-message transfer failed"s;
+    auto const& cause =
+        rspData_json.contains("cause") ?
+            non_ue_n2_message_transfer_cause_e2str[rspData_json["cause"]] :
+            "no cause"s;
+    auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
+    throwHttpError(title, detail);
+  }
+
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(txnId, procedureCode);
+      !inserted) {
+    throwHttpError(
+        "non-ue n2 message transfer: "s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+  lmf_app_inst->insert_nrppaTxnId2supi(txnId, this->supi);
+
+  return true;
+}
+
+template<typename T>
+T LocationDetermination::wait_for_notification(
+    std::string const& kind, NRPPATransactionID_t const& tId,
+    std::promise<T>& p, std::chrono::milliseconds const& wait_ms) {
+  Logger::lmf_app().info(
+      "waiting %dms for %s notification for supi %s, tId: %d", wait_ms.count(),
+      kind, this->supi, tId);
+
+  auto const& start = std::chrono::steady_clock::now();
+  auto f            = p.get_future();
+  switch (auto const& rc = f.wait_for(wait_ms); rc) {
+    case std::future_status::timeout: {
+      this->throwHttpError(
+          kind + " notification timeout"s,
+          "waited "s + std::to_string(wait_ms.count()) + "ms"s);
+    } break;
+
+    case std::future_status::ready: {
+      Logger::lmf_app().info(
+          kind + " notifiaction received for supi: %s waiting %dms"s,
+          this->supi, elapsed_ms(start));
+    } break;
+
+    default:
+      this->throwHttpError(
+          kind,
+          "unhandled future_status: "s + std::to_string(static_cast<int>(rc)));
+  }
+  return f.get();
+}
+
+LocationDetermination::pos_info_res
+LocationDetermination::positioning_information_request() {
+  auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
+
+  auto initiatingMessage =
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningInformationExchange,
       .criticality        = Criticality_reject,
       .nrppatransactionID = tId,
@@ -158,10 +366,13 @@ void LocationDetermination::positioning_information_request(
           {.present =
                InitiatingMessage__value_PR_PositioningInformationRequest},
   };
-  auto ies = &initiatingMessage.value.choice.PositioningInformationRequest
+  auto ies = &initiatingMessage->value.choice.PositioningInformationRequest
                   .protocolIEs.list;
 
-  auto requestedSRSTransmissionCharacteristics = PositioningInformationRequest_IEs_t{
+  auto requestedSRSTransmissionCharacteristics =
+      (PositioningInformationRequest_IEs_t*) malloc(
+          sizeof(PositioningInformationRequest_IEs_t));
+  *requestedSRSTransmissionCharacteristics = PositioningInformationRequest_IEs_t{
       .id          = ProtocolIE_ID_id_RequestedSRSTransmissionCharacteristics,
       .criticality = Criticality_ignore,
       .value =
@@ -184,124 +395,245 @@ void LocationDetermination::positioning_information_request(
                   },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &requestedSRSTransmissionCharacteristics);
+  ASN_SEQUENCE_ADD(ies, requestedSRSTransmissionCharacteristics);
 
-  auto nrppaPdu = NRPPA_PDU_t{
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
+      .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu);
+  this->positioning_information_response = {};
+  this->n1_n2_message_transfer(
+      share_nrppa_pdu(nrppaPdu), tId,
+      ProcedureCode_id_positioningInformationExchange);
+  return this->wait_for_notification(
+      "positioning information", tId, this->positioning_information_response,
+      lmf_cfg.positioning_wait_ms);
 }
 
-void LocationDetermination::measurement_request(
-    NRPPATransactionID_t const& tId) {
-  this->measurement_response = {};
-
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(tId, ResponseType::Measurement);
-      !inserted) {
-    throwHttpError(
-        "Measurement request"s, "nrppa id "s + std::to_string(tId) + " reuse"s);
+void LocationDetermination::collectResult(
+    Gnb const& gnb, TRP_MeasurementResponseList_t const& trpMeasurementList) {
+  for (auto const& trpMeasurement : trpMeasurementList) {
+    auto const& trpId = trpMeasurement->tRP_ID;
+    for (auto const& measurement : trpMeasurement->measurementResult) {
+      if (measurement->measuredResultsValue.present ==
+          TrpMeasuredResultsValue_PR_uL_RTOA) {
+        auto const& uLRTOAmeas =
+            measurement->measuredResultsValue.choice.uL_RTOA->uLRTOAmeas;
+        auto const& choice = uLRTOAmeas.choice;
+        auto const& key    = uLRTOAmeas.present;
+        auto const& val    = key == ULRTOAMeas_PR_k0 ? choice.k0 :
+                             key == ULRTOAMeas_PR_k1 ? choice.k1 :
+                             key == ULRTOAMeas_PR_k2 ? choice.k2 :
+                             key == ULRTOAMeas_PR_k3 ? choice.k3 :
+                             key == ULRTOAMeas_PR_k4 ? choice.k4 :
+                                                       choice.k5;
+        Logger::lmf_app().info(
+            "measurement: gnbId: %d, trpId: %d %s key k%d = %d", gnb.id, trpId,
+            this->result[gnb.id][trpId].count(key) == 0 ? "insert" : "replace",
+            key - 1, val);
+        this->result[gnb.id][trpId][key] = val;
+      }
+    }
   }
+}
 
-  auto measurementID        = Measurement_ID_t{1};
-  auto reportCharacteristic = ReportCharacteristics_onDemand;
+LocationDetermination::mmr_res LocationDetermination::measurement_request(
+    Gnb const& gnb, SRSConfiguration_t const& srsConfigurationUE) {
+  Logger::lmf_app().info("measurement request");
 
-  auto initiatingMessage = InitiatingMessage_t{
+  auto const& tId               = lmf_app_inst->nrppa_tid_gen.get_uid();
+  auto const& globalRanNodeList = std::vector{gnb.ncgi};
+  auto const& trpIdRng          = boost::adaptors::keys(gnb.trp);
+  auto const& trpIds            = std::set(trpIdRng.begin(), trpIdRng.end());
+
+  auto initiatingMessage =
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_Measurement,
       .criticality        = Criticality_reject,
       .nrppatransactionID = tId,
       .value = {.present = InitiatingMessage__value_PR_MeasurementRequest},
   };
   auto ies =
-      &initiatingMessage.value.choice.MeasurementRequest.protocolIEs.list;
+      &initiatingMessage->value.choice.MeasurementRequest.protocolIEs.list;
 
-  auto lmfMeasurementId = MeasurementRequest_IEs_t{
+  auto lmfMeasurementIdIe =
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
+  *lmfMeasurementIdIe = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_LMF_Measurement_ID,
       .criticality = Criticality_reject,
       .value =
           {
               .present = MeasurementRequest_IEs__value_PR_Measurement_ID,
-              .choice  = {.Measurement_ID = measurementID},
+              .choice  = {.Measurement_ID = this->measurementId},
           },
   };
-  ASN_SEQUENCE_ADD(ies, &lmfMeasurementId);
+  ASN_SEQUENCE_ADD(ies, lmfMeasurementIdIe);
 
-  auto reportCharacteristics = MeasurementRequest_IEs_t{
+  auto trpMeasurementRequestListIe =
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
+  *trpMeasurementRequestListIe = {
+      .id          = ProtocolIE_ID_id_TRP_MeasurementRequestList,
+      .criticality = Criticality_reject,
+      .value =
+          {
+              .present =
+                  MeasurementRequest_IEs__value_PR_TRP_MeasurementRequestList,
+          },
+  };
+  auto trpMeasurementRequestList = &trpMeasurementRequestListIe->value.choice
+                                        .TRP_MeasurementRequestList.list;
+  for (auto const& trpId : trpIds) {
+    auto trpMeasurementRequestItem = (TRP_MeasurementRequestItem_t*) malloc(
+        sizeof(TRP_MeasurementRequestItem_t));
+    *trpMeasurementRequestItem = TRP_MeasurementRequestItem_t{
+        .tRP_ID = trpId,
+    };
+    ASN_SEQUENCE_ADD(trpMeasurementRequestList, trpMeasurementRequestItem);
+  }
+  ASN_SEQUENCE_ADD(ies, trpMeasurementRequestListIe);
+
+  auto reportCharacteristics =
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
+  *reportCharacteristics = MeasurementRequest_IEs_t{
       .id          = ProtocolIE_ID_id_ReportCharacteristics,
       .criticality = Criticality_reject,
       .value =
           {
               .present = MeasurementRequest_IEs__value_PR_ReportCharacteristics,
               .choice =
-                  {.ReportCharacteristics =
-                       ReportCharacteristics_t{reportCharacteristic}},
+                  {
+                      .ReportCharacteristics = ReportCharacteristics_onDemand,
+                  },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &reportCharacteristics);
+  ASN_SEQUENCE_ADD(ies, reportCharacteristics);
 
-  auto nrppaPdu = NRPPA_PDU_t{
+  auto srsConfigurationIE =
+      (MeasurementRequest_IEs_t*) malloc(sizeof(MeasurementRequest_IEs_t));
+  *srsConfigurationIE = MeasurementRequest_IEs_t{
+      .id          = ProtocolIE_ID_id_SRSConfiguration,
+      .criticality = Criticality_ignore,
+      .value =
+          {
+              .present = MeasurementRequest_IEs__value_PR_SRSConfiguration,
+              .choice =
+                  {
+                      .SRSConfiguration = srsConfigurationUE,
+                  },
+          },
+  };
+  auto ueSrsConfigurationShared =
+      &srsConfigurationIE->value.choice.SRSConfiguration;
+  ASN_SEQUENCE_ADD(ies, srsConfigurationIE);
+
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
+      .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu);
-}
+  this->measurement_response = {};  // clear promise
+  this->non_ue_n2_message_transfer(
+      share_nrppa_pdu(nrppaPdu), tId, ProcedureCode_id_Measurement,
+      globalRanNodeList, ueSrsConfigurationShared);
 
-void LocationDetermination::handle_positioning_information_response(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
-    PositioningInformationResponse_t const& positioningInformationResponse) {
-  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
-    throwHttpError(
-        "handle_positioning_information_response",
-        "no such tId: "s + std::to_string(tId));
-  }
-
-  this->positioning_information_response.set_value(
-      {nrppaPdu, positioningInformationResponse});
+  return this->wait_for_notification(
+      "measurement", tId, this->measurement_response,
+      lmf_cfg.measurement_wait_ms);
+  // nrppaPduMR contain measurement
+  // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
 }
 
 void LocationDetermination::handle_measurement_response(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
-    MeasurementResponse_t const& measurementResponse) {
-  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
-    throwHttpError(
-        "handle_measurement_response", "no such tId: "s + std::to_string(tId));
+    NrppaPduShared nrppaPdu, MeasurementResponse_t const& measurementResponse) {
+  Logger::lmf_app().info("handle measurement response");
+  for (auto const& ie : measurementResponse.protocolIEs) {
+    if (ie->id == ProtocolIE_ID_id_TRP_MeasurementResponseList &&
+        ie->value.present ==
+            MeasurementResponse_IEs__value_PR_TRP_MeasurementResponseList) {
+      auto const& trpMeasurementList =
+          ie->value.choice.TRP_MeasurementResponseList;
+      this->measurement_response.set_value(
+          std::make_tuple(nrppaPdu, std::cref(trpMeasurementList)));
+    }
   }
+}
 
-  this->measurement_response.set_value({nrppaPdu, measurementResponse});
+void LocationDetermination::handle_measurement_failure(
+    NrppaPduShared nrppaPdu, MeasurementFailure_t const& measurementFailure) {
+  auto err = CauseError::parse(
+      measurementFailure, MeasurementFailure_IEs__value_PR_Cause);
+  this->measurement_response.set_value(err);
+}
+
+void LocationDetermination::handle_positioning_information_response(
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
+    PositioningInformationResponse_t const& positioningInformationResponse) {
+  Logger::lmf_app().info("handle positioning information response");
+  std::optional<pos_info_res> res;
+
+  for (auto const& positioningInformationIE :
+       positioningInformationResponse.protocolIEs) {
+    if (positioningInformationIE->id == ProtocolIE_ID_id_SRSConfiguration &&
+        positioningInformationIE->value.present ==
+            PositioningInformationResponse_IEs__value_PR_SRSConfiguration) {
+      auto const& srsCfg =
+          positioningInformationIE->value.choice.SRSConfiguration;
+      res.emplace(std::make_tuple(nrppaPdu, std::cref(srsCfg)));
+    }
+  }
+  if (!res.has_value()) {
+    try {
+      throwHttpError(
+          "handle_positioning_information_response: srsConfiguration missing",
+          "srsConfiguration needed for non-ue measurement request");
+    } catch (...) {
+      this->positioning_information_response.set_exception(
+          std::current_exception());
+      throw;
+    }
+  }
+  this->positioning_information_response.set_value(res.value());
+}
+
+void LocationDetermination::handle_positioning_information_failure(
+    NrppaPduShared nrppaPdu,
+    PositioningInformationFailure_t const& positioningInformationFailure) {
+  auto err = CauseError::parse(
+      positioningInformationFailure,
+      PositioningInformationFailure_IEs__value_PR_Cause);
+  this->positioning_information_response.set_value(err);
 }
 
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST
-void LocationDetermination::positioning_activation_request(
-    NRPPATransactionID_t const& tId) {
-  this->positioning_activation_response = {};
+LocationDetermination::pos_act_res
+LocationDetermination::positioning_activation_request() {
+  auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
 
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(tId, ResponseType::PositioningActivation);
-      !inserted) {
-    throwHttpError(
-        "Position information request"s,
-        "nrppa id "s + std::to_string(tId) + " reuse"s);
-  }
-
-  auto initiatingMessage = InitiatingMessage_t{
+  auto initiatingMessage =
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_positioningActivation,
       .criticality        = Criticality_reject,
       .nrppatransactionID = tId,
       .value =
           {.present = InitiatingMessage__value_PR_PositioningActivationRequest},
   };
-  auto ies = &initiatingMessage.value.choice.PositioningActivationRequest
+  auto ies = &initiatingMessage->value.choice.PositioningActivationRequest
                   .protocolIEs.list;
 
   // >Aperiodic
-  auto aperiodicSRS = AperiodicSRS_t{
+  auto aperiodicSRS = (AperiodicSRS_t*) malloc(sizeof(AperiodicSRS_t));
+  *aperiodicSRS     = AperiodicSRS_t{
       .aperiodic = AperiodicSRS__aperiodic_true,
   };
   // CHOICE SRS type
-  auto aperiodicSRS_ie = PositioningActivationRequestIEs_t{
+  auto aperiodicSRS_ie = (PositioningActivationRequestIEs_t*) malloc(
+      sizeof(PositioningActivationRequestIEs_t));
+  *aperiodicSRS_ie = PositioningActivationRequestIEs_t{
       .id          = ProtocolIE_ID_id_SRSType,
       .criticality = Criticality_reject,
       .value =
@@ -314,20 +646,24 @@ void LocationDetermination::positioning_activation_request(
                               .present = SRSType_PR_aperiodicSRS,
                               .choice =
                                   {
-                                      .aperiodicSRS = &aperiodicSRS,
+                                      .aperiodicSRS = aperiodicSRS,
                                   },
                           },
                   },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &aperiodicSRS_ie);
-
+  ASN_SEQUENCE_ADD(ies, aperiodicSRS_ie);
+#if 0
   // >Semi-persistent
-  auto semipersistentSRS = SemipersistentSRS_t{
+  auto semipersistentSRS =
+      (SemipersistentSRS_t*) malloc(sizeof(SemipersistentSRS_t));
+  *semipersistentSRS = SemipersistentSRS_t{
       .sRSResourceSetID = 1,
   };
   // CHOICE SRS type
-  auto semipersistentSRS_ie = PositioningActivationRequestIEs_t{
+  auto semipersistentSRS_ie = (PositioningActivationRequestIEs_t*) malloc(
+      sizeof(PositioningActivationRequestIEs_t));
+  *semipersistentSRS_ie = PositioningActivationRequestIEs_t{
       .id          = ProtocolIE_ID_id_SRSType,
       .criticality = Criticality_reject,
       .value =
@@ -340,150 +676,165 @@ void LocationDetermination::positioning_activation_request(
                               .present = SRSType_PR_semipersistentSRS,
                               .choice =
                                   {
-                                      .semipersistentSRS = &semipersistentSRS,
+                                      .semipersistentSRS = semipersistentSRS,
                                   },
                           },
                   },
           },
   };
-  ASN_SEQUENCE_ADD(ies, &semipersistentSRS_ie);
-
-  auto nrppaPdu = NRPPA_PDU_t{
+  ASN_SEQUENCE_ADD(ies, semipersistentSRS_ie);
+#endif
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
       .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = &initiatingMessage},
+      .choice  = {.initiatingMessage = initiatingMessage},
+  };
+  this->positioning_activation_response = {};
+  this->n1_n2_message_transfer(
+      share_nrppa_pdu(nrppaPdu), tId, ProcedureCode_id_positioningActivation);
+  return this->wait_for_notification(
+      "positionong activation", tId, this->positioning_activation_response,
+      lmf_cfg.positioning_wait_ms);
+}
+
+// 9.1.1.20 POSITIONING DEACTIVATION
+bool LocationDetermination::positioning_deactivation_request() {
+  auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
+
+  auto initiatingMessage =
+      (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
+  *initiatingMessage = InitiatingMessage_t{
+      .procedureCode      = ProcedureCode_id_positioningDeactivation,
+      .criticality        = Criticality_reject,
+      .nrppatransactionID = tId,
+      .value = {.present = InitiatingMessage__value_PR_PositioningDeactivation},
+  };
+  auto ies =
+      &initiatingMessage->value.choice.PositioningDeactivation.protocolIEs.list;
+
+  // >Release ALL
+  auto positioningDeactivationIe = (PositioningDeactivationIEs_t*) malloc(
+      sizeof(PositioningDeactivationIEs_t));
+  *positioningDeactivationIe = PositioningDeactivationIEs_t{
+      .id          = ProtocolIE_ID_id_AbortTransmission,
+      .criticality = Criticality_ignore,
+      .value =
+          {
+              .present = PositioningDeactivationIEs__value_PR_AbortTransmission,
+              .choice =
+                  {
+                      .AbortTransmission =
+                          {
+                              .present = AbortTransmission_PR_releaseALL,
+                              .choice =
+                                  {
+                                      .releaseALL = true,  // meaningless
+                                  },
+                          },
+                  },
+          },
+  };
+  ASN_SEQUENCE_ADD(ies, positioningDeactivationIe);
+
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice  = {.initiatingMessage = initiatingMessage},
   };
 
-  this->n1_n2_message_transfer(&nrppaPdu);
+  this->n1_n2_message_transfer(
+      share_nrppa_pdu(nrppaPdu), tId, ProcedureCode_id_positioningDeactivation);
+  // no success/failure notifiaction defined, nothing to wait for
+  this->nrppa_tId.erase(tId);
+
+  return true;
 }
 
 void LocationDetermination::handle_positioning_activation_response(
-    NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+    NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningActivationResponse_t const& positioningActivationResponse) {
-  if (auto const& nErased = this->nrppa_tId.erase(tId); nErased != 1) {
-    throwHttpError(
-        "handle_positioning_activation_response",
-        "no such tId: "s + std::to_string(tId));
-  }
-
-  this->positioning_activation_response.set_value(
-      {nrppaPdu, positioningActivationResponse});
+  Logger::lmf_app().info("handle positioning activation response");
+  this->positioning_activation_response.set_value({nrppaPdu});
 }
 
-/*
-  LPP_Message_t* lppMsg = new LPP_Message_t();
-  build_request_location_lpp_pdu(lppMsg);
-
-  asn_encode_to_new_buffer_result_t lppMsgEnc = asn_encode_to_new_buffer(
-      0, ATS_UNALIGNED_BASIC_PER, &asn_DEF_LPP_Message, lppMsg);
-  if (lppMsgEnc.result.encoded == -1) {
-    Logger::lmf_app().error(
-        "Could not encode (at %s)\n", lppMsgEnc.result.failed_type ?
-                                          lppMsgEnc.result.failed_type->name :
-                                          "unknown");
-
-    ProblemDetails problemDetails;
-    nlohmann::json problemDetails_json = {};
-    problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(500);
-    std::string errorMsg = "Could not encode (at ";
-    errorMsg +=
-        (lppMsgEnc.result.failed_type ? lppMsgEnc.result.failed_type->name :
-                                        "unknown");
-    errorMsg += ")\n";
-    problemDetails.setDetail(errorMsg);
-    to_json(problemDetails_json, problemDetails);
-
-    code      = Pistache::Http::Code::Internal_Server_Error;
-    json_data = problemDetails_json;
-    return;
-  }
-*/
-
-/*
-  /**N1MessageContainer n1MessageContainer = {};
-
-  // N1 Message Class
-  N1MessageClass lppN1MessageClass = {};
-  lppN1MessageClass.setEnumValue(
-      N1MessageClass_anyOf::eN1MessageClass_anyOf::LPP);
-  n1MessageContainer.setN1MessageClass(lppN1MessageClass);
-
-  // N1 Message Container
-  std::string n1MessageDataStr(
-      (char*) lppMsgEnc.buffer,
-      (char*) (lppMsgEnc.buffer) + lppMsgEnc.result.encoded);
-  RefToBinaryData n1MessageData = {};
-  n1MessageData.setContentId(n1MessageDataStr);
-  n1MessageContainer.setN1MessageContent(n1MessageData);
-*/
-/*
-void lmf_app::build_request_location_lpp_pdu(LPP_Message_t* lppMsg) {
-  lppMsg->endTransaction = true;
-
-  lppMsg->transactionID =
-      (LPP_TransactionID_t*) calloc(1, sizeof(LPP_TransactionID_t));
-  lppMsg->transactionID->initiator         = Initiator_locationServer;
-  long transno                             = 10;
-  lppMsg->transactionID->transactionNumber = transno;
-
-  lppMsg->lpp_MessageBody =
-      (LPP_MessageBody_t*) calloc(1, sizeof(LPP_MessageBody_t));
-  lppMsg->lpp_MessageBody->present = LPP_MessageBody_PR_c1;
-  lppMsg->lpp_MessageBody->choice.c1 =
-      (LPP_MessageBody::LPP_MessageBody_u::LPP_MessageBody__c1*) calloc(
-          1, sizeof(LPP_MessageBody::LPP_MessageBody_u::LPP_MessageBody__c1));
-  lppMsg->lpp_MessageBody->choice.c1->present =
-      LPP_MessageBody__c1_PR_requestLocationInformation;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation =
-      (RequestLocationInformation_t*) calloc(
-          1, sizeof(RequestLocationInformation_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.present =
-      RequestLocationInformation__criticalExtensions_PR_c1;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice
-      .c1 = (RequestLocationInformation::
-                 RequestLocationInformation__criticalExtensions::
-                     RequestLocationInformation__criticalExtensions_u::
-                         RequestLocationInformation__criticalExtensions__c1*)
-      calloc(
-          1,
-          sizeof(
-              RequestLocationInformation::
-                  RequestLocationInformation__criticalExtensions::
-                      RequestLocationInformation__criticalExtensions_u::
-                          RequestLocationInformation__criticalExtensions__c1));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->present =
-      RequestLocationInformation__criticalExtensions__c1_PR_requestLocationInformation_r9;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9 =
-      (RequestLocationInformation_r9_IEs_t*) calloc(
-          1, sizeof(RequestLocationInformation_r9_IEs_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation =
-      (CommonIEsRequestLocationInformation_t*) calloc(
-          1, sizeof(CommonIEsRequestLocationInformation_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationInformationType =
-      LocationInformationType_locationMeasurementsRequired;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationCoordinateTypes =
-      (LocationCoordinateTypes_t*) calloc(1, sizeof(LocationCoordinateTypes_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->locationCoordinateTypes
-      ->ellipsoidPoint = true;
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->velocityTypes =
-      (VelocityTypes_t*) calloc(1, sizeof(VelocityTypes_t));
-  lppMsg->lpp_MessageBody->choice.c1->choice.requestLocationInformation
-      ->criticalExtensions.choice.c1->choice.requestLocationInformation_r9
-      ->commonIEsRequestLocationInformation->velocityTypes->horizontalVelocity =
-      true;
+void LocationDetermination::handle_positioning_activation_failure(
+    NrppaPduShared nrppa,
+    PositioningActivationFailure_t const& positioningActivationFailure) {
+  auto err = CauseError::parse(
+      positioningActivationFailure,
+      PositioningActivationFailureIEs__value_PR_Cause);
+  this->positioning_activation_response.set_value(err);
 }
-*/
+
+void LocationDetermination::throwHttpError(
+    std::string const& title, std::string const& detail,
+    Pistache::Http::Code const& code) {
+  oai::lmf::app::throwHttpError(title, detail, this->supi, code);
+}
+
+nlohmann::json LocationDetermination::compute_location(
+    std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
+  for (auto const& [gnbId, trp] : this->result) {
+    if (gnbs.count(gnbId) == 0) {
+      Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
+      continue;
+    }
+    auto const gnb = gnbs.at(gnbId);
+    for (auto const& [trpId, uLRTOAmeas] : trp) {
+      if (gnb.trp.count(trpId) == 0) {
+        Logger::lmf_app().warn(
+            "no such trpId: %d attached to gnbId: %d", trpId, gnbId);
+        continue;
+      }
+      auto const& trp             = gnb.trp.at(trpId);
+      static constexpr auto units = std::array{"mm", "cm", "dm"};
+      auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
+
+      for (auto const& [k, v] : uLRTOAmeas) {
+        Logger::lmf_app().debug(
+            "gnbId: %d, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
+            "k%d: %d",
+            gnbId, trpId, trp.relativeCartesianLocation.xvalue, unit,
+            trp.relativeCartesianLocation.yvalue, unit,
+            trp.relativeCartesianLocation.zvalue, unit, k - 1, v);
+      }
+    }
+  }
+
+  model::SupportedGADShapes supportedGADShapes;
+  supportedGADShapes.setEnumValue(
+      model::SupportedGADShapes_anyOf::eSupportedGADShapes_anyOf::POINT);
+
+  model::UncertaintyEllipse uncertaintyEllipse;
+  uncertaintyEllipse.setSemiMajor(0.0);
+  uncertaintyEllipse.setSemiMinor(0.0);
+  uncertaintyEllipse.setOrientationMajor(180);
+
+  model::GeographicalCoordinates geographicalCoordinates;
+  geographicalCoordinates.setLat(0.0);
+  geographicalCoordinates.setLon(0.0);
+
+  model::GeographicArea geographicArea;
+  geographicArea.setShape(supportedGADShapes);
+  geographicArea.setPoint(geographicalCoordinates);
+  geographicArea.setUncertaintyEllipse(uncertaintyEllipse);
+  geographicArea.setConfidence(100);
+
+  model::LocationData locationData;
+  locationData.setLocationEstimate(geographicArea);
+
+  nlohmann::json j;
+  j["localLocationEstimate"]["shape"]                           = "POINT";
+  j["localLocationEstimate"]["localOrigin"]["coordinateId"]     = "string";
+  j["localLocationEstimate"]["localOrigin"]["point"]["lon"]     = 180;
+  j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
+  j["localLocationEstimate"]["point"]["x"]                      = 20;
+  j["localLocationEstimate"]["point"]["y"]                      = 10;
+  j["localLocationEstimate"]["point"]["z"]                      = 15;
+  j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
+  j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
+  j["localLocationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
+  j["localLocationEstimate"]["confidence"]                             = 100;
+
+  return j;  // locationData;
+}

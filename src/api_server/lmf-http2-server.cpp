@@ -28,6 +28,7 @@
 #include <pistache/http.h>
 #include <string>
 #include <filesystem>
+#include <iostream>
 #include "string.hpp"
 
 #include "logger.hpp"
@@ -44,6 +45,11 @@ using namespace config;
 using namespace oai::lmf_server;
 
 extern lmf_config lmf_cfg;
+
+std::string get_thread_id() {
+  return std::to_string(
+      std::hash<std::thread::id>{}(std::this_thread::get_id()));
+}
 
 //------------------------------------------------------------------------------
 void lmf_http2_server::start() {
@@ -65,6 +71,8 @@ void lmf_http2_server::start() {
                   data, data + len,
                   std::ostream_iterator<uint8_t>(*requestBody));
             } else {
+              Logger::lmf_app().debug(
+                  "start determine-location: " + get_thread_id());
               auto const& msg = requestBody->str();
               requestBody->clear();
               if (msg.size() == 0 || request.method().compare("POST") != 0) {
@@ -82,8 +90,8 @@ void lmf_http2_server::start() {
           }
         });
         response.on_close([](uint32_t cause) {
-          //          Logger::lmf_server().debug("<<-- determine location
-          //          on_close with cause: " + std::to_string(cause));
+          Logger::lmf_app().debug(
+              "stop determine-location: " + get_thread_id());
         });
       });
 
@@ -100,6 +108,7 @@ void lmf_http2_server::start() {
                   data, data + len,
                   std::ostream_iterator<uint8_t>(*requestBody));
             } else {
+              Logger::lmf_app().debug("start ue: " + get_thread_id());
               auto const& msg = requestBody->str();
               requestBody->clear();
               std::filesystem::path path{request.uri().path};
@@ -130,17 +139,105 @@ void lmf_http2_server::start() {
           }
         });
         response.on_close([](uint32_t cause) {
-          //          Logger::lmf_server().debug("<<-- notify on_close with
-          //          cause: " + std::to_string(cause));
+          Logger::lmf_app().debug("stop ue: " + get_thread_id());
+        });
+      });
+
+  // /nlmf-non-ue-n2info-notify/v1/nrppa/callback/
+  server.handle(
+      NLMF_NON_UE_NOTIFY_BASE + lmf_cfg.sbi_api_version +
+          NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK,
+      [&](const request& request, const response& response) {
+        auto requestBody = std::make_shared<std::stringstream>();
+        request.on_data([requestBody, &request, &response, this](
+                            const uint8_t* data, std::size_t len) {
+          try {
+            if (len > 0) {
+              std::copy(
+                  data, data + len,
+                  std::ostream_iterator<uint8_t>(*requestBody));
+            } else {
+              Logger::lmf_app().debug("start non-ue: " + get_thread_id());
+              auto const& msg = requestBody->str();
+              requestBody->clear();
+              mime_parser sp;
+              if (!sp.parse(msg)) {
+                throw std::invalid_argument{"can not parse multipart"};
+              }
+              std::vector<mime_part> parts;
+              sp.get_mime_parts(parts);
+              if (parts.size() != 2) {
+                throw std::invalid_argument{"expect two parts"};
+              }
+              this->non_ue_n2info_nrppa_notification_post_handler(
+                  parts, response);
+            }
+          } catch (std::exception& e) {
+            Logger::lmf_server().warn("Invalid request (error: %s)!", e.what());
+            response.write_head(
+                http_status_code_e::HTTP_STATUS_CODE_400_BAD_REQUEST);
+            response.end();
+            return;
+          }
+        });
+        response.on_close([](uint32_t cause) {
+          Logger::lmf_app().debug("stop non-ue: " + get_thread_id());
         });
       });
 
   // multi threaded is needed to handle incomming AMF notifications during
   // processing determine locaiton
   server.num_threads(m_num_threads);
+  server.backlog(0xffff);
   if (server.listen_and_serve(ec, m_address, std::to_string(m_port))) {
     std::cerr << "HTTP Server error: " << ec.message() << std::endl;
   }
+}
+
+void lmf_http2_server::non_ue_n2info_nrppa_notification_post_handler(
+    std::vector<mime_part>& parts, const response& response) {
+  model::N2InformationNotification n2InformationNotification{
+      nlohmann::json::parse(parts.at(0).body)};
+  // TODO: handle subscrription id
+  auto const& n2NotifySubscriptionId =
+      n2InformationNotification.getN2NotifySubscriptionId();
+  // TODO: handle lcs corrlation id
+  n2InformationNotification.getLcsCorrelationId();
+
+  auto nrppa = lmf_app::parse_n2_info_container_nrppa(
+      n2InformationNotification, parts.at(1));
+  header_map h;
+  unsigned code = HTTP_STATUS_CODE_204_NO_CONTENT;
+  model::ProblemDetails problemDetails;
+  std::string reason;
+  try {
+    m_lmf_app->handle_non_ue_n2info_nrppa_notification(nrppa);
+  } catch (nlohmann::detail::exception& e) {
+    problemDetails.setDetail(e.what());
+    code = HTTP_STATUS_CODE_400_BAD_REQUEST;
+  } catch (Pistache::Http::HttpError& e) {
+    code = e.code();
+    problemDetails.setDetail(e.what());
+    reason = e.what();
+  } catch (std::exception& e) {
+    problemDetails.setDetail(e.what());
+    code = HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR;
+  }
+  if (code != HTTP_STATUS_CODE_204_NO_CONTENT) {
+    problemDetails.setTitle("handle_n2info_nrppa_notification failed");
+    Logger::lmf_server().error(
+        problemDetails.getTitle() + ": " + problemDetails.getDetail());
+    h.insert(std::make_pair<std::string, header_value>(
+        "Content-Type", {"application/json", false}));
+    if (reason.empty()) {
+      reason = nlohmann::json(problemDetails).dump();
+    }
+  }
+  std::cout << "code: " + std::to_string(code) + "reason: " + reason
+            << std::endl;
+
+  response.write_head(code, h);
+  response.end(reason);
 }
 
 void lmf_http2_server::n2info_nrppa_notification_post_handler(
@@ -163,9 +260,7 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
   model::ProblemDetails problemDetails;
   std::string reason;
   try {
-    if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
-      N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);
-    }
+    m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa);
   } catch (nlohmann::detail::exception& e) {
     problemDetails.setDetail(e.what());
     code = HTTP_STATUS_CODE_400_BAD_REQUEST;
@@ -187,6 +282,8 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
       reason = nlohmann::json(problemDetails).dump();
     }
   }
+  std::cout << "code: " + std::to_string(code) + "reason: " + reason
+            << std::endl;
   response.write_head(code, h);
   response.end(reason);
 }
@@ -200,7 +297,26 @@ void lmf_http2_server::detemine_location_post_handler(
   Pistache::Http::Code code        = {};
   header_map h;
 
-  m_lmf_app->handle_determine_location(inputData, locationData_json, code);
+  try {
+    this->m_lmf_app->handle_determine_location(
+        inputData, locationData_json, code);
+  } catch (Pistache::Http::HttpError& e) {
+    h.insert(std::make_pair<std::string, header_value>(
+        "Content-Type", {"application/problem+json", false}));
+    response.write_head(e.code(), h);
+    response.end(e.what());
+    this->m_lmf_app->release_all_n1n2subscriptions();
+    this->m_lmf_app->release_non_ue_subscription();
+
+    return;
+  } catch (std::exception& e) {
+    response.write_head(HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR, h);
+    response.end(e.what());
+    this->m_lmf_app->release_all_n1n2subscriptions();
+    this->m_lmf_app->release_non_ue_subscription();
+
+    return;
+  }
 
   if (code == Pistache::Http::Code::Ok) {
     h.insert(std::make_pair<std::string, header_value>(

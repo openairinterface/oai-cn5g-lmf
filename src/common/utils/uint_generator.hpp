@@ -27,7 +27,7 @@
 
 namespace util {
 
-template<class UINT>
+template<class UINT, unsigned MIN, unsigned MAX>
 class uint_generator {
  private:
   UINT uid_generator;
@@ -38,7 +38,7 @@ class uint_generator {
 
  public:
   uint_generator() : m_uid_generator(), m_uid_generated() {
-    uid_generator = 0;
+    uid_generator = MIN;
     uid_generated = {};
   };
 
@@ -47,12 +47,17 @@ class uint_generator {
 
   UINT get_uid() {
     std::unique_lock<std::mutex> lr(m_uid_generator);
-    UINT uid = ++uid_generator;
+    UINT uid = uid_generator;
     while (true) {
       // may happen race conditions here
       std::unique_lock<std::mutex> ld(m_uid_generated);
       if (uid_generated.count(uid) == 0) {
         uid_generated.insert(uid);
+        if (uid_generator < MAX) {
+          ++uid_generator;
+        } else {
+          uid_generator == MIN;
+        }
         ld.unlock();
         lr.unlock();
         return uid;
