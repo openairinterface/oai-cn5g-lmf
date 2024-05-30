@@ -284,6 +284,11 @@ include_directories(${SRC_TOP_DIR}/api_server)
 include_directories(${SRC_TOP_DIR}/api_server/api)
 include_directories(${SRC_TOP_DIR}/api_server/impl)
 include_directories(${SRC_TOP_DIR}/api_server/model)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/common)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/config)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/bstr)
 #include_directories(${SRC_TOP_DIR}/lpp)
 include_directories(${SRC_TOP_DIR}/nrppa)
 
@@ -293,7 +298,10 @@ add_executable(lmf
   )
 
 # Including common modules
+include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/common/common.cmake)
+include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/config/config.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger/logger.cmake)
+include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/utils.cmake)
 
 IF(STATIC_LINKING)
     SET(CMAKE_EXE_LINKER_FLAGS "-static")
@@ -304,5 +312,5 @@ ENDIF(STATIC_LINKING)
 
 # LMF_API LPP NRPPA
 target_link_libraries (lmf ${ASAN} 
-    -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API NRPPA CN_UTILS -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lfmt -lgmp -lstdc++fs -Wl,--end-group pthread m rt config++ boost_system pistache curl)
+    -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API NRPPA CN_UTILS -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lfmt -lgmp -lstdc++fs -Wl,--end-group pthread m rt config++ boost_system pistache curl yaml-cpp)
     

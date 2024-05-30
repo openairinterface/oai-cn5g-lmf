@@ -24,10 +24,6 @@
 #include "conversions.hpp"
 #include "lmf.h"
 
-extern "C" {
-#include "dynamic_memory_check.h"
-}
-
 bool mime_parser::parse(const std::string& str) {
   std::string CRLF = "\r\n";
   Logger::lmf_server().debug("Parsing the message with Simple Parser");
@@ -97,7 +93,7 @@ unsigned char* mime_parser::format_string_as_hex(const std::string& str) {
   printf("\n");
 #endif
   // free memory
-  free_wrapper((void**) &data);
+  oai::utils::utils::free_wrapper((void**) &data);
   return data_hex;
 }
 

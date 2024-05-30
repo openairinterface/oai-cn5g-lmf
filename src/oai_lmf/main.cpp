@@ -37,7 +37,7 @@ using namespace oai::lmf::app;
 using namespace util;
 using namespace std;
 
-using namespace config;
+using namespace oai::lmf::config;
 
 lmf_config lmf_cfg;
 lmf_app* lmf_app_inst              = nullptr;
@@ -111,7 +111,8 @@ int main(int argc, char** argv) {
   lmf_event ev;
 
   // Config
-  lmf_cfg.load(Options::getlibconfigConfig());
+  // TODO: get config from YAML
+  // lmf_cfg.load(Options::getlibconfigConfig());
   lmf_cfg.display();
   Logger::set_level(lmf_cfg.log_level);
 
@@ -124,8 +125,9 @@ int main(int argc, char** argv) {
 
   // PID file
   // Currently hard-coded value. TODO: add as config option.
-  string pid_file_name = get_exe_absolute_path("/var/run", lmf_cfg.instance);
-  if (!is_pid_file_lock_success(pid_file_name.c_str())) {
+  string pid_file_name =
+      oai::utils::get_exe_absolute_path("/var/run", lmf_cfg.instance);
+  if (!oai::utils::is_pid_file_lock_success(pid_file_name.c_str())) {
     Logger::lmf_server().error(
         "Lock PID file %s failed\n", pid_file_name.c_str());
     exit(-EDEADLK);
@@ -143,7 +145,7 @@ int main(int argc, char** argv) {
   } else {
     // LMF NGHTTP API server (HTTP2)
     lmf_api_server_2 = new lmf_http2_server(
-        conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port,
+        oai::utils::conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port,
         lmf_cfg.http_threads_count, lmf_app_inst);
     std::thread lmf_http2_manager(&lmf_http2_server::start, lmf_api_server_2);
     lmf_http2_manager.join();

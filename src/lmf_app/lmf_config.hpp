@@ -29,6 +29,7 @@
 #include <chrono>
 
 #include "logger_base.hpp"
+#include "sbi_helper.hpp"
 
 #define LMF_CONFIG_STRING_LMF_CONFIG "LMF"
 #define LMF_CONFIG_STRING_PID_DIRECTORY "PID_DIRECTORY"
@@ -68,23 +69,12 @@
   "DETERMINE_NUM_GNB"
 #define LMF_CONFIG_STRING_FQDN_DNS "FQDN"
 
-namespace config {
-
-typedef struct interface_cfg_s {
-  std::string if_name;
-  struct in_addr addr4;
-  struct in_addr network4;
-  struct in6_addr addr6;
-  unsigned int mtu;
-  unsigned int port;
-} interface_cfg_t;
-
+namespace oai::lmf::config {
+using namespace oai::common::sbi;
 class lmf_config {
  public:
   lmf_config();
   ~lmf_config();
-  int load(const std::string& config_file);
-  int load_interface(const libconfig::Setting& if_cfg, interface_cfg_t& cfg);
   void display();
 
   unsigned int instance               = 1;
@@ -103,28 +93,19 @@ class lmf_config {
   unsigned int sbi_http2_port;
   std::string sbi_api_version;
 
-  struct {
-    struct in_addr ipv4_addr;
-    unsigned int port;
-    std::string api_version;
-    std::string fqdn;
-  } amf_addr;
+  nf_addr_t amf_addr;
 
-  struct {
-    struct in_addr ipv4_addr;
-    unsigned int port;
-    std::string api_version;
-    std::string fqdn;
-  } nrf_addr;
+  nf_addr_t nrf_addr;
 
   bool register_nrf;
   bool request_trp_info;
   bool use_fqdn_dns;
   bool use_http2;
+  uint32_t curl_timeout;
 };
 
-}  // namespace config
+}  // namespace oai::lmf::config
 
-extern config::lmf_config lmf_cfg;
+extern oai::lmf::config::lmf_config lmf_cfg;
 
 #endif

@@ -37,8 +37,7 @@
 
 #include "PatchItem.h"
 
-using namespace config;
-// using namespace lmf;
+using namespace oai::lmf::config;
 using namespace oai::lmf::app;
 using namespace boost::placeholders;
 

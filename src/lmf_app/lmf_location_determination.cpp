@@ -132,7 +132,7 @@ bool LocationDetermination::n1_n2_message_transfer(
   std::string nrppaMsgStr(
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
-  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+  oai::utils::conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
@@ -240,7 +240,7 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   std::string nrppaMsgStr(
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
-  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+  oai::utils::conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);

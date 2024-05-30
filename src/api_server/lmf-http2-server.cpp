@@ -41,7 +41,7 @@
 
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
-using namespace config;
+using namespace oai::lmf::config;
 using namespace oai::lmf_server;
 
 extern lmf_config lmf_cfg;
