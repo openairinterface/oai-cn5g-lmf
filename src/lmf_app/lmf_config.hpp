@@ -69,6 +69,9 @@
   "DETERMINE_NUM_GNB"
 #define LMF_CONFIG_STRING_FQDN_DNS "FQDN"
 
+constexpr auto LMF_CONFIG_OPTION_YES_STR = "Yes";
+constexpr auto LMF_CONFIG_OPTION_NO_STR  = "No";
+
 namespace oai::lmf::config {
 using namespace oai::common::sbi;
 class lmf_config {

@@ -21,6 +21,7 @@
 #include "logger.hpp"
 #include "options.hpp"
 #include "pid_file.hpp"
+#include "lmf_config_yaml.hpp"
 
 #include "pistache/endpoint.h"
 #include "pistache/http.h"
@@ -44,6 +45,7 @@ lmf_app* lmf_app_inst              = nullptr;
 LMFApiServer* api_server           = nullptr;
 lmf_http2_server* lmf_api_server_2 = nullptr;
 task_manager* tm_inst              = nullptr;
+std::unique_ptr<oai::config::lmf_config_yaml> lmf_cfg_yaml;
 
 //------------------------------------------------------------------------------
 void my_app_signal_handler(int s) {
@@ -111,9 +113,20 @@ int main(int argc, char** argv) {
   lmf_event ev;
 
   // Config
-  // TODO: get config from YAML
-  // lmf_cfg.load(Options::getlibconfigConfig());
+  std::string conf_file_name = Options::getlibconfigConfig();
+  Logger::system().debug("Parsing the configuration file (YAML).");
+  lmf_cfg_yaml = std::make_unique<oai::config::lmf_config_yaml>(
+      conf_file_name, Options::getlogStdout(), Options::getlogRotFilelog());
+  if (!lmf_cfg_yaml->init()) {
+    Logger::system().error("Reading the configuration failed. Exiting.");
+    return 1;
+  }
+  lmf_cfg_yaml->pre_process();
+  lmf_cfg_yaml->display();
+  // Convert from YAML to internal structure
+  lmf_cfg_yaml->to_lmf_config(lmf_cfg);
   lmf_cfg.display();
+
   Logger::set_level(lmf_cfg.log_level);
 
   // LMF application layer
