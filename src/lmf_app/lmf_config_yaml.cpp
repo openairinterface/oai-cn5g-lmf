@@ -352,10 +352,30 @@ void lmf_config_yaml::to_lmf_config(oai::lmf::config::lmf_config& cfg) {
   cfg.sbi.addr4       = local().get_sbi().get_addr4();
   cfg.sbi.if_name     = local().get_sbi().get_if_name();
 
+  cfg.http_threads_count = lmf_local->get_http_threads_count();
+  cfg.gnb_id_bits_count  = lmf_local->get_gnb_id_bits_count();
+  cfg.num_gnb            = lmf_local->get_num_gnb();
+  cfg.trp_info_wait_ms =
+      std::chrono::milliseconds(lmf_local->get_trp_info_wait_ms());
+  cfg.positioning_wait_ms =
+      std::chrono::milliseconds(lmf_local->get_positioning_wait_ms());
+  cfg.measurement_wait_ms =
+      std::chrono::milliseconds(lmf_local->get_measurement_wait_ms());
+  cfg.determine_num_gnb =
+      lmf_local->get_support_features().get_option_determine_num_gnb();
+  cfg.request_trp_info =
+      lmf_local->get_support_features().get_option_request_trp_info();
+
   if (get_nf(oai::config::NRF_CONFIG_NAME)) {
     cfg.nrf_addr.api_version =
         get_nf(oai::config::NRF_CONFIG_NAME)->get_sbi().get_api_version();
     cfg.nrf_addr.uri_root = get_nf(oai::config::NRF_CONFIG_NAME)->get_url();
+  }
+
+  if (get_nf(oai::config::AMF_CONFIG_NAME)) {
+    cfg.amf_addr.api_version =
+        get_nf(oai::config::AMF_CONFIG_NAME)->get_sbi().get_api_version();
+    cfg.amf_addr.uri_root = get_nf(oai::config::AMF_CONFIG_NAME)->get_url();
   }
 }
 }  // namespace oai::config

@@ -57,35 +57,28 @@ constexpr auto LMF_CONFIG_SUPPORT_FEATURES_DETERMINE_NUM_GNB_INFO_LABEL =
 constexpr uint8_t LMF_CONFIG_HTTP_THREADS_COUNT_MIN_VALUE = 1;
 constexpr uint8_t LMF_CONFIG_HTTP_THREADS_COUNT_MAX_VALUE = 10;  // To be
                                                                  // updated
-constexpr uint8_t LMF_CONFIG_HTTP_THREADS_COUNT_DEFAULT_VALUE = 1;
-
+constexpr uint8_t LMF_CONFIG_HTTP_THREADS_COUNT_DEFAULT_VALUE = 8;
 constexpr uint8_t LMF_CONFIG_GNB_ID_BITS_COUNT_MIN_VALUE = 1;   // To be updated
-constexpr uint8_t LMF_CONFIG_GNB_ID_BITS_COUNT_MAX_VALUE = 10;  // To be updated
+constexpr uint8_t LMF_CONFIG_GNB_ID_BITS_COUNT_MAX_VALUE = 30;  // To be updated
 constexpr uint8_t LMF_CONFIG_GNB_ID_BITS_COUNT_DEFAULT_VALUE =
-    1;  // To be updated
-
-constexpr uint8_t LMF_CONFIG_NUM_GNB_MIN_VALUE     = 1;   // To be updated
-constexpr uint8_t LMF_CONFIG_NUM_GNB_MAX_VALUE     = 10;  // To be updated
-constexpr uint8_t LMF_CONFIG_NUM_GNB_DEFAULT_VALUE = 1;   // To be updated
-
-constexpr uint8_t LMF_CONFIG_TRP_INFO_WAIT_MS_MIN_VALUE = 1;   // To be updated
-constexpr uint8_t LMF_CONFIG_TRP_INFO_WAIT_MS_MAX_VALUE = 10;  // To be updated
-constexpr uint8_t LMF_CONFIG_TRP_INFO_WAIT_MS_DEFAULT_VALUE =
-    1;  // To be updated
-
-constexpr uint8_t LMF_CONFIG_POSITIONING_WAIT_MS_MIN_VALUE = 1;  // To be
-                                                                 // updated
-constexpr uint8_t LMF_CONFIG_POSITIONING_WAIT_MS_MAX_VALUE =
-    10;  // To be updated
-constexpr uint8_t LMF_CONFIG_POSITIONING_WAIT_MS_DEFAULT_VALUE =
-    1;  // To be updated
-
-constexpr uint8_t LMF_CONFIG_MEASUREMENT_WAIT_MS_MIN_VALUE = 1;  // To be
-                                                                 // updated
-constexpr uint8_t LMF_CONFIG_MEASUREMENT_WAIT_MS_MAX_VALUE =
-    10;  // To be updated
-constexpr uint8_t LMF_CONFIG_MEASUREMENT_WAIT_MS_DEFAULT_VALUE =
-    1;  // To be updated
+    28;                                                         // To be updated
+constexpr uint8_t LMF_CONFIG_NUM_GNB_MIN_VALUE           = 1;   // To be updated
+constexpr uint8_t LMF_CONFIG_NUM_GNB_MAX_VALUE           = 10;  // To be updated
+constexpr uint8_t LMF_CONFIG_NUM_GNB_DEFAULT_VALUE       = 1;
+constexpr uint32_t LMF_CONFIG_TRP_INFO_WAIT_MS_MIN_VALUE = 1;  // To be updated
+constexpr uint32_t LMF_CONFIG_TRP_INFO_WAIT_MS_MAX_VALUE =
+    100000;  // To be updated
+constexpr uint32_t LMF_CONFIG_TRP_INFO_WAIT_MS_DEFAULT_VALUE = 10000;
+constexpr uint32_t LMF_CONFIG_POSITIONING_WAIT_MS_MIN_VALUE  = 1;  // To be
+                                                                   // updated
+constexpr uint32_t LMF_CONFIG_POSITIONING_WAIT_MS_MAX_VALUE =
+    100000;  // To be updated
+constexpr uint32_t LMF_CONFIG_POSITIONING_WAIT_MS_DEFAULT_VALUE = 10000;
+constexpr uint32_t LMF_CONFIG_MEASUREMENT_WAIT_MS_MIN_VALUE     = 1;  // To be
+                                                                      // updated
+constexpr uint32_t LMF_CONFIG_MEASUREMENT_WAIT_MS_MAX_VALUE =
+    100000;  // To be updated
+constexpr uint32_t LMF_CONFIG_MEASUREMENT_WAIT_MS_DEFAULT_VALUE = 10000;
 
 namespace oai::config {
 
