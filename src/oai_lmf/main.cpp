@@ -125,7 +125,6 @@ int main(int argc, char** argv) {
   lmf_cfg_yaml->display();
   // Convert from YAML to internal structure
   lmf_cfg_yaml->to_lmf_config(lmf_cfg);
-  lmf_cfg.display();
 
   Logger::set_level(lmf_cfg.log_level);
 
@@ -137,9 +136,8 @@ int main(int argc, char** argv) {
   std::thread task_manager_thread(&task_manager::run, tm_inst);
 
   // PID file
-  // Currently hard-coded value. TODO: add as config option.
   string pid_file_name =
-      oai::utils::get_exe_absolute_path("/var/run", lmf_cfg.instance);
+      oai::utils::get_exe_absolute_path(lmf_cfg.pid_dir, lmf_cfg.instance);
   if (!oai::utils::is_pid_file_lock_success(pid_file_name.c_str())) {
     Logger::lmf_server().error(
         "Lock PID file %s failed\n", pid_file_name.c_str());

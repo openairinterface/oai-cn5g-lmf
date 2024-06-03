@@ -32,24 +32,22 @@ using namespace std::string_literals;
 #include "lmf_config.hpp"
 #include "lmf_client.hpp"
 #include "lmf_nrf.hpp"
+#include "lmf_sbi_helper.hpp"
 
 #include "NonUeN2InfoSubscriptionCreateData.h"
 #include "NonUeN2InfoSubscriptionCreatedData.h"
 #include "ProblemDetails.h"
 
 using namespace oai::lmf_server;
+using namespace oai::lmf::api;
 
 // 5.2.2.4.3 NonUeN2InfoUnsubscribe
 void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
   // 1. DELETE
   // ./namf_comm/v1/non-ue-n2-messages/subscriptions/{n2NotifySubscriptionId}
-  auto const& amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES +
-      NAMF_N1N2_SUBSCRIBE_NON_UE_SUBSCRIPTIONS + "/" + id;
-
+  std::string amf_uri = {};
+  lmf_sbi_helper::get_amf_comm_non_ue_n2_info_un_subscribe_uri(
+      lmf_cfg.amf_addr, id, amf_uri);
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 
   // 2. 204 No Content
@@ -70,12 +68,9 @@ std::string NonUeN2MessageSubscription::subscribe() {
   // 1. POST
   // ./namf_comm/v1/non-ue-n2-messages/subscriptions
   // (NonUeN2InfoSubscriptionCreateData)
-  auto const& amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES +
-      NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS;
+  std::string amf_uri = {};
+  lmf_sbi_helper::get_amf_comm_non_ue_n2_info_subscribe_uri(
+      lmf_cfg.amf_addr, amf_uri);
 
   // 5.2.2.4.4 NonUeN2InfoNotify n2NotifyCallbackUri
   auto const& n2NotifyCallbackUri =

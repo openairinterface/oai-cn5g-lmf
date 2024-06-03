@@ -1,0 +1,65 @@
+/*
+ * Licensed to the OpenAirInterface (OAI) Software Alliance under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The OpenAirInterface Software Alliance licenses this file to You under
+ * the OAI Public License, Version 1.1  (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.openairinterface.org/?page_id=698
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *-------------------------------------------------------------------------------
+ * For more information about the OpenAirInterface (OAI) Software Alliance:
+ *      contact@openairinterface.org
+ */
+
+#ifndef _LMF_SBI_HELPER_HPP
+#define _LMF_SBI_HELPER_HPP
+
+#include <nlohmann/json.hpp>
+
+#include "lmf_config.hpp"
+#include "sbi_helper.hpp"
+
+using namespace oai::lmf::config;
+using namespace oai::common::sbi;
+
+extern oai::lmf::config::lmf_config lmf_cfg;
+
+namespace oai::lmf::api {
+
+class lmf_sbi_helper : public sbi_helper {
+ public:
+  static inline const std::string AmfCommunicationServiceBase =
+      sbi_helper::AmfCommBase + lmf_cfg.amf_addr.api_version;
+
+  static inline const std::string AmfCommPathN1MessageNotify =
+      "n1-message-notify";
+  static inline const std::string AmfCommPathN1N2Messages = "n1-n2-messages";
+
+  static void get_amf_comm_api_root(
+      const nf_addr_t& amf_addr, std::string& api_root);
+  static void get_amf_comm_n1n2_message_subscribe_uri(
+      const nf_addr_t& amf_addr, const std::string& ue_context_id,
+      std::string& uri);
+  static void get_amf_comm_n1n2_message_un_subscribe_uri(
+      const nf_addr_t& amf_addr, const std::string& ue_context_id,
+      const std::string& nf_instance, std::string& uri);
+  static void get_amf_comm_non_ue_n1n2_message_transfer_uri(
+      const nf_addr_t& amf_addr, std::string& uri);
+  static void get_amf_comm_non_ue_n2_info_subscribe_uri(
+      const nf_addr_t& amf_addr, std::string& uri);
+  static void get_amf_comm_non_ue_n2_info_un_subscribe_uri(
+      const nf_addr_t& amf_addr, const std::string& subscription_id,
+      std::string& uri);
+};
+
+}  // namespace oai::lmf::api
+
+#endif

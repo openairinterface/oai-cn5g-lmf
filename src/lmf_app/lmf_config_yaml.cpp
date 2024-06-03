@@ -82,6 +82,13 @@ bool lmf_support_features::get_option_determine_num_gnb() const {
 lmf::lmf(
     const std::string& name, const std::string& host, const sbi_interface& sbi)
     : nf(name, host, sbi) {
+  m_instance_id = int_config_value(
+      LMF_CONFIG_INSTANCE_ID, LMF_CONFIG_INSTANCE_ID_DEFAULT_VALUE);
+  m_pid_directory = string_config_value(
+      LMF_CONFIG_PID_DIRECTORY, LMF_CONFIG_PID_DIRECTORY_DEFAULT_VALUE);
+  m_lmf_name = string_config_value(
+      LMF_CONFIG_LMF_NAME, LMF_CONFIG_LMF_NAME_DEFAULT_VALUE);
+
   m_http_threads_count = int_config_value(
       LMF_CONFIG_HTTP_THREADS_COUNT,
       LMF_CONFIG_HTTP_THREADS_COUNT_DEFAULT_VALUE);
@@ -299,7 +306,7 @@ lmf_config_yaml::lmf_config_yaml(
     : oai::config::config(
           config_path, oai::config::LMF_CONFIG_NAME, log_stdout, log_rot_file) {
   m_used_sbi_values = {
-      oai::config::LMF_CONFIG_NAME, oai::config::UDR_CONFIG_NAME,
+      oai::config::LMF_CONFIG_NAME, oai::config::AMF_CONFIG_NAME,
       oai::config::NRF_CONFIG_NAME};
   m_used_config_values = {
       oai::config::LOG_LEVEL_CONFIG_NAME, oai::config::REGISTER_NF_CONFIG_NAME,
@@ -307,15 +314,13 @@ lmf_config_yaml::lmf_config_yaml(
       oai::config::NF_LIST_CONFIG_NAME,   oai::config::LMF_CONFIG_NAME};
 
   // TODO with NF_Type and switch
-  // TODO: Still we need to add default NFs even we don't use this in all_in_one
-  // use case
   auto m_lmf = std::make_shared<lmf>(
       "LMF", "oai-lmf", sbi_interface("SBI", "oai-lmf", 80, "v1", "eth0"));
   add_nf(oai::config::LMF_CONFIG_NAME, m_lmf);
 
-  auto m_udr = std::make_shared<nf>(
-      "UDR", "oai-udr", sbi_interface("SBI", "oai-udr", 80, "v1", "eth0"));
-  add_nf(oai::config::UDR_CONFIG_NAME, m_udr);
+  auto m_amf = std::make_shared<nf>(
+      "AMF", "oai-amf", sbi_interface("SBI", "oai-amf", 80, "v1", "eth0"));
+  add_nf(oai::config::AMF_CONFIG_NAME, m_amf);
 
   auto m_nrf = std::make_shared<nf>(
       "NRF", "oai-nrf", sbi_interface("SBI", "oai-nrf", 80, "v1", "eth0"));
@@ -331,8 +336,8 @@ void lmf_config_yaml::pre_process() {
   // Process configuration information to display only the appropriate
   // information
   // TODO: discover UDR via NRF
-  std::shared_ptr<nf> udr = get_nf(oai::config::UDR_CONFIG_NAME);
-  udr->set_config();
+  std::shared_ptr<nf> amf = get_nf(oai::config::AMF_CONFIG_NAME);
+  amf->set_config();
 }
 
 //------------------------------------------------------------------------------

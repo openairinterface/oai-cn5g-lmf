@@ -38,13 +38,13 @@ constexpr auto LMF_CONFIG_GNB_ID_BITS_COUNT_LABEL   = "gNB ID Bits Count";
 constexpr auto LMF_CONFIG_NUM_GNB                   = "num_gnb";
 constexpr auto LMF_CONFIG_NUM_GNB_LABEL             = "Number of gNBs";
 constexpr auto LMF_CONFIG_TRP_INFO_WAIT_MS          = "trp_info_wait_ms";
-constexpr auto LMF_CONFIG_TRP_INFO_WAIT_MS_LABEL    = "TRP Info Wait ms";
+constexpr auto LMF_CONFIG_TRP_INFO_WAIT_MS_LABEL    = "TRP Info Wait (ms)";
 constexpr auto LMF_CONFIG_POSITIONING_WAIT_MS       = "positioning_wait_ms";
-constexpr auto LMF_CONFIG_POSITIONING_WAIT_MS_LABEL = "Positioning Wait ms";
+constexpr auto LMF_CONFIG_POSITIONING_WAIT_MS_LABEL = "Positioning Wait (ms)";
 constexpr auto LMF_CONFIG_MEASUREMENT_WAIT_MS       = "measurement_wait_ms";
-constexpr auto LMF_CONFIG_MEASUREMENT_WAIT_MS_LABEL = "Positioning Wait ms";
-constexpr auto LMF_CONFIG_SUPPORT_FEATURES       = "support_features_options";
-constexpr auto LMF_CONFIG_SUPPORT_FEATURES_LABEL = "Support Features Options";
+constexpr auto LMF_CONFIG_MEASUREMENT_WAIT_MS_LABEL = "Positioning Wait (ms)";
+constexpr auto LMF_CONFIG_SUPPORT_FEATURES          = "support_features";
+constexpr auto LMF_CONFIG_SUPPORT_FEATURES_LABEL    = "Support Features";
 constexpr auto LMF_CONFIG_SUPPORT_FEATURES_REQUEST_TRP_INFO =
     "Request_trp_info";
 constexpr auto LMF_CONFIG_SUPPORT_FEATURES_REQUEST_TRP_INFO_LABEL =
@@ -54,6 +54,9 @@ constexpr auto LMF_CONFIG_SUPPORT_FEATURES_DETERMINE_NUM_GNB_INFO =
 constexpr auto LMF_CONFIG_SUPPORT_FEATURES_DETERMINE_NUM_GNB_INFO_LABEL =
     "Determine Num gNB";
 
+constexpr auto LMF_CONFIG_INSTANCE_ID_DEFAULT_VALUE       = 1;
+constexpr auto LMF_CONFIG_PID_DIRECTORY_DEFAULT_VALUE     = "/var/run";
+constexpr auto LMF_CONFIG_LMF_NAME_DEFAULT_VALUE          = "oai-lmf";
 constexpr uint8_t LMF_CONFIG_HTTP_THREADS_COUNT_MIN_VALUE = 1;
 constexpr uint8_t LMF_CONFIG_HTTP_THREADS_COUNT_MAX_VALUE = 10;  // To be
                                                                  // updated
