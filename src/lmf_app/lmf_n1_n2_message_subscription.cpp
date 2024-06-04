@@ -80,13 +80,9 @@ std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
 
   // TODO:
   // 5.2.2.3.6 N2InfoNotify n2InfoNotifyUri
-  auto const& n2NotifyCallbackUri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
-      std::to_string(
-          lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
-      NLMF_NOTIFY_BASE + lmf_cfg.sbi_api_version + NLMF_NOTIFY_NRPPA_CALLBACK +
-      supi;
+  std::string n2NotifyCallbackUri = {};
+  lmf_sbi_helper::get_lmf_n2_info_notify_nrppa_callback_uri(
+      lmf_cfg.sbi, supi, n2NotifyCallbackUri);
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 

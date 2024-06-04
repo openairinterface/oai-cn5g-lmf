@@ -37,7 +37,6 @@ class lmf_config {
  public:
   lmf_config();
   ~lmf_config();
-  void display();
 
   unsigned int instance               = 1;
   std::string pid_dir                 = "/var/run";

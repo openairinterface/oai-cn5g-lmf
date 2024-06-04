@@ -36,13 +36,19 @@ namespace oai::lmf::api {
 
 class lmf_sbi_helper : public sbi_helper {
  public:
-  static inline const std::string AmfCommunicationServiceBase =
-      sbi_helper::AmfCommBase + lmf_cfg.amf_addr.api_version;
+  static inline const std::string LmfLocationServiceBase =
+      sbi_helper::LmfLocBase +
+      lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
 
-  static inline const std::string AmfCommPathN1MessageNotify =
-      "n1-message-notify";
-  static inline const std::string AmfCommPathN1N2Messages = "n1-n2-messages";
+  static inline const std::string LmfN2InfoNotifyServiceBase =
+      sbi_helper::LmfN2InfoNotifyBase +
+      lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
 
+  static inline const std::string LmfNonUeN2InfoNotifyServiceBase =
+      sbi_helper::LmfNonUeN2InfoNotifyBase +
+      lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
+
+  // for AMF's APIs
   static void get_amf_comm_api_root(
       const nf_addr_t& amf_addr, std::string& api_root);
   static void get_amf_comm_n1n2_message_subscribe_uri(
@@ -58,6 +64,27 @@ class lmf_sbi_helper : public sbi_helper {
   static void get_amf_comm_non_ue_n2_info_un_subscribe_uri(
       const nf_addr_t& amf_addr, const std::string& subscription_id,
       std::string& uri);
+
+  // for LMF's APIs
+  static void get_lmf_loc_api_root(
+      const interface_cfg_t& sbi, std::string& api_root);
+  static void get_lmf_loc_determine_location_uri(
+      const interface_cfg_t& sbi, std::string& uri);
+  static void get_lmf_loc_cancel_location_uri(
+      const interface_cfg_t& sbi, std::string& uri);
+  static void get_lmf_loc_location_context_transfer_uri(
+      const interface_cfg_t& sbi, std::string& uri);
+  static void get_lmf_n2_info_notify_api_root(
+      const interface_cfg_t& sbi, std::string& api_root);
+  static void get_lmf_n2_info_notify_nrppa_callback_uri(
+      const interface_cfg_t& sbi, std::string& uri);
+  static void get_lmf_n2_info_notify_nrppa_callback_uri(
+      const interface_cfg_t& sbi, const std::string& supi, std::string& uri);
+
+  static void get_lmf_non_ue_n2_info_notify_api_root(
+      const interface_cfg_t& sbi, std::string& api_root);
+  static void get_lmf_non_ue_n2_info_notify_nrppa_callback_uri(
+      const interface_cfg_t& sbi, std::string& uri);
 };
 
 }  // namespace oai::lmf::api

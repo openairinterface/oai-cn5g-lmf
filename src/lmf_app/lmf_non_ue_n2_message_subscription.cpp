@@ -73,13 +73,9 @@ std::string NonUeN2MessageSubscription::subscribe() {
       lmf_cfg.amf_addr, amf_uri);
 
   // 5.2.2.4.4 NonUeN2InfoNotify n2NotifyCallbackUri
-  auto const& n2NotifyCallbackUri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
-      std::to_string(
-          lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
-      NLMF_NON_UE_NOTIFY_BASE + lmf_cfg.sbi_api_version +
-      NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK;
+  std::string n2NotifyCallbackUri = {};
+  lmf_sbi_helper::get_lmf_non_ue_n2_info_notify_nrppa_callback_uri(
+      lmf_cfg.sbi, n2NotifyCallbackUri);
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 

@@ -102,4 +102,93 @@ void lmf_sbi_helper::get_amf_comm_non_ue_n2_info_un_subscribe_uri(
   uri = amf_api_root + fmt::format(path_str, subscription_id);
 }
 
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_loc_api_root(
+    const interface_cfg_t& sbi, std::string& api_root) {
+  api_root = sbi.get_ipv4_root() + sbi_helper::LmfLocBase +
+             sbi.api_version.value_or(kDefaultSbiApiVersion);
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_loc_determine_location_uri(
+    const interface_cfg_t& sbi, std::string& uri) {
+  std::string lmf_api_root = {};
+  get_lmf_loc_api_root(sbi, lmf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(sbi_helper::LmfLocDetermineLocation, path_str);
+  uri = lmf_api_root + fmt::format(path_str);
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_loc_cancel_location_uri(
+    const interface_cfg_t& sbi, std::string& uri) {
+  std::string lmf_api_root = {};
+  get_lmf_loc_api_root(sbi, lmf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(sbi_helper::LmfLocCancelLocation, path_str);
+  uri = lmf_api_root + fmt::format(path_str);
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_loc_location_context_transfer_uri(
+    const interface_cfg_t& sbi, std::string& uri) {
+  std::string lmf_api_root = {};
+  get_lmf_loc_api_root(sbi, lmf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(sbi_helper::LmfLocLocationContextTransfer, path_str);
+  uri = lmf_api_root + fmt::format(path_str);
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_n2_info_notify_api_root(
+    const interface_cfg_t& sbi, std::string& api_root) {
+  api_root = sbi.get_ipv4_root() + sbi_helper::LmfN2InfoNotifyBase +
+             lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
+  ;
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_n2_info_notify_nrppa_callback_uri(
+    const interface_cfg_t& sbi, std::string& uri) {
+  std::string lmf_api_root = {};
+  get_lmf_n2_info_notify_api_root(sbi, lmf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(sbi_helper::LmfN2InfoNotifyNrppaCallback, path_str);
+  uri = lmf_api_root + fmt::format(path_str);
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_n2_info_notify_nrppa_callback_uri(
+    const interface_cfg_t& sbi, const std::string& supi, std::string& uri) {
+  std::string lmf_api_root = {};
+  get_lmf_n2_info_notify_api_root(sbi, lmf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(sbi_helper::LmfN2InfoNotifyNrppaCallbackSupi, path_str);
+  uri = lmf_api_root + fmt::format(path_str, supi);
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_non_ue_n2_info_notify_api_root(
+    const interface_cfg_t& sbi, std::string& api_root) {
+  api_root = sbi.get_ipv4_root() + sbi_helper::LmfNonUeN2InfoNotifyBase +
+             lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
+  ;
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_lmf_non_ue_n2_info_notify_nrppa_callback_uri(
+    const interface_cfg_t& sbi, std::string& uri) {
+  std::string lmf_api_root = {};
+  get_lmf_non_ue_n2_info_notify_api_root(sbi, lmf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(sbi_helper::LmfNonUeN2InfoNotifyNrppaCallback, path_str);
+  uri = lmf_api_root + fmt::format(path_str);
+}
+
 }  // namespace oai::lmf::api

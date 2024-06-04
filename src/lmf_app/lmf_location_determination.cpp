@@ -228,13 +228,6 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   std::string amf_uri  = {};
   std::string method   = "POST";
   std::string response = {};
-  /* amf_uri =
-       "http://" +
-       std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr)))
-     +
-       ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-       lmf_cfg.amf_addr.api_version + NAMF_NON_UE_N2_MESSAGE_TRANSFER;
- */
   lmf_sbi_helper::get_amf_comm_non_ue_n1n2_message_transfer_uri(
       lmf_cfg.amf_addr, amf_uri);
 

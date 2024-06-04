@@ -119,18 +119,6 @@ enum http_response_codes_e {
 #define NLMF_NON_UE_NOTIFY_BASE "/nlmf-non-ue-n2info-notify/"
 #define NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
 
-#define NAMF_BASE "/namf-comm/"
-
-#define NAMF_N1N2_SUBSCRIBE_BASE "/ue-contexts/"
-
-#define NAMF_N1N2_SUBSCRIBE_MESSAGES "/n1-n2-messages"
-#define NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS "/subscriptions"
-
-#define NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES "/non-ue-n2-messages"
-#define NAMF_N1N2_SUBSCRIBE_NON_UE_SUBSCRIPTIONS "/subscriptions"
-
-#define NAMF_NON_UE_N2_MESSAGE_TRANSFER "/non-ue-n2-messages/transfer"
-
 typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,
   VALUE_ADDED_SERVICES,
