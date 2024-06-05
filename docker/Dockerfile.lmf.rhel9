@@ -21,20 +21,26 @@
 #---------------------------------------------------------------------
 #
 # Dockerfile for the Open-Air-Interface LMF service
-#   Valid for Rocky Linux 8.7+
+#   Valid for UBI 9.x | RHEL 9.x
 #
 #---------------------------------------------------------------------
 
 #---------------------------------------------------------------------
 # BUILDER IMAGE
 #---------------------------------------------------------------------
-FROM docker.io/rockylinux:8 AS oai-lmf-builder
+FROM registry.access.redhat.com/ubi9/ubi:latest AS oai-lmf-builder
 
 ENV IS_DOCKERFILE=1
 
-RUN dnf install 'dnf-command(config-manager)' -y && \
-    dnf config-manager --set-enabled powertools && \
-    dnf install epel-release -y && crb enable && \
+# Copy the entitlements
+COPY ./etc-pki-entitlement /etc/pki/entitlement
+
+# Copy the subscription manager configurations
+COPY ./rhsm-conf /etc/rhsm
+COPY ./rhsm-ca /etc/rhsm/ca
+
+RUN rm -f /etc/rhsm-host && \
+    subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms && \
     dnf update -y && \
     # here just to display the current version
     cat /etc/os-release && \
@@ -50,6 +56,8 @@ RUN dnf install 'dnf-command(config-manager)' -y && \
 
 # Some GIT configuration command quite useful
 RUN git config --global https.postBuffer 123289600 && \
+    git config --global https.maxRequestBuffer 123289600 && \
+    git config --global core.compression 0 && \
     git config --global http.sslverify false
 
 # Copying source code
@@ -66,16 +74,26 @@ RUN ./build_lmf --clean --Verbose --build-type Release --jobs && \
     # Adapting the entrypoint to NEF NF
     sed -i -e "s@openair-nf-root-folder@openair-lmf@g" \
            -e "s@nf-config-file@lmf.conf@g" \
-           ../common-build/docker-scripts/entrypoint.py
-
+           ../common-build/docker-scripts/entrypoint.py && \
+    # Remove entitlements and Subscription Manager configs
+    rm -rf /etc/pki/entitlement && \
+    rm -rf /etc/rhsm
 #---------------------------------------------------------------------
 # TARGET IMAGE
 #---------------------------------------------------------------------
-FROM docker.io/rockylinux:8-minimal as oai-lmf
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest as oai-lmf
 ENV TZ=Europe/Paris
 
+# Copy the entitlements
+COPY ./etc-pki-entitlement /etc/pki/entitlement
+
+# Copy the subscription manager configurations
+COPY ./rhsm-conf /etc/rhsm
+COPY ./rhsm-ca /etc/rhsm/ca
+
 # We install some debug tools for the moment in addition of mandatory libraries
-RUN microdnf update -y && \
+RUN rm -f /etc/rhsm-host && \
+    microdnf update -y && \
     microdnf install -y \
       python3 \
       python3-pip \
@@ -91,7 +109,10 @@ RUN microdnf update -y && \
       libconfig && \
     pip3 install jinja2 && \
     microdnf clean all -y && \
-    rm -rf /var/cache/yum /var/cache/dnf
+    rm -rf /var/cache/yum /var/cache/dnf && \
+    # Remove entitlements and Subscription Manager configs
+    rm -rf /etc/pki/entitlement && \
+    rm -rf /etc/rhsm
 
 # Copying executable and generated libraries
 WORKDIR /openair-lmf/bin
@@ -113,6 +134,7 @@ COPY --from=oai-lmf-builder \
     /usr/lib64/
 
 RUN ldconfig -v && \
+    echo "Checking target oai_lmf executable shared libraries" && \
     ldd /openair-lmf/bin/oai_lmf
 
 WORKDIR /openair-lmf/etc
@@ -123,6 +145,7 @@ COPY --from=oai-lmf-builder \
 
 WORKDIR /openair-lmf
 
+# expose ports
 EXPOSE 80/tcp
 # healthcheck
 HEALTHCHECK --interval=10s \
