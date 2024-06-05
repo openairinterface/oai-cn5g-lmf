@@ -156,7 +156,7 @@ int main(int argc, char** argv) {
   } else {
     // LMF NGHTTP API server (HTTP2)
     lmf_api_server_2 = new lmf_http2_server(
-        oai::utils::conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port,
+        oai::utils::conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi.port,
         lmf_cfg.http_threads_count, lmf_app_inst);
     std::thread lmf_http2_manager(&lmf_http2_server::start, lmf_api_server_2);
     lmf_http2_manager.join();

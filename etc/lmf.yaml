@@ -244,12 +244,12 @@ upf:
           - dnn: "default"
 
 lmf:
-  http_threads_count: 1
-  gnb_id_bits_count: 10
+  http_threads_count: 8
+  gnb_id_bits_count: 28
   num_gnb: 1  
-  trp_info_wait_ms: 10
-  positioning_wait_ms: 10
-  measurement_wait_ms: 10
+  trp_info_wait_ms: 10000
+  positioning_wait_ms: 10000
+  measurement_wait_ms: 10000
   support_features:
     request_trp_info: no 
     determine_num_gnb: yes 

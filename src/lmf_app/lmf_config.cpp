@@ -21,40 +21,13 @@
 
 #include "lmf_config.hpp"
 
-#include "string.hpp"
-#include <iostream>
-#include <libconfig.h++>
-
-#include "fqdn.hpp"
-#include "if.hpp"
-#include "logger.hpp"
-
-#include "string.hpp"
-
-#include <arpa/inet.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
-
-#include "common_defs.h"
-
-using namespace libconfig;
-
 namespace oai::lmf::config {
 
 //------------------------------------------------------------------------------
 lmf_config::lmf_config() : sbi() {
-  use_fqdn_dns = false;
-  use_http2    = false;
+  use_http2        = false;
+  register_nrf     = false;
+  request_trp_info = false;
 }
-
-//------------------------------------------------------------------------------
-lmf_config::~lmf_config() {}
 
 }  // namespace oai::lmf::config

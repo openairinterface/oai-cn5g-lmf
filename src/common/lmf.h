@@ -107,18 +107,6 @@ enum http_response_codes_e {
   HTTP_RESPONSE_CODE_GATEWAY_TIMEOUT        = 504
 };
 
-#define NLMF_BASE "/nlmf-loc/"
-
-#define NLMF_DETERMINE_LOCATION "/determine-location"
-#define NLMF_CANCEL_LOCATION "/cancel-location"
-#define NLMF_LOCATION_CONTEXT_TRANSFER "/location-context-transfer"
-
-#define NLMF_NOTIFY_BASE "/nlmf-n2info-notify/"
-#define NLMF_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
-
-#define NLMF_NON_UE_NOTIFY_BASE "/nlmf-non-ue-n2info-notify/"
-#define NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
-
 typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,
   VALUE_ADDED_SERVICES,

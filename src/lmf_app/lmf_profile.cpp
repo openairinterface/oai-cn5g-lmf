@@ -144,16 +144,6 @@ void lmf_profile::add_snssai(const snssai_t& s) {
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_fqdn(const std::string& fqdN) {
-  fqdn = fqdN;
-}
-
-//------------------------------------------------------------------------------
-std::string lmf_profile::get_fqdn() const {
-  return fqdn;
-}
-
-//------------------------------------------------------------------------------
 void lmf_profile::set_nf_ipv4_addresses(const std::vector<struct in_addr>& a) {
   ipv4_addresses = a;
 }

@@ -36,31 +36,27 @@ using namespace oai::common::sbi;
 class lmf_config {
  public:
   lmf_config();
-  ~lmf_config();
+  virtual ~lmf_config(){};
 
   unsigned int instance               = 1;
   std::string pid_dir                 = "/var/run";
   std::string lmf_name                = "OAI_LMF";
   spdlog::level::level_enum log_level = spdlog::level::debug;
-  unsigned http_threads_count         = 8;
-  unsigned gnb_id_bits_count          = 28;
-  bool determine_num_gnb              = false;
-  unsigned num_gnb                    = 1;
+
+  unsigned http_threads_count = 8;
+  unsigned gnb_id_bits_count  = 28;
+  bool determine_num_gnb      = false;
+  unsigned num_gnb            = 1;
   std::chrono::milliseconds trp_info_wait_ms{10000};
   std::chrono::milliseconds positioning_wait_ms{10000};
   std::chrono::milliseconds measurement_wait_ms{10000};
 
   interface_cfg_t sbi;
-  unsigned int sbi_http2_port;
-  std::string sbi_api_version;
-
   nf_addr_t amf_addr;
-
   nf_addr_t nrf_addr;
 
   bool register_nrf;
   bool request_trp_info;
-  bool use_fqdn_dns;
   bool use_http2;
   uint32_t curl_timeout;
 };

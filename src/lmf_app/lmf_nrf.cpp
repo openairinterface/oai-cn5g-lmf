@@ -65,7 +65,6 @@ void lmf_nrf::generate_lmf_profile(
   lmf_nf_profile.set_nf_heartBeat_timer(50);
   lmf_nf_profile.set_nf_priority(1);
   lmf_nf_profile.set_nf_capacity(100);
-  // lmf_nf_profile.set_fqdn(lmf_cfg.fqdn);
   lmf_nf_profile.add_nf_ipv4_addresses(lmf_cfg.sbi.addr4);  // N4's Addr
 
   // LMF info (Hardcoded for now)

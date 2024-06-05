@@ -168,7 +168,8 @@ void lmf_sbi_helper::get_lmf_n2_info_notify_nrppa_callback_uri(
   get_lmf_n2_info_notify_api_root(sbi, lmf_api_root);
 
   std::string path_str = {};
-  get_fmt_format_form(sbi_helper::LmfN2InfoNotifyNrppaCallbackSupi, path_str);
+  get_fmt_format_form(
+      sbi_helper::LmfN2InfoNotifyNrppaCallbackUeContextId, path_str);
   uri = lmf_api_root + fmt::format(path_str, supi);
 }
 

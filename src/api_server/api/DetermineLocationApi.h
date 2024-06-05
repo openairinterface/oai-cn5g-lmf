@@ -44,8 +44,6 @@ class DetermineLocationApi {
   virtual ~DetermineLocationApi() = default;
   void init();
 
-  const std::string base = NLMF_BASE;
-
  private:
   void setupRoutes();
 
