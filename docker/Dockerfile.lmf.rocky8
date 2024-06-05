@@ -109,13 +109,17 @@ COPY --from=oai-lmf-builder \
     /usr/local/lib/libnghttp2_asio.so.1 \
     /usr/local/lib64/libspdlog.so \
     /usr/local/lib64/libfmt.so \
+    /usr/local/lib64/libyaml-cpp.so.0.? \
     /usr/lib64/
 
 RUN ldconfig -v && \
     ldd /openair-lmf/bin/oai_lmf
 
 WORKDIR /openair-lmf/etc
-COPY --from=oai-lmf-builder /openair-lmf/etc/lmf.conf .
+COPY --from=oai-lmf-builder \
+    /openair-lmf/etc/lmf.conf \
+    /openair-lmf/etc/lmf.yaml \
+    .
 
 WORKDIR /openair-lmf
 
