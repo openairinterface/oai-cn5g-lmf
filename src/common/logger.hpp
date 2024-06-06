@@ -33,6 +33,7 @@ class Logger {
  public:
   static void init(
       const std::string& name, bool log_stdout, bool log_rot_file) {
+    oai::logger::logger_common(name, log_stdout, log_rot_file);
     oai::logger::logger_registry::register_logger(
         name, Lmf_Config, log_stdout, log_rot_file);
     oai::logger::logger_registry::register_logger(

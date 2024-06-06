@@ -64,6 +64,19 @@ void lmf_sbi_helper::get_amf_comm_n1n2_message_un_subscribe_uri(
 }
 
 //---------------------------------------------------------------------------------------------
+void lmf_sbi_helper::get_amf_comm_n1n2_message_transfer_uri(
+    const nf_addr_t& amf_addr, const std::string& ue_context_id,
+    std::string& uri) {
+  std::string amf_api_root = {};
+  get_amf_comm_api_root(amf_addr, amf_api_root);
+
+  std::string path_str = {};
+  get_fmt_format_form(
+      sbi_helper::AmfCommPathUeContextContextIdN1N2Message, path_str);
+  uri = amf_api_root + fmt::format(path_str, ue_context_id);
+}
+
+//---------------------------------------------------------------------------------------------
 void lmf_sbi_helper::get_amf_comm_non_ue_n1n2_message_transfer_uri(
     const nf_addr_t& amf_addr, std::string& uri) {
   std::string amf_api_root = {};

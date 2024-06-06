@@ -22,7 +22,6 @@
 #ifndef FILE_LMF_LOCATION_DETERMINATION_SEEN
 #define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
-#define ASN_DISABLE_OER_SUPPORT
 
 #include <future>
 #include <map>

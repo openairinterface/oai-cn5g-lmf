@@ -123,7 +123,7 @@ bool LocationDetermination::n1_n2_message_transfer(
   std::string amf_uri  = {};
   std::string method   = "POST";
   std::string response = {};
-  lmf_sbi_helper::get_amf_comm_n1n2_message_subscribe_uri(
+  lmf_sbi_helper::get_amf_comm_n1n2_message_transfer_uri(
       lmf_cfg.amf_addr, this->supi, amf_uri);
   Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
 
