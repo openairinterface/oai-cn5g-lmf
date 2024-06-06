@@ -22,7 +22,6 @@
 #ifndef FILE_LMF_LOCATION_DETERMINATION_SEEN
 #define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
-
 #include <future>
 #include <map>
 #include <tuple>

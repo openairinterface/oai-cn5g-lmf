@@ -58,7 +58,7 @@ class lmf_sbi_helper : public sbi_helper {
       const nf_addr_t& amf_addr, const std::string& ue_context_id,
       const std::string& nf_instance, std::string& uri);
   static void get_amf_comm_n1n2_message_transfer_uri(
-      const nf_addr_t& amf_addr,  const std::string& ue_context_id,
+      const nf_addr_t& amf_addr, const std::string& ue_context_id,
       std::string& uri);
   static void get_amf_comm_non_ue_n1n2_message_transfer_uri(
       const nf_addr_t& amf_addr, std::string& uri);
