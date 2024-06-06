@@ -34,11 +34,10 @@
 
 #include "lmf.h"
 #include "logger.hpp"
-
+#include "sbi_helper.hpp"
 #include "PatchItem.h"
 
-using namespace config;
-// using namespace lmf;
+using namespace oai::lmf::config;
 using namespace oai::lmf::app;
 using namespace boost::placeholders;
 
@@ -54,13 +53,6 @@ lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
   lmf_instance_id = to_string(boost::uuids::random_generator()());
   generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 }
-//---------------------------------------------------------------------------------------------
-void lmf_nrf::get_lmf_api_root(std::string& api_root) {
-  api_root =
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.nrf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.nrf_addr.port) + NNRF_NFM_BASE +
-      lmf_cfg.nrf_addr.api_version;
-}
 
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::generate_lmf_profile(
@@ -73,7 +65,6 @@ void lmf_nrf::generate_lmf_profile(
   lmf_nf_profile.set_nf_heartBeat_timer(50);
   lmf_nf_profile.set_nf_priority(1);
   lmf_nf_profile.set_nf_capacity(100);
-  // lmf_nf_profile.set_fqdn(lmf_cfg.fqdn);
   lmf_nf_profile.add_nf_ipv4_addresses(lmf_cfg.sbi.addr4);  // N4's Addr
 
   // LMF info (Hardcoded for now)
@@ -99,11 +90,12 @@ void lmf_nrf::register_to_nrf() {
   // generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 
   // Send NF registeration request
-  std::string lmf_api_root = {};
-  std::string response     = {};
-  std::string method       = {"PUT"};
-  get_lmf_api_root(lmf_api_root);
-  std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
+  std::string response  = {};
+  std::string method    = {"PUT"};
+  std::string remoteUri = {};
+  sbi_helper::get_nrf_nf_instance_uri(
+      lmf_cfg.nrf_addr, lmf_instance_id, remoteUri);
+
   nlohmann::json json_data = {};
   lmf_nf_profile.to_json(json_data);
 
@@ -162,9 +154,10 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
     json_data.push_back(item);
   }
 
-  std::string lmf_api_root = {};
-  get_lmf_api_root(lmf_api_root);
-  std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
+  std::string remoteUri = {};
+  sbi_helper::get_nrf_nf_instance_uri(
+      lmf_cfg.nrf_addr, lmf_instance_id, remoteUri);
+
   lmf_client_instance->curl_http_client(
       remoteUri, method, json_data.dump().c_str(), response, false);
   if (!response.empty()) task_connection.disconnect();

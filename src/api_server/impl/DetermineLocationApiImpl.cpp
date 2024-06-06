@@ -15,7 +15,7 @@
 #include "lmf_config.hpp"
 #include "logger.hpp"
 
-extern config::lmf_config lmf_cfg;
+extern oai::lmf::config::lmf_config lmf_cfg;
 
 namespace oai::lmf_server::api {
 

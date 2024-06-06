@@ -42,8 +42,6 @@ class LocationContextTransferApi {
   virtual ~LocationContextTransferApi() = default;
   void init();
 
-  const std::string base = NLMF_BASE;
-
  private:
   void setupRoutes();
 

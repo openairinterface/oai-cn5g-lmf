@@ -41,8 +41,6 @@ class NonUeN2InfoNotifyApi {
   virtual ~NonUeN2InfoNotifyApi() {}
   void init();
 
-  const std::string base = "/nlmf-non-ue-n2info-notify/";
-
  private:
   void setupRoutes();
 

@@ -33,7 +33,7 @@
 #include <pistache/http.h>
 #include "mime_parser.hpp"
 
-#include "uint_generator.hpp"
+#include "../common/utils/uint_generator.hpp"
 
 #include "lmf.h"
 #include "lmf_event.hpp"

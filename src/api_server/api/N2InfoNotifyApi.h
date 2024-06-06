@@ -41,8 +41,6 @@ class N2InfoNotifyApi {
   virtual ~N2InfoNotifyApi() {}
   void init();
 
-  const std::string base = "/nlmf-n2info-notify/";
-
  private:
   void setupRoutes();
 

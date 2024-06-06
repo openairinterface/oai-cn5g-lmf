@@ -76,7 +76,7 @@ using namespace std::chrono_literals;
 using namespace std;
 using namespace oai::lmf::app;
 using namespace oai::lmf_server;
-using namespace config;
+using namespace oai::lmf::config;
 
 lmf_client* lmf_client_inst = nullptr;
 lmf_nrf* lmf_nrf_inst       = nullptr;

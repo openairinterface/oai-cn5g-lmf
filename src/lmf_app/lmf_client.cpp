@@ -37,11 +37,11 @@ using namespace std::string_literals;
 using namespace Pistache::Http;
 using namespace Pistache::Http::Mime;
 using namespace oai::lmf::app;
-using namespace config;
+using namespace oai::lmf::config;
 using json = nlohmann::json;
 
 extern lmf_client* lmf_client_inst;
-extern lmf_config lmf_cfg;
+extern oai::lmf::config::lmf_config lmf_cfg;
 
 //------------------------------------------------------------------------------
 // To read content of the response from NF

@@ -32,11 +32,13 @@ using namespace std::string_literals;
 #include "lmf_config.hpp"
 #include "lmf_client.hpp"
 #include "lmf_nrf.hpp"
+#include "lmf_sbi_helper.hpp"
 
 #include "UeN1N2InfoSubscriptionCreateData.h"
 #include "UeN1N2InfoSubscriptionCreatedData.h"
 #include "ProblemDetails.h"
 using namespace oai::lmf_server;
+using namespace oai::lmf::api;
 
 // 3GPP TS 29.518 version 16.4.0 Release 16
 // 5.2.2.3.5 N1MessageNotify
@@ -48,13 +50,9 @@ void N1N2MessageSubscription::unsubscribe(
     std::string const& id, std::string const& supi) {
   // 1. DELETE
   // ./namf_comm/v1/ue_contexts/{ueContextId}/n1-n2-messages/subscriptions/{subscriptionId}
-  auto const& amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_BASE + supi +
-      NAMF_N1N2_SUBSCRIBE_MESSAGES + NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS + "/" +
-      id;
+  std::string amf_uri = {};
+  lmf_sbi_helper::get_amf_comm_n1n2_message_un_subscribe_uri(
+      lmf_cfg.amf_addr, supi, id, amf_uri);
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 
@@ -76,21 +74,15 @@ std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
   // 1. POST
   // ./namf_comm/v1/ue_contexts/{ueContextld}/nl-n2-messages/subscriptions
   // (UeN1N2lnfoSubscriptionCreateData)
-  auto const& amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_BASE + supi +
-      NAMF_N1N2_SUBSCRIBE_MESSAGES + NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS;
+  std::string amf_uri = {};
+  lmf_sbi_helper::get_amf_comm_n1n2_message_subscribe_uri(
+      lmf_cfg.amf_addr, supi, amf_uri);
 
+  // TODO:
   // 5.2.2.3.6 N2InfoNotify n2InfoNotifyUri
-  auto const& n2NotifyCallbackUri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.sbi.addr4))) + ":" +
-      std::to_string(
-          lmf_cfg.use_http2 ? lmf_cfg.sbi_http2_port : lmf_cfg.sbi.port) +
-      NLMF_NOTIFY_BASE + lmf_cfg.sbi_api_version + NLMF_NOTIFY_NRPPA_CALLBACK +
-      supi;
+  std::string n2NotifyCallbackUri = {};
+  lmf_sbi_helper::get_lmf_n2_info_notify_nrppa_callback_uri(
+      lmf_cfg.sbi, supi, n2NotifyCallbackUri);
 
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 

@@ -35,14 +35,15 @@
 #include "lmf_config.hpp"
 #include "3gpp_29.500.h"
 #include "mime_parser.hpp"
-
+#include "lmf_sbi_helper.hpp"
 #include "N2InformationNotification.h"
 #include "ProblemDetails.h"
 
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
-using namespace config;
+using namespace oai::lmf::config;
 using namespace oai::lmf_server;
+using namespace oai::lmf::api;
 
 extern lmf_config lmf_cfg;
 
@@ -60,7 +61,8 @@ void lmf_http2_server::start() {
   // Default API
   /* TODO: Confirm base uri */
   server.handle(
-      NLMF_BASE + lmf_cfg.sbi_api_version + NLMF_DETERMINE_LOCATION,
+      lmf_sbi_helper::LmfLocationServiceBase +
+          lmf_sbi_helper::LmfLocDetermineLocation,
       [&](const request& request, const response& response) {
         auto requestBody = std::make_shared<std::stringstream>();
         request.on_data([requestBody, &request, &response, this](
@@ -97,7 +99,8 @@ void lmf_http2_server::start() {
 
   // /nlmf-n2info-notify/v1/nrppa/callback/imsi-208950000000131
   server.handle(
-      NLMF_NOTIFY_BASE + lmf_cfg.sbi_api_version + NLMF_NOTIFY_NRPPA_CALLBACK,
+      lmf_sbi_helper::LmfN2InfoNotifyServiceBase +
+          lmf_sbi_helper::LmfN2InfoNotifyNrppaCallback,
       [&](const request& request, const response& response) {
         auto requestBody = std::make_shared<std::stringstream>();
         request.on_data([requestBody, &request, &response, this](
@@ -145,8 +148,8 @@ void lmf_http2_server::start() {
 
   // /nlmf-non-ue-n2info-notify/v1/nrppa/callback/
   server.handle(
-      NLMF_NON_UE_NOTIFY_BASE + lmf_cfg.sbi_api_version +
-          NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK,
+      lmf_sbi_helper::LmfNonUeN2InfoNotifyServiceBase +
+          lmf_sbi_helper::LmfNonUeN2InfoNotifyNrppaCallback,
       [&](const request& request, const response& response) {
         auto requestBody = std::make_shared<std::stringstream>();
         request.on_data([requestBody, &request, &response, this](

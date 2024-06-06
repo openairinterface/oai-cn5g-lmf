@@ -3,10 +3,7 @@
 #include <string>
 
 #include "conversions.hpp"
-
-extern "C" {
-#include "dynamic_memory_check.h"
-}
+#include "utils.hpp"
 
 void convert_string_2_hex(std::string& input_str, std::string& output_str) {
   unsigned char* data = (unsigned char*) malloc(input_str.length() + 1);
@@ -62,7 +59,7 @@ unsigned char* format_string_as_hex(std::string str) {
   }
   printf("\n");
 
-  free_wrapper((void**) &data);
+  oai::utils::utils::free_wrapper((void**) &data);
   return datavalue;
 }
 
@@ -71,7 +68,7 @@ char* bstring2charString(bstring b) {
   uint8_t* value = (uint8_t*) bdata(b);
   for (int i = 0; i < blength(b); i++) buf[i] = (char) value[i];
   buf[blength(b)] = '\0';
-  free_wrapper((void**) &value);
+  oai::utils::utils::free_wrapper((void**) &value);
   return buf;
 }
 
@@ -85,6 +82,6 @@ void msg_str_2_msg_hex(std::string msg, bstring& b) {
   memcpy((void*) data, (void*) msg_hex_str.c_str(), msg_len);
   printf("data: %s\n", data);
   uint8_t* msg_hex = (uint8_t*) malloc(msg_len / 2 + 1);
-  conv::ascii_to_hex(msg_hex, (const char*) data);
+  oai::utils::conv::ascii_to_hex(msg_hex, (const char*) data);
   b = blk2bstr(msg_hex, (msg_len / 2));
 }

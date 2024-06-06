@@ -65,12 +65,6 @@ class lmf_nrf {
    * @return void
    */
   void register_to_nrf();
-  /*
-   * Get lmf API Root
-   * @param [std::string& ] api_root: lmf's API Root
-   * @return void
-   */
-  void get_lmf_api_root(std::string& api_root);
 
  private:
   lmf_event& m_event_sub;

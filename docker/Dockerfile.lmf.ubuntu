@@ -130,13 +130,17 @@ COPY --from=oai-lmf-builder \
     /usr/local/lib/libpistache.so \
     /usr/local/lib/libspdlog.so \
     /usr/local/lib/libfmt.so \
+    /usr/local/lib/libyaml-cpp.so.0.? \
     /usr/local/lib/
 
 RUN ldconfig && \
     ldd /openair-lmf/bin/oai_lmf
 
 WORKDIR /openair-lmf/etc
-COPY --from=oai-lmf-builder /openair-lmf/etc/lmf.conf .
+COPY --from=oai-lmf-builder \
+    /openair-lmf/etc/lmf.conf \
+    /openair-lmf/etc/lmf.yaml \
+    .
 
 WORKDIR /openair-lmf
 

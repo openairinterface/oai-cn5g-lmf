@@ -34,6 +34,7 @@
 #include "mime_parser.hpp"
 #include "3gpp_29.518.h"
 #include "lmf_cause_error.hpp"
+#include "lmf_sbi_helper.hpp"
 
 #include "LocationData.h"
 #include "ProblemDetails.h"
@@ -60,6 +61,7 @@
 using namespace std::string_literals;
 using namespace oai::lmf_server;
 using namespace oai::lmf::app;
+using namespace oai::lmf::api;
 
 // provides for asn container.list.array range based for loops
 // for (auto const& xyzIEs : xyzResponse.protocolIEs) {
@@ -121,18 +123,14 @@ bool LocationDetermination::n1_n2_message_transfer(
   std::string amf_uri  = {};
   std::string method   = "POST";
   std::string response = {};
-  amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-      lmf_cfg.amf_addr.api_version + NAMF_N1N2_SUBSCRIBE_BASE + this->supi +
-      NAMF_N1N2_SUBSCRIBE_MESSAGES;
+  lmf_sbi_helper::get_amf_comm_n1n2_message_transfer_uri(
+      lmf_cfg.amf_addr, this->supi, amf_uri);
   Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
 
   std::string nrppaMsgStr(
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
-  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+  oai::utils::conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
@@ -230,17 +228,15 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   std::string amf_uri  = {};
   std::string method   = "POST";
   std::string response = {};
-  amf_uri =
-      "http://" +
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.amf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.amf_addr.port) + NAMF_BASE +
-      lmf_cfg.amf_addr.api_version + NAMF_NON_UE_N2_MESSAGE_TRANSFER;
+  lmf_sbi_helper::get_amf_comm_non_ue_n1n2_message_transfer_uri(
+      lmf_cfg.amf_addr, amf_uri);
+
   Logger::lmf_app().debug("AMF's URI %s", amf_uri.c_str());
 
   std::string nrppaMsgStr(
       (char*) nrppaPduEnc.buffer, nrppaPduEnc.result.encoded);
   std::string nrppaMsgHex = {};
-  conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
+  oai::utils::conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
   model::RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
