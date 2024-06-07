@@ -21,10 +21,14 @@
 
 #include "lmf_sbi_helper.hpp"
 
+#include <fmt/args.h>
+
 #include <boost/algorithm/string.hpp>
 #include <regex>
+#include <string>
 #include <vector>
 
+#include "ProblemDetails.h"
 #include "logger.hpp"
 
 namespace oai::lmf::api {
@@ -203,6 +207,35 @@ void lmf_sbi_helper::get_lmf_non_ue_n2_info_notify_nrppa_callback_uri(
   std::string path_str = {};
   get_fmt_format_form(sbi_helper::LmfNonUeN2InfoNotifyNrppaCallback, path_str);
   uri = lmf_api_root + fmt::format(path_str);
+}
+
+void lmf_sbi_helper::throwHttpError(
+    std::string const& title, std::string const& detail,
+    std::string const& instance, Pistache::Http::Code const& code) {
+  oai::lmf_server::model::ProblemDetails pd;
+  fmt::dynamic_format_arg_store<fmt::format_context> args;
+  std::string fmt;
+
+  pd.setTitle(title);
+  args.push_back(title);
+  fmt = "{}";
+
+  if (!instance.empty()) {
+    pd.setInstance(instance);
+    args.push_back(instance);
+    fmt += "[{}]";
+  }
+  pd.setDetail(detail);
+  args.push_back(detail);
+  fmt += ": {}";
+
+  Logger::lmf_app().error(fmt::vformat(fmt, args));
+
+  nlohmann::json json_data = {};
+  to_json(json_data, pd);
+
+  auto const& reason = json_data.dump();
+  throw Pistache::Http::HttpError{code, reason};
 }
 
 }  // namespace oai::lmf::api

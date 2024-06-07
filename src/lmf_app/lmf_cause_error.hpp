@@ -22,13 +22,12 @@
 #ifndef FILE_LMF_CAUSE_ERROR_HPP_SEEN
 #define FILE_LMF_CAUSE_ERROR_HPP_SEEN
 
-#include "lmf_client.hpp"
-
 #include "logger.hpp"
 
 // nrppa
-#include "ProtocolIE-ID.h"
 #include "Cause.h"
+#include "ProtocolIE-ID.h"
+#include "lmf_sbi_helper.hpp"
 
 namespace oai::lmf::app {
 
@@ -45,7 +44,8 @@ class CauseError {
         case ProtocolIE_ID_id_Cause: {
           auto const& value = failureIe->value;
           if (value.present != present) {
-            throwHttpError("CauseError", "unexpected present");
+            oai::lmf::api::lmf_sbi_helper::throwHttpError(
+                "CauseError", "unexpected present");
           }
           auto const& cause = value.choice.Cause;
           err.parse_(cause);

@@ -22,6 +22,8 @@
 #ifndef _LMF_SBI_HELPER_HPP
 #define _LMF_SBI_HELPER_HPP
 
+#include <pistache/http.h>
+
 #include <nlohmann/json.hpp>
 
 #include "lmf_config.hpp"
@@ -88,6 +90,12 @@ class lmf_sbi_helper : public sbi_helper {
       const interface_cfg_t& sbi, std::string& api_root);
   static void get_lmf_non_ue_n2_info_notify_nrppa_callback_uri(
       const interface_cfg_t& sbi, std::string& uri);
+
+  static void throwHttpError(
+      std::string const& title, std::string const& detail,
+      std::string const& instance = "",
+      Pistache::Http::Code const& code =
+          Pistache::Http::Code::Internal_Server_Error);
 };
 
 }  // namespace oai::lmf::api

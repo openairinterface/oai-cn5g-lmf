@@ -14,28 +14,29 @@
  * limitations under the License.
  */
 
+#include <signal.h>
+#include <stdint.h>
+#include <stdlib.h>  // srand
+#include <unistd.h>  // get_pid(), pause()
+
+#include <iostream>
+#include <thread>
+
+#include "http_client.hpp"
 #include "lmf-api-server.h"
 #include "lmf-http2-server.h"
 #include "lmf_app.hpp"
 #include "lmf_config.hpp"
+#include "lmf_config_yaml.hpp"
 #include "logger.hpp"
 #include "options.hpp"
 #include "pid_file.hpp"
-#include "lmf_config_yaml.hpp"
-
 #include "pistache/endpoint.h"
 #include "pistache/http.h"
 #include "pistache/router.h"
 
-#include <iostream>
-#include <signal.h>
-#include <stdint.h>
-#include <stdlib.h>  // srand
-#include <thread>
-#include <unistd.h>  // get_pid(), pause()
-
 using namespace oai::lmf::app;
-using namespace util;
+using namespace oai::utils;
 using namespace std;
 
 using namespace oai::lmf::config;
@@ -46,6 +47,7 @@ LMFApiServer* api_server           = nullptr;
 lmf_http2_server* lmf_api_server_2 = nullptr;
 task_manager* tm_inst              = nullptr;
 std::unique_ptr<oai::config::lmf_config_yaml> lmf_cfg_yaml;
+std::shared_ptr<oai::http::http_client> http_client_inst = nullptr;
 
 //------------------------------------------------------------------------------
 void my_app_signal_handler(int s) {
@@ -127,6 +129,12 @@ int main(int argc, char** argv) {
   lmf_cfg_yaml->to_lmf_config(lmf_cfg);
 
   Logger::set_level(lmf_cfg.log_level);
+
+  // HTTP Client
+  uint8_t http_version = lmf_cfg.use_http2 ? 2 : 1;
+  http_client_inst     = oai::http::http_client::create_instance(
+      Logger::lmf_client(), oai::common::sbi::kNfDefaultHttpRequestTimeout,
+      lmf_cfg.sbi.if_name, http_version);
 
   // LMF application layer
   lmf_app_inst = new lmf_app(Options::getlibconfigConfig(), ev);

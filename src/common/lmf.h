@@ -22,6 +22,9 @@
 #ifndef FILE_LMF_SEEN
 #define FILE_LMF_SEEN
 
+#include <string>
+#include <vector>
+
 #define HEART_BEAT_TIMER 10
 
 #define N2_NRPPa_CONTENT_ID "n2NrppaMsg"

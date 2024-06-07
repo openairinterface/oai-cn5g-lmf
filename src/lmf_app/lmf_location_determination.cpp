@@ -19,49 +19,48 @@
  *      contact@openairinterface.org
  */
 
-#include <optional>
-
-#include <boost/range/adaptor/map.hpp>
-
 #include "lmf_location_determination.hpp"
 
-#include "lmf.h"
-#include "lmf_app.hpp"
-#include "lmf_nrf.hpp"
-#include "logger.hpp"
-#include "lmf_client.hpp"
-#include "conversions.hpp"
-#include "mime_parser.hpp"
+#include <boost/range/adaptor/map.hpp>
+#include <optional>
+
 #include "3gpp_29.518.h"
-#include "lmf_cause_error.hpp"
-#include "lmf_sbi_helper.hpp"
-
-#include "LocationData.h"
-#include "ProblemDetails.h"
-#include "NgapIeType.h"
-#include "N2InfoContent.h"
-#include "NrppaInformation.h"
-#include "N2InformationClass.h"
-#include "N2InfoContainer.h"
-#include "N1N2MessageTransferReqData.h"
-#include "N2InformationTransferReqData.h"
-
+#include "AperiodicSRS.h"
 #include "InitiatingMessage.h"
+#include "LocationData.h"
+#include "N1N2MessageTransferReqData.h"
+#include "N2InfoContainer.h"
+#include "N2InfoContent.h"
+#include "N2InformationClass.h"
+#include "N2InformationTransferReqData.h"
+#include "NgapIeType.h"
+#include "NrppaInformation.h"
+#include "ProblemDetails.h"
 #include "ProtocolIE-Field.h"
 #include "SemipersistentSRS.h"
-#include "AperiodicSRS.h"
 #include "TRP-MeasurementRequestItem.h"
 #include "TRP-MeasurementResponseItem.h"
-#include "TrpMeasurementResultItem.h"
-#include "TrpMeasuredResultsValue.h"
 #include "TRPInformationItem.h"
-#include "ULRTOAMeas.h"
+#include "TrpMeasuredResultsValue.h"
+#include "TrpMeasurementResultItem.h"
 #include "UL-RTOAMeasurement.h"
+#include "ULRTOAMeas.h"
+#include "conversions.hpp"
+#include "http_client.hpp"
+#include "lmf.h"
+#include "lmf_app.hpp"
+#include "lmf_cause_error.hpp"
+#include "lmf_nrf.hpp"
+#include "lmf_sbi_helper.hpp"
+#include "logger.hpp"
+#include "mime_parser.hpp"
 
 using namespace std::string_literals;
 using namespace oai::lmf_server;
 using namespace oai::lmf::app;
 using namespace oai::lmf::api;
+
+extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
 // provides for asn container.list.array range based for loops
 // for (auto const& xyzIEs : xyzResponse.protocolIEs) {
@@ -121,7 +120,6 @@ bool LocationDetermination::n1_n2_message_transfer(
       nrppaPduEnc.buffer, &std::free};
 
   std::string amf_uri  = {};
-  std::string method   = "POST";
   std::string response = {};
   lmf_sbi_helper::get_amf_comm_n1n2_message_transfer_uri(
       lmf_cfg.amf_addr, this->supi, amf_uri);
@@ -168,7 +166,13 @@ bool LocationDetermination::n1_n2_message_transfer(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
-  lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
+  // Send HTTP request
+  oai::http::request http_request =
+      http_client_inst->prepare_multipart_request(amf_uri, body);
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::POST, http_request);
+  response = http_response.body;
+
   Logger::lmf_app().info("Response from AMF: %s", response);
 
   auto const& rspData_json = nlohmann::json::parse(response);
@@ -285,7 +289,13 @@ bool LocationDetermination::non_ue_n2_message_transfer(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
-  lmf_client_inst->curl_http_client(amf_uri, method, body, response, true);
+  // Send HTTP request
+  oai::http::request http_request =
+      http_client_inst->prepare_multipart_request(amf_uri, body);
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::POST, http_request);
+  response = http_response.body;
+
   Logger::lmf_app().info("Response from AMF: %s", response);
 
   // model::N2InformationTransferRspData;
@@ -765,7 +775,8 @@ void LocationDetermination::handle_positioning_activation_failure(
 void LocationDetermination::throwHttpError(
     std::string const& title, std::string const& detail,
     Pistache::Http::Code const& code) {
-  oai::lmf::app::throwHttpError(title, detail, this->supi, code);
+  oai::lmf::api::lmf_sbi_helper::throwHttpError(
+      title, detail, this->supi, code);
 }
 
 nlohmann::json LocationDetermination::compute_location(

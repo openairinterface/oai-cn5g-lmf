@@ -20,24 +20,26 @@
  */
 
 #include "lmf-http2-server.h"
+
+#include <pistache/http.h>
+
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/future.hpp>
-#include <regex>
-#include <nlohmann/json.hpp>
-#include <pistache/http.h>
-#include <string>
 #include <filesystem>
 #include <iostream>
-#include "string.hpp"
+#include <nlohmann/json.hpp>
+#include <regex>
+#include <string>
 
-#include "logger.hpp"
-#include "lmf_config.hpp"
 #include "3gpp_29.500.h"
-#include "mime_parser.hpp"
-#include "lmf_sbi_helper.hpp"
 #include "N2InformationNotification.h"
 #include "ProblemDetails.h"
+#include "lmf_config.hpp"
+#include "lmf_sbi_helper.hpp"
+#include "logger.hpp"
+#include "mime_parser.hpp"
+#include "string.hpp"
 
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
@@ -86,7 +88,7 @@ void lmf_http2_server::start() {
           } catch (std::exception& e) {
             Logger::lmf_server().warn("Invalid request (error: %s)!", e.what());
             response.write_head(
-                http_status_code_e::HTTP_STATUS_CODE_400_BAD_REQUEST);
+                oai::common::sbi::http_status_code::BAD_REQUEST);
             response.end();
             return;
           }
@@ -136,7 +138,7 @@ void lmf_http2_server::start() {
           } catch (std::exception& e) {
             Logger::lmf_server().warn("Invalid request (error: %s)!", e.what());
             response.write_head(
-                http_status_code_e::HTTP_STATUS_CODE_400_BAD_REQUEST);
+                oai::common::sbi::http_status_code::BAD_REQUEST);
             response.end();
             return;
           }
@@ -178,7 +180,7 @@ void lmf_http2_server::start() {
           } catch (std::exception& e) {
             Logger::lmf_server().warn("Invalid request (error: %s)!", e.what());
             response.write_head(
-                http_status_code_e::HTTP_STATUS_CODE_400_BAD_REQUEST);
+                oai::common::sbi::http_status_code::BAD_REQUEST);
             response.end();
             return;
           }
@@ -213,23 +215,23 @@ void lmf_http2_server::non_ue_n2info_nrppa_notification_post_handler(
   auto nrppa = lmf_app::parse_n2_info_container_nrppa(
       n2InformationNotification, parts.at(1));
   header_map h;
-  unsigned code = HTTP_STATUS_CODE_204_NO_CONTENT;
+  unsigned code = oai::common::sbi::http_status_code::NO_CONTENT;
   model::ProblemDetails problemDetails;
   std::string reason;
   try {
     m_lmf_app->handle_non_ue_n2info_nrppa_notification(nrppa);
   } catch (nlohmann::detail::exception& e) {
     problemDetails.setDetail(e.what());
-    code = HTTP_STATUS_CODE_400_BAD_REQUEST;
+    code = oai::common::sbi::http_status_code::BAD_REQUEST;
   } catch (Pistache::Http::HttpError& e) {
     code = e.code();
     problemDetails.setDetail(e.what());
     reason = e.what();
   } catch (std::exception& e) {
     problemDetails.setDetail(e.what());
-    code = HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR;
+    code = oai::common::sbi::http_status_code::INTERNAL_SERVER_ERROR;
   }
-  if (code != HTTP_STATUS_CODE_204_NO_CONTENT) {
+  if (code != oai::common::sbi::http_status_code::NO_CONTENT) {
     problemDetails.setTitle("handle_n2info_nrppa_notification failed");
     Logger::lmf_server().error(
         problemDetails.getTitle() + ": " + problemDetails.getDetail());
@@ -262,23 +264,23 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
   auto nrppa = lmf_app::parse_n2_info_container_nrppa(
       n2InformationNotification, parts.at(1));
   header_map h;
-  unsigned code = HTTP_STATUS_CODE_204_NO_CONTENT;
+  unsigned code = oai::common::sbi::http_status_code::NO_CONTENT;
   model::ProblemDetails problemDetails;
   std::string reason;
   try {
     m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa);
   } catch (nlohmann::detail::exception& e) {
     problemDetails.setDetail(e.what());
-    code = HTTP_STATUS_CODE_400_BAD_REQUEST;
+    code = oai::common::sbi::http_status_code::BAD_REQUEST;
   } catch (Pistache::Http::HttpError& e) {
     code = e.code();
     problemDetails.setDetail(e.what());
     reason = e.what();
   } catch (std::exception& e) {
     problemDetails.setDetail(e.what());
-    code = HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR;
+    code = oai::common::sbi::http_status_code::INTERNAL_SERVER_ERROR;
   }
-  if (code != HTTP_STATUS_CODE_204_NO_CONTENT) {
+  if (code != oai::common::sbi::http_status_code::NO_CONTENT) {
     problemDetails.setTitle("handle_n2info_nrppa_notification failed");
     Logger::lmf_server().error(
         problemDetails.getTitle() + ": " + problemDetails.getDetail());
@@ -316,7 +318,8 @@ void lmf_http2_server::detemine_location_post_handler(
 
     return;
   } catch (std::exception& e) {
-    response.write_head(HTTP_STATUS_CODE_500_INTERNAL_SERVER_ERROR, h);
+    response.write_head(
+        oai::common::sbi::http_status_code::INTERNAL_SERVER_ERROR, h);
     response.end(e.what());
     this->m_lmf_app->release_all_n1n2subscriptions();
     this->m_lmf_app->release_non_ue_subscription();
@@ -327,7 +330,7 @@ void lmf_http2_server::detemine_location_post_handler(
   if (code == Pistache::Http::Code::Ok) {
     h.insert(std::make_pair<std::string, header_value>(
         "Content-Type", {"application/json", false}));
-    response.write_head(HTTP_STATUS_CODE_200_OK, h);
+    response.write_head(oai::common::sbi::http_status_code::OK, h);
     response.end(locationData_json.dump());
   } else {
     response.write_head(static_cast<uint32_t>(code), h);
