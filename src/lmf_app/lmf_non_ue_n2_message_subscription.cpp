@@ -26,20 +26,21 @@
 #include <string>
 using namespace std::string_literals;
 
-#include "nlohmann/json.hpp"
-#include "pistache/http_defs.h"
-
-#include "lmf_config.hpp"
-#include "lmf_client.hpp"
-#include "lmf_nrf.hpp"
-#include "lmf_sbi_helper.hpp"
-
 #include "NonUeN2InfoSubscriptionCreateData.h"
 #include "NonUeN2InfoSubscriptionCreatedData.h"
 #include "ProblemDetails.h"
+#include "http_client.hpp"
+#include "lmf_config.hpp"
+#include "lmf_nrf.hpp"
+#include "lmf_sbi_helper.hpp"
+#include "logger.hpp"
+#include "nlohmann/json.hpp"
+#include "pistache/http_defs.h"
 
 using namespace oai::lmf_server;
 using namespace oai::lmf::api;
+
+extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
 // 5.2.2.4.3 NonUeN2InfoUnsubscribe
 void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
@@ -52,7 +53,12 @@ void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
 
   // 2. 204 No Content
   std::string response;
-  lmf_client_inst->curl_http_client(amf_uri, "DELETE"s, "", response, false);
+  // Send HTTP request
+  oai::http::request http_request =
+      http_client_inst->prepare_json_request(amf_uri);
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::DELETE, http_request);
+  response = http_response.body;
 
   Logger::lmf_app().debug("Response from AMF: %s"s, response);
   if (!response.empty()) {
@@ -92,9 +98,12 @@ std::string NonUeN2MessageSubscription::subscribe() {
 
   // 2. 201 Created (nonUeN2InfoSubscriptionCreateData)
   std::string response;
-  lmf_client_inst->curl_http_client(
-      amf_uri, "POST", nlohmann::json(nonUeN2InfoSubscriptionCreateData).dump(),
-      response, false);
+  // Send HTTP request
+  oai::http::request http_request = http_client_inst->prepare_json_request(
+      amf_uri, nlohmann::json(nonUeN2InfoSubscriptionCreateData).dump());
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::POST, http_request);
+  response = http_response.body;
   Logger::lmf_app().debug("Response from AMF: %s", response);
 
   try {
@@ -108,7 +117,7 @@ std::string NonUeN2MessageSubscription::subscribe() {
     auto title  = "NonUeN2InfoSubscription failed"s;
     auto detail = "amf_uri: '" + amf_uri + "', respone: '" + response +
                   "', ex: " + ex.what();
-    throwHttpError(title, detail);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(title, detail);
     return {};  // suppress no return warning
   }
 }

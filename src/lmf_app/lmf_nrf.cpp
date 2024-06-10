@@ -20,22 +20,23 @@
  */
 
 #include "lmf_nrf.hpp"
-#include "lmf_app.hpp"
-#include "lmf_client.hpp"
-#include "lmf_profile.hpp"
-#include <boost/uuid/random_generator.hpp>
-#include <boost/uuid/uuid_io.hpp>
 
 #include <curl/curl.h>
-#include <nlohmann/json.hpp>
 #include <pistache/http.h>
 #include <pistache/mime.h>
+
+#include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <nlohmann/json.hpp>
 #include <stdexcept>
 
+#include "PatchItem.h"
+#include "http_client.hpp"
 #include "lmf.h"
+#include "lmf_app.hpp"
+#include "lmf_profile.hpp"
 #include "logger.hpp"
 #include "sbi_helper.hpp"
-#include "PatchItem.h"
 
 using namespace oai::lmf::config;
 using namespace oai::lmf::app;
@@ -45,7 +46,7 @@ using json = nlohmann::json;
 
 extern lmf_config lmf_cfg;
 extern lmf_nrf* lmf_nrf_inst;
-lmf_client* lmf_client_instance = nullptr;
+extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
 //------------------------------------------------------------------------------
 lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
@@ -100,8 +101,11 @@ void lmf_nrf::register_to_nrf() {
   lmf_nf_profile.to_json(json_data);
 
   Logger::lmf_nrf().info("Sending NF registeration request");
-  lmf_client_instance->curl_http_client(
-      remoteUri, method, json_data.dump().c_str(), response, false);
+  oai::http::request http_request =
+      http_client_inst->prepare_json_request(remoteUri, json_data.dump());
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::PUT, http_request);
+  response = http_response.body;
 
   try {
     response_data = nlohmann::json::parse(response);
@@ -158,7 +162,11 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   sbi_helper::get_nrf_nf_instance_uri(
       lmf_cfg.nrf_addr, lmf_instance_id, remoteUri);
 
-  lmf_client_instance->curl_http_client(
-      remoteUri, method, json_data.dump().c_str(), response, false);
+  oai::http::request http_request =
+      http_client_inst->prepare_json_request(remoteUri, json_data.dump());
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::PATCH, http_request);
+  response = http_response.body;
+
   if (!response.empty()) task_connection.disconnect();
 }

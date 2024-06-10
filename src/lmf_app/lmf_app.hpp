@@ -24,34 +24,31 @@
 
 #define ASN_DISABLE_OER_SUPPORT
 
+#include <pistache/http.h>
+
+#include <boost/range/combine.hpp>
+#include <condition_variable>
+#include <map>
 #include <shared_mutex>
 #include <string>
-#include <map>
-#include <condition_variable>
-#include <boost/range/combine.hpp>
 
-#include <pistache/http.h>
-#include "mime_parser.hpp"
-
-#include "../common/utils/uint_generator.hpp"
-
+#include "CoordinateID.h"
+#include "InputData.h"
+#include "Measurement-ID.h"
+#include "N2InformationNotification.h"
+#include "NRPPATransactionID.h"
+#include "ProblemDetails.h"
+#include "RelativeCartesianLocation.h"
+#include "TRP-ID.h"
 #include "lmf.h"
+#include "lmf_cause_error.hpp"
 #include "lmf_event.hpp"
+#include "lmf_gnb.hpp"
 #include "lmf_location_determination.hpp"
 #include "lmf_n1_n2_message_subscription.hpp"
 #include "lmf_non_ue_n2_message_subscription.hpp"
-#include "lmf_gnb.hpp"
-#include "lmf_cause_error.hpp"
-
-#include "ProblemDetails.h"
-#include "InputData.h"
-#include "N2InformationNotification.h"
-
-#include "NRPPATransactionID.h"
-#include "Measurement-ID.h"
-#include "TRP-ID.h"
-#include "CoordinateID.h"
-#include "RelativeCartesianLocation.h"
+#include "mime_parser.hpp"
+#include "uint_generator.hpp"
 
 namespace oai::lmf::app {
 
@@ -100,8 +97,10 @@ class lmf_app {
       NRPPATransactionID_t const& nrppaTxnId, std::string const& supi);
   std::string extract_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
 
-  util::uint_generator<Measurement_ID_t, 1, 65536> measurement_id_gen;
-  util::uint_generator<NRPPATransactionID_t, 0, 32767> nrppa_tid_gen;
+  oai::utils::uint_range_generator<Measurement_ID_t, 1, 65536>
+      measurement_id_gen;
+  oai::utils::uint_range_generator<NRPPATransactionID_t, 0, 32767>
+      nrppa_tid_gen;
 
  private:
   std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;

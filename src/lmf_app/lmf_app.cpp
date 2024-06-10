@@ -20,66 +20,64 @@
  */
 
 #include <unistd.h>
+
+#include <chrono>
 #include <iostream>
 #include <iterator>
 #include <string>
-#include <chrono>
 using namespace std::chrono_literals;
-#include <thread>
-#include <optional>
-
-#include <boost/range/irange.hpp>
 #include <boost/format.hpp>
+#include <boost/lambda/lambda.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm.hpp>
-#include <boost/lambda/lambda.hpp>
+#include <boost/range/irange.hpp>
+#include <optional>
+#include <thread>
 
+#include "3gpp_29.518.h"
+#include "conversions.hpp"
 #include "lmf_app.hpp"
 #include "lmf_nrf.hpp"
-#include "lmf_client.hpp"
-
 #include "logger.hpp"
-#include "conversions.hpp"
 #include "mime_parser.hpp"
-#include "3gpp_29.518.h"
 // model
+#include "GlobalRanNodeId.h"
 #include "LocationData.h"
-#include "N1MessageContainer.h"
 #include "N1MessageClass.h"
+#include "N1MessageContainer.h"
 #include "N1N2MessageTransferReqData.h"
 #include "N1N2MessageTransferRspData.h"
+#include "N2InformationNotification.h"
 #include "N2InformationTransferReqData.h"
+#include "ProblemDetails.h"
+#include "RefToBinaryData.h"
 #include "UeN1N2InfoSubscriptionCreateData.h"
 #include "UeN1N2InfoSubscriptionCreatedData.h"
-#include "RefToBinaryData.h"
-#include "ProblemDetails.h"
-#include "N2InformationNotification.h"
-#include "GlobalRanNodeId.h"
 // nrppa
 #include "InitiatingMessage.h"
-#include "SuccessfulOutcome.h"
-#include "UnsuccessfulOutcome.h"
 #include "ProtocolIE-Field.h"
-#include "TRPItem.h"
+#include "SuccessfulOutcome.h"
 #include "TRP-MeasurementResponseItem.h"
-#include "TrpMeasurementResultItem.h"
-#include "TrpMeasuredResultsValue.h"
-#include "ULRTOAMeas.h"
-#include "UL-RTOAMeasurement.h"
 #include "TRPInformationItem.h"
+#include "TRPItem.h"
+#include "TrpMeasuredResultsValue.h"
+#include "TrpMeasurementResultItem.h"
+#include "UL-RTOAMeasurement.h"
+#include "ULRTOAMeas.h"
+#include "UnsuccessfulOutcome.h"
 // do not include model GeographicalCoordinates.h
 #include "../nrppa/GeographicalCoordinates.h"
+#include "CoordinateID.h"
 #include "TRPPositionDefinitionType.h"
 #include "TRPPositionReferenced.h"
-#include "CoordinateID.h"
+#include "lmf_sbi_helper.hpp"
 
 using namespace std;
 using namespace oai::lmf::app;
 using namespace oai::lmf_server;
 using namespace oai::lmf::config;
 
-lmf_client* lmf_client_inst = nullptr;
-lmf_nrf* lmf_nrf_inst       = nullptr;
+lmf_nrf* lmf_nrf_inst = nullptr;
 
 // provides for asn container.list.array range based for loops
 // for (auto const& xyzIE : xyzResponse.protocolIEs) {
@@ -97,12 +95,6 @@ auto end(T const& container) {
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
     : event_sub(ev) {
   Logger::lmf_app().startup("Starting...");
-  try {
-    lmf_client_inst = new lmf_client();
-  } catch (std::exception& e) {
-    Logger::lmf_app().error("Cannot create LMF APP: %s", e.what());
-    throw;
-  }
   try {
     lmf_nrf_inst = new lmf_nrf(ev);
     // Register to NRF
@@ -188,13 +180,13 @@ void lmf_app::trp_information(
   ctx->nrppa_tId.erase(tId);
   this->nrppa_tid_gen.free_uid(tId);
   if (this->trp_info_err.size() > 0) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "trp information failure",
         "gnb err count: "s + std::to_string(this->trp_info_err.size()));
   }
   if (!lmf_cfg.determine_num_gnb &&
       (!rc || this->gnb.size() < lmf_cfg.num_gnb)) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "trp information request",
         "timeout after "s + std::to_string(lmf_cfg.trp_info_wait_ms.count()) +
             "ms waiting for "s + std::to_string(lmf_cfg.num_gnb) +
@@ -205,10 +197,12 @@ void lmf_app::trp_information(
       "trp information request: received %d gnb responses", this->gnb.size());
 
   if (this->gnb.size() == 0) {
-    throwHttpError("trp information request"s, "no gnbs available"s);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "trp information request"s, "no gnbs available"s);
   }
   if (this->numTrps() == 0) {
-    throwHttpError("trp information request"s, "no trp's available"s);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "trp information request"s, "no trp's available"s);
   }
 }
 
@@ -390,7 +384,8 @@ NRPPATransactionID_t getNrppaTxnId(NrppaPduShared nrppa) {
     case NRPPA_PDU_PR_unsuccessfulOutcome:
       return nrppa->choice.unsuccessfulOutcome->nrppatransactionID;
     default:
-      throwHttpError("getNrppaTxnId"s, "malformed nrppa message"s);
+      oai::lmf::api::lmf_sbi_helper::throwHttpError(
+          "getNrppaTxnId"s, "malformed nrppa message"s);
   }
   return 0;
 }
@@ -403,7 +398,7 @@ static void checkPC(T const& present, U const& expected) {
                &ps     = "present: "s + std::to_string(present->procedureCode),
                &es     = "expected: "s + std::to_string(expected),
                &detail = ps + ": "s + es;
-    throwHttpError(title, detail);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(title, detail);
   }
 }
 
@@ -414,7 +409,7 @@ static U const& getPR(U const& choice, T const& value, V const& expected) {
                &ps     = "present: "s + std::to_string(value.present),
                &es     = "expected: "s + std::to_string(expected),
                &detail = ps + ": "s + es;
-    throwHttpError(title, detail);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(title, detail);
   }
   return choice;
 }
@@ -443,7 +438,7 @@ void lmf_app::handle_trp_information_response(
               auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
               auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
               if (plmnnIdentity.size != 3) {
-                throwHttpError(
+                oai::lmf::api::lmf_sbi_helper::throwHttpError(
                     "trp information response",
                     "plmnnIdentity.size != 3: "s +
                         std::to_string(plmnnIdentity.size));
@@ -452,7 +447,7 @@ void lmf_app::handle_trp_information_response(
               if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
                 auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
                 if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
-                  throwHttpError(
+                  oai::lmf::api::lmf_sbi_helper::throwHttpError(
                       "trp information response",
                       "ngRanCell.size != 5: "s +
                           std::to_string(ngRanCell.size) +
@@ -487,11 +482,11 @@ void lmf_app::handle_trp_information_response(
                               d2(pb[2]) % mncd3)
                                  .str();
                   if (mcc.size() > 3) {
-                    throwHttpError(
+                    oai::lmf::api::lmf_sbi_helper::throwHttpError(
                         "trp information response", "invalid mcc: "s + mcc);
                   }
                   if (mnc.size() > (mnc2 ? 2 : 3)) {
-                    throwHttpError(
+                    oai::lmf::api::lmf_sbi_helper::throwHttpError(
                         "trp information response", "invalid mnc: "s + mnc);
                   }
 
@@ -517,14 +512,14 @@ void lmf_app::handle_trp_information_response(
                   if (auto const& [iter, inserted] = this->gnb.try_emplace(
                           gnbId.value(), gnbId.value(), globalRanNodeId);
                       !inserted) {
-                    throwHttpError(
+                    oai::lmf::api::lmf_sbi_helper::throwHttpError(
                         "trp information response",
                         "gnbId: "s + std::to_string(gnbId.value()) +
                             " already inserted"s);
                   }
                 }
               } else {
-                throwHttpError(
+                oai::lmf::api::lmf_sbi_helper::throwHttpError(
                     "trp information response",
                     "TRPInformationItem_PR_nG_RAN_CGI not present, but: "s +
                         std::to_string(ngRanCgi->nG_RANcell.present));
@@ -597,18 +592,19 @@ void lmf_app::handle_trp_information_response(
             if (auto const& [iter, inserted] =
                     this->gnb.at(gnbId.value()).trp.try_emplace(trpId, trp);
                 !inserted) {
-              throwHttpError(
+              oai::lmf::api::lmf_sbi_helper::throwHttpError(
                   "trp information response",
                   "trpId: "s + std::to_string(trpId) + " already inserted"s);
             }
           } else {
-            throwHttpError(
+            oai::lmf::api::lmf_sbi_helper::throwHttpError(
                 "trp information response",
                 "gnb_id: " + std::to_string(gnbId.value()) +
                     "trp_id: " + std::to_string(trpId) + " not unique");
           }
         } else {
-          throwHttpError("trp information", "no gnbId");
+          oai::lmf::api::lmf_sbi_helper::throwHttpError(
+              "trp information", "no gnbId");
         }
       }
     }
@@ -638,13 +634,13 @@ bool lmf_app::handle_n2info_nrppa_notification(
   // TODO
   if (nrppa->present == NRPPA_PDU_PR_initiatingMessage) {
     // don't forget tId handling ctx->nrppa_tId.erase(tId);
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "handle_n2info_nrppa_notification",
         "NRPPA_PDU_PR_initiatingMessage not implemented");
   }
 
   if (ctx->nrppa_tId.count(tId) != 1) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "handle_n2info_nrppa_notification"s,
         "unknown nrppa transaction id: "s + std::to_string(tId));
   }
@@ -706,7 +702,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
       }; break;
 
       default:
-        throwHttpError(
+        oai::lmf::api::lmf_sbi_helper::throwHttpError(
             "handle_nrppa_notification"s,
             "unsuccessfulOutcome: unhandled procedure code: %d"s +
                 std::to_string(procedureCode));
@@ -756,7 +752,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     } break;
 
     default:
-      throwHttpError(
+      oai::lmf::api::lmf_sbi_helper::throwHttpError(
           "handle_nrppa_notification"s,
           "successfulOutcome: unhandled procedure code: %d"s +
               std::to_string(procedureCode));
@@ -764,7 +760,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
 
   auto titel  = "n2info nrppa notifiaction pdu error"s;
   auto detail = "unhandled nrppa  pdu: " + std::to_string(nrppa->present);
-  throwHttpError(titel, detail);
+  oai::lmf::api::lmf_sbi_helper::throwHttpError(titel, detail);
 
   return false;
 }
@@ -773,7 +769,7 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
     model::N2InformationNotification const& n2InformationNotification,
     mime_part const& nrppa_part) {
   if (!n2InformationNotification.n2InfoContainerIsSet()) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa", "N2InfoContainer not present");
   }
 
@@ -784,14 +780,15 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
   // Check N2 Information Class
   if (eN2InformationClass !=
       model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "N2 Information Class not NRPPA: " +
             std::to_string(static_cast<int>(eN2InformationClass)));
   }
 
   if (!n2InfoContainer.nrppaInfoIsSet()) {
-    throwHttpError("parse_n2_info_container_nrppa", "nrppaInfo not present");
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "parse_n2_info_container_nrppa", "nrppaInfo not present");
   }
   auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
 
@@ -803,12 +800,13 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
 
   auto const& nrppaPdu = nrppaInfo.getNrppaPdu();
   if (!nrppaPdu.ngapIeTypeIsSet()) {
-    throwHttpError("parse_n2_info_container_nrppa", "ngapIeType not present");
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "parse_n2_info_container_nrppa", "ngapIeType not present");
   }
 
   auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
   if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "ngapIeType not NRPPA_PDU: " +
             std::to_string(static_cast<int>(eNgapIeType)));
@@ -829,7 +827,7 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
       nrppa_bin.c_str(), nrppa_bin.length());
   if (rc.code != RC_OK) {
     ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "asn_decode failed: " + std::to_string(rc.code));
   }
@@ -845,7 +843,7 @@ void oai::lmf::app::lmf_app::insert_nrppaTxnId2supi(
   auto const& [iter, insered] =
       this->nrppaTxnId2supi.try_emplace(nrppaTxnId, supi);
   if (!insered) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "insert_nrppaTxnId2supi",
         "nrppa id "s + std::to_string(nrppaTxnId) + " reuse"s);
   }
@@ -856,7 +854,7 @@ std::string oai::lmf::app::lmf_app::extract_nrppaTxnId2Supi(
   std::unique_lock lock{this->m_nrppaTxnId2supi};
   auto const& nh = this->nrppaTxnId2supi.extract(nrppaTxnId);
   if (nh.empty()) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "extract_nrppaTxnId2Supi",
         "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
   }

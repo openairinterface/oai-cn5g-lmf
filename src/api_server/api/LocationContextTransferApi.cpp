@@ -11,8 +11,8 @@
  * the class manually.
  */
 
-#include "lmf_client.hpp"
 #include "LocationContextTransferApi.h"
+
 #include "Helpers.h"
 #include "lmf_sbi_helper.hpp"
 
