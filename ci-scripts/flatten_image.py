@@ -80,8 +80,7 @@ def perform_flattening(tag):
     if cli == 'docker':
         cmd += ' --change "EXPOSE 38412/sctp" '
     cmd += ' --change "HEALTHCHECK --interval=10s --timeout=15s --retries=6 CMD /openair-lmf/bin/healthcheck.sh" '
-    cmd += ' --change "CMD [\\"/openair-lmf/bin/oai_lmf\\", \\"-c\\", \\"/openair-lmf/etc/lmf.conf\\", \\"-o\\"]" '
-    cmd += ' --change "ENTRYPOINT [\\"python3\\", \\"/openair-lmf/bin/entrypoint.py\\"]" '
+    cmd += ' --change "CMD [\\"/openair-lmf/bin/oai_lmf\\", \\"-c\\", \\"/openair-lmf/etc/config.yaml\\", \\"-o\\"]" '
     cmd += ' - ' + image_prefix + tag
     print (cmd)
     subprocess.check_output(cmd, shell=True, universal_newlines=True)
