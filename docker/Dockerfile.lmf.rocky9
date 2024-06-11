@@ -63,11 +63,9 @@ RUN ./build_lmf --install-deps --force && \
     ldconfig
 RUN ./build_lmf --clean --Verbose --build-type Release --jobs && \
     ldd /openair-lmf/build/lmf/build/lmf && \
-    mv /openair-lmf/build/lmf/build/lmf /openair-lmf/build/lmf/build/oai_lmf && \
-    # Adapting the entrypoint to NEF NF
-    sed -i -e "s@openair-nf-root-folder@openair-lmf@g" \
-           -e "s@nf-config-file@lmf.conf@g" \
-           ../common-build/docker-scripts/entrypoint.py
+    mv /openair-lmf/build/lmf/build/lmf /openair-lmf/build/lmf/build/oai_lmf
+
+FROM mikefarah/yq:latest as yq-source
 
 #---------------------------------------------------------------------
 # TARGET IMAGE
@@ -98,9 +96,9 @@ RUN microdnf update -y && \
 WORKDIR /openair-lmf/bin
 COPY --from=oai-lmf-builder \
     /openair-lmf/build/lmf/build/oai_lmf \
-    /openair-lmf/build/common-build/docker-scripts/entrypoint.py \
     /openair-lmf/scripts/healthcheck.sh \
     ./
+COPY --from=yq-source /usr/bin/yq /usr/bin
 
 WORKDIR /usr/lib64
 COPY --from=oai-lmf-builder \
@@ -120,8 +118,7 @@ RUN ldconfig -v && \
 
 WORKDIR /openair-lmf/etc
 COPY --from=oai-lmf-builder \
-    /openair-lmf/etc/lmf.conf \
-    /openair-lmf/etc/lmf.yaml \
+    /openair-lmf/etc/config.yaml \
     .
 
 WORKDIR /openair-lmf
@@ -133,5 +130,4 @@ HEALTHCHECK --interval=10s \
             --retries=6 \
     CMD /openair-lmf/bin/healthcheck.sh
 
-ENTRYPOINT ["python3","/openair-lmf/bin/entrypoint.py"]
-CMD ["/openair-lmf/bin/oai_lmf", "-c" , "/openair-lmf/etc/lmf.conf", "-o"]
+CMD ["/openair-lmf/bin/oai_lmf", "-c" , "/openair-lmf/etc/config.yaml", "-o"]
