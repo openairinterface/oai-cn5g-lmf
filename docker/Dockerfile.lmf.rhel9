@@ -139,7 +139,7 @@ RUN ldconfig -v && \
 
 WORKDIR /openair-lmf/etc
 COPY --from=oai-lmf-builder \
-    /openair-lmf/etc/lmf.yaml \
+    /openair-lmf/etc/config.yaml \
     .
 
 WORKDIR /openair-lmf
