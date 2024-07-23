@@ -23,7 +23,6 @@ set(LMF_API_SERVER_DIR "${SRC_TOP_DIR}/api_server")
 
 include_directories(${LMF_API_SERVER_DIR}/api)
 include_directories(${LMF_API_SERVER_DIR}/impl)
-include_directories(${LMF_API_SERVER_DIR}/model)
 include_directories(${LMF_API_SERVER_DIR}/)
 include_directories(${SRC_TOP_DIR}/lmf_app)
 include_directories(${SRC_TOP_DIR}/common)
@@ -32,13 +31,15 @@ include_directories(${SRC_TOP_DIR}/nrppa)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/common)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model/lmf)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/bstr)
+
+include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model/lmf/lmf.cmake)
 
 file(GLOB LMF_API_SERVER_src_files
     ${LMF_API_SERVER_DIR}/lmf-api-server.cpp
     ${LMF_API_SERVER_DIR}/lmf-http2-server.cpp
-    ${LMF_API_SERVER_DIR}/model/*.cpp
     ${LMF_API_SERVER_DIR}/api/*.cpp
     ${LMF_API_SERVER_DIR}/impl/*.cpp
 )

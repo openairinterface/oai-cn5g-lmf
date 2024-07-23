@@ -61,8 +61,8 @@ class lmf_app {
   virtual ~lmf_app();
 
   void handle_determine_location(
-      const oai::lmf_server::model::InputData& inputData,
-      nlohmann::json& json_data, Pistache::Http::Code& code);
+      const oai::model::lmf::InputData& inputData, nlohmann::json& json_data,
+      Pistache::Http::Code& code);
 
   bool handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa);
 
@@ -86,7 +86,7 @@ class lmf_app {
   void release_non_ue_subscription();
 
   static NrppaPduShared parse_n2_info_container_nrppa(
-      oai::lmf_server::model::N2InformationNotification const&
+      oai::model::lmf::N2InformationNotification const&
           n2InformationNotification,
       mime_part const& nrppa_part);
 

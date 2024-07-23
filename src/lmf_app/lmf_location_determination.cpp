@@ -56,9 +56,10 @@
 #include "mime_parser.hpp"
 
 using namespace std::string_literals;
-using namespace oai::lmf_server;
+using namespace oai::model::lmf;
 using namespace oai::lmf::app;
 using namespace oai::lmf::api;
+using namespace oai::model::common;
 
 extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
@@ -130,29 +131,28 @@ bool LocationDetermination::n1_n2_message_transfer(
   std::string nrppaMsgHex = {};
   oai::utils::conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
-  model::RefToBinaryData ngapData = {};
+  RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
 
-  model::NgapIeType ngapIeType = {};
-  ngapIeType.setEnumValue(
-      model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+  NgapIeType ngapIeType = {};
+  ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
 
-  model::N2InfoContent n2InfoContent = {};
+  N2InfoContent n2InfoContent = {};
   n2InfoContent.setNgapIeType(ngapIeType);
   n2InfoContent.setNgapData(ngapData);
 
-  model::NrppaInformation nrppaInformation = {};
+  NrppaInformation nrppaInformation = {};
   nrppaInformation.setNfId(lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
   nrppaInformation.setNrppaPdu(n2InfoContent);
 
-  model::N2InformationClass n2InformationClass = {};
+  N2InformationClass n2InformationClass = {};
   n2InformationClass.setEnumValue(
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
-  model::N2InfoContainer n2InfoContainer = {};
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+  N2InfoContainer n2InfoContainer = {};
   n2InfoContainer.setN2InformationClass(n2InformationClass);
   n2InfoContainer.setNrppaInfo(nrppaInformation);
 
-  model::N1N2MessageTransferReqData n1n2MessageTransferReqData = {};
+  N1N2MessageTransferReqData n1n2MessageTransferReqData = {};
   n1n2MessageTransferReqData.setN2InfoContainer(n2InfoContainer);
 
   nlohmann::json n1n2MessageTransferReq_json;
@@ -202,7 +202,7 @@ bool LocationDetermination::n1_n2_message_transfer(
 bool LocationDetermination::non_ue_n2_message_transfer(
     NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode,
-    std::vector<model::GlobalRanNodeId> const& globalRanNodeList,
+    std::vector<GlobalRanNodeId> const& globalRanNodeList,
     SRSConfiguration_t* const ueSrsConfigurationShared) {
   Logger::lmf_app().info("non_ue_n2_message_transfer");
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu.get());
@@ -242,29 +242,28 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   std::string nrppaMsgHex = {};
   oai::utils::conv::convert_string_2_hex(nrppaMsgStr, nrppaMsgHex);
 
-  model::RefToBinaryData ngapData = {};
+  RefToBinaryData ngapData = {};
   ngapData.setContentId(N2_NRPPa_CONTENT_ID);
 
-  model::NgapIeType ngapIeType = {};
-  ngapIeType.setEnumValue(
-      model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
+  NgapIeType ngapIeType = {};
+  ngapIeType.setEnumValue(NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU);
 
-  model::N2InfoContent n2InfoContent = {};
+  N2InfoContent n2InfoContent = {};
   n2InfoContent.setNgapIeType(ngapIeType);
   n2InfoContent.setNgapData(ngapData);
 
-  model::NrppaInformation nrppaInformation = {};
+  NrppaInformation nrppaInformation = {};
   nrppaInformation.setNfId(lmf_nrf_inst->lmf_nf_profile.get_nf_instance_id());
   nrppaInformation.setNrppaPdu(n2InfoContent);
 
-  model::N2InformationClass n2InformationClass = {};
+  N2InformationClass n2InformationClass = {};
   n2InformationClass.setEnumValue(
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
-  model::N2InfoContainer n2InfoContainer = {};
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+  N2InfoContainer n2InfoContainer = {};
   n2InfoContainer.setN2InformationClass(n2InformationClass);
   n2InfoContainer.setNrppaInfo(nrppaInformation);
 
-  model::N2InformationTransferReqData n2InformationTransferReqData;
+  N2InformationTransferReqData n2InformationTransferReqData;
   n2InformationTransferReqData.setN2Information(n2InfoContainer);
   if (globalRanNodeList.size() > 0) {
     Logger::lmf_app().debug(
@@ -298,9 +297,9 @@ bool LocationDetermination::non_ue_n2_message_transfer(
 
   Logger::lmf_app().info("Response from AMF: %s", response);
 
-  // model::N2InformationTransferRspData;
-  // model::N2InformationTransferError
-  // model::N2InformationTransferResult
+  // N2InformationTransferRspData;
+  // N2InformationTransferError
+  // N2InformationTransferResult
 
   auto const& rspData_json = nlohmann::json::parse(response);
   if (!rspData_json.contains("cause") ||
@@ -808,26 +807,26 @@ nlohmann::json LocationDetermination::compute_location(
     }
   }
 
-  model::SupportedGADShapes supportedGADShapes;
+  SupportedGADShapes supportedGADShapes;
   supportedGADShapes.setEnumValue(
-      model::SupportedGADShapes_anyOf::eSupportedGADShapes_anyOf::POINT);
+      SupportedGADShapes_anyOf::eSupportedGADShapes_anyOf::POINT);
 
-  model::UncertaintyEllipse uncertaintyEllipse;
+  UncertaintyEllipse uncertaintyEllipse;
   uncertaintyEllipse.setSemiMajor(0.0);
   uncertaintyEllipse.setSemiMinor(0.0);
   uncertaintyEllipse.setOrientationMajor(180);
 
-  model::GeographicalCoordinates geographicalCoordinates;
+  oai::model::lmf::GeographicalCoordinates geographicalCoordinates;
   geographicalCoordinates.setLat(0.0);
   geographicalCoordinates.setLon(0.0);
 
-  model::GeographicArea geographicArea;
+  GeographicArea geographicArea;
   geographicArea.setShape(supportedGADShapes);
   geographicArea.setPoint(geographicalCoordinates);
   geographicArea.setUncertaintyEllipse(uncertaintyEllipse);
   geographicArea.setConfidence(100);
 
-  model::LocationData locationData;
+  LocationData locationData;
   locationData.setLocationEstimate(geographicArea);
 
   nlohmann::json j;

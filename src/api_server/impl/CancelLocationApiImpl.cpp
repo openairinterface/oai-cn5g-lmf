@@ -13,11 +13,9 @@
 
 #include "CancelLocationApiImpl.h"
 
-namespace oai {
-namespace lmf_server {
-namespace api {
+namespace oai::lmf::api {
 
-using namespace oai::lmf_server::model;
+using namespace oai::model::lmf;
 
 CancelLocationApiImpl::CancelLocationApiImpl(
     const std::shared_ptr<Pistache::Rest::Router>& rtr)
@@ -29,6 +27,4 @@ void CancelLocationApiImpl::cancel_location(
   response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 
-}  // namespace api
-}  // namespace lmf_server
-}  // namespace oai
+}  // namespace oai::lmf::api

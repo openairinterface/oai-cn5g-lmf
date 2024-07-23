@@ -37,7 +37,7 @@ using namespace std::string_literals;
 #include "nlohmann/json.hpp"
 #include "pistache/http_defs.h"
 
-using namespace oai::lmf_server;
+using namespace oai::model::lmf;
 using namespace oai::lmf::api;
 
 extern std::shared_ptr<oai::http::http_client> http_client_inst;
@@ -86,11 +86,11 @@ std::string NonUeN2MessageSubscription::subscribe() {
   Logger::lmf_app().debug("AMF's URI %s", amf_uri);
 
   // 6.1.6.2.10 Type: NonUeN2InfoSubscriptionCreateData
-  model::N2InformationClass n2InformationClass;
+  N2InformationClass n2InformationClass;
   n2InformationClass.setEnumValue(
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA);
 
-  model::NonUeN2InfoSubscriptionCreateData nonUeN2InfoSubscriptionCreateData;
+  NonUeN2InfoSubscriptionCreateData nonUeN2InfoSubscriptionCreateData;
   // setGlobalRanNodeList / setAnTypeList
   nonUeN2InfoSubscriptionCreateData.setN2InformationClass(n2InformationClass);
   nonUeN2InfoSubscriptionCreateData.setN2NotifyCallbackUri(n2NotifyCallbackUri);
@@ -108,8 +108,8 @@ std::string NonUeN2MessageSubscription::subscribe() {
 
   try {
     // 6.1.6.2.11 Type: NonUeN2InfoSubscriptionCreatedData
-    model::NonUeN2InfoSubscriptionCreatedData
-        nonUeN2InfoSubscriptionCreatedData{nlohmann::json::parse(response)};
+    NonUeN2InfoSubscriptionCreatedData nonUeN2InfoSubscriptionCreatedData{
+        nlohmann::json::parse(response)};
     auto const& id =
         nonUeN2InfoSubscriptionCreatedData.getN2NotifySubscriptionId();
     return id;

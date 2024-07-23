@@ -212,7 +212,7 @@ void lmf_sbi_helper::get_lmf_non_ue_n2_info_notify_nrppa_callback_uri(
 void lmf_sbi_helper::throwHttpError(
     std::string const& title, std::string const& detail,
     std::string const& instance, Pistache::Http::Code const& code) {
-  oai::lmf_server::model::ProblemDetails pd;
+  oai::model::common::ProblemDetails pd;
   fmt::dynamic_format_arg_store<fmt::format_context> args;
   std::string fmt;
 
