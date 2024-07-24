@@ -166,6 +166,14 @@ bool LocationDetermination::n1_n2_message_transfer(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(txnId, procedureCode);
+      !inserted) {
+    throwHttpError(
+        "n1_n2_message_transfer"s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+
   // Send HTTP request
   oai::http::request http_request =
       http_client_inst->prepare_multipart_request(amf_uri, body);
@@ -179,6 +187,9 @@ bool LocationDetermination::n1_n2_message_transfer(
   if (!rspData_json.contains("cause") ||
       rspData_json["cause"] !=
           n1_n2_message_transfer_cause_e2str[N1_N2_TRANSFER_INITIATED]) {
+    this->nrppa_tId.erase(txnId);
+    lmf_app_inst->nrppa_tid_gen.free_uid(txnId);
+
     auto const& title = "n1n2message transfer failed"s;
     auto const& cause =
         rspData_json.contains("cause") ?
@@ -186,14 +197,6 @@ bool LocationDetermination::n1_n2_message_transfer(
             "no cause"s;
     auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
     throwHttpError(title, detail);
-  }
-
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(txnId, procedureCode);
-      !inserted) {
-    throwHttpError(
-        "n1_n2_message_transfer"s,
-        "nrppa id "s + std::to_string(txnId) + " reuse"s);
   }
 
   return true;
@@ -289,6 +292,20 @@ bool LocationDetermination::non_ue_n2_message_transfer(
       body, json_part, CURL_MIME_BOUNDARY, nrppaMsgHex,
       multipart_related_content_part_e::NGAP);
 
+  // avoid
+  // [error] extract_nrppaTxnId2Supi: unknown nrppa txn id:0
+  // prepare receiving n2 notification before sending request,
+  // because if the amf/gnb is fast the nrppa response
+  // can be received before NON_UE_N2_TRANSFER_INITIATED
+  if (auto const& [iter, inserted] =
+          this->nrppa_tId.try_emplace(txnId, procedureCode);
+      !inserted) {
+    throwHttpError(
+        "non-ue n2 message transfer: "s,
+        "nrppa id "s + std::to_string(txnId) + " reuse"s);
+  }
+  lmf_app_inst->insert_nrppaTxnId2supi(txnId, this->supi);
+
   // Send HTTP request
   oai::http::request http_request =
       http_client_inst->prepare_multipart_request(amf_uri, body);
@@ -303,9 +320,13 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   // model::N2InformationTransferResult
 
   auto const& rspData_json = nlohmann::json::parse(response);
-  if (!rspData_json.contains("cause") ||
-      rspData_json["cause"] != non_ue_n2_message_transfer_cause_e2str
-                                   [NON_UE_N2_TRANSFER_INITIATED]) {
+  if ((rspData_json.contains("cause") &&
+       (rspData_json["cause"] != "NON_UE_N2_TRANSFER_INITIATED")) ||
+      (rspData_json.contains("result") &&
+       (rspData_json["result"] != "N2_INFO_TRANSFER_INITIATED"))) {
+    this->nrppa_tId.erase(txnId);
+    lmf_app_inst->nrppa_tid_gen.free_uid(txnId);
+
     auto const& title = "non-ue-n2-message transfer failed"s;
     auto const& cause =
         rspData_json.contains("cause") ?
@@ -314,15 +335,6 @@ bool LocationDetermination::non_ue_n2_message_transfer(
     auto const& detail = "supi: '"s + this->supi + "': cause: "s + cause;
     throwHttpError(title, detail);
   }
-
-  if (auto const& [iter, inserted] =
-          this->nrppa_tId.try_emplace(txnId, procedureCode);
-      !inserted) {
-    throwHttpError(
-        "non-ue n2 message transfer: "s,
-        "nrppa id "s + std::to_string(txnId) + " reuse"s);
-  }
-  lmf_app_inst->insert_nrppaTxnId2supi(txnId, this->supi);
 
   return true;
 }

@@ -179,6 +179,7 @@ void lmf_app::trp_information(
   auto const& rc = this->cv_gnb.wait_for(lk, lmf_cfg.trp_info_wait_ms, pred);
   ctx->nrppa_tId.erase(tId);
   this->nrppa_tid_gen.free_uid(tId);
+  this->erase_nrppaTxnId2Supi(tId);
   if (this->trp_info_err.size() > 0) {
     oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "trp information failure",
@@ -495,7 +496,9 @@ void lmf_app::handle_trp_information_response(
                   plmnId.setMnc(mnc);
 
                   auto const& gnbValue =
-                      (boost::format("%x") % gnbId.value()).str();
+                      (boost::format(cellIdBitCnt <= 24 ? "%06x" : "%08x") %
+                       gnbId.value())
+                          .str();
                   model::GNbId gNbId;
                   gNbId.setGNBValue(gnbValue);
                   gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
@@ -599,7 +602,7 @@ void lmf_app::handle_trp_information_response(
           } else {
             oai::lmf::api::lmf_sbi_helper::throwHttpError(
                 "trp information response",
-                "gnb_id: " + std::to_string(gnbId.value()) +
+                "gnb_id: " + std::to_string(gnbId.value()) + " " +
                     "trp_id: " + std::to_string(trpId) + " not unique");
           }
         } else {
@@ -614,7 +617,7 @@ void lmf_app::handle_trp_information_response(
 
 bool lmf_app::handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa) {
   auto const& nrppaTxnId = getNrppaTxnId(nrppa);
-  auto const& supi       = this->extract_nrppaTxnId2Supi(nrppaTxnId);
+  auto const& supi       = this->get_nrppaTxnId2Supi(nrppaTxnId);
 
   return this->handle_n2info_nrppa_notification(supi, nrppa);
 }
@@ -650,6 +653,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
   if (procedureCode != ProcedureCode_id_tRPInformationExchange) {
     ctx->nrppa_tId.erase(tId);          // not for incomming/initiating!
     this->nrppa_tid_gen.free_uid(tId);  // for reuse
+    this->erase_nrppaTxnId2Supi(tId);
   }
 
   if (nrppa->present == NRPPA_PDU_PR_unsuccessfulOutcome) {
@@ -859,4 +863,28 @@ std::string oai::lmf::app::lmf_app::extract_nrppaTxnId2Supi(
         "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
   }
   return nh.mapped();
+}
+
+std::string oai::lmf::app::lmf_app::get_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& it = this->nrppaTxnId2supi.find(nrppaTxnId);
+  if (it == std::end(this->nrppaTxnId2supi)) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "get_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  return it->second;
+}
+
+void oai::lmf::app::lmf_app::erase_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& it = this->nrppaTxnId2supi.find(nrppaTxnId);
+  if (it == std::end(this->nrppaTxnId2supi)) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "erase_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  this->nrppaTxnId2supi.erase(it);
 }
