@@ -42,6 +42,7 @@ using namespace oai::lmf::api;
 
 extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
+//------------------------------------------------------------------------------
 // 5.2.2.4.3 NonUeN2InfoUnsubscribe
 void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
   // 1. DELETE
@@ -69,6 +70,7 @@ void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
   }
 }
 
+//------------------------------------------------------------------------------
 // 5.2.2.4.2 NonUeN2InfoSubscribe
 std::string NonUeN2MessageSubscription::subscribe() {
   // 1. POST

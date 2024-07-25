@@ -40,6 +40,7 @@
 using namespace oai::lmf::config;
 using namespace oai::lmf::app;
 using namespace oai::model::common;
+using namespace boost::placeholders;
 
 using json = nlohmann::json;
 
