@@ -32,15 +32,13 @@
 #include "PatchItem.h"
 #include "http_client.hpp"
 #include "lmf.h"
-#include "lmf_app.hpp"
+#include "lmf_config.hpp"
 #include "lmf_profile.hpp"
 #include "logger.hpp"
 #include "sbi_helper.hpp"
 
 using namespace oai::lmf::config;
 using namespace oai::lmf::app;
-using namespace boost::placeholders;
-using namespace oai::model::lmf;
 using namespace oai::model::common;
 
 using json = nlohmann::json;

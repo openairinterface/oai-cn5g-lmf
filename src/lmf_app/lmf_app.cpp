@@ -35,6 +35,7 @@
 #include <string>
 #include <thread>
 
+#include "3gpp_29.500.h"
 #include "3gpp_29.518.h"
 #include "conversions.hpp"
 #include "lmf_nrf.hpp"
@@ -239,7 +240,8 @@ void lmf_app::handle_determine_location(
     Logger::lmf_app().warn(err);
     ProblemDetails problemDetails;
     problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
+    problemDetails.setStatus(
+        oai::common::sbi::http_status_code::INTERNAL_SERVER_ERROR);
     problemDetails.setDetail(err);
 
     json_data = problemDetails;
@@ -406,6 +408,7 @@ void oai::lmf::app::lmf_app::release_non_ue_subscription() {
   }
 }
 
+//------------------------------------------------------------------------------
 NRPPATransactionID_t getNrppaTxnId(NrppaPduShared nrppa) {
   switch (nrppa->present) {
     case NRPPA_PDU_PR_initiatingMessage:
