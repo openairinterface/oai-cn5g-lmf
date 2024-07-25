@@ -60,6 +60,9 @@ class lmf_app {
 
   virtual ~lmf_app();
 
+  bool start();
+  void stop();
+
   void handle_determine_location(
       const oai::model::lmf::InputData& inputData, nlohmann::json& json_data,
       Pistache::Http::Code& code);

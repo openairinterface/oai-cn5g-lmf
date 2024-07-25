@@ -93,32 +93,50 @@ auto end(T const& container) {
 
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
-    : event_sub(ev) {
-  Logger::lmf_app().startup("Starting...");
-  try {
-    lmf_nrf_inst = new lmf_nrf(ev);
-    // Register to NRF
-    if (lmf_cfg.register_nrf) {
-      lmf_nrf_inst->register_to_nrf();
-    }
-    Logger::lmf_app().info("NRF TASK Created ");
-  } catch (std::exception& e) {
-    Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
-    throw;
-  }
-
-  Logger::lmf_app().startup("Started");
-}
+    : event_sub(ev) {}
 
 //------------------------------------------------------------------------------
 lmf_app::~lmf_app() {
+  if (lmf_nrf_inst) {
+    delete lmf_nrf_inst;
+    lmf_nrf_inst = nullptr;
+  }
   Logger::lmf_app().debug("Delete LMF_APP instance...");
 }
 
+//------------------------------------------------------------------------------
+bool lmf_app::start() {
+  Logger::lmf_app().startup("Starting...");
+  // Create NRF instance and register to NRF if needed
+  if (lmf_cfg.register_nrf) {
+    try {
+      lmf_nrf_inst = new lmf_nrf(event_sub);
+      Logger::lmf_app().info("NRF TASK Created ");
+      // Register to NRF
+      lmf_nrf_inst->register_to_nrf();
+    } catch (std::exception& e) {
+      Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
+      return false;
+    }
+  }
+  Logger::lmf_app().startup("Started");
+  return true;
+}
+
+//------------------------------------------------------------------------------
+void lmf_app::stop() {
+  if (lmf_nrf_inst and lmf_cfg.register_nrf) {
+    lmf_nrf_inst->deregister_to_nrf();
+    delete lmf_nrf_inst;
+    lmf_nrf_inst = nullptr;
+  }
+}
+
+//------------------------------------------------------------------------------
 void lmf_app::trp_information_request(
     std::shared_ptr<LocationDetermination> const& ctx,
     NRPPATransactionID_t const& nrppatransactionID) {
-  Logger::lmf_app().info("trp information request");
+  Logger::lmf_app().info("TRP information request");
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
@@ -150,6 +168,7 @@ void lmf_app::trp_information_request(
       ProcedureCode_id_tRPInformationExchange, {}, nullptr);
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::trp_information(
     std::shared_ptr<LocationDetermination> const& ctx) {
   std::unique_lock lk{this->cv_m_gnb};
@@ -206,6 +225,7 @@ void lmf_app::trp_information(
   }
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::handle_determine_location(
     const InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
@@ -286,10 +306,12 @@ void lmf_app::handle_determine_location(
   return;
 }
 
+//------------------------------------------------------------------------------
 bool lmf_app::_is_supi_2_context(const std::string& supi) const {
   return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
 }
 
+//------------------------------------------------------------------------------
 bool lmf_app::is_supi_2_context(const string& supi) const {
   std::shared_lock lock(m_supi2ctx);
   return _is_supi_2_context(supi);
@@ -307,6 +329,7 @@ std::shared_ptr<LocationDetermination> lmf_app::create_lmf_context(
   return supi2ctx[supi] = std::make_shared<LocationDetermination>(supi);
 }
 
+//------------------------------------------------------------------------------
 std::shared_ptr<LocationDetermination> lmf_app::supi_2_context(
     const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
@@ -317,17 +340,20 @@ std::shared_ptr<LocationDetermination> lmf_app::supi_2_context(
   return supi2ctx.at(supi);
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::set_supi_2_context(
     const string& supi, const std::shared_ptr<LocationDetermination>& lc) {
   std::unique_lock lock(m_supi2ctx);
   supi2ctx[supi] = lc;
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::del_supi_2_context(const string& supi) {
   std::unique_lock lock(m_supi2ctx);
   supi2ctx.erase(supi);
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::create_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(m_supi2n1n2subs);
 
@@ -339,18 +365,21 @@ void lmf_app::create_n1n2subscription(const std::string& supi) {
       subscription.supi, subscription.id);
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(this->m_supi2n1n2subs);
 
   this->supi2n1n2subs.erase(supi);
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::release_all_n1n2subscriptions() {
   std::unique_lock lock(m_supi2n1n2subs);
 
   this->supi2n1n2subs.clear();
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::create_non_ue_subscription() {
   std::scoped_lock lock(this->m_non_ue_subs);
 
@@ -364,6 +393,7 @@ void lmf_app::create_non_ue_subscription() {
   }
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::release_non_ue_subscription() {
   std::scoped_lock lock(this->m_non_ue_subs);
 
@@ -390,6 +420,7 @@ NRPPATransactionID_t getNrppaTxnId(NrppaPduShared nrppa) {
   return 0;
 }
 
+//------------------------------------------------------------------------------
 // check 1:1 relationship between procedureCode and value.present
 template<typename T, typename U>
 static void checkPC(T const& present, U const& expected) {
@@ -402,6 +433,7 @@ static void checkPC(T const& present, U const& expected) {
   }
 }
 
+//------------------------------------------------------------------------------
 template<typename T, typename U, typename V>
 static U const& getPR(U const& choice, T const& value, V const& expected) {
   if (value.present != expected) {
@@ -414,6 +446,7 @@ static U const& getPR(U const& choice, T const& value, V const& expected) {
   return choice;
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::handle_trp_information_response(
     NrppaPduShared nrppa, NRPPATransactionID_t const& tId,
     TRPInformationResponse_t const& trpInformation) {
@@ -612,6 +645,7 @@ void lmf_app::handle_trp_information_response(
   this->cv_gnb.notify_one();
 }
 
+//------------------------------------------------------------------------------
 bool lmf_app::handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa) {
   auto const& nrppaTxnId = getNrppaTxnId(nrppa);
   auto const& supi       = this->extract_nrppaTxnId2Supi(nrppaTxnId);
@@ -619,6 +653,7 @@ bool lmf_app::handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa) {
   return this->handle_n2info_nrppa_notification(supi, nrppa);
 }
 
+//------------------------------------------------------------------------------
 // TODO: replace bool retval with exception
 // shoult not fail
 bool lmf_app::handle_n2info_nrppa_notification(
@@ -765,6 +800,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
   return false;
 }
 
+//------------------------------------------------------------------------------
 NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
     N2InformationNotification const& n2InformationNotification,
     mime_part const& nrppa_part) {
@@ -837,6 +873,7 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
   return share_nrppa_pdu(nrppa);
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::insert_nrppaTxnId2supi(
     NRPPATransactionID_t const& nrppaTxnId, std::string const& supi) {
   std::unique_lock lock{this->m_nrppaTxnId2supi};
@@ -849,6 +886,7 @@ void oai::lmf::app::lmf_app::insert_nrppaTxnId2supi(
   }
 }
 
+//------------------------------------------------------------------------------
 std::string oai::lmf::app::lmf_app::extract_nrppaTxnId2Supi(
     NRPPATransactionID_t const& nrppaTxnId) {
   std::unique_lock lock{this->m_nrppaTxnId2supi};

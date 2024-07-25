@@ -334,6 +334,7 @@ lmf_config_yaml::lmf_config_yaml(
 //------------------------------------------------------------------------------
 lmf_config_yaml::~lmf_config_yaml() {}
 
+//------------------------------------------------------------------------------
 void lmf_config_yaml::pre_process() {
   // Process configuration information to display only the appropriate
   // information

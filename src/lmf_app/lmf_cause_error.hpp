@@ -24,7 +24,6 @@
 
 #include "logger.hpp"
 
-// nrppa
 #include "Cause.h"
 #include "ProtocolIE-ID.h"
 #include "lmf_sbi_helper.hpp"
