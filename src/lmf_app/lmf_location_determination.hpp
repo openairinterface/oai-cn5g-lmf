@@ -110,7 +110,7 @@ class LocationDetermination {
   bool non_ue_n2_message_transfer(
       NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode,
-      std::vector<oai::lmf_server::model::GlobalRanNodeId> const& grnidl,
+      std::vector<oai::model::common::GlobalRanNodeId> const& grnidl,
       SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
 
   // mapping between nrppa transaction and transaction type

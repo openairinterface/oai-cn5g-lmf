@@ -33,7 +33,7 @@
 
 #include "mime_parser.hpp"
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
 class NonUeN2InfoNotifyApi {
  public:
@@ -58,6 +58,6 @@ class NonUeN2InfoNotifyApi {
       Pistache::Http::ResponseWriter& response) = 0;
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif /* NonUeN2InfoNotifyApi_H_ */

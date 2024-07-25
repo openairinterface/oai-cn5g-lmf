@@ -308,10 +308,12 @@ lmf_config_yaml::lmf_config_yaml(
   m_used_sbi_values = {
       oai::config::LMF_CONFIG_NAME, oai::config::AMF_CONFIG_NAME,
       oai::config::NRF_CONFIG_NAME};
-  m_used_config_values = {
-      oai::config::LOG_LEVEL_CONFIG_NAME, oai::config::REGISTER_NF_CONFIG_NAME,
-      oai::config::NF_CONFIG_HTTP_NAME,   oai::config::NF_CONFIG_CURL_TIMEOUT,
-      oai::config::NF_LIST_CONFIG_NAME,   oai::config::LMF_CONFIG_NAME};
+  m_used_config_values = {oai::config::LOG_LEVEL_CONFIG_NAME,
+                          oai::config::REGISTER_NF_CONFIG_NAME,
+                          oai::config::NF_CONFIG_HTTP_NAME,
+                          oai::config::NF_CONFIG_HTTP_REQUEST_TIMEOUT,
+                          oai::config::NF_LIST_CONFIG_NAME,
+                          oai::config::LMF_CONFIG_NAME};
 
   // TODO with NF_Type and switch
   auto m_lmf = std::make_shared<lmf>(
@@ -348,7 +350,7 @@ void lmf_config_yaml::to_lmf_config(oai::lmf::config::lmf_config& cfg) {
   cfg.lmf_name                   = lmf_local->get_lmf_name();
   cfg.log_level                  = spdlog::level::from_str(log_level());
   cfg.register_nrf               = register_nrf();
-  cfg.curl_timeout               = get_curl_timeout();
+  cfg.http_request_timeout       = get_http_request_timeout();
 
   if (get_http_version() == 2) cfg.use_http2 = true;
 

@@ -13,11 +13,9 @@
 
 #include "LocationContextTransferApiImpl.h"
 
-namespace oai {
-namespace lmf_server {
-namespace api {
+namespace oai::lmf::api {
 
-using namespace oai::lmf_server::model;
+using namespace oai::model::lmf;
 
 LocationContextTransferApiImpl::LocationContextTransferApiImpl(
     const std::shared_ptr<Pistache::Rest::Router>& rtr)
@@ -29,6 +27,4 @@ void LocationContextTransferApiImpl::location_context_transfer(
   response.send(Pistache::Http::Code::Ok, "Do some magic\n");
 }
 
-}  // namespace api
-}  // namespace lmf_server
-}  // namespace oai
+}  // namespace oai::lmf::api

@@ -70,8 +70,8 @@ void setUpUnixSignals(std::vector<int> quitSignals) {
 }
 #endif
 
-using namespace oai::lmf_server::api;
-using namespace oai::lmf_server::model;
+using namespace oai::lmf::api;
+using namespace oai::model::lmf;
 using namespace oai::lmf::app;
 
 void LMFApiServer::init(size_t thr) {

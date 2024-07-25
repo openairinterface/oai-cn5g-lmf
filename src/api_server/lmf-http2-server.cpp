@@ -44,8 +44,9 @@
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
 using namespace oai::lmf::config;
-using namespace oai::lmf_server;
+using namespace oai::model::lmf;
 using namespace oai::lmf::api;
+using namespace oai::model::common;
 
 extern lmf_config lmf_cfg;
 
@@ -82,7 +83,7 @@ void lmf_http2_server::start() {
               if (msg.size() == 0 || request.method().compare("POST") != 0) {
                 throw std::runtime_error("invalid request");
               }
-              model::InputData inputData{nlohmann::json::parse(msg)};
+              InputData inputData{nlohmann::json::parse(msg)};
               this->detemine_location_post_handler(inputData, response);
             }
           } catch (std::exception& e) {
@@ -204,7 +205,7 @@ void lmf_http2_server::start() {
 
 void lmf_http2_server::non_ue_n2info_nrppa_notification_post_handler(
     std::vector<mime_part>& parts, const response& response) {
-  model::N2InformationNotification n2InformationNotification{
+  N2InformationNotification n2InformationNotification{
       nlohmann::json::parse(parts.at(0).body)};
   // TODO: handle subscrription id
   auto const& n2NotifySubscriptionId =
@@ -216,7 +217,7 @@ void lmf_http2_server::non_ue_n2info_nrppa_notification_post_handler(
       n2InformationNotification, parts.at(1));
   header_map h;
   unsigned code = oai::common::sbi::http_status_code::NO_CONTENT;
-  model::ProblemDetails problemDetails;
+  ProblemDetails problemDetails;
   std::string reason;
   try {
     m_lmf_app->handle_non_ue_n2info_nrppa_notification(nrppa);
@@ -251,7 +252,7 @@ void lmf_http2_server::non_ue_n2info_nrppa_notification_post_handler(
 void lmf_http2_server::n2info_nrppa_notification_post_handler(
     const std::string& ueContextId, std::vector<mime_part>& parts,
     const response& response) {
-  model::N2InformationNotification n2InformationNotification{
+  N2InformationNotification n2InformationNotification{
       nlohmann::json::parse(parts.at(0).body)};
   // TODO: handle subscrription id
   auto const& n2NotifySubscriptionId =
@@ -265,7 +266,7 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
       n2InformationNotification, parts.at(1));
   header_map h;
   unsigned code = oai::common::sbi::http_status_code::NO_CONTENT;
-  model::ProblemDetails problemDetails;
+  ProblemDetails problemDetails;
   std::string reason;
   try {
     m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa);
@@ -297,8 +298,7 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
 }
 
 void lmf_http2_server::detemine_location_post_handler(
-    const oai::lmf_server::model::InputData& inputData,
-    const response& response) {
+    const oai::model::lmf::InputData& inputData, const response& response) {
   Logger::lmf_server().info("Received determine_location_post Request");
 
   nlohmann::json locationData_json = {};

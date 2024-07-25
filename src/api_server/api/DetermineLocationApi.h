@@ -35,7 +35,7 @@
 #include "RedirectResponse.h"
 #include <string>
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
 class DetermineLocationApi {
  public:
@@ -82,10 +82,10 @@ class DetermineLocationApi {
   /// </remarks>
   /// <param name="inputData"></param>
   virtual void determine_location(
-      const oai::lmf_server::model::InputData& inputData,
+      const oai::model::lmf::InputData& inputData,
       Pistache::Http::ResponseWriter& response) = 0;
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif /* DetermineLocationApi_H_ */
