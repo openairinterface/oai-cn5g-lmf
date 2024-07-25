@@ -22,11 +22,10 @@
 #ifndef FILE_LMF_CAUSE_ERROR_HPP_SEEN
 #define FILE_LMF_CAUSE_ERROR_HPP_SEEN
 
-#include "logger.hpp"
-
 #include "Cause.h"
 #include "ProtocolIE-ID.h"
 #include "lmf_sbi_helper.hpp"
+#include "logger.hpp"
 
 namespace oai::lmf::app {
 
