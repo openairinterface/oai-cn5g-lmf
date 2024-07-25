@@ -653,6 +653,10 @@ bool lmf_app::handle_n2info_nrppa_notification(
   if (procedureCode != ProcedureCode_id_tRPInformationExchange) {
     ctx->nrppa_tId.erase(tId);          // not for incomming/initiating!
     this->nrppa_tid_gen.free_uid(tId);  // for reuse
+  }
+  // is non-ue but not a broadcast like trp-info
+  // TODO: introduce non-ue "was broadcast" switch
+  if (procedureCode == ProcedureCode_id_Measurement) {
     this->erase_nrppaTxnId2Supi(tId);
   }
 
