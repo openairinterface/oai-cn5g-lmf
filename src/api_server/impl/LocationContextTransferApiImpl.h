@@ -33,12 +33,12 @@
 #include "RedirectResponse.h"
 #include <string>
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
-using namespace oai::lmf_server::model;
+using namespace oai::model::lmf;
 
 class LocationContextTransferApiImpl
-    : public oai::lmf_server::api::LocationContextTransferApi {
+    : public oai::lmf::api::LocationContextTransferApi {
  public:
   explicit LocationContextTransferApiImpl(
       const std::shared_ptr<Pistache::Rest::Router>& rtr);
@@ -49,6 +49,6 @@ class LocationContextTransferApiImpl
       Pistache::Http::ResponseWriter& response);
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif

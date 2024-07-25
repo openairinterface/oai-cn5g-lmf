@@ -19,9 +19,9 @@
 #include <stdlib.h>  // srand
 #include <unistd.h>  // get_pid(), pause()
 
+#include <chrono>
 #include <iostream>
 #include <thread>
-#include <chrono>
 
 #include "http_client.hpp"
 #include "lmf-api-server.h"
@@ -137,8 +137,8 @@ int main(int argc, char** argv) {
   // HTTP Client
   uint8_t http_version = lmf_cfg.use_http2 ? 2 : 1;
   http_client_inst     = oai::http::http_client::create_instance(
-      Logger::lmf_client(), oai::common::sbi::kNfDefaultHttpRequestTimeout,
-      lmf_cfg.sbi.if_name, http_version);
+      Logger::lmf_client(), lmf_cfg.http_request_timeout, lmf_cfg.sbi.if_name,
+      http_version);
 
   // LMF application layer
   lmf_app_inst = new lmf_app(Options::getlibconfigConfig(), ev);

@@ -28,7 +28,10 @@
 
 #include "N2InformationNotification.h"
 
-namespace oai::lmf_server::api {
+using namespace oai::model::common;
+using namespace oai::model::lmf;
+
+namespace oai::lmf::api {
 
 NonUeN2InfoNotifyApiImpl::NonUeN2InfoNotifyApiImpl(
     std::shared_ptr<Pistache::Rest::Router> rtr,
@@ -37,12 +40,12 @@ NonUeN2InfoNotifyApiImpl::NonUeN2InfoNotifyApiImpl(
 
 void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
     std::vector<mime_part>& parts, Pistache::Http::ResponseWriter& response) {
-  using namespace oai::lmf_server;
+  using namespace oai::model::lmf;
 
   Logger::lmf_server().debug(
       "Receive an NonUeN2Info NRPPA Notify, handling...");
 
-  model::N2InformationNotification n2InformationNotification{
+  N2InformationNotification n2InformationNotification{
       nlohmann::json::parse(parts.at(0).body)};
 
   // TODO: handle subscrription id
@@ -64,7 +67,7 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
 
   // Check N2 Information Class
   if (eN2InformationClass !=
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
     response.send(Pistache::Http::Code::Bad_Request);
     Logger::lmf_server().error(
         "N2 Information Class not NRPPA: %d",
@@ -94,7 +97,7 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
   }
   // NGAP IE Type
   auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
-  if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
     response.send(Pistache::Http::Code::Bad_Request);
     Logger::lmf_server().error(
         "ngapIeType not NRPPA_PDU: %d", static_cast<int>(eNgapIeType));
@@ -124,8 +127,8 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
   // Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
-  model::ProblemDetails problem_details = {};
-  uint8_t http_code                     = 0;
+  ProblemDetails problem_details = {};
+  uint8_t http_code              = 0;
 
   if (m_lmf_app->handle_non_ue_n2info_nrppa_notification(
           share_nrppa_pdu(nrppa))) {
@@ -133,4 +136,4 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
   }
 }
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api

@@ -22,8 +22,8 @@
 #ifndef _LMF_CONFIG_H_
 #define _LMF_CONFIG_H_
 
-#include <string>
 #include <chrono>
+#include <string>
 
 #include "logger_base.hpp"
 #include "sbi_helper.hpp"
@@ -58,7 +58,7 @@ class lmf_config {
   bool register_nrf;
   bool request_trp_info;
   bool use_http2;
-  uint32_t curl_timeout;
+  uint32_t http_request_timeout;
 };
 
 }  // namespace oai::lmf::config

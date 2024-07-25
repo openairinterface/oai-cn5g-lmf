@@ -29,7 +29,7 @@
 
 using namespace Pistache;
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
 using namespace oai::lmf::api;
 
@@ -109,4 +109,4 @@ void NonUeN2InfoNotifyApi::notify_non_ue_n2info_default_handler(
   response.send(Http::Code::Not_Found, "The requested method does not exist");
 }
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api

@@ -41,6 +41,8 @@
 using namespace oai::lmf::config;
 using namespace oai::lmf::app;
 using namespace boost::placeholders;
+using namespace oai::model::lmf;
+using namespace oai::model::common;
 
 using json = nlohmann::json;
 
@@ -137,12 +139,12 @@ void lmf_nrf::start_event_nf_heartbeat(std::string& remoteURI) {
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   _unused(ms);
-  oai::lmf_server::model::PatchItem patch_item = {};
-  std::vector<oai::lmf_server::model::PatchItem> patch_items;
+  PatchItem patch_item = {};
+  std::vector<PatchItem> patch_items;
   //{"op":"replace","path":"/nfStatus", "value": "REGISTERED"}
-  oai::lmf_server::model::PatchOperation patch_operation;
-  patch_operation.setEnumValue(oai::lmf_server::model::PatchOperation_anyOf::
-                                   ePatchOperation_anyOf::REPLACE);
+  PatchOperation patch_operation;
+  patch_operation.setEnumValue(
+      PatchOperation_anyOf::ePatchOperation_anyOf::REPLACE);
   patch_item.setOp(patch_operation);
   patch_item.setPath("/nfStatus");
   patch_item.setValue("REGISTERED");

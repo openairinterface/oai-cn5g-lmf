@@ -74,7 +74,7 @@ using namespace std::chrono_literals;
 
 using namespace std;
 using namespace oai::lmf::app;
-using namespace oai::lmf_server;
+using namespace oai::model::lmf;
 using namespace oai::lmf::config;
 
 lmf_nrf* lmf_nrf_inst = nullptr;
@@ -208,7 +208,7 @@ void lmf_app::trp_information(
 }
 
 void lmf_app::handle_determine_location(
-    const model::InputData& inputData, nlohmann::json& json_data,
+    const InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
   auto const& supi = inputData.getSupi();
 
@@ -217,7 +217,7 @@ void lmf_app::handle_determine_location(
     auto const& err =
         "Could not create context for supi '"s + supi + "': already exist"s;
     Logger::lmf_app().warn(err);
-    model::ProblemDetails problemDetails;
+    ProblemDetails problemDetails;
     problemDetails.setCause("INTERNAL_SERVER_ERROR");
     problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
     problemDetails.setDetail(err);
@@ -279,7 +279,7 @@ void lmf_app::handle_determine_location(
   auto const& locData = ctx->compute_location(this->gnb);
   // using hard coded location data as adeel requiered
   // can not use rel16 LocationData here, incompatible with rel17 values
-  // model::LocationData locationData{locData};
+  // LocationData locationData{locData};
   json_data = locData;  // locationData;
 
   this->del_supi_2_context(supi);
@@ -491,7 +491,7 @@ void lmf_app::handle_trp_information_response(
                         "trp information response", "invalid mnc: "s + mnc);
                   }
 
-                  model::PlmnId plmnId;
+                  PlmnId plmnId;
                   plmnId.setMcc(mcc);
                   plmnId.setMnc(mnc);
 
@@ -499,11 +499,11 @@ void lmf_app::handle_trp_information_response(
                       (boost::format(cellIdBitCnt <= 24 ? "%06x" : "%08x") %
                        gnbId.value())
                           .str();
-                  model::GNbId gNbId;
+                  GNbId gNbId;
                   gNbId.setGNBValue(gnbValue);
                   gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
 
-                  model::GlobalRanNodeId globalRanNodeId;
+                  GlobalRanNodeId globalRanNodeId;
                   globalRanNodeId.setPlmnId(plmnId);
                   globalRanNodeId.setGNbId(gNbId);
 
@@ -770,7 +770,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
 }
 
 NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
-    model::N2InformationNotification const& n2InformationNotification,
+    N2InformationNotification const& n2InformationNotification,
     mime_part const& nrppa_part) {
   if (!n2InformationNotification.n2InfoContainerIsSet()) {
     oai::lmf::api::lmf_sbi_helper::throwHttpError(
@@ -783,7 +783,7 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
 
   // Check N2 Information Class
   if (eN2InformationClass !=
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
     oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "N2 Information Class not NRPPA: " +
@@ -809,7 +809,7 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
   }
 
   auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
-  if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
     oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "ngapIeType not NRPPA_PDU: " +

@@ -16,10 +16,10 @@
 #include "Helpers.h"
 #include "lmf_sbi_helper.hpp"
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
-using namespace org::openapitools::server::helpers;
-using namespace oai::lmf_server::model;
+using namespace oai::model::common::helpers;
+using namespace oai::model::lmf;
 using namespace oai::lmf::api;
 
 LocationContextTransferApi::LocationContextTransferApi(
@@ -55,7 +55,7 @@ LocationContextTransferApi::handleParsingException(
     throw;
   } catch (nlohmann::detail::exception& e) {
     return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
-  } catch (org::openapitools::server::helpers::ValidationException& e) {
+  } catch (oai::model::common::helpers::ValidationException& e) {
     return std::make_pair(Pistache::Http::Code::Bad_Request, e.what());
   } catch (std::exception& e) {
     return std::make_pair(
@@ -110,4 +110,4 @@ void LocationContextTransferApi::location_context_transfer_api_default_handler(
       Pistache::Http::Code::Not_Found, "The requested method does not exist");
 }
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api

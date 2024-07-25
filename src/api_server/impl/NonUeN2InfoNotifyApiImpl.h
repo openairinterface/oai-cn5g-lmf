@@ -39,10 +39,9 @@
 #include "ProblemDetails.h"
 #include "lmf_app.hpp"
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
-class NonUeN2InfoNotifyApiImpl
-    : public oai::lmf_server::api::NonUeN2InfoNotifyApi {
+class NonUeN2InfoNotifyApiImpl : public oai::lmf::api::NonUeN2InfoNotifyApi {
  public:
   NonUeN2InfoNotifyApiImpl(
       std::shared_ptr<Pistache::Rest::Router>,
@@ -57,6 +56,6 @@ class NonUeN2InfoNotifyApiImpl
   // std::string m_address;
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif  // NonUeN2InfoNotifyApiImpl_H_
