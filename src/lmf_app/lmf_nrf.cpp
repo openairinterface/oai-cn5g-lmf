@@ -103,7 +103,7 @@ void lmf_nrf::register_to_nrf() {
   lmf_nf_profile.to_json(json_data);
 
   bool registration_success = false;
-  Logger::lmf_nrf().info("Sending NF registration request");
+  Logger::lmf_nrf().debug("Sending NF registration request");
 
   oai::http::request http_request =
       http_client_inst->prepare_json_request(remoteUri, json_data.dump());
@@ -117,6 +117,7 @@ void lmf_nrf::register_to_nrf() {
       response_data = nlohmann::json::parse(response);
       if (response.find("REGISTERED") != 0) {
         registration_success = true;
+        Logger::lmf_nrf().debug("Registered to NRF");
         start_event_nf_heartbeat(remoteUri);
         stop_nrf_registration_retry();
       }
