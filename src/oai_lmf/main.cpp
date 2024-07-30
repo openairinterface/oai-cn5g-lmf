@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
 
   // Logger
   Logger::init("lmf", Options::getlogStdout(), Options::getlogRotFilelog());
-  Logger::lmf_server().startup("Options parsed");
+  Logger::system().startup("Options parsed");
 
   std::signal(SIGTERM, my_app_signal_handler);
   std::signal(SIGINT, my_app_signal_handler);
@@ -143,6 +143,16 @@ int main(int argc, char** argv) {
   // LMF application layer
   lmf_app_inst = new lmf_app(Options::getlibconfigConfig(), ev);
 
+  if (!lmf_app_inst->start()) {
+    lmf_app_inst->stop();
+    Logger::system().error("Could not start LMF APP, exiting.");
+    if (lmf_app_inst) {
+      delete lmf_app_inst;
+      lmf_app_inst = nullptr;
+    }
+    return 1;
+  }
+
   // Task Manager
   tm_inst = new task_manager(ev);
   std::thread task_manager_thread(&task_manager::run, tm_inst);
@@ -151,8 +161,7 @@ int main(int argc, char** argv) {
   string pid_file_name =
       oai::utils::get_exe_absolute_path(lmf_cfg.pid_dir, lmf_cfg.instance);
   if (!oai::utils::is_pid_file_lock_success(pid_file_name.c_str())) {
-    Logger::lmf_server().error(
-        "Lock PID file %s failed\n", pid_file_name.c_str());
+    Logger::system().error("Lock PID file %s failed\n", pid_file_name.c_str());
     exit(-EDEADLK);
   }
 

@@ -36,6 +36,7 @@ using namespace std::string_literals;
 #include "logger.hpp"
 #include "nlohmann/json.hpp"
 #include "pistache/http_defs.h"
+
 using namespace oai::model::lmf;
 using namespace oai::lmf::api;
 
@@ -46,6 +47,7 @@ extern std::shared_ptr<oai::http::http_client> http_client_inst;
 // 5.2.2.3.5.5 Using N1MessageNotify in the LCS Event Report, LCS Cancel
 // Location and LCS Periodic-Triggered Invoke Procedures
 
+//------------------------------------------------------------------------------
 // 5.2.2.3.4 N1N2MessageUnSubscribe
 void N1N2MessageSubscription::unsubscribe(
     std::string const& id, std::string const& supi) {
@@ -77,6 +79,7 @@ void N1N2MessageSubscription::unsubscribe(
   }
 }
 
+//------------------------------------------------------------------------------
 // 3GPP TS 29.518 version 16.4.0 Release 16 / 5.2.2.3.3 N1N2MessageSubscribe
 std::string N1N2MessageSubscription::subscribe(std::string const& supi) {
   // 1. POST

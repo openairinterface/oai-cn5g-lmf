@@ -70,11 +70,13 @@ auto begin(T const& container) {
   return container.list.array;
 }
 
+//------------------------------------------------------------------------------
 template<typename T>
 auto end(T const& container) {
   return container.list.array + container.list.count;
 }
 
+//------------------------------------------------------------------------------
 template<
     class result_t   = std::chrono::milliseconds,
     class clock_t    = std::chrono::steady_clock,
@@ -83,18 +85,22 @@ auto elapsed_ms(std::chrono::time_point<clock_t, duration_t> const& start) {
   return std::chrono::duration_cast<result_t>(clock_t::now() - start).count();
 }
 
+//------------------------------------------------------------------------------
 std::shared_ptr<NRPPA_PDU_t> oai::lmf::app::share_nrppa_pdu(NRPPA_PDU_t* ptr) {
   return {
       ptr, [](NRPPA_PDU_t* ptr) { ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, ptr); }};
 }
 
+//------------------------------------------------------------------------------
 LocationDetermination::LocationDetermination(std::string supi)
     : supi{supi}, measurementId{lmf_app_inst->measurement_id_gen.get_uid()} {}
 
+//------------------------------------------------------------------------------
 LocationDetermination::~LocationDetermination() {
   lmf_app_inst->measurement_id_gen.free_uid(this->measurementId);
 }
 
+//------------------------------------------------------------------------------
 bool LocationDetermination::n1_n2_message_transfer(
     NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode) {
@@ -199,6 +205,7 @@ bool LocationDetermination::n1_n2_message_transfer(
   return true;
 }
 
+//------------------------------------------------------------------------------
 bool LocationDetermination::non_ue_n2_message_transfer(
     NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
     ProcedureCode_t const& procedureCode,
@@ -326,6 +333,7 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   return true;
 }
 
+//------------------------------------------------------------------------------
 template<typename T>
 T LocationDetermination::wait_for_notification(
     std::string const& kind, NRPPATransactionID_t const& tId,
@@ -357,6 +365,7 @@ T LocationDetermination::wait_for_notification(
   return f.get();
 }
 
+//------------------------------------------------------------------------------
 LocationDetermination::pos_info_res
 LocationDetermination::positioning_information_request() {
   auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
@@ -417,6 +426,7 @@ LocationDetermination::positioning_information_request() {
       lmf_cfg.positioning_wait_ms);
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::collectResult(
     Gnb const& gnb, TRP_MeasurementResponseList_t const& trpMeasurementList) {
   for (auto const& trpMeasurement : trpMeasurementList) {
@@ -444,6 +454,7 @@ void LocationDetermination::collectResult(
   }
 }
 
+//------------------------------------------------------------------------------
 LocationDetermination::mmr_res LocationDetermination::measurement_request(
     Gnb const& gnb, SRSConfiguration_t const& srsConfigurationUE) {
   Logger::lmf_app().info("measurement request");
@@ -552,6 +563,7 @@ LocationDetermination::mmr_res LocationDetermination::measurement_request(
   // MEASUREMENT RESPONSE ( 9.1.4.2 NRPPa TS 38.455 )
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::handle_measurement_response(
     NrppaPduShared nrppaPdu, MeasurementResponse_t const& measurementResponse) {
   Logger::lmf_app().info("handle measurement response");
@@ -567,6 +579,7 @@ void LocationDetermination::handle_measurement_response(
   }
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::handle_measurement_failure(
     NrppaPduShared nrppaPdu, MeasurementFailure_t const& measurementFailure) {
   auto err = CauseError::parse(
@@ -574,6 +587,7 @@ void LocationDetermination::handle_measurement_failure(
   this->measurement_response.set_value(err);
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::handle_positioning_information_response(
     NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningInformationResponse_t const& positioningInformationResponse) {
@@ -604,6 +618,7 @@ void LocationDetermination::handle_positioning_information_response(
   this->positioning_information_response.set_value(res.value());
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::handle_positioning_information_failure(
     NrppaPduShared nrppaPdu,
     PositioningInformationFailure_t const& positioningInformationFailure) {
@@ -613,6 +628,7 @@ void LocationDetermination::handle_positioning_information_failure(
   this->positioning_information_response.set_value(err);
 }
 
+//------------------------------------------------------------------------------
 // 9.1.1.17 POSITIONING ACTIVATION REQUEST
 LocationDetermination::pos_act_res
 LocationDetermination::positioning_activation_request() {
@@ -702,6 +718,7 @@ LocationDetermination::positioning_activation_request() {
       lmf_cfg.positioning_wait_ms);
 }
 
+//------------------------------------------------------------------------------
 // 9.1.1.20 POSITIONING DEACTIVATION
 bool LocationDetermination::positioning_deactivation_request() {
   auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
@@ -755,6 +772,7 @@ bool LocationDetermination::positioning_deactivation_request() {
   return true;
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::handle_positioning_activation_response(
     NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
     PositioningActivationResponse_t const& positioningActivationResponse) {
@@ -762,6 +780,7 @@ void LocationDetermination::handle_positioning_activation_response(
   this->positioning_activation_response.set_value({nrppaPdu});
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::handle_positioning_activation_failure(
     NrppaPduShared nrppa,
     PositioningActivationFailure_t const& positioningActivationFailure) {
@@ -771,6 +790,7 @@ void LocationDetermination::handle_positioning_activation_failure(
   this->positioning_activation_response.set_value(err);
 }
 
+//------------------------------------------------------------------------------
 void LocationDetermination::throwHttpError(
     std::string const& title, std::string const& detail,
     Pistache::Http::Code const& code) {
@@ -778,6 +798,7 @@ void LocationDetermination::throwHttpError(
       title, detail, this->supi, code);
 }
 
+//------------------------------------------------------------------------------
 nlohmann::json LocationDetermination::compute_location(
     std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
   for (auto const& [gnbId, trp] : this->result) {
