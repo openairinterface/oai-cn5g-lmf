@@ -241,7 +241,7 @@ void lmf_app::handle_determine_location(
       std::get<LocationDetermination::pos_info_succ>(res);
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
-  std::cout << "--> position information <<--" << std::endl;
+  // std::cout << "--> position information <<--" << std::endl;
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR.get());
 
   // 5. NRPPa Request UE SRS activation
@@ -252,8 +252,8 @@ void lmf_app::handle_determine_location(
     ctx->throwHttpError("positioning activation request failure", err.msg());
   }
   auto const& nrppaPduPA = std::get<LocationDetermination::pos_act_succ>(pares);
+  // std::cout << "--> positioning activation <<--" << std::endl;
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPA.get());
-  std::cout << "--> positioning activation <<--" << std::endl;
 
   for (auto const& [id, gnb] : this->gnb) {
     auto const& res = ctx->measurement_request(gnb, ueSrsConfiguration);
@@ -457,7 +457,7 @@ void lmf_app::handle_trp_information_response(
                 }
                 uint64_t nci = 0;
                 for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
-                  nci |= ngRanCell.buf[i++] << s;
+                  nci |= static_cast<uint64_t>(ngRanCell.buf[i++]) << s;
                 }
                 nci >>= ngRanCell.bits_unused;
                 auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
@@ -508,9 +508,9 @@ void lmf_app::handle_trp_information_response(
                   globalRanNodeId.setGNbId(gNbId);
 
                   Logger::lmf_app().info(
-                      "trp information: adding gnb with id: " +
-                      std::to_string(gnbId.value()) + " mcc: '" + mcc +
-                      "' mnc: '" + mnc + ":");
+                      "trp information: adding gnb with id: 0x%x mcc: %s mnc: "
+                      "%s",
+                      gnbId.value(), mcc, mnc);
 
                   if (auto const& [iter, inserted] = this->gnb.try_emplace(
                           gnbId.value(), gnbId.value(), globalRanNodeId);
@@ -589,9 +589,12 @@ void lmf_app::handle_trp_information_response(
         if (gnbId.has_value()) {
           if (this->gnb.at(gnbId.value()).trp.count(trpId) == 0) {
             Logger::lmf_app().info(
-                "trp information: adding to gnbId: " +
-                std::to_string(gnbId.value()) +
-                " trpId: " + std::to_string(trpId));
+                "trp information: adding to gnbId: 0x%x trpId: %d coordID: %d "
+                "x: %d y: %d z: %d",
+                gnbId.value(), trpId, trp.relativeCoordinateID,
+                trp.relativeCartesianLocation.xvalue,
+                trp.relativeCartesianLocation.yvalue,
+                trp.relativeCartesianLocation.zvalue);
             if (auto const& [iter, inserted] =
                     this->gnb.at(gnbId.value()).trp.try_emplace(trpId, trp);
                 !inserted) {

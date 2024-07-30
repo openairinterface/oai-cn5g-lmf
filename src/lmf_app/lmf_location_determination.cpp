@@ -372,7 +372,7 @@ T LocationDetermination::wait_for_notification(
 LocationDetermination::pos_info_res
 LocationDetermination::positioning_information_request() {
   auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
-
+  Logger::lmf_app().info("positioning_information_request: tId: %d", tId);
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
   *initiatingMessage = InitiatingMessage_t{
@@ -431,6 +431,7 @@ LocationDetermination::positioning_information_request() {
 
 void LocationDetermination::collectResult(
     Gnb const& gnb, TRP_MeasurementResponseList_t const& trpMeasurementList) {
+  std::unique_lock lock(this->m_result);
   for (auto const& trpMeasurement : trpMeasurementList) {
     auto const& trpId = trpMeasurement->tRP_ID;
     for (auto const& measurement : trpMeasurement->measurementResult) {
@@ -446,10 +447,14 @@ void LocationDetermination::collectResult(
                              key == ULRTOAMeas_PR_k3 ? choice.k3 :
                              key == ULRTOAMeas_PR_k4 ? choice.k4 :
                                                        choice.k5;
+        auto const& msg    = ((this->result.count(gnb.id) > 0) &&
+                           (this->result[gnb.id].count(trpId) > 0) &&
+                           (this->result[gnb.id][trpId].count(key) > 0)) ?
+                                 "replace" :
+                                 "insert";
         Logger::lmf_app().info(
-            "measurement: gnbId: %d, trpId: %d %s key k%d = %d", gnb.id, trpId,
-            this->result[gnb.id][trpId].count(key) == 0 ? "insert" : "replace",
-            key - 1, val);
+            "measurement: gnbId: 0x%x, trpId: %d %s key k%d = %d", gnb.id,
+            trpId, msg, key - 1, val);
         this->result[gnb.id][trpId][key] = val;
       }
     }
@@ -458,12 +463,12 @@ void LocationDetermination::collectResult(
 
 LocationDetermination::mmr_res LocationDetermination::measurement_request(
     Gnb const& gnb, SRSConfiguration_t const& srsConfigurationUE) {
-  Logger::lmf_app().info("measurement request");
-
   auto const& tId               = lmf_app_inst->nrppa_tid_gen.get_uid();
   auto const& globalRanNodeList = std::vector{gnb.ncgi};
   auto const& trpIdRng          = boost::adaptors::keys(gnb.trp);
   auto const& trpIds            = std::set(trpIdRng.begin(), trpIdRng.end());
+
+  Logger::lmf_app().info("measurement request: tId: %d", tId);
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
@@ -629,7 +634,7 @@ void LocationDetermination::handle_positioning_information_failure(
 LocationDetermination::pos_act_res
 LocationDetermination::positioning_activation_request() {
   auto const& tId = lmf_app_inst->nrppa_tid_gen.get_uid();
-
+  Logger::lmf_app().info("positioning_activation_request: tId: %d", tId);
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
   *initiatingMessage = InitiatingMessage_t{
@@ -792,6 +797,7 @@ void LocationDetermination::throwHttpError(
 
 nlohmann::json LocationDetermination::compute_location(
     std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
+  std::shared_lock lock(this->m_result);
   for (auto const& [gnbId, trp] : this->result) {
     if (gnbs.count(gnbId) == 0) {
       Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
@@ -801,7 +807,7 @@ nlohmann::json LocationDetermination::compute_location(
     for (auto const& [trpId, uLRTOAmeas] : trp) {
       if (gnb.trp.count(trpId) == 0) {
         Logger::lmf_app().warn(
-            "no such trpId: %d attached to gnbId: %d", trpId, gnbId);
+            "no such trpId: %d attached to gnbId: 0x%x", trpId, gnbId);
         continue;
       }
       auto const& trp             = gnb.trp.at(trpId);
@@ -810,7 +816,7 @@ nlohmann::json LocationDetermination::compute_location(
 
       for (auto const& [k, v] : uLRTOAmeas) {
         Logger::lmf_app().debug(
-            "gnbId: %d, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
+            "gnbId: 0x%x, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
             "k%d: %d",
             gnbId, trpId, trp.relativeCartesianLocation.xvalue, unit,
             trp.relativeCartesianLocation.yvalue, unit,
