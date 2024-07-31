@@ -60,12 +60,13 @@ class lmf_app {
 
   virtual ~lmf_app();
 
+  bool start();
+  void stop();
+
   void handle_determine_location(
       const oai::model::lmf::InputData& inputData, nlohmann::json& json_data,
       Pistache::Http::Code& code);
-
   bool handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa);
-
   bool handle_n2info_nrppa_notification(std::string supi, NrppaPduShared nrppa);
 
   bool is_supi_2_context(const std::string& supi) const;

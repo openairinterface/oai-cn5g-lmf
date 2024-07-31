@@ -34,14 +34,3 @@ bs2::connection lmf_event::subscribe_task_nf_heartbeat(
   };
   return task_tick.connect(f);
 }
-//------------------------------------------------------------------------------
-bs2::connection lmf_event::subscribe_loss_of_connectivity(
-    const loss_of_connectivity_sig_t::slot_type& sig) {
-  return loss_of_connectivity.connect(sig);
-}
-
-//------------------------------------------------------------------------------
-bs2::connection lmf_event::subscribe_ue_reachability_for_data(
-    const ue_reachability_for_data_sig_t::slot_type& sig) {
-  return ue_reachability_for_data.connect(sig);
-}
