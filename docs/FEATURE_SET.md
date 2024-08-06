@@ -47,10 +47,5 @@ Based on document **TS 23.273 (section 4.3.8 of TS 23.273)**.
 |      | or unciphered form and forward any ciphering keys to subscribed UEs via the AMF        |              |              |
 | 7    | Support change of a serving LMF for periodic or triggered location reporting for       | :x:          |              |
 |      | a target UE                                                                            |              |              |
-| 8    | Support of receiving stored UE Positioning Capability from AMF and support of          | :x:          |              |
-|      | providing updated UE Positioning Capability to AMF                                     |              |              |
-| 9    | Map the UE location to a country or an international area based on the request from AMF| :x:          |              |
-| 10   | Support determination of a UE location at a scheduled location time                    | :x:          |              |
-
 
       
