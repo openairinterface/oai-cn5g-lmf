@@ -50,6 +50,7 @@ file(GLOB LMF_src_files
   lmf_location_determination.cpp
   lmf_n1_n2_message_subscription.cpp
   lmf_non_ue_n2_message_subscription.cpp
+  RabbitmqBase.cpp
 )
 
 
@@ -57,4 +58,4 @@ add_library (LMF STATIC
   ${LMF_src_files}
 )
 #target_link_libraries(LMF LPP NRPPA)
-target_link_libraries(LMF NRPPA)
+target_link_libraries(LMF NRPPA SimpleAmqpClient)

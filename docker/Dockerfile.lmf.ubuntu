@@ -41,11 +41,31 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
       psmisc \
       git \
+      libboost-all-dev \
+      librabbitmq-dev \
+      nlohmann-json3-dev \
+      cmake \
+      #gcc \
+      g++ \
+      #libstdc++ \
   && rm -rf /var/lib/apt/lists/*
 
 # Some GIT configuration command quite useful
 RUN git config --global https.postBuffer 123289600 && \
     git config --global http.sslverify false
+
+# Clone the SimpleAmqpClient repository
+WORKDIR /openair-lmf/src
+RUN git clone https://github.com/alanxz/SimpleAmqpClient.git SimpleAmqpClient
+
+# Build SimpleAmqpClient
+WORKDIR /openair-lmf/src/SimpleAmqpClient
+#ENV CXX=gcc-11
+RUN mkdir simpleamqpclient-build && \
+    cd simpleamqpclient-build && \
+    cmake -DCMAKE_CXX_COMPILER=gcc-11 .. && \
+    make && \
+    make install
 
 # Copying source code
 WORKDIR /openair-lmf
@@ -89,6 +109,9 @@ RUN apt-get update && \
       iputils-ping \
       bc \
       tzdata \
+      libboost-all-dev \
+      librabbitmq-dev \
+      nlohmann-json3-dev \
 # Ubuntu 20 --> libasan5
 # Ubuntu 22 --> libasan6
 #      libasan? \
@@ -130,6 +153,7 @@ COPY --from=oai-lmf-builder \
     /usr/local/lib/libfmt.so \
     /usr/local/lib/libyaml-cpp.so.0.? \    
     /usr/local/lib/libcpr.so.1 \    
+    /usr/local/lib/libSimpleAmqpClient.so.7 \
     /usr/local/lib/
 
 RUN ldconfig && \

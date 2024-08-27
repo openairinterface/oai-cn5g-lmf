@@ -54,6 +54,8 @@
 #include "lmf_sbi_helper.hpp"
 #include "logger.hpp"
 #include "mime_parser.hpp"
+#include "RabbitmqBase.h"
+#define DEBUG_paas 1
 
 using namespace std::string_literals;
 using namespace oai::model::lmf;
@@ -815,10 +817,26 @@ void LocationDetermination::throwHttpError(
       title, detail, this->supi, code);
 }
 
-//------------------------------------------------------------------------------
+void sendAnchorPositions(RabbitmqBase& mq) {
+    // Read anchor positions from file
+    ifstream file("etc/AnchorPositions.json");
+
+    // Check input and remove white-spaces
+    json data = json::parse(file);
+    string msg = data.dump();
+
+    if (DEBUG_paas) {
+        cout << msg << endl;
+    }
+    
+    mq.setExchange("anchors");
+    mq.sendMessage(msg);
+}
+
 nlohmann::json LocationDetermination::compute_location(
     std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
   std::shared_lock lock(this->m_result);
+  std::vector<float> toas;
   for (auto const& [gnbId, trp] : this->result) {
     if (gnbs.count(gnbId) == 0) {
       Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
@@ -836,6 +854,7 @@ nlohmann::json LocationDetermination::compute_location(
       auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
 
       for (auto const& [k, v] : uLRTOAmeas) {
+        toas.push_back(v*1000);  // picoseconds
         Logger::lmf_app().debug(
             "gnbId: 0x%x, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
             "k%d: %d",
@@ -845,6 +864,11 @@ nlohmann::json LocationDetermination::compute_location(
       }
     }
   }
+
+  std::cout << "[PaaS] k Values:" << std::endl;
+  for (const auto& k : toas) {
+    std::cout << "k: " << k << std::endl;
+    }
 
   SupportedGADShapes supportedGADShapes;
   supportedGADShapes.setEnumValue(
@@ -868,13 +892,76 @@ nlohmann::json LocationDetermination::compute_location(
   LocationData locationData;
   locationData.setLocationEstimate(geographicArea);
 
+  // Fraunhofer IIS Positioning-as-a-Service (PaaS) cloud platform
+  // Establish and open RabbitMQ connection
+  RabbitmqBase mq = RabbitmqBase();  
+  mq.loadConfiguration();
+  cout << "[PaaS] Connection established!" << endl;
+  mq.openConnection();
+  cout << "[PaaS] Connection opened!" << endl;
+
+  // Send anchor positions
+  // Read anchor positions from file
+  ifstream file("etc/AnchorPositions.json");
+  // Check input and remove white-spaces
+  json data = json::parse(file);
+  string msg = data.dump();
+  if (DEBUG_paas) {
+      cout << msg << endl;
+  }
+  mq.setExchange("anchors");
+  mq.sendMessage(msg);
+
+  // Start sending TOAs to PaaS
+  mq.setExchange("toa_sets");
+  cout << "[PaaS] Start sending ..." << endl;
+  // round(1e12 * (distances / speedOfLight)); TOAs given in picoseconds
+  // Serialize and send message
+  string msg_body = RabbitmqBase::serializeTOAs(toas); 
+  bool wasSend = mq.sendMessage(msg_body);
+  if (wasSend) {
+    if (DEBUG_paas)
+      cout << "[PaaS] Message send!" << endl;
+  } else {
+    cout << "[PaaS] Error while sending message!" << endl;
+  }
+  mq.closeConnection();
+  cout << "[PaaS] ... connection closed!" << endl;
+
+  mq.loadConfiguration();
+  mq.openConnection();
+  // Receive position results from the Positioning-as-a-Service cloud platform
+  mq.startConsumer("positions");
+  cout << "[PaaS] Start receiving ..." << endl;
+  msg_body = "";
+  bool hasReceived = mq.getMessage(msg_body);
+
+  double pos_x = 0.0;
+  double pos_y = 0.0;
+
+  if (hasReceived) {
+    cout << "[PaaS] Position received!" << endl;
+
+    json data = json::parse(msg_body);
+    json pos = data["position"];
+    cout << "[PaaS] Position: " << pos << endl;
+
+    pos_x = std::stod(pos[0].get<std::string>());
+    pos_y = std::stod(pos[1].get<std::string>());
+    
+  } else {
+    sleep(0.5);
+  }
+  mq.closeConnection();
+  cout << "[PaaS] ... connection closed!" << endl;
+
   nlohmann::json j;
   j["localLocationEstimate"]["shape"]                           = "POINT";
   j["localLocationEstimate"]["localOrigin"]["coordinateId"]     = "string";
   j["localLocationEstimate"]["localOrigin"]["point"]["lon"]     = 180;
   j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
-  j["localLocationEstimate"]["point"]["x"]                      = 20;
-  j["localLocationEstimate"]["point"]["y"]                      = 10;
+  j["localLocationEstimate"]["point"]["x"]                      = pos_x;
+  j["localLocationEstimate"]["point"]["y"]                      = pos_y;
   j["localLocationEstimate"]["point"]["z"]                      = 15;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
