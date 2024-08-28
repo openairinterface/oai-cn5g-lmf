@@ -264,7 +264,6 @@ void lmf_app::handle_determine_location(
       std::get<LocationDetermination::pos_info_succ>(res);
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
-  // std::cout << "--> position information <<--" << std::endl;
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR.get());
 
   // 5. NRPPa Request UE SRS activation
@@ -275,7 +274,6 @@ void lmf_app::handle_determine_location(
     ctx->throwHttpError("positioning activation request failure", err.msg());
   }
   auto const& nrppaPduPA = std::get<LocationDetermination::pos_act_succ>(pares);
-  // std::cout << "--> positioning activation <<--" << std::endl;
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPA.get());
 
   for (auto const& [id, gnb] : this->gnb) {
