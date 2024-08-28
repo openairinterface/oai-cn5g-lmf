@@ -200,6 +200,7 @@ void lmf_app::trp_information(
   auto const& rc = this->cv_gnb.wait_for(lk, lmf_cfg.trp_info_wait_ms, pred);
   ctx->nrppa_tId.erase(tId);
   this->nrppa_tid_gen.free_uid(tId);
+  this->erase_nrppaTxnId2Supi(tId);
   if (this->trp_info_err.size() > 0) {
     oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "trp information failure",
@@ -263,7 +264,6 @@ void lmf_app::handle_determine_location(
       std::get<LocationDetermination::pos_info_succ>(res);
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
-  std::cout << "--> position information <<--" << std::endl;
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR.get());
 
   // 5. NRPPa Request UE SRS activation
@@ -275,7 +275,6 @@ void lmf_app::handle_determine_location(
   }
   auto const& nrppaPduPA = std::get<LocationDetermination::pos_act_succ>(pares);
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPA.get());
-  std::cout << "--> positioning activation <<--" << std::endl;
 
   for (auto const& [id, gnb] : this->gnb) {
     auto const& res = ctx->measurement_request(gnb, ueSrsConfiguration);
@@ -493,7 +492,7 @@ void lmf_app::handle_trp_information_response(
                 }
                 uint64_t nci = 0;
                 for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
-                  nci |= ngRanCell.buf[i++] << s;
+                  nci |= static_cast<uint64_t>(ngRanCell.buf[i++]) << s;
                 }
                 nci >>= ngRanCell.bits_unused;
                 auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
@@ -532,7 +531,9 @@ void lmf_app::handle_trp_information_response(
                   plmnId.setMnc(mnc);
 
                   auto const& gnbValue =
-                      (boost::format("%x") % gnbId.value()).str();
+                      (boost::format(cellIdBitCnt <= 24 ? "%06x" : "%08x") %
+                       gnbId.value())
+                          .str();
                   GNbId gNbId;
                   gNbId.setGNBValue(gnbValue);
                   gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
@@ -542,9 +543,9 @@ void lmf_app::handle_trp_information_response(
                   globalRanNodeId.setGNbId(gNbId);
 
                   Logger::lmf_app().info(
-                      "trp information: adding gnb with id: " +
-                      std::to_string(gnbId.value()) + " mcc: '" + mcc +
-                      "' mnc: '" + mnc + ":");
+                      "trp information: adding gnb with id: 0x%x mcc: %s mnc: "
+                      "%s",
+                      gnbId.value(), mcc, mnc);
 
                   if (auto const& [iter, inserted] = this->gnb.try_emplace(
                           gnbId.value(), gnbId.value(), globalRanNodeId);
@@ -623,9 +624,12 @@ void lmf_app::handle_trp_information_response(
         if (gnbId.has_value()) {
           if (this->gnb.at(gnbId.value()).trp.count(trpId) == 0) {
             Logger::lmf_app().info(
-                "trp information: adding to gnbId: " +
-                std::to_string(gnbId.value()) +
-                " trpId: " + std::to_string(trpId));
+                "trp information: adding to gnbId: 0x%x trpId: %d coordID: %d "
+                "x: %d y: %d z: %d",
+                gnbId.value(), trpId, trp.relativeCoordinateID,
+                trp.relativeCartesianLocation.xvalue,
+                trp.relativeCartesianLocation.yvalue,
+                trp.relativeCartesianLocation.zvalue);
             if (auto const& [iter, inserted] =
                     this->gnb.at(gnbId.value()).trp.try_emplace(trpId, trp);
                 !inserted) {
@@ -636,7 +640,7 @@ void lmf_app::handle_trp_information_response(
           } else {
             oai::lmf::api::lmf_sbi_helper::throwHttpError(
                 "trp information response",
-                "gnb_id: " + std::to_string(gnbId.value()) +
+                "gnb_id: " + std::to_string(gnbId.value()) + " " +
                     "trp_id: " + std::to_string(trpId) + " not unique");
           }
         } else {
@@ -652,7 +656,7 @@ void lmf_app::handle_trp_information_response(
 //------------------------------------------------------------------------------
 bool lmf_app::handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa) {
   auto const& nrppaTxnId = getNrppaTxnId(nrppa);
-  auto const& supi       = this->extract_nrppaTxnId2Supi(nrppaTxnId);
+  auto const& supi       = this->get_nrppaTxnId2Supi(nrppaTxnId);
 
   return this->handle_n2info_nrppa_notification(supi, nrppa);
 }
@@ -689,6 +693,11 @@ bool lmf_app::handle_n2info_nrppa_notification(
   if (procedureCode != ProcedureCode_id_tRPInformationExchange) {
     ctx->nrppa_tId.erase(tId);          // not for incomming/initiating!
     this->nrppa_tid_gen.free_uid(tId);  // for reuse
+  }
+  // is non-ue but not a broadcast like trp-info
+  // TODO: introduce non-ue "was broadcast" switch
+  if (procedureCode == ProcedureCode_id_Measurement) {
+    this->erase_nrppaTxnId2Supi(tId);
   }
 
   if (nrppa->present == NRPPA_PDU_PR_unsuccessfulOutcome) {
@@ -901,4 +910,28 @@ std::string oai::lmf::app::lmf_app::extract_nrppaTxnId2Supi(
         "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
   }
   return nh.mapped();
+}
+
+std::string oai::lmf::app::lmf_app::get_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& it = this->nrppaTxnId2supi.find(nrppaTxnId);
+  if (it == std::end(this->nrppaTxnId2supi)) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "get_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  return it->second;
+}
+
+void oai::lmf::app::lmf_app::erase_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& it = this->nrppaTxnId2supi.find(nrppaTxnId);
+  if (it == std::end(this->nrppaTxnId2supi)) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "erase_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  this->nrppaTxnId2supi.erase(it);
 }

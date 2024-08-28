@@ -97,6 +97,8 @@ class lmf_app {
   void insert_nrppaTxnId2supi(
       NRPPATransactionID_t const& nrppaTxnId, std::string const& supi);
   std::string extract_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
+  std::string get_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
+  void erase_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
 
   oai::utils::uint_range_generator<Measurement_ID_t, 1, 65536>
       measurement_id_gen;

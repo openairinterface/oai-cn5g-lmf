@@ -27,6 +27,7 @@
 #include <tuple>
 #include <set>
 #include <variant>
+#include <shared_mutex>
 
 #include <nlohmann/json.hpp>
 
@@ -129,6 +130,7 @@ class LocationDetermination {
   std::string supi;
   Measurement_ID_t const measurementId;
 
+  mutable std::shared_mutex m_result;
   std::map<
       oai::lmf::app::GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>>
       result;
