@@ -14,56 +14,87 @@
  * limitations under the License.
  */
 
+#include <signal.h>
+#include <stdint.h>
+#include <stdlib.h>  // srand
+#include <unistd.h>  // get_pid(), pause()
+
+#include <chrono>
+#include <iostream>
+#include <thread>
+
+#include "http_client.hpp"
 #include "lmf-api-server.h"
 #include "lmf-http2-server.h"
 #include "lmf_app.hpp"
 #include "lmf_config.hpp"
+#include "lmf_config_yaml.hpp"
 #include "logger.hpp"
 #include "options.hpp"
 #include "pid_file.hpp"
-
 #include "pistache/endpoint.h"
 #include "pistache/http.h"
 #include "pistache/router.h"
 
-#include <iostream>
-#include <signal.h>
-#include <stdint.h>
-#include <stdlib.h>  // srand
-#include <thread>
-#include <unistd.h>  // get_pid(), pause()
-
 using namespace oai::lmf::app;
-using namespace util;
+using namespace oai::utils;
 using namespace std;
 
-using namespace config;
+using namespace oai::lmf::config;
 
 lmf_config lmf_cfg;
 lmf_app* lmf_app_inst              = nullptr;
 LMFApiServer* api_server           = nullptr;
 lmf_http2_server* lmf_api_server_2 = nullptr;
+task_manager* tm_inst              = nullptr;
+std::unique_ptr<oai::config::lmf_config_yaml> lmf_cfg_yaml;
+std::shared_ptr<oai::http::http_client> http_client_inst = nullptr;
 
 //------------------------------------------------------------------------------
 void my_app_signal_handler(int s) {
-  std::cout << "Caught signal " << s << std::endl;
-  Logger::system().startup("exiting");
-  std::cout << "Freeing Allocated memory..." << std::endl;
+  auto shutdown_start = std::chrono::system_clock::now();
+  // Setting log level arbitrarly to debug to show the whole
+  // shutdown procedure in the logs even in case of off-logging
+  Logger::set_level(spdlog::level::debug);
+  Logger::system().info("Caught signal %d", s);
+
+  // Stop on-going tasks
   if (api_server) {
     api_server->shutdown();
+  }
+  if (lmf_api_server_2) {
+    lmf_api_server_2->stop();
+  }
+
+  Logger::system().debug("Freeing Allocated memory...");
+  // Delete instances
+  if (api_server) {
     delete api_server;
     api_server = nullptr;
   }
-  std::cout << "LMF API Server memory done" << std::endl;
+  if (lmf_api_server_2) {
+    delete lmf_api_server_2;
+    lmf_api_server_2 = nullptr;
+  }
+  Logger::system().debug("LMF API Server memory done");
+
+  if (tm_inst) {
+    delete tm_inst;
+    tm_inst = nullptr;
+  }
+  Logger::system().debug("Stopped the LMF Task Manager.");
 
   if (lmf_app_inst) {
     delete lmf_app_inst;
     lmf_app_inst = nullptr;
   }
 
-  std::cout << "LMF APP memory done" << std::endl;
-  std::cout << "Freeing allocated memory done" << std::endl;
-
+  Logger::system().debug("LMF APP memory done");
+  Logger::system().info("Freeing allocated memory done");
+  std::this_thread::sleep_for(3s);
+  auto elapsed = std::chrono::system_clock::now() - shutdown_start;
+  auto ms_diff = std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+  Logger::system().info("Bye. Shutdown Procedure took %d ms", ms_diff.count());
   exit(0);
 }
 
@@ -79,7 +110,7 @@ int main(int argc, char** argv) {
 
   // Logger
   Logger::init("lmf", Options::getlogStdout(), Options::getlogRotFilelog());
-  Logger::lmf_server().startup("Options parsed");
+  Logger::system().startup("Options parsed");
 
   std::signal(SIGTERM, my_app_signal_handler);
   std::signal(SIGINT, my_app_signal_handler);
@@ -88,23 +119,49 @@ int main(int argc, char** argv) {
   lmf_event ev;
 
   // Config
-  lmf_cfg.load(Options::getlibconfigConfig());
-  lmf_cfg.display();
+  std::string conf_file_name = Options::getlibconfigConfig();
+  Logger::system().debug("Parsing the configuration file (YAML).");
+  lmf_cfg_yaml = std::make_unique<oai::config::lmf_config_yaml>(
+      conf_file_name, Options::getlogStdout(), Options::getlogRotFilelog());
+  if (!lmf_cfg_yaml->init()) {
+    Logger::system().error("Reading the configuration failed. Exiting.");
+    return 1;
+  }
+  lmf_cfg_yaml->pre_process();
+  lmf_cfg_yaml->display();
+  // Convert from YAML to internal structure
+  lmf_cfg_yaml->to_lmf_config(lmf_cfg);
+
   Logger::set_level(lmf_cfg.log_level);
+
+  // HTTP Client
+  uint8_t http_version = lmf_cfg.use_http2 ? 2 : 1;
+  http_client_inst     = oai::http::http_client::create_instance(
+      Logger::lmf_client(), lmf_cfg.http_request_timeout, lmf_cfg.sbi.if_name,
+      http_version);
 
   // LMF application layer
   lmf_app_inst = new lmf_app(Options::getlibconfigConfig(), ev);
 
+  if (!lmf_app_inst->start()) {
+    lmf_app_inst->stop();
+    Logger::system().error("Could not start LMF APP, exiting.");
+    if (lmf_app_inst) {
+      delete lmf_app_inst;
+      lmf_app_inst = nullptr;
+    }
+    return 1;
+  }
+
   // Task Manager
-  task_manager tm(ev);
-  std::thread task_manager_thread(&task_manager::run, &tm);
+  tm_inst = new task_manager(ev);
+  std::thread task_manager_thread(&task_manager::run, tm_inst);
 
   // PID file
-  // Currently hard-coded value. TODO: add as config option.
-  string pid_file_name = get_exe_absolute_path("/var/run", lmf_cfg.instance);
-  if (!is_pid_file_lock_success(pid_file_name.c_str())) {
-    Logger::lmf_server().error(
-        "Lock PID file %s failed\n", pid_file_name.c_str());
+  string pid_file_name =
+      oai::utils::get_exe_absolute_path(lmf_cfg.pid_dir, lmf_cfg.instance);
+  if (!oai::utils::is_pid_file_lock_success(pid_file_name.c_str())) {
+    Logger::system().error("Lock PID file %s failed\n", pid_file_name.c_str());
     exit(-EDEADLK);
   }
 
@@ -120,7 +177,7 @@ int main(int argc, char** argv) {
   } else {
     // LMF NGHTTP API server (HTTP2)
     lmf_api_server_2 = new lmf_http2_server(
-        conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi_http2_port,
+        oai::utils::conv::toString(lmf_cfg.sbi.addr4), lmf_cfg.sbi.port,
         lmf_cfg.http_threads_count, lmf_app_inst);
     std::thread lmf_http2_manager(&lmf_http2_server::start, lmf_api_server_2);
     lmf_http2_manager.join();

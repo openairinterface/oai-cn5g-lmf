@@ -20,33 +20,32 @@
  */
 
 #include "lmf_nrf.hpp"
-#include "lmf_app.hpp"
-#include "lmf_client.hpp"
-#include "lmf_profile.hpp"
-#include <boost/uuid/random_generator.hpp>
-#include <boost/uuid/uuid_io.hpp>
 
-#include <curl/curl.h>
-#include <nlohmann/json.hpp>
 #include <pistache/http.h>
 #include <pistache/mime.h>
+
+#include <boost/uuid/random_generator.hpp>
+#include <boost/uuid/uuid_io.hpp>
+#include <nlohmann/json.hpp>
 #include <stdexcept>
 
-#include "lmf.h"
-#include "logger.hpp"
-
 #include "PatchItem.h"
+#include "http_client.hpp"
+#include "lmf.h"
+#include "lmf_config.hpp"
+#include "lmf_profile.hpp"
+#include "logger.hpp"
+#include "sbi_helper.hpp"
 
-using namespace config;
-// using namespace lmf;
+using namespace oai::lmf::config;
 using namespace oai::lmf::app;
+using namespace oai::model::common;
 using namespace boost::placeholders;
 
 using json = nlohmann::json;
 
 extern lmf_config lmf_cfg;
-extern lmf_nrf* lmf_nrf_inst;
-lmf_client* lmf_client_instance = nullptr;
+extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
 //------------------------------------------------------------------------------
 lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
@@ -54,12 +53,12 @@ lmf_nrf::lmf_nrf(lmf_event& ev) : m_event_sub(ev) {
   lmf_instance_id = to_string(boost::uuids::random_generator()());
   generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
 }
-//---------------------------------------------------------------------------------------------
-void lmf_nrf::get_lmf_api_root(std::string& api_root) {
-  api_root =
-      std::string(inet_ntoa(*((struct in_addr*) &lmf_cfg.nrf_addr.ipv4_addr))) +
-      ":" + std::to_string(lmf_cfg.nrf_addr.port) + NNRF_NFM_BASE +
-      lmf_cfg.nrf_addr.api_version;
+
+//------------------------------------------------------------------------------
+lmf_nrf::~lmf_nrf() {
+  if (task_connection.connected()) task_connection.disconnect();
+  if (retry_nrf_registration_task_connection.connected())
+    retry_nrf_registration_task_connection.disconnect();
 }
 
 //---------------------------------------------------------------------------------------------
@@ -73,7 +72,6 @@ void lmf_nrf::generate_lmf_profile(
   lmf_nf_profile.set_nf_heartBeat_timer(50);
   lmf_nf_profile.set_nf_priority(1);
   lmf_nf_profile.set_nf_capacity(100);
-  // lmf_nf_profile.set_fqdn(lmf_cfg.fqdn);
   lmf_nf_profile.add_nf_ipv4_addresses(lmf_cfg.sbi.addr4);  // N4's Addr
 
   // LMF info (Hardcoded for now)
@@ -81,62 +79,80 @@ void lmf_nrf::generate_lmf_profile(
   lmf_info_t lmf_info_item;
   lmf_info_item.lmfId = lmf_instance_id;
   lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::EMERGENCY_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::VALUE_ADDED_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::LAWFUL_INTERCEPT_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_BROADCAST_SERVICES);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_OM);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_ANONYMOUS_STATISTICS);
-  lmf_info_item.servingClientTypes.push_back(
-      ExternalClientType_t::PLMN_OPERATOR_TARGET_MS_SERVICE_SUPPORT);
-  lmf_info_item.servingAccessTypes.push_back(AccessType_t::_3GPP_ACCESS);
-  lmf_info_item.servingAccessTypes.push_back(AccessType_t::NON_3GPP_ACCESS);
-  lmf_info_item.servingAnNodeTypes.push_back(AnNodeType_t::GNB);
-  lmf_info_item.servingAnNodeTypes.push_back(AnNodeType_t::NG_ENB);
-  lmf_info_item.servingRatTypes.push_back(RatType_t::NR);
-  lmf_info_item.servingRatTypes.push_back(RatType_t::EUTRA);
-  lmf_info_item.servingRatTypes.push_back(RatType_t::WLAN);
+      externalClientType_e2str.at(ExternalClientType_t::VALUE_ADDED_SERVICES));
+  lmf_info_item.servingAccessTypes.push_back(
+      accessType_e2str.at(AccessType_t::_3GPP_ACCESS));
+  lmf_info_item.servingAnNodeTypes.push_back(
+      anNodeType_e2str.at(AnNodeType_t::GNB));
+  lmf_info_item.servingRatTypes.push_back(ratType_e2str.at(RatType_t::NR));
   lmf_nf_profile.set_lmf_info(lmf_info_item);
 
   lmf_nf_profile.display();
 }
+
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::register_to_nrf() {
   nlohmann::json response_data = {};
 
-  // Generate NF Profile
-  // generate_lmf_profile(lmf_nf_profile, lmf_instance_id);
+  // Send NF registration request
+  std::string response  = {};
+  std::string remoteUri = {};
+  sbi_helper::get_nrf_nf_instance_uri(
+      lmf_cfg.nrf_addr, lmf_instance_id, remoteUri);
 
-  // Send NF registeration request
-  std::string lmf_api_root = {};
-  std::string response     = {};
-  std::string method       = {"PUT"};
-  get_lmf_api_root(lmf_api_root);
-  std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
   nlohmann::json json_data = {};
   lmf_nf_profile.to_json(json_data);
 
-  Logger::lmf_nrf().info("Sending NF registeration request");
-  lmf_client_instance->curl_http_client(
-      remoteUri, method, json_data.dump().c_str(), response, false);
+  bool registration_success = false;
+  Logger::lmf_nrf().debug("Sending NF registration request");
 
-  try {
-    response_data = nlohmann::json::parse(response);
-    response_data = nlohmann::json::parse(response);
-    if (response.find("REGISTERED") != 0) {
-      start_event_nf_heartbeat(remoteUri);
+  oai::http::request http_request =
+      http_client_inst->prepare_json_request(remoteUri, json_data.dump());
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::PUT, http_request);
+  response = http_response.body;
+
+  if (http_response.status_code !=
+      oai::common::sbi::http_status_code::NO_RESPONSE) {
+    try {
+      response_data = nlohmann::json::parse(response);
+      if (response.find("REGISTERED") != 0) {
+        registration_success = true;
+        Logger::lmf_nrf().debug("Registered to NRF");
+        start_event_nf_heartbeat(remoteUri);
+        stop_nrf_registration_retry();
+      }
+    } catch (nlohmann::json::exception& e) {
+      Logger::lmf_nrf().info(
+          "NF Registration procedure failed (%s), try again ...", e.what());
     }
-  } catch (nlohmann::json::exception& e) {
-    Logger::lmf_nrf().info("NF registeration procedure failed");
+  } else {
+    Logger::lmf_nrf().warn(
+        "Could not get the response from NRF, try again ...");
+  }
+
+  if (!registration_success) {
+    start_nrf_registration_retry();
   }
 }
+
+//---------------------------------------------------------------------------------------------
+void lmf_nrf::deregister_to_nrf() {
+  std::string nrf_uri = {};
+
+  sbi_helper::get_nrf_nf_instance_uri(
+      lmf_cfg.nrf_addr, lmf_instance_id, nrf_uri);
+
+  Logger::lmf_nrf().info(
+      "Sending NF Deregistration request to NRF: %s", nrf_uri);
+
+  oai::http::request http_request =
+      http_client_inst->prepare_json_request(nrf_uri, "");
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::DELETE, http_request);
+  // TODO: process the response
+}
+
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::start_event_nf_heartbeat(std::string& remoteURI) {
   // get current time
@@ -154,15 +170,16 @@ void lmf_nrf::start_event_nf_heartbeat(std::string& remoteURI) {
       boost::bind(&lmf_nrf::trigger_nf_heartbeat_procedure, this, _1), interval,
       ms + interval);
 }
+
 //---------------------------------------------------------------------------------------------
 void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   _unused(ms);
-  oai::lmf_server::model::PatchItem patch_item = {};
-  std::vector<oai::lmf_server::model::PatchItem> patch_items;
+  PatchItem patch_item = {};
+  std::vector<PatchItem> patch_items;
   //{"op":"replace","path":"/nfStatus", "value": "REGISTERED"}
-  oai::lmf_server::model::PatchOperation patch_operation;
-  patch_operation.setEnumValue(oai::lmf_server::model::PatchOperation_anyOf::
-                                   ePatchOperation_anyOf::REPLACE);
+  PatchOperation patch_operation;
+  patch_operation.setEnumValue(
+      PatchOperation_anyOf::ePatchOperation_anyOf::REPLACE);
   patch_item.setOp(patch_operation);
   patch_item.setPath("/nfStatus");
   patch_item.setValue("REGISTERED");
@@ -170,7 +187,6 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
   Logger::lmf_nrf().info("Sending NF heartbeat request");
 
   std::string response     = {};
-  std::string method       = {"PATCH"};
   nlohmann::json json_data = nlohmann::json::array();
   for (auto i : patch_items) {
     nlohmann::json item = {};
@@ -178,10 +194,68 @@ void lmf_nrf::trigger_nf_heartbeat_procedure(uint64_t ms) {
     json_data.push_back(item);
   }
 
-  std::string lmf_api_root = {};
-  get_lmf_api_root(lmf_api_root);
-  std::string remoteUri = lmf_api_root + LMF_NF_REGISTER_URL + lmf_instance_id;
-  lmf_client_instance->curl_http_client(
-      remoteUri, method, json_data.dump().c_str(), response, false);
-  if (!response.empty()) task_connection.disconnect();
+  std::string remoteUri = {};
+  sbi_helper::get_nrf_nf_instance_uri(
+      lmf_cfg.nrf_addr, lmf_instance_id, remoteUri);
+
+  bool is_heartbeat_success = false;
+
+  oai::http::request http_request =
+      http_client_inst->prepare_json_request(remoteUri, json_data.dump());
+  auto http_response = http_client_inst->send_http_request(
+      oai::common::sbi::method_e::PATCH, http_request);
+  response = http_response.body;
+
+  if ((http_response.status_code == oai::common::sbi::http_status_code::OK) or
+      (http_response.status_code ==
+       oai::common::sbi::http_status_code::CREATED) or
+      (http_response.status_code ==
+       oai::common::sbi::http_status_code::NO_CONTENT)) {
+    is_heartbeat_success = true;
+    // TODO: process the response
+  }
+
+  if (!is_heartbeat_success) {
+    Logger::lmf_nrf().info(
+        "NF Heartbeat procedure failed, try to register again");
+    if (task_connection.connected()) task_connection.disconnect();
+    register_to_nrf();
+  }
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_nrf::start_nrf_registration_retry() {
+  if (!retry_nrf_registration_task_connection.connected()) {
+    // get current time
+    uint64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                      std::chrono::system_clock::now().time_since_epoch())
+                      .count();
+    const uint64_t interval =
+        NRF_REGISTRATION_RETRY_TIMER * 1000;  // convert sec to msec
+
+    Logger::lmf_nrf().debug("Start NRF registration retry task");
+    retry_nrf_registration_task_connection =
+        m_event_sub.subscribe_task_nf_heartbeat(
+            boost::bind(
+                &lmf_nrf::trigger_nrf_registration_retry_procedure, this, _1),
+            interval, ms + interval);
+  }
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_nrf::trigger_nrf_registration_retry_procedure(uint64_t ms) {
+  _unused(ms);
+  register_to_nrf();
+}
+
+//---------------------------------------------------------------------------------------------
+void lmf_nrf::stop_nrf_registration_retry() {
+  // get current time
+  uint64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::system_clock::now().time_since_epoch())
+                    .count();
+  if (retry_nrf_registration_task_connection.connected()) {
+    Logger::lmf_nrf().debug("Stop NRF registration retry task");
+    retry_nrf_registration_task_connection.disconnect();
+  }
 }

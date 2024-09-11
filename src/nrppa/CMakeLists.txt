@@ -1,5 +1,9 @@
+
 set(NRPPA_DIR "${SRC_TOP_DIR}/nrppa")
 include_directories(${NRPPA_DIR})
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/bstr)
+
 file(GLOB NRPPA_src_files
     ${NRPPA_DIR}/*.c
     ${NRPPA_DIR}/*.cpp

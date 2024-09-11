@@ -15,11 +15,11 @@
 #include "lmf_config.hpp"
 #include "logger.hpp"
 
-extern config::lmf_config lmf_cfg;
+extern oai::lmf::config::lmf_config lmf_cfg;
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
-using namespace oai::lmf_server::model;
+using namespace oai::model::lmf;
 
 DetermineLocationApiImpl::DetermineLocationApiImpl(
     const std::shared_ptr<Pistache::Rest::Router>& rtr,
@@ -40,4 +40,4 @@ void DetermineLocationApiImpl::determine_location(
   }
 }
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api

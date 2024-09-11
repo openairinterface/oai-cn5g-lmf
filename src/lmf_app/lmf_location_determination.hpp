@@ -22,13 +22,12 @@
 #ifndef FILE_LMF_LOCATION_DETERMINATION_SEEN
 #define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
-#define ASN_DISABLE_OER_SUPPORT
-
 #include <future>
 #include <map>
 #include <tuple>
 #include <set>
 #include <variant>
+#include <shared_mutex>
 
 #include <nlohmann/json.hpp>
 
@@ -52,7 +51,10 @@
 #include "GlobalRanNodeId.h"
 #include "TRP-ID.h"
 #include "PositioningInformationFailure.h"
+#include "PositioningActivationFailure.h"
 #include "ULRTOAMeas.h"
+#include "TRP-MeasurementResponseList.h"
+#include "MeasurementFailure.h"
 
 namespace oai::lmf::app {
 
@@ -64,43 +66,52 @@ class LocationDetermination {
   LocationDetermination(std::string supi);
   virtual ~LocationDetermination();
 
-  std::promise<std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>>
-      positioning_activation_response;
-  std::pair<NRPPA_PDU_t*, PositioningActivationResponse_t const&>
-  positioning_activation_request();
+  using pos_act_succ = NrppaPduShared;
+  using pos_act_res  = std::variant<pos_act_succ, CauseError>;
+  std::promise<pos_act_res> positioning_activation_response;
+  pos_act_res positioning_activation_request();
   void handle_positioning_activation_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningActivationResponse_t const& positioningActivationResponse);
-  using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t*>;
+  void handle_positioning_activation_failure(
+      NrppaPduShared nrppa,
+      PositioningActivationFailure_t const& positioningActivationFailure);
+  bool positioning_deactivation_request();
+
+  using pos_info_succ = std::tuple<NrppaPduShared, SRSConfiguration_t const&>;
   using pos_info_res  = std::variant<pos_info_succ, CauseError>;
   std::promise<pos_info_res> positioning_information_response;
   pos_info_res positioning_information_request();
   void handle_positioning_information_response(
       NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       PositioningInformationResponse_t const& positioningInformationResponse);
-
   void handle_positioning_information_failure(
       NrppaPduShared nrppaPdu,
       PositioningInformationFailure_t const& positioningInformationFailure);
 
-  std::promise<std::pair<NRPPA_PDU_t*, MeasurementResponse_t const&>>
-      measurement_response;
-  void measurement_request(
-      oai::lmf::app::Gnb const& gnb, SRSConfiguration_t* srsConfiguration);
+  using mmr_succ =
+      std::tuple<NrppaPduShared, TRP_MeasurementResponseList_t const&>;
+  using mmr_res = std::variant<mmr_succ, CauseError>;
+  std::promise<mmr_res> measurement_response;
+  mmr_res measurement_request(
+      oai::lmf::app::Gnb const& gnb,
+      SRSConfiguration_t const& srsConfiguration);
   void handle_measurement_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu,
       MeasurementResponse_t const& measurementResponse);
+  void handle_measurement_failure(
+      NrppaPduShared nrppaPdu, MeasurementFailure_t const& measurementFailure);
   void collectResult(
       oai::lmf::app::Gnb const& gnb,
-      MeasurementResponse_t const& measurementResponse);
+      TRP_MeasurementResponseList_t const& measurementResponse);
 
   bool n1_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode);
   bool non_ue_n2_message_transfer(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& txnId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode,
-      std::vector<oai::lmf_server::model::GlobalRanNodeId> const& grnidl,
+      std::vector<oai::model::common::GlobalRanNodeId> const& grnidl,
       SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
 
   // mapping between nrppa transaction and transaction type
@@ -113,12 +124,13 @@ class LocationDetermination {
       Pistache::Http::Code const& code =
           Pistache::Http::Code::Internal_Server_Error);
 
-  oai::lmf_server::model::LocationData compute_location(
+  nlohmann::json compute_location(
       std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnb);
 
   std::string supi;
   Measurement_ID_t const measurementId;
 
+  mutable std::shared_mutex m_result;
   std::map<
       oai::lmf::app::GnbId, std::map<TRP_ID_t, std::map<ULRTOAMeas_PR, long>>>
       result;

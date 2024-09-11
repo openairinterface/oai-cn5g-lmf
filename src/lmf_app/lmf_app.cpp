@@ -19,69 +19,67 @@
  *      contact@openairinterface.org
  */
 
-#include <unistd.h>
-#include <iostream>
-#include <iterator>
-#include <string>
-#include <chrono>
-using namespace std::chrono_literals;
-#include <thread>
-#include <optional>
+#include "lmf_app.hpp"
 
-#include <boost/range/irange.hpp>
+#include <unistd.h>
+
 #include <boost/format.hpp>
+#include <boost/lambda/lambda.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/algorithm.hpp>
-#include <boost/lambda/lambda.hpp>
+#include <boost/range/irange.hpp>
+#include <chrono>
+#include <iostream>
+#include <iterator>
+#include <optional>
+#include <string>
+#include <thread>
 
-#include "lmf_app.hpp"
-#include "lmf_nrf.hpp"
-#include "lmf_client.hpp"
-
-#include "logger.hpp"
-#include "conversions.hpp"
-#include "mime_parser.hpp"
+#include "3gpp_29.500.h"
 #include "3gpp_29.518.h"
+#include "conversions.hpp"
+#include "lmf_nrf.hpp"
+#include "logger.hpp"
+#include "mime_parser.hpp"
 // model
+#include "GlobalRanNodeId.h"
 #include "LocationData.h"
-#include "N1MessageContainer.h"
 #include "N1MessageClass.h"
+#include "N1MessageContainer.h"
 #include "N1N2MessageTransferReqData.h"
 #include "N1N2MessageTransferRspData.h"
+#include "N2InformationNotification.h"
 #include "N2InformationTransferReqData.h"
+#include "ProblemDetails.h"
+#include "RefToBinaryData.h"
 #include "UeN1N2InfoSubscriptionCreateData.h"
 #include "UeN1N2InfoSubscriptionCreatedData.h"
-#include "RefToBinaryData.h"
-#include "ProblemDetails.h"
-#include "N2InformationNotification.h"
-#include "GlobalRanNodeId.h"
 // nrppa
 #include "InitiatingMessage.h"
-#include "SuccessfulOutcome.h"
-#include "UnsuccessfulOutcome.h"
 #include "ProtocolIE-Field.h"
-#include "TRPItem.h"
+#include "SuccessfulOutcome.h"
 #include "TRP-MeasurementResponseItem.h"
-#include "TrpMeasurementResultItem.h"
-#include "TrpMeasuredResultsValue.h"
-#include "ULRTOAMeas.h"
-#include "UL-RTOAMeasurement.h"
 #include "TRPInformationItem.h"
+#include "TRPItem.h"
+#include "TrpMeasuredResultsValue.h"
+#include "TrpMeasurementResultItem.h"
+#include "UL-RTOAMeasurement.h"
+#include "ULRTOAMeas.h"
+#include "UnsuccessfulOutcome.h"
 // do not include model GeographicalCoordinates.h
 #include "../nrppa/GeographicalCoordinates.h"
+#include "CoordinateID.h"
 #include "TRPPositionDefinitionType.h"
 #include "TRPPositionReferenced.h"
-#include "CoordinateID.h"
-// position estimation by paas
-#include "RabbitmqBase.h"
+#include "lmf_sbi_helper.hpp"
 
 using namespace std;
 using namespace oai::lmf::app;
-using namespace oai::lmf_server;
-using namespace config;
+using namespace oai::model::lmf;
+using namespace oai::lmf::config;
+using namespace std::chrono_literals;
 
-lmf_client* lmf_client_inst = nullptr;
-lmf_nrf* lmf_nrf_inst       = nullptr;
+lmf_nrf* lmf_nrf_inst = nullptr;
 
 // provides for asn container.list.array range based for loops
 // for (auto const& xyzIE : xyzResponse.protocolIEs) {
@@ -97,50 +95,53 @@ auto end(T const& container) {
 
 //------------------------------------------------------------------------------
 lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
-    : event_sub(ev) {
-  Logger::lmf_app().startup("Starting...");
-  try {
-    lmf_client_inst = new lmf_client();
-  } catch (std::exception& e) {
-    Logger::lmf_app().error("Cannot create LMF APP: %s", e.what());
-    throw;
-  }
-  try {
-    lmf_nrf_inst = new lmf_nrf(ev);
-    // Register to NRF
-    if (lmf_cfg.register_nrf) {
-      lmf_nrf_inst->register_to_nrf();
-    }
-    Logger::lmf_app().info("NRF TASK Created ");
-  } catch (std::exception& e) {
-    Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
-    throw;
-  }
-
-  Logger::lmf_app().startup("Started");
-}
+    : event_sub(ev) {}
 
 //------------------------------------------------------------------------------
 lmf_app::~lmf_app() {
+  if (lmf_nrf_inst) {
+    delete lmf_nrf_inst;
+    lmf_nrf_inst = nullptr;
+  }
   Logger::lmf_app().debug("Delete LMF_APP instance...");
 }
 
+//------------------------------------------------------------------------------
+bool lmf_app::start() {
+  Logger::lmf_app().startup("Starting...");
+  // Create NRF instance and register to NRF if needed
+  if (lmf_cfg.register_nrf) {
+    try {
+      lmf_nrf_inst = new lmf_nrf(event_sub);
+      Logger::lmf_app().info("NRF TASK Created ");
+      // Register to NRF
+      lmf_nrf_inst->register_to_nrf();
+    } catch (std::exception& e) {
+      Logger::lmf_app().error("Cannot create NRF TASK: %s", e.what());
+      return false;
+    }
+  }
+  Logger::lmf_app().startup("Started");
+  return true;
+}
+
+//------------------------------------------------------------------------------
+void lmf_app::stop() {
+  if (lmf_nrf_inst and lmf_cfg.register_nrf) {
+    lmf_nrf_inst->deregister_to_nrf();
+    delete lmf_nrf_inst;
+    lmf_nrf_inst = nullptr;
+  }
+}
+
+//------------------------------------------------------------------------------
 void lmf_app::trp_information_request(
     std::shared_ptr<LocationDetermination> const& ctx,
     NRPPATransactionID_t const& nrppatransactionID) {
-  Logger::lmf_app().info("trp information request");
+  Logger::lmf_app().info("TRP information request");
 
   auto initiatingMessage =
       (InitiatingMessage_t*) malloc(sizeof(InitiatingMessage_t));
-  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
-  *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice =
-          {
-              .initiatingMessage = initiatingMessage,
-          },
-  };
-
   *initiatingMessage = InitiatingMessage_t{
       .procedureCode      = ProcedureCode_id_tRPInformationExchange,
       .criticality        = Criticality_reject,
@@ -155,16 +156,21 @@ void lmf_app::trp_information_request(
           },
   };
 
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPdu);
-
-  asn_encode_to_new_buffer_result_t rc = asn_encode_to_new_buffer(
-      0, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, nrppaPdu);
+  auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
+  *nrppaPdu     = NRPPA_PDU_t{
+      .present = NRPPA_PDU_PR_initiatingMessage,
+      .choice =
+          {
+              .initiatingMessage = initiatingMessage,
+          },
+  };
 
   ctx->non_ue_n2_message_transfer(
-      nrppaPdu, nrppatransactionID, ProcedureCode_id_tRPInformationExchange, {},
-      nullptr);
+      share_nrppa_pdu(nrppaPdu), nrppatransactionID,
+      ProcedureCode_id_tRPInformationExchange, {}, nullptr);
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::trp_information(
     std::shared_ptr<LocationDetermination> const& ctx) {
   std::unique_lock lk{this->cv_m_gnb};
@@ -194,14 +200,15 @@ void lmf_app::trp_information(
   auto const& rc = this->cv_gnb.wait_for(lk, lmf_cfg.trp_info_wait_ms, pred);
   ctx->nrppa_tId.erase(tId);
   this->nrppa_tid_gen.free_uid(tId);
+  this->erase_nrppaTxnId2Supi(tId);
   if (this->trp_info_err.size() > 0) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "trp information failure",
         "gnb err count: "s + std::to_string(this->trp_info_err.size()));
   }
   if (!lmf_cfg.determine_num_gnb &&
       (!rc || this->gnb.size() < lmf_cfg.num_gnb)) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "trp information request",
         "timeout after "s + std::to_string(lmf_cfg.trp_info_wait_ms.count()) +
             "ms waiting for "s + std::to_string(lmf_cfg.num_gnb) +
@@ -212,31 +219,18 @@ void lmf_app::trp_information(
       "trp information request: received %d gnb responses", this->gnb.size());
 
   if (this->gnb.size() == 0) {
-    throwHttpError("trp information request"s, "no gnbs available"s);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "trp information request"s, "no gnbs available"s);
   }
   if (this->numTrps() == 0) {
-    throwHttpError("trp information request"s, "no trp's available"s);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "trp information request"s, "no trp's available"s);
   }
 }
 
-void sendAnchorPositions(RabbitmqBase& mq) {
-    // Read anchor positions from file
-    ifstream file("AnchorPositions.json");
-
-    // Check input and remove white-spaces
-    json data = json::parse(file);
-    string msg = data.dump();
-
-    if (DEBUG) {
-        cout << msg << endl;
-    }
-    
-    mq.setExchange("anchors");
-    mq.sendMessage(msg);
-}
-
+//------------------------------------------------------------------------------
 void lmf_app::handle_determine_location(
-    const model::InputData& inputData, nlohmann::json& json_data,
+    const InputData& inputData, nlohmann::json& json_data,
     Pistache::Http::Code& code) {
   auto const& supi = inputData.getSupi();
 
@@ -245,9 +239,10 @@ void lmf_app::handle_determine_location(
     auto const& err =
         "Could not create context for supi '"s + supi + "': already exist"s;
     Logger::lmf_app().warn(err);
-    model::ProblemDetails problemDetails;
+    ProblemDetails problemDetails;
     problemDetails.setCause("INTERNAL_SERVER_ERROR");
-    problemDetails.setStatus(HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR);
+    problemDetails.setStatus(
+        oai::common::sbi::http_status_code::INTERNAL_SERVER_ERROR);
     problemDetails.setDetail(err);
 
     json_data = problemDetails;
@@ -269,85 +264,58 @@ void lmf_app::handle_determine_location(
       std::get<LocationDetermination::pos_info_succ>(res);
   // nrppaPduPIR contain position information
   // POSITIONING INFORMATION RESPONSE ( 9.1.1.11 NRPPa TS 38.455 )
-  std::cout << "--> position information <<--" << std::endl;
-  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR);
+  // std::cout << "--> position information <<--" << std::endl;
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPIR.get());
 
   // 5. NRPPa Request UE SRS activation
   // 9.1.1.17 POSITIONING ACTIVATION REQUEST
-  auto const& [nrppaPduPA, positionActivationResponse] =
-      ctx->positioning_activation_request();
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppaPduPA);
-  std::cout << "--> positioning activation <<--" << std::endl;
+  auto const& pares = ctx->positioning_activation_request();
+  if (std::holds_alternative<CauseError>(pares)) {
+    auto const& err = std::get<CauseError>(pares);
+    ctx->throwHttpError("positioning activation request failure", err.msg());
+  }
+  auto const& nrppaPduPA = std::get<LocationDetermination::pos_act_succ>(pares);
+  // std::cout << "--> positioning activation <<--" << std::endl;
+  // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduPA.get());
+
   for (auto const& [id, gnb] : this->gnb) {
-    ctx->measurement_request(gnb, ueSrsConfiguration);
+    auto const& res = ctx->measurement_request(gnb, ueSrsConfiguration);
+
+    if (std::holds_alternative<CauseError>(res)) {
+      auto const& err = std::get<CauseError>(res);
+      ctx->throwHttpError("measurement request failure", err.msg());
+    }
+    auto const& [nrppaPduMR, trpMeasurementList] =
+        std::get<LocationDetermination::mmr_succ>(res);
+
+    // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppaPduMR.get());
+
+    ctx->collectResult(gnb, trpMeasurementList);
   }
 
-  // --> set the location calculation results here <--
+  // In positioning_deactivation()
+  // openairinterface5g/openair2/LAYER2/NR_MAC_gNB/mac_rrc_dl_handler.c:792
+  // Not Implemented
+  // ctx->positioning_deactivation_request();
 
-  // Fraunhofer IIS Positioning-as-a-Service (PaaS) cloud platform
-  // Establish and open RabbitMQ connection
-  RabbitmqBase mq = RabbitmqBase();  
-  mq.loadConfiguration();
-  mq.openConnection();
-
-  // Send anchor positions
-  // Read anchor positions from file
-  ifstream file("AnchorPositions.json");
-  // Check input and remove white-spaces
-  json data = json::parse(file);
-  string msg = data.dump();
-  if (DEBUG) {
-      cout << msg << endl;
-  }
-  mq.setExchange("anchors");
-  mq.sendMessage(msg);
-
-  // Start sending TOAs to PaaS
-  mq.setExchange("toa_sets");
-  cout << "Start sending ..." << endl;
-  // round(1e12 * (distances / speedOfLight)); TOAs given in picoseconds
-  vector<float> toas = {89518, 97656, 146484, 203451, 65104, 81380, 130208, 195313}; //x,y = 25,25
-  // Serialize and send message
-  string msg_body = RabbitmqBase::serializeTOAs(toas); 
-  bool wasSend = mq.sendMessage(msg_body);
-  if (wasSend) {
-    if (DEBUG)
-      cout << "Message send!" << endl;
-  } else {
-    cout << "Error while sending message!" << endl;
-  }
-  // mq.closeConnection();
-  // cout << "... connection closed!" << endl;
-
-  // Receive position results from the Positioning-as-a-Service cloud platform
-  mq.startConsumer("positions");
-  cout << "Start receiving ..." << endl;
-  string msg_body = "";
-  bool hasReceived = mq.getMessage(msg_body);
-  if (hasReceived) {
-    json data = json::parse(msg_body);
-    json pos = data["position"];
-    cout << "Position: " << pos << endl;
-  } else {
-    sleep(0.5);
-  }
-  //mq.closeConnection();
-  //cout << "... connection closed!" << endl;
-
-  model::LocationData locationData{ctx->compute_location(this->gnb)};
-
-  code      = Pistache::Http::Code::Ok;
-  json_data = locationData;
+  code                = Pistache::Http::Code::Ok;
+  auto const& locData = ctx->compute_location(this->gnb);
+  // using hard coded location data as adeel requiered
+  // can not use rel16 LocationData here, incompatible with rel17 values
+  // LocationData locationData{locData};
+  json_data = locData;  // locationData;
 
   this->del_supi_2_context(supi);
 
   return;
 }
 
+//------------------------------------------------------------------------------
 bool lmf_app::_is_supi_2_context(const std::string& supi) const {
   return (supi2ctx.count(supi) > 0) && (supi2ctx.at(supi) != nullptr);
 }
 
+//------------------------------------------------------------------------------
 bool lmf_app::is_supi_2_context(const string& supi) const {
   std::shared_lock lock(m_supi2ctx);
   return _is_supi_2_context(supi);
@@ -365,6 +333,7 @@ std::shared_ptr<LocationDetermination> lmf_app::create_lmf_context(
   return supi2ctx[supi] = std::make_shared<LocationDetermination>(supi);
 }
 
+//------------------------------------------------------------------------------
 std::shared_ptr<LocationDetermination> lmf_app::supi_2_context(
     const std::string& supi) const {
   std::shared_lock lock(m_supi2ctx);
@@ -375,17 +344,20 @@ std::shared_ptr<LocationDetermination> lmf_app::supi_2_context(
   return supi2ctx.at(supi);
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::set_supi_2_context(
     const string& supi, const std::shared_ptr<LocationDetermination>& lc) {
   std::unique_lock lock(m_supi2ctx);
   supi2ctx[supi] = lc;
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::del_supi_2_context(const string& supi) {
   std::unique_lock lock(m_supi2ctx);
   supi2ctx.erase(supi);
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::create_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(m_supi2n1n2subs);
 
@@ -397,18 +369,21 @@ void lmf_app::create_n1n2subscription(const std::string& supi) {
       subscription.supi, subscription.id);
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::release_n1n2subscription(const std::string& supi) {
   std::unique_lock lock(this->m_supi2n1n2subs);
 
   this->supi2n1n2subs.erase(supi);
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::release_all_n1n2subscriptions() {
   std::unique_lock lock(m_supi2n1n2subs);
 
   this->supi2n1n2subs.clear();
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::create_non_ue_subscription() {
   std::scoped_lock lock(this->m_non_ue_subs);
 
@@ -422,6 +397,7 @@ void lmf_app::create_non_ue_subscription() {
   }
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::release_non_ue_subscription() {
   std::scoped_lock lock(this->m_non_ue_subs);
 
@@ -433,7 +409,8 @@ void oai::lmf::app::lmf_app::release_non_ue_subscription() {
   }
 }
 
-NRPPATransactionID_t getNrppaTxnId(NRPPA_PDU_t const* const nrppa) {
+//------------------------------------------------------------------------------
+NRPPATransactionID_t getNrppaTxnId(NrppaPduShared nrppa) {
   switch (nrppa->present) {
     case NRPPA_PDU_PR_initiatingMessage:
       return nrppa->choice.initiatingMessage->nrppatransactionID;
@@ -442,11 +419,13 @@ NRPPATransactionID_t getNrppaTxnId(NRPPA_PDU_t const* const nrppa) {
     case NRPPA_PDU_PR_unsuccessfulOutcome:
       return nrppa->choice.unsuccessfulOutcome->nrppatransactionID;
     default:
-      throwHttpError("getNrppaTxnId"s, "malformed nrppa message"s);
+      oai::lmf::api::lmf_sbi_helper::throwHttpError(
+          "getNrppaTxnId"s, "malformed nrppa message"s);
   }
   return 0;
 }
 
+//------------------------------------------------------------------------------
 // check 1:1 relationship between procedureCode and value.present
 template<typename T, typename U>
 static void checkPC(T const& present, U const& expected) {
@@ -455,10 +434,11 @@ static void checkPC(T const& present, U const& expected) {
                &ps     = "present: "s + std::to_string(present->procedureCode),
                &es     = "expected: "s + std::to_string(expected),
                &detail = ps + ": "s + es;
-    throwHttpError(title, detail);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(title, detail);
   }
 }
 
+//------------------------------------------------------------------------------
 template<typename T, typename U, typename V>
 static U const& getPR(U const& choice, T const& value, V const& expected) {
   if (value.present != expected) {
@@ -466,13 +446,14 @@ static U const& getPR(U const& choice, T const& value, V const& expected) {
                &ps     = "present: "s + std::to_string(value.present),
                &es     = "expected: "s + std::to_string(expected),
                &detail = ps + ": "s + es;
-    throwHttpError(title, detail);
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(title, detail);
   }
   return choice;
 }
 
+//------------------------------------------------------------------------------
 void lmf_app::handle_trp_information_response(
-    NRPPA_PDU_t* nrppa, NRPPATransactionID_t const& tId,
+    NrppaPduShared nrppa, NRPPATransactionID_t const& tId,
     TRPInformationResponse_t const& trpInformation) {
   Logger::lmf_app().debug("trp information received");
   std::scoped_lock lk{this->cv_m_gnb};
@@ -495,7 +476,7 @@ void lmf_app::handle_trp_information_response(
               auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
               auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
               if (plmnnIdentity.size != 3) {
-                throwHttpError(
+                oai::lmf::api::lmf_sbi_helper::throwHttpError(
                     "trp information response",
                     "plmnnIdentity.size != 3: "s +
                         std::to_string(plmnnIdentity.size));
@@ -504,7 +485,7 @@ void lmf_app::handle_trp_information_response(
               if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
                 auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
                 if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
-                  throwHttpError(
+                  oai::lmf::api::lmf_sbi_helper::throwHttpError(
                       "trp information response",
                       "ngRanCell.size != 5: "s +
                           std::to_string(ngRanCell.size) +
@@ -513,7 +494,7 @@ void lmf_app::handle_trp_information_response(
                 }
                 uint64_t nci = 0;
                 for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
-                  nci |= ngRanCell.buf[i++] << s;
+                  nci |= static_cast<uint64_t>(ngRanCell.buf[i++]) << s;
                 }
                 nci >>= ngRanCell.bits_unused;
                 auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
@@ -539,44 +520,46 @@ void lmf_app::handle_trp_information_response(
                               d2(pb[2]) % mncd3)
                                  .str();
                   if (mcc.size() > 3) {
-                    throwHttpError(
+                    oai::lmf::api::lmf_sbi_helper::throwHttpError(
                         "trp information response", "invalid mcc: "s + mcc);
                   }
                   if (mnc.size() > (mnc2 ? 2 : 3)) {
-                    throwHttpError(
+                    oai::lmf::api::lmf_sbi_helper::throwHttpError(
                         "trp information response", "invalid mnc: "s + mnc);
                   }
 
-                  model::PlmnId plmnId;
+                  PlmnId plmnId;
                   plmnId.setMcc(mcc);
                   plmnId.setMnc(mnc);
 
                   auto const& gnbValue =
-                      (boost::format("%x") % gnbId.value()).str();
-                  model::GNbId gNbId;
+                      (boost::format(cellIdBitCnt <= 24 ? "%06x" : "%08x") %
+                       gnbId.value())
+                          .str();
+                  GNbId gNbId;
                   gNbId.setGNBValue(gnbValue);
                   gNbId.setBitLength(lmf_cfg.gnb_id_bits_count);
 
-                  model::GlobalRanNodeId globalRanNodeId;
+                  GlobalRanNodeId globalRanNodeId;
                   globalRanNodeId.setPlmnId(plmnId);
                   globalRanNodeId.setGNbId(gNbId);
 
                   Logger::lmf_app().info(
-                      "trp information: adding gnb with id: " +
-                      std::to_string(gnbId.value()) + " mcc: '" + mcc +
-                      "' mnc: '" + mnc + ":");
+                      "trp information: adding gnb with id: 0x%x mcc: %s mnc: "
+                      "%s",
+                      gnbId.value(), mcc, mnc);
 
                   if (auto const& [iter, inserted] = this->gnb.try_emplace(
                           gnbId.value(), gnbId.value(), globalRanNodeId);
                       !inserted) {
-                    throwHttpError(
+                    oai::lmf::api::lmf_sbi_helper::throwHttpError(
                         "trp information response",
                         "gnbId: "s + std::to_string(gnbId.value()) +
                             " already inserted"s);
                   }
                 }
               } else {
-                throwHttpError(
+                oai::lmf::api::lmf_sbi_helper::throwHttpError(
                     "trp information response",
                     "TRPInformationItem_PR_nG_RAN_CGI not present, but: "s +
                         std::to_string(ngRanCgi->nG_RANcell.present));
@@ -643,43 +626,48 @@ void lmf_app::handle_trp_information_response(
         if (gnbId.has_value()) {
           if (this->gnb.at(gnbId.value()).trp.count(trpId) == 0) {
             Logger::lmf_app().info(
-                "trp information: adding to gnbId: " +
-                std::to_string(gnbId.value()) +
-                " trpId: " + std::to_string(trpId));
+                "trp information: adding to gnbId: 0x%x trpId: %d coordID: %d "
+                "x: %d y: %d z: %d",
+                gnbId.value(), trpId, trp.relativeCoordinateID,
+                trp.relativeCartesianLocation.xvalue,
+                trp.relativeCartesianLocation.yvalue,
+                trp.relativeCartesianLocation.zvalue);
             if (auto const& [iter, inserted] =
                     this->gnb.at(gnbId.value()).trp.try_emplace(trpId, trp);
                 !inserted) {
-              throwHttpError(
+              oai::lmf::api::lmf_sbi_helper::throwHttpError(
                   "trp information response",
                   "trpId: "s + std::to_string(trpId) + " already inserted"s);
             }
           } else {
-            throwHttpError(
+            oai::lmf::api::lmf_sbi_helper::throwHttpError(
                 "trp information response",
-                "gnb_id: " + std::to_string(gnbId.value()) +
+                "gnb_id: " + std::to_string(gnbId.value()) + " " +
                     "trp_id: " + std::to_string(trpId) + " not unique");
           }
         } else {
-          throwHttpError("trp information", "no gnbId");
+          oai::lmf::api::lmf_sbi_helper::throwHttpError(
+              "trp information", "no gnbId");
         }
       }
     }
   }
-  ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
   this->cv_gnb.notify_one();
 }
 
-bool lmf_app::handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa) {
+//------------------------------------------------------------------------------
+bool lmf_app::handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa) {
   auto const& nrppaTxnId = getNrppaTxnId(nrppa);
-  auto const& supi       = this->extract_nrppaTxnId2Supi(nrppaTxnId);
+  auto const& supi       = this->get_nrppaTxnId2Supi(nrppaTxnId);
 
   return this->handle_n2info_nrppa_notification(supi, nrppa);
 }
 
+//------------------------------------------------------------------------------
 // TODO: replace bool retval with exception
 // shoult not fail
 bool lmf_app::handle_n2info_nrppa_notification(
-    std::string supi, NRPPA_PDU_t* nrppa) {
+    std::string supi, NrppaPduShared nrppa) {
   auto ctx = this->supi_2_context(supi);
   if (!ctx) {
     Logger::lmf_server().error("N2InfoNotify: unknown supi: %s", supi);
@@ -691,13 +679,13 @@ bool lmf_app::handle_n2info_nrppa_notification(
   // TODO
   if (nrppa->present == NRPPA_PDU_PR_initiatingMessage) {
     // don't forget tId handling ctx->nrppa_tId.erase(tId);
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "handle_n2info_nrppa_notification",
         "NRPPA_PDU_PR_initiatingMessage not implemented");
   }
 
   if (ctx->nrppa_tId.count(tId) != 1) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "handle_n2info_nrppa_notification"s,
         "unknown nrppa transaction id: "s + std::to_string(tId));
   }
@@ -707,6 +695,11 @@ bool lmf_app::handle_n2info_nrppa_notification(
   if (procedureCode != ProcedureCode_id_tRPInformationExchange) {
     ctx->nrppa_tId.erase(tId);          // not for incomming/initiating!
     this->nrppa_tid_gen.free_uid(tId);  // for reuse
+  }
+  // is non-ue but not a broadcast like trp-info
+  // TODO: introduce non-ue "was broadcast" switch
+  if (procedureCode == ProcedureCode_id_Measurement) {
+    this->erase_nrppaTxnId2Supi(tId);
   }
 
   if (nrppa->present == NRPPA_PDU_PR_unsuccessfulOutcome) {
@@ -735,7 +728,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
             value.choice.PositioningInformationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningInformationFailure);
         ctx->handle_positioning_information_failure(
-            share_nrppa_pdu(nrppa), positioningInformationFailure);
+            nrppa, positioningInformationFailure);
         return true;
       }; break;
 
@@ -744,6 +737,9 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& positioningActivationFailure = getPR(
             value.choice.PositioningActivationFailure, value,
             UnsuccessfulOutcome__value_PR_PositioningActivationFailure);
+        ctx->handle_positioning_activation_failure(
+            nrppa, positioningActivationFailure);
+        return true;
       }; break;
 
       case ProcedureCode_id_Measurement: {
@@ -751,10 +747,12 @@ bool lmf_app::handle_n2info_nrppa_notification(
         auto const& measurementFailure = getPR(
             value.choice.MeasurementFailure, value,
             UnsuccessfulOutcome__value_PR_MeasurementFailure);
+        ctx->handle_measurement_failure(nrppa, measurementFailure);
+        return true;
       }; break;
 
       default:
-        throwHttpError(
+        oai::lmf::api::lmf_sbi_helper::throwHttpError(
             "handle_nrppa_notification"s,
             "unsuccessfulOutcome: unhandled procedure code: %d"s +
                 std::to_string(procedureCode));
@@ -780,7 +778,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
           value.choice.PositioningInformationResponse, value,
           SuccessfulOutcome__value_PR_PositioningInformationResponse);
       ctx->handle_positioning_information_response(
-          share_nrppa_pdu(nrppa), tId, positioningInformationResponse);
+          nrppa, tId, positioningInformationResponse);
       return true;
     } break;
 
@@ -789,7 +787,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
       auto const& measurementResponse = getPR(
           value.choice.MeasurementResponse, value,
           SuccessfulOutcome__value_PR_MeasurementResponse);
-      ctx->handle_measurement_response(nrppa, tId, measurementResponse);
+      ctx->handle_measurement_response(nrppa, measurementResponse);
       return true;
     } break;
 
@@ -804,7 +802,7 @@ bool lmf_app::handle_n2info_nrppa_notification(
     } break;
 
     default:
-      throwHttpError(
+      oai::lmf::api::lmf_sbi_helper::throwHttpError(
           "handle_nrppa_notification"s,
           "successfulOutcome: unhandled procedure code: %d"s +
               std::to_string(procedureCode));
@@ -812,16 +810,17 @@ bool lmf_app::handle_n2info_nrppa_notification(
 
   auto titel  = "n2info nrppa notifiaction pdu error"s;
   auto detail = "unhandled nrppa  pdu: " + std::to_string(nrppa->present);
-  throwHttpError(titel, detail);
+  oai::lmf::api::lmf_sbi_helper::throwHttpError(titel, detail);
 
   return false;
 }
 
-NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
-    model::N2InformationNotification const& n2InformationNotification,
+//------------------------------------------------------------------------------
+NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
+    N2InformationNotification const& n2InformationNotification,
     mime_part const& nrppa_part) {
   if (!n2InformationNotification.n2InfoContainerIsSet()) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa", "N2InfoContainer not present");
   }
 
@@ -831,15 +830,16 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
 
   // Check N2 Information Class
   if (eN2InformationClass !=
-      model::N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
-    throwHttpError(
+      N2InformationClass_anyOf::eN2InformationClass_anyOf::NRPPA) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "N2 Information Class not NRPPA: " +
             std::to_string(static_cast<int>(eN2InformationClass)));
   }
 
   if (!n2InfoContainer.nrppaInfoIsSet()) {
-    throwHttpError("parse_n2_info_container_nrppa", "nrppaInfo not present");
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "parse_n2_info_container_nrppa", "nrppaInfo not present");
   }
   auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
 
@@ -851,12 +851,13 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
 
   auto const& nrppaPdu = nrppaInfo.getNrppaPdu();
   if (!nrppaPdu.ngapIeTypeIsSet()) {
-    throwHttpError("parse_n2_info_container_nrppa", "ngapIeType not present");
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "parse_n2_info_container_nrppa", "ngapIeType not present");
   }
 
   auto const& eNgapIeType = nrppaPdu.getNgapIeType().getEnumValue();
-  if (eNgapIeType != model::NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
-    throwHttpError(
+  if (eNgapIeType != NgapIeType_anyOf::eNgapIeType_anyOf::NRPPA_PDU) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "ngapIeType not NRPPA_PDU: " +
             std::to_string(static_cast<int>(eNgapIeType)));
@@ -871,42 +872,68 @@ NRPPA_PDU_t* lmf_app::parse_n2_info_container_nrppa(
   }
 
   auto const& nrppa_bin = nrppa_part.body;
-  NRPPA_PDU_t* nrppa = nullptr;  // TODO: warp in unigue_ptr with custom deleter
-  auto const& rc     = asn_decode(
+  NRPPA_PDU_t* nrppa    = nullptr;
+  auto const& rc        = asn_decode(
       NULL, ATS_ALIGNED_CANONICAL_PER, &asn_DEF_NRPPA_PDU, (void**) &nrppa,
       nrppa_bin.c_str(), nrppa_bin.length());
   if (rc.code != RC_OK) {
     ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "parse_n2_info_container_nrppa",
         "asn_decode failed: " + std::to_string(rc.code));
   }
   // xer_fprint(stdout, &asn_DEF_NRPPA_PDU, nrppa);
   Logger::lmf_server().debug("asn_decode ok, consumed: %d", rc.consumed);
 
-  return nrppa;
+  return share_nrppa_pdu(nrppa);
 }
 
+//------------------------------------------------------------------------------
 void oai::lmf::app::lmf_app::insert_nrppaTxnId2supi(
     NRPPATransactionID_t const& nrppaTxnId, std::string const& supi) {
   std::unique_lock lock{this->m_nrppaTxnId2supi};
   auto const& [iter, insered] =
       this->nrppaTxnId2supi.try_emplace(nrppaTxnId, supi);
   if (!insered) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "insert_nrppaTxnId2supi",
         "nrppa id "s + std::to_string(nrppaTxnId) + " reuse"s);
   }
 }
 
+//------------------------------------------------------------------------------
 std::string oai::lmf::app::lmf_app::extract_nrppaTxnId2Supi(
     NRPPATransactionID_t const& nrppaTxnId) {
   std::unique_lock lock{this->m_nrppaTxnId2supi};
   auto const& nh = this->nrppaTxnId2supi.extract(nrppaTxnId);
   if (nh.empty()) {
-    throwHttpError(
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
         "extract_nrppaTxnId2Supi",
         "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
   }
   return nh.mapped();
+}
+
+std::string oai::lmf::app::lmf_app::get_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& it = this->nrppaTxnId2supi.find(nrppaTxnId);
+  if (it == std::end(this->nrppaTxnId2supi)) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "get_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  return it->second;
+}
+
+void oai::lmf::app::lmf_app::erase_nrppaTxnId2Supi(
+    NRPPATransactionID_t const& nrppaTxnId) {
+  std::unique_lock lock{this->m_nrppaTxnId2supi};
+  auto const& it = this->nrppaTxnId2supi.find(nrppaTxnId);
+  if (it == std::end(this->nrppaTxnId2supi)) {
+    oai::lmf::api::lmf_sbi_helper::throwHttpError(
+        "erase_nrppaTxnId2Supi",
+        "unknown nrppa txn id:"s + std::to_string(nrppaTxnId));
+  }
+  this->nrppaTxnId2supi.erase(it);
 }

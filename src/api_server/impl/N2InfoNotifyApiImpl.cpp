@@ -28,7 +28,10 @@
 
 #include "N2InformationNotification.h"
 
-namespace oai::lmf_server::api {
+using namespace oai::model::common;
+using namespace oai::model::lmf;
+
+namespace oai::lmf::api {
 
 N2InfoNotifyApiImpl::N2InfoNotifyApiImpl(
     std::shared_ptr<Pistache::Rest::Router> rtr,
@@ -38,11 +41,9 @@ N2InfoNotifyApiImpl::N2InfoNotifyApiImpl(
 void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
     const std::string& ueContextId, std::vector<mime_part>& parts,
     Pistache::Http::ResponseWriter& response) {
-  using namespace oai::lmf_server;
-
   Logger::lmf_server().debug("Receive an N2Info NRPPA Notify, handling...");
 
-  model::N2InformationNotification n2InformationNotification{
+  N2InformationNotification n2InformationNotification{
       nlohmann::json::parse(parts.at(0).body)};
   // TODO: handle subscrription id
   auto const& n2NotifySubscriptionId =
@@ -58,8 +59,6 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
   if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
     N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);
   }
-  // done in lmf_app later
-  // ASN_STRUCT_FREE(asn_DEF_NRPPA_PDU, nrppa);
 }
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api

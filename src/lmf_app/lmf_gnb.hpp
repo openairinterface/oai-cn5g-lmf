@@ -33,12 +33,13 @@ using GnbId = uint64_t;
 
 class Gnb {
  public:
-  Gnb(GnbId const& id, oai::lmf_server::model::GlobalRanNodeId const& ncgi) : id{id}, ncgi{ncgi} {}
+  Gnb(GnbId const& id, oai::model::common::GlobalRanNodeId const& ncgi)
+      : id{id}, ncgi{ncgi} {}
   const GnbId id;
-  const oai::lmf_server::model::GlobalRanNodeId ncgi;
+  const oai::model::common::GlobalRanNodeId ncgi;
   std::map<TRP_ID_t, Trp> trp;
 };
 
-} // oai::lmf::app 
+}  // namespace oai::lmf::app
 
-#endif // FILE_LMF_GNB_SEEN
+#endif  // FILE_LMF_GNB_SEEN

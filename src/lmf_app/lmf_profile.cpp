@@ -144,16 +144,6 @@ void lmf_profile::add_snssai(const snssai_t& s) {
 }
 
 //------------------------------------------------------------------------------
-void lmf_profile::set_fqdn(const std::string& fqdN) {
-  fqdn = fqdN;
-}
-
-//------------------------------------------------------------------------------
-std::string lmf_profile::get_fqdn() const {
-  return fqdn;
-}
-
-//------------------------------------------------------------------------------
 void lmf_profile::set_nf_ipv4_addresses(const std::vector<struct in_addr>& a) {
   ipv4_addresses = a;
 }
@@ -210,23 +200,22 @@ void lmf_profile::display() const {
 
   Logger::lmf_app().debug("\t\t ServingClientTypes: ");
   for (auto clientType : lmf_info.servingClientTypes) {
-    Logger::lmf_app().debug(
-        "\t\t\t %s", externalClientType_e2str[clientType].c_str());
+    Logger::lmf_app().debug("\t\t\t %s", clientType.c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingAccessTypes: ");
   for (auto accessType : lmf_info.servingAccessTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", accessType_e2str[accessType].c_str());
+    Logger::lmf_app().debug("\t\t\t %s", accessType.c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingAnNodeTypes: ");
   for (auto nodeType : lmf_info.servingAnNodeTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", anNodeType_e2str[nodeType].c_str());
+    Logger::lmf_app().debug("\t\t\t %s", nodeType.c_str());
   }
 
   Logger::lmf_app().debug("\t\t ServingRatTypes: ");
   for (auto ratType : lmf_info.servingRatTypes) {
-    Logger::lmf_app().debug("\t\t\t %s", ratType_e2str[ratType].c_str());
+    Logger::lmf_app().debug("\t\t\t %s", ratType.c_str());
   }
 }
 
@@ -316,11 +305,13 @@ void lmf_profile::from_json(const nlohmann::json& data) {
       struct in_addr addr4 = {};
       std::string address  = it.get<std::string>();
       unsigned char buf_in_addr[sizeof(struct in_addr)];
-      if (inet_pton(AF_INET, util::trim(address).c_str(), buf_in_addr) == 1) {
+      if (inet_pton(AF_INET, oai::utils::trim(address).c_str(), buf_in_addr) ==
+          1) {
         memcpy(&addr4, buf_in_addr, sizeof(struct in_addr));
       } else {
         Logger::lmf_app().warn(
-            "Address conversion: Bad value %s", util::trim(address).c_str());
+            "Address conversion: Bad value %s",
+            oai::utils::trim(address).c_str());
       }
       add_nf_ipv4_addresses(addr4);
     }

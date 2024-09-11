@@ -33,15 +33,13 @@
 
 #include "mime_parser.hpp"
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
 class N2InfoNotifyApi {
  public:
   N2InfoNotifyApi(std::shared_ptr<Pistache::Rest::Router>);
   virtual ~N2InfoNotifyApi() {}
   void init();
-
-  const std::string base = "/nlmf-n2info-notify/";
 
  private:
   void setupRoutes();
@@ -60,6 +58,6 @@ class N2InfoNotifyApi {
       Pistache::Http::ResponseWriter& response) = 0;
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif /* N2InfoNotifyApi_H_ */

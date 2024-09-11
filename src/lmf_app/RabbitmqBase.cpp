@@ -48,11 +48,11 @@ void RabbitmqBase::loadConfiguration() {
     json data;
 
     try {
-        ifstream f("RabbitMQConfig.json");
+        ifstream f("etc/RabbitMQConfig.json");
         data = json::parse(f);
         isExternalConfig = true;
     } catch (...) {
-        cout << "Can not load RabbitMQConfig from file. Using default settings." << endl;
+        cout << "[PaaS] Can not load RabbitMQConfig from file. Using default settings." << endl;
     }
     
     if (isExternalConfig) {
@@ -66,7 +66,7 @@ void RabbitmqBase::loadConfiguration() {
             password = rabbitMQ["password"];
             vhost = rabbitMQ["virtualHost"];
         } catch (...) {
-            cout << "Can't parse json configuration from RabbitMQConfig. Using default settings." << endl;
+            cout << "[PaaS] Can't parse json configuration from RabbitMQConfig. Using default settings." << endl;
         }
     }
 
@@ -83,17 +83,17 @@ void RabbitmqBase::loadConfiguration() {
         opts.tls_params->verify_hostname = false;
         opts.tls_params->verify_peer = false;
     }
-    cout << "Configuration loaded." << endl;
+    cout << "[PaaS] Configuration loaded." << endl;
 }
 
 void RabbitmqBase::openConnection() {
     /**
      * Open RabbitMQ channel
     */
-    cout << "Open connection" << endl;
-    cout << "Host: " << opts.host << endl;
+    cout << "[PaaS] Open connection" << endl;
+    cout << "[PaaS] Host: " << opts.host << endl;
     channel = Channel::Open(opts);
-    cout << "Connection is open." << endl;
+    cout << "[PaaS] Connection is open." << endl;
     
 }
 
@@ -101,7 +101,7 @@ void RabbitmqBase::closeConnection() {
     /**
      * Close RabbitMQ connection
     */
-    cout << "Closing connection" << endl;
+    cout << "[PaaS] Closing connection" << endl;
     channel = boost::shared_ptr<Channel>();
 
     // reset properties

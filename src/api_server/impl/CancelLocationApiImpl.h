@@ -33,11 +33,11 @@
 #include "RedirectResponse.h"
 #include <string>
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
-using namespace oai::lmf_server::model;
+using namespace oai::model::lmf;
 
-class CancelLocationApiImpl : public oai::lmf_server::api::CancelLocationApi {
+class CancelLocationApiImpl : public oai::lmf::api::CancelLocationApi {
  public:
   explicit CancelLocationApiImpl(
       const std::shared_ptr<Pistache::Rest::Router>& rtr);
@@ -48,6 +48,6 @@ class CancelLocationApiImpl : public oai::lmf_server::api::CancelLocationApi {
       Pistache::Http::ResponseWriter& response);
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif

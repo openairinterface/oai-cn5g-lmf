@@ -35,6 +35,8 @@ source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.spdlog
 source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.pistache
 source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.nlohmann
 source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.nghttp2
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.yamlcpp
+source $THIS_SCRIPT_PATH/../common-build/installation/build_helper.cpr
 
 #-------------------------------------------------------------------------------
 #arg1 is force (0 or 1) (no interactive script)
@@ -139,7 +141,6 @@ check_install_lmf_deps() {
       check \
       nettle-devel \
       libcurl-devel \
-      python2 \
       pkgconfig \
       ninja-build \
       boost-devel \
@@ -166,6 +167,36 @@ check_install_lmf_deps() {
 
   install_nghttp2_from_git $1 $2
   ret=$?;[[ $ret -ne 0 ]] && return $ret
+
+  install_cpr_from_git $1 $2
+  ret=$?;[[ $ret -ne 0 ]] && return $ret
+
+  # latest usage of yaml-cpp suggests that we should be using 0.7+ version
+  # To be sure, let's install from source all the time for the moment
+  if [[ $OS_DISTRO == "ubuntu" ]]; then
+    case "$(get_distribution_release)" in
+      "ubuntu18.04")
+        install_libyaml_cpp_from_git $1 $2
+        ret=$?;[[ $ret -ne 0 ]] && return $ret
+        ;;
+      "ubuntu20.04")
+        # definitely, 0.6.2 as PPA installed is not enough
+        install_libyaml_cpp_from_git $1 $2
+        ret=$?;[[ $ret -ne 0 ]] && return $ret
+        ;;
+      "ubuntu22.04")
+        # not sure about 0.7.0
+        #$SUDO $INSTALLER install $OPTION libyaml-cpp0.7 libyaml-cpp-dev
+        install_libyaml_cpp_from_git $1 $2
+        ret=$?;[[ $ret -ne 0 ]] && return $ret
+        ;;
+    esac
+  elif [[ "$OS_BASEDISTRO" == "fedora" ]]; then
+    # definitely, 0.6.2 as PPA installed is not enough
+    # $SUDO $INSTALLER install $OPTION yaml-cpp yaml-cpp-devel
+    install_libyaml_cpp_from_git $1 $2
+    ret=$?;[[ $ret -ne 0 ]] && return $ret
+  fi
 
   $SUDO ldconfig
   return 0

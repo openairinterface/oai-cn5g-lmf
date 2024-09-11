@@ -24,7 +24,7 @@
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
-#include <shared_mutex>
+
 #include <vector>
 
 #include "3gpp_29.510.h"
@@ -238,20 +238,6 @@ class lmf_profile : public std::enable_shared_from_this<lmf_profile> {
    * @return void:
    */
   void get_nf_snssais(std::vector<snssai_t>& s) const;
-
-  /*
-   * Get NF fqdn
-   * @param
-   * @return [std::string] nf fqdn
-   */
-  std::string get_fqdn() const;
-
-  /*
-   * Set NF fqdn
-   * @param [const fqdn_t &] fqdn: nf fqdn
-   * @return void
-   */
-  void set_fqdn(const std::string& fqdn);
 
   /*
    * Set NF instance ipv4_addresses

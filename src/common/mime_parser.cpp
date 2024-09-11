@@ -23,17 +23,14 @@
 #include "logger.hpp"
 #include "conversions.hpp"
 #include "lmf.h"
-
-extern "C" {
-#include "dynamic_memory_check.h"
-}
+#include "utils.hpp"
 
 bool mime_parser::parse(const std::string& str) {
   std::string CRLF = "\r\n";
   Logger::lmf_app().debug("Parsing the message with Simple Parser");
 
-  // find boundary
-  std::size_t content_type_pos = str.find("Content-Type");  // first part
+  // find boundary (could be Content-Id, Content-Filename, ...)
+  std::size_t content_type_pos = str.find("Content-");  // first part
   if ((content_type_pos <= 4) or (content_type_pos == std::string::npos))
     return false;
 
@@ -86,7 +83,7 @@ unsigned char* mime_parser::format_string_as_hex(const std::string& str) {
   memcpy((void*) data, (void*) str.c_str(), str_len);
 
   unsigned char* data_hex = (uint8_t*) malloc(str_len / 2 + 1);
-  conv::ascii_to_hex(data_hex, (const char*) data);
+  oai::utils::conv::ascii_to_hex(data_hex, (const char*) data);
 
   Logger::lmf_app().debug("Input string (%d bytes): %s ", str_len, str.c_str());
   Logger::lmf_app().debug("Data (formatted):");
@@ -134,8 +131,8 @@ void mime_parser::create_multipart_related_content(
   body.append("--" + boundary + "--" + CRLF);
 
   // free memory
-  free_wrapper((void**) &n1_msg_hex);
-  free_wrapper((void**) &n2_msg_hex);
+  oai::utils::utils::free_wrapper((void**) &n1_msg_hex);
+  oai::utils::utils::free_wrapper((void**) &n2_msg_hex);
 }
 
 //------------------------------------------------------------------------------
@@ -169,5 +166,5 @@ void mime_parser::create_multipart_related_content(
   body.append("--" + boundary + "--" + CRLF);
 
   // free memory
-  free_wrapper((void**) &msg_hex);
+  oai::utils::utils::free_wrapper((void**) &msg_hex);
 }

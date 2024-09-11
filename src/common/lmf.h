@@ -22,7 +22,11 @@
 #ifndef FILE_LMF_SEEN
 #define FILE_LMF_SEEN
 
+#include <string>
+#include <vector>
+
 #define HEART_BEAT_TIMER 10
+#define NRF_REGISTRATION_RETRY_TIMER 5
 
 #define N2_NRPPa_CONTENT_ID "n2NrppaMsg"
 
@@ -79,57 +83,6 @@ static const std::vector<std::string> patch_op_type_e2str = {
 #define MAX_WAIT_MSECS 20000  // 1 second
 
 typedef uint64_t supi64_t;
-
-// 3GPP TS 29.571 (Common data)
-enum http_response_codes_e {
-  HTTP_RESPONSE_CODE_OK                     = 200,
-  HTTP_RESPONSE_CODE_CREATED                = 201,
-  HTTP_RESPONSE_CODE_ACCEPTED               = 202,
-  HTTP_RESPONSE_CODE_NO_CONTENT             = 204,
-  HTTP_RESPONSE_CODE_BAD_REQUEST            = 400,
-  HTTP_RESPONSE_CODE_UNAUTHORIZED           = 401,
-  HTTP_RESPONSE_CODE_FORBIDDEN              = 403,
-  HTTP_RESPONSE_CODE_NOT_FOUND              = 404,
-  HTTP_RESPONSE_CODE_METHOD_NOT_ALLOWED     = 405,
-  HTTP_RESPONSE_CODE_REQUEST_TIMEOUT        = 408,
-  HTTP_RESPONSE_CODE_406_NOT_ACCEPTED       = 406,
-  HTTP_RESPONSE_CODE_CONFLICT               = 409,
-  HTTP_RESPONSE_CODE_GONE                   = 410,
-  HTTP_RESPONSE_CODE_LENGTH_REQUIRED        = 411,
-  HTTP_RESPONSE_CODE_PRECONDITION_FAILED    = 412,
-  HTTP_RESPONSE_CODE_PAYLOAD_TOO_LARGE      = 413,
-  HTTP_RESPONSE_CODE_URI_TOO_LONG           = 414,
-  HTTP_RESPONSE_CODE_UNSUPPORTED_MEDIA_TYPE = 415,
-  HTTP_RESPONSE_CODE_TOO_MANY_REQUESTS      = 429,
-  HTTP_RESPONSE_CODE_INTERNAL_SERVER_ERROR  = 500,
-  HTTP_RESPONSE_CODE_NOT_IMPLEMENTED        = 501,
-  HTTP_RESPONSE_CODE_SERVICE_UNAVAILABLE    = 503,
-  HTTP_RESPONSE_CODE_GATEWAY_TIMEOUT        = 504
-};
-
-#define NLMF_BASE "/nlmf-loc/"
-
-#define NLMF_DETERMINE_LOCATION "/determine-location"
-#define NLMF_CANCEL_LOCATION "/cancel-location"
-#define NLMF_LOCATION_CONTEXT_TRANSFER "/location-context-transfer"
-
-#define NLMF_NOTIFY_BASE "/nlmf-n2info-notify/"
-#define NLMF_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
-
-#define NLMF_NON_UE_NOTIFY_BASE "/nlmf-non-ue-n2info-notify/"
-#define NLMF_NON_UE_NOTIFY_NRPPA_CALLBACK "/nrppa/callback/"
-
-#define NAMF_BASE "/namf-comm/"
-
-#define NAMF_N1N2_SUBSCRIBE_BASE "/ue-contexts/"
-
-#define NAMF_N1N2_SUBSCRIBE_MESSAGES "/n1-n2-messages"
-#define NAMF_N1N2_SUBSCRIBE_SUBSCRIPTIONS "/subscriptions"
-
-#define NAMF_N1N2_SUBSCRIBE_NON_UE_MESSAGES "/non-ue-n2-messages"
-#define NAMF_N1N2_SUBSCRIBE_NON_UE_SUBSCRIPTIONS "/subscriptions"
-
-#define NAMF_NON_UE_N2_MESSAGE_TRANSFER "/non-ue-n2-messages/transfer"
 
 typedef enum ExternalClientType_s {
   EMERGENCY_SERVICES = 1,
@@ -188,11 +141,11 @@ static const std::vector<std::string> ratType_e2str = {
     "TRUSTED_N3GA", "TRUSTED_WLAN", "UTRA",     "GERA"};
 
 typedef struct lmf_info_s {
-  std::vector<ExternalClientType_t> servingClientTypes;
+  std::vector<std::string> servingClientTypes;
   std::string lmfId;
-  std::vector<AccessType_t> servingAccessTypes;
-  std::vector<AnNodeType_t> servingAnNodeTypes;
-  std::vector<RatType_t> servingRatTypes;
+  std::vector<std::string> servingAccessTypes;
+  std::vector<std::string> servingAnNodeTypes;
+  std::vector<std::string> servingRatTypes;
 } lmf_info_t;
 
 #endif

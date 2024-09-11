@@ -24,34 +24,31 @@
 
 #define ASN_DISABLE_OER_SUPPORT
 
+#include <pistache/http.h>
+
+#include <boost/range/combine.hpp>
+#include <condition_variable>
+#include <map>
 #include <shared_mutex>
 #include <string>
-#include <map>
-#include <condition_variable>
-#include <boost/range/combine.hpp>
 
-#include <pistache/http.h>
-#include "mime_parser.hpp"
-
-#include "uint_generator.hpp"
-
+#include "CoordinateID.h"
+#include "InputData.h"
+#include "Measurement-ID.h"
+#include "N2InformationNotification.h"
+#include "NRPPATransactionID.h"
+#include "ProblemDetails.h"
+#include "RelativeCartesianLocation.h"
+#include "TRP-ID.h"
 #include "lmf.h"
+#include "lmf_cause_error.hpp"
 #include "lmf_event.hpp"
+#include "lmf_gnb.hpp"
 #include "lmf_location_determination.hpp"
 #include "lmf_n1_n2_message_subscription.hpp"
 #include "lmf_non_ue_n2_message_subscription.hpp"
-#include "lmf_gnb.hpp"
-#include "lmf_cause_error.hpp"
-
-#include "ProblemDetails.h"
-#include "InputData.h"
-#include "N2InformationNotification.h"
-
-#include "NRPPATransactionID.h"
-#include "Measurement-ID.h"
-#include "TRP-ID.h"
-#include "CoordinateID.h"
-#include "RelativeCartesianLocation.h"
+#include "mime_parser.hpp"
+#include "uint_generator.hpp"
 
 namespace oai::lmf::app {
 
@@ -63,13 +60,14 @@ class lmf_app {
 
   virtual ~lmf_app();
 
+  bool start();
+  void stop();
+
   void handle_determine_location(
-      const oai::lmf_server::model::InputData& inputData,
-      nlohmann::json& json_data, Pistache::Http::Code& code);
-
-  bool handle_non_ue_n2info_nrppa_notification(NRPPA_PDU_t* nrppa);
-
-  bool handle_n2info_nrppa_notification(std::string supi, NRPPA_PDU_t* nrppa);
+      const oai::model::lmf::InputData& inputData, nlohmann::json& json_data,
+      Pistache::Http::Code& code);
+  bool handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa);
+  bool handle_n2info_nrppa_notification(std::string supi, NrppaPduShared nrppa);
 
   bool is_supi_2_context(const std::string& supi) const;
   std::shared_ptr<LocationDetermination> create_lmf_context(
@@ -88,8 +86,8 @@ class lmf_app {
   void create_non_ue_subscription();
   void release_non_ue_subscription();
 
-  static NRPPA_PDU_t* parse_n2_info_container_nrppa(
-      oai::lmf_server::model::N2InformationNotification const&
+  static NrppaPduShared parse_n2_info_container_nrppa(
+      oai::model::lmf::N2InformationNotification const&
           n2InformationNotification,
       mime_part const& nrppa_part);
 
@@ -99,9 +97,13 @@ class lmf_app {
   void insert_nrppaTxnId2supi(
       NRPPATransactionID_t const& nrppaTxnId, std::string const& supi);
   std::string extract_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
+  std::string get_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
+  void erase_nrppaTxnId2Supi(NRPPATransactionID_t const& nrppaTxnId);
 
-  util::uint_generator<Measurement_ID_t, 1, 65536> measurement_id_gen;
-  util::uint_generator<NRPPATransactionID_t, 0, 32767> nrppa_tid_gen;
+  oai::utils::uint_range_generator<Measurement_ID_t, 1, 65536>
+      measurement_id_gen;
+  oai::utils::uint_range_generator<NRPPATransactionID_t, 0, 32767>
+      nrppa_tid_gen;
 
  private:
   std::map<std::string, std::shared_ptr<LocationDetermination>> supi2ctx;
@@ -118,7 +120,7 @@ class lmf_app {
       std::shared_ptr<LocationDetermination> const& ctx,
       NRPPATransactionID_t const& nrppatransactionID);
   void handle_trp_information_response(
-      NRPPA_PDU_t* nrppaPdu, NRPPATransactionID_t const& tId,
+      NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       TRPInformationResponse_t const& trpInformation);
   lmf_event& event_sub;
 

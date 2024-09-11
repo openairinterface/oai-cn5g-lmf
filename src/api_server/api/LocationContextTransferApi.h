@@ -33,7 +33,7 @@
 #include "RedirectResponse.h"
 #include <string>
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
 class LocationContextTransferApi {
  public:
@@ -41,8 +41,6 @@ class LocationContextTransferApi {
       const std::shared_ptr<Pistache::Rest::Router>& rtr);
   virtual ~LocationContextTransferApi() = default;
   void init();
-
-  const std::string base = NLMF_BASE;
 
  private:
   void setupRoutes();
@@ -82,10 +80,10 @@ class LocationContextTransferApi {
   /// </remarks>
   /// <param name="locContextData"></param>
   virtual void location_context_transfer(
-      const oai::lmf_server::model::LocContextData& locContextData,
+      const oai::model::lmf::LocContextData& locContextData,
       Pistache::Http::ResponseWriter& response) = 0;
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif /* LocationContextTransferApi_H_ */

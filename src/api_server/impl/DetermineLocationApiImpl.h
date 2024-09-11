@@ -37,12 +37,11 @@
 
 #include "lmf_app.hpp"
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
 
-using namespace oai::lmf_server::model;
+using namespace oai::model::lmf;
 
-class DetermineLocationApiImpl
-    : public oai::lmf_server::api::DetermineLocationApi {
+class DetermineLocationApiImpl : public oai::lmf::api::DetermineLocationApi {
  public:
   explicit DetermineLocationApiImpl(
       const std::shared_ptr<Pistache::Rest::Router>& rtr,
@@ -56,6 +55,6 @@ class DetermineLocationApiImpl
   oai::lmf::app::lmf_app* m_lmf_app;
 };
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
 
 #endif

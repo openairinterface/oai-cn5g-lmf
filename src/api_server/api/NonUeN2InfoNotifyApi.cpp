@@ -24,11 +24,14 @@
 #include <nlohmann/json.hpp>
 
 #include "lmf_config.hpp"
+#include "lmf_sbi_helper.hpp"
 #include "logger.hpp"
 
 using namespace Pistache;
 
-namespace oai::lmf_server::api {
+namespace oai::lmf::api {
+
+using namespace oai::lmf::api;
 
 NonUeN2InfoNotifyApi::NonUeN2InfoNotifyApi(
     std::shared_ptr<Pistache::Rest::Router> rtr) {
@@ -41,7 +44,9 @@ void NonUeN2InfoNotifyApi::init() {
 
 void NonUeN2InfoNotifyApi::setupRoutes() {
   Rest::Routes::Post(
-      *router, base + lmf_cfg.sbi_api_version + "/nrppa/callback",
+      *router,
+      lmf_sbi_helper::LmfNonUeN2InfoNotifyServiceBase +
+          lmf_sbi_helper::LmfNonUeN2InfoNotifyNrppaCallback,
       Rest::Routes::bind(
           &NonUeN2InfoNotifyApi::notify_non_ue_n2info_nrppa_handler, this));
 
@@ -104,4 +109,4 @@ void NonUeN2InfoNotifyApi::notify_non_ue_n2info_default_handler(
   response.send(Http::Code::Not_Found, "The requested method does not exist");
 }
 
-}  // namespace oai::lmf_server::api
+}  // namespace oai::lmf::api
