@@ -835,8 +835,14 @@ void sendAnchorPositions(RabbitmqBase& mq) {
 
 nlohmann::json LocationDetermination::compute_location(
     std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
-  std::shared_lock lock(this->m_result);
-  std::vector<float> toas;
+
+    std::vector<float> toas;
+    std::vector<std::array<double, 3>> trp_pos;
+    uint32_t Tc_inv = 4096 * 480000;
+    uint16_t K = 1;
+    uint32_t T_inv = Tc_inv / (1 << K);
+    uint32_t T_ns_inv = 1e9;
+
   for (auto const& [gnbId, trp] : this->result) {
     if (gnbs.count(gnbId) == 0) {
       Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
@@ -846,7 +852,7 @@ nlohmann::json LocationDetermination::compute_location(
     for (auto const& [trpId, uLRTOAmeas] : trp) {
       if (gnb.trp.count(trpId) == 0) {
         Logger::lmf_app().warn(
-            "no such trpId: %d attached to gnbId: 0x%x", trpId, gnbId);
+            "no such trpId: %d attached to gnbId: %d", trpId, gnbId);
         continue;
       }
       auto const& trp             = gnb.trp.at(trpId);
@@ -854,9 +860,9 @@ nlohmann::json LocationDetermination::compute_location(
       auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
 
       for (auto const& [k, v] : uLRTOAmeas) {
-        toas.push_back(v*1000);  // picoseconds
+        toas.push_back(((v - 492512) * T_ns_inv / T_inv)*1000);// toas in picoseconds
         Logger::lmf_app().debug(
-            "gnbId: 0x%x, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
+            "gnbId: %d, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
             "k%d: %d",
             gnbId, trpId, trp.relativeCartesianLocation.xvalue, unit,
             trp.relativeCartesianLocation.yvalue, unit,
@@ -865,9 +871,10 @@ nlohmann::json LocationDetermination::compute_location(
     }
   }
 
-  std::cout << "[PaaS] k Values:" << std::endl;
-  for (const auto& k : toas) {
-    std::cout << "k: " << k << std::endl;
+
+    std::cout << "[pos_est] ToA Values:" << std::endl;
+    for (const auto& tau : toas) {
+        std::cout << "ToA: " << tau << std::endl;
     }
 
   SupportedGADShapes supportedGADShapes;

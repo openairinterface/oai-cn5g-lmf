@@ -1,0 +1,10 @@
+{
+  "rabbitMQ": {
+    "host": "paas.iis.fraunhofer.de",
+    "port": 11801,
+    "useSSL": true,
+    "username": "eurecom",
+    "password": "9045ea4fa2922402735c4d6d72c82f358cc637c0",
+    "virtualHost": "opera/001/"
+  }
+}
