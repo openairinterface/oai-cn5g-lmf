@@ -871,9 +871,14 @@ nlohmann::json LocationDetermination::compute_location(
     }
   }
 
-
+    std::vector<double> first_6_toas;
+    // Record the first 6 ToA values
+    for (size_t i = 0; i < std::min(toas.size(), static_cast<size_t>(6)); ++i) {
+        first_6_toas.push_back(toas[i]);
+    }
+    
     std::cout << "[pos_est] ToA Values:" << std::endl;
-    for (const auto& tau : toas) {
+    for (const auto& tau : first_6_toas) {
         std::cout << "ToA: " << tau << std::endl;
     }
 
@@ -924,7 +929,7 @@ nlohmann::json LocationDetermination::compute_location(
   cout << "[PaaS] Start sending ..." << endl;
   // round(1e12 * (distances / speedOfLight)); TOAs given in picoseconds
   // Serialize and send message
-  string msg_body = RabbitmqBase::serializeTOAs(toas); 
+  string msg_body = RabbitmqBase::serializeTOAs(first_6_toas); 
   bool wasSend = mq.sendMessage(msg_body);
   if (wasSend) {
     if (DEBUG_paas)
