@@ -28,6 +28,7 @@
 #include <set>
 #include <variant>
 #include <shared_mutex>
+#include <thread>
 
 #include <nlohmann/json.hpp>
 

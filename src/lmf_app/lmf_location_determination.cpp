@@ -817,20 +817,46 @@ void LocationDetermination::throwHttpError(
       title, detail, this->supi, code);
 }
 
-void sendAnchorPositions(RabbitmqBase& mq) {
-    // Read anchor positions from file
+void send_to_paas(RabbitmqBase& mq, const std::vector<float>& toas) {
+    // Send anchor positions
     ifstream file("etc/AnchorPositions.json");
-
-    // Check input and remove white-spaces
     json data = json::parse(file);
     string msg = data.dump();
 
-    if (DEBUG_paas) {
-        cout << msg << endl;
-    }
-    
     mq.setExchange("anchors");
     mq.sendMessage(msg);
+
+    // Send TOAs to PaaS
+    mq.setExchange("toa_sets");
+    string msg_body = RabbitmqBase::serializeTOAs(toas);
+    bool wasSend = mq.sendMessage(msg_body);
+    
+    if (wasSend) {
+        cout << "[PaaS] Message sent!" << endl;
+    } else {
+        cout << "[PaaS] Error while sending message!" << endl;
+    }
+}
+
+void receive_from_paas(RabbitmqBase& mq, double& pos_x, double& pos_y) {
+    // Start receiving position results
+    mq.startConsumer("positions");
+    cout << "[PaaS] Start receiving ..." << endl;
+    
+    string msg_body = "";
+    bool hasReceived = mq.getMessage(msg_body);
+    
+    if (hasReceived) {
+        cout << "[PaaS] Position received!" << endl;
+
+        json data = json::parse(msg_body);
+        json pos = data["position"];
+        cout << "[PaaS] Position: " << pos << endl;
+        pos_x = std::stod(pos[0].get<std::string>());
+        pos_y = std::stod(pos[1].get<std::string>());
+    } else {
+        cout << "[PaaS] No message received!" << endl;
+    }
 }
 
 nlohmann::json LocationDetermination::compute_location(
@@ -871,7 +897,7 @@ nlohmann::json LocationDetermination::compute_location(
     }
   }
 
-    std::vector<double> first_6_toas;
+    std::vector<float> first_6_toas;
     // Record the first 6 ToA values
     for (size_t i = 0; i < std::min(toas.size(), static_cast<size_t>(6)); ++i) {
         first_6_toas.push_back(toas[i]);
@@ -906,66 +932,22 @@ nlohmann::json LocationDetermination::compute_location(
 
   // Fraunhofer IIS Positioning-as-a-Service (PaaS) cloud platform
   // Establish and open RabbitMQ connection
-  RabbitmqBase mq = RabbitmqBase();  
-  mq.loadConfiguration();
-  cout << "[PaaS] Connection established!" << endl;
-  mq.openConnection();
-  cout << "[PaaS] Connection opened!" << endl;
+    RabbitmqBase mq;
+    mq.loadConfiguration();
+    mq.openConnection();
+    cout << "[PaaS] Connection opened!" << endl;
 
-  // Send anchor positions
-  // Read anchor positions from file
-  ifstream file("etc/AnchorPositions.json");
-  // Check input and remove white-spaces
-  json data = json::parse(file);
-  string msg = data.dump();
-  if (DEBUG_paas) {
-      cout << msg << endl;
-  }
-  mq.setExchange("anchors");
-  mq.sendMessage(msg);
+    double pos_x = 0.0;
+    double pos_y = 0.0;
 
-  // Start sending TOAs to PaaS
-  mq.setExchange("toa_sets");
-  cout << "[PaaS] Start sending ..." << endl;
-  // round(1e12 * (distances / speedOfLight)); TOAs given in picoseconds
-  // Serialize and send message
-  string msg_body = RabbitmqBase::serializeTOAs(first_6_toas); 
-  bool wasSend = mq.sendMessage(msg_body);
-  if (wasSend) {
-    if (DEBUG_paas)
-      cout << "[PaaS] Message send!" << endl;
-  } else {
-    cout << "[PaaS] Error while sending message!" << endl;
-  }
-  mq.closeConnection();
-  cout << "[PaaS] ... connection closed!" << endl;
+    std::thread send_thread(send_to_paas, std::ref(mq), std::ref(first_6_toas));
+    std::thread receive_thread(receive_from_paas, std::ref(mq), std::ref(pos_x), std::ref(pos_y));
 
-  mq.loadConfiguration();
-  mq.openConnection();
-  // Receive position results from the Positioning-as-a-Service cloud platform
-  mq.startConsumer("positions");
-  cout << "[PaaS] Start receiving ..." << endl;
-  msg_body = "";
-  bool hasReceived = mq.getMessage(msg_body);
-
-  double pos_x = 0.0;
-  double pos_y = 0.0;
-
-  if (hasReceived) {
-    cout << "[PaaS] Position received!" << endl;
-
-    json data = json::parse(msg_body);
-    json pos = data["position"];
-    cout << "[PaaS] Position: " << pos << endl;
-
-    pos_x = std::stod(pos[0].get<std::string>());
-    pos_y = std::stod(pos[1].get<std::string>());
-    
-  } else {
-    sleep(0.5);
-  }
-  mq.closeConnection();
-  cout << "[PaaS] ... connection closed!" << endl;
+    // wait for threads to finish
+    send_thread.join();
+    receive_thread.join();
+    mq.closeConnection();
+    cout << "[PaaS] Connection closed!" << endl;
 
   nlohmann::json j;
   j["localLocationEstimate"]["shape"]                           = "POINT";
@@ -974,7 +956,7 @@ nlohmann::json LocationDetermination::compute_location(
   j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
   j["localLocationEstimate"]["point"]["x"]                      = pos_x;
   j["localLocationEstimate"]["point"]["y"]                      = pos_y;
-  j["localLocationEstimate"]["point"]["z"]                      = 15;
+  j["localLocationEstimate"]["point"]["z"]                      = 1.5;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
