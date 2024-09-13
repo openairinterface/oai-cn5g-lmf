@@ -817,7 +817,13 @@ void LocationDetermination::throwHttpError(
       title, detail, this->supi, code);
 }
 
-void send_to_paas(RabbitmqBase& mq, const std::vector<float>& toas) {
+void send_to_paas(const std::vector<float>& toas) {
+    
+    // Initialize RabbitMQ connection
+    RabbitmqBase mq;
+    mq.loadConfiguration();
+    mq.openConnection();
+    cout << "[PaaS] Connection opened for sending!" << endl;
     // Send anchor positions
     ifstream file("etc/AnchorPositions.json");
     json data = json::parse(file);
@@ -836,9 +842,17 @@ void send_to_paas(RabbitmqBase& mq, const std::vector<float>& toas) {
     } else {
         cout << "[PaaS] Error while sending message!" << endl;
     }
+    //mq.closeConnection();
+    //cout << "[PaaS] Connection closed after sending!" << endl;
 }
 
-void receive_from_paas(RabbitmqBase& mq, double& pos_x, double& pos_y) {
+void receive_from_paas(double& pos_x, double& pos_y) {
+    
+    // Initialize RabbitMQ connection
+    RabbitmqBase mq;
+    mq.loadConfiguration();
+    mq.openConnection();
+    cout << "[PaaS] Connection opened for receiving!" << endl;
     // Start receiving position results
     mq.startConsumer("positions");
     cout << "[PaaS] Start receiving ..." << endl;
@@ -857,6 +871,8 @@ void receive_from_paas(RabbitmqBase& mq, double& pos_x, double& pos_y) {
     } else {
         cout << "[PaaS] No message received!" << endl;
     }
+    //mq.closeConnection();
+    //cout << "[PaaS] Connection closed after receiving!" << endl;
 }
 
 nlohmann::json LocationDetermination::compute_location(
@@ -932,22 +948,18 @@ nlohmann::json LocationDetermination::compute_location(
 
   // Fraunhofer IIS Positioning-as-a-Service (PaaS) cloud platform
   // Establish and open RabbitMQ connection
-    RabbitmqBase mq;
-    mq.loadConfiguration();
-    mq.openConnection();
-    cout << "[PaaS] Connection opened!" << endl;
 
     double pos_x = 0.0;
     double pos_y = 0.0;
 
-    std::thread send_thread(send_to_paas, std::ref(mq), std::ref(first_6_toas));
-    std::thread receive_thread(receive_from_paas, std::ref(mq), std::ref(pos_x), std::ref(pos_y));
+    std::thread send_thread(send_to_paas, std::ref(first_6_toas));
+    std::thread receive_thread(receive_from_paas, std::ref(pos_x), std::ref(pos_y));
 
-    // wait for threads to finish
     send_thread.join();
     receive_thread.join();
-    mq.closeConnection();
-    cout << "[PaaS] Connection closed!" << endl;
+    
+    //mq.closeConnection();
+    //cout << "[PaaS] Connection closed!" << endl;
 
   nlohmann::json j;
   j["localLocationEstimate"]["shape"]                           = "POINT";
