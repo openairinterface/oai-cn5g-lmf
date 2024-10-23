@@ -492,7 +492,7 @@ void lmf_app::handle_trp_information_response(
                 }
                 uint64_t nci = 0;
                 for (auto i = 0, s = 32; i < 5; ++i, s -= 8) {
-                  nci |= static_cast<uint64_t>(ngRanCell.buf[i++]) << s;
+                  nci |= static_cast<uint64_t>(ngRanCell.buf[i]) << s;
                 }
                 nci >>= ngRanCell.bits_unused;
                 auto const& cellIdBitCnt = 36 - lmf_cfg.gnb_id_bits_count;
@@ -531,7 +531,8 @@ void lmf_app::handle_trp_information_response(
                   plmnId.setMnc(mnc);
 
                   auto const& gnbValue =
-                      (boost::format(cellIdBitCnt <= 24 ? "%06x" : "%08x") %
+                      (boost::format(
+                           lmf_cfg.gnb_id_bits_count <= 24 ? "%06x" : "%08x") %
                        gnbId.value())
                           .str();
                   GNbId gNbId;
