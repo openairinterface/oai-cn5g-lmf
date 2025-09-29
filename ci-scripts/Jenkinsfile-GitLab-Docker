@@ -22,6 +22,8 @@
 
 //-------------------------------------------------------------------------------
 
+import groovy.transform.Field
+
 // Location of the CN executor node
 // Its main purpose is the Ubuntu Build
 ubuntuNode = params.UbuntuBuildNode
@@ -47,31 +49,31 @@ armBuildResource = params.armBuildResource
 runTrivyScan = params.runTrivyScan
 
 // Boolean param to control the run of "Pushing Image to Official Registry" stage (keep it false by default)
-runDockerHubPushStage = false // Please set it to true when replaying a "PUSH" event Pipeline
+@Field boolean runDockerHubPushStage = false // Please set it to true when replaying a "PUSH" event Pipeline
 
 
 // Tags/Branches to use
-def lmf_tag = "develop"
-def lmf_branch = "develop"
+@Field String lmf_tag = "develop"
+@Field String lmf_branch = "develop"
 
 // Merge Request Link
-gitlabMergeRequestLink = ''
-gitCommittorEmailAddr  = ''
+@Field String gitlabMergeRequestLink = ''
+@Field String gitCommittorEmailAddr  = ''
 
 // Docker Hub account to push to
-DH_Account = "oaisoftwarealliance"
+@Field String DH_Account = "oaisoftwarealliance"
 
 // Private Local Registry URL
-PrivateRegistryURL = 'selfix.sboai.cs.eurecom.fr'
+@Field String PrivateRegistryURL = 'selfix.sboai.cs.eurecom.fr'
 
 // Openshift project name
-Namespace = 'oaicicd-core'
+@Field String Namespace = 'oaicicd-core'
 
 // Openshift server URL
-server = 'https://api.oai.cs.eurecom.fr:6443'
+@Field String server = 'https://api.oai.cs.eurecom.fr:6443'
 
 // Docker build options
-dockerBuildOptions = '--no-cache '
+@Field String dockerBuildOptions = '--no-cache '
 
 //-------------------------------------------------------------------------------
 // Pipeline start
