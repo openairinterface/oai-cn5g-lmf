@@ -110,6 +110,20 @@ pipeline {
             echo '\u26D4 \u001B[31mNo Credentials to push to DockerHub!\u001B[0m'
             error "Stopping pipeline!"
           }
+          echo "gitlabSourceBranch       = ${env.gitlabSourceBranch}"
+          echo "gitlabTargetBranch       = ${env.gitlabTargetBranch}"
+          echo "gitlabSourceRepoSshUrl   = ${env.gitlabSourceRepoSshUrl}"
+          echo "gitlabSourceRepoHttpUrl  = ${env.gitlabSourceRepoHttpUrl}"
+          echo "gitlabTargetRepoSshUrl   = ${env.gitlabTargetRepoSshUrl}"
+          echo "gitlabTargetRepoHttpUrl  = ${env.gitlabTargetRepoHttpUrl}"
+
+          def srcRepo = env.gitlabSourceRepoSshUrl ?: env.gitlabSourceRepoHttpUrl
+          def tgtRepo = env.gitlabTargetRepoSshUrl ?: env.gitlabTargetRepoHttpUrl
+          if (srcRepo && tgtRepo && srcRepo != tgtRepo)
+          {
+          echo '\u26D4 \u001B[31mMerge request comes from a forked repository!\u001B[0m'
+          error "Stopping pipeline because MR is from a forked repository."
+          }
         }
       }
     }
