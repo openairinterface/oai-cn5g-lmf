@@ -3,34 +3,25 @@
 #include <cstdio>
 #include <cblas.h>
 #include <lapacke.h>
+#include <cstring>
 
-// Function to invert a matrix A using LAPACKE_dgetrf and LAPACKE_dgetri
 int inverse_matrix(double A[2][2], double A_inv[2][2]) {
-    int n = 2; // Number of rows/columns
-    int lda = n; // Leading dimension of the array
+    constexpr int n = 2;
+    constexpr int lda = n;
 
-    int ipiv[2]; // Pivot indices for LU factorization
-    int info;
+    std::memcpy(A_inv, A, sizeof(double) * n * n);
 
-    // Compute LU factorization of A
-    info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, &A[0][0], lda, ipiv);
+    int ipiv[2];
+    int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, &A_inv[0][0], lda, ipiv);
     if (info != 0) {
-        printf("Matrix inversion failed: LU factorization returned non-zero info value.\n");
+        std::printf("Matrix inversion failed: dgetrf info=%d\n", info);
         return -1;
     }
 
-    // Compute inverse of A using LU factorization
-    info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, &A[0][0], lda, ipiv);
+    info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, &A_inv[0][0], lda, ipiv);
     if (info != 0) {
-        printf("Matrix inversion failed: LAPACKE_dgetri returned non-zero info value.\n");
+        std::printf("Matrix inversion failed: dgetri info=%d\n", info);
         return -1;
-    }
-
-    // Copy the inverted matrix to A_inv
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            A_inv[i][j] = A[i][j];
-        }
     }
 
     return 0;
@@ -74,3 +65,4 @@ void lls_estimation(double trp_pos[][3], int trp_pos_size, double dd_estimated[]
     pos_est[0] += trp_pos[0][0];
     pos_est[1] += trp_pos[0][1];
 }
+
