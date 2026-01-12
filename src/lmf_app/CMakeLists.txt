@@ -42,8 +42,12 @@ include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/utils.cmake)
 
 
 # Find the LAPACK and BLAS packages
-find_package(BLAS REQUIRED)
-find_package(LAPACK REQUIRED)
+pkg_check_modules(blas REQUIRED blas)
+pkg_check_modules(lapacke REQUIRED lapacke)
+# RHEL needs also cblas, but Ubuntu does not have it. So `cblas_LIBRARIES` and
+# `cblas_INCLUDE_DIRS` will be empty for Ubuntu, a no-op
+pkg_check_modules(cblas cblas)
+
 
 file(GLOB LMF_src_files
   lmf_app.cpp
@@ -62,6 +66,7 @@ file(GLOB LMF_src_files
 
 # Add library
 add_library(LMF STATIC ${LMF_src_files})
+target_include_directories(LMF PRIVATE ${blas_INCLUDE_DIRS} ${cblas_INCLUDE_DIRS} ${lapacke_INCLUDE_DIRS})
 
 # Link libraries
-target_link_libraries(LMF NRPPA ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} lapacke)
+target_link_libraries(LMF PRIVATE NRPPA ${blas_LIBRARIES} ${cblas_LIBRARIES} ${lapacke_LIBRARIES})

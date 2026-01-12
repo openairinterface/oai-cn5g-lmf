@@ -1,10 +1,6 @@
 #ifndef POSITION_ESTIMATION_HPP
 #define POSITION_ESTIMATION_HPP
 
-// Include necessary libraries
-#include <cblas.h>    // For cblas_dgemm
-#include <lapacke.h>  // For LAPACKE_dgetrf and LAPACKE_dgetri
-
 #ifdef __cplusplus
 extern "C" {
 #endif

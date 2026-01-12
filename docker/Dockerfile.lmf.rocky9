@@ -43,7 +43,9 @@ RUN dnf install 'dnf-command(config-manager)' -y && \
         diffutils \
         libasan \
         wget \
-        file && \
+        file \
+        lapack-devel \
+        blas-devel && \
     echo "/usr/local/lib" > /etc/ld.so.conf.d/local-lib.conf && \
     echo "/usr/local/lib64" >> /etc/ld.so.conf.d/local-lib.conf
 
@@ -87,7 +89,9 @@ RUN microdnf update -y && \
       boost \
       libevent \
       findutils \
-      libconfig && \
+      libconfig \
+      lapack \
+      blas && \
     pip3 install jinja2 && \
     microdnf clean all -y && \
     rm -rf /var/cache/yum /var/cache/dnf
