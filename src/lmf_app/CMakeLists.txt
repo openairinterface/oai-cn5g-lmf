@@ -18,6 +18,7 @@
 # For more information about the OpenAirInterface (OAI) Software Alliance:
 #      contact@openairinterface.org
 ################################################################################
+cmake_minimum_required(VERSION 3.10)
 
 include_directories(${SRC_TOP_DIR}/api_server/api)
 include_directories(${SRC_TOP_DIR}/api_server/impl)
@@ -39,6 +40,11 @@ include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger/logger.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model/lmf/lmf.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/utils.cmake)
 
+
+# Find the LAPACK and BLAS packages
+find_package(BLAS REQUIRED)
+find_package(LAPACK REQUIRED)
+
 file(GLOB LMF_src_files
   lmf_app.cpp
   lmf_config.cpp
@@ -50,11 +56,12 @@ file(GLOB LMF_src_files
   lmf_location_determination.cpp
   lmf_n1_n2_message_subscription.cpp
   lmf_non_ue_n2_message_subscription.cpp
+  position_estimation.cpp
 )
 
 
-add_library (LMF STATIC
-  ${LMF_src_files}
-)
-#target_link_libraries(LMF LPP NRPPA)
-target_link_libraries(LMF NRPPA)
+# Add library
+add_library(LMF STATIC ${LMF_src_files})
+
+# Link libraries
+target_link_libraries(LMF NRPPA ${LAPACK_LIBRARIES} ${BLAS_LIBRARIES} lapacke)
