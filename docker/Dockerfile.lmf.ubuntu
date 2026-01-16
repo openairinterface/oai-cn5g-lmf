@@ -30,7 +30,7 @@
 #---------------------------------------------------------------------
 # BASE IMAGE
 #---------------------------------------------------------------------
-ARG BASE_IMAGE=ubuntu:jammy
+ARG BASE_IMAGE=ubuntu:noble
 FROM $BASE_IMAGE AS oai-lmf-base
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -55,6 +55,7 @@ COPY ./build/lmf/CMakeLists.txt /openair-lmf/build/lmf/CMakeLists.txt
 
 # Installing all the needed libraries/packages to build and run LMF
 WORKDIR /openair-lmf/build/scripts
+RUN rm -rf /tmp/cpr
 RUN ./build_lmf --install-deps --force && \
     ldconfig
 
@@ -95,16 +96,20 @@ RUN apt-get update && \
       wget \
 # Ubuntu 20 --> libasan5
 # Ubuntu 22 --> libasan6
+# Ubuntu 24 --> libasan8
 #      libasan? \
       libconfig++9v5 \
 # Ubuntu 20 --> libnettle7
 # Ubuntu 22 --> libnettle8
+# Ubuntu 24 --> libnettle8t64
       libnettle? \
 # Ubuntu 20 --> libhogweed5
 # Ubuntu 22 --> libhogweed6
+# Ubuntu 24 --> libhogweed6
       libhogweed? \
 # Ubuntu 20 --> libldap-2.4-2
 # Ubuntu 22 --> libldap-2.5-0
+# Ubuntu 24 --> libldap-2.6-7
       libldap-2.?-? \
       libkrb5-3 \
       libgssapi-krb5-2 \
@@ -113,8 +118,9 @@ RUN apt-get update && \
       libpsl5 \
 # Ubuntu 20 --> boost71
 # Ubuntu 22 --> boost74
-      libboost-thread1.7?.0 \
-      libboost-chrono1.7?.0 \
+# Ubuntu 24 --> boost83
+      libboost-thread1.83.0 \
+      libboost-chrono1.83.0 \
   && rm -rf /var/lib/apt/lists/*
 
 # Copying executable and generated libraries
@@ -142,7 +148,7 @@ COPY --from=oai-lmf-builder \
     /usr/local/lib/libspdlog.so \
     /usr/local/lib/libfmt.so \
     /usr/local/lib/libyaml-cpp.so.0.? \    
-    /usr/local/lib/libcpr.so.1 \    
+    /usr/local/lib/libcpr.so.1* \
     /usr/local/lib/
 
 RUN ldconfig && \
