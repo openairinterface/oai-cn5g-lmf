@@ -178,6 +178,11 @@ pipeline {
                   if ("MERGE".equals(env.gitlabActionType)) {
                     dockerBuildOptions = ''
                   }
+                  withCredentials([
+                    [$class: 'UsernamePasswordMultiBinding', credentialsId: "${params.DockerHubReadOnlyCredentials}", usernameVariable: 'DH_Username', passwordVariable: 'DH_Token']
+                  ]) {
+                    sh "echo ${DH_Token} | docker login --username ${DH_Username} --password-stdin"
+                  }
                   sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
                   sh "docker buildx build ${dockerBuildOptions} \
                     --target oai-lmf \
@@ -202,6 +207,7 @@ pipeline {
                     }
                   sh "docker rmi ${PrivateRegistryURL}/oai-lmf:${lmf_tag} || true"
                   sh "docker logout ${PrivateRegistryURL}"
+                  sh "docker logout"
                   sh "bash ./ci-scripts/common/bash/extract_arm_amd_logs.sh archives/lmf_ubuntu_image_build.log"
 
                 }
@@ -274,6 +280,11 @@ pipeline {
                   // It's a different agent from main one.
                   prepareWorkspaceMergeCase()
                   // Moving to focal and cppcheck 1.90 and a dockerfile approach
+                  withCredentials([
+                    [$class: 'UsernamePasswordMultiBinding', credentialsId: "${params.DockerHubReadOnlyCredentials}", usernameVariable: 'DH_Username', passwordVariable: 'DH_Token']
+                  ]) {
+                    sh "echo ${DH_Token} | docker login --username ${DH_Username} --password-stdin"
+                  }
                   sh 'sed -i -e "s@nfName@lmf@" ci-scripts/common/docker/Dockerfile.ci.cppcheck'
                   sh 'docker build --target lmf-cppcheck --tag lmf-cppcheck:test --file ci-scripts/common/docker/Dockerfile.ci.cppcheck . > archives/cppcheck_install.log 2>&1'
                   sh 'docker run --name lmf-ci-cppcheck --entrypoint /bin/true lmf-cppcheck:test'
@@ -281,6 +292,7 @@ pipeline {
                   sh 'docker cp lmf-ci-cppcheck:/home/cppcheck_build.log archives'
                   sh 'docker rm -f lmf-ci-cppcheck'
                   sh 'docker rmi lmf-cppcheck:test'
+                  sh 'docker logout'
                 }
               }
             }
@@ -312,6 +324,11 @@ pipeline {
                   // It's a different agent from main one.
                   prepareWorkspaceMergeCase()
                   sh 'sed -i -e "s@nfName@lmf@" ci-scripts/common/docker/Dockerfile.ci.clang-format'
+                  withCredentials([
+                    [$class: 'UsernamePasswordMultiBinding', credentialsId: "${params.DockerHubReadOnlyCredentials}", usernameVariable: 'DH_Username', passwordVariable: 'DH_Token']
+                  ]) {
+                    sh "echo ${DH_Token} | docker login --username ${DH_Username} --password-stdin"
+                  }
                   if ("MERGE".equals(env.gitlabActionType)) {
                     sh 'docker build --target lmf-clang-format-check --tag lmf-clang-format-check:test --file ci-scripts/common/docker/Dockerfile.ci.clang-format --build-arg MERGE_REQUEST_CHECK=True --build-arg SOURCE_BRANCH=' + env.gitlabSourceBranch + ' --build-arg TARGET_BRANCH=' + env.gitlabTargetBranch + ' . > archives/clang_format_install.log 2>&1'
                   } else {
@@ -324,6 +341,7 @@ pipeline {
                   sh 'docker rmi lmf-clang-format-check:test'
                   // The check is done now here
                   sh 'grep -L "NB_FILES_FAILING_CHECK=0" src/oai_rules_result.txt'
+                  sh 'docker logout'
                 }
               }
             }
@@ -356,12 +374,18 @@ pipeline {
             lock(ubuntuBuildResource) {
               script {
                 gitlabCommitStatus(name: "Sanity Check on Ubuntu") {
+                  withCredentials([
+                    [$class: 'UsernamePasswordMultiBinding', credentialsId: "${params.DockerHubReadOnlyCredentials}", usernameVariable: 'DH_Username', passwordVariable: 'DH_Token']
+                  ]) {
+                    sh "echo ${DH_Token} | docker login --username ${DH_Username} --password-stdin"
+                  }
                   sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
                   sh "docker pull ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
                   sh "docker image tag ${PrivateRegistryURL}/oai-lmf:${lmf_tag} oai-lmf:${lmf_tag}"
                   sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-lmf:${lmf_tag}"
                   sh "docker rmi oai-lmf:${lmf_tag} ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
                   sh "docker logout ${PrivateRegistryURL}"
+                  sh "docker logout"
                 }
               }
             }
