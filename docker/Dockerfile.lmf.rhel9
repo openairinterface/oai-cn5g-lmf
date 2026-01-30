@@ -50,6 +50,15 @@ RUN rm -f /etc/rhsm-host && \
     echo "/usr/local/lib" > /etc/ld.so.conf.d/local-lib.conf && \
     echo "/usr/local/lib64" >> /etc/ld.so.conf.d/local-lib.conf
 
+ARG YQ_VERSION=v4.47.1
+RUN case $(uname -m) in \
+        x86_64)  YQ_BIN="yq_linux_amd64" ;; \
+        aarch64) YQ_BIN="yq_linux_arm64" ;; \
+        *) echo "Unsupported arch"; exit 1 ;; \
+    esac && \
+    wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BIN} -O /usr/local/bin/yq && \
+    chmod +x /usr/local/bin/yq
+
 # Some GIT configuration command quite useful
 RUN git config --global https.postBuffer 123289600 && \
     git config --global https.maxRequestBuffer 123289600 && \
@@ -69,8 +78,6 @@ RUN ./build_lmf --clean --Verbose --build-type Release --jobs && \
     mv /openair-lmf/build/lmf/build/lmf /openair-lmf/build/lmf/build/oai_lmf && \
     # Remove entitlements and Subscription Manager configs
     rm -rf /etc/pki/entitlement
-
-FROM mikefarah/yq:latest as yq-source
 
 #---------------------------------------------------------------------
 # TARGET IMAGE
@@ -112,7 +119,7 @@ COPY --from=oai-lmf-builder \
     /openair-lmf/build/lmf/build/oai_lmf \
     /openair-lmf/scripts/healthcheck.sh \
     ./
-COPY --from=yq-source /usr/bin/yq /usr/bin
+COPY --from=oai-lmf-builder /usr/local/bin/yq /usr/bin/yq
 
 WORKDIR /usr/lib64
 COPY --from=oai-lmf-builder \
