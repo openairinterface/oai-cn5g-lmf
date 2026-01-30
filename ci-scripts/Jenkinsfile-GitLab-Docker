@@ -207,7 +207,7 @@ pipeline {
                     }
                   sh "docker rmi ${PrivateRegistryURL}/oai-lmf:${lmf_tag} || true"
                   sh "docker logout ${PrivateRegistryURL}"
-                  sh "docker logout"
+                  //sh "docker logout"
                   sh "bash ./ci-scripts/common/bash/extract_arm_amd_logs.sh archives/lmf_ubuntu_image_build.log"
 
                 }
@@ -292,7 +292,7 @@ pipeline {
                   sh 'docker cp lmf-ci-cppcheck:/home/cppcheck_build.log archives'
                   sh 'docker rm -f lmf-ci-cppcheck'
                   sh 'docker rmi lmf-cppcheck:test'
-                  sh 'docker logout'
+                  //sh 'docker logout'
                 }
               }
             }
@@ -341,7 +341,7 @@ pipeline {
                   sh 'docker rmi lmf-clang-format-check:test'
                   // The check is done now here
                   sh 'grep -L "NB_FILES_FAILING_CHECK=0" src/oai_rules_result.txt'
-                  sh 'docker logout'
+                  //sh 'docker logout'
                 }
               }
             }
@@ -385,7 +385,7 @@ pipeline {
                   sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-lmf:${lmf_tag}"
                   sh "docker rmi oai-lmf:${lmf_tag} ${PrivateRegistryURL}/oai-lmf:${lmf_tag}"
                   sh "docker logout ${PrivateRegistryURL}"
-                  sh "docker logout"
+                  //sh "docker logout"
                 }
               }
             }
@@ -441,7 +441,7 @@ pipeline {
     cleanup {
       script {
         // Zipping all archived log files
-        if (fileExists('archives/lmf_multiarch_image_trivy_report.html')) 
+        if (fileExists('archives/lmf_multiarch_image_trivy_report.html'))
         {
               archiveArtifacts artifacts: 'archives/lmf_multiarch_image_trivy_report.html'
         }
