@@ -16,6 +16,10 @@
  *
  */
 
+/*
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ */
+
 #ifndef DetermineLocationApi_H_
 #define DetermineLocationApi_H_
 

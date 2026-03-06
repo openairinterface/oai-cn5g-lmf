@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 <table style="border-collapse: collapse; border: none;">
   <tr style="border-collapse: collapse; border: none;">
     <td style="border-collapse: collapse; border: none;">
@@ -48,4 +50,4 @@ Based on document **TS 23.273 (section 4.3.8 of TS 23.273)**.
 | 7    | Support change of a serving LMF for periodic or triggered location reporting for       | :x:          |              |
 |      | a target UE                                                                            |              |              |
 
-      
+
