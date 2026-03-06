@@ -41,6 +41,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
       psmisc \
       git \
+      liblapacke-dev \
+      libopenblas-dev \
   && rm -rf /var/lib/apt/lists/*
 
 # Some GIT configuration command quite useful
@@ -92,6 +94,8 @@ RUN apt-get update && \
       iputils-ping \
       bc \
       tzdata \
+      liblapacke \
+      libopenblas0 \
       wget \
 # Ubuntu 20 --> libasan5
 # Ubuntu 22 --> libasan6

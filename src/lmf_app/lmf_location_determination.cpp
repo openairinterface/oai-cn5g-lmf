@@ -54,6 +54,7 @@
 #include "lmf_sbi_helper.hpp"
 #include "logger.hpp"
 #include "mime_parser.hpp"
+#include "position_estimation.hpp"
 
 using namespace std::string_literals;
 using namespace oai::model::lmf;
@@ -818,7 +819,13 @@ void LocationDetermination::throwHttpError(
 //------------------------------------------------------------------------------
 nlohmann::json LocationDetermination::compute_location(
     std::map<oai::lmf::app::GnbId, oai::lmf::app::Gnb> const& gnbs) {
-  std::shared_lock lock(this->m_result);
+  std::vector<double> toas;
+  std::vector<std::array<double, 3>> trp_pos;
+  uint32_t Tc_inv   = 4096 * 480000;
+  uint16_t K        = 1;
+  uint32_t T_inv    = Tc_inv / (1 << K);
+  uint32_t T_ns_inv = 1e9;
+
   for (auto const& [gnbId, trp] : this->result) {
     if (gnbs.count(gnbId) == 0) {
       Logger::lmf_app().warn("unknown gnbId: %d", gnbId);
@@ -828,16 +835,22 @@ nlohmann::json LocationDetermination::compute_location(
     for (auto const& [trpId, uLRTOAmeas] : trp) {
       if (gnb.trp.count(trpId) == 0) {
         Logger::lmf_app().warn(
-            "no such trpId: %d attached to gnbId: 0x%x", trpId, gnbId);
+            "no such trpId: %d attached to gnbId: %d", trpId, gnbId);
         continue;
       }
       auto const& trp             = gnb.trp.at(trpId);
       static constexpr auto units = std::array{"mm", "cm", "dm"};
       auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
 
+      trp_pos.push_back(
+          {static_cast<double>(trp.relativeCartesianLocation.xvalue),
+           static_cast<double>(trp.relativeCartesianLocation.yvalue),
+           static_cast<double>(trp.relativeCartesianLocation.zvalue)});
+
       for (auto const& [k, v] : uLRTOAmeas) {
+        toas.push_back((v - 492512) * T_ns_inv / T_inv);
         Logger::lmf_app().debug(
-            "gnbId: 0x%x, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
+            "gnbId: %d, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
             "k%d: %d",
             gnbId, trpId, trp.relativeCartesianLocation.xvalue, unit,
             trp.relativeCartesianLocation.yvalue, unit,
@@ -846,6 +859,61 @@ nlohmann::json LocationDetermination::compute_location(
     }
   }
 
+  // Reference ToA index (assuming the first TRP as the reference)
+  int ref_toa_idx = 0;
+  std::vector<double> tdoa_ns(toas.size() - 1);
+  int idx = 0;
+
+  // Calculate TDoA values relative to the reference TRP
+  for (size_t i = 0; i < toas.size(); ++i) {
+    if (i == ref_toa_idx) continue;  // Skip the reference TRP
+    tdoa_ns[idx] = (toas[i] - toas[ref_toa_idx]);
+    ++idx;
+  }
+
+  // Debug output for TDoA values
+  std::cout << "[pos_est] TDoA Values:" << std::endl;
+  for (const auto& tau : tdoa_ns) {
+    std::cout << "TDoA: " << tau << " nsec" << std::endl;
+  }
+
+  // Speed of light in meters per nanosecond
+  const double SPEED_OF_LIGHT_NS = 0.3;
+
+  // Convert TDoA values from nanoseconds to meters
+  double dd_estimated[7];
+  for (int i = 0; i < 7; i++) {
+    dd_estimated[i] = tdoa_ns[i] * SPEED_OF_LIGHT_NS;
+  }
+
+  // Debug output for dd_estimated values
+  std::cout << "[pos_est] dd_estimated Values:" << std::endl;
+  for (const auto& dd : dd_estimated) {
+    std::cout << "dd_estimated: " << dd << " meters" << std::endl;
+  }
+  // Convert trp_pos to a C-style array
+  double trp_pos_array[trp_pos.size()][3];
+  for (size_t i = 0; i < trp_pos.size(); ++i) {
+    for (size_t j = 0; j < 3; ++j) {
+      trp_pos_array[i][j] = trp_pos[i][j];
+    }
+  }
+
+  // Estimated position array
+  double pos_est[2]     = {0.0, 0.0};
+  int dd_estimated_size = sizeof(dd_estimated) / sizeof(dd_estimated[0]);
+  // Perform LLS to estimate position
+  try {
+    lls_estimation(
+        trp_pos_array, trp_pos.size(), dd_estimated, dd_estimated_size,
+        pos_est);
+    std::cout << "[pos_est] Estimated Position: x = " << pos_est[0]
+              << ", y = " << pos_est[1] << std::endl;
+  } catch (const std::exception& e) {
+    Logger::lmf_app().error("Error in LLS estimation: %s", e.what());
+    return nlohmann::json{
+        {"error", "Failed to compute location due to LLS estimation error"}};
+  }
   SupportedGADShapes supportedGADShapes;
   supportedGADShapes.setEnumValue(
       SupportedGADShapes_anyOf::eSupportedGADShapes_anyOf::POINT);
@@ -873,9 +941,9 @@ nlohmann::json LocationDetermination::compute_location(
   j["localLocationEstimate"]["localOrigin"]["coordinateId"]     = "string";
   j["localLocationEstimate"]["localOrigin"]["point"]["lon"]     = 180;
   j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
-  j["localLocationEstimate"]["point"]["x"]                      = 20;
-  j["localLocationEstimate"]["point"]["y"]                      = 10;
-  j["localLocationEstimate"]["point"]["z"]                      = 15;
+  j["localLocationEstimate"]["point"]["x"]                      = pos_est[0];
+  j["localLocationEstimate"]["point"]["y"]                      = pos_est[1];
+  j["localLocationEstimate"]["point"]["z"]                      = 1.5;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;

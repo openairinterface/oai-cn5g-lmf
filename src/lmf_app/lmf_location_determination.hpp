@@ -28,6 +28,7 @@
 #include <set>
 #include <variant>
 #include <shared_mutex>
+#include <cmath>
 
 #include <nlohmann/json.hpp>
 
@@ -55,7 +56,7 @@
 #include "ULRTOAMeas.h"
 #include "TRP-MeasurementResponseList.h"
 #include "MeasurementFailure.h"
-
+#include "position_estimation.hpp"
 namespace oai::lmf::app {
 
 using NrppaPduShared = std::shared_ptr<NRPPA_PDU_t>;
