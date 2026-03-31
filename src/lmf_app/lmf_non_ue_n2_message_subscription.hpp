@@ -1,5 +1,5 @@
 /*
-* SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
  */
 
 #ifndef FILE_NON_UE_N2_MESSAGE_SUBSCRIPTION_SEEN

@@ -1,5 +1,5 @@
 /*
-* SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
  */
 
 #ifndef FILE_LMF_EVENT_HPP_SEEN
