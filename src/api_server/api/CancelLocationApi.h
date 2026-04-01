@@ -16,6 +16,10 @@
  *
  */
 
+/*
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ */
+
 #ifndef CancelLocationApi_H_
 #define CancelLocationApi_H_
 

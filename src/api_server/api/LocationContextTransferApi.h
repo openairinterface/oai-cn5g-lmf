@@ -16,6 +16,10 @@
  *
  */
 
+/*
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ */
+
 #ifndef LocationContextTransferApi_H_
 #define LocationContextTransferApi_H_
 

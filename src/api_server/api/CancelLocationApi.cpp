@@ -11,6 +11,10 @@
  * the class manually.
  */
 
+/*
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ */
+
 #include "lmf_config.hpp"
 #include "CancelLocationApi.h"
 #include "Helpers.h"

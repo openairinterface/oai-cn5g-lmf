@@ -1,3 +1,7 @@
+/*
+ * SPDX-License-Identifier: LicenseRef-CSSL-1.0
+ */
+
 #ifndef POSITION_ESTIMATION_HPP
 #define POSITION_ESTIMATION_HPP
 
