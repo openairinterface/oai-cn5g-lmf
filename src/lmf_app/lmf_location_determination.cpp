@@ -861,12 +861,11 @@ nlohmann::json LocationDetermination::compute_location(
   }
 
   // Speed of light in meters per nanosecond
-  const double SPEED_OF_LIGHT_NS = 0.3;
-
-  // Convert TDoA values from nanoseconds to meters
-  double dd_estimated[7];
-  for (int i = 0; i < 7; i++) {
-    dd_estimated[i] = tdoa_ns[i] * SPEED_OF_LIGHT_NS;
+  const double SPEED_OF_LIGHT_NS = 300.0;  // mm/ns — matches TRP positions in mm
+  int n_tdoa = (int)tdoa_ns.size();
+  double dd_estimated[n_tdoa];
+  for (int i = 0; i < n_tdoa; i++) {
+      dd_estimated[i] = tdoa_ns[i] * SPEED_OF_LIGHT_NS;
   }
 
   // Debug output for dd_estimated values
@@ -887,9 +886,7 @@ nlohmann::json LocationDetermination::compute_location(
   int dd_estimated_size = sizeof(dd_estimated) / sizeof(dd_estimated[0]);
   // Perform LLS to estimate position
   try {
-    lls_estimation(
-        trp_pos_array, trp_pos.size(), dd_estimated, dd_estimated_size,
-        pos_est);
+    lls_estimation(trp_pos_array, trp_pos.size(), dd_estimated, n_tdoa, pos_est);
     std::cout << "[pos_est] Estimated Position: x = " << pos_est[0]
               << ", y = " << pos_est[1] << std::endl;
   } catch (const std::exception& e) {
