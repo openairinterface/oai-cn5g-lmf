@@ -67,9 +67,9 @@ void lls_estimation(
   pos_est[0] = AtA_inv[0][0] * Atb[0] + AtA_inv[0][1] * Atb[1];
   pos_est[1] = AtA_inv[1][0] * Atb[0] + AtA_inv[1][1] * Atb[1];
 
-  pos_est[0] /= 2.0;
-  pos_est[1] /= 2.0;
+  //pos_est[0] /= 2.0;
+  //pos_est[1] /= 2.0;
 
-  pos_est[0] += trp_pos[0][0];
-  pos_est[1] += trp_pos[0][1];
+  //pos_est[0] += trp_pos[0][0];
+  //pos_est[1] += trp_pos[0][1];
 }
