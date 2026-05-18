@@ -4,6 +4,7 @@
 
 #include "lmf_location_determination.hpp"
 
+#include <array>
 #include <boost/range/adaptor/map.hpp>
 #include <optional>
 
@@ -46,6 +47,34 @@ using namespace oai::lmf::api;
 using namespace oai::model::common;
 
 extern std::shared_ptr<oai::http::http_client> http_client_inst;
+
+namespace {
+std::optional<double> relative_cartesian_unit_to_meters(long const xYZunit) {
+  switch (xYZunit) {
+    case RelativeCartesianLocation__xYZunit_mm:
+      return 0.001;
+    case RelativeCartesianLocation__xYZunit_cm:
+      return 0.01;
+    case RelativeCartesianLocation__xYZunit_dm:
+      return 0.1;
+    default:
+      return std::nullopt;
+  }
+}
+
+char const* relative_cartesian_unit_name(long const xYZunit) {
+  switch (xYZunit) {
+    case RelativeCartesianLocation__xYZunit_mm:
+      return "mm";
+    case RelativeCartesianLocation__xYZunit_cm:
+      return "cm";
+    case RelativeCartesianLocation__xYZunit_dm:
+      return "dm";
+    default:
+      return "unknown";
+  }
+}
+}  // namespace
 
 // provides for asn container.list.array range based for loops
 // for (auto const& xyzIEs : xyzResponse.protocolIEs) {
@@ -821,23 +850,43 @@ nlohmann::json LocationDetermination::compute_location(
             "no such trpId: %d attached to gnbId: %d", trpId, gnbId);
         continue;
       }
-      auto const& trp             = gnb.trp.at(trpId);
-      static constexpr auto units = std::array{"mm", "cm", "dm"};
-      auto const& unit = units.at(trp.relativeCartesianLocation.xYZunit);
+      auto const& trp       = gnb.trp.at(trpId);
+      auto const unit_scale = relative_cartesian_unit_to_meters(
+          trp.relativeCartesianLocation.xYZunit);
+      auto const unit =
+          relative_cartesian_unit_name(trp.relativeCartesianLocation.xYZunit);
 
-      trp_pos.push_back(
-          {static_cast<double>(trp.relativeCartesianLocation.xvalue),
-           static_cast<double>(trp.relativeCartesianLocation.yvalue),
-           static_cast<double>(trp.relativeCartesianLocation.zvalue)});
+      if (!unit_scale.has_value()) {
+        Logger::lmf_app().warn(
+            "unsupported trp relative cartesian unit: %ld for gnbId: %llu, "
+            "trpId: %ld",
+            trp.relativeCartesianLocation.xYZunit,
+            static_cast<unsigned long long>(gnbId), trpId);
+        continue;
+      }
+
+      auto const meters_per_unit = unit_scale.value();
+      auto const position_m      = std::array<double, 3>{
+          static_cast<double>(trp.relativeCartesianLocation.xvalue) *
+              meters_per_unit,
+          static_cast<double>(trp.relativeCartesianLocation.yvalue) *
+              meters_per_unit,
+          static_cast<double>(trp.relativeCartesianLocation.zvalue) *
+              meters_per_unit};
+      trp_pos.push_back(position_m);
 
       for (auto const& [k, v] : uLRTOAmeas) {
         toas.push_back((v - 492512) * T_ns_inv / T_inv);
         Logger::lmf_app().debug(
-            "gnbId: %d, trpId: %d, trpRelCartLoc(x: %d%s, y: %d%s, z: %d%s), "
-            "k%d: %d",
-            gnbId, trpId, trp.relativeCartesianLocation.xvalue, unit,
+            "gnbId: %llu, trpId: %ld, trpRelCartLoc(x: %ld%s, y: %ld%s, "
+            "z: %ld%s), "
+            "trpPosMeters(x: %.3f, y: %.3f, z: %.3f), "
+            "k%d: %ld",
+            static_cast<unsigned long long>(gnbId), trpId,
+            trp.relativeCartesianLocation.xvalue, unit,
             trp.relativeCartesianLocation.yvalue, unit,
-            trp.relativeCartesianLocation.zvalue, unit, k - 1, v);
+            trp.relativeCartesianLocation.zvalue, unit, position_m[0],
+            position_m[1], position_m[2], k - 1, v);
       }
     }
   }
