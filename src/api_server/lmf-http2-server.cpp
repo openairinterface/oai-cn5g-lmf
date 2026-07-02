@@ -27,9 +27,9 @@
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
 using namespace oai::lmf::config;
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 using namespace oai::lmf::api;
-using namespace oai::model::common;
+using namespace oai::_3gpp::model;
 
 extern lmf_config lmf_cfg;
 
@@ -281,7 +281,7 @@ void lmf_http2_server::n2info_nrppa_notification_post_handler(
 }
 
 void lmf_http2_server::detemine_location_post_handler(
-    const oai::model::lmf::InputData& inputData, const response& response) {
+    const oai::_3gpp::model::InputData& inputData, const response& response) {
   Logger::lmf_server().info("Received determine_location_post Request");
 
   nlohmann::json locationData_json = {};

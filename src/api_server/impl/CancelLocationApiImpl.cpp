@@ -15,7 +15,7 @@
 
 namespace oai::lmf::api {
 
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 
 CancelLocationApiImpl::CancelLocationApiImpl(
     const std::shared_ptr<Pistache::Rest::Router>& rtr)

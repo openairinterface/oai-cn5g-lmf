@@ -5,7 +5,7 @@
 #ifndef FILE_LMF_CAUSE_ERROR_HPP_SEEN
 #define FILE_LMF_CAUSE_ERROR_HPP_SEEN
 
-#include "Cause.h"
+#include "../nrppa/Cause.h"
 #include "ProtocolIE-ID.h"
 #include "lmf_sbi_helper.hpp"
 #include "logger.hpp"

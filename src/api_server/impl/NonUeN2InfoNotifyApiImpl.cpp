@@ -11,8 +11,8 @@
 
 #include "N2InformationNotification.h"
 
-using namespace oai::model::common;
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
+using namespace oai::_3gpp::model;
 
 namespace oai::lmf::api {
 
@@ -23,7 +23,7 @@ NonUeN2InfoNotifyApiImpl::NonUeN2InfoNotifyApiImpl(
 
 void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
     std::vector<mime_part>& parts, Pistache::Http::ResponseWriter& response) {
-  using namespace oai::model::lmf;
+  using namespace oai::_3gpp::model;
 
   Logger::lmf_server().debug(
       "Receive an NonUeN2Info NRPPA Notify, handling...");

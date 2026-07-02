@@ -20,7 +20,7 @@ using namespace std::string_literals;
 #include "nlohmann/json.hpp"
 #include "pistache/http_defs.h"
 
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 using namespace oai::lmf::api;
 
 extern std::shared_ptr<oai::http::http_client> http_client_inst;

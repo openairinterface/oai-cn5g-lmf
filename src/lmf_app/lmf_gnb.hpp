@@ -16,10 +16,10 @@ using GnbId = uint64_t;
 
 class Gnb {
  public:
-  Gnb(GnbId const& id, oai::model::common::GlobalRanNodeId const& ncgi)
+  Gnb(GnbId const& id, oai::_3gpp::model::GlobalRanNodeId const& ncgi)
       : id{id}, ncgi{ncgi} {}
   const GnbId id;
-  const oai::model::common::GlobalRanNodeId ncgi;
+  const oai::_3gpp::model::GlobalRanNodeId ncgi;
   std::map<TRP_ID_t, Trp> trp;
 };
 

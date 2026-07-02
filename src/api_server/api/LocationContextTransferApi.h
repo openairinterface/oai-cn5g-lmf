@@ -84,7 +84,7 @@ class LocationContextTransferApi {
   /// </remarks>
   /// <param name="locContextData"></param>
   virtual void location_context_transfer(
-      const oai::model::lmf::LocContextData& locContextData,
+      const oai::_3gpp::model::LocContextData& locContextData,
       Pistache::Http::ResponseWriter& response) = 0;
 };
 
