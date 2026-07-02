@@ -35,7 +35,7 @@
 
 namespace oai::lmf::api {
 
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 
 class LocationContextTransferApiImpl
     : public oai::lmf::api::LocationContextTransferApi {

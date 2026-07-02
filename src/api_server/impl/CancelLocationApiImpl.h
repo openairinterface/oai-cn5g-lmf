@@ -35,7 +35,7 @@
 
 namespace oai::lmf::api {
 
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 
 class CancelLocationApiImpl : public oai::lmf::api::CancelLocationApi {
  public:

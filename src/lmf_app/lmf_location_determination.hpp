@@ -5,6 +5,7 @@
 #ifndef FILE_LMF_LOCATION_DETERMINATION_SEEN
 #define FILE_LMF_LOCATION_DETERMINATION_SEEN
 
+#include <array>
 #include <future>
 #include <map>
 #include <tuple>
@@ -95,7 +96,7 @@ class LocationDetermination {
   bool non_ue_n2_message_transfer(
       NrppaPduShared nrppaPdu, NRPPATransactionID_t const& txnId,
       ProcedureCode_t const& procedureCode,
-      std::vector<oai::model::common::GlobalRanNodeId> const& grnidl,
+      std::vector<oai::_3gpp::model::GlobalRanNodeId> const& grnidl,
       SRSConfiguration_t* const srsConfigurationBorrowed = nullptr);
 
   // mapping between nrppa transaction and transaction type

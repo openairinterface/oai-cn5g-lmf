@@ -6,7 +6,7 @@
 #define FILE_LMF_TRP_SEEN
 
 #include "CoordinateID.h"
-#include "RelativeCartesianLocation.h"
+#include "../nrppa/RelativeCartesianLocation.h"
 
 namespace oai::lmf::app {
 

@@ -39,7 +39,7 @@
 
 namespace oai::lmf::api {
 
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 
 class DetermineLocationApiImpl : public oai::lmf::api::DetermineLocationApi {
  public:
