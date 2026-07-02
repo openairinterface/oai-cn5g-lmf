@@ -19,7 +19,7 @@ extern oai::lmf::config::lmf_config lmf_cfg;
 
 namespace oai::lmf::api {
 
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 
 DetermineLocationApiImpl::DetermineLocationApiImpl(
     const std::shared_ptr<Pistache::Rest::Router>& rtr,

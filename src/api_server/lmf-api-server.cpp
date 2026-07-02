@@ -43,7 +43,7 @@ void setUpUnixSignals(std::vector<int> quitSignals) {
 #endif
 
 using namespace oai::lmf::api;
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 using namespace oai::lmf::app;
 
 void LMFApiServer::init(size_t thr) {

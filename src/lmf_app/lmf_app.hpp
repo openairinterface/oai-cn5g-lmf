@@ -21,7 +21,6 @@
 #include "N2InformationNotification.h"
 #include "NRPPATransactionID.h"
 #include "ProblemDetails.h"
-#include "RelativeCartesianLocation.h"
 #include "TRP-ID.h"
 #include "lmf.h"
 #include "lmf_cause_error.hpp"
@@ -47,7 +46,7 @@ class lmf_app {
   void stop();
 
   void handle_determine_location(
-      const oai::model::lmf::InputData& inputData, nlohmann::json& json_data,
+      const oai::_3gpp::model::InputData& inputData, nlohmann::json& json_data,
       Pistache::Http::Code& code);
   bool handle_non_ue_n2info_nrppa_notification(NrppaPduShared nrppa);
   bool handle_n2info_nrppa_notification(std::string supi, NrppaPduShared nrppa);
@@ -70,7 +69,7 @@ class lmf_app {
   void release_non_ue_subscription();
 
   static NrppaPduShared parse_n2_info_container_nrppa(
-      oai::model::lmf::N2InformationNotification const&
+      oai::_3gpp::model::N2InformationNotification const&
           n2InformationNotification,
       mime_part const& nrppa_part);
 

@@ -58,7 +58,7 @@
 
 using namespace std;
 using namespace oai::lmf::app;
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 using namespace oai::lmf::config;
 using namespace std::chrono_literals;
 

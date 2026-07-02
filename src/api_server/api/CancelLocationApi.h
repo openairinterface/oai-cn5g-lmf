@@ -84,7 +84,7 @@ class CancelLocationApi {
   /// </remarks>
   /// <param name="cancelLocData"></param>
   virtual void cancel_location(
-      const oai::model::lmf::CancelLocData& cancelLocData,
+      const oai::_3gpp::model::CancelLocData& cancelLocData,
       Pistache::Http::ResponseWriter& response) = 0;
 };
 

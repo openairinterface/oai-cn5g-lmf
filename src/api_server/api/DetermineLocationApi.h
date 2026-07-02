@@ -86,7 +86,7 @@ class DetermineLocationApi {
   /// </remarks>
   /// <param name="inputData"></param>
   virtual void determine_location(
-      const oai::model::lmf::InputData& inputData,
+      const oai::_3gpp::model::InputData& inputData,
       Pistache::Http::ResponseWriter& response) = 0;
 };
 

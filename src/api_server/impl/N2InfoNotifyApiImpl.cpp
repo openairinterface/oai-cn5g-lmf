@@ -11,8 +11,8 @@
 
 #include "N2InformationNotification.h"
 
-using namespace oai::model::common;
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
+using namespace oai::_3gpp::model;
 
 namespace oai::lmf::api {
 
