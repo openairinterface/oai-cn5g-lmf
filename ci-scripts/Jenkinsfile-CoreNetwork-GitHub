@@ -1,0 +1,687 @@
+#!/bin/groovy
+/*
+ * SPDX-License-Identifier: MIT
+ */
+
+import groovy.transform.Field
+
+@Field def ubuntuBuildResource                  // Ubuntu build lock
+@Field def armBuildResource                     // ARM build lock
+@Field def rhelNode                             // RHEL build node
+@Field def rhelResource                         // RHEL build lock
+@Field def rhelOcCredentials                    // OpenShift login creds
+@Field def server                               // OpenShift server URL
+@Field def EpelPackage                          // EPEL package URL
+@Field def cppcheckNode                         // cppcheck node
+@Field def cppcheckResource                     // cppcheck lock
+@Field def formatCheckNode                      // clang-format node
+@Field def formatCheckResource                  // clang-format lock
+@Field def PrivateRegistryURL                   // internal registry URL
+@Field def runTrivyScan                         // enable Trivy scan
+@Field def Namespace                            // OpenShift namespace
+@Field def buildRhel                            // enable RHEL build
+@Field def buildLttng                           // enable LTTNG build
+@Field def commonSrcPath                        // common source path
+@Field def DH_Account                           // Docker Hub account
+@Field def dockerHubCredentialsId               // Docker Hub login creds
+
+@Field def cppcheckDockerfile       = 'ci-scripts/common/docker/Dockerfile.ci.cppcheck'      // cppcheck Dockerfile
+@Field def clangFormatDockerfile    = 'ci-scripts/common/docker/Dockerfile.ci.clang-format'  // clang-format Dockerfile
+@Field def cppcheckDockerfileTmp    = 'Dockerfile.cppcheck.tmp'      // tmp generated cppcheck Dockerfile
+@Field def clangFormatDockerfileTmp = 'Dockerfile.clang-format.tmp'  // tmp generated clang-format Dockerfile
+@Field def githubCredentialsId   = 'github-jenkins-oai-cn'   // GitHub checkout creds
+@Field def nf                              // NF name, lowercase
+@Field def NF                              // NF name, uppercase
+@Field def isPullRequest = false   // true if triggered by a PR
+@Field def nf_tag        = 'develop'  // image tag, set later
+@Field def nf_branch     = ''      // source branch
+@Field def targetBranch  = ''      // PR target branch
+@Field def shortenShaOne = ''      // short commit SHA
+@Field def failingStages = ''      // markdown bullet list of stages that failed, for the PR comment
+@Field def mrValidationWarning = '' // Signed-off-by/merge-commit guideline message, for the PR comment
+
+// Per-NF behaviour matrix
+@Field def nfConfig = [
+  ausf: [display: 'AUSF', hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
+  amf:  [display: 'AMF',  hasLttng: true,  hasUnitTests: true,  hasSanityCheck: false],
+  smf:  [display: 'SMF',  hasLttng: true,  hasUnitTests: true,  hasSanityCheck: false],
+  upf:  [display: 'UPF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
+  udm:  [display: 'UDM',  hasLttng: false, hasUnitTests: false, hasSanityCheck: false],
+  udr:  [display: 'UDR',  hasLttng: false, hasUnitTests: false, hasSanityCheck: false],
+  nrf:  [display: 'NRF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
+  pcf:  [display: 'PCF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
+  nssf: [display: 'NSSF', hasLttng: false, hasUnitTests: false, hasSanityCheck: false],
+  lmf:  [display: 'LMF',  hasLttng: false, hasUnitTests: false, hasSanityCheck: true ],
+]
+@Field def cfg
+
+//-------------------------------------------------------------------------------
+pipeline {
+  agent {
+    label params.UbuntuBuildNode
+  }
+  options {
+    disableConcurrentBuilds()
+    timestamps()
+    ansiColor('xterm')
+  }
+
+  stages {
+    // Load job parameters into pipeline fields and validate the requested NF/RHEL config.
+    // Fails if the NF is unknown or RHEL builds are requested without OpenShift credentials.
+    stage('Initialize Pipeline Configuration') {
+      steps {
+        script {
+          nf = (params.coreNetworkFunction ?: '').toLowerCase()
+          NF = nf.toUpperCase()
+
+          ubuntuBuildResource = params.UbuntuBuildResource
+          armBuildResource    = params.armBuildResource
+          rhelNode            = params.RhelBuildNode
+          rhelResource        = params.RhelBuildResource
+          rhelOcCredentials   = params.RhelOcCredentials
+          server              = params.openshiftServer
+          EpelPackage         = params.EpelPackageUrl
+          cppcheckNode        = params.CppCheckNode
+          cppcheckResource    = params.CppCheckResource
+          formatCheckNode     = params.FormatCheckNode
+          formatCheckResource = params.FormatCheckResource
+          PrivateRegistryURL  = params.privateDockerRegistry
+          runTrivyScan        = params.runTrivyScan
+          Namespace           = params.openshiftNamespace ?: 'oaicicd-core'
+
+          buildRhel     = (params.buildRhel  != null) ? params.buildRhel  : true
+          buildLttng    = (params.buildLttng != null) ? params.buildLttng : true
+          commonSrcPath = params.commonSrcPath ?: 'src/common-src'
+
+          DH_Account            = params.dockerHubAccount
+          dockerHubCredentialsId = params.DockerHubCredentials
+
+          echo "Pipeline configuration loaded for ${NF}"
+
+          if (!nfConfig.containsKey(nf)) {
+            error "Unknown or missing coreNetworkFunction parameter: '${params.coreNetworkFunction}'"
+          }
+          cfg = nfConfig[nf]
+
+          if (buildRhel && params.RhelOcCredentials == null) {
+            echo 'No Credentials to connect to Openshift!'
+            error "Stopping pipeline!"
+          }
+
+          env.JOB_TIMESTAMP = sh(returnStdout: true, script: 'date --utc --rfc-3339=seconds | sed -e "s#+00:00##"').trim()
+        }
+      }
+      post {
+        failure {
+          script {
+            echo "Failed to initialize pipeline configuration for ${NF} -- invalid/missing parameters, or internal CI error"
+            recordFailure()
+          }
+        }
+      }
+    }
+
+    // Determine whether this run is a PR or a branch push, and derive the branch,
+    // commit SHA, and image tag used by every later stage; then check out that source.
+    stage('Prepare Source Metadata') {
+      steps {
+        lock(ubuntuBuildResource) {
+          script {
+            def gitLocalBranch = env.GIT_BRANCH ? env.GIT_BRANCH.replace('origin/', '') : ''
+            isPullRequest = !!env.GITHUB_PR_NUMBER?.trim()
+            echo "Preparing build Metadata for Network Function:   ${NF}"
+
+            if (isPullRequest) {
+              def prHeadSha = env.GITHUB_PR_HEAD_SHA
+              if (!prHeadSha) {
+                error "GITHUB_PR_HEAD_SHA is missing -- cannot identify the commit to build for PR #${env.GITHUB_PR_NUMBER}"
+              }
+              nf_branch     = env.GITHUB_PR_SOURCE_BRANCH
+              targetBranch  = env.GITHUB_PR_TARGET_BRANCH
+              shortenShaOne = prHeadSha.take(8)
+              nf_tag        = "${nf_branch.replace('/', '-').replace('+', '-')}-${prHeadSha}"
+
+              echo "PR number           :   ${env.GITHUB_PR_NUMBER}"
+              echo "Source Repository   :   ${env.GITHUB_PR_URL}"
+              echo "Source Branch       :   ${nf_branch}"
+              echo "Commit ID           :   ${prHeadSha}"
+              echo "Target Repo         :   ${env.GIT_URL}"
+              echo "Target Branch       :   ${targetBranch}"
+              echo "Label               :   ${env.GITHUB_PR_LABELS}"
+              echo "Tag                 :   ${nf_tag}"
+
+            } else {
+              if (!env.GIT_COMMIT) {
+                error "GIT_COMMIT is missing -- cannot identify the commit to build for branch '${gitLocalBranch}'"
+              }
+              nf_branch     = gitLocalBranch
+              shortenShaOne = env.GIT_COMMIT.take(8)
+              nf_tag        = "${gitLocalBranch}-${env.GIT_COMMIT}"
+
+              echo "Branch              :   ${gitLocalBranch}"
+              echo "Commit ID           :   ${env.GIT_COMMIT}"
+              echo "Tag                 :   ${nf_tag}"
+            }
+
+            prepareWorkspace()
+          }
+        }
+      }
+      post {
+        failure {
+          script {
+            echo "Failed to prepare source metadata/workspace for ${NF} -- git failure, or internal CI error"
+            recordFailure()
+          }
+        }
+      }
+    }
+
+    // Reject merge commits and warn on commits missing 'Signed-off-by'. The merge-ref
+    // checkout above never leaves a local 'origin/<targetBranch>' ref (fork or not),
+    // so fetch it explicitly here before diffing against the PR head SHA.
+    stage('Verify Guidelines') {
+      when {
+        expression { return isPullRequest }
+      }
+      steps {
+        lock(ubuntuBuildResource) {
+          script {
+            sh "git fetch --no-tags ${env.GIT_URL} +refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}"
+
+            def mrValidationLog = "signedCommit_${env.BUILD_NUMBER}.log"
+            def mrValidationExitCode = sh(
+              script: "bash ./ci-scripts/common/bash/pre-ci-check.sh -s ${env.GITHUB_PR_HEAD_SHA} -t origin/${targetBranch} > ${mrValidationLog} 2>&1",
+              returnStatus: true
+            )
+            def mrValidationMessage = readFile(mrValidationLog).trim()
+            sh "rm -f ${mrValidationLog}"
+
+            if (mrValidationExitCode >= 1) {
+              mrValidationWarning = mrValidationMessage
+            }
+            if (mrValidationExitCode >= 2) {
+              error("${mrValidationMessage}")
+            }
+          }
+        }
+      }
+      post {
+        failure {
+          script {
+            recordFailure()
+          }
+        }
+      }
+    }
+
+    stage('Build Images and Run Checks') {
+      parallel {
+        stage('Ubuntu ARM Neoverse V2 (Grace) Image Builder') {
+          steps {
+            lock(ubuntuBuildResource) {
+              lock(armBuildResource) {
+                script {
+                  sh "docker image rm oai-${nf}:${nf_tag} || true"
+                  sh "docker image rm ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+                  sh "docker image prune --force"
+                  def dockerBuildOptions = isPullRequest ? '' : '--no-cache '
+                  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+                  sh """
+                    docker buildx build ${dockerBuildOptions} \
+                      --target oai-${nf} \
+                      --tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} \
+                      --platform linux/amd64,linux/arm64 \
+                      --build-arg GIT_COMMIT="${shortenShaOne}" \
+                      --file docker/Dockerfile.${nf}.ubuntu \
+                      --builder multiarch-localremote-builder \
+                      --progress=plain \
+                      --push . > archives/${nf}_ubuntu_image_build.log 2>&1
+                  """
+                  sh "docker image prune --force"
+                  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+                  sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
+                  sh "docker image inspect ${PrivateRegistryURL}/oai-${nf}:${nf_tag} | jq '.[0] | {RepoTags, Labels: .Config.Labels, DockerVersion}' >> archives/${nf}_ubuntu_image_build.log 2>&1"
+                  sh "docker images ${PrivateRegistryURL}/oai-${nf}:${nf_tag} >> archives/${nf}_ubuntu_image_build.log 2>&1"
+                  if (runTrivyScan) {
+                    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
+                    sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${shortenShaOne}"
+                    sh "trivy image --exit-code 1 --severity MEDIUM,HIGH,CRITICAL --no-progress --format=template --template @./ci-scripts/common/html-templates/trivy_html.tpl --output archives/${nf}_multiarch_image_trivy_report.html oai-${nf}:${shortenShaOne} > /dev/null || true"
+                    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
+                  }
+                  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+                  sh "docker logout ${PrivateRegistryURL}"
+                  sh "bash ./ci-scripts/common/bash/extract_arm_amd_logs.sh archives/${nf}_ubuntu_image_build.log"
+                }
+              }
+            }
+          }
+          post {
+            success {
+              sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_ubuntu_image_build.log"
+            }
+            failure {
+              sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_image_build.log"
+              script {
+                recordFailure()
+              }
+            }
+          }
+        }
+
+        stage('Ubuntu Image with LTTNG Builder') {
+          when {
+            expression { return buildLttng && cfg.hasLttng }
+          }
+          steps {
+            sleep 30
+            lock(ubuntuBuildResource) {
+              script {
+                sh "docker image rm oai-${nf}:lttng-build || true"
+                sh "docker buildx build --target oai-${nf} --tag oai-${nf}:lttng-build --file docker/Dockerfile.${nf}.ubuntu --build-arg ENABLE_LTTNG=true . > archives/${nf}_ubuntu_lttng_image_build.log 2>&1"
+                sh "docker image prune --force"
+                sh "docker image rm oai-${nf}:lttng-build || true"
+              }
+            }
+          }
+          post {
+            success {
+              sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_ubuntu_lttng_image_build.log"
+            }
+            failure {
+              sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_lttng_image_build.log"
+              script {
+                recordFailure()
+              }
+            }
+          }
+        }
+
+        stage('RHEL-Cluster-Image-Builder') {
+          when {
+            expression { return buildRhel }
+          }
+          agent { label rhelNode }
+          steps {
+            lock(rhelResource) {
+              script {
+                prepareWorkspace()
+                withCredentials([
+                  [$class: 'UsernamePasswordMultiBinding', credentialsId: "${rhelOcCredentials}", usernameVariable: 'OC_Username', passwordVariable: 'OC_Password']
+                ]) {
+                  sh "oc login -u ${OC_Username} -p ${OC_Password} --server=${server}"
+                }
+                sh "oc project ${Namespace}"
+                sh "oc delete istag oai-${nf}:${nf_tag} -n ${Namespace} || true"
+                sh "./ci-scripts/common/python/recreate_entitlement.py"
+                sh "oc delete -f openshift/build-config.yaml || true"
+                sh "sed -i -e 's@oai-${nf}:latest@oai-${nf}:${nf_tag}@g' openshift/build-config.yaml"
+                sh """
+    sed -i '/^[[:space:]]*dockerfilePath:/a\\
+            buildArgs:\\
+              - name: EPEL_URL\\
+                value: "${EpelPackage}"' openshift/build-config.yaml
+    """
+                sh "oc create -f openshift/build-config.yaml"
+                sh "oc start-build ${nf}-build-cfg --from-dir=./ --exclude=''"
+                sh "./ci-scripts/common/python/check_build_pod_status.py --pod-name ${nf}-build-cfg-1-build --log-file archives/${nf}_rhel_image_build.log"
+                sh "oc describe istag oai-${nf}:${nf_tag} -n ${Namespace} | grep 'Image Size:' >> archives/${nf}_rhel_image_build.log"
+              }
+            }
+          }
+          post {
+            success {
+              sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_rhel_image_build.log"
+            }
+            failure {
+              sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_rhel_image_build.log"
+              script {
+                recordFailure()
+              }
+            }
+            cleanup {
+              script {
+                sh "oc delete bc ${nf}-build-cfg -n ${Namespace} || true"
+                sh "oc logout || true"
+                stash allowEmpty: true, includes: "archives/${nf}_rhel_image_build.log", name: 'rhelBuildLog'
+              }
+            }
+          }
+        }
+
+        stage('Static Code Analysis') {
+          agent { label cppcheckNode }
+          steps {
+            lock(cppcheckResource) {
+              script {
+                prepareWorkspace()
+                sh "date --rfc-email > ${commonSrcPath}/date.txt"
+                sh "cp ${cppcheckDockerfile} ${cppcheckDockerfileTmp}"
+                sh "sed -i -e 's@nfName@${nf}@' ${cppcheckDockerfileTmp}"
+                sh "docker build --target ${nf}-cppcheck --tag ${nf}-cppcheck:test --file ${cppcheckDockerfileTmp} . > archives/cppcheck_install.log 2>&1"
+                sh "docker rm -f ${nf}-ci-cppcheck || true"
+                sh "docker run --name ${nf}-ci-cppcheck --entrypoint /bin/true ${nf}-cppcheck:test"
+                sh "docker cp ${nf}-ci-cppcheck:/home/cppcheck.xml archives"
+                sh "docker cp ${nf}-ci-cppcheck:/home/cppcheck_build.log archives"
+              }
+            }
+          }
+          post {
+            success {
+              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is SUCCESS' >> archives/cppcheck_install.log"
+            }
+            failure {
+              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is FAILURE' >> archives/cppcheck_install.log"
+              script {
+                recordFailure()
+              }
+            }
+            cleanup {
+              script {
+                stash allowEmpty: true, includes: 'archives/cppcheck*.*', name: 'cppcheckLogs'
+                sh "docker rm -f ${nf}-ci-cppcheck || true"
+                sh "docker rmi ${nf}-cppcheck:test || true"
+                sh "rm -f ${cppcheckDockerfileTmp}"
+              }
+            }
+          }
+        }
+
+        stage('Code Formatting Checker') {
+          agent { label formatCheckNode }
+          steps {
+            lock(formatCheckResource) {
+              script {
+                prepareWorkspace()
+                sh "date --rfc-email > ${commonSrcPath}/date.txt"
+                sh "cp ${clangFormatDockerfile} ${clangFormatDockerfileTmp}"
+                sh "sed -i -e 's@nfName@${nf}@' ${clangFormatDockerfileTmp}"
+                if (isPullRequest) {
+                  sh "docker build --target ${nf}-clang-format-check --tag ${nf}-clang-format-check:test --file ${clangFormatDockerfileTmp} --build-arg EXTRA_ARGS=\"--src-branch ${nf_branch} --target-branch ${targetBranch}\" . > archives/clang_format_install.log 2>&1"
+                } else {
+                  sh "docker build --target ${nf}-clang-format-check --tag ${nf}-clang-format-check:test --file ${clangFormatDockerfileTmp} . > archives/clang_format_install.log 2>&1"
+                }
+                sh "docker rm -f ${nf}-ci-clang-format || true"
+                sh "docker run --name ${nf}-ci-clang-format --entrypoint /bin/true ${nf}-clang-format-check:test"
+                sh "docker cp ${nf}-ci-clang-format:/home/src/oai_rules_result.txt src"
+                sh "docker cp ${nf}-ci-clang-format:/home/src/oai_rules_result_list.txt src || true"
+                sh '''
+                  if grep -q "NB_FILES_FAILING_CHECK=0" src/oai_rules_result.txt; then
+                    exit 0
+                  else
+                    echo "The following files do not follow OAI coding/formatting rules:"
+                    cat src/oai_rules_result_list.txt
+                    exit 1
+                  fi
+                '''
+              }
+            }
+          }
+          post {
+            success {
+              sh "echo 'Code Formatting Checker for OAI-${NF} status is SUCCESS' >> archives/clang_format_install.log"
+            }
+            failure {
+              sh "echo 'Code Formatting Checker for OAI-${NF} status is FAILURE' >> archives/clang_format_install.log"
+              script {
+                recordFailure()
+              }
+            }
+            cleanup {
+              script {
+                archiveArtifacts artifacts: 'src/oai_rules_result*.txt', allowEmptyArchive: true
+                stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
+                sh "docker rm -f ${nf}-ci-clang-format || true"
+                sh "docker rmi ${nf}-clang-format-check:test || true"
+                sh "rm -f ${clangFormatDockerfileTmp}"
+              }
+            }
+          }
+        }
+
+        stage('Build and Run Unit-Tests') {
+          when {
+            expression { return cfg.hasUnitTests }
+          }
+          steps {
+            sleep 40
+            lock(ubuntuBuildResource) {
+              script {
+                if (fileExists("${commonSrcPath}/build/common/Dockerfile.unit-tests.ubuntu")) {
+                  sh "date --rfc-email > ${commonSrcPath}/date.txt"
+                  sh "docker image rm common-src-unit-tests:latest || true"
+                  sh "docker buildx build --target common-src-unit-tests --tag common-src-unit-tests:latest --file ${commonSrcPath}/build/common/Dockerfile.unit-tests.ubuntu ./${commonSrcPath}/ > archives/build-unit-tests.log 2>&1"
+                } else {
+                  echo "Skipping Unit Tests for OAI-${NF}: ${commonSrcPath}/build/common/Dockerfile.unit-tests.ubuntu not found -- unit-test Dockerfile not yet added for this NF's common-src checkout"
+                }
+              }
+            }
+          }
+          post {
+            failure {
+              script {
+                recordFailure()
+              }
+            }
+            cleanup {
+              script {
+                sh "docker image rm common-src-unit-tests:latest || true"
+              }
+            }
+          }
+        }
+      }
+      post {
+        // RHEL/cppcheck/format-check run on separate agents; their logs never land in
+        // the main ubuntuNode workspace on their own, but the final report/zip step
+        // later reads everything from this agent's own archives/ folder. Pull the
+        // stashed logs back here so that step actually sees them. rhelBuildLog only
+        // exists when RHEL-Cluster-Image-Builder actually ran.
+        always {
+          script {
+            if (buildRhel) {
+              unstash 'rhelBuildLog'
+            }
+            unstash 'cppcheckLogs'
+            unstash 'formatCheckLogs'
+          }
+        }
+      }
+    }
+
+    // sanityCheckDeploy.py lives in this NF's own repo (ci-scripts/sanityCheckDeploy.py),
+    // not the common submodule, since it's LMF-specific.
+    stage('Sanity Check on Ubuntu') {
+      when {
+        expression { return cfg.hasSanityCheck }
+      }
+      steps {
+        lock(ubuntuBuildResource) {
+          script {
+            sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+            sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
+            sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${nf_tag}"
+            sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-${nf}:${nf_tag}"
+            sh "docker rmi oai-${nf}:${nf_tag} ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+            sh "docker logout ${PrivateRegistryURL}"
+          }
+        }
+      }
+      post {
+        failure {
+          script {
+            recordFailure()
+          }
+        }
+      }
+    }
+
+    // Only publish for push events on the develop branch
+    // temp images from PR runs and non-develop pushes stay in the private registry only.
+    stage('Publish Image to Docker Hub') {
+      when {
+        expression { return !isPullRequest && nf_branch == 'develop' }
+      }
+      steps {
+        lock(ubuntuBuildResource) {
+          script {
+            withCredentials([
+              [$class: 'UsernamePasswordMultiBinding', credentialsId: dockerHubCredentialsId, usernameVariable: 'DH_Username', passwordVariable: 'DH_Password']
+            ]) {
+              sh "echo ${DH_Password} | docker login --username ${DH_Username} --password-stdin"
+            }
+            sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+            sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+            sh "docker buildx imagetools create -t ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
+            sh "docker rmi ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+            sh "docker logout ${PrivateRegistryURL}"
+            sh "docker logout"
+          }
+        }
+      }
+      post {
+        success {
+          echo "Published ${DH_Account}/oai-${nf}:develop for OAI-${NF}"
+        }
+        failure {
+          script {
+            echo "Failed to publish OAI-${NF} image to Docker Hub"
+            recordFailure()
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo "Build finished for ${NF}: ${currentBuild.currentResult}"
+    }
+    success {
+      script {
+        if (isPullRequest) {
+          def message = "**CI Build:** [#${env.BUILD_NUMBER}](${BUILD_URL}) | **Passed**"
+          if (mrValidationWarning) {
+            message += "\n\n**Validation:** ${mrValidationWarning}"
+          }
+          githubPRComment comment: githubPRMessage(message)
+        }
+        echo "Pipeline is SUCCESSFUL"
+      }
+    }
+    failure {
+      script {
+        if (isPullRequest) {
+          def message = "**CI Build:** [#${env.BUILD_NUMBER}](${BUILD_URL}) | **Failed** on the following stages:"
+          if (failingStages) {
+            message += failingStages
+          } else {
+            message += "\nThe pipeline may have failed due to CI, validation, or scripting error. See the build for more details."
+          }
+          if (mrValidationWarning) {
+            message += "\n\n**Validation:** ${mrValidationWarning}"
+          }
+          githubPRComment comment: githubPRMessage(message)
+        }
+        echo "Pipeline FAILED"
+      }
+    }
+    // Generates the HTML build report via the generic ci-scripts/common/python/generateHtmlReport.py
+    // (shared across all NFs, driven by --nf/--has-unit-tests) and archives it, the standalone
+    // Trivy report, and a zip of everything else under archives/.
+    // TEMPLATE_TIME/TEMPLATE_PULL_REQUEST_* substitution now happens inside
+    // generate_html.py itself (via --build-time/--pr-url/--pr-title), not via sed here --
+    // the PR title is untrusted free text, so it's passed through withEnv + a quoted shell
+    // variable rather than interpolated into the command string, and Python sanitizes it
+    // before embedding into the HTML report.
+    cleanup {
+      script {
+        def unitTestsFlag = cfg.hasUnitTests ? '--has-unit-tests' : ''
+        if (isPullRequest) {
+          withEnv(["PR_TITLE=${env.GITHUB_PR_TITLE}"]) {
+            sh "./ci-scripts/common/python/generateHtmlReport.py --nf ${nf} ${unitTestsFlag} --job-name ${JOB_NAME} --build-id ${BUILD_ID} --build-url ${env.BUILD_URL} --git-url ${env.GIT_URL} --git-src-branch ${nf_branch} --git-src-commit ${env.GITHUB_PR_HEAD_SHA} --git-pull-request --git-dst-branch ${targetBranch} --git-dst-commit ${env.GIT_COMMIT} --build-time ${env.JOB_TIMESTAMP} --pr-url ${env.GITHUB_PR_URL} --pr-title \"\$PR_TITLE\""
+          }
+        } else {
+          sh "./ci-scripts/common/python/generateHtmlReport.py --nf ${nf} ${unitTestsFlag} --job-name ${JOB_NAME} --build-id ${BUILD_ID} --build-url ${env.BUILD_URL} --git-url ${env.GIT_URL} --git-src-branch ${nf_branch} --git-src-commit ${env.GIT_COMMIT} --build-time ${env.JOB_TIMESTAMP}"
+        }
+
+        def listOfFiles = sh(returnStdout: true, script: 'ls test_results*.html').trim()
+        String[] htmlFiles = listOfFiles.split("\\n")
+        for (htmlFile in htmlFiles) {
+          archiveArtifacts artifacts: htmlFile
+        }
+
+        // Zipping all archived log files
+        if (fileExists("archives/${nf}_multiarch_image_trivy_report.html")) {
+          archiveArtifacts artifacts: "archives/${nf}_multiarch_image_trivy_report.html"
+        }
+        sh "zip -r -qq oai_${nf}_logs.zip archives -x archives/${nf}_multiarch_image_trivy_report.html"
+        if (fileExists("oai_${nf}_logs.zip")) {
+          archiveArtifacts artifacts: "oai_${nf}_logs.zip"
+        }
+      }
+    }
+  }
+}
+
+// GitHub already computes the PR-merge result at refs/pull/<N>/merge -- check
+// that out directly instead of merging locally ourselves, so we always build
+// exactly what GitHub considers mergeable. If that ref doesn't exist, the PR
+// has a conflict; the try/catch turns that into a clear error instead of a
+// raw git/checkout stack trace.
+def checkoutSource() {
+  if (isPullRequest) {
+    echo "PR triggered - checking out merge ref for PR #${env.GITHUB_PR_NUMBER}"
+    try {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: "refs/remotes/origin/pr/${env.GITHUB_PR_NUMBER}/merge"]],
+        userRemoteConfigs: [[
+          url: env.GIT_URL,
+          refspec: "+refs/pull/${env.GITHUB_PR_NUMBER}/merge:refs/remotes/origin/pr/${env.GITHUB_PR_NUMBER}/merge",
+          credentialsId: githubCredentialsId
+        ]]
+      ])
+    } catch (e) {
+      error("Checkout failed for PR #${env.GITHUB_PR_NUMBER} -- merge ref not found. " +
+            "The PR likely has a conflict with ${targetBranch} that must be resolved before CI can run. (${e.message})")
+    }
+  } else {
+    echo "Push triggered - checking out ${env.GIT_COMMIT} on branch ${nf_branch}"
+    try {
+      checkout([
+        $class: 'GitSCM',
+        branches: [[name: env.GIT_COMMIT]],
+        userRemoteConfigs: [[
+          url: env.GIT_URL,
+          credentialsId: githubCredentialsId
+        ]]
+      ])
+    } catch (e) {
+      error("Checkout failed for commit ${env.GIT_COMMIT} on branch ${nf_branch} from ${env.GIT_URL}. (${e.message})")
+    }
+  }
+}
+
+def recordFailure() {
+  failingStages += "\n * ${env.STAGE_NAME}"
+}
+
+def prepareWorkspace() {
+  checkoutSource()
+  sh 'git config user.email "oaicicdteam@openairinterface.org"'
+  sh 'git config user.name "OAI Jenkins"'
+  sh "git clean -x -d -f > /dev/null 2>&1"
+  sh "git submodule foreach --recursive 'git clean -x -d -ff' > /dev/null 2>&1"
+  sh "git submodule deinit --force --all > /dev/null 2>&1"
+  // -c scopes the credential helper to just this command, unlike a persisted `git config` write.
+  withCredentials([
+    [$class: 'UsernamePasswordMultiBinding', credentialsId: githubCredentialsId, usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN']
+  ]) {
+    sh '''
+      git -c credential.helper='!f() { echo "username=$GITHUB_USERNAME"; echo "password=$GITHUB_TOKEN"; }; f' submodule update --init --recursive
+    '''
+  }
+  sh "mkdir -p archives"
+}
