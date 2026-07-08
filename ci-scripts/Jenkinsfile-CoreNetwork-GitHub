@@ -430,7 +430,6 @@ pipeline {
             }
             cleanup {
               script {
-                archiveArtifacts artifacts: 'src/oai_rules_result*.txt', allowEmptyArchive: true
                 stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
                 sh "docker rm -f ${nf}-ci-clang-format || true"
                 sh "docker rmi ${nf}-clang-format-check:test || true"
