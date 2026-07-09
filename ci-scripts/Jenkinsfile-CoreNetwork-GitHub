@@ -188,7 +188,11 @@ pipeline {
       steps {
         lock(ubuntuBuildResource) {
           script {
-            sh "git fetch --no-tags ${env.GIT_URL} +refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}"
+            withCredentials([
+              [$class: 'UsernamePasswordMultiBinding', credentialsId: githubCredentialsId, usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN']
+            ]) {
+              sh "git -c credential.helper='!f() { echo \"username=\$GITHUB_USERNAME\"; echo \"password=\$GITHUB_TOKEN\"; }; f' fetch --no-tags ${env.GIT_URL} +refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}"
+            }
 
             def mrValidationLog = "signedCommit_${env.BUILD_NUMBER}.log"
             def mrValidationExitCode = sh(
@@ -210,6 +214,7 @@ pipeline {
       post {
         failure {
           script {
+            echo "Failed to verify guidelines for ${NF} -- git failure, or internal CI error"
             recordFailure()
           }
         }
