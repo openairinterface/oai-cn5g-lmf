@@ -157,7 +157,7 @@ pipeline {
               }
               nf_branch     = gitLocalBranch
               shortenShaOne = env.GIT_COMMIT.take(8)
-              nf_tag        = "${gitLocalBranch}-${env.GIT_COMMIT}"
+              nf_tag        = "${gitLocalBranch}-${shortenShaOne}"
 
               echo "Branch              :   ${gitLocalBranch}"
               echo "Commit ID           :   ${env.GIT_COMMIT}"
