@@ -42,16 +42,16 @@ import groovy.transform.Field
 
 // Per-NF behaviour matrix
 @Field def nfConfig = [
-  ausf: [display: 'AUSF', hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
-  amf:  [display: 'AMF',  hasLttng: true,  hasUnitTests: true,  hasSanityCheck: false],
-  smf:  [display: 'SMF',  hasLttng: true,  hasUnitTests: true,  hasSanityCheck: false],
-  upf:  [display: 'UPF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
-  udm:  [display: 'UDM',  hasLttng: false, hasUnitTests: false, hasSanityCheck: false],
-  udr:  [display: 'UDR',  hasLttng: false, hasUnitTests: false, hasSanityCheck: false],
-  nrf:  [display: 'NRF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
-  pcf:  [display: 'PCF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false],
-  nssf: [display: 'NSSF', hasLttng: false, hasUnitTests: false, hasSanityCheck: false],
-  lmf:  [display: 'LMF',  hasLttng: false, hasUnitTests: false, hasSanityCheck: true ],
+  ausf: [display: 'AUSF', hasLttng: true,  hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: false, hasEbpfTutorialsTest: false],
+  amf:  [display: 'AMF',  hasLttng: true,  hasUnitTests: true,  hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: true,  hasEbpfTutorialsTest: false],
+  smf:  [display: 'SMF',  hasLttng: true,  hasUnitTests: true,  hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: true,  hasEbpfTutorialsTest: false],
+  upf:  [display: 'UPF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: true,  hasEbpfTutorialsTest: true ],
+  udm:  [display: 'UDM',  hasLttng: false, hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: false, hasEbpfTutorialsTest: false],
+  udr:  [display: 'UDR',  hasLttng: false, hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: false, hasEbpfTutorialsTest: false],
+  nrf:  [display: 'NRF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: true,  hasEbpfTutorialsTest: false],
+  pcf:  [display: 'PCF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false],
+  nssf: [display: 'NSSF', hasLttng: false, hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false],
+  lmf:  [display: 'LMF',  hasLttng: false, hasUnitTests: false, hasSanityCheck: true,  hasTutorialsTest: false, hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false],
 ]
 @Field def cfg
 
@@ -521,6 +521,151 @@ pipeline {
       }
     }
 
+    // Exercises the whole 5G Core against this NF's freshly built image; per-test NF coverage in nfConfig.
+    stage('5G Core Network Integration Testing') {
+      parallel {
+        stage('Testing the tutorials') {
+          when {
+            expression { return cfg.hasTutorialsTest }
+          }
+          steps {
+            script {
+              def localStatus = build job: 'OAI-CN5G-Tutorials-Check',
+                parameters: [
+                  string(name: "${NF}_TAG", value: nf_tag),
+                  string(name: "${NF}_BRANCH", value: nf_branch)
+                ], propagate: false
+              if (!localStatus.resultIsBetterOrEqualTo('SUCCESS')) {
+                error "Tutorials Test Job Failed"
+              }
+            }
+          }
+          post {
+            always {
+              script {
+                copyArtifacts(projectName: 'OAI-CN5G-Tutorials-Check',
+                              filter: '*_results_oai_cn5g*.html',
+                              selector: lastCompleted(),
+                              target: 'tutorials-report',
+                              optional: true)
+                archiveArtifacts artifacts: 'tutorials-report/*_results_oai_cn5g*.html', allowEmptyArchive: true
+              }
+            }
+            failure {
+              script {
+                recordFailure(latestArchivedReportLink('tutorials-report'))
+              }
+            }
+          }
+        }
+
+        stage('Testing with COTS-UE') {
+          when {
+            expression { return cfg.hasCotsUeTest }
+          }
+          steps {
+            script {
+              def localStatus = build job: 'OAI-CN5G-COTS-UE-Test',
+                parameters: [
+                  string(name: "${NF}_TAG", value: nf_tag),
+                  string(name: "${NF}_BRANCH", value: nf_branch)
+                ], propagate: false
+              if (!localStatus.resultIsBetterOrEqualTo('SUCCESS')) {
+                error "COTS-UE Test Job Failed"
+              }
+            }
+          }
+          post {
+            always {
+              script {
+                copyArtifacts(projectName: 'OAI-CN5G-COTS-UE-Test',
+                              filter: '*_results_oai_cn5g*.html',
+                              selector: lastCompleted(),
+                              target: 'cots-ue-report',
+                              optional: true)
+                archiveArtifacts artifacts: 'cots-ue-report/*_results_oai_cn5g*.html', allowEmptyArchive: true
+              }
+            }
+            failure {
+              script {
+                recordFailure(latestArchivedReportLink('cots-ue-report'))
+              }
+            }
+          }
+        }
+
+        stage('Load Testing') {
+          when {
+            expression { return cfg.hasLoadTest }
+          }
+          steps {
+            script {
+              def localStatus = build job: 'OAI-CN5G-Load-Test',
+                parameters: [
+                  string(name: "${NF}_TAG", value: nf_tag),
+                  string(name: "${NF}_BRANCH", value: nf_branch)
+                ], propagate: false
+              if (!localStatus.resultIsBetterOrEqualTo('SUCCESS')) {
+                error "Load Testing Job Failed"
+              }
+            }
+          }
+          post {
+            always {
+              script {
+                copyArtifacts(projectName: 'OAI-CN5G-Load-Test',
+                              filter: '*_results_oai_cn5g*.html',
+                              selector: lastCompleted(),
+                              target: 'load-test-report',
+                              optional: true)
+                archiveArtifacts artifacts: 'load-test-report/*_results_oai_cn5g*.html', allowEmptyArchive: true
+              }
+            }
+            failure {
+              script {
+                recordFailure(latestArchivedReportLink('load-test-report'))
+              }
+            }
+          }
+        }
+
+        stage('Testing the tutorials with eBPF') {
+          when {
+            expression { return cfg.hasEbpfTutorialsTest }
+          }
+          steps {
+            script {
+              def localStatus = build job: 'OAI-CN5G-Tutorials-Check-eBPF',
+                parameters: [
+                  string(name: "${NF}_TAG", value: nf_tag),
+                  string(name: "${NF}_BRANCH", value: nf_branch)
+                ], propagate: false
+              if (!localStatus.resultIsBetterOrEqualTo('SUCCESS')) {
+                error "eBPF Tutorials Test Job Failed"
+              }
+            }
+          }
+          post {
+            always {
+              script {
+                copyArtifacts(projectName: 'OAI-CN5G-Tutorials-Check-eBPF',
+                              filter: '*_results_oai_cn5g*.html',
+                              selector: lastCompleted(),
+                              target: 'tutorials-ebpf-report',
+                              optional: true)
+                archiveArtifacts artifacts: 'tutorials-ebpf-report/*_results_oai_cn5g*.html', allowEmptyArchive: true
+              }
+            }
+            failure {
+              script {
+                recordFailure(latestArchivedReportLink('tutorials-ebpf-report'))
+              }
+            }
+          }
+        }
+      }
+    }
+
     // Only publish for push events on the develop branch
     // temp images from PR runs and non-develop pushes stay in the private registry only.
     stage('Publish Image to Docker Hub') {
@@ -668,8 +813,18 @@ def checkoutSource() {
   }
 }
 
-def recordFailure() {
-  failingStages += "\n * ${env.STAGE_NAME}"
+def recordFailure(String reportLink = null) {
+  failingStages += reportLink ? "\n * [${env.STAGE_NAME}](${reportLink})" : "\n * ${env.STAGE_NAME}"
+}
+
+// URL of the HTML report just archived under reportDir by this stage's `always` post block, if any.
+def latestArchivedReportLink(String reportDir) {
+  def reportFiles = sh(returnStdout: true, script: "ls ${reportDir}/*_results_oai_cn5g*.html 2>/dev/null || true").trim()
+  if (!reportFiles) {
+    return null
+  }
+  def firstReport = reportFiles.split('\n')[0]
+  return "${env.BUILD_URL}artifact/${firstReport}"
 }
 
 def prepareWorkspace() {
