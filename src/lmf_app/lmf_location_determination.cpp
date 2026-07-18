@@ -41,10 +41,10 @@
 #include "position_estimation.hpp"
 
 using namespace std::string_literals;
-using namespace oai::model::lmf;
+using namespace oai::_3gpp::model;
 using namespace oai::lmf::app;
 using namespace oai::lmf::api;
-using namespace oai::model::common;
+using namespace oai::_3gpp::model;
 
 extern std::shared_ptr<oai::http::http_client> http_client_inst;
 
@@ -297,7 +297,9 @@ bool LocationDetermination::non_ue_n2_message_transfer(
     Logger::lmf_app().debug(
         "non_ue_n2_message_transfer: globalRanNodeList not set, send to all "
         "gNBs using ratSelector");
-    n2InformationTransferReqData.setRatSelector("NR");
+    RatSelector ratSelector;
+    ratSelector.setEnumValue(RatSelector_anyOf::eRatSelector_anyOf::NR);
+    n2InformationTransferReqData.setRatSelector(ratSelector);
   }
 
   nlohmann::json n2InformationTransferReqData_json;
@@ -955,7 +957,7 @@ nlohmann::json LocationDetermination::compute_location(
   uncertaintyEllipse.setSemiMinor(0.0);
   uncertaintyEllipse.setOrientationMajor(180);
 
-  oai::model::lmf::GeographicalCoordinates geographicalCoordinates;
+  oai::_3gpp::model::GeographicalCoordinates geographicalCoordinates;
   geographicalCoordinates.setLat(0.0);
   geographicalCoordinates.setLon(0.0);
 
