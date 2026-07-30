@@ -12,3 +12,5 @@ lmf.entrypoint.sh
 *.pcap
 
 .vscode/
+**/.ipynb_checkpoints/
+oai-cn5g-lmf/
