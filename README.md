@@ -10,18 +10,21 @@ At the moment, it contains the following network elements:
 
 * Access and Mobility Management Function (**AMF**)
 * Authentication Server Management Function (**AUSF**)
+* Location Management Function (**LMF**)
+* Network Exposure Function (**NEF**)
+* Network Slicing Selection Function (**NSSF**)
 * Network Repository Function (**NRF**)
+* Network Data Analytics Function (**NWDAF**)
+* Policy Control Function (**PCF**)
 * Session Management Function (**SMF**)
 * Unified Data Management (**UDM**)
 * Unified Data Repository (**UDR**)
+* Unstructured Data Storage Function (**UDSF**)
 * User Plane Function (**UPF**)
-* Network Slicing Selection Function (**NSSF**)
-* Policy Control Function (**PCF**)
-* Location Management Function (**LMF**)
 
 Each has its own repository: this repository (`oai-cn5g-lmf`) is meant for LMF.
 
-# Licence info
+## Licence info
 
 The source code is distributed under `Collaborative Standards Software License v1.0 (CSSL v1.0)`.
 For more details, visit the [OAI Website](https://openairinterface.org/oai-cssl/).
@@ -34,27 +37,22 @@ Creative Commons Attribution 4.0 International license.
 
 For third-party softwares, please refer to the [NOTICE](NOTICE) file.
 
-# Where to start
+## Collaborative Development
 
-The Openair-CN-5G LMF code is written, executed, and tested on UBUNTU server bionic version.
-Other Linux distributions support will be added later on.
+This source code is hosted and maintained on GitHub, enabling collaborative development and contribution:
 
-# Collaborative work
+* Repository: [https://github.com/openairinterface/oai-cn5g-lmf](https://github.com/openairinterface/oai-cn5g-lmf)
 
-This source code is managed through a GITLAB server, a collaborative development platform:
+Contribution guidelines and development workflows are described in the [CONTRIBUTING](CONTRIBUTING.md) file.
 
-*  URL: [https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-lmf](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-lmf).
+For information about supported features and capabilities, see the [Feature Set](docs/FEATURE_SET.md).
 
-Process is explained in [CONTRIBUTING](CONTRIBUTING.md) file.
+## Contribution Requests
 
-# Contribution requests
+Anyone is welcome to contribute to any part of the codebase and any network component.
 
-In a general way, anybody who is willing can contribute on any part of the
-code in any network component.
+Contributions can include bug fixes, suggestions, design and architecture improvements, as well as feedback on coding and implementation.
 
-Contributions can be simple bugfixes, advices and remarks on the design,
-architecture, coding/implementation.
-
-# Release Notes
+## Release Notes
 
 They are available on the [CHANGELOG](CHANGELOG.md) file.
