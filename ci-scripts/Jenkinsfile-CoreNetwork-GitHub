@@ -9,7 +9,7 @@ import groovy.transform.Field
 @Field def armBuildResource                     // ARM build lock
 @Field def rhelNode                             // RHEL build node
 @Field def rhelResource                         // RHEL build lock
-@Field def rhelOcCredentials                    // OpenShift login creds
+@Field def rhelOcCredentials                    // OC login creds
 @Field def server                               // OpenShift server URL
 @Field def EpelPackage                          // EPEL package URL
 @Field def cppcheckNode                         // cppcheck node
