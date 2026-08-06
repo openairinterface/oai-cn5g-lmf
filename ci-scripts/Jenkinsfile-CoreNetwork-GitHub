@@ -754,7 +754,7 @@ pipeline {
           }
           githubPRComment comment: githubPRMessage(message)
         }
-        notifyGitHub('SUCCESS', 'Build success', 'Jenkins OAI CI')
+        notifyGitHub('SUCCESS', 'Build success', env.JOB_BASE_NAME)
         echo "Pipeline is SUCCESSFUL"
       }
     }
@@ -775,7 +775,7 @@ pipeline {
           }
           githubPRComment comment: githubPRMessage(message)
         }
-        notifyGitHub('FAILURE', 'Build failed', 'Jenkins OAI CI')
+        notifyGitHub('FAILURE', 'Build failed', env.JOB_BASE_NAME)
         echo "Pipeline FAILED"
       }
     }
