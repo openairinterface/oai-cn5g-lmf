@@ -196,14 +196,12 @@ pipeline {
               sh "git -c credential.helper='!f() { echo \"username=\$GITHUB_USERNAME\"; echo \"password=\$GITHUB_TOKEN\"; }; f' fetch --no-tags ${env.GIT_URL} +refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}"
             }
 
-            def mrValidationLog = "signedCommit_${env.BUILD_NUMBER}.log"
+            def mrValidationLog = "archives/signedCommit_${env.BUILD_NUMBER}.log"
             def mrValidationExitCode = sh(
-              script: "bash ./ci-scripts/common/bash/pre-ci-check.sh -s ${env.GITHUB_PR_HEAD_SHA} -t origin/${targetBranch} > ${mrValidationLog} 2>&1",
+              script: "bash ./ci-scripts/common/bash/pre-ci-check.sh -s ${env.GITHUB_PR_HEAD_SHA} -t origin/${targetBranch} -r ${params.gitAccount}/${params.gitRepo} -p ${env.GITHUB_PR_NUMBER} > ${mrValidationLog} 2>&1",
               returnStatus: true
             )
             def mrValidationMessage = readFile(mrValidationLog).trim()
-            sh "rm -f ${mrValidationLog}"
-
             if (mrValidationExitCode >= 1) {
               mrValidationWarning = mrValidationMessage
             }
