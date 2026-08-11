@@ -176,6 +176,8 @@ pipeline {
         failure {
           script {
             preBuildFailureMessage = "Git operation failure or internal CI error"
+            if (isPullRequest)
+               preBuildFailureMessage += ", likely conflicts with ${targetBranch}; please resolve it."
             echo preBuildFailureMessage
             recordFailure()
           }
@@ -781,6 +783,10 @@ pipeline {
     // PR title is untrusted: passed via a quoted env var and sanitized in Python.
     cleanup {
       script {
+        if (!fileExists('ci-scripts/common/python/generateHtmlReport.py')) {
+          echo 'Skipping HTML report -- workspace was never checked out'
+          return
+        }
         def unitTestsFlag = cfg.hasUnitTests ? '--has-unit-tests' : ''
         if (isPullRequest) {
           withEnv(["PR_TITLE=${env.GITHUB_PR_TITLE}"]) {
