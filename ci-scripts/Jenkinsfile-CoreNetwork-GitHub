@@ -232,11 +232,9 @@ pipeline {
       parallel {
         stage('Ubuntu ARM Neoverse V2 (Grace) Image Builder') {
           steps {
-            lock(ubuntuBuildResource) {
-              lock(armBuildResource) {
-                script {
-                  buildUbuntuImage()
-                }
+            lock(resource: ubuntuBuildResource, extra: [[resource: armBuildResource]]) {
+              script {
+                buildUbuntuImage()
               }
             }
           }
