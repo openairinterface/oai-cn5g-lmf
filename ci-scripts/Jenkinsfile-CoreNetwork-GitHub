@@ -235,36 +235,7 @@ pipeline {
             lock(ubuntuBuildResource) {
               lock(armBuildResource) {
                 script {
-                  sh "docker image rm oai-${nf}:${nf_tag} || true"
-                  sh "docker image rm ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-                  sh "docker image prune --force"
-                  def dockerBuildOptions = isPullRequest ? '' : '--no-cache '
-                  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
-                  sh """
-                    docker buildx build ${dockerBuildOptions} \
-                      --target oai-${nf} \
-                      --tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} \
-                      --platform linux/amd64,linux/arm64 \
-                      --build-arg GIT_COMMIT="${shortenShaOne}" \
-                      --file docker/Dockerfile.${nf}.ubuntu \
-                      --builder multiarch-localremote-builder \
-                      --progress=plain \
-                      --push . > archives/${nf}_ubuntu_image_build.log 2>&1
-                  """
-                  sh "docker image prune --force"
-                  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-                  sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
-                  sh "docker image inspect ${PrivateRegistryURL}/oai-${nf}:${nf_tag} | jq '.[0] | {RepoTags, Labels: .Config.Labels, DockerVersion}' >> archives/${nf}_ubuntu_image_build.log 2>&1"
-                  sh "docker images ${PrivateRegistryURL}/oai-${nf}:${nf_tag} >> archives/${nf}_ubuntu_image_build.log 2>&1"
-                  if (runTrivyScan) {
-                    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
-                    sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${shortenShaOne}"
-                    sh "trivy image --exit-code 1 --severity MEDIUM,HIGH,CRITICAL --no-progress --format=template --template @./ci-scripts/common/html-templates/trivy_html.tpl --output archives/${nf}_multiarch_image_trivy_report.html oai-${nf}:${shortenShaOne} > /dev/null || true"
-                    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
-                  }
-                  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-                  sh "docker logout ${PrivateRegistryURL}"
-                  sh "bash ./ci-scripts/common/bash/extract_arm_amd_logs.sh archives/${nf}_ubuntu_image_build.log"
+                  buildUbuntuImage()
                 }
               }
             }
@@ -274,10 +245,10 @@ pipeline {
               sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_ubuntu_image_build.log"
             }
             failure {
-              sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_image_build.log"
               script {
                 recordFailure(nfReportLink(), false)
               }
+              sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_image_build.log"
             }
           }
         }
@@ -302,10 +273,10 @@ pipeline {
               sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_ubuntu_lttng_image_build.log"
             }
             failure {
-              sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_lttng_image_build.log"
               script {
                 recordFailure(nfReportLink(), false)
               }
+              sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_lttng_image_build.log"
             }
           }
         }
@@ -315,6 +286,7 @@ pipeline {
             expression { return buildRhel }
           }
           agent { label rhelNode }
+          options { skipDefaultCheckout() }
           steps {
             lock(rhelResource) {
               script {
@@ -347,10 +319,10 @@ pipeline {
               sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_rhel_image_build.log"
             }
             failure {
-              sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_rhel_image_build.log"
               script {
                 recordFailure(nfReportLink(), false)
               }
+              sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_rhel_image_build.log"
             }
             cleanup {
               script {
@@ -364,6 +336,7 @@ pipeline {
 
         stage('Static Code Analysis') {
           agent { label cppcheckNode }
+          options { skipDefaultCheckout() }
           steps {
             lock(cppcheckResource) {
               script {
@@ -383,10 +356,10 @@ pipeline {
               sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is SUCCESS' >> archives/cppcheck_install.log"
             }
             failure {
-              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is FAILURE' >> archives/cppcheck_install.log"
               script {
                 recordFailure(nfReportLink(), false)
               }
+              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is FAILURE' >> archives/cppcheck_install.log"
             }
             cleanup {
               script {
@@ -401,6 +374,7 @@ pipeline {
 
         stage('Code Formatting Checker') {
           agent { label formatCheckNode }
+          options { skipDefaultCheckout() }
           steps {
             lock(formatCheckResource) {
               script {
@@ -433,10 +407,10 @@ pipeline {
               sh "echo 'Code Formatting Checker for OAI-${NF} status is SUCCESS' >> archives/clang_format_install.log"
             }
             failure {
-              sh "echo 'Code Formatting Checker for OAI-${NF} status is FAILURE' >> archives/clang_format_install.log"
               script {
                 recordFailure(nfReportLink(), false)
               }
+              sh "echo 'Code Formatting Checker for OAI-${NF} status is FAILURE' >> archives/clang_format_install.log"
             }
             cleanup {
               script {
@@ -488,10 +462,13 @@ pipeline {
         always {
           script {
             if (buildRhel) {
-              unstash 'rhelBuildLog'
+              try { unstash 'rhelBuildLog' }
+              catch (e) { echo "No 'rhelBuildLog' stash to restore" }
             }
-            unstash 'cppcheckLogs'
-            unstash 'formatCheckLogs'
+            try { unstash 'cppcheckLogs' }
+            catch (e) { echo "No 'cppcheckLogs' stash to restore" }
+            try { unstash 'formatCheckLogs' }
+            catch (e) { echo "No 'formatCheckLogs' stash to restore" }
           }
         }
         success {
@@ -514,12 +491,7 @@ pipeline {
       steps {
         lock(ubuntuBuildResource) {
           script {
-            sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
-            sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
-            sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${nf_tag}"
-            sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-${nf}:${nf_tag}"
-            sh "docker rmi oai-${nf}:${nf_tag} ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-            sh "docker logout ${PrivateRegistryURL}"
+            runSanityCheck()
           }
         }
       }
@@ -713,17 +685,7 @@ pipeline {
       steps {
         lock(ubuntuBuildResource) {
           script {
-            withCredentials([
-              [$class: 'UsernamePasswordMultiBinding', credentialsId: dockerHubCredentialsId, usernameVariable: 'DH_Username', passwordVariable: 'DH_Password']
-            ]) {
-              sh "echo ${DH_Password} | docker login --username ${DH_Username} --password-stdin"
-            }
-            sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
-            sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-            sh "docker buildx imagetools create -t ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
-            sh "docker rmi ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-            sh "docker logout ${PrivateRegistryURL}"
-            sh "docker logout"
+            publishToDockerHub()
           }
         }
       }
@@ -760,7 +722,7 @@ pipeline {
     }
     failure {
       script {
-        if (isPullRequest) {
+        if (isPullRequest || env.GITHUB_PR_NUMBER) {
           def message = "**CI Build:** [#${env.BUILD_NUMBER}](${BUILD_URL}) | **Failed**"
           if (failingStages) {
             message += " on the following stages:${failingStages}"
@@ -773,43 +735,16 @@ pipeline {
           if (mrValidationWarning) {
             message += "\n\n**Validation:** ${mrValidationWarning}"
           }
-          githubPRComment comment: githubPRMessage(message)
+          try { githubPRComment comment: githubPRMessage(message) }
+          catch (e) { echo "Could not post PR comment: ${e.message}" }
         }
         notifyGitHub('FAILURE', 'Build failed', env.JOB_BASE_NAME)
         echo "Pipeline FAILED"
       }
     }
-    // Generate and archive the HTML report, Trivy report, and a zip of archives/.
-    // PR title is untrusted: passed via a quoted env var and sanitized in Python.
     cleanup {
       script {
-        if (!fileExists('ci-scripts/common/python/generateHtmlReport.py')) {
-          echo 'Skipping HTML report -- workspace was never checked out'
-          return
-        }
-        def unitTestsFlag = cfg.hasUnitTests ? '--has-unit-tests' : ''
-        if (isPullRequest) {
-          withEnv(["PR_TITLE=${env.GITHUB_PR_TITLE}"]) {
-            sh "./ci-scripts/common/python/generateHtmlReport.py --nf ${nf} ${unitTestsFlag} --job-name ${JOB_NAME} --build-id ${BUILD_ID} --build-url ${env.BUILD_URL} --git-url ${env.GIT_URL} --git-src-branch ${nf_branch} --git-src-commit ${env.GITHUB_PR_HEAD_SHA} --git-pull-request --git-dst-branch ${targetBranch} --git-dst-commit ${env.GIT_COMMIT} --build-time \"${env.JOB_TIMESTAMP}\" --pr-url ${env.GITHUB_PR_URL} --pr-title \"\$PR_TITLE\""
-          }
-        } else {
-          sh "./ci-scripts/common/python/generateHtmlReport.py --nf ${nf} ${unitTestsFlag} --job-name ${JOB_NAME} --build-id ${BUILD_ID} --build-url ${env.BUILD_URL} --git-url ${env.GIT_URL} --git-src-branch ${nf_branch} --git-src-commit ${env.GIT_COMMIT} --build-time \"${env.JOB_TIMESTAMP}\""
-        }
-
-        def listOfFiles = sh(returnStdout: true, script: 'ls test_results*.html').trim()
-        String[] htmlFiles = listOfFiles.split("\\n")
-        for (htmlFile in htmlFiles) {
-          archiveArtifacts artifacts: htmlFile
-        }
-
-        // Zipping all archived log files
-        if (fileExists("archives/${nf}_multiarch_image_trivy_report.html")) {
-          archiveArtifacts artifacts: "archives/${nf}_multiarch_image_trivy_report.html"
-        }
-        sh "zip -r -qq oai_${nf}_logs.zip archives -x archives/${nf}_multiarch_image_trivy_report.html"
-        if (fileExists("oai_${nf}_logs.zip")) {
-          archiveArtifacts artifacts: "oai_${nf}_logs.zip"
-        }
+        generateAndArchiveReports()
       }
     }
   }
@@ -861,10 +796,15 @@ def recordFailure(String reportLink = null, boolean emitCheck = true) {
 
 // Post a GitHub commit status; PR builds target the PR head, push builds the triggering commit.
 def notifyGitHub(String status, String description, String context, String targetUrl = null) {
+  def sha = isPullRequest ? env.GITHUB_PR_HEAD_SHA : env.GIT_COMMIT
+  if (!sha) {
+    echo "Skipping GitHub notification for '${context}': no commit SHA"
+    return
+  }
   githubNotify account: params.gitAccount,
                repo: params.gitRepo,
                credentialsId: githubCredentialsId,
-               sha: isPullRequest ? env.GITHUB_PR_HEAD_SHA : env.GIT_COMMIT,
+               sha: sha,
                status: status,
                description: description,
                targetUrl: targetUrl ?: BUILD_URL,
@@ -913,6 +853,99 @@ def latestArchivedReportLink(String reportDir, String filterPattern = '*_results
   }
   def firstReport = reportFiles.split('\n')[0]
   return "${env.BUILD_URL}artifact/${firstReport}"
+}
+
+// Retags the private-registry image as develop on Docker Hub via the multi-arch manifest for PUSH to develop
+def publishToDockerHub() {
+  withCredentials([
+    [$class: 'UsernamePasswordMultiBinding', credentialsId: dockerHubCredentialsId, usernameVariable: 'DH_Username', passwordVariable: 'DH_Password']
+  ]) {
+    sh 'echo "$DH_Password" | docker login --username "$DH_Username" --password-stdin'
+  }
+  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker buildx imagetools create -t ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
+  sh "docker rmi ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker logout ${PrivateRegistryURL}"
+  sh "docker logout"
+}
+
+// Generate and archive the HTML report, Trivy report, and a zip of archives/.
+// PR title is untrusted: passed via a quoted env var and sanitized in Python.
+def generateAndArchiveReports() {
+  if (!cfg || !fileExists('ci-scripts/common/python/generateHtmlReport.py')) {
+    echo 'Skipping HTML report -- workspace was never checked out'
+    return
+  }
+  def unitTestsFlag = cfg.hasUnitTests ? '--has-unit-tests' : ''
+  if (isPullRequest) {
+    withEnv(["PR_TITLE=${env.GITHUB_PR_TITLE}"]) {
+      sh "./ci-scripts/common/python/generateHtmlReport.py --nf ${nf} ${unitTestsFlag} --job-name ${JOB_NAME} --build-id ${BUILD_ID} --build-url ${env.BUILD_URL} --git-url ${env.GIT_URL} --git-src-branch ${nf_branch} --git-src-commit ${env.GITHUB_PR_HEAD_SHA} --git-pull-request --git-dst-branch ${targetBranch} --git-dst-commit ${env.GIT_COMMIT} --build-time \"${env.JOB_TIMESTAMP}\" --pr-url ${env.GITHUB_PR_URL} --pr-title \"\$PR_TITLE\""
+    }
+  } else {
+    sh "./ci-scripts/common/python/generateHtmlReport.py --nf ${nf} ${unitTestsFlag} --job-name ${JOB_NAME} --build-id ${BUILD_ID} --build-url ${env.BUILD_URL} --git-url ${env.GIT_URL} --git-src-branch ${nf_branch} --git-src-commit ${env.GIT_COMMIT} --build-time \"${env.JOB_TIMESTAMP}\""
+  }
+
+  def listOfFiles = sh(returnStdout: true, script: 'ls test_results*.html 2>/dev/null || true').trim()
+  if (listOfFiles) {
+    String[] htmlFiles = listOfFiles.split("\\n")
+    for (htmlFile in htmlFiles) {
+      archiveArtifacts artifacts: htmlFile
+    }
+  }
+
+  // Zipping all archived log files
+  if (fileExists("archives/${nf}_multiarch_image_trivy_report.html")) {
+    archiveArtifacts artifacts: "archives/${nf}_multiarch_image_trivy_report.html"
+  }
+  sh "zip -r -qq oai_${nf}_logs.zip archives -x archives/${nf}_multiarch_image_trivy_report.html"
+  if (fileExists("oai_${nf}_logs.zip")) {
+    archiveArtifacts artifacts: "oai_${nf}_logs.zip"
+  }
+}
+
+// Multi-arch Ubuntu image build pushed to the private registry, optionally Trivy-scanned.
+def buildUbuntuImage() {
+  sh "docker image rm oai-${nf}:${nf_tag} || true"
+  sh "docker image rm ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker image prune --force"
+  def dockerBuildOptions = isPullRequest ? '' : '--no-cache '
+  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+  sh """
+    docker buildx build ${dockerBuildOptions} \
+      --target oai-${nf} \
+      --tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} \
+      --platform linux/amd64,linux/arm64 \
+      --build-arg GIT_COMMIT="${shortenShaOne}" \
+      --file docker/Dockerfile.${nf}.ubuntu \
+      --builder multiarch-localremote-builder \
+      --progress=plain \
+      --push . > archives/${nf}_ubuntu_image_build.log 2>&1
+  """
+  sh "docker image prune --force"
+  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
+  sh "docker image inspect ${PrivateRegistryURL}/oai-${nf}:${nf_tag} | jq '.[0] | {RepoTags, Labels: .Config.Labels, DockerVersion}' >> archives/${nf}_ubuntu_image_build.log 2>&1"
+  sh "docker images ${PrivateRegistryURL}/oai-${nf}:${nf_tag} >> archives/${nf}_ubuntu_image_build.log 2>&1"
+  if (runTrivyScan) {
+    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
+    sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${shortenShaOne}"
+    sh "trivy image --exit-code 1 --severity MEDIUM,HIGH,CRITICAL --no-progress --format=template --template @./ci-scripts/common/html-templates/trivy_html.tpl --output archives/${nf}_multiarch_image_trivy_report.html oai-${nf}:${shortenShaOne} > /dev/null || true"
+    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
+  }
+  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker logout ${PrivateRegistryURL}"
+  sh "bash ./ci-scripts/common/bash/extract_arm_amd_logs.sh archives/${nf}_ubuntu_image_build.log"
+}
+
+// Pulls the image just built from the private registry and runs the sanity check.
+def runSanityCheck() {
+  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+  sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
+  sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${nf_tag}"
+  sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-${nf}:${nf_tag}"
+  sh "docker rmi oai-${nf}:${nf_tag} ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker logout ${PrivateRegistryURL}"
 }
 
 def prepareWorkspace() {
