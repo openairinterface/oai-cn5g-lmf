@@ -245,7 +245,94 @@ pipeline {
       }
     }
 
-    stage('Build Images and Run Checks') {
+    // Code checks first: so a formatting or cppcheck
+    // failure is reported before the image builds start.
+    stage('Code Checks') {
+      parallel {
+        stage('Static Code Analysis') {
+          agent { label cppcheckNode }
+          options { skipDefaultCheckout() }
+          steps {
+            lock(cppcheckResource) {
+              script {
+                runStaticCodeAnalysis()
+              }
+            }
+          }
+          post {
+            success {
+              script {
+                notifyStageStatus('SUCCESS', 'Passed')
+              }
+              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is SUCCESS' >> archives/cppcheck_install.log"
+            }
+            failure {
+              script {
+                recordFailure(nfReportLink())
+              }
+              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is FAILURE' >> archives/cppcheck_install.log"
+            }
+            cleanup {
+              script {
+                stash allowEmpty: true, includes: 'archives/cppcheck*.*', name: 'cppcheckLogs'
+                sh "docker rm -f ${nf}-ci-cppcheck || true"
+                sh "docker rmi ${nf}-cppcheck:test || true"
+                sh "rm -f ${cppcheckDockerfileTmp}"
+              }
+            }
+          }
+        }
+
+        stage('Code Formatting Checker') {
+          agent { label formatCheckNode }
+          options { skipDefaultCheckout() }
+          steps {
+            lock(formatCheckResource) {
+              script {
+                runCodeFormattingChecker()
+              }
+            }
+          }
+          post {
+            success {
+              script {
+                notifyStageStatus('SUCCESS', 'Passed')
+              }
+              sh "echo 'Code Formatting Checker for OAI-${NF} status is SUCCESS' >> archives/clang_format_install.log"
+            }
+            failure {
+              script {
+                recordFailure(nfReportLink())
+              }
+              sh "echo 'Code Formatting Checker for OAI-${NF} status is FAILURE' >> archives/clang_format_install.log"
+            }
+            cleanup {
+              script {
+                stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
+                sh "docker rm -f ${nf}-ci-clang-format || true"
+                sh "docker rmi ${nf}-clang-format-check:test || true"
+                sh "rm -f ${clangFormatDockerfileTmp}"
+              }
+            }
+          }
+        }
+      }
+      post {
+        // Both checks run on their own agents. Restore their logs here rather
+        // than in a later stage: a failure here skips everything downstream, and
+        // the logs are exactly what explains that failure in the report.
+        always {
+          script {
+            try { unstash 'cppcheckLogs' }
+            catch (e) { echo "No 'cppcheckLogs' stash to restore" }
+            try { unstash 'formatCheckLogs' }
+            catch (e) { echo "No 'formatCheckLogs' stash to restore" }
+          }
+        }
+      }
+    }
+
+    stage('Build Images') {
       parallel {
         stage('Ubuntu ARM Neoverse V2 (Grace) Image Builder') {
           steps {
@@ -257,11 +344,14 @@ pipeline {
           }
           post {
             success {
+              script {
+                notifyStageStatus('SUCCESS', 'Passed')
+              }
               sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_ubuntu_image_build.log"
             }
             failure {
               script {
-                recordFailure(nfReportLink(), false)
+                recordFailure(nfReportLink())
               }
               sh "echo 'Ubuntu ARM Neoverse V2 (Grace) Image Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_image_build.log"
             }
@@ -285,11 +375,14 @@ pipeline {
           }
           post {
             success {
+              script {
+                notifyStageStatus('SUCCESS', 'Passed')
+              }
               sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_ubuntu_lttng_image_build.log"
             }
             failure {
               script {
-                recordFailure(nfReportLink(), false)
+                recordFailure(nfReportLink())
               }
               sh "echo 'Ubuntu Image with LTTNG Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_ubuntu_lttng_image_build.log"
             }
@@ -331,11 +424,14 @@ pipeline {
           }
           post {
             success {
+              script {
+                notifyStageStatus('SUCCESS', 'Passed')
+              }
               sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is SUCCESS' >> archives/${nf}_rhel_image_build.log"
             }
             failure {
               script {
-                recordFailure(nfReportLink(), false)
+                recordFailure(nfReportLink())
               }
               sh "echo 'RHEL-Cluster-Image-Builder for OAI-${NF} status is FAILURE' >> archives/${nf}_rhel_image_build.log"
             }
@@ -344,95 +440,6 @@ pipeline {
                 sh "oc delete bc ${nf}-build-cfg -n ${Namespace} || true"
                 sh "oc logout || true"
                 stash allowEmpty: true, includes: "archives/${nf}_rhel_image_build.log", name: 'rhelBuildLog'
-              }
-            }
-          }
-        }
-
-        stage('Static Code Analysis') {
-          agent { label cppcheckNode }
-          options { skipDefaultCheckout() }
-          steps {
-            lock(cppcheckResource) {
-              script {
-                prepareWorkspace()
-                sh "date --rfc-email > ${commonSrcPath}/date.txt"
-                sh "sed -e 's@nfName@${nf}@' ${cppcheckDockerfile} > ${cppcheckDockerfileTmp}"
-                sh "docker build --target ${nf}-cppcheck --tag ${nf}-cppcheck:test --file ${cppcheckDockerfileTmp} . > archives/cppcheck_install.log 2>&1"
-                sh "docker rm -f ${nf}-ci-cppcheck || true"
-                sh "docker run --name ${nf}-ci-cppcheck --entrypoint /bin/true ${nf}-cppcheck:test"
-                sh "docker cp ${nf}-ci-cppcheck:/home/cppcheck.xml archives"
-                sh "docker cp ${nf}-ci-cppcheck:/home/cppcheck_build.log archives"
-              }
-            }
-          }
-          post {
-            success {
-              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is SUCCESS' >> archives/cppcheck_install.log"
-            }
-            failure {
-              script {
-                recordFailure(nfReportLink(), false)
-              }
-              sh "echo 'Cppcheck Static Code Analysis for OAI-${NF} status is FAILURE' >> archives/cppcheck_install.log"
-            }
-            cleanup {
-              script {
-                stash allowEmpty: true, includes: 'archives/cppcheck*.*', name: 'cppcheckLogs'
-                sh "docker rm -f ${nf}-ci-cppcheck || true"
-                sh "docker rmi ${nf}-cppcheck:test || true"
-                sh "rm -f ${cppcheckDockerfileTmp}"
-              }
-            }
-          }
-        }
-
-        stage('Code Formatting Checker') {
-          agent { label formatCheckNode }
-          options { skipDefaultCheckout() }
-          steps {
-            lock(formatCheckResource) {
-              script {
-                prepareWorkspace()
-                sh "date --rfc-email > ${commonSrcPath}/date.txt"
-                sh "sed -e 's@nfName@${nf}@' ${clangFormatDockerfile} > ${clangFormatDockerfileTmp}"
-                if (isPullRequest) {
-                  sh "docker build --target ${nf}-clang-format-check --tag ${nf}-clang-format-check:test --file ${clangFormatDockerfileTmp} --build-arg EXTRA_ARGS=\"--src-branch ${nf_branch} --target-branch ${targetBranch}\" . > archives/clang_format_install.log 2>&1"
-                } else {
-                  sh "docker build --target ${nf}-clang-format-check --tag ${nf}-clang-format-check:test --file ${clangFormatDockerfileTmp} . > archives/clang_format_install.log 2>&1"
-                }
-                sh "docker rm -f ${nf}-ci-clang-format || true"
-                sh "docker run --name ${nf}-ci-clang-format --entrypoint /bin/true ${nf}-clang-format-check:test"
-                sh "docker cp ${nf}-ci-clang-format:/home/src/oai_rules_result.txt src"
-                sh "docker cp ${nf}-ci-clang-format:/home/src/oai_rules_result_list.txt src || true"
-                sh '''
-                  if grep -q "NB_FILES_FAILING_CHECK=0" src/oai_rules_result.txt; then
-                    exit 0
-                  else
-                    echo "The following files do not follow OAI coding/formatting rules:"
-                    cat src/oai_rules_result_list.txt
-                    exit 1
-                  fi
-                '''
-              }
-            }
-          }
-          post {
-            success {
-              sh "echo 'Code Formatting Checker for OAI-${NF} status is SUCCESS' >> archives/clang_format_install.log"
-            }
-            failure {
-              script {
-                recordFailure(nfReportLink(), false)
-              }
-              sh "echo 'Code Formatting Checker for OAI-${NF} status is FAILURE' >> archives/clang_format_install.log"
-            }
-            cleanup {
-              script {
-                stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
-                sh "docker rm -f ${nf}-ci-clang-format || true"
-                sh "docker rmi ${nf}-clang-format-check:test || true"
-                sh "rm -f ${clangFormatDockerfileTmp}"
               }
             }
           }
@@ -457,9 +464,14 @@ pipeline {
             }
           }
           post {
+            success {
+              script {
+                notifyStageStatus('SUCCESS', 'Passed')
+              }
+            }
             failure {
               script {
-                recordFailure(null, false)
+                recordFailure()
               }
             }
             cleanup {
@@ -471,29 +483,39 @@ pipeline {
         }
       }
       post {
-        // RHEL/cppcheck/format-check run on separate agents. Restore their stashed
-        // logs here so the final report/zip step can include them. rhelBuildLog
-        // exists only if the RHEL image build ran.
+        // The RHEL image builds on its own agent. Restore its stashed log here so
+        // the final report/zip step can include it; it exists only if that ran.
         always {
           script {
             if (buildRhel) {
               try { unstash 'rhelBuildLog' }
               catch (e) { echo "No 'rhelBuildLog' stash to restore" }
             }
-            try { unstash 'cppcheckLogs' }
-            catch (e) { echo "No 'cppcheckLogs' stash to restore" }
-            try { unstash 'formatCheckLogs' }
-            catch (e) { echo "No 'formatCheckLogs' stash to restore" }
           }
         }
-        success {
+      }
+    }
+
+    // Publish only on develop-branch pushes; PR/other pushes stay in the private registry.
+    stage('Publish Image to Docker Hub') {
+      when {
+        expression { return !isPullRequest && nf_branch == 'develop' }
+      }
+      steps {
+        lock(ubuntuBuildResource) {
           script {
-            notifyStageStatus('SUCCESS', 'Passed')
+            publishToDockerHub()
           }
+        }
+      }
+      post {
+        success {
+          echo "Published ${DH_Account}/oai-${nf}:develop for OAI-${NF}"
         }
         failure {
           script {
-            notifyStageStatus('FAILURE', 'Failed')
+            echo "Failed to publish OAI-${NF} image to Docker Hub"
+            recordFailure()
           }
         }
       }
@@ -687,31 +709,6 @@ pipeline {
                 recordFailure(latestArchivedReportLink('robot-northbound-test-report', 'archives/report.html'))
               }
             }
-          }
-        }
-      }
-    }
-
-    // Publish only on develop-branch pushes; PR/other pushes stay in the private registry.
-    stage('Publish Image to Docker Hub') {
-      when {
-        expression { return !isPullRequest && nf_branch == 'develop' }
-      }
-      steps {
-        lock(ubuntuBuildResource) {
-          script {
-            publishToDockerHub()
-          }
-        }
-      }
-      post {
-        success {
-          echo "Published ${DH_Account}/oai-${nf}:develop for OAI-${NF}"
-        }
-        failure {
-          script {
-            echo "Failed to publish OAI-${NF} image to Docker Hub"
-            recordFailure()
           }
         }
       }
@@ -954,6 +951,44 @@ def buildUbuntuImage() {
 }
 
 // Pulls the image just built from the private registry and runs the sanity check.
+// Build and run the cppcheck static analysis image on its own agent; logs land in archives/.
+def runStaticCodeAnalysis() {
+  prepareWorkspace()
+  sh "date --rfc-email > ${commonSrcPath}/date.txt"
+  sh "sed -e 's@nfName@${nf}@' ${cppcheckDockerfile} > ${cppcheckDockerfileTmp}"
+  sh "docker build --target ${nf}-cppcheck --tag ${nf}-cppcheck:test --file ${cppcheckDockerfileTmp} . > archives/cppcheck_install.log 2>&1"
+  sh "docker rm -f ${nf}-ci-cppcheck || true"
+  sh "docker run --name ${nf}-ci-cppcheck --entrypoint /bin/true ${nf}-cppcheck:test"
+  sh "docker cp ${nf}-ci-cppcheck:/home/cppcheck.xml archives"
+  sh "docker cp ${nf}-ci-cppcheck:/home/cppcheck_build.log archives"
+}
+
+// Build and run the clang-format check image on its own agent; logs land in archives/.
+def runCodeFormattingChecker() {
+  prepareWorkspace()
+  sh "date --rfc-email > ${commonSrcPath}/date.txt"
+  sh "sed -e 's@nfName@${nf}@' ${clangFormatDockerfile} > ${clangFormatDockerfileTmp}"
+  if (isPullRequest) {
+    sh "docker build --target ${nf}-clang-format-check --tag ${nf}-clang-format-check:test --file ${clangFormatDockerfileTmp} --build-arg EXTRA_ARGS=\"--src-branch ${nf_branch} --target-branch ${targetBranch}\" . > archives/clang_format_install.log 2>&1"
+  } else {
+    sh "docker build --target ${nf}-clang-format-check --tag ${nf}-clang-format-check:test --file ${clangFormatDockerfileTmp} . > archives/clang_format_install.log 2>&1"
+  }
+  sh "docker rm -f ${nf}-ci-clang-format || true"
+  sh "docker run --name ${nf}-ci-clang-format --entrypoint /bin/true ${nf}-clang-format-check:test"
+  sh "docker cp ${nf}-ci-clang-format:/home/src/oai_rules_result.txt src"
+  sh "docker cp ${nf}-ci-clang-format:/home/src/oai_rules_result_list.txt src || true"
+  sh '''
+    if grep -q "NB_FILES_FAILING_CHECK=0" src/oai_rules_result.txt; then
+      exit 0
+    else
+      echo "The following files do not follow OAI coding/formatting rules:"
+      cat src/oai_rules_result_list.txt
+      exit 1
+    fi
+  '''
+}
+
+// Sanity checks
 def runSanityCheck() {
   sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
   sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
