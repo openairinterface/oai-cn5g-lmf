@@ -402,7 +402,7 @@ pipeline {
                 withCredentials([
                   [$class: 'UsernamePasswordMultiBinding', credentialsId: "${rhelOcCredentials}", usernameVariable: 'OC_Username', passwordVariable: 'OC_Password']
                 ]) {
-                  sh "oc login -u ${OC_Username} -p ${OC_Password} --server=${server}"
+                  sh "oc login -u ${OC_Username} -p ${OC_Password} --server=${server} --insecure-skip-tls-verify"
                 }
                 sh "oc project ${Namespace}"
                 sh "oc delete istag oai-${nf}:${nf_tag} -n ${Namespace} || true"
