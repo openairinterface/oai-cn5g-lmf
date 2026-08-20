@@ -26,6 +26,7 @@ import groovy.transform.Field
 @Field def claFile                              // CLA signatory list, path on claHost
 @Field def DH_Account                           // Docker Hub account
 @Field def dockerHubCredentialsId               // Docker Hub login creds
+@Field def privateRegistryCredentialsId         // private registry login creds
 
 @Field def cppcheckDockerfile       = 'ci-scripts/common/docker/Dockerfile.ci.cppcheck'      // cppcheck Dockerfile
 @Field def clangFormatDockerfile    = 'ci-scripts/common/docker/Dockerfile.ci.clang-format'  // clang-format Dockerfile
@@ -104,6 +105,7 @@ pipeline {
 
           DH_Account            = params.dockerHubAccount
           dockerHubCredentialsId = params.DockerHubCredentials
+          privateRegistryCredentialsId = params.PrivateRegistryCredentials
 
           echo "Pipeline configuration loaded for ${NF}"
 
@@ -115,6 +117,10 @@ pipeline {
           if (buildRhel && params.RhelOcCredentials == null) {
             echo 'No Credentials to connect to Openshift!'
             error "Stopping pipeline!"
+          }
+
+          if (params.PrivateRegistryCredentials == null) {
+            error "No credentials to log in to the private docker registry!"
           }
 
           env.JOB_TIMESTAMP = sh(returnStdout: true, script: 'date --utc --rfc-3339=seconds | sed -e "s#+00:00##"').trim()
@@ -194,34 +200,32 @@ pipeline {
         expression { return isPullRequest }
       }
       steps {
-        lock(ubuntuBuildResource) {
-          script {
-            withCredentials([
-              [$class: 'UsernamePasswordMultiBinding', credentialsId: githubCredentialsId, usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN']
-            ]) {
-              sh "git -c credential.helper='!f() { echo \"username=\$GITHUB_USERNAME\"; echo \"password=\$GITHUB_TOKEN\"; }; f' fetch --no-tags ${env.GIT_URL} +refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}"
-            }
-            // The list is kept on claHost: read it over SSH for the
-            // check instead of storing a copy on the build node. Retry
-            // to handle transient network failures.
-            retry(3) {
-              sh "ssh -o BatchMode=yes ${claHost} 'cat ${claFile}' > cla.csv"
-            }
-            // An empty list is a misconfiguration, not a reason to fail the CLA Check
-            sh "test -s cla.csv"
+        script {
+          withCredentials([
+            [$class: 'UsernamePasswordMultiBinding', credentialsId: githubCredentialsId, usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_TOKEN']
+          ]) {
+            sh "git -c credential.helper='!f() { echo \"username=\$GITHUB_USERNAME\"; echo \"password=\$GITHUB_TOKEN\"; }; f' fetch --no-tags ${env.GIT_URL} +refs/heads/${targetBranch}:refs/remotes/origin/${targetBranch}"
+          }
+          // The list is kept on claHost: read it over SSH for the
+          // check instead of storing a copy on the build node. Retry
+          // to handle transient network failures.
+          retry(3) {
+            sh "ssh -o BatchMode=yes ${claHost} 'cat ${claFile}' > cla.csv"
+          }
+          // An empty list is a misconfiguration, not a reason to fail the CLA Check
+          sh "test -s cla.csv"
 
-            def mrValidationLog = "archives/signedCommit_${env.BUILD_NUMBER}.log"
-            def mrValidationExitCode = sh(
-              script: "bash ./ci-scripts/common/bash/pre-ci-check.sh -s ${env.GITHUB_PR_HEAD_SHA} -t origin/${targetBranch} -r ${params.gitAccount}/${params.gitRepo} -p ${env.GITHUB_PR_NUMBER} -c cla.csv > ${mrValidationLog} 2>&1",
-              returnStatus: true
-            )
-            def mrValidationMessage = readFile(mrValidationLog).trim()
-            if (mrValidationExitCode >= 1) {
-              mrValidationWarning = mrValidationMessage
-            }
-            if (mrValidationExitCode >= 2) {
-              error("${mrValidationMessage}")
-            }
+          def mrValidationLog = "archives/signedCommit_${env.BUILD_NUMBER}.log"
+          def mrValidationExitCode = sh(
+            script: "bash ./ci-scripts/common/bash/pre-ci-check.sh -s ${env.GITHUB_PR_HEAD_SHA} -t origin/${targetBranch} -r ${params.gitAccount}/${params.gitRepo} -p ${env.GITHUB_PR_NUMBER} -c cla.csv > ${mrValidationLog} 2>&1",
+            returnStatus: true
+          )
+          def mrValidationMessage = readFile(mrValidationLog).trim()
+          if (mrValidationExitCode >= 1) {
+            mrValidationWarning = mrValidationMessage
+          }
+          if (mrValidationExitCode >= 2) {
+            error("${mrValidationMessage}")
           }
         }
       }
@@ -275,8 +279,7 @@ pipeline {
             cleanup {
               script {
                 stash allowEmpty: true, includes: 'archives/cppcheck*.*', name: 'cppcheckLogs'
-                sh "docker rm -f ${nf}-ci-cppcheck || true"
-                sh "docker rmi ${nf}-cppcheck:test || true"
+                sh "docker rm -f ${nf}-ci-cppcheck || true; docker rmi ${nf}-cppcheck:test || true"
                 sh "rm -f ${cppcheckDockerfileTmp}"
               }
             }
@@ -309,8 +312,7 @@ pipeline {
             cleanup {
               script {
                 stash allowEmpty: true, includes: 'src/oai_rules_result*.txt, archives/clang_format_install.log', name: 'formatCheckLogs'
-                sh "docker rm -f ${nf}-ci-clang-format || true"
-                sh "docker rmi ${nf}-clang-format-check:test || true"
+                sh "docker rm -f ${nf}-ci-clang-format || true; docker rmi ${nf}-clang-format-check:test || true"
                 sh "rm -f ${clangFormatDockerfileTmp}"
               }
             }
@@ -366,10 +368,9 @@ pipeline {
             sleep 30
             lock(ubuntuBuildResource) {
               script {
-                sh "docker image rm oai-${nf}:lttng-build || true"
                 sh "docker buildx build --target oai-${nf} --tag oai-${nf}:lttng-build --file docker/Dockerfile.${nf}.ubuntu --build-arg ENABLE_LTTNG=true . > archives/${nf}_ubuntu_lttng_image_build.log 2>&1"
-                sh "docker image prune --force"
                 sh "docker image rm oai-${nf}:lttng-build || true"
+                sh "docker image prune --force"
               }
             }
           }
@@ -402,7 +403,7 @@ pipeline {
                 withCredentials([
                   [$class: 'UsernamePasswordMultiBinding', credentialsId: "${rhelOcCredentials}", usernameVariable: 'OC_Username', passwordVariable: 'OC_Password']
                 ]) {
-                  sh "oc login -u ${OC_Username} -p ${OC_Password} --server=${server} --insecure-skip-tls-verify"
+                  sh "oc login -u \"\$OC_Username\" -p \"\$OC_Password\" --server=${server} --insecure-skip-tls-verify"
                 }
                 sh "oc project ${Namespace}"
                 sh "oc delete istag oai-${nf}:${nf_tag} -n ${Namespace} || true"
@@ -455,7 +456,6 @@ pipeline {
               script {
                 if (fileExists("${commonSrcPath}/build/common/Dockerfile.unit-tests.ubuntu")) {
                   sh "date --rfc-email > ${commonSrcPath}/date.txt"
-                  sh "docker image rm common-src-unit-tests:latest || true"
                   sh "docker buildx build --target common-src-unit-tests --tag common-src-unit-tests:latest --file ${commonSrcPath}/build/common/Dockerfile.unit-tests.ubuntu ./${commonSrcPath}/ > archives/build-unit-tests.log 2>&1"
                 } else {
                   echo "Skipping Unit Tests for OAI-${NF}: ${commonSrcPath}/build/common/Dockerfile.unit-tests.ubuntu not found -- unit-test Dockerfile not yet added for this NF's common-src checkout"
@@ -874,8 +874,11 @@ def publishToDockerHub() {
   ]) {
     sh 'echo "$DH_Password" | docker login --username "$DH_Username" --password-stdin'
   }
-  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
-  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  withCredentials([
+    [$class: 'UsernamePasswordMultiBinding', credentialsId: privateRegistryCredentialsId, usernameVariable: 'REGISTRY_USERNAME', passwordVariable: 'REGISTRY_PASSWORD']
+  ]) {
+    sh "echo \"\$REGISTRY_PASSWORD\" | docker login --username \"\$REGISTRY_USERNAME\" --password-stdin ${PrivateRegistryURL}"
+  }
   sh "docker buildx imagetools create -t ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
   sh "docker rmi ${DH_Account}/oai-${nf}:develop ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
   sh "docker logout ${PrivateRegistryURL}"
@@ -918,11 +921,13 @@ def generateAndArchiveReports() {
 
 // Multi-arch Ubuntu image build pushed to the private registry, optionally Trivy-scanned.
 def buildUbuntuImage() {
-  sh "docker image rm oai-${nf}:${nf_tag} || true"
-  sh "docker image rm ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
-  sh "docker image prune --force"
+  sh "docker image rm oai-${nf}:${nf_tag} ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
   def dockerBuildOptions = isPullRequest ? '' : '--no-cache '
-  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+  withCredentials([
+    [$class: 'UsernamePasswordMultiBinding', credentialsId: privateRegistryCredentialsId, usernameVariable: 'REGISTRY_USERNAME', passwordVariable: 'REGISTRY_PASSWORD']
+  ]) {
+    sh "echo \"\$REGISTRY_PASSWORD\" | docker login --username \"\$REGISTRY_USERNAME\" --password-stdin ${PrivateRegistryURL}"
+  }
   sh """
     docker buildx build ${dockerBuildOptions} \
       --target oai-${nf} \
@@ -935,17 +940,14 @@ def buildUbuntuImage() {
       --push . > archives/${nf}_ubuntu_image_build.log 2>&1
   """
   sh "docker image prune --force"
-  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
   sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
   sh "docker image inspect ${PrivateRegistryURL}/oai-${nf}:${nf_tag} | jq '.[0] | {RepoTags, Labels: .Config.Labels, DockerVersion}' >> archives/${nf}_ubuntu_image_build.log 2>&1"
   sh "docker images ${PrivateRegistryURL}/oai-${nf}:${nf_tag} >> archives/${nf}_ubuntu_image_build.log 2>&1"
   if (runTrivyScan) {
-    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
     sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${shortenShaOne}"
     sh "trivy image --exit-code 1 --severity MEDIUM,HIGH,CRITICAL --no-progress --format=template --template @./ci-scripts/common/html-templates/trivy_html.tpl --output archives/${nf}_multiarch_image_trivy_report.html oai-${nf}:${shortenShaOne} > /dev/null || true"
-    sh "docker rmi oai-${nf}:${shortenShaOne} || true"
   }
-  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} || true"
+  sh "docker rmi ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${shortenShaOne} || true"
   sh "docker logout ${PrivateRegistryURL}"
   sh "bash ./ci-scripts/common/bash/extract_arm_amd_logs.sh archives/${nf}_ubuntu_image_build.log"
 }
@@ -990,7 +992,11 @@ def runCodeFormattingChecker() {
 
 // Sanity checks
 def runSanityCheck() {
-  sh "docker login -u oaicicd -p oaicicd ${PrivateRegistryURL}"
+  withCredentials([
+    [$class: 'UsernamePasswordMultiBinding', credentialsId: privateRegistryCredentialsId, usernameVariable: 'REGISTRY_USERNAME', passwordVariable: 'REGISTRY_PASSWORD']
+  ]) {
+    sh "echo \"\$REGISTRY_PASSWORD\" | docker login --username \"\$REGISTRY_USERNAME\" --password-stdin ${PrivateRegistryURL}"
+  }
   sh "docker pull ${PrivateRegistryURL}/oai-${nf}:${nf_tag}"
   sh "docker image tag ${PrivateRegistryURL}/oai-${nf}:${nf_tag} oai-${nf}:${nf_tag}"
   sh "python3 ./ci-scripts/sanityCheckDeploy.py --tag oai-${nf}:${nf_tag}"
