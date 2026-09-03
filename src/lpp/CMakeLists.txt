@@ -6,6 +6,6 @@ file(GLOB LPP_src_files
 )   
 
 add_library(LPP STATIC ${LPP_src_files})
-add_definitions(-DASN_DISABLE_OER_SUPPORT)
+target_compile_definitions(LPP PUBLIC ASN_DISABLE_OER_SUPPORT)
 #add_definitions("-DASN_EMIT_DEBUG=1")
 #add_definitions("-DASN_THREAD_SAFE")
