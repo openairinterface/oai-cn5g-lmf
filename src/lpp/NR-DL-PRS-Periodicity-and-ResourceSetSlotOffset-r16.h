@@ -152,7 +152,7 @@ typedef struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * scs15_r16;
+    }* scs15_r16;
     struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs30_r16 {
       NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs30_r16_PR present;
       union NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs30_r16_u {
@@ -181,7 +181,7 @@ typedef struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * scs30_r16;
+    }* scs30_r16;
     struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs60_r16 {
       NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs60_r16_PR present;
       union NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs60_r16_u {
@@ -210,7 +210,7 @@ typedef struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * scs60_r16;
+    }* scs60_r16;
     struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs120_r16 {
       NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16__scs120_r16_PR
           present;
@@ -240,7 +240,7 @@ typedef struct NR_DL_PRS_Periodicity_and_ResourceSetSlotOffset_r16 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * scs120_r16;
+    }* scs120_r16;
     /*
      * This type is extensible,
      * possible extensions are below.

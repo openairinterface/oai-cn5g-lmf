@@ -33,7 +33,7 @@ typedef struct DL_SelectedPRS_ResourceSetIndex_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * dl_SelectedPRS_ResourceIndexList_r16;
+  }* dl_SelectedPRS_ResourceIndexList_r16;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

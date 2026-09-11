@@ -43,14 +43,14 @@ typedef struct QoS {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct QoS__ext2 {
     struct HorizontalAccuracyExt_r15* horizontalAccuracyExt_r15; /* OPTIONAL */
     struct VerticalAccuracyExt_r15* verticalAccuracyExt_r15;     /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

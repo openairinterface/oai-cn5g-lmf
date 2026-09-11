@@ -44,7 +44,7 @@ typedef struct MeasuredResultsElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct MeasuredResultsElement__ext2 {
     long* nrsrp_Result_r14;                             /* OPTIONAL */
     long* nrsrq_Result_r14;                             /* OPTIONAL */
@@ -53,14 +53,14 @@ typedef struct MeasuredResultsElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct MeasuredResultsElement__ext3 {
     long* rsrp_Result_v1470; /* OPTIONAL */
     long* rsrq_Result_v1470; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

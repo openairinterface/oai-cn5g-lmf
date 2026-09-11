@@ -52,13 +52,13 @@ typedef struct A_GNSS_ProvideCapabilities {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct A_GNSS_ProvideCapabilities__ext2 {
     BIT_STRING_t* periodicAssistanceData_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

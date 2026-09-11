@@ -45,7 +45,7 @@ typedef struct Sensor_AssistanceDataList_r14 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * period_v1520;
+    }* period_v1520;
     struct Sensor_AssistanceDataList_r14__ext1__area_v1520 {
       PressureValidityArea_v1520_t pressureValidityArea_v1520;
       long* gN_pressure_v1520; /* OPTIONAL */
@@ -57,11 +57,11 @@ typedef struct Sensor_AssistanceDataList_r14 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * area_v1520;
+    }* area_v1520;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

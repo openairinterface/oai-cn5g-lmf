@@ -440,8 +440,8 @@ LocationDetermination::positioning_information_request() {
 
   auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = initiatingMessage},
+          .present = NRPPA_PDU_PR_initiatingMessage,
+          .choice  = {.initiatingMessage = initiatingMessage},
   };
 
   this->positioning_information_response = {};
@@ -579,8 +579,8 @@ LocationDetermination::mmr_res LocationDetermination::measurement_request(
 
   auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = initiatingMessage},
+          .present = NRPPA_PDU_PR_initiatingMessage,
+          .choice  = {.initiatingMessage = initiatingMessage},
   };
 
   this->measurement_response = {};  // clear promise
@@ -681,7 +681,7 @@ LocationDetermination::positioning_activation_request() {
   // >Aperiodic
   auto aperiodicSRS = (AperiodicSRS_t*) malloc(sizeof(AperiodicSRS_t));
   *aperiodicSRS     = AperiodicSRS_t{
-      .aperiodic = AperiodicSRS__aperiodic_true,
+          .aperiodic = AperiodicSRS__aperiodic_true,
   };
   // CHOICE SRS type
   auto aperiodicSRS_ie = (PositioningActivationRequestIEs_t*) malloc(
@@ -739,8 +739,8 @@ LocationDetermination::positioning_activation_request() {
 #endif
   auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = initiatingMessage},
+          .present = NRPPA_PDU_PR_initiatingMessage,
+          .choice  = {.initiatingMessage = initiatingMessage},
   };
   this->positioning_activation_response = {};
   this->n1_n2_message_transfer(
@@ -792,8 +792,8 @@ bool LocationDetermination::positioning_deactivation_request() {
 
   auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice  = {.initiatingMessage = initiatingMessage},
+          .present = NRPPA_PDU_PR_initiatingMessage,
+          .choice  = {.initiatingMessage = initiatingMessage},
   };
 
   this->n1_n2_message_transfer(

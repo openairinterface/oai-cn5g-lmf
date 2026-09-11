@@ -141,7 +141,7 @@ typedef struct DL_PRS_ResourcesBandCombination_r16 {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * fr1_FR2Mix_r16;
+      }* fr1_FR2Mix_r16;
       /*
        * This type is extensible,
        * possible extensions are below.

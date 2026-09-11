@@ -944,7 +944,8 @@ select_OTDOA_Information_TypeIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOA_Information_TypeIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOA_Information_TypeIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -993,7 +994,8 @@ static asn_type_selector_result_t select_OTDOA_Information_TypeIEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOA_Information_TypeIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOA_Information_TypeIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1495,7 +1497,8 @@ select_MeasurementQuantities_ItemIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementQuantities_ItemIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1545,7 +1548,8 @@ select_MeasurementQuantities_ItemIEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementQuantities_ItemIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1620,7 +1624,8 @@ select_MeasuredResultsValue_ExtensionIE_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasuredResultsValue_ExtensionIE, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasuredResultsValue_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1670,7 +1675,8 @@ select_MeasuredResultsValue_ExtensionIE_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasuredResultsValue_ExtensionIE, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasuredResultsValue_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1807,7 +1813,9 @@ select_OTDOACell_Information_Item_ExtensionIE_criticality_type(
   size_t for_column          = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOACell_Information_Item_ExtensionIE, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OTDOACell_Information_Item_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1858,7 +1866,9 @@ select_OTDOACell_Information_Item_ExtensionIE_value_type(
   size_t for_column          = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOACell_Information_Item_ExtensionIE, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OTDOACell_Information_Item_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1933,7 +1943,9 @@ select_OtherRATMeasurementQuantities_ItemIEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OtherRATMeasurementQuantities_ItemIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1983,7 +1995,9 @@ select_OtherRATMeasurementQuantities_ItemIEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OtherRATMeasurementQuantities_ItemIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -2059,7 +2073,9 @@ select_OtherRATMeasuredResultsValue_ExtensionIE_criticality_type(
   size_t for_column          = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasuredResultsValue_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -2110,7 +2126,9 @@ select_OtherRATMeasuredResultsValue_ExtensionIE_value_type(
   size_t for_column          = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasuredResultsValue_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3283,7 +3301,8 @@ select_WLANMeasurementQuantities_ItemIEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3333,7 +3352,8 @@ select_WLANMeasurementQuantities_ItemIEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3408,7 +3428,9 @@ select_E_CIDMeasurementInitiationRequest_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementInitiationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementInitiationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3458,7 +3480,9 @@ select_E_CIDMeasurementInitiationRequest_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementInitiationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementInitiationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3534,7 +3558,9 @@ select_E_CIDMeasurementInitiationResponse_IEs_criticality_type(
   size_t for_column          = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementInitiationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementInitiationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3585,7 +3611,9 @@ select_E_CIDMeasurementInitiationResponse_IEs_value_type(
   size_t for_column          = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementInitiationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementInitiationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3660,7 +3688,9 @@ select_E_CIDMeasurementInitiationFailure_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementInitiationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementInitiationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3710,7 +3740,9 @@ select_E_CIDMeasurementInitiationFailure_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementInitiationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementInitiationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3785,7 +3817,9 @@ select_E_CIDMeasurementFailureIndication_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementFailureIndication_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementFailureIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3835,7 +3869,9 @@ select_E_CIDMeasurementFailureIndication_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementFailureIndication_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementFailureIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3910,7 +3946,8 @@ select_E_CIDMeasurementReport_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementReport_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct E_CIDMeasurementReport_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3959,7 +3996,8 @@ static asn_type_selector_result_t select_E_CIDMeasurementReport_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementReport_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct E_CIDMeasurementReport_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4035,7 +4073,9 @@ select_E_CIDMeasurementTerminationCommand_IEs_criticality_type(
   size_t for_column          = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementTerminationCommand_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementTerminationCommand_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4086,7 +4126,9 @@ select_E_CIDMeasurementTerminationCommand_IEs_value_type(
   size_t for_column          = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CIDMeasurementTerminationCommand_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct E_CIDMeasurementTerminationCommand_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4161,7 +4203,8 @@ select_OTDOAInformationRequest_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOAInformationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOAInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4210,7 +4253,8 @@ static asn_type_selector_result_t select_OTDOAInformationRequest_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOAInformationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOAInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4285,7 +4329,8 @@ select_OTDOAInformationResponse_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOAInformationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOAInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4335,7 +4380,8 @@ select_OTDOAInformationResponse_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOAInformationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOAInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4410,7 +4456,8 @@ select_OTDOAInformationFailure_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOAInformationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOAInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4459,7 +4506,8 @@ static asn_type_selector_result_t select_OTDOAInformationFailure_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct OTDOAInformationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct OTDOAInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4534,7 +4582,8 @@ select_AssistanceInformationControl_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct AssistanceInformationControl_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct AssistanceInformationControl_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4584,7 +4633,8 @@ select_AssistanceInformationControl_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct AssistanceInformationControl_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct AssistanceInformationControl_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4659,7 +4709,8 @@ select_AssistanceInformationFeedback_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct AssistanceInformationFeedback_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct AssistanceInformationFeedback_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4709,7 +4760,8 @@ select_AssistanceInformationFeedback_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct AssistanceInformationFeedback_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct AssistanceInformationFeedback_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4783,7 +4835,8 @@ static asn_type_selector_result_t select_ErrorIndication_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct ErrorIndication_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct ErrorIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4832,7 +4885,8 @@ static asn_type_selector_result_t select_ErrorIndication_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct ErrorIndication_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct ErrorIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4907,7 +4961,8 @@ select_PositioningInformationRequest_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4957,7 +5012,8 @@ select_PositioningInformationRequest_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5032,7 +5088,8 @@ select_PositioningInformationResponse_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5082,7 +5139,8 @@ select_PositioningInformationResponse_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5157,7 +5215,8 @@ select_PositioningInformationFailure_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5207,7 +5266,8 @@ select_PositioningInformationFailure_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5282,7 +5342,8 @@ select_PositioningInformationUpdate_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationUpdate_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationUpdate_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5332,7 +5393,8 @@ select_PositioningInformationUpdate_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningInformationUpdate_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningInformationUpdate_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5407,7 +5469,8 @@ select_MeasurementRequest_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5456,7 +5519,8 @@ static asn_type_selector_result_t select_MeasurementRequest_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5531,7 +5595,8 @@ select_MeasurementResponse_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5580,7 +5645,8 @@ static asn_type_selector_result_t select_MeasurementResponse_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5655,7 +5721,8 @@ select_MeasurementFailure_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5704,7 +5771,8 @@ static asn_type_selector_result_t select_MeasurementFailure_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5778,7 +5846,8 @@ static asn_type_selector_result_t select_MeasurementReport_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementReport_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementReport_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5827,7 +5896,8 @@ static asn_type_selector_result_t select_MeasurementReport_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementReport_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementReport_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5901,7 +5971,8 @@ static asn_type_selector_result_t select_MeasurementUpdate_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementUpdate_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementUpdate_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5950,7 +6021,8 @@ static asn_type_selector_result_t select_MeasurementUpdate_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementUpdate_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementUpdate_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6024,7 +6096,8 @@ static asn_type_selector_result_t select_MeasurementAbort_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementAbort_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementAbort_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6073,7 +6146,8 @@ static asn_type_selector_result_t select_MeasurementAbort_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementAbort_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementAbort_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6148,7 +6222,8 @@ select_MeasurementFailureIndication_IEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementFailureIndication_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailureIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6198,7 +6273,8 @@ select_MeasurementFailureIndication_IEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct MeasurementFailureIndication_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailureIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6273,7 +6349,8 @@ select_TRPInformationRequest_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct TRPInformationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6322,7 +6399,8 @@ static asn_type_selector_result_t select_TRPInformationRequest_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct TRPInformationRequest_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6397,7 +6475,8 @@ select_TRPInformationResponse_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct TRPInformationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6446,7 +6525,8 @@ static asn_type_selector_result_t select_TRPInformationResponse_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct TRPInformationResponse_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6521,7 +6601,8 @@ select_TRPInformationFailure_IEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct TRPInformationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6570,7 +6651,8 @@ static asn_type_selector_result_t select_TRPInformationFailure_IEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct TRPInformationFailure_IEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6645,7 +6727,8 @@ select_PositioningActivationRequestIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningActivationRequestIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationRequestIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6695,7 +6778,8 @@ select_PositioningActivationRequestIEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningActivationRequestIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationRequestIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6770,7 +6854,8 @@ select_PositioningActivationResponseIEs_criticality_type(
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningActivationResponseIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationResponseIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6820,7 +6905,8 @@ select_PositioningActivationResponseIEs_value_type(
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningActivationResponseIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationResponseIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6895,7 +6981,8 @@ select_PositioningActivationFailureIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningActivationFailureIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationFailureIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6945,7 +7032,8 @@ select_PositioningActivationFailureIEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningActivationFailureIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationFailureIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -7020,7 +7108,8 @@ select_PositioningDeactivationIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningDeactivationIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningDeactivationIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -7069,7 +7158,8 @@ static asn_type_selector_result_t select_PositioningDeactivationIEs_value_type(
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct PositioningDeactivationIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningDeactivationIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -11891,7 +11981,7 @@ static asn_TYPE_member_t asn_MBR_value_140[] = {
 };
 static const unsigned asn_MAP_value_to_canonical_140[] = {0, 1, 4, 2, 3, 5, 6};
 static const unsigned asn_MAP_value_from_canonical_140[]      = {0, 1, 3, 4,
-                                                            2, 5, 6};
+                                                                 2, 5, 6};
 static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_140[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2},  /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1}, /* UE-Measurement-ID */
@@ -14022,9 +14112,9 @@ static asn_TYPE_member_t asn_MBR_value_200[] = {
      "SlotNumber"},
 };
 static const unsigned asn_MAP_value_to_canonical_200[]        = {0, 8, 9, 6, 2,
-                                                          3, 7, 1, 4, 5};
+                                                                 3, 7, 1, 4, 5};
 static const unsigned asn_MAP_value_from_canonical_200[]      = {0, 7, 4, 5, 8,
-                                                            9, 3, 6, 1, 2};
+                                                                 9, 3, 6, 1, 2};
 static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_200[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2},  /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -1, 1}, /* SystemFrameNumber */

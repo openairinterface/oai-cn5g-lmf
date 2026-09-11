@@ -37,7 +37,7 @@ namespace oai::lmf::app {
 class lmf_app {
  public:
   explicit lmf_app(const std::string& config_file, lmf_event& ev);
-  lmf_app(lmf_app const&) = delete;
+  lmf_app(lmf_app const&)        = delete;
   void operator=(lmf_app const&) = delete;
 
   virtual ~lmf_app();

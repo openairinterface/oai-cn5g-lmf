@@ -68,11 +68,11 @@ typedef struct NetworkTime {
 
           /* Context for parsing across buffer boundaries */
           asn_struct_ctx_t _asn_ctx;
-        } * ext1;
+        }* ext1;
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * eUTRA;
+      }* eUTRA;
       struct NetworkTime__cellID__uTRA {
         struct NetworkTime__cellID__uTRA__mode {
           NetworkTime__cellID__uTRA__mode_PR present;
@@ -86,7 +86,7 @@ typedef struct NetworkTime {
 
               /* Context for parsing across buffer boundaries */
               asn_struct_ctx_t _asn_ctx;
-            } * fdd;
+            }* fdd;
             struct NetworkTime__cellID__uTRA__mode__tdd {
               long cellParameters;
               /*
@@ -96,7 +96,7 @@ typedef struct NetworkTime {
 
               /* Context for parsing across buffer boundaries */
               asn_struct_ctx_t _asn_ctx;
-            } * tdd;
+            }* tdd;
           } choice;
 
           /* Context for parsing across buffer boundaries */
@@ -111,7 +111,7 @@ typedef struct NetworkTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * uTRA;
+      }* uTRA;
       struct NetworkTime__cellID__gSM {
         long bcchCarrier;
         long bsic;
@@ -123,7 +123,7 @@ typedef struct NetworkTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * gSM;
+      }* gSM;
       /*
        * This type is extensible,
        * possible extensions are below.
@@ -139,7 +139,7 @@ typedef struct NetworkTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * nBIoT_r14;
+      }* nBIoT_r14;
       struct NetworkTime__cellID__nr_r15 {
         long nrPhysCellId_r15;
         struct NCGI_r15* nrCellGlobalID_r15; /* OPTIONAL */
@@ -151,7 +151,7 @@ typedef struct NetworkTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * nr_r15;
+      }* nr_r15;
     } choice;
 
     /* Context for parsing across buffer boundaries */

@@ -38,14 +38,14 @@ typedef struct GNSS_Almanac {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct GNSS_Almanac__ext2 {
     long* weekNumber_ext_r16; /* OPTIONAL */
     long* toa_ext2_r16;       /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

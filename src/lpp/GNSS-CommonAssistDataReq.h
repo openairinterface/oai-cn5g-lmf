@@ -46,14 +46,14 @@ typedef struct GNSS_CommonAssistDataReq {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct GNSS_CommonAssistDataReq__ext2 {
     struct GNSS_SSR_CorrectionPointsReq_r16*
         gnss_SSR_CorrectionPointsReq_r16; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

@@ -43,7 +43,7 @@ typedef struct NeighbourMeasurementElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct NeighbourMeasurementElement__ext2 {
     long* tpIdNeighbour_r14;                                      /* OPTIONAL */
     long* prsIdNeighbour_r14;                                     /* OPTIONAL */
@@ -54,13 +54,13 @@ typedef struct NeighbourMeasurementElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct NeighbourMeasurementElement__ext3 {
     long* delta_SFN_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

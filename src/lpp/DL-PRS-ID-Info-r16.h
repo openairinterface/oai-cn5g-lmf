@@ -31,7 +31,7 @@ typedef struct DL_PRS_ID_Info_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * nr_DL_PRS_ResourceID_List_r16;
+  }* nr_DL_PRS_ResourceID_List_r16;
   NR_DL_PRS_ResourceSetID_r16_t* nr_DL_PRS_ResourceSetID_r16; /* OPTIONAL */
 
   /* Context for parsing across buffer boundaries */

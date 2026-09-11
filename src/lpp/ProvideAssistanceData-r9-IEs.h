@@ -53,7 +53,7 @@ typedef struct ProvideAssistanceData_r9_IEs {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct ProvideAssistanceData_r9_IEs__ext2 {
     struct NR_Multi_RTT_ProvideAssistanceData_r16*
         nr_Multi_RTT_ProvideAssistanceData_r16; /* OPTIONAL */
@@ -64,7 +64,7 @@ typedef struct ProvideAssistanceData_r9_IEs {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
