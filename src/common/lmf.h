@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <cstdint>
 
 #define HEART_BEAT_TIMER 10
 #define NRF_REGISTRATION_RETRY_TIMER 5
