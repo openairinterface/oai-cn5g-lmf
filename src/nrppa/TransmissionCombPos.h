@@ -42,21 +42,21 @@ typedef struct TransmissionCombPos {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * n2;
+    }* n2;
     struct TransmissionCombPos__n4 {
       long combOffset_n4;
       long cyclicShift_n4;
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * n4;
+    }* n4;
     struct TransmissionCombPos__n8 {
       long combOffset_n8;
       long cyclicShift_n8;
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * n8;
+    }* n8;
     struct ProtocolIE_Single_Container* choice_extension;
   } choice;
 

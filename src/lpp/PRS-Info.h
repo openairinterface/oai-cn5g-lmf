@@ -108,7 +108,7 @@ typedef struct PRS_Info {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * prs_MutingInfo_r9;
+  }* prs_MutingInfo_r9;
   struct PRS_Info__ext1 {
     long* prsID_r14;            /* OPTIONAL */
     long* add_numDL_Frames_r14; /* OPTIONAL */
@@ -122,16 +122,16 @@ typedef struct PRS_Info {
 
           /* Context for parsing across buffer boundaries */
           asn_struct_ctx_t _asn_ctx;
-        } * nb4_r14;
+        }* nb4_r14;
       } choice;
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * prsHoppingInfo_r14;
+    }* prsHoppingInfo_r14;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

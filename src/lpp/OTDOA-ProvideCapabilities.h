@@ -111,13 +111,13 @@ typedef struct OTDOA_ProvideCapabilities {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * supportedBandListEUTRA;
+  }* supportedBandListEUTRA;
   struct OTDOA_ProvideCapabilities__supportedBandListEUTRA_v9a0 {
     A_SEQUENCE_OF(struct SupportedBandEUTRA_v9a0) list;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * supportedBandListEUTRA_v9a0;
+  }* supportedBandListEUTRA_v9a0;
   long* interFreqRSTDmeasurement_r10;        /* OPTIONAL */
   long* additionalNeighbourCellInfoList_r10; /* OPTIONAL */
   long* prs_id_r14;                          /* OPTIONAL */

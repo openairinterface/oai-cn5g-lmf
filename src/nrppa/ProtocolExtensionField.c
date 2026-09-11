@@ -125,7 +125,8 @@ select_SemipersistentSRS_ExtIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct SemipersistentSRS_ExtIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct SemipersistentSRS_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -175,7 +176,8 @@ select_SemipersistentSRS_ExtIEs_extensionValue_type(
   size_t for_column                 = 2; /* &Extension */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct SemipersistentSRS_ExtIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct SemipersistentSRS_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1104,7 +1106,8 @@ select_E_CID_MeasurementResult_ExtIEs_criticality_type(
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CID_MeasurementResult_ExtIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct E_CID_MeasurementResult_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1154,7 +1157,8 @@ select_E_CID_MeasurementResult_ExtIEs_extensionValue_type(
   size_t for_column                 = 2; /* &Extension */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct E_CID_MeasurementResult_ExtIEs, id));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct E_CID_MeasurementResult_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =

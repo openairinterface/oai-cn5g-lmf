@@ -332,8 +332,8 @@ asn_TYPE_operation_t asn_OP_SEQUENCE_OF = {
     0,
     0,
 #else
-    SEQUENCE_OF_decode_oer,  /* Same as SET OF decoder. */
-    SEQUENCE_OF_encode_oer,  /* Same as SET OF encoder */
+    SEQUENCE_OF_decode_oer, /* Same as SET OF decoder. */
+    SEQUENCE_OF_encode_oer, /* Same as SET OF encoder */
 #endif /* ASN_DISABLE_OER_SUPPORT */
 #ifdef ASN_DISABLE_PER_SUPPORT
     0,

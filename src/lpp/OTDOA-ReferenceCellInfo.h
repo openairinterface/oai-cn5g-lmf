@@ -78,7 +78,7 @@ typedef struct OTDOA_ReferenceCellInfo {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct OTDOA_ReferenceCellInfo__ext2 {
     long* tpId_r14;                    /* OPTIONAL */
     long* cpLengthCRS_r14;             /* OPTIONAL */
@@ -89,24 +89,24 @@ typedef struct OTDOA_ReferenceCellInfo {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * addPRSconfigRef_r14;
+    }* addPRSconfigRef_r14;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct OTDOA_ReferenceCellInfo__ext3 {
     long* nr_LTE_SFN_Offset_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
   struct OTDOA_ReferenceCellInfo__ext4 {
     struct TDD_Config_v1520* tdd_config_v1520; /* OPTIONAL */
     long* nr_LTE_fineTiming_Offset_r15;        /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext4;
+  }* ext4;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

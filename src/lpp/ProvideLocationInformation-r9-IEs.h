@@ -60,7 +60,7 @@ typedef struct ProvideLocationInformation_r9_IEs {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct ProvideLocationInformation_r9_IEs__ext2 {
     struct NR_ECID_ProvideLocationInformation_r16*
         nr_ECID_ProvideLocationInformation_r16; /* OPTIONAL */
@@ -73,7 +73,7 @@ typedef struct ProvideLocationInformation_r9_IEs {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

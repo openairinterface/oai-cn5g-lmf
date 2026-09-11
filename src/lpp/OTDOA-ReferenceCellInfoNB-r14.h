@@ -56,13 +56,13 @@ typedef struct OTDOA_ReferenceCellInfoNB_r14 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct OTDOA_ReferenceCellInfoNB_r14__ext2 {
     struct TDD_Config_v1520* tdd_config_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

@@ -31,7 +31,7 @@ typedef struct WLAN_ProvideAssistanceData_r14 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * wlan_DataSet_r14;
+  }* wlan_DataSet_r14;
   struct WLAN_Error_r13* wlan_Error_r14; /* OPTIONAL */
   /*
    * This type is extensible,

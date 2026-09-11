@@ -33,7 +33,7 @@ typedef struct MBS_BeaconMeasElement_r13 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

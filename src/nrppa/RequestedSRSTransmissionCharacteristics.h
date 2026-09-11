@@ -48,7 +48,7 @@ typedef struct RequestedSRSTransmissionCharacteristics {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * listOfSRSResourceSet;
+  }* listOfSRSResourceSet;
   struct SSBInfo* sSBInformation;                   /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*

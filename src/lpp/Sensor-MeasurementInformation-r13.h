@@ -35,17 +35,17 @@ typedef struct Sensor_MeasurementInformation_r13 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * uncertainty_r14;
+    }* uncertainty_r14;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct Sensor_MeasurementInformation_r13__ext2 {
     long* adjustment_r16; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

@@ -53,7 +53,7 @@ typedef struct ECID_ProvideCapabilities {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct ECID_ProvideCapabilities__ext2 {
     long* periodicalReporting_r14;      /* OPTIONAL */
     long* triggeredReporting_r14;       /* OPTIONAL */
@@ -61,7 +61,7 @@ typedef struct ECID_ProvideCapabilities {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

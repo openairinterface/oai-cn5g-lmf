@@ -32,7 +32,7 @@ typedef struct DL_PRS_ResourceSets_TRP_Element_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * dl_PRS_Resource_ARP_List_r16;
+  }* dl_PRS_Resource_ARP_List_r16;
   /*
    * This type is extensible,
    * possible extensions are below.

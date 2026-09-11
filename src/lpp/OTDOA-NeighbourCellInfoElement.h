@@ -86,7 +86,7 @@ typedef struct OTDOA_NeighbourCellInfoElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct OTDOA_NeighbourCellInfoElement__ext2 {
     long* tpId_r14;                          /* OPTIONAL */
     long* prs_only_tp_r14;                   /* OPTIONAL */
@@ -98,17 +98,17 @@ typedef struct OTDOA_NeighbourCellInfoElement {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * addPRSconfigNeighbour_r14;
+    }* addPRSconfigNeighbour_r14;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct OTDOA_NeighbourCellInfoElement__ext3 {
     struct TDD_Config_v1520* tdd_config_v1520; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

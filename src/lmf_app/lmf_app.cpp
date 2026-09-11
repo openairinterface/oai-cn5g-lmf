@@ -141,10 +141,10 @@ void lmf_app::trp_information_request(
 
   auto nrppaPdu = (NRPPA_PDU_t*) malloc(sizeof(NRPPA_PDU_t));
   *nrppaPdu     = NRPPA_PDU_t{
-      .present = NRPPA_PDU_PR_initiatingMessage,
-      .choice =
-          {
-              .initiatingMessage = initiatingMessage,
+          .present = NRPPA_PDU_PR_initiatingMessage,
+          .choice =
+              {
+                  .initiatingMessage = initiatingMessage,
           },
   };
 
