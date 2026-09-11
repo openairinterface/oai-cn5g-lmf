@@ -47,14 +47,14 @@ typedef struct DL_PRS_QCL_Info_r16 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * ssb_r16;
+    }* ssb_r16;
     struct DL_PRS_QCL_Info_r16__dl_PRS_r16 {
       NR_DL_PRS_ResourceID_r16_t qcl_DL_PRS_ResourceID_r16;
       NR_DL_PRS_ResourceSetID_r16_t qcl_DL_PRS_ResourceSetID_r16;
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * dl_PRS_r16;
+    }* dl_PRS_r16;
   } choice;
 
   /* Context for parsing across buffer boundaries */

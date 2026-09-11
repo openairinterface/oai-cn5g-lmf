@@ -47,7 +47,7 @@ typedef struct NR_DL_TDOA_LocationInformation_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * measurementReferenceTime_r16;
+  }* measurementReferenceTime_r16;
   /*
    * This type is extensible,
    * possible extensions are below.

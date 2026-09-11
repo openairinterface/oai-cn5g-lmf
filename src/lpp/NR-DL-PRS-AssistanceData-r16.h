@@ -39,7 +39,7 @@ typedef struct NR_DL_PRS_AssistanceData_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * nr_SSB_Config_r16;
+  }* nr_SSB_Config_r16;
   /*
    * This type is extensible,
    * possible extensions are below.

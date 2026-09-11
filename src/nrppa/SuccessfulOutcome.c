@@ -254,7 +254,8 @@ static asn_type_selector_result_t select_SuccessfulOutcome_criticality_type(
   size_t for_column                 = 4; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct SuccessfulOutcome, procedureCode));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct SuccessfulOutcome, procedureCode));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -303,7 +304,8 @@ static asn_type_selector_result_t select_SuccessfulOutcome_value_type(
   size_t for_column                 = 1; /* &SuccessfulOutcome */
   size_t row, presence_index = 0;
   const long* constraining_value =
-      (const long*) ((const char*) parent_sptr + offsetof(struct SuccessfulOutcome, procedureCode));
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct SuccessfulOutcome, procedureCode));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =

@@ -65,7 +65,7 @@ typedef struct MeasurementReferenceTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * eUTRA;
+      }* eUTRA;
       struct MeasurementReferenceTime__networkTime__uTRA {
         struct MeasurementReferenceTime__networkTime__uTRA__mode {
           MeasurementReferenceTime__networkTime__uTRA__mode_PR present;
@@ -79,7 +79,7 @@ typedef struct MeasurementReferenceTime {
 
               /* Context for parsing across buffer boundaries */
               asn_struct_ctx_t _asn_ctx;
-            } * fdd;
+            }* fdd;
             struct MeasurementReferenceTime__networkTime__uTRA__mode__tdd {
               long cellParameters;
               /*
@@ -89,7 +89,7 @@ typedef struct MeasurementReferenceTime {
 
               /* Context for parsing across buffer boundaries */
               asn_struct_ctx_t _asn_ctx;
-            } * tdd;
+            }* tdd;
           } choice;
 
           /* Context for parsing across buffer boundaries */
@@ -104,7 +104,7 @@ typedef struct MeasurementReferenceTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * uTRA;
+      }* uTRA;
       struct MeasurementReferenceTime__networkTime__gSM {
         long bcchCarrier;
         long bsic;
@@ -128,7 +128,7 @@ typedef struct MeasurementReferenceTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * gSM;
+      }* gSM;
       /*
        * This type is extensible,
        * possible extensions are below.
@@ -145,7 +145,7 @@ typedef struct MeasurementReferenceTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * nbIoT_r14;
+      }* nbIoT_r14;
       struct MeasurementReferenceTime__networkTime__nr_r15 {
         long nrPhysCellId_r15;
         struct NCGI_r15* nrCellGlobalID_r15; /* OPTIONAL */
@@ -157,12 +157,12 @@ typedef struct MeasurementReferenceTime {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * nr_r15;
+      }* nr_r15;
     } choice;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * networkTime;
+  }* networkTime;
   /*
    * This type is extensible,
    * possible extensions are below.

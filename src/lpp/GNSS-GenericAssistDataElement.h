@@ -72,7 +72,7 @@ typedef struct GNSS_GenericAssistDataElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct GNSS_GenericAssistDataElement__ext2 {
     struct GNSS_RTK_Observations_r15* gnss_RTK_Observations_r15; /* OPTIONAL */
     struct GLO_RTK_BiasInformation_r15*
@@ -90,7 +90,7 @@ typedef struct GNSS_GenericAssistDataElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct GNSS_GenericAssistDataElement__ext3 {
     struct GNSS_SSR_URA_r16* gnss_SSR_URA_r16;             /* OPTIONAL */
     struct GNSS_SSR_PhaseBias_r16* gnss_SSR_PhaseBias_r16; /* OPTIONAL */
@@ -104,7 +104,7 @@ typedef struct GNSS_GenericAssistDataElement {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

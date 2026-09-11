@@ -83,11 +83,11 @@ typedef struct LPP_MessageBody {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * c1;
+    }* c1;
     struct LPP_MessageBody__messageClassExtension {
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * messageClassExtension;
+    }* messageClassExtension;
   } choice;
 
   /* Context for parsing across buffer boundaries */

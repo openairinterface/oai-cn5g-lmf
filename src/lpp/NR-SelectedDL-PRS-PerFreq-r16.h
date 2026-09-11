@@ -32,7 +32,7 @@ typedef struct NR_SelectedDL_PRS_PerFreq_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * nr_SelectedDL_PRS_IndexListPerFreq_r16;
+  }* nr_SelectedDL_PRS_IndexListPerFreq_r16;
   /*
    * This type is extensible,
    * possible extensions are below.

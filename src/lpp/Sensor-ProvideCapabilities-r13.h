@@ -56,19 +56,19 @@ typedef struct Sensor_ProvideCapabilities_r13 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct Sensor_ProvideCapabilities_r13__ext2 {
     long* sensor_MotionInformationSup_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct Sensor_ProvideCapabilities_r13__ext3 {
     long* adjustmentSupported_r16; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

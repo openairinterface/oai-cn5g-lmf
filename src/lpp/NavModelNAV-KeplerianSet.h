@@ -55,7 +55,7 @@ typedef struct NavModelNAV_KeplerianSet {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * addNAVparam;
+  }* addNAVparam;
   /*
    * This type is extensible,
    * possible extensions are below.

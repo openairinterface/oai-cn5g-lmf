@@ -41,20 +41,20 @@ typedef struct CommonIEsProvideLocationInformation {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct CommonIEsProvideLocationInformation__ext2 {
     LocationSource_r13_t* locationSource_r13; /* OPTIONAL */
     UTCTime_t* locationTimestamp_r13;         /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct CommonIEsProvideLocationInformation__ext3 {
     SegmentationInfo_r14_t* segmentationInfo_r14; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

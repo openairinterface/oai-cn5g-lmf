@@ -71,7 +71,7 @@ typedef struct NR_SSB_Config_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ssb_PositionsInBurst_r16;
+  }* ssb_PositionsInBurst_r16;
   long ssb_SubcarrierSpacing_r16;
   long sfn_SSB_Offset_r16;
   /*

@@ -41,14 +41,14 @@ typedef struct TransmissionComb {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * n2;
+    }* n2;
     struct TransmissionComb__n4 {
       long combOffset_n4;
       long cyclicShift_n4;
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * n4;
+    }* n4;
     struct ProtocolIE_Single_Container* choice_extension;
   } choice;
 
