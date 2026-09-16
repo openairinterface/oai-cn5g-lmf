@@ -38,13 +38,13 @@ typedef struct WLAN_RequestAssistanceData_r14 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * visibleAPs_r14;
+  }* visibleAPs_r14;
   struct WLAN_RequestAssistanceData_r14__wlan_AP_StoredData_r14 {
     A_SEQUENCE_OF(struct WLAN_AP_Identifier_r13) list;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * wlan_AP_StoredData_r14;
+  }* wlan_AP_StoredData_r14;
   /*
    * This type is extensible,
    * possible extensions are below.

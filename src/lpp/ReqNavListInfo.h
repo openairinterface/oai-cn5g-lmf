@@ -31,13 +31,13 @@ typedef struct ReqNavListInfo {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * clockModelID_PrefList;
+  }* clockModelID_PrefList;
   struct ReqNavListInfo__orbitModelID_PrefList {
     A_SEQUENCE_OF(long) list;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * orbitModelID_PrefList;
+  }* orbitModelID_PrefList;
   BOOLEAN_t* addNavparamReq; /* OPTIONAL */
   /*
    * This type is extensible,

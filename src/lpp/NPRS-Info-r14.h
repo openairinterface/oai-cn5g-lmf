@@ -152,7 +152,7 @@ typedef struct NPRS_Info_r14 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * nprs_MutingInfoA_r14;
+    }* nprs_MutingInfoA_r14;
     /*
      * This type is extensible,
      * possible extensions are below.
@@ -160,7 +160,7 @@ typedef struct NPRS_Info_r14 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * partA_r14;
+  }* partA_r14;
   struct NPRS_Info_r14__partB_r14 {
     long nprs_Period_r14;
     long nprs_startSF_r14;
@@ -180,7 +180,7 @@ typedef struct NPRS_Info_r14 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * nprs_MutingInfoB_r14;
+    }* nprs_MutingInfoB_r14;
     /*
      * This type is extensible,
      * possible extensions are below.
@@ -190,11 +190,11 @@ typedef struct NPRS_Info_r14 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * ext1;
+    }* ext1;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * partB_r14;
+  }* partB_r14;
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -230,7 +230,7 @@ typedef struct NPRS_Info_r14 {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * nprs_MutingInfoA_r15;
+      }* nprs_MutingInfoA_r15;
       /*
        * This type is extensible,
        * possible extensions are below.
@@ -238,11 +238,11 @@ typedef struct NPRS_Info_r14 {
 
       /* Context for parsing across buffer boundaries */
       asn_struct_ctx_t _asn_ctx;
-    } * partA_TDD_r15;
+    }* partA_TDD_r15;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

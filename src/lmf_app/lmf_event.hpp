@@ -16,8 +16,8 @@ namespace oai::lmf::app {
 class task_manager;
 class lmf_event {
  public:
-  lmf_event(){};
-  lmf_event(lmf_event const&) = delete;
+  lmf_event() {};
+  lmf_event(lmf_event const&)      = delete;
   void operator=(lmf_event const&) = delete;
 
   static lmf_event& get_instance() {

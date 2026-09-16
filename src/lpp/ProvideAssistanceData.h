@@ -55,12 +55,12 @@ typedef struct ProvideAssistanceData {
 
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * c1;
+      }* c1;
       struct
           ProvideAssistanceData__criticalExtensions__criticalExtensionsFuture {
         /* Context for parsing across buffer boundaries */
         asn_struct_ctx_t _asn_ctx;
-      } * criticalExtensionsFuture;
+      }* criticalExtensionsFuture;
     } choice;
 
     /* Context for parsing across buffer boundaries */

@@ -47,7 +47,7 @@ typedef struct OTDOA_SignalMeasurementInformation {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct OTDOA_SignalMeasurementInformation__ext2 {
     long* tpIdRef_r14;                                      /* OPTIONAL */
     long* prsIdRef_r14;                                     /* OPTIONAL */
@@ -58,13 +58,13 @@ typedef struct OTDOA_SignalMeasurementInformation {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct OTDOA_SignalMeasurementInformation__ext3 {
     struct MotionTimeSource_r15* motionTimeSource_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

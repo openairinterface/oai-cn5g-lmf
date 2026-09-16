@@ -42,13 +42,13 @@ typedef struct OTDOA_RequestLocationInformation {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct OTDOA_RequestLocationInformation__ext2 {
     long* motionMeasurements_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

@@ -19,7 +19,7 @@ using namespace oai::common::sbi;
 class lmf_config {
  public:
   lmf_config();
-  virtual ~lmf_config(){};
+  virtual ~lmf_config() {};
 
   unsigned int instance               = 1;
   std::string pid_dir                 = "/var/run";

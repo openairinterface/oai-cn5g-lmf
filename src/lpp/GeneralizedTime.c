@@ -146,8 +146,7 @@ static long GMTOFF(struct tm a) {
     tzset();                                                                   \
   } while (0);                                                                 \
   }                                                                            \
-  while (0)                                                                    \
-    ;
+  while (0);
 
 #ifndef HAVE_TIMEGM
 #ifdef _EMULATE_TIMEGM
@@ -722,8 +721,7 @@ GeneralizedTime_t* asn_time2GT_frac(
       fbase /= 10;
     } while (fbase > 0 && frac_value > 0 && z < end);
     if (z) {
-      for (--z; *z == 0x30; --z)
-        ; /* Strip zeroes */
+      for (--z; *z == 0x30; --z); /* Strip zeroes */
       p    = z + (*z != '.');
       size = p - buf;
     }

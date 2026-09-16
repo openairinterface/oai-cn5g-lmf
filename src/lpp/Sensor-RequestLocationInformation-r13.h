@@ -31,19 +31,19 @@ typedef struct Sensor_RequestLocationInformation_r13 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct Sensor_RequestLocationInformation_r13__ext2 {
     BOOLEAN_t* sensor_MotionInformationReq_r15; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
   struct Sensor_RequestLocationInformation_r13__ext3 {
     BOOLEAN_t* adjustmentReq_r16; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext3;
+  }* ext3;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

@@ -16,7 +16,7 @@
 #include <pistache/router.h>
 #include <memory>
 
-#include <pistache/optional.h>
+#include <optional>
 
 #include "N2InfoNotifyApi.h"
 #include "ProblemDetails.h"

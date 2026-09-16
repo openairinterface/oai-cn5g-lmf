@@ -49,13 +49,13 @@ typedef struct CommonIEsRequestLocationInformation {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct CommonIEsRequestLocationInformation__ext2 {
     SegmentationInfo_r14_t* segmentationInfo_r14; /* OPTIONAL */
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

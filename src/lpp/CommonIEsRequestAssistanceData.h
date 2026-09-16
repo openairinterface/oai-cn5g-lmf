@@ -36,7 +36,7 @@ typedef struct CommonIEsRequestAssistanceData {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext1;
+  }* ext1;
   struct CommonIEsRequestAssistanceData__ext2 {
     struct PeriodicAssistanceDataControlParameters_r15*
         periodicAssistanceDataReq_r15;  /* OPTIONAL */
@@ -44,7 +44,7 @@ typedef struct CommonIEsRequestAssistanceData {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * ext2;
+  }* ext2;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;

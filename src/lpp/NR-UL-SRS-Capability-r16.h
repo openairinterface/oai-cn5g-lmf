@@ -64,7 +64,7 @@ typedef struct NR_UL_SRS_Capability_r16 {
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } * srs_PosResourceConfigCA_BandList_r16;
+  }* srs_PosResourceConfigCA_BandList_r16;
   long* maxNumberSRS_PosPathLossEstimateAllServingCells_r16; /* OPTIONAL */
   long* maxNumberSRS_PosSpatialRelationsAllServingCells_r16; /* OPTIONAL */
   /*
