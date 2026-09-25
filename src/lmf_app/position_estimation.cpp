@@ -3,19 +3,15 @@
  *
  * 3D linear least-squares TDOA position estimation (x, y, z, r0).
  *
- * Replaces the original position_estimation.cpp. NOTE: the signature changed —
- * pos_est is now double[3] (was double[2]). Update position_estimation.hpp and
- * the one call site in lmf_location_determination.cpp accordingly (see notes).
+ * Why 3D: when TRPs sit at differing heights, the measured UL-RTOA delays are
+ * true 3D path lengths. Solving in 2D is internally inconsistent and leaves a
+ * residual on the order of the TRP height spread even with perfect timing;
+ * solving in 3D removes it.
  *
- * Why 3D: the EURECOM TRPs sit at two heights (z = 1.7 m and 12.5 m) and the
- * measured UL-RTOA delays are true 3D path lengths. Solving in 2D (the original
- * behaviour) is internally inconsistent and leaves a ~1.7 m residual even with
- * perfect timing; solving in 3D removes it.
- *
- * Correct linear TDOA equation, reference TRP index 0, d_i = r_i - r_0:
+ * Linear TDOA equation, reference TRP index 0, d_i = r_i - r_0:
  *   2(xi-x0)x + 2(yi-y0)y + 2(zi-z0)z + 2 d_i r0
  *        = (xi^2-x0^2)+(yi^2-y0^2)+(zi^2-z0^2) - d_i^2
- * Unknowns: x, y, z, r0  ->  need >= 5 TRPs. EURECOM has 8 (7 equations). OK.
+ * Unknowns: x, y, z, r0 -> requires at least 5 TRPs (4 equations).
  *
  * Units: trp_pos and dd_estimated must share a length unit. The LMF caller
  * normalizes TRP coordinates to metres (any xYZunit) and uses c = 0.3 m/ns,
