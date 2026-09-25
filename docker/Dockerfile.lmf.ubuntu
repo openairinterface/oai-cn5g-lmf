@@ -24,6 +24,8 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
       psmisc \
       git \
+      cmake \
+      build-essential \
       liblapacke-dev \
       libopenblas-dev \
   && rm -rf /var/lib/apt/lists/*
