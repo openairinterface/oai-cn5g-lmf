@@ -17,27 +17,17 @@
  *        = (xi^2-x0^2)+(yi^2-y0^2)+(zi^2-z0^2) - d_i^2
  * Unknowns: x, y, z, r0  ->  need >= 5 TRPs. EURECOM has 8 (7 equations). OK.
  *
- * Units: trp_pos and dd_estimated must share a length unit. In the LMF path
- * both are centimetres (Units=cm, c = 30.0 cm/ns), so output is in cm.
+ * Units: trp_pos and dd_estimated must share a length unit. The LMF caller
+ * normalizes TRP coordinates to metres (any xYZunit) and uses c = 0.3 m/ns,
+ * so output is in metres.
  */
 
 #include "position_estimation.hpp"
 #include <cmath>
 #include <cstdio>
-#include <cstring>
 #include <vector>
 #include <lapacke.h>
 
-int inverse_matrix(double A[2][2], double A_inv[2][2]) {
-  constexpr int n = 2, lda = n;
-  std::memcpy(A_inv, A, sizeof(double) * n * n);
-  int ipiv[2];
-  int info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, n, n, &A_inv[0][0], lda, ipiv);
-  if (info != 0) { std::printf("dgetrf info=%d\n", info); return -1; }
-  info = LAPACKE_dgetri(LAPACK_ROW_MAJOR, n, &A_inv[0][0], lda, ipiv);
-  if (info != 0) { std::printf("dgetri info=%d\n", info); return -1; }
-  return 0;
-}
 
 // 3D TDOA least squares. dd_estimated[i] = r_{i+1} - r_0 (reference = TRP 0).
 void lls_estimation(
