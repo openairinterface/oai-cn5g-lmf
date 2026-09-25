@@ -7,7 +7,6 @@
 extern "C" {
 #endif
 
-int inverse_matrix(double A[2][2], double A_inv[2][2]);
 
 /* NOTE: pos_est is now double[3] (x, y, z). */
 void lls_estimation(
