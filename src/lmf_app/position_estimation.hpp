@@ -7,7 +7,6 @@
 extern "C" {
 #endif
 
-
 /* NOTE: pos_est is now double[3] (x, y, z). */
 void lls_estimation(
     double trp_pos[][3], int trp_pos_size, double dd_estimated[],

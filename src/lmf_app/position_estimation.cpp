@@ -24,7 +24,6 @@
 #include <vector>
 #include <lapacke.h>
 
-
 // 3D TDOA least squares. dd_estimated[i] = r_{i+1} - r_0 (reference = TRP 0).
 void lls_estimation(
     double trp_pos[][3], int trp_pos_size, double dd_estimated[],
@@ -46,21 +45,23 @@ void lls_estimation(
   const double x0 = trp_pos[0][0], y0 = trp_pos[0][1], z0 = trp_pos[0][2];
 
   std::vector<double> A(static_cast<size_t>(m) * n, 0.0);
-  std::vector<double> b(static_cast<size_t>(m > n ? m : n), 0.0);  // dgels needs max(m,n)
+  std::vector<double> b(
+      static_cast<size_t>(m > n ? m : n), 0.0);  // dgels needs max(m,n)
 
   for (int i = 1; i < trp_pos_size; ++i) {
     const double xi = trp_pos[i][0], yi = trp_pos[i][1], zi = trp_pos[i][2];
     const double di = dd_estimated[i - 1];
-    const int    r  = i - 1;
-    A[r * n + 0] = 2.0 * (xi - x0);
-    A[r * n + 1] = 2.0 * (yi - y0);
-    A[r * n + 2] = 2.0 * (zi - z0);
-    A[r * n + 3] = 2.0 * di;
-    b[r] = (xi*xi - x0*x0) + (yi*yi - y0*y0) + (zi*zi - z0*z0) - di*di;
+    const int r     = i - 1;
+    A[r * n + 0]    = 2.0 * (xi - x0);
+    A[r * n + 1]    = 2.0 * (yi - y0);
+    A[r * n + 2]    = 2.0 * (zi - z0);
+    A[r * n + 3]    = 2.0 * di;
+    b[r] = (xi * xi - x0 * x0) + (yi * yi - y0 * y0) + (zi * zi - z0 * z0) -
+           di * di;
   }
 
-  int info = LAPACKE_dgels(
-      LAPACK_ROW_MAJOR, 'N', m, n, 1, A.data(), n, b.data(), 1);
+  int info =
+      LAPACKE_dgels(LAPACK_ROW_MAJOR, 'N', m, n, 1, A.data(), n, b.data(), 1);
   if (info != 0) {
     std::printf("LLS(3D) dgels failed: info=%d (degenerate geometry?)\n", info);
     return;
@@ -69,6 +70,7 @@ void lls_estimation(
   pos_est[0] = b[0];  // x
   pos_est[1] = b[1];  // y
   pos_est[2] = b[2];  // z
-  std::printf("[pos_est] x=%.3f y=%.3f z=%.3f r0=%.3f (TRP position units)\n",
-              b[0], b[1], b[2], b[3]);
+  std::printf(
+      "[pos_est] x=%.3f y=%.3f z=%.3f r0=%.3f (TRP position units)\n", b[0],
+      b[1], b[2], b[3]);
 }
