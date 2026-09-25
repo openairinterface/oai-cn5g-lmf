@@ -978,7 +978,7 @@ nlohmann::json LocationDetermination::compute_location(
   j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
   j["localLocationEstimate"]["point"]["x"]                      = pos_est[0];
   j["localLocationEstimate"]["point"]["y"]                      = pos_est[1];
-  j["localLocationEstimate"]["point"]["z"]                      = pos_est[2];
+  j["localLocationEstimate"]["point"]["z"]                      = 1.5;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
