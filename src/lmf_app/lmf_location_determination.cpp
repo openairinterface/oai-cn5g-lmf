@@ -934,7 +934,7 @@ nlohmann::json LocationDetermination::compute_location(
   }
 
   // Estimated position array
-  double pos_est[2]     = {0.0, 0.0};
+  double pos_est[3]     = {0.0, 0.0, 0.0};
   int dd_estimated_size = sizeof(dd_estimated) / sizeof(dd_estimated[0]);
   // Perform LLS to estimate position
   try {
@@ -942,7 +942,8 @@ nlohmann::json LocationDetermination::compute_location(
         trp_pos_array, trp_pos.size(), dd_estimated, dd_estimated_size,
         pos_est);
     std::cout << "[pos_est] Estimated Position: x = " << pos_est[0]
-              << ", y = " << pos_est[1] << std::endl;
+              << ", y = " << pos_est[1] << ", z = " << pos_est[2] << " (metres)"
+              << std::endl;
   } catch (const std::exception& e) {
     Logger::lmf_app().error("Error in LLS estimation: %s", e.what());
     return nlohmann::json{
@@ -977,7 +978,7 @@ nlohmann::json LocationDetermination::compute_location(
   j["localLocationEstimate"]["localOrigin"]["point"]["lat"]     = 90;
   j["localLocationEstimate"]["point"]["x"]                      = pos_est[0];
   j["localLocationEstimate"]["point"]["y"]                      = pos_est[1];
-  j["localLocationEstimate"]["point"]["z"]                      = 1.5;
+  j["localLocationEstimate"]["point"]["z"]                      = pos_est[2];
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMajor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["semiMinor"] = 0;
   j["localLocationEstimate"]["uncertaintyEllipse"]["orientationMajor"] = 180;
