@@ -145,7 +145,7 @@ void lmf_sbi_helper::get_lmf_loc_location_context_transfer_uri(
 //---------------------------------------------------------------------------------------------
 void lmf_sbi_helper::get_lmf_n2_info_notify_api_root(
     const interface_cfg_t& sbi, std::string& api_root) {
-  api_root = sbi.get_ipv4_root() + sbi_helper::LmfN2InfoNotifyBase +
+  api_root = "http://" + sbi.get_ipv4_root() + sbi_helper::LmfN2InfoNotifyBase +
              lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
   ;
 }
@@ -176,7 +176,8 @@ void lmf_sbi_helper::get_lmf_n2_info_notify_nrppa_callback_uri(
 //---------------------------------------------------------------------------------------------
 void lmf_sbi_helper::get_lmf_non_ue_n2_info_notify_api_root(
     const interface_cfg_t& sbi, std::string& api_root) {
-  api_root = sbi.get_ipv4_root() + sbi_helper::LmfNonUeN2InfoNotifyBase +
+  api_root = "http://" + sbi.get_ipv4_root() +
+             sbi_helper::LmfNonUeN2InfoNotifyBase +
              lmf_cfg.sbi.api_version.value_or(kDefaultSbiApiVersion);
   ;
 }

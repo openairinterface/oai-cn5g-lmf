@@ -55,7 +55,7 @@ import groovy.transform.Field
   nrf:  [display: 'NRF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: true,  hasLoadTest: true,  hasEbpfTutorialsTest: false, hasRobotTest: true,  hasRobotNorthBoundTest: false],
   pcf:  [display: 'PCF',  hasLttng: true,  hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false, hasRobotTest: true,  hasRobotNorthBoundTest: false],
   nssf: [display: 'NSSF', hasLttng: false, hasUnitTests: false, hasSanityCheck: false, hasTutorialsTest: true,  hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false, hasRobotTest: false, hasRobotNorthBoundTest: false],
-  lmf:  [display: 'LMF',  hasLttng: false, hasUnitTests: false, hasSanityCheck: true,  hasTutorialsTest: false, hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false, hasRobotTest: false, hasRobotNorthBoundTest: false],
+  lmf:  [display: 'LMF',  hasLttng: false, hasUnitTests: false, hasSanityCheck: true,  hasTutorialsTest: false, hasCotsUeTest: false, hasLoadTest: false, hasEbpfTutorialsTest: false, hasRobotTest: true,  hasRobotNorthBoundTest: false],
 ]
 @Field def cfg
 
