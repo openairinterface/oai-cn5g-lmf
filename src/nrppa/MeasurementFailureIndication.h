@@ -21,7 +21,7 @@ extern "C" {
 
 /* MeasurementFailureIndication */
 typedef struct MeasurementFailureIndication {
-  ProtocolIE_Container_2789P22_t protocolIEs;
+  ProtocolIE_Container_4860P22_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

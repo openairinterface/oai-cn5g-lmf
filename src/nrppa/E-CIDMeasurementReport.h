@@ -21,7 +21,7 @@ extern "C" {
 
 /* E-CIDMeasurementReport */
 typedef struct E_CIDMeasurementReport {
-  ProtocolIE_Container_2789P4_t protocolIEs;
+  ProtocolIE_Container_4860P4_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

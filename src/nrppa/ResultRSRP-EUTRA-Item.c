@@ -60,7 +60,7 @@ asn_TYPE_member_t asn_MBR_ResultRSRP_EUTRA_Item_1[] = {
      offsetof(struct ResultRSRP_EUTRA_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P63,
+     &asn_DEF_ProtocolExtensionContainer_4889P89,
      0,
      {0, 0, 0},
      0,

@@ -49,8 +49,8 @@ typedef struct PRSMutingOption1 {
 } PRSMutingOption1_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_mutingBitRepetitionFactor_3;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_mutingBitRepetitionFactor_3;	// (Use
+ * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_PRSMutingOption1;
 extern asn_SEQUENCE_specifics_t asn_SPC_PRSMutingOption1_specs_1;
 extern asn_TYPE_member_t asn_MBR_PRSMutingOption1_1[3];

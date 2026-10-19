@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_PositioningDeactivation_1[] = {
      offsetof(struct PositioningDeactivation, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P29,
+     &asn_DEF_ProtocolIE_Container_4860P29,
      0,
      {0, 0, 0},
      0,

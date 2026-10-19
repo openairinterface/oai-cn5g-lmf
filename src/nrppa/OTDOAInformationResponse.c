@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_1[] = {
      offsetof(struct OTDOAInformationResponse, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P7,
+     &asn_DEF_ProtocolIE_Container_4860P7,
      0,
      {0, 0, 0},
      0,

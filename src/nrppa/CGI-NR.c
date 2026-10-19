@@ -37,7 +37,7 @@ asn_TYPE_member_t asn_MBR_CGI_NR_1[] = {
      offsetof(struct CGI_NR, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P9,
+     &asn_DEF_ProtocolExtensionContainer_4889P17,
      0,
      {0, 0, 0},
      0,

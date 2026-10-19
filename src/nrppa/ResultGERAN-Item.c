@@ -48,7 +48,7 @@ asn_TYPE_member_t asn_MBR_ResultGERAN_Item_1[] = {
      offsetof(struct ResultGERAN_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P69,
+     &asn_DEF_ProtocolExtensionContainer_4889P95,
      0,
      {0, 0, 0},
      0,

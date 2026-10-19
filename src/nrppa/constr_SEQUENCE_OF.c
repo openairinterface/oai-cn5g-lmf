@@ -17,7 +17,7 @@ asn_enc_rval_t SEQUENCE_OF_encode_der(
   const asn_anonymous_sequence_* list = _A_CSEQUENCE_FROM_VOID(ptr);
   size_t computed_size                = 0;
   ssize_t encoding_size               = 0;
-  asn_enc_rval_t erval;
+  asn_enc_rval_t erval                = {0, 0, 0};
   int edx;
 
   ASN_DEBUG("Estimating size of SEQUENCE OF %s", td->name);
@@ -85,7 +85,7 @@ asn_enc_rval_t SEQUENCE_OF_encode_xer(
     const asn_TYPE_descriptor_t* td, const void* sptr, int ilevel,
     enum xer_encoder_flags_e flags, asn_app_consume_bytes_f* cb,
     void* app_key) {
-  asn_enc_rval_t er;
+  asn_enc_rval_t er = {0, 0, 0};
   const asn_SET_OF_specifics_t* specs =
       (const asn_SET_OF_specifics_t*) td->specifics;
   const asn_TYPE_member_t* elm        = td->elements;
@@ -102,8 +102,8 @@ asn_enc_rval_t SEQUENCE_OF_encode_xer(
   er.encoded = 0;
 
   for (i = 0; i < list->count; i++) {
-    asn_enc_rval_t tmper;
-    void* memb_ptr = list->array[i];
+    asn_enc_rval_t tmper = {0, 0, 0};
+    void* memb_ptr       = list->array[i];
     if (!memb_ptr) continue;
 
     if (mname) {
@@ -141,7 +141,7 @@ asn_enc_rval_t SEQUENCE_OF_encode_uper(
     const void* sptr, asn_per_outp_t* po) {
   const asn_anonymous_sequence_* list;
   const asn_per_constraint_t* ct;
-  asn_enc_rval_t er;
+  asn_enc_rval_t er            = {0, 0, 0};
   const asn_TYPE_member_t* elm = td->elements;
   size_t encoded_edx;
 
@@ -223,7 +223,7 @@ asn_enc_rval_t SEQUENCE_OF_encode_aper(
     const void* sptr, asn_per_outp_t* po) {
   const asn_anonymous_sequence_* list;
   const asn_per_constraint_t* ct;
-  asn_enc_rval_t er;
+  asn_enc_rval_t er      = {0, 0, 0};
   asn_TYPE_member_t* elm = td->elements;
   int seq;
 
@@ -264,19 +264,23 @@ asn_enc_rval_t SEQUENCE_OF_encode_aper(
                                      ct->effective_bits))
                              ASN__ENCODE_FAILED;
     */
-    if (aper_put_length(
+    if (ct->lower_bound == ct->upper_bound && ct->upper_bound < 65536) {
+      /* No length determinant */
+    } else if (
+        aper_put_length(
             po, ct->upper_bound - ct->lower_bound + 1,
-            list->count - ct->lower_bound) < 0)
+            list->count - ct->lower_bound, 0) < 0)
       ASN__ENCODE_FAILED;
   }
 
   for (seq = -1; seq < list->count;) {
     ssize_t mayEncode;
+    int need_eom = 0;
     if (seq < 0) seq = 0;
     if (ct && ct->effective_bits >= 0) {
       mayEncode = list->count;
     } else {
-      mayEncode = aper_put_length(po, -1, list->count - seq);
+      mayEncode = aper_put_length(po, -1, list->count - seq, &need_eom);
       if (mayEncode < 0) ASN__ENCODE_FAILED;
     }
 
@@ -287,6 +291,9 @@ asn_enc_rval_t SEQUENCE_OF_encode_aper(
           elm->type, elm->encoding_constraints.per_constraints, memb_ptr, po);
       if (er.encoded == -1) ASN__ENCODE_FAILED;
     }
+
+    if (need_eom && aper_put_length(po, -1, 0, 0))
+      ASN__ENCODE_FAILED; /* End of Message length */
   }
 
   ASN__ENCODED_OK(er);

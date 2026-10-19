@@ -32,7 +32,7 @@ typedef enum PRSMutingConfiguration_EUTRA_PR {
   PRSMutingConfiguration_EUTRA_PR_two_hundred_and_fifty_six,
   PRSMutingConfiguration_EUTRA_PR_five_hundred_and_twelve,
   PRSMutingConfiguration_EUTRA_PR_one_thousand_and_twenty_four,
-  PRSMutingConfiguration_EUTRA_PR_pRSMutingConfiguration_EUTRA_Extension
+  PRSMutingConfiguration_EUTRA_PR_choice_Extension
 } PRSMutingConfiguration_EUTRA_PR;
 
 /* Forward declarations */
@@ -52,7 +52,7 @@ typedef struct PRSMutingConfiguration_EUTRA {
     BIT_STRING_t two_hundred_and_fifty_six;
     BIT_STRING_t five_hundred_and_twelve;
     BIT_STRING_t one_thousand_and_twenty_four;
-    struct ProtocolIE_Single_Container* pRSMutingConfiguration_EUTRA_Extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */

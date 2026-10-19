@@ -8,122 +8,226 @@
 
 #include "ProtocolIE-Field.h"
 
-static const long asn_VAL_27_id_OTDOA_Information_Type_Item            = 10;
-static const long asn_VAL_27_reject                                    = 0;
-static const long asn_VAL_27_mandatory                                 = 2;
-static const asn_ioc_cell_t asn_IOS_OTDOA_Information_TypeIEs_1_rows[] = {
+static const long asn_VAL_28_id_OTDOA_Information_Type_Item = 10;
+static const long asn_VAL_28_reject                         = 0;
+static const long asn_VAL_28_mandatory                      = 2;
+static const asn_ioc_cell_t asn_IOS_OTDOA_Information_Type_ItemIEs_1_rows[] = {
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_27_id_OTDOA_Information_Type_Item},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_27_reject},
+     &asn_VAL_28_id_OTDOA_Information_Type_Item},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_28_reject},
     {"&Value", aioc__type, &asn_DEF_OTDOA_Information_Type_Item},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_27_mandatory}};
-static const asn_ioc_set_t asn_IOS_OTDOA_Information_TypeIEs_1[] = {
-    {1, 4, asn_IOS_OTDOA_Information_TypeIEs_1_rows}};
-static const long asn_VAL_90_id_MeasurementQuantities_Item                 = 11;
-static const long asn_VAL_90_reject                                        = 0;
-static const long asn_VAL_90_mandatory                                     = 2;
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_28_mandatory}};
+static const asn_ioc_set_t asn_IOS_OTDOA_Information_Type_ItemIEs_1[] = {
+    {1, 4, asn_IOS_OTDOA_Information_Type_ItemIEs_1_rows}};
+static const long asn_VAL_118_id_MeasurementQuantities_Item                = 11;
+static const long asn_VAL_118_reject                                       = 0;
+static const long asn_VAL_118_mandatory                                    = 2;
 static const asn_ioc_cell_t asn_IOS_MeasurementQuantities_ItemIEs_1_rows[] = {
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_90_id_MeasurementQuantities_Item},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_90_reject},
+     &asn_VAL_118_id_MeasurementQuantities_Item},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_118_reject},
     {"&Value", aioc__type, &asn_DEF_MeasurementQuantities_Item},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_90_mandatory}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_118_mandatory}};
 static const asn_ioc_set_t asn_IOS_MeasurementQuantities_ItemIEs_1[] = {
     {1, 4, asn_IOS_MeasurementQuantities_ItemIEs_1_rows}};
-static const long asn_VAL_91_id_ResultSS_RSRP    = 32;
-static const long asn_VAL_91_ignore              = 1;
-static const long asn_VAL_91_mandatory           = 2;
-static const long asn_VAL_92_id_ResultSS_RSRQ    = 33;
-static const long asn_VAL_92_ignore              = 1;
-static const long asn_VAL_92_mandatory           = 2;
-static const long asn_VAL_93_id_ResultCSI_RSRP   = 34;
-static const long asn_VAL_93_ignore              = 1;
-static const long asn_VAL_93_mandatory           = 2;
-static const long asn_VAL_94_id_ResultCSI_RSRQ   = 35;
-static const long asn_VAL_94_ignore              = 1;
-static const long asn_VAL_94_mandatory           = 2;
-static const long asn_VAL_95_id_AngleOfArrivalNR = 36;
-static const long asn_VAL_95_ignore              = 1;
-static const long asn_VAL_95_mandatory           = 2;
+static const long asn_VAL_119_id_ResultSS_RSRP    = 32;
+static const long asn_VAL_119_ignore              = 1;
+static const long asn_VAL_119_mandatory           = 2;
+static const long asn_VAL_120_id_ResultSS_RSRQ    = 33;
+static const long asn_VAL_120_ignore              = 1;
+static const long asn_VAL_120_mandatory           = 2;
+static const long asn_VAL_121_id_ResultCSI_RSRP   = 34;
+static const long asn_VAL_121_ignore              = 1;
+static const long asn_VAL_121_mandatory           = 2;
+static const long asn_VAL_122_id_ResultCSI_RSRQ   = 35;
+static const long asn_VAL_122_ignore              = 1;
+static const long asn_VAL_122_mandatory           = 2;
+static const long asn_VAL_123_id_AngleOfArrivalNR = 36;
+static const long asn_VAL_123_ignore              = 1;
+static const long asn_VAL_123_mandatory           = 2;
+static const long asn_VAL_124_id_NR_TADV          = 94;
+static const long asn_VAL_124_ignore              = 1;
+static const long asn_VAL_124_mandatory           = 2;
 static const asn_ioc_cell_t asn_IOS_MeasuredResultsValue_ExtensionIE_1_rows[] =
-    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_91_id_ResultSS_RSRP},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_91_ignore},
+    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_119_id_ResultSS_RSRP},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_119_ignore},
      {"&Value", aioc__type, &asn_DEF_ResultSS_RSRP},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_91_mandatory},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_92_id_ResultSS_RSRQ},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_92_ignore},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_119_mandatory},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_120_id_ResultSS_RSRQ},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_120_ignore},
      {"&Value", aioc__type, &asn_DEF_ResultSS_RSRQ},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_92_mandatory},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_120_mandatory},
      {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_93_id_ResultCSI_RSRP},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_93_ignore},
+      &asn_VAL_121_id_ResultCSI_RSRP},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_121_ignore},
      {"&Value", aioc__type, &asn_DEF_ResultCSI_RSRP},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_93_mandatory},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_121_mandatory},
      {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_94_id_ResultCSI_RSRQ},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_94_ignore},
+      &asn_VAL_122_id_ResultCSI_RSRQ},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_122_ignore},
      {"&Value", aioc__type, &asn_DEF_ResultCSI_RSRQ},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_94_mandatory},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_122_mandatory},
      {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_95_id_AngleOfArrivalNR},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_95_ignore},
+      &asn_VAL_123_id_AngleOfArrivalNR},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_123_ignore},
      {"&Value", aioc__type, &asn_DEF_UL_AoA},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_95_mandatory}};
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_123_mandatory},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_124_id_NR_TADV},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_124_ignore},
+     {"&Value", aioc__type, &asn_DEF_NR_TADV},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_124_mandatory}};
 static const asn_ioc_set_t asn_IOS_MeasuredResultsValue_ExtensionIE_1[] = {
-    {5, 4, asn_IOS_MeasuredResultsValue_ExtensionIE_1_rows}};
-static const long asn_VAL_96_id_TDD_Config_EUTRA_Item = 22;
-static const long asn_VAL_96_ignore                   = 1;
-static const long asn_VAL_96_optional                 = 0;
+    {6, 4, asn_IOS_MeasuredResultsValue_ExtensionIE_1_rows}};
+static const long asn_VAL_125_id_TDD_Config_EUTRA_Item    = 22;
+static const long asn_VAL_125_ignore                      = 1;
+static const long asn_VAL_125_mandatory                   = 2;
+static const long asn_VAL_126_id_CGI_NR                   = 58;
+static const long asn_VAL_126_ignore                      = 1;
+static const long asn_VAL_126_mandatory                   = 2;
+static const long asn_VAL_127_id_SFNInitialisationTime_NR = 59;
+static const long asn_VAL_127_ignore                      = 1;
+static const long asn_VAL_127_mandatory                   = 2;
 static const asn_ioc_cell_t
     asn_IOS_OTDOACell_Information_Item_ExtensionIE_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_96_id_TDD_Config_EUTRA_Item},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_96_ignore},
+         &asn_VAL_125_id_TDD_Config_EUTRA_Item},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_125_ignore},
         {"&Value", aioc__type, &asn_DEF_TDD_Config_EUTRA_Item},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_96_optional}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_125_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_126_id_CGI_NR},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_126_ignore},
+        {"&Value", aioc__type, &asn_DEF_CGI_NR},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_126_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_127_id_SFNInitialisationTime_NR},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_127_ignore},
+        {"&Value", aioc__type, &asn_DEF_SFNInitialisationTime_EUTRA},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_127_mandatory}};
 static const asn_ioc_set_t asn_IOS_OTDOACell_Information_Item_ExtensionIE_1[] =
-    {{1, 4, asn_IOS_OTDOACell_Information_Item_ExtensionIE_1_rows}};
-static const long asn_VAL_97_id_OtherRATMeasurementQuantities_Item = 16;
-static const long asn_VAL_97_reject                                = 0;
-static const long asn_VAL_97_mandatory                             = 2;
+    {{3, 4, asn_IOS_OTDOACell_Information_Item_ExtensionIE_1_rows}};
+static const long asn_VAL_128_id_OtherRATMeasurementQuantities_Item = 16;
+static const long asn_VAL_128_reject                                = 0;
+static const long asn_VAL_128_mandatory                             = 2;
 static const asn_ioc_cell_t
     asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_97_id_OtherRATMeasurementQuantities_Item},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_97_reject},
+         &asn_VAL_128_id_OtherRATMeasurementQuantities_Item},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_128_reject},
         {"&Value", aioc__type, &asn_DEF_OtherRATMeasurementQuantities_Item},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_97_mandatory}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_128_mandatory}};
 static const asn_ioc_set_t asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1[] = {
     {1, 4, asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1_rows}};
-static const long asn_VAL_98_id_ResultNR    = 55;
-static const long asn_VAL_98_ignore         = 1;
-static const long asn_VAL_98_mandatory      = 2;
-static const long asn_VAL_99_id_ResultEUTRA = 56;
-static const long asn_VAL_99_ignore         = 1;
-static const long asn_VAL_99_mandatory      = 2;
+static const long asn_VAL_129_id_ResultNR    = 55;
+static const long asn_VAL_129_ignore         = 1;
+static const long asn_VAL_129_mandatory      = 2;
+static const long asn_VAL_130_id_ResultEUTRA = 56;
+static const long asn_VAL_130_ignore         = 1;
+static const long asn_VAL_130_mandatory      = 2;
 static const asn_ioc_cell_t
     asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1_rows[] = {
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_98_id_ResultNR},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_98_ignore},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_129_id_ResultNR},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_129_ignore},
         {"&Value", aioc__type, &asn_DEF_ResultNR},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_98_mandatory},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_129_mandatory},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_99_id_ResultEUTRA},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_99_ignore},
+         &asn_VAL_130_id_ResultEUTRA},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_130_ignore},
         {"&Value", aioc__type, &asn_DEF_ResultEUTRA},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_99_mandatory}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_130_mandatory}};
 static const asn_ioc_set_t
     asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1[] = {
         {2, 4, asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1_rows}};
-static const long asn_VAL_100_id_WLANMeasurementQuantities_Item = 20;
-static const long asn_VAL_100_reject                            = 0;
-static const long asn_VAL_100_mandatory                         = 2;
+static const long asn_VAL_131_id_ZoA           = 71;
+static const long asn_VAL_131_reject           = 0;
+static const long asn_VAL_131_mandatory        = 2;
+static const long asn_VAL_132_id_MultipleULAoA = 74;
+static const long asn_VAL_132_reject           = 0;
+static const long asn_VAL_132_mandatory        = 2;
+static const long asn_VAL_133_id_UL_SRS_RSRPP  = 75;
+static const long asn_VAL_133_reject           = 0;
+static const long asn_VAL_133_mandatory        = 2;
+static const asn_ioc_cell_t asn_IOS_TrpMeasuredResultsValue_ExtIEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_131_id_ZoA},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_131_reject},
+    {"&Value", aioc__type, &asn_DEF_ZoA},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_131_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_132_id_MultipleULAoA},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_132_reject},
+    {"&Value", aioc__type, &asn_DEF_MultipleULAoA},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_132_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_133_id_UL_SRS_RSRPP},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_133_reject},
+    {"&Value", aioc__type, &asn_DEF_UL_SRS_RSRPP},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_133_mandatory}};
+static const asn_ioc_set_t asn_IOS_TrpMeasuredResultsValue_ExtIEs_1[] = {
+    {3, 4, asn_IOS_TrpMeasuredResultsValue_ExtIEs_1_rows}};
+static const long asn_VAL_134_id_TRPType                   = 62;
+static const long asn_VAL_134_reject                       = 0;
+static const long asn_VAL_134_mandatory                    = 2;
+static const long asn_VAL_135_id_OnDemandPRS               = 68;
+static const long asn_VAL_135_reject                       = 0;
+static const long asn_VAL_135_mandatory                    = 2;
+static const long asn_VAL_136_id_TRPTxTEGAssociation       = 84;
+static const long asn_VAL_136_reject                       = 0;
+static const long asn_VAL_136_mandatory                    = 2;
+static const long asn_VAL_137_id_TRPBeamAntennaInformation = 93;
+static const long asn_VAL_137_reject                       = 0;
+static const long asn_VAL_137_mandatory                    = 2;
+static const asn_ioc_cell_t
+    asn_IOS_TRPInformationTypeResponseItem_ExtIEs_1_rows[] = {
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_134_id_TRPType},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_134_reject},
+        {"&Value", aioc__type, &asn_DEF_TRPType},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_134_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_135_id_OnDemandPRS},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_135_reject},
+        {"&Value", aioc__type, &asn_DEF_OnDemandPRS_Info},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_135_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_136_id_TRPTxTEGAssociation},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_136_reject},
+        {"&Value", aioc__type, &asn_DEF_TRPTxTEGAssociation},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_136_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_137_id_TRPBeamAntennaInformation},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_137_reject},
+        {"&Value", aioc__type, &asn_DEF_TRPBeamAntennaInformation},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_137_mandatory}};
+static const asn_ioc_set_t asn_IOS_TRPInformationTypeResponseItem_ExtIEs_1[] = {
+    {4, 4, asn_IOS_TRPInformationTypeResponseItem_ExtIEs_1_rows}};
+static const long asn_VAL_138_id_TRPInformationTypeItem                   = 57;
+static const long asn_VAL_138_reject                                      = 0;
+static const long asn_VAL_138_mandatory                                   = 2;
+static const asn_ioc_cell_t asn_IOS_TRPInformationTypeItemTRPReq_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_138_id_TRPInformationTypeItem},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_138_reject},
+    {"&Value", aioc__type, &asn_DEF_TRPInformationTypeItem},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_138_mandatory}};
+static const asn_ioc_set_t asn_IOS_TRPInformationTypeItemTRPReq_1[] = {
+    {1, 4, asn_IOS_TRPInformationTypeItemTRPReq_1_rows}};
+static const long asn_VAL_139_id_WLANMeasurementQuantities_Item = 20;
+static const long asn_VAL_139_reject                            = 0;
+static const long asn_VAL_139_mandatory                         = 2;
 static const asn_ioc_cell_t asn_IOS_WLANMeasurementQuantities_ItemIEs_1_rows[] =
     {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_100_id_WLANMeasurementQuantities_Item},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_100_reject},
+      &asn_VAL_139_id_WLANMeasurementQuantities_Item},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_139_reject},
      {"&Value", aioc__type, &asn_DEF_WLANMeasurementQuantities_Item},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_100_mandatory}};
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_139_mandatory}};
 static const asn_ioc_set_t asn_IOS_WLANMeasurementQuantities_ItemIEs_1[] = {
     {1, 4, asn_IOS_WLANMeasurementQuantities_ItemIEs_1_rows}};
 static const long asn_VAL_1_id_LMF_UE_Measurement_ID         = 2;
@@ -144,6 +248,9 @@ static const long asn_VAL_5_optional                         = 0;
 static const long asn_VAL_6_id_WLANMeasurementQuantities     = 19;
 static const long asn_VAL_6_ignore                           = 1;
 static const long asn_VAL_6_optional                         = 0;
+static const long asn_VAL_7_id_MeasurementPeriodicityNR_AoA  = 105;
+static const long asn_VAL_7_reject                           = 0;
+static const long asn_VAL_7_conditional                      = 1;
 static const asn_ioc_cell_t
     asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
@@ -175,741 +282,986 @@ static const asn_ioc_cell_t
          &asn_VAL_6_id_WLANMeasurementQuantities},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_6_ignore},
         {"&Value", aioc__type, &asn_DEF_WLANMeasurementQuantities},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_6_optional}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_6_optional},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_7_id_MeasurementPeriodicityNR_AoA},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_7_reject},
+        {"&Value", aioc__type, &asn_DEF_MeasurementPeriodicityNR_AoA},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_7_conditional}};
 static const asn_ioc_set_t asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1[] = {
-    {6, 4, asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1_rows}};
-static const long asn_VAL_7_id_LMF_UE_Measurement_ID      = 2;
-static const long asn_VAL_7_reject                        = 0;
-static const long asn_VAL_7_mandatory                     = 2;
-static const long asn_VAL_8_id_RAN_UE_Measurement_ID      = 6;
+    {7, 4, asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1_rows}};
+static const long asn_VAL_8_id_LMF_UE_Measurement_ID      = 2;
 static const long asn_VAL_8_reject                        = 0;
 static const long asn_VAL_8_mandatory                     = 2;
-static const long asn_VAL_9_id_E_CID_MeasurementResult    = 7;
-static const long asn_VAL_9_ignore                        = 1;
-static const long asn_VAL_9_optional                      = 0;
-static const long asn_VAL_10_id_CriticalityDiagnostics    = 1;
+static const long asn_VAL_9_id_RAN_UE_Measurement_ID      = 6;
+static const long asn_VAL_9_reject                        = 0;
+static const long asn_VAL_9_mandatory                     = 2;
+static const long asn_VAL_10_id_E_CID_MeasurementResult   = 7;
 static const long asn_VAL_10_ignore                       = 1;
 static const long asn_VAL_10_optional                     = 0;
-static const long asn_VAL_11_id_Cell_Portion_ID           = 14;
+static const long asn_VAL_11_id_CriticalityDiagnostics    = 1;
 static const long asn_VAL_11_ignore                       = 1;
 static const long asn_VAL_11_optional                     = 0;
-static const long asn_VAL_12_id_OtherRATMeasurementResult = 17;
+static const long asn_VAL_12_id_Cell_Portion_ID           = 14;
 static const long asn_VAL_12_ignore                       = 1;
 static const long asn_VAL_12_optional                     = 0;
-static const long asn_VAL_13_id_WLANMeasurementResult     = 21;
+static const long asn_VAL_13_id_OtherRATMeasurementResult = 17;
 static const long asn_VAL_13_ignore                       = 1;
 static const long asn_VAL_13_optional                     = 0;
+static const long asn_VAL_14_id_WLANMeasurementResult     = 21;
+static const long asn_VAL_14_ignore                       = 1;
+static const long asn_VAL_14_optional                     = 0;
 static const asn_ioc_cell_t
     asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_7_id_LMF_UE_Measurement_ID},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_7_reject},
-        {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_7_mandatory},
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_8_id_RAN_UE_Measurement_ID},
+         &asn_VAL_8_id_LMF_UE_Measurement_ID},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_8_reject},
         {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
         {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_8_mandatory},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_9_id_E_CID_MeasurementResult},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_9_ignore},
-        {"&Value", aioc__type, &asn_DEF_E_CID_MeasurementResult},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_9_optional},
+         &asn_VAL_9_id_RAN_UE_Measurement_ID},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_9_reject},
+        {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_9_mandatory},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_10_id_CriticalityDiagnostics},
+         &asn_VAL_10_id_E_CID_MeasurementResult},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_10_ignore},
-        {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+        {"&Value", aioc__type, &asn_DEF_E_CID_MeasurementResult},
         {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_10_optional},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_11_id_Cell_Portion_ID},
+         &asn_VAL_11_id_CriticalityDiagnostics},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_11_ignore},
-        {"&Value", aioc__type, &asn_DEF_Cell_Portion_ID},
+        {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
         {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_11_optional},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_12_id_OtherRATMeasurementResult},
+         &asn_VAL_12_id_Cell_Portion_ID},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_12_ignore},
-        {"&Value", aioc__type, &asn_DEF_OtherRATMeasurementResult},
+        {"&Value", aioc__type, &asn_DEF_Cell_Portion_ID},
         {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_12_optional},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_13_id_WLANMeasurementResult},
+         &asn_VAL_13_id_OtherRATMeasurementResult},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_13_ignore},
+        {"&Value", aioc__type, &asn_DEF_OtherRATMeasurementResult},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_13_optional},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_14_id_WLANMeasurementResult},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_14_ignore},
         {"&Value", aioc__type, &asn_DEF_WLANMeasurementResult},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_13_optional}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_14_optional}};
 static const asn_ioc_set_t asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1[] =
     {{7, 4, asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1_rows}};
-static const long asn_VAL_14_id_LMF_UE_Measurement_ID  = 2;
-static const long asn_VAL_14_reject                    = 0;
-static const long asn_VAL_14_mandatory                 = 2;
-static const long asn_VAL_15_id_Cause                  = 0;
-static const long asn_VAL_15_ignore                    = 1;
+static const long asn_VAL_15_id_LMF_UE_Measurement_ID  = 2;
+static const long asn_VAL_15_reject                    = 0;
 static const long asn_VAL_15_mandatory                 = 2;
-static const long asn_VAL_16_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_16_id_Cause                  = 0;
 static const long asn_VAL_16_ignore                    = 1;
-static const long asn_VAL_16_optional                  = 0;
+static const long asn_VAL_16_mandatory                 = 2;
+static const long asn_VAL_17_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_17_ignore                    = 1;
+static const long asn_VAL_17_optional                  = 0;
 static const asn_ioc_cell_t
     asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_14_id_LMF_UE_Measurement_ID},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_14_reject},
+         &asn_VAL_15_id_LMF_UE_Measurement_ID},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_15_reject},
         {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_14_mandatory},
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_15_id_Cause},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_15_ignore},
-        {"&Value", aioc__type, &asn_DEF_Cause},
         {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_15_mandatory},
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_16_id_CriticalityDiagnostics},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_16_id_Cause},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_16_ignore},
+        {"&Value", aioc__type, &asn_DEF_Cause},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_16_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_17_id_CriticalityDiagnostics},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_17_ignore},
         {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_16_optional}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_17_optional}};
 static const asn_ioc_set_t asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1[] = {
     {3, 4, asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1_rows}};
-static const long asn_VAL_17_id_LMF_UE_Measurement_ID = 2;
-static const long asn_VAL_17_reject                   = 0;
-static const long asn_VAL_17_mandatory                = 2;
-static const long asn_VAL_18_id_RAN_UE_Measurement_ID = 6;
+static const long asn_VAL_18_id_LMF_UE_Measurement_ID = 2;
 static const long asn_VAL_18_reject                   = 0;
 static const long asn_VAL_18_mandatory                = 2;
-static const long asn_VAL_19_id_Cause                 = 0;
-static const long asn_VAL_19_ignore                   = 1;
+static const long asn_VAL_19_id_RAN_UE_Measurement_ID = 6;
+static const long asn_VAL_19_reject                   = 0;
 static const long asn_VAL_19_mandatory                = 2;
+static const long asn_VAL_20_id_Cause                 = 0;
+static const long asn_VAL_20_ignore                   = 1;
+static const long asn_VAL_20_mandatory                = 2;
 static const asn_ioc_cell_t
     asn_IOS_E_CIDMeasurementFailureIndication_IEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_17_id_LMF_UE_Measurement_ID},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_17_reject},
-        {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_17_mandatory},
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_18_id_RAN_UE_Measurement_ID},
+         &asn_VAL_18_id_LMF_UE_Measurement_ID},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_18_reject},
         {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
         {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_18_mandatory},
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_19_id_Cause},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_19_ignore},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_19_id_RAN_UE_Measurement_ID},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_19_reject},
+        {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_19_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_20_id_Cause},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_20_ignore},
         {"&Value", aioc__type, &asn_DEF_Cause},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_19_mandatory}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_20_mandatory}};
 static const asn_ioc_set_t asn_IOS_E_CIDMeasurementFailureIndication_IEs_1[] = {
     {3, 4, asn_IOS_E_CIDMeasurementFailureIndication_IEs_1_rows}};
-static const long asn_VAL_20_id_LMF_UE_Measurement_ID                   = 2;
-static const long asn_VAL_20_reject                                     = 0;
-static const long asn_VAL_20_mandatory                                  = 2;
-static const long asn_VAL_21_id_RAN_UE_Measurement_ID                   = 6;
+static const long asn_VAL_21_id_LMF_UE_Measurement_ID                   = 2;
 static const long asn_VAL_21_reject                                     = 0;
 static const long asn_VAL_21_mandatory                                  = 2;
-static const long asn_VAL_22_id_E_CID_MeasurementResult                 = 7;
-static const long asn_VAL_22_ignore                                     = 1;
+static const long asn_VAL_22_id_RAN_UE_Measurement_ID                   = 6;
+static const long asn_VAL_22_reject                                     = 0;
 static const long asn_VAL_22_mandatory                                  = 2;
-static const long asn_VAL_23_id_Cell_Portion_ID                         = 14;
+static const long asn_VAL_23_id_E_CID_MeasurementResult                 = 7;
 static const long asn_VAL_23_ignore                                     = 1;
-static const long asn_VAL_23_optional                                   = 0;
+static const long asn_VAL_23_mandatory                                  = 2;
+static const long asn_VAL_24_id_Cell_Portion_ID                         = 14;
+static const long asn_VAL_24_ignore                                     = 1;
+static const long asn_VAL_24_optional                                   = 0;
 static const asn_ioc_cell_t asn_IOS_E_CIDMeasurementReport_IEs_1_rows[] = {
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_20_id_LMF_UE_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_20_reject},
-    {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_20_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_21_id_RAN_UE_Measurement_ID},
+     &asn_VAL_21_id_LMF_UE_Measurement_ID},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_21_reject},
     {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_21_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_22_id_E_CID_MeasurementResult},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_22_ignore},
-    {"&Value", aioc__type, &asn_DEF_E_CID_MeasurementResult},
+     &asn_VAL_22_id_RAN_UE_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_22_reject},
+    {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_22_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_23_id_Cell_Portion_ID},
+     &asn_VAL_23_id_E_CID_MeasurementResult},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_23_ignore},
+    {"&Value", aioc__type, &asn_DEF_E_CID_MeasurementResult},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_23_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_24_id_Cell_Portion_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_24_ignore},
     {"&Value", aioc__type, &asn_DEF_Cell_Portion_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_23_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_24_optional}};
 static const asn_ioc_set_t asn_IOS_E_CIDMeasurementReport_IEs_1[] = {
     {4, 4, asn_IOS_E_CIDMeasurementReport_IEs_1_rows}};
-static const long asn_VAL_24_id_LMF_UE_Measurement_ID = 2;
-static const long asn_VAL_24_reject                   = 0;
-static const long asn_VAL_24_mandatory                = 2;
-static const long asn_VAL_25_id_RAN_UE_Measurement_ID = 6;
+static const long asn_VAL_25_id_LMF_UE_Measurement_ID = 2;
 static const long asn_VAL_25_reject                   = 0;
 static const long asn_VAL_25_mandatory                = 2;
+static const long asn_VAL_26_id_RAN_UE_Measurement_ID = 6;
+static const long asn_VAL_26_reject                   = 0;
+static const long asn_VAL_26_mandatory                = 2;
 static const asn_ioc_cell_t
     asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_24_id_LMF_UE_Measurement_ID},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_24_reject},
-        {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_24_mandatory},
-        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_25_id_RAN_UE_Measurement_ID},
+         &asn_VAL_25_id_LMF_UE_Measurement_ID},
         {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_25_reject},
         {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_25_mandatory}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_25_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_26_id_RAN_UE_Measurement_ID},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_26_reject},
+        {"&Value", aioc__type, &asn_DEF_UE_Measurement_ID},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_26_mandatory}};
 static const asn_ioc_set_t asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1[] =
     {{2, 4, asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1_rows}};
-static const long asn_VAL_26_id_OTDOA_Information_Type_Group             = 9;
-static const long asn_VAL_26_reject                                      = 0;
-static const long asn_VAL_26_mandatory                                   = 2;
+static const long asn_VAL_27_id_OTDOA_Information_Type_Group             = 9;
+static const long asn_VAL_27_reject                                      = 0;
+static const long asn_VAL_27_mandatory                                   = 2;
 static const asn_ioc_cell_t asn_IOS_OTDOAInformationRequest_IEs_1_rows[] = {
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_26_id_OTDOA_Information_Type_Group},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_26_reject},
+     &asn_VAL_27_id_OTDOA_Information_Type_Group},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_27_reject},
     {"&Value", aioc__type, &asn_DEF_OTDOA_Information_Type},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_26_mandatory}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_27_mandatory}};
 static const asn_ioc_set_t asn_IOS_OTDOAInformationRequest_IEs_1[] = {
     {1, 4, asn_IOS_OTDOAInformationRequest_IEs_1_rows}};
-static const long asn_VAL_28_id_OTDOACells                                = 8;
-static const long asn_VAL_28_ignore                                       = 1;
-static const long asn_VAL_28_mandatory                                    = 2;
-static const long asn_VAL_29_id_CriticalityDiagnostics                    = 1;
+static const long asn_VAL_29_id_OTDOACells                                = 8;
 static const long asn_VAL_29_ignore                                       = 1;
-static const long asn_VAL_29_optional                                     = 0;
+static const long asn_VAL_29_mandatory                                    = 2;
+static const long asn_VAL_30_id_CriticalityDiagnostics                    = 1;
+static const long asn_VAL_30_ignore                                       = 1;
+static const long asn_VAL_30_optional                                     = 0;
 static const asn_ioc_cell_t asn_IOS_OTDOAInformationResponse_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_28_id_OTDOACells},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_28_ignore},
-    {"&Value", aioc__type, &asn_DEF_OTDOACells},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_28_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_29_id_CriticalityDiagnostics},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_29_id_OTDOACells},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_29_ignore},
+    {"&Value", aioc__type, &asn_DEF_OTDOACells},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_29_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_30_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_30_ignore},
     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_29_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_30_optional}};
 static const asn_ioc_set_t asn_IOS_OTDOAInformationResponse_IEs_1[] = {
     {2, 4, asn_IOS_OTDOAInformationResponse_IEs_1_rows}};
-static const long asn_VAL_30_id_Cause                                    = 0;
-static const long asn_VAL_30_ignore                                      = 1;
-static const long asn_VAL_30_mandatory                                   = 2;
-static const long asn_VAL_31_id_CriticalityDiagnostics                   = 1;
+static const long asn_VAL_31_id_Cause                                    = 0;
 static const long asn_VAL_31_ignore                                      = 1;
-static const long asn_VAL_31_optional                                    = 0;
+static const long asn_VAL_31_mandatory                                   = 2;
+static const long asn_VAL_32_id_CriticalityDiagnostics                   = 1;
+static const long asn_VAL_32_ignore                                      = 1;
+static const long asn_VAL_32_optional                                    = 0;
 static const asn_ioc_cell_t asn_IOS_OTDOAInformationFailure_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_30_id_Cause},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_30_ignore},
-    {"&Value", aioc__type, &asn_DEF_Cause},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_30_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_31_id_CriticalityDiagnostics},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_31_id_Cause},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_31_ignore},
+    {"&Value", aioc__type, &asn_DEF_Cause},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_31_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_32_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_32_ignore},
     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_31_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_32_optional}};
 static const asn_ioc_set_t asn_IOS_OTDOAInformationFailure_IEs_1[] = {
     {2, 4, asn_IOS_OTDOAInformationFailure_IEs_1_rows}};
-static const long asn_VAL_32_id_Assistance_Information    = 23;
-static const long asn_VAL_32_reject                       = 0;
-static const long asn_VAL_32_optional                     = 0;
-static const long asn_VAL_33_id_Broadcast                 = 24;
+static const long asn_VAL_33_id_Assistance_Information    = 23;
 static const long asn_VAL_33_reject                       = 0;
 static const long asn_VAL_33_optional                     = 0;
-static const long asn_VAL_34_id_PositioningBroadcastCells = 38;
+static const long asn_VAL_34_id_Broadcast                 = 24;
 static const long asn_VAL_34_reject                       = 0;
 static const long asn_VAL_34_optional                     = 0;
+static const long asn_VAL_35_id_PositioningBroadcastCells = 38;
+static const long asn_VAL_35_reject                       = 0;
+static const long asn_VAL_35_optional                     = 0;
 static const asn_ioc_cell_t asn_IOS_AssistanceInformationControl_IEs_1_rows[] =
     {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_32_id_Assistance_Information},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_32_reject},
-     {"&Value", aioc__type, &asn_DEF_Assistance_Information},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_32_optional},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_33_id_Broadcast},
+      &asn_VAL_33_id_Assistance_Information},
      {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_33_reject},
-     {"&Value", aioc__type, &asn_DEF_Broadcast},
+     {"&Value", aioc__type, &asn_DEF_Assistance_Information},
      {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_33_optional},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_34_id_PositioningBroadcastCells},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_34_id_Broadcast},
      {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_34_reject},
+     {"&Value", aioc__type, &asn_DEF_Broadcast},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_34_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_35_id_PositioningBroadcastCells},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_35_reject},
      {"&Value", aioc__type, &asn_DEF_PositioningBroadcastCells},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_34_optional}};
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_35_optional}};
 static const asn_ioc_set_t asn_IOS_AssistanceInformationControl_IEs_1[] = {
     {3, 4, asn_IOS_AssistanceInformationControl_IEs_1_rows}};
-static const long asn_VAL_35_id_AssistanceInformationFailureList = 25;
-static const long asn_VAL_35_reject                              = 0;
-static const long asn_VAL_35_optional                            = 0;
-static const long asn_VAL_36_id_PositioningBroadcastCells        = 38;
+static const long asn_VAL_36_id_AssistanceInformationFailureList = 25;
 static const long asn_VAL_36_reject                              = 0;
 static const long asn_VAL_36_optional                            = 0;
-static const long asn_VAL_37_id_CriticalityDiagnostics           = 1;
-static const long asn_VAL_37_ignore                              = 1;
+static const long asn_VAL_37_id_PositioningBroadcastCells        = 38;
+static const long asn_VAL_37_reject                              = 0;
 static const long asn_VAL_37_optional                            = 0;
-static const asn_ioc_cell_t asn_IOS_AssistanceInformationFeedback_IEs_1_rows[] =
-    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_35_id_AssistanceInformationFailureList},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_35_reject},
-     {"&Value", aioc__type, &asn_DEF_AssistanceInformationFailureList},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_35_optional},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_36_id_PositioningBroadcastCells},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_36_reject},
-     {"&Value", aioc__type, &asn_DEF_PositioningBroadcastCells},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_36_optional},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_37_id_CriticalityDiagnostics},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_37_ignore},
-     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_37_optional}};
-static const asn_ioc_set_t asn_IOS_AssistanceInformationFeedback_IEs_1[] = {
-    {3, 4, asn_IOS_AssistanceInformationFeedback_IEs_1_rows}};
-static const long asn_VAL_38_id_Cause                            = 0;
+static const long asn_VAL_38_id_CriticalityDiagnostics           = 1;
 static const long asn_VAL_38_ignore                              = 1;
 static const long asn_VAL_38_optional                            = 0;
-static const long asn_VAL_39_id_CriticalityDiagnostics           = 1;
+static const asn_ioc_cell_t asn_IOS_AssistanceInformationFeedback_IEs_1_rows[] =
+    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_36_id_AssistanceInformationFailureList},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_36_reject},
+     {"&Value", aioc__type, &asn_DEF_AssistanceInformationFailureList},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_36_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_37_id_PositioningBroadcastCells},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_37_reject},
+     {"&Value", aioc__type, &asn_DEF_PositioningBroadcastCells},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_37_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_38_id_CriticalityDiagnostics},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_38_ignore},
+     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_38_optional}};
+static const asn_ioc_set_t asn_IOS_AssistanceInformationFeedback_IEs_1[] = {
+    {3, 4, asn_IOS_AssistanceInformationFeedback_IEs_1_rows}};
+static const long asn_VAL_39_id_Cause                            = 0;
 static const long asn_VAL_39_ignore                              = 1;
 static const long asn_VAL_39_optional                            = 0;
+static const long asn_VAL_40_id_CriticalityDiagnostics           = 1;
+static const long asn_VAL_40_ignore                              = 1;
+static const long asn_VAL_40_optional                            = 0;
 static const asn_ioc_cell_t asn_IOS_ErrorIndication_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_38_id_Cause},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_38_ignore},
-    {"&Value", aioc__type, &asn_DEF_Cause},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_38_optional},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_39_id_CriticalityDiagnostics},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_39_id_Cause},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_39_ignore},
+    {"&Value", aioc__type, &asn_DEF_Cause},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_39_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_40_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_40_ignore},
     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_39_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_40_optional}};
 static const asn_ioc_set_t asn_IOS_ErrorIndication_IEs_1[] = {
     {2, 4, asn_IOS_ErrorIndication_IEs_1_rows}};
-static const long asn_VAL_40_id_RequestedSRSTransmissionCharacteristics = 12;
-static const long asn_VAL_40_ignore                                     = 1;
-static const long asn_VAL_40_optional                                   = 0;
+static const long asn_VAL_41_id_RequestedSRSTransmissionCharacteristics = 12;
+static const long asn_VAL_41_ignore                                     = 1;
+static const long asn_VAL_41_optional                                   = 0;
+static const long asn_VAL_42_id_UEReportingInformation                  = 73;
+static const long asn_VAL_42_ignore                                     = 1;
+static const long asn_VAL_42_optional                                   = 0;
+static const long asn_VAL_43_id_UE_TEG_Info_Request                     = 90;
+static const long asn_VAL_43_ignore                                     = 1;
+static const long asn_VAL_43_optional                                   = 0;
+static const long asn_VAL_44_id_UE_TEG_ReportingPeriodicity             = 99;
+static const long asn_VAL_44_reject                                     = 0;
+static const long asn_VAL_44_conditional                                = 1;
 static const asn_ioc_cell_t asn_IOS_PositioningInformationRequest_IEs_1_rows[] =
     {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_40_id_RequestedSRSTransmissionCharacteristics},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_40_ignore},
+      &asn_VAL_41_id_RequestedSRSTransmissionCharacteristics},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_41_ignore},
      {"&Value", aioc__type, &asn_DEF_RequestedSRSTransmissionCharacteristics},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_40_optional}};
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_41_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_42_id_UEReportingInformation},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_42_ignore},
+     {"&Value", aioc__type, &asn_DEF_UEReportingInformation},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_42_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_43_id_UE_TEG_Info_Request},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_43_ignore},
+     {"&Value", aioc__type, &asn_DEF_UE_TEG_Info_Request},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_43_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_44_id_UE_TEG_ReportingPeriodicity},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_44_reject},
+     {"&Value", aioc__type, &asn_DEF_UE_TEG_ReportingPeriodicity},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_44_conditional}};
 static const asn_ioc_set_t asn_IOS_PositioningInformationRequest_IEs_1[] = {
-    {1, 4, asn_IOS_PositioningInformationRequest_IEs_1_rows}};
-static const long asn_VAL_41_id_SRSConfiguration       = 26;
-static const long asn_VAL_41_ignore                    = 1;
-static const long asn_VAL_41_optional                  = 0;
-static const long asn_VAL_42_id_SFNInitialisationTime  = 54;
-static const long asn_VAL_42_ignore                    = 1;
-static const long asn_VAL_42_optional                  = 0;
-static const long asn_VAL_43_id_CriticalityDiagnostics = 1;
-static const long asn_VAL_43_ignore                    = 1;
-static const long asn_VAL_43_optional                  = 0;
+    {4, 4, asn_IOS_PositioningInformationRequest_IEs_1_rows}};
+static const long asn_VAL_45_id_SRSConfiguration       = 26;
+static const long asn_VAL_45_ignore                    = 1;
+static const long asn_VAL_45_optional                  = 0;
+static const long asn_VAL_46_id_SFNInitialisationTime  = 54;
+static const long asn_VAL_46_ignore                    = 1;
+static const long asn_VAL_46_optional                  = 0;
+static const long asn_VAL_47_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_47_ignore                    = 1;
+static const long asn_VAL_47_optional                  = 0;
+static const long asn_VAL_48_id_UETxTEGAssociationList = 81;
+static const long asn_VAL_48_ignore                    = 1;
+static const long asn_VAL_48_optional                  = 0;
 static const asn_ioc_cell_t
     asn_IOS_PositioningInformationResponse_IEs_1_rows[] = {
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_41_id_SRSConfiguration},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_41_ignore},
+         &asn_VAL_45_id_SRSConfiguration},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_45_ignore},
         {"&Value", aioc__type, &asn_DEF_SRSConfiguration},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_41_optional},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_45_optional},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_42_id_SFNInitialisationTime},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_42_ignore},
-        {"&Value", aioc__type, &asn_DEF_SFNInitialisationTime},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_42_optional},
+         &asn_VAL_46_id_SFNInitialisationTime},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_46_ignore},
+        {"&Value", aioc__type, &asn_DEF_RelativeTime1900},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_46_optional},
         {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-         &asn_VAL_43_id_CriticalityDiagnostics},
-        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_43_ignore},
+         &asn_VAL_47_id_CriticalityDiagnostics},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_47_ignore},
         {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_43_optional}};
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_47_optional},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_48_id_UETxTEGAssociationList},
+        {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_48_ignore},
+        {"&Value", aioc__type, &asn_DEF_UETxTEGAssociationList},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_48_optional}};
 static const asn_ioc_set_t asn_IOS_PositioningInformationResponse_IEs_1[] = {
-    {3, 4, asn_IOS_PositioningInformationResponse_IEs_1_rows}};
-static const long asn_VAL_44_id_Cause                  = 0;
-static const long asn_VAL_44_ignore                    = 1;
-static const long asn_VAL_44_mandatory                 = 2;
-static const long asn_VAL_45_id_CriticalityDiagnostics = 1;
-static const long asn_VAL_45_ignore                    = 1;
-static const long asn_VAL_45_optional                  = 0;
+    {4, 4, asn_IOS_PositioningInformationResponse_IEs_1_rows}};
+static const long asn_VAL_49_id_Cause                  = 0;
+static const long asn_VAL_49_ignore                    = 1;
+static const long asn_VAL_49_mandatory                 = 2;
+static const long asn_VAL_50_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_50_ignore                    = 1;
+static const long asn_VAL_50_optional                  = 0;
 static const asn_ioc_cell_t asn_IOS_PositioningInformationFailure_IEs_1_rows[] =
-    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_44_id_Cause},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_44_ignore},
+    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_49_id_Cause},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_49_ignore},
      {"&Value", aioc__type, &asn_DEF_Cause},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_44_mandatory},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_49_mandatory},
      {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_45_id_CriticalityDiagnostics},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_45_ignore},
+      &asn_VAL_50_id_CriticalityDiagnostics},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_50_ignore},
      {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_45_optional}};
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_50_optional}};
 static const asn_ioc_set_t asn_IOS_PositioningInformationFailure_IEs_1[] = {
     {2, 4, asn_IOS_PositioningInformationFailure_IEs_1_rows}};
-static const long asn_VAL_46_id_SRSConfiguration      = 26;
-static const long asn_VAL_46_ignore                   = 1;
-static const long asn_VAL_46_optional                 = 0;
-static const long asn_VAL_47_id_SFNInitialisationTime = 54;
-static const long asn_VAL_47_ignore                   = 1;
-static const long asn_VAL_47_optional                 = 0;
+static const long asn_VAL_51_id_SRSConfiguration       = 26;
+static const long asn_VAL_51_ignore                    = 1;
+static const long asn_VAL_51_optional                  = 0;
+static const long asn_VAL_52_id_SFNInitialisationTime  = 54;
+static const long asn_VAL_52_ignore                    = 1;
+static const long asn_VAL_52_optional                  = 0;
+static const long asn_VAL_53_id_UETxTEGAssociationList = 81;
+static const long asn_VAL_53_ignore                    = 1;
+static const long asn_VAL_53_optional                  = 0;
+static const long asn_VAL_54_id_SRSTransmissionStatus  = 106;
+static const long asn_VAL_54_ignore                    = 1;
+static const long asn_VAL_54_optional                  = 0;
 static const asn_ioc_cell_t asn_IOS_PositioningInformationUpdate_IEs_1_rows[] =
     {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_46_id_SRSConfiguration},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_46_ignore},
+      &asn_VAL_51_id_SRSConfiguration},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_51_ignore},
      {"&Value", aioc__type, &asn_DEF_SRSConfiguration},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_46_optional},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_51_optional},
      {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_47_id_SFNInitialisationTime},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_47_ignore},
-     {"&Value", aioc__type, &asn_DEF_SFNInitialisationTime},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_47_optional}};
+      &asn_VAL_52_id_SFNInitialisationTime},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_52_ignore},
+     {"&Value", aioc__type, &asn_DEF_RelativeTime1900},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_52_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_53_id_UETxTEGAssociationList},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_53_ignore},
+     {"&Value", aioc__type, &asn_DEF_UETxTEGAssociationList},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_53_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_54_id_SRSTransmissionStatus},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_54_ignore},
+     {"&Value", aioc__type, &asn_DEF_SRSTransmissionStatus},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_54_optional}};
 static const asn_ioc_set_t asn_IOS_PositioningInformationUpdate_IEs_1[] = {
-    {2, 4, asn_IOS_PositioningInformationUpdate_IEs_1_rows}};
-static const long asn_VAL_48_id_LMF_Measurement_ID                  = 39;
-static const long asn_VAL_48_reject                                 = 0;
-static const long asn_VAL_48_mandatory                              = 2;
-static const long asn_VAL_49_id_TRP_MeasurementRequestList          = 41;
-static const long asn_VAL_49_reject                                 = 0;
-static const long asn_VAL_49_mandatory                              = 2;
-static const long asn_VAL_50_id_ReportCharacteristics               = 3;
-static const long asn_VAL_50_reject                                 = 0;
-static const long asn_VAL_50_mandatory                              = 2;
-static const long asn_VAL_51_id_MeasurementPeriodicity              = 4;
-static const long asn_VAL_51_reject                                 = 0;
-static const long asn_VAL_51_conditional                            = 1;
-static const long asn_VAL_52_id_TRPMeasurementQuantities            = 52;
-static const long asn_VAL_52_reject                                 = 0;
-static const long asn_VAL_52_mandatory                              = 2;
-static const long asn_VAL_53_id_SRSConfiguration                    = 26;
-static const long asn_VAL_53_ignore                                 = 1;
-static const long asn_VAL_53_optional                               = 0;
-static const long asn_VAL_54_id_SFNInitialisationTime               = 54;
-static const long asn_VAL_54_ignore                                 = 1;
-static const long asn_VAL_54_optional                               = 0;
-static const long asn_VAL_55_id_MeasurementBeamInfoRequest          = 31;
-static const long asn_VAL_55_ignore                                 = 1;
-static const long asn_VAL_55_optional                               = 0;
-static const long asn_VAL_56_id_SystemFrameNumber                   = 49;
-static const long asn_VAL_56_ignore                                 = 1;
-static const long asn_VAL_56_optional                               = 0;
-static const long asn_VAL_57_id_SlotNumber                          = 50;
-static const long asn_VAL_57_ignore                                 = 1;
-static const long asn_VAL_57_optional                               = 0;
-static const asn_ioc_cell_t asn_IOS_MeasurementRequest_IEs_1_rows[] = {
+    {4, 4, asn_IOS_PositioningInformationUpdate_IEs_1_rows}};
+static const long asn_VAL_55_id_LMF_Measurement_ID                         = 39;
+static const long asn_VAL_55_reject                                        = 0;
+static const long asn_VAL_55_mandatory                                     = 2;
+static const long asn_VAL_56_id_TRP_MeasurementRequestList                 = 41;
+static const long asn_VAL_56_reject                                        = 0;
+static const long asn_VAL_56_mandatory                                     = 2;
+static const long asn_VAL_57_id_ReportCharacteristics                      = 3;
+static const long asn_VAL_57_reject                                        = 0;
+static const long asn_VAL_57_mandatory                                     = 2;
+static const long asn_VAL_58_id_MeasurementPeriodicity                     = 4;
+static const long asn_VAL_58_reject                                        = 0;
+static const long asn_VAL_58_conditional                                   = 1;
+static const long asn_VAL_59_id_TRPMeasurementQuantities                   = 52;
+static const long asn_VAL_59_reject                                        = 0;
+static const long asn_VAL_59_mandatory                                     = 2;
+static const long asn_VAL_60_id_SFNInitialisationTime                      = 54;
+static const long asn_VAL_60_ignore                                        = 1;
+static const long asn_VAL_60_optional                                      = 0;
+static const long asn_VAL_61_id_SRSConfiguration                           = 26;
+static const long asn_VAL_61_ignore                                        = 1;
+static const long asn_VAL_61_optional                                      = 0;
+static const long asn_VAL_62_id_MeasurementBeamInfoRequest                 = 31;
+static const long asn_VAL_62_ignore                                        = 1;
+static const long asn_VAL_62_optional                                      = 0;
+static const long asn_VAL_63_id_SystemFrameNumber                          = 49;
+static const long asn_VAL_63_ignore                                        = 1;
+static const long asn_VAL_63_optional                                      = 0;
+static const long asn_VAL_64_id_SlotNumber                                 = 50;
+static const long asn_VAL_64_ignore                                        = 1;
+static const long asn_VAL_64_optional                                      = 0;
+static const long asn_VAL_65_id_MeasurementPeriodicityExtended             = 64;
+static const long asn_VAL_65_reject                                        = 0;
+static const long asn_VAL_65_conditional                                   = 1;
+static const long asn_VAL_66_id_ResponseTime                               = 72;
+static const long asn_VAL_66_ignore                                        = 1;
+static const long asn_VAL_66_optional                                      = 0;
+static const long asn_VAL_67_id_MeasurementCharacteristicsRequestIndicator = 92;
+static const long asn_VAL_67_ignore                                        = 1;
+static const long asn_VAL_67_optional                                      = 0;
+static const long asn_VAL_68_id_MeasurementTimeOccasion                    = 91;
+static const long asn_VAL_68_ignore                                        = 1;
+static const long asn_VAL_68_optional                                      = 0;
+static const long asn_VAL_69_id_MeasurementAmount                          = 95;
+static const long asn_VAL_69_ignore                                        = 1;
+static const long asn_VAL_69_optional                                      = 0;
+static const asn_ioc_cell_t asn_IOS_MeasurementRequest_IEs_1_rows[]        = {
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_48_id_LMF_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_48_reject},
+            &asn_VAL_55_id_LMF_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_55_reject},
     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_48_mandatory},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_55_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_49_id_TRP_MeasurementRequestList},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_49_reject},
+            &asn_VAL_56_id_TRP_MeasurementRequestList},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_56_reject},
     {"&Value", aioc__type, &asn_DEF_TRP_MeasurementRequestList},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_49_mandatory},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_56_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_50_id_ReportCharacteristics},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_50_reject},
+            &asn_VAL_57_id_ReportCharacteristics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_57_reject},
     {"&Value", aioc__type, &asn_DEF_ReportCharacteristics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_50_mandatory},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_57_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_51_id_MeasurementPeriodicity},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_51_reject},
-    {"&Value", aioc__type, &asn_DEF_MeasurementPeriodicity},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_51_conditional},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_52_id_TRPMeasurementQuantities},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_52_reject},
-    {"&Value", aioc__type, &asn_DEF_TRPMeasurementQuantities},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_52_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_53_id_SRSConfiguration},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_53_ignore},
-    {"&Value", aioc__type, &asn_DEF_SRSConfiguration},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_53_optional},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_54_id_SFNInitialisationTime},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_54_ignore},
-    {"&Value", aioc__type, &asn_DEF_SFNInitialisationTime},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_54_optional},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_55_id_MeasurementBeamInfoRequest},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_55_ignore},
-    {"&Value", aioc__type, &asn_DEF_MeasurementBeamInfoRequest},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_55_optional},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_56_id_SystemFrameNumber},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_56_ignore},
-    {"&Value", aioc__type, &asn_DEF_SystemFrameNumber},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_56_optional},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_57_id_SlotNumber},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_57_ignore},
-    {"&Value", aioc__type, &asn_DEF_SlotNumber},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_57_optional}};
-static const asn_ioc_set_t asn_IOS_MeasurementRequest_IEs_1[] = {
-    {10, 4, asn_IOS_MeasurementRequest_IEs_1_rows}};
-static const long asn_VAL_58_id_LMF_Measurement_ID                   = 39;
-static const long asn_VAL_58_reject                                  = 0;
-static const long asn_VAL_58_mandatory                               = 2;
-static const long asn_VAL_59_id_RAN_Measurement_ID                   = 40;
-static const long asn_VAL_59_reject                                  = 0;
-static const long asn_VAL_59_mandatory                               = 2;
-static const long asn_VAL_60_id_TRP_MeasurementResponseList          = 42;
-static const long asn_VAL_60_reject                                  = 0;
-static const long asn_VAL_60_mandatory                               = 2;
-static const long asn_VAL_61_id_CriticalityDiagnostics               = 1;
-static const long asn_VAL_61_ignore                                  = 1;
-static const long asn_VAL_61_optional                                = 0;
-static const asn_ioc_cell_t asn_IOS_MeasurementResponse_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_58_id_LMF_Measurement_ID},
+            &asn_VAL_58_id_MeasurementPeriodicity},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_58_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_58_mandatory},
+    {"&Value", aioc__type, &asn_DEF_MeasurementPeriodicity},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_58_conditional},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_59_id_RAN_Measurement_ID},
+            &asn_VAL_59_id_TRPMeasurementQuantities},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_59_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+    {"&Value", aioc__type, &asn_DEF_TRPMeasurementQuantities},
     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_59_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_60_id_TRP_MeasurementResponseList},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_60_reject},
-    {"&Value", aioc__type, &asn_DEF_TRP_MeasurementResponseList},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_60_mandatory},
+            &asn_VAL_60_id_SFNInitialisationTime},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_60_ignore},
+    {"&Value", aioc__type, &asn_DEF_RelativeTime1900},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_60_optional},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_61_id_CriticalityDiagnostics},
+            &asn_VAL_61_id_SRSConfiguration},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_61_ignore},
-    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_61_optional}};
-static const asn_ioc_set_t asn_IOS_MeasurementResponse_IEs_1[] = {
-    {4, 4, asn_IOS_MeasurementResponse_IEs_1_rows}};
-static const long asn_VAL_62_id_LMF_Measurement_ID                  = 39;
-static const long asn_VAL_62_reject                                 = 0;
-static const long asn_VAL_62_mandatory                              = 2;
-static const long asn_VAL_63_id_Cause                               = 0;
-static const long asn_VAL_63_ignore                                 = 1;
-static const long asn_VAL_63_mandatory                              = 2;
-static const long asn_VAL_64_id_CriticalityDiagnostics              = 1;
-static const long asn_VAL_64_ignore                                 = 1;
-static const long asn_VAL_64_optional                               = 0;
-static const asn_ioc_cell_t asn_IOS_MeasurementFailure_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_62_id_LMF_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_62_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_62_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_63_id_Cause},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_63_ignore},
-    {"&Value", aioc__type, &asn_DEF_Cause},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_63_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_64_id_CriticalityDiagnostics},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_64_ignore},
-    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_64_optional}};
-static const asn_ioc_set_t asn_IOS_MeasurementFailure_IEs_1[] = {
-    {3, 4, asn_IOS_MeasurementFailure_IEs_1_rows}};
-static const long asn_VAL_65_id_LMF_Measurement_ID                 = 39;
-static const long asn_VAL_65_reject                                = 0;
-static const long asn_VAL_65_mandatory                             = 2;
-static const long asn_VAL_66_id_RAN_Measurement_ID                 = 40;
-static const long asn_VAL_66_reject                                = 0;
-static const long asn_VAL_66_mandatory                             = 2;
-static const long asn_VAL_67_id_TRP_MeasurementReportList          = 43;
-static const long asn_VAL_67_reject                                = 0;
-static const long asn_VAL_67_mandatory                             = 2;
-static const asn_ioc_cell_t asn_IOS_MeasurementReport_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_65_id_LMF_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_65_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_65_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_66_id_RAN_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_66_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_66_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_67_id_TRP_MeasurementReportList},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_67_reject},
-    {"&Value", aioc__type, &asn_DEF_TRP_MeasurementResponseList},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_67_mandatory}};
-static const asn_ioc_set_t asn_IOS_MeasurementReport_IEs_1[] = {
-    {3, 4, asn_IOS_MeasurementReport_IEs_1_rows}};
-static const long asn_VAL_68_id_LMF_Measurement_ID                 = 39;
-static const long asn_VAL_68_reject                                = 0;
-static const long asn_VAL_68_mandatory                             = 2;
-static const long asn_VAL_69_id_RAN_Measurement_ID                 = 40;
-static const long asn_VAL_69_reject                                = 0;
-static const long asn_VAL_69_mandatory                             = 2;
-static const long asn_VAL_70_id_SRSConfiguration                   = 26;
-static const long asn_VAL_70_ignore                                = 1;
-static const long asn_VAL_70_optional                              = 0;
-static const asn_ioc_cell_t asn_IOS_MeasurementUpdate_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_68_id_LMF_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_68_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_68_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_69_id_RAN_Measurement_ID},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_69_reject},
-    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_69_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_70_id_SRSConfiguration},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_70_ignore},
     {"&Value", aioc__type, &asn_DEF_SRSConfiguration},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_70_optional}};
-static const asn_ioc_set_t asn_IOS_MeasurementUpdate_IEs_1[] = {
-    {3, 4, asn_IOS_MeasurementUpdate_IEs_1_rows}};
-static const long asn_VAL_71_id_LMF_Measurement_ID                = 39;
-static const long asn_VAL_71_reject                               = 0;
-static const long asn_VAL_71_mandatory                            = 2;
-static const long asn_VAL_72_id_RAN_Measurement_ID                = 40;
-static const long asn_VAL_72_reject                               = 0;
-static const long asn_VAL_72_mandatory                            = 2;
-static const asn_ioc_cell_t asn_IOS_MeasurementAbort_IEs_1_rows[] = {
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_61_optional},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_71_id_LMF_Measurement_ID},
+            &asn_VAL_62_id_MeasurementBeamInfoRequest},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_62_ignore},
+    {"&Value", aioc__type, &asn_DEF_MeasurementBeamInfoRequest},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_62_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+            &asn_VAL_63_id_SystemFrameNumber},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_63_ignore},
+    {"&Value", aioc__type, &asn_DEF_SystemFrameNumber},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_63_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_64_id_SlotNumber},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_64_ignore},
+    {"&Value", aioc__type, &asn_DEF_SlotNumber},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_64_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+            &asn_VAL_65_id_MeasurementPeriodicityExtended},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_65_reject},
+    {"&Value", aioc__type, &asn_DEF_MeasurementPeriodicityExtended},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_65_conditional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_66_id_ResponseTime},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_66_ignore},
+    {"&Value", aioc__type, &asn_DEF_ResponseTime},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_66_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+            &asn_VAL_67_id_MeasurementCharacteristicsRequestIndicator},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_67_ignore},
+    {"&Value", aioc__type, &asn_DEF_MeasurementCharacteristicsRequestIndicator},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_67_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+            &asn_VAL_68_id_MeasurementTimeOccasion},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_68_ignore},
+    {"&Value", aioc__type, &asn_DEF_MeasurementTimeOccasion},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_68_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+            &asn_VAL_69_id_MeasurementAmount},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_69_ignore},
+    {"&Value", aioc__type, &asn_DEF_MeasurementAmount},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_69_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementRequest_IEs_1[] = {
+    {15, 4, asn_IOS_MeasurementRequest_IEs_1_rows}};
+static const long asn_VAL_70_id_LMF_Measurement_ID                   = 39;
+static const long asn_VAL_70_reject                                  = 0;
+static const long asn_VAL_70_mandatory                               = 2;
+static const long asn_VAL_71_id_RAN_Measurement_ID                   = 40;
+static const long asn_VAL_71_reject                                  = 0;
+static const long asn_VAL_71_mandatory                               = 2;
+static const long asn_VAL_72_id_TRP_MeasurementResponseList          = 42;
+static const long asn_VAL_72_reject                                  = 0;
+static const long asn_VAL_72_optional                                = 0;
+static const long asn_VAL_73_id_CriticalityDiagnostics               = 1;
+static const long asn_VAL_73_ignore                                  = 1;
+static const long asn_VAL_73_optional                                = 0;
+static const asn_ioc_cell_t asn_IOS_MeasurementResponse_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_70_id_LMF_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_70_reject},
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_70_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_71_id_RAN_Measurement_ID},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_71_reject},
     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_71_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_72_id_RAN_Measurement_ID},
+     &asn_VAL_72_id_TRP_MeasurementResponseList},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_72_reject},
+    {"&Value", aioc__type, &asn_DEF_TRP_MeasurementResponseList},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_72_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_73_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_73_ignore},
+    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_73_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementResponse_IEs_1[] = {
+    {4, 4, asn_IOS_MeasurementResponse_IEs_1_rows}};
+static const long asn_VAL_74_id_LMF_Measurement_ID                  = 39;
+static const long asn_VAL_74_reject                                 = 0;
+static const long asn_VAL_74_mandatory                              = 2;
+static const long asn_VAL_75_id_Cause                               = 0;
+static const long asn_VAL_75_ignore                                 = 1;
+static const long asn_VAL_75_mandatory                              = 2;
+static const long asn_VAL_76_id_CriticalityDiagnostics              = 1;
+static const long asn_VAL_76_ignore                                 = 1;
+static const long asn_VAL_76_optional                               = 0;
+static const asn_ioc_cell_t asn_IOS_MeasurementFailure_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_74_id_LMF_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_74_reject},
     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_72_mandatory}};
-static const asn_ioc_set_t asn_IOS_MeasurementAbort_IEs_1[] = {
-    {2, 4, asn_IOS_MeasurementAbort_IEs_1_rows}};
-static const long asn_VAL_73_id_LMF_Measurement_ID = 39;
-static const long asn_VAL_73_reject                = 0;
-static const long asn_VAL_73_mandatory             = 2;
-static const long asn_VAL_74_id_RAN_Measurement_ID = 40;
-static const long asn_VAL_74_reject                = 0;
-static const long asn_VAL_74_mandatory             = 2;
-static const long asn_VAL_75_id_Cause              = 0;
-static const long asn_VAL_75_ignore                = 1;
-static const long asn_VAL_75_mandatory             = 2;
-static const asn_ioc_cell_t asn_IOS_MeasurementFailureIndication_IEs_1_rows[] =
-    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_73_id_LMF_Measurement_ID},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_73_reject},
-     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_73_mandatory},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_74_id_RAN_Measurement_ID},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_74_reject},
-     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_74_mandatory},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_75_id_Cause},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_75_ignore},
-     {"&Value", aioc__type, &asn_DEF_Cause},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_75_mandatory}};
-static const asn_ioc_set_t asn_IOS_MeasurementFailureIndication_IEs_1[] = {
-    {3, 4, asn_IOS_MeasurementFailureIndication_IEs_1_rows}};
-static const long asn_VAL_76_id_TRPList                                = 47;
-static const long asn_VAL_76_reject                                    = 0;
-static const long asn_VAL_76_mandatory                                 = 2;
-static const long asn_VAL_77_id_TRPInformationTypeList                 = 29;
-static const long asn_VAL_77_reject                                    = 0;
-static const long asn_VAL_77_mandatory                                 = 2;
-static const asn_ioc_cell_t asn_IOS_TRPInformationRequest_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_76_id_TRPList},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_76_reject},
-    {"&Value", aioc__type, &asn_DEF_TRPList},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_76_mandatory},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_74_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_75_id_Cause},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_75_ignore},
+    {"&Value", aioc__type, &asn_DEF_Cause},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_75_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_77_id_TRPInformationTypeList},
+     &asn_VAL_76_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_76_ignore},
+    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_76_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementFailure_IEs_1[] = {
+    {3, 4, asn_IOS_MeasurementFailure_IEs_1_rows}};
+static const long asn_VAL_77_id_LMF_Measurement_ID                 = 39;
+static const long asn_VAL_77_reject                                = 0;
+static const long asn_VAL_77_mandatory                             = 2;
+static const long asn_VAL_78_id_RAN_Measurement_ID                 = 40;
+static const long asn_VAL_78_reject                                = 0;
+static const long asn_VAL_78_mandatory                             = 2;
+static const long asn_VAL_79_id_TRP_MeasurementReportList          = 43;
+static const long asn_VAL_79_reject                                = 0;
+static const long asn_VAL_79_mandatory                             = 2;
+static const asn_ioc_cell_t asn_IOS_MeasurementReport_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_77_id_LMF_Measurement_ID},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_77_reject},
-    {"&Value", aioc__type, &asn_DEF_TRPInformationTypeList},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_77_mandatory}};
-static const asn_ioc_set_t asn_IOS_TRPInformationRequest_IEs_1[] = {
-    {2, 4, asn_IOS_TRPInformationRequest_IEs_1_rows}};
-static const long asn_VAL_78_id_TRPInformationList                      = 30;
-static const long asn_VAL_78_ignore                                     = 1;
-static const long asn_VAL_78_mandatory                                  = 2;
-static const long asn_VAL_79_id_CriticalityDiagnostics                  = 1;
-static const long asn_VAL_79_ignore                                     = 1;
-static const long asn_VAL_79_optional                                   = 0;
-static const asn_ioc_cell_t asn_IOS_TRPInformationResponse_IEs_1_rows[] = {
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_77_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_78_id_TRPInformationList},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_78_ignore},
-    {"&Value", aioc__type, &asn_DEF_TRPInformationList},
+     &asn_VAL_78_id_RAN_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_78_reject},
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_78_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_79_id_CriticalityDiagnostics},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_79_ignore},
-    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_79_optional}};
-static const asn_ioc_set_t asn_IOS_TRPInformationResponse_IEs_1[] = {
-    {2, 4, asn_IOS_TRPInformationResponse_IEs_1_rows}};
-static const long asn_VAL_80_id_Cause                                  = 0;
-static const long asn_VAL_80_ignore                                    = 1;
-static const long asn_VAL_80_mandatory                                 = 2;
-static const long asn_VAL_81_id_CriticalityDiagnostics                 = 1;
-static const long asn_VAL_81_ignore                                    = 1;
-static const long asn_VAL_81_optional                                  = 0;
-static const asn_ioc_cell_t asn_IOS_TRPInformationFailure_IEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_80_id_Cause},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_80_ignore},
-    {"&Value", aioc__type, &asn_DEF_Cause},
+     &asn_VAL_79_id_TRP_MeasurementReportList},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_79_reject},
+    {"&Value", aioc__type, &asn_DEF_TRP_MeasurementResponseList},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_79_mandatory}};
+static const asn_ioc_set_t asn_IOS_MeasurementReport_IEs_1[] = {
+    {3, 4, asn_IOS_MeasurementReport_IEs_1_rows}};
+static const long asn_VAL_80_id_LMF_Measurement_ID                         = 39;
+static const long asn_VAL_80_reject                                        = 0;
+static const long asn_VAL_80_mandatory                                     = 2;
+static const long asn_VAL_81_id_RAN_Measurement_ID                         = 40;
+static const long asn_VAL_81_reject                                        = 0;
+static const long asn_VAL_81_mandatory                                     = 2;
+static const long asn_VAL_82_id_SRSConfiguration                           = 26;
+static const long asn_VAL_82_ignore                                        = 1;
+static const long asn_VAL_82_optional                                      = 0;
+static const long asn_VAL_83_id_TRP_MeasurementUpdateList                  = 70;
+static const long asn_VAL_83_reject                                        = 0;
+static const long asn_VAL_83_optional                                      = 0;
+static const long asn_VAL_84_id_MeasurementCharacteristicsRequestIndicator = 92;
+static const long asn_VAL_84_ignore                                        = 1;
+static const long asn_VAL_84_optional                                      = 0;
+static const long asn_VAL_85_id_MeasurementTimeOccasion                    = 91;
+static const long asn_VAL_85_ignore                                        = 1;
+static const long asn_VAL_85_optional                                      = 0;
+static const asn_ioc_cell_t asn_IOS_MeasurementUpdate_IEs_1_rows[]         = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+             &asn_VAL_80_id_LMF_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_80_reject},
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_80_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_81_id_CriticalityDiagnostics},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_81_ignore},
+             &asn_VAL_81_id_RAN_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_81_reject},
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_81_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+             &asn_VAL_82_id_SRSConfiguration},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_82_ignore},
+    {"&Value", aioc__type, &asn_DEF_SRSConfiguration},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_82_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+             &asn_VAL_83_id_TRP_MeasurementUpdateList},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_83_reject},
+    {"&Value", aioc__type, &asn_DEF_TRP_MeasurementUpdateList},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_83_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+             &asn_VAL_84_id_MeasurementCharacteristicsRequestIndicator},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_84_ignore},
+    {"&Value", aioc__type, &asn_DEF_MeasurementCharacteristicsRequestIndicator},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_84_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+             &asn_VAL_85_id_MeasurementTimeOccasion},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_85_ignore},
+    {"&Value", aioc__type, &asn_DEF_MeasurementTimeOccasion},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_85_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementUpdate_IEs_1[] = {
+    {6, 4, asn_IOS_MeasurementUpdate_IEs_1_rows}};
+static const long asn_VAL_86_id_LMF_Measurement_ID                = 39;
+static const long asn_VAL_86_reject                               = 0;
+static const long asn_VAL_86_mandatory                            = 2;
+static const long asn_VAL_87_id_RAN_Measurement_ID                = 40;
+static const long asn_VAL_87_reject                               = 0;
+static const long asn_VAL_87_mandatory                            = 2;
+static const asn_ioc_cell_t asn_IOS_MeasurementAbort_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_86_id_LMF_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_86_reject},
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_86_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_87_id_RAN_Measurement_ID},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_87_reject},
+    {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_87_mandatory}};
+static const asn_ioc_set_t asn_IOS_MeasurementAbort_IEs_1[] = {
+    {2, 4, asn_IOS_MeasurementAbort_IEs_1_rows}};
+static const long asn_VAL_88_id_LMF_Measurement_ID = 39;
+static const long asn_VAL_88_reject                = 0;
+static const long asn_VAL_88_mandatory             = 2;
+static const long asn_VAL_89_id_RAN_Measurement_ID = 40;
+static const long asn_VAL_89_reject                = 0;
+static const long asn_VAL_89_mandatory             = 2;
+static const long asn_VAL_90_id_Cause              = 0;
+static const long asn_VAL_90_ignore                = 1;
+static const long asn_VAL_90_mandatory             = 2;
+static const asn_ioc_cell_t asn_IOS_MeasurementFailureIndication_IEs_1_rows[] =
+    {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_88_id_LMF_Measurement_ID},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_88_reject},
+     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_88_mandatory},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+      &asn_VAL_89_id_RAN_Measurement_ID},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_89_reject},
+     {"&Value", aioc__type, &asn_DEF_Measurement_ID},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_89_mandatory},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_90_id_Cause},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_90_ignore},
+     {"&Value", aioc__type, &asn_DEF_Cause},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_90_mandatory}};
+static const asn_ioc_set_t asn_IOS_MeasurementFailureIndication_IEs_1[] = {
+    {3, 4, asn_IOS_MeasurementFailureIndication_IEs_1_rows}};
+static const long asn_VAL_91_id_TRPList                                = 47;
+static const long asn_VAL_91_ignore                                    = 1;
+static const long asn_VAL_91_optional                                  = 0;
+static const long asn_VAL_92_id_TRPInformationTypeListTRPReq           = 29;
+static const long asn_VAL_92_reject                                    = 0;
+static const long asn_VAL_92_mandatory                                 = 2;
+static const asn_ioc_cell_t asn_IOS_TRPInformationRequest_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_91_id_TRPList},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_91_ignore},
+    {"&Value", aioc__type, &asn_DEF_TRPList},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_91_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_92_id_TRPInformationTypeListTRPReq},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_92_reject},
+    {"&Value", aioc__type, &asn_DEF_TRPInformationTypeListTRPReq},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_92_mandatory}};
+static const asn_ioc_set_t asn_IOS_TRPInformationRequest_IEs_1[] = {
+    {2, 4, asn_IOS_TRPInformationRequest_IEs_1_rows}};
+static const long asn_VAL_93_id_TRPInformationListTRPResp               = 30;
+static const long asn_VAL_93_ignore                                     = 1;
+static const long asn_VAL_93_mandatory                                  = 2;
+static const long asn_VAL_94_id_CriticalityDiagnostics                  = 1;
+static const long asn_VAL_94_ignore                                     = 1;
+static const long asn_VAL_94_optional                                   = 0;
+static const asn_ioc_cell_t asn_IOS_TRPInformationResponse_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_93_id_TRPInformationListTRPResp},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_93_ignore},
+    {"&Value", aioc__type, &asn_DEF_TRPInformationListTRPResp},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_93_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_94_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_94_ignore},
     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_81_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_94_optional}};
+static const asn_ioc_set_t asn_IOS_TRPInformationResponse_IEs_1[] = {
+    {2, 4, asn_IOS_TRPInformationResponse_IEs_1_rows}};
+static const long asn_VAL_95_id_Cause                                  = 0;
+static const long asn_VAL_95_ignore                                    = 1;
+static const long asn_VAL_95_mandatory                                 = 2;
+static const long asn_VAL_96_id_CriticalityDiagnostics                 = 1;
+static const long asn_VAL_96_ignore                                    = 1;
+static const long asn_VAL_96_optional                                  = 0;
+static const asn_ioc_cell_t asn_IOS_TRPInformationFailure_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_95_id_Cause},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_95_ignore},
+    {"&Value", aioc__type, &asn_DEF_Cause},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_95_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_96_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_96_ignore},
+    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_96_optional}};
 static const asn_ioc_set_t asn_IOS_TRPInformationFailure_IEs_1[] = {
     {2, 4, asn_IOS_TRPInformationFailure_IEs_1_rows}};
-static const long asn_VAL_82_id_SRSType        = 44;
-static const long asn_VAL_82_reject            = 0;
-static const long asn_VAL_82_mandatory         = 2;
-static const long asn_VAL_83_id_ActivationTime = 45;
-static const long asn_VAL_83_ignore            = 1;
-static const long asn_VAL_83_optional          = 0;
+static const long asn_VAL_97_id_SRSType        = 44;
+static const long asn_VAL_97_reject            = 0;
+static const long asn_VAL_97_mandatory         = 2;
+static const long asn_VAL_98_id_ActivationTime = 45;
+static const long asn_VAL_98_ignore            = 1;
+static const long asn_VAL_98_optional          = 0;
 static const asn_ioc_cell_t asn_IOS_PositioningActivationRequestIEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_82_id_SRSType},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_82_reject},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_97_id_SRSType},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_97_reject},
     {"&Value", aioc__type, &asn_DEF_SRSType},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_82_mandatory},
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_83_id_ActivationTime},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_83_ignore},
-    {"&Value", aioc__type, &asn_DEF_ActivationTime},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_83_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_97_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_98_id_ActivationTime},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_98_ignore},
+    {"&Value", aioc__type, &asn_DEF_RelativeTime1900},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_98_optional}};
 static const asn_ioc_set_t asn_IOS_PositioningActivationRequestIEs_1[] = {
     {2, 4, asn_IOS_PositioningActivationRequestIEs_1_rows}};
-static const long asn_VAL_84_id_CriticalityDiagnostics = 1;
-static const long asn_VAL_84_ignore                    = 1;
-static const long asn_VAL_84_optional                  = 0;
-static const long asn_VAL_85_id_SystemFrameNumber      = 49;
-static const long asn_VAL_85_ignore                    = 1;
-static const long asn_VAL_85_optional                  = 0;
-static const long asn_VAL_86_id_SlotNumber             = 50;
-static const long asn_VAL_86_ignore                    = 1;
-static const long asn_VAL_86_optional                  = 0;
+static const long asn_VAL_99_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_99_ignore                    = 1;
+static const long asn_VAL_99_optional                  = 0;
+static const long asn_VAL_100_id_SystemFrameNumber     = 49;
+static const long asn_VAL_100_ignore                   = 1;
+static const long asn_VAL_100_optional                 = 0;
+static const long asn_VAL_101_id_SlotNumber            = 50;
+static const long asn_VAL_101_ignore                   = 1;
+static const long asn_VAL_101_optional                 = 0;
 static const asn_ioc_cell_t asn_IOS_PositioningActivationResponseIEs_1_rows[] =
     {{"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_84_id_CriticalityDiagnostics},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_84_ignore},
+      &asn_VAL_99_id_CriticalityDiagnostics},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_99_ignore},
      {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_84_optional},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_99_optional},
      {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-      &asn_VAL_85_id_SystemFrameNumber},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_85_ignore},
+      &asn_VAL_100_id_SystemFrameNumber},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_100_ignore},
      {"&Value", aioc__type, &asn_DEF_SystemFrameNumber},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_85_optional},
-     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_86_id_SlotNumber},
-     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_86_ignore},
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_100_optional},
+     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_101_id_SlotNumber},
+     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_101_ignore},
      {"&Value", aioc__type, &asn_DEF_SlotNumber},
-     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_86_optional}};
+     {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_101_optional}};
 static const asn_ioc_set_t asn_IOS_PositioningActivationResponseIEs_1[] = {
     {3, 4, asn_IOS_PositioningActivationResponseIEs_1_rows}};
-static const long asn_VAL_87_id_Cause                  = 0;
-static const long asn_VAL_87_ignore                    = 1;
-static const long asn_VAL_87_mandatory                 = 2;
-static const long asn_VAL_88_id_CriticalityDiagnostics = 1;
-static const long asn_VAL_88_ignore                    = 1;
-static const long asn_VAL_88_optional                  = 0;
+static const long asn_VAL_102_id_Cause                  = 0;
+static const long asn_VAL_102_ignore                    = 1;
+static const long asn_VAL_102_mandatory                 = 2;
+static const long asn_VAL_103_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_103_ignore                    = 1;
+static const long asn_VAL_103_optional                  = 0;
 static const asn_ioc_cell_t asn_IOS_PositioningActivationFailureIEs_1_rows[] = {
-    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_87_id_Cause},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_87_ignore},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_102_id_Cause},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_102_ignore},
     {"&Value", aioc__type, &asn_DEF_Cause},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_87_mandatory},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_102_mandatory},
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_88_id_CriticalityDiagnostics},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_88_ignore},
+     &asn_VAL_103_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_103_ignore},
     {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_88_optional}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_103_optional}};
 static const asn_ioc_set_t asn_IOS_PositioningActivationFailureIEs_1[] = {
     {2, 4, asn_IOS_PositioningActivationFailureIEs_1_rows}};
-static const long asn_VAL_89_id_AbortTransmission                       = 53;
-static const long asn_VAL_89_ignore                                     = 1;
-static const long asn_VAL_89_mandatory                                  = 2;
+static const long asn_VAL_104_id_AbortTransmission                      = 53;
+static const long asn_VAL_104_ignore                                    = 1;
+static const long asn_VAL_104_mandatory                                 = 2;
 static const asn_ioc_cell_t asn_IOS_PositioningDeactivationIEs_1_rows[] = {
     {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
-     &asn_VAL_89_id_AbortTransmission},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_89_ignore},
+     &asn_VAL_104_id_AbortTransmission},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_104_ignore},
     {"&Value", aioc__type, &asn_DEF_AbortTransmission},
-    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_89_mandatory}};
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_104_mandatory}};
 static const asn_ioc_set_t asn_IOS_PositioningDeactivationIEs_1[] = {
     {1, 4, asn_IOS_PositioningDeactivationIEs_1_rows}};
+static const long asn_VAL_105_id_PRSConfigRequestType                    = 89;
+static const long asn_VAL_105_reject                                     = 0;
+static const long asn_VAL_105_mandatory                                  = 2;
+static const long asn_VAL_106_id_PRSTRPList                              = 66;
+static const long asn_VAL_106_ignore                                     = 1;
+static const long asn_VAL_106_mandatory                                  = 2;
+static const asn_ioc_cell_t asn_IOS_PRSConfigurationRequest_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_105_id_PRSConfigRequestType},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_105_reject},
+    {"&Value", aioc__type, &asn_DEF_PRSConfigRequestType},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_105_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_106_id_PRSTRPList},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_106_ignore},
+    {"&Value", aioc__type, &asn_DEF_PRSTRPList},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_106_mandatory}};
+static const asn_ioc_set_t asn_IOS_PRSConfigurationRequest_IEs_1[] = {
+    {2, 4, asn_IOS_PRSConfigurationRequest_IEs_1_rows}};
+static const long asn_VAL_107_id_PRSTransmissionTRPList                   = 67;
+static const long asn_VAL_107_ignore                                      = 1;
+static const long asn_VAL_107_optional                                    = 0;
+static const long asn_VAL_108_id_CriticalityDiagnostics                   = 1;
+static const long asn_VAL_108_ignore                                      = 1;
+static const long asn_VAL_108_optional                                    = 0;
+static const asn_ioc_cell_t asn_IOS_PRSConfigurationResponse_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_107_id_PRSTransmissionTRPList},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_107_ignore},
+    {"&Value", aioc__type, &asn_DEF_PRSTransmissionTRPList},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_107_optional},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_108_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_108_ignore},
+    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_108_optional}};
+static const asn_ioc_set_t asn_IOS_PRSConfigurationResponse_IEs_1[] = {
+    {2, 4, asn_IOS_PRSConfigurationResponse_IEs_1_rows}};
+static const long asn_VAL_109_id_Cause                                   = 0;
+static const long asn_VAL_109_ignore                                     = 1;
+static const long asn_VAL_109_mandatory                                  = 2;
+static const long asn_VAL_110_id_CriticalityDiagnostics                  = 1;
+static const long asn_VAL_110_ignore                                     = 1;
+static const long asn_VAL_110_optional                                   = 0;
+static const asn_ioc_cell_t asn_IOS_PRSConfigurationFailure_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_109_id_Cause},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_109_ignore},
+    {"&Value", aioc__type, &asn_DEF_Cause},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_109_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_110_id_CriticalityDiagnostics},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_110_ignore},
+    {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_110_optional}};
+static const asn_ioc_set_t asn_IOS_PRSConfigurationFailure_IEs_1[] = {
+    {2, 4, asn_IOS_PRSConfigurationFailure_IEs_1_rows}};
+static const long asn_VAL_111_id_TRP_PRS_Information_List = 87;
+static const long asn_VAL_111_ignore                      = 1;
+static const long asn_VAL_111_mandatory                   = 2;
+static const asn_ioc_cell_t
+    asn_IOS_MeasurementPreconfigurationRequired_IEs_1_rows[] = {
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_111_id_TRP_PRS_Information_List},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_111_ignore},
+        {"&Value", aioc__type, &asn_DEF_TRP_PRS_Information_List},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_111_mandatory}};
+static const asn_ioc_set_t asn_IOS_MeasurementPreconfigurationRequired_IEs_1[] =
+    {{1, 4, asn_IOS_MeasurementPreconfigurationRequired_IEs_1_rows}};
+static const long asn_VAL_112_id_PreconfigurationResult = 97;
+static const long asn_VAL_112_ignore                    = 1;
+static const long asn_VAL_112_mandatory                 = 2;
+static const long asn_VAL_113_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_113_ignore                    = 1;
+static const long asn_VAL_113_optional                  = 0;
+static const asn_ioc_cell_t
+    asn_IOS_MeasurementPreconfigurationConfirm_IEs_1_rows[] = {
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_112_id_PreconfigurationResult},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_112_ignore},
+        {"&Value", aioc__type, &asn_DEF_PreconfigurationResult},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_112_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_113_id_CriticalityDiagnostics},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_113_ignore},
+        {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_113_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementPreconfigurationConfirm_IEs_1[] =
+    {{2, 4, asn_IOS_MeasurementPreconfigurationConfirm_IEs_1_rows}};
+static const long asn_VAL_114_id_Cause                  = 0;
+static const long asn_VAL_114_ignore                    = 1;
+static const long asn_VAL_114_mandatory                 = 2;
+static const long asn_VAL_115_id_CriticalityDiagnostics = 1;
+static const long asn_VAL_115_ignore                    = 1;
+static const long asn_VAL_115_optional                  = 0;
+static const asn_ioc_cell_t
+    asn_IOS_MeasurementPreconfigurationRefuse_IEs_1_rows[] = {
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_114_id_Cause},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_114_ignore},
+        {"&Value", aioc__type, &asn_DEF_Cause},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_114_mandatory},
+        {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+         &asn_VAL_115_id_CriticalityDiagnostics},
+        {"&criticality", aioc__value, &asn_DEF_Criticality,
+         &asn_VAL_115_ignore},
+        {"&Value", aioc__type, &asn_DEF_CriticalityDiagnostics},
+        {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_115_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementPreconfigurationRefuse_IEs_1[] = {
+    {2, 4, asn_IOS_MeasurementPreconfigurationRefuse_IEs_1_rows}};
+static const long asn_VAL_116_id_RequestType                           = 98;
+static const long asn_VAL_116_reject                                   = 0;
+static const long asn_VAL_116_mandatory                                = 2;
+static const long asn_VAL_117_id_PRS_Measurements_Info_List            = 88;
+static const long asn_VAL_117_ignore                                   = 1;
+static const long asn_VAL_117_optional                                 = 0;
+static const asn_ioc_cell_t asn_IOS_MeasurementActivation_IEs_1_rows[] = {
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID, &asn_VAL_116_id_RequestType},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_116_reject},
+    {"&Value", aioc__type, &asn_DEF_RequestType},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_116_mandatory},
+    {"&id", aioc__value, &asn_DEF_ProtocolIE_ID,
+     &asn_VAL_117_id_PRS_Measurements_Info_List},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_117_ignore},
+    {"&Value", aioc__type, &asn_DEF_PRS_Measurements_Info_List},
+    {"&presence", aioc__value, &asn_DEF_Presence, &asn_VAL_117_optional}};
+static const asn_ioc_set_t asn_IOS_MeasurementActivation_IEs_1[] = {
+    {2, 4, asn_IOS_MeasurementActivation_IEs_1_rows}};
 static int memb_id_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -936,16 +1288,16 @@ static int memb_id_constraint_1(
 }
 
 static asn_type_selector_result_t
-select_OTDOA_Information_TypeIEs_criticality_type(
+select_OTDOA_Information_Type_ItemIEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOA_Information_TypeIEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOA_Information_Type_ItemIEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOA_Information_TypeIEs, id));
+                     offsetof(struct OTDOA_Information_Type_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -986,16 +1338,17 @@ static int memb_criticality_constraint_1(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_OTDOA_Information_TypeIEs_value_type(
+static asn_type_selector_result_t
+select_OTDOA_Information_Type_ItemIEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOA_Information_TypeIEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOA_Information_Type_ItemIEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOA_Information_TypeIEs, id));
+                     offsetof(struct OTDOA_Information_Type_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1488,39 +1841,6 @@ static int memb_id_constraint_33(
   }
 }
 
-static asn_type_selector_result_t
-select_MeasurementQuantities_ItemIEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementQuantities_ItemIEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementQuantities_ItemIEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_33(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -1537,39 +1857,6 @@ static int memb_criticality_constraint_33(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_MeasurementQuantities_ItemIEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementQuantities_ItemIEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementQuantities_ItemIEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_33(
@@ -1615,39 +1902,6 @@ static int memb_id_constraint_37(
   }
 }
 
-static asn_type_selector_result_t
-select_MeasuredResultsValue_ExtensionIE_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_MeasuredResultsValue_ExtensionIE_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasuredResultsValue_ExtensionIE, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_37(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -1664,39 +1918,6 @@ static int memb_criticality_constraint_37(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_MeasuredResultsValue_ExtensionIE_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_MeasuredResultsValue_ExtensionIE_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasuredResultsValue_ExtensionIE, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_37(
@@ -1803,41 +2024,6 @@ static int memb_id_constraint_45(
   }
 }
 
-static asn_type_selector_result_t
-select_OTDOACell_Information_Item_ExtensionIE_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_OTDOACell_Information_Item_ExtensionIE_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct OTDOACell_Information_Item_ExtensionIE, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_45(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -1854,41 +2040,6 @@ static int memb_criticality_constraint_45(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_OTDOACell_Information_Item_ExtensionIE_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_OTDOACell_Information_Item_ExtensionIE_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct OTDOACell_Information_Item_ExtensionIE, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_45(
@@ -1935,17 +2086,16 @@ static int memb_id_constraint_49(
 }
 
 static asn_type_selector_result_t
-select_OtherRATMeasurementQuantities_ItemIEs_criticality_type(
+select_MeasurementQuantities_ItemIEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementQuantities_ItemIEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct OtherRATMeasurementQuantities_ItemIEs, id));
+                     offsetof(struct MeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -1987,17 +2137,16 @@ static int memb_criticality_constraint_49(
 }
 
 static asn_type_selector_result_t
-select_OtherRATMeasurementQuantities_ItemIEs_value_type(
+select_MeasurementQuantities_ItemIEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementQuantities_ItemIEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct OtherRATMeasurementQuantities_ItemIEs, id));
+                     offsetof(struct MeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -2064,18 +2213,16 @@ static int memb_id_constraint_53(
 }
 
 static asn_type_selector_result_t
-select_OtherRATMeasuredResultsValue_ExtensionIE_criticality_type(
+select_MeasuredResultsValue_ExtensionIE_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_MeasuredResultsValue_ExtensionIE_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct OtherRATMeasuredResultsValue_ExtensionIE, id));
+                     offsetof(struct MeasuredResultsValue_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -2117,18 +2264,16 @@ static int memb_criticality_constraint_53(
 }
 
 static asn_type_selector_result_t
-select_OtherRATMeasuredResultsValue_ExtensionIE_value_type(
+select_MeasuredResultsValue_ExtensionIE_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_MeasuredResultsValue_ExtensionIE_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct OtherRATMeasuredResultsValue_ExtensionIE, id));
+                     offsetof(struct MeasuredResultsValue_ExtensionIE, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -2316,6 +2461,41 @@ static int memb_id_constraint_65(
   }
 }
 
+static asn_type_selector_result_t
+select_OTDOACell_Information_Item_ExtensionIE_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_OTDOACell_Information_Item_ExtensionIE_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OTDOACell_Information_Item_ExtensionIE, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
 static int memb_criticality_constraint_65(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -2332,6 +2512,41 @@ static int memb_criticality_constraint_65(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_OTDOACell_Information_Item_ExtensionIE_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_OTDOACell_Information_Item_ExtensionIE_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OTDOACell_Information_Item_ExtensionIE, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
 }
 
 static int memb_value_constraint_65(
@@ -2377,6 +2592,40 @@ static int memb_id_constraint_69(
   }
 }
 
+static asn_type_selector_result_t
+select_OtherRATMeasurementQuantities_ItemIEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasurementQuantities_ItemIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
 static int memb_criticality_constraint_69(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -2393,6 +2642,40 @@ static int memb_criticality_constraint_69(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_OtherRATMeasurementQuantities_ItemIEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_OtherRATMeasurementQuantities_ItemIEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasurementQuantities_ItemIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
 }
 
 static int memb_value_constraint_69(
@@ -2438,6 +2721,41 @@ static int memb_id_constraint_73(
   }
 }
 
+static asn_type_selector_result_t
+select_OtherRATMeasuredResultsValue_ExtensionIE_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasuredResultsValue_ExtensionIE, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
 static int memb_criticality_constraint_73(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -2454,6 +2772,41 @@ static int memb_criticality_constraint_73(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_OtherRATMeasuredResultsValue_ExtensionIE_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_OtherRATMeasuredResultsValue_ExtensionIE_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct OtherRATMeasuredResultsValue_ExtensionIE, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
 }
 
 static int memb_value_constraint_73(
@@ -3292,39 +3645,6 @@ static int memb_id_constraint_129(
   }
 }
 
-static asn_type_selector_result_t
-select_WLANMeasurementQuantities_ItemIEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_WLANMeasurementQuantities_ItemIEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_129(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -3341,39 +3661,6 @@ static int memb_criticality_constraint_129(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_WLANMeasurementQuantities_ItemIEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_WLANMeasurementQuantities_ItemIEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_129(
@@ -3419,40 +3706,6 @@ static int memb_id_constraint_133(
   }
 }
 
-static asn_type_selector_result_t
-select_E_CIDMeasurementInitiationRequest_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementInitiationRequest_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_133(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -3469,40 +3722,6 @@ static int memb_criticality_constraint_133(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_E_CIDMeasurementInitiationRequest_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementInitiationRequest_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_133(
@@ -3548,41 +3767,6 @@ static int memb_id_constraint_137(
   }
 }
 
-static asn_type_selector_result_t
-select_E_CIDMeasurementInitiationResponse_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementInitiationResponse_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_137(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -3599,41 +3783,6 @@ static int memb_criticality_constraint_137(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_E_CIDMeasurementInitiationResponse_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementInitiationResponse_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_137(
@@ -3679,40 +3828,6 @@ static int memb_id_constraint_141(
   }
 }
 
-static asn_type_selector_result_t
-select_E_CIDMeasurementInitiationFailure_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementInitiationFailure_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_141(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -3729,40 +3844,6 @@ static int memb_criticality_constraint_141(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_E_CIDMeasurementInitiationFailure_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementInitiationFailure_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_141(
@@ -3808,40 +3889,6 @@ static int memb_id_constraint_145(
   }
 }
 
-static asn_type_selector_result_t
-select_E_CIDMeasurementFailureIndication_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementFailureIndication_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementFailureIndication_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_145(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -3858,40 +3905,6 @@ static int memb_criticality_constraint_145(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_E_CIDMeasurementFailureIndication_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementFailureIndication_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementFailureIndication_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_145(
@@ -3938,16 +3951,16 @@ static int memb_id_constraint_149(
 }
 
 static asn_type_selector_result_t
-select_E_CIDMeasurementReport_IEs_criticality_type(
+select_TrpMeasuredResultsValue_ExtIEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_E_CIDMeasurementReport_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_TrpMeasuredResultsValue_ExtIEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct E_CIDMeasurementReport_IEs, id));
+                     offsetof(struct TrpMeasuredResultsValue_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -3988,16 +4001,17 @@ static int memb_criticality_constraint_149(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_E_CIDMeasurementReport_IEs_value_type(
+static asn_type_selector_result_t
+select_TrpMeasuredResultsValue_ExtIEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_E_CIDMeasurementReport_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_TrpMeasuredResultsValue_ExtIEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct E_CIDMeasurementReport_IEs, id));
+                     offsetof(struct TrpMeasuredResultsValue_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4063,41 +4077,6 @@ static int memb_id_constraint_153(
   }
 }
 
-static asn_type_selector_result_t
-select_E_CIDMeasurementTerminationCommand_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementTerminationCommand_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_153(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -4114,41 +4093,6 @@ static int memb_criticality_constraint_153(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_E_CIDMeasurementTerminationCommand_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable =
-      asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1;
-  size_t constraining_column = 0; /* &id */
-  size_t for_column          = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(
-                         struct E_CIDMeasurementTerminationCommand_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_153(
@@ -4195,16 +4139,17 @@ static int memb_id_constraint_157(
 }
 
 static asn_type_selector_result_t
-select_OTDOAInformationRequest_IEs_criticality_type(
+select_TRPInformationTypeResponseItem_ExtIEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationRequest_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_TRPInformationTypeResponseItem_ExtIEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOAInformationRequest_IEs, id));
+                     offsetof(
+                         struct TRPInformationTypeResponseItem_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4245,16 +4190,18 @@ static int memb_criticality_constraint_157(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_OTDOAInformationRequest_IEs_value_type(
+static asn_type_selector_result_t
+select_TRPInformationTypeResponseItem_ExtIEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationRequest_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_TRPInformationTypeResponseItem_ExtIEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOAInformationRequest_IEs, id));
+                     offsetof(
+                         struct TRPInformationTypeResponseItem_ExtIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4321,16 +4268,16 @@ static int memb_id_constraint_161(
 }
 
 static asn_type_selector_result_t
-select_OTDOAInformationResponse_IEs_criticality_type(
+select_TRPInformationTypeItemTRPReq_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationResponse_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationTypeItemTRPReq_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOAInformationResponse_IEs, id));
+                     offsetof(struct TRPInformationTypeItemTRPReq, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4372,16 +4319,16 @@ static int memb_criticality_constraint_161(
 }
 
 static asn_type_selector_result_t
-select_OTDOAInformationResponse_IEs_value_type(
+select_TRPInformationTypeItemTRPReq_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationResponse_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationTypeItemTRPReq_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOAInformationResponse_IEs, id));
+                     offsetof(struct TRPInformationTypeItemTRPReq, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -4447,39 +4394,6 @@ static int memb_id_constraint_165(
   }
 }
 
-static asn_type_selector_result_t
-select_OTDOAInformationFailure_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationFailure_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOAInformationFailure_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_165(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -4496,38 +4410,6 @@ static int memb_criticality_constraint_165(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t select_OTDOAInformationFailure_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationFailure_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct OTDOAInformationFailure_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_165(
@@ -4573,39 +4455,6 @@ static int memb_id_constraint_169(
   }
 }
 
-static asn_type_selector_result_t
-select_AssistanceInformationControl_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationControl_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct AssistanceInformationControl_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_169(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -4622,39 +4471,6 @@ static int memb_criticality_constraint_169(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_AssistanceInformationControl_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationControl_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct AssistanceInformationControl_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_169(
@@ -4700,39 +4516,6 @@ static int memb_id_constraint_173(
   }
 }
 
-static asn_type_selector_result_t
-select_AssistanceInformationFeedback_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationFeedback_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct AssistanceInformationFeedback_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_173(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -4749,39 +4532,6 @@ static int memb_criticality_constraint_173(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t
-select_AssistanceInformationFeedback_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationFeedback_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct AssistanceInformationFeedback_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_173(
@@ -4827,38 +4577,6 @@ static int memb_id_constraint_177(
   }
 }
 
-static asn_type_selector_result_t select_ErrorIndication_IEs_criticality_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_ErrorIndication_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct ErrorIndication_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
-}
-
 static int memb_criticality_constraint_177(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -4875,38 +4593,6 @@ static int memb_criticality_constraint_177(
 
   return td->encoding_constraints.general_constraints(
       td, sptr, ctfailcb, app_key);
-}
-
-static asn_type_selector_result_t select_ErrorIndication_IEs_value_type(
-    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
-  asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_ErrorIndication_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
-  size_t row, presence_index = 0;
-  const long* constraining_value =
-      (const long*) ((const char*) parent_sptr +
-                     offsetof(struct ErrorIndication_IEs, id));
-
-  for (row = 0; row < itable->rows_count; row++) {
-    const asn_ioc_cell_t* constraining_cell =
-        &itable->rows[row * itable->columns_count + constraining_column];
-    const asn_ioc_cell_t* type_cell =
-        &itable->rows[row * itable->columns_count + for_column];
-
-    if (type_cell->cell_kind == aioc__undefined) continue;
-
-    presence_index++;
-    if (constraining_cell->type_descriptor->op->compare_struct(
-            constraining_cell->type_descriptor, constraining_value,
-            constraining_cell->value_sptr) == 0) {
-      result.type_descriptor = type_cell->type_descriptor;
-      result.presence_index  = presence_index;
-      break;
-    }
-  }
-
-  return result;
 }
 
 static int memb_value_constraint_177(
@@ -4953,16 +4639,16 @@ static int memb_id_constraint_181(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationRequest_IEs_criticality_type(
+select_WLANMeasurementQuantities_ItemIEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationRequest_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_WLANMeasurementQuantities_ItemIEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationRequest_IEs, id));
+                     offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5004,16 +4690,16 @@ static int memb_criticality_constraint_181(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationRequest_IEs_value_type(
+select_WLANMeasurementQuantities_ItemIEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationRequest_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_WLANMeasurementQuantities_ItemIEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationRequest_IEs, id));
+                     offsetof(struct WLANMeasurementQuantities_ItemIEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5080,16 +4766,17 @@ static int memb_id_constraint_185(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationResponse_IEs_criticality_type(
+select_E_CIDMeasurementInitiationRequest_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationResponse_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationResponse_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementInitiationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5131,16 +4818,17 @@ static int memb_criticality_constraint_185(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationResponse_IEs_value_type(
+select_E_CIDMeasurementInitiationRequest_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationResponse_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationRequest_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationResponse_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementInitiationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5207,16 +4895,18 @@ static int memb_id_constraint_189(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationFailure_IEs_criticality_type(
+select_E_CIDMeasurementInitiationResponse_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationFailure_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 1; /* &criticality */
+  const asn_ioc_set_t* itable =
+      asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationFailure_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementInitiationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5258,16 +4948,18 @@ static int memb_criticality_constraint_189(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationFailure_IEs_value_type(
+select_E_CIDMeasurementInitiationResponse_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationFailure_IEs_1;
-  size_t constraining_column  = 0; /* &id */
-  size_t for_column           = 2; /* &Value */
+  const asn_ioc_set_t* itable =
+      asn_IOS_E_CIDMeasurementInitiationResponse_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationFailure_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementInitiationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5334,16 +5026,17 @@ static int memb_id_constraint_193(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationUpdate_IEs_criticality_type(
+select_E_CIDMeasurementInitiationFailure_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationUpdate_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationUpdate_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementInitiationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5385,16 +5078,17 @@ static int memb_criticality_constraint_193(
 }
 
 static asn_type_selector_result_t
-select_PositioningInformationUpdate_IEs_value_type(
+select_E_CIDMeasurementInitiationFailure_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationUpdate_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementInitiationFailure_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningInformationUpdate_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementInitiationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5461,16 +5155,17 @@ static int memb_id_constraint_197(
 }
 
 static asn_type_selector_result_t
-select_MeasurementRequest_IEs_criticality_type(
+select_E_CIDMeasurementFailureIndication_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementRequest_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementFailureIndication_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementRequest_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementFailureIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5511,16 +5206,18 @@ static int memb_criticality_constraint_197(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_MeasurementRequest_IEs_value_type(
+static asn_type_selector_result_t
+select_E_CIDMeasurementFailureIndication_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementRequest_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_E_CIDMeasurementFailureIndication_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementRequest_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementFailureIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5587,16 +5284,16 @@ static int memb_id_constraint_201(
 }
 
 static asn_type_selector_result_t
-select_MeasurementResponse_IEs_criticality_type(
+select_E_CIDMeasurementReport_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementResponse_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_E_CIDMeasurementReport_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementResponse_IEs, id));
+                     offsetof(struct E_CIDMeasurementReport_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5637,16 +5334,16 @@ static int memb_criticality_constraint_201(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_MeasurementResponse_IEs_value_type(
+static asn_type_selector_result_t select_E_CIDMeasurementReport_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementResponse_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_E_CIDMeasurementReport_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementResponse_IEs, id));
+                     offsetof(struct E_CIDMeasurementReport_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5713,16 +5410,18 @@ static int memb_id_constraint_205(
 }
 
 static asn_type_selector_result_t
-select_MeasurementFailure_IEs_criticality_type(
+select_E_CIDMeasurementTerminationCommand_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementFailure_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable =
+      asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementFailure_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementTerminationCommand_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5763,16 +5462,19 @@ static int memb_criticality_constraint_205(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_MeasurementFailure_IEs_value_type(
+static asn_type_selector_result_t
+select_E_CIDMeasurementTerminationCommand_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementFailure_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable =
+      asn_IOS_E_CIDMeasurementTerminationCommand_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementFailure_IEs, id));
+                     offsetof(
+                         struct E_CIDMeasurementTerminationCommand_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5838,16 +5540,17 @@ static int memb_id_constraint_209(
   }
 }
 
-static asn_type_selector_result_t select_MeasurementReport_IEs_criticality_type(
+static asn_type_selector_result_t
+select_OTDOAInformationRequest_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementReport_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationRequest_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementReport_IEs, id));
+                     offsetof(struct OTDOAInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5888,16 +5591,16 @@ static int memb_criticality_constraint_209(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_MeasurementReport_IEs_value_type(
+static asn_type_selector_result_t select_OTDOAInformationRequest_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementReport_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationRequest_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementReport_IEs, id));
+                     offsetof(struct OTDOAInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -5963,16 +5666,17 @@ static int memb_id_constraint_213(
   }
 }
 
-static asn_type_selector_result_t select_MeasurementUpdate_IEs_criticality_type(
+static asn_type_selector_result_t
+select_OTDOAInformationResponse_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementUpdate_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationResponse_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementUpdate_IEs, id));
+                     offsetof(struct OTDOAInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6013,16 +5717,17 @@ static int memb_criticality_constraint_213(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_MeasurementUpdate_IEs_value_type(
+static asn_type_selector_result_t
+select_OTDOAInformationResponse_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementUpdate_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationResponse_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementUpdate_IEs, id));
+                     offsetof(struct OTDOAInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6088,16 +5793,17 @@ static int memb_id_constraint_217(
   }
 }
 
-static asn_type_selector_result_t select_MeasurementAbort_IEs_criticality_type(
+static asn_type_selector_result_t
+select_OTDOAInformationFailure_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementAbort_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationFailure_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementAbort_IEs, id));
+                     offsetof(struct OTDOAInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6138,16 +5844,16 @@ static int memb_criticality_constraint_217(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_MeasurementAbort_IEs_value_type(
+static asn_type_selector_result_t select_OTDOAInformationFailure_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_MeasurementAbort_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_OTDOAInformationFailure_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementAbort_IEs, id));
+                     offsetof(struct OTDOAInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6214,16 +5920,16 @@ static int memb_id_constraint_221(
 }
 
 static asn_type_selector_result_t
-select_MeasurementFailureIndication_IEs_criticality_type(
+select_AssistanceInformationControl_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_MeasurementFailureIndication_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationControl_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementFailureIndication_IEs, id));
+                     offsetof(struct AssistanceInformationControl_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6265,16 +5971,16 @@ static int memb_criticality_constraint_221(
 }
 
 static asn_type_selector_result_t
-select_MeasurementFailureIndication_IEs_value_type(
+select_AssistanceInformationControl_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_MeasurementFailureIndication_IEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationControl_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct MeasurementFailureIndication_IEs, id));
+                     offsetof(struct AssistanceInformationControl_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6341,16 +6047,16 @@ static int memb_id_constraint_225(
 }
 
 static asn_type_selector_result_t
-select_TRPInformationRequest_IEs_criticality_type(
+select_AssistanceInformationFeedback_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationRequest_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationFeedback_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct TRPInformationRequest_IEs, id));
+                     offsetof(struct AssistanceInformationFeedback_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6391,16 +6097,17 @@ static int memb_criticality_constraint_225(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_TRPInformationRequest_IEs_value_type(
+static asn_type_selector_result_t
+select_AssistanceInformationFeedback_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationRequest_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_AssistanceInformationFeedback_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct TRPInformationRequest_IEs, id));
+                     offsetof(struct AssistanceInformationFeedback_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6466,17 +6173,16 @@ static int memb_id_constraint_229(
   }
 }
 
-static asn_type_selector_result_t
-select_TRPInformationResponse_IEs_criticality_type(
+static asn_type_selector_result_t select_ErrorIndication_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationResponse_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_ErrorIndication_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct TRPInformationResponse_IEs, id));
+                     offsetof(struct ErrorIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6517,16 +6223,16 @@ static int memb_criticality_constraint_229(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_TRPInformationResponse_IEs_value_type(
+static asn_type_selector_result_t select_ErrorIndication_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationResponse_IEs_1;
+  const asn_ioc_set_t* itable       = asn_IOS_ErrorIndication_IEs_1;
   size_t constraining_column        = 0; /* &id */
   size_t for_column                 = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct TRPInformationResponse_IEs, id));
+                     offsetof(struct ErrorIndication_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6593,16 +6299,16 @@ static int memb_id_constraint_233(
 }
 
 static asn_type_selector_result_t
-select_TRPInformationFailure_IEs_criticality_type(
+select_PositioningInformationRequest_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationFailure_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationRequest_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct TRPInformationFailure_IEs, id));
+                     offsetof(struct PositioningInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6643,16 +6349,17 @@ static int memb_criticality_constraint_233(
       td, sptr, ctfailcb, app_key);
 }
 
-static asn_type_selector_result_t select_TRPInformationFailure_IEs_value_type(
+static asn_type_selector_result_t
+select_PositioningInformationRequest_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationFailure_IEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationRequest_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct TRPInformationFailure_IEs, id));
+                     offsetof(struct PositioningInformationRequest_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6719,16 +6426,16 @@ static int memb_id_constraint_237(
 }
 
 static asn_type_selector_result_t
-select_PositioningActivationRequestIEs_criticality_type(
+select_PositioningInformationResponse_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationRequestIEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationResponse_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningActivationRequestIEs, id));
+                     offsetof(struct PositioningInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6770,16 +6477,16 @@ static int memb_criticality_constraint_237(
 }
 
 static asn_type_selector_result_t
-select_PositioningActivationRequestIEs_value_type(
+select_PositioningInformationResponse_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationRequestIEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationResponse_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningActivationRequestIEs, id));
+                     offsetof(struct PositioningInformationResponse_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6846,16 +6553,16 @@ static int memb_id_constraint_241(
 }
 
 static asn_type_selector_result_t
-select_PositioningActivationResponseIEs_criticality_type(
+select_PositioningInformationFailure_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningActivationResponseIEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationFailure_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningActivationResponseIEs, id));
+                     offsetof(struct PositioningInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6897,16 +6604,16 @@ static int memb_criticality_constraint_241(
 }
 
 static asn_type_selector_result_t
-select_PositioningActivationResponseIEs_value_type(
+select_PositioningInformationFailure_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable = asn_IOS_PositioningActivationResponseIEs_1;
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationFailure_IEs_1;
   size_t constraining_column  = 0; /* &id */
   size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningActivationResponseIEs, id));
+                     offsetof(struct PositioningInformationFailure_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -6973,16 +6680,16 @@ static int memb_id_constraint_245(
 }
 
 static asn_type_selector_result_t
-select_PositioningActivationFailureIEs_criticality_type(
+select_PositioningInformationUpdate_IEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationFailureIEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 1; /* &criticality */
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationUpdate_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningActivationFailureIEs, id));
+                     offsetof(struct PositioningInformationUpdate_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -7024,16 +6731,16 @@ static int memb_criticality_constraint_245(
 }
 
 static asn_type_selector_result_t
-select_PositioningActivationFailureIEs_value_type(
+select_PositioningInformationUpdate_IEs_value_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
-  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationFailureIEs_1;
-  size_t constraining_column        = 0; /* &id */
-  size_t for_column                 = 2; /* &Value */
+  const asn_ioc_set_t* itable = asn_IOS_PositioningInformationUpdate_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
   size_t row, presence_index = 0;
   const long* constraining_value =
       (const long*) ((const char*) parent_sptr +
-                     offsetof(struct PositioningActivationFailureIEs, id));
+                     offsetof(struct PositioningInformationUpdate_IEs, id));
 
   for (row = 0; row < itable->rows_count; row++) {
     const asn_ioc_cell_t* constraining_cell =
@@ -7100,6 +6807,1645 @@ static int memb_id_constraint_249(
 }
 
 static asn_type_selector_result_t
+select_MeasurementRequest_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementRequest_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementRequest_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_249(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementRequest_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementRequest_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementRequest_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_249(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_253(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementResponse_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementResponse_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementResponse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_253(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementResponse_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementResponse_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementResponse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_253(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_257(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementFailure_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementFailure_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailure_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_257(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementFailure_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementFailure_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailure_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_257(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_261(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t select_MeasurementReport_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementReport_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementReport_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_261(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementReport_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementReport_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementReport_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_261(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_265(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t select_MeasurementUpdate_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementUpdate_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementUpdate_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_265(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementUpdate_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementUpdate_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementUpdate_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_265(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_269(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t select_MeasurementAbort_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementAbort_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementAbort_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_269(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementAbort_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementAbort_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementAbort_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_269(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_273(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementFailureIndication_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_MeasurementFailureIndication_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailureIndication_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_273(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_MeasurementFailureIndication_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_MeasurementFailureIndication_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementFailureIndication_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_273(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_277(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_TRPInformationRequest_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationRequest_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationRequest_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_277(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_TRPInformationRequest_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationRequest_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationRequest_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_277(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_281(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_TRPInformationResponse_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationResponse_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationResponse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_281(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_TRPInformationResponse_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationResponse_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationResponse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_281(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_285(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_TRPInformationFailure_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationFailure_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationFailure_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_285(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_TRPInformationFailure_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_TRPInformationFailure_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct TRPInformationFailure_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_285(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_289(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_PositioningActivationRequestIEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationRequestIEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationRequestIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_289(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_PositioningActivationRequestIEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationRequestIEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationRequestIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_289(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_293(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_PositioningActivationResponseIEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_PositioningActivationResponseIEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationResponseIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_293(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_PositioningActivationResponseIEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_PositioningActivationResponseIEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationResponseIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_293(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_297(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_PositioningActivationFailureIEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationFailureIEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationFailureIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_297(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_PositioningActivationFailureIEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PositioningActivationFailureIEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PositioningActivationFailureIEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_297(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_301(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
 select_PositioningDeactivationIEs_criticality_type(
     const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
   asn_type_selector_result_t result = {0, 0};
@@ -7132,7 +8478,7 @@ select_PositioningDeactivationIEs_criticality_type(
   return result;
 }
 
-static int memb_criticality_constraint_249(
+static int memb_criticality_constraint_301(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
   if (!sptr) {
@@ -7182,7 +8528,903 @@ static asn_type_selector_result_t select_PositioningDeactivationIEs_value_type(
   return result;
 }
 
-static int memb_value_constraint_249(
+static int memb_value_constraint_301(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_305(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_PRSConfigurationRequest_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PRSConfigurationRequest_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PRSConfigurationRequest_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_305(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_PRSConfigurationRequest_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PRSConfigurationRequest_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PRSConfigurationRequest_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_305(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_309(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_PRSConfigurationResponse_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PRSConfigurationResponse_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PRSConfigurationResponse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_309(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_PRSConfigurationResponse_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PRSConfigurationResponse_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PRSConfigurationResponse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_309(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_313(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_PRSConfigurationFailure_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PRSConfigurationFailure_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PRSConfigurationFailure_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_313(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_PRSConfigurationFailure_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_PRSConfigurationFailure_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct PRSConfigurationFailure_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_313(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_317(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementPreconfigurationRequired_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_MeasurementPreconfigurationRequired_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct MeasurementPreconfigurationRequired_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_317(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_MeasurementPreconfigurationRequired_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_MeasurementPreconfigurationRequired_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct MeasurementPreconfigurationRequired_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_317(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_321(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementPreconfigurationConfirm_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_MeasurementPreconfigurationConfirm_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct MeasurementPreconfigurationConfirm_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_321(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_MeasurementPreconfigurationConfirm_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable =
+      asn_IOS_MeasurementPreconfigurationConfirm_IEs_1;
+  size_t constraining_column = 0; /* &id */
+  size_t for_column          = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct MeasurementPreconfigurationConfirm_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_321(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_325(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementPreconfigurationRefuse_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_MeasurementPreconfigurationRefuse_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct MeasurementPreconfigurationRefuse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_325(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t
+select_MeasurementPreconfigurationRefuse_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable = asn_IOS_MeasurementPreconfigurationRefuse_IEs_1;
+  size_t constraining_column  = 0; /* &id */
+  size_t for_column           = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(
+                         struct MeasurementPreconfigurationRefuse_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_325(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static int memb_id_constraint_329(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  long value;
+
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  value = *(const long*) sptr;
+
+  if ((value >= 0 && value <= 65535)) {
+    /* Constraint check succeeded */
+    return 0;
+  } else {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+}
+
+static asn_type_selector_result_t
+select_MeasurementActivation_IEs_criticality_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementActivation_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 1; /* &criticality */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementActivation_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_criticality_constraint_329(
+    const asn_TYPE_descriptor_t* td, const void* sptr,
+    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
+  if (!sptr) {
+    ASN__CTFAIL(
+        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
+        __LINE__);
+    return -1;
+  }
+
+  if (1 /* No applicable constraints whatsoever */) {
+    /* Nothing is here. See below */
+  }
+
+  return td->encoding_constraints.general_constraints(
+      td, sptr, ctfailcb, app_key);
+}
+
+static asn_type_selector_result_t select_MeasurementActivation_IEs_value_type(
+    const asn_TYPE_descriptor_t* parent_type, const void* parent_sptr) {
+  asn_type_selector_result_t result = {0, 0};
+  const asn_ioc_set_t* itable       = asn_IOS_MeasurementActivation_IEs_1;
+  size_t constraining_column        = 0; /* &id */
+  size_t for_column                 = 2; /* &Value */
+  size_t row, presence_index = 0;
+  const long* constraining_value =
+      (const long*) ((const char*) parent_sptr +
+                     offsetof(struct MeasurementActivation_IEs, id));
+
+  for (row = 0; row < itable->rows_count; row++) {
+    const asn_ioc_cell_t* constraining_cell =
+        &itable->rows[row * itable->columns_count + constraining_column];
+    const asn_ioc_cell_t* type_cell =
+        &itable->rows[row * itable->columns_count + for_column];
+
+    if (type_cell->cell_kind == aioc__undefined) continue;
+
+    presence_index++;
+    if (constraining_cell->type_descriptor->op->compare_struct(
+            constraining_cell->type_descriptor, constraining_value,
+            constraining_cell->value_sptr) == 0) {
+      result.type_descriptor = type_cell->type_descriptor;
+      result.presence_index  = presence_index;
+      break;
+    }
+  }
+
+  return result;
+}
+
+static int memb_value_constraint_329(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
   if (!sptr) {
@@ -8334,11 +10576,371 @@ static asn_per_constraints_t asn_PER_memb_value_constr_252 CC_NOTUSED = {
     0,
     0 /* No PER value map */
 };
+static asn_per_constraints_t asn_PER_memb_id_constr_254 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_255 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_256 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_258 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_259 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_260 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_262 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_263 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_264 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_266 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_267 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_268 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_270 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_271 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_272 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_274 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_275 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_276 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_278 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_279 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_280 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_282 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_283 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_284 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_286 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_287 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_288 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_290 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_291 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_292 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_294 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_295 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_296 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_298 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_299 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_300 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_302 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_303 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_304 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_306 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_307 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_308 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_310 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_311 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_312 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_314 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_315 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_316 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_318 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_319 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_320 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_322 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_323 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_324 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_326 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_327 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_328 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_id_constr_330 CC_NOTUSED = {
+    {APC_CONSTRAINED, 16, 16, 0, 65535} /* (0..65535) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_criticality_constr_331 CC_NOTUSED = {
+    {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
+static asn_per_constraints_t asn_PER_memb_value_constr_332 CC_NOTUSED = {
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    {APC_UNCONSTRAINED, -1, -1, 0, 0},
+    0,
+    0 /* No PER value map */
+};
 static asn_TYPE_member_t asn_MBR_value_4[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
-         struct OTDOA_Information_TypeIEs__value,
+         struct OTDOA_Information_Type_ItemIEs__value,
          choice.OTDOA_Information_Type_Item),
      (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
      0,
@@ -8354,10 +10956,10 @@ static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_4[] = {
      0} /* OTDOA-Information-Type-Item */
 };
 static asn_CHOICE_specifics_t asn_SPC_value_specs_4 = {
-    sizeof(struct OTDOA_Information_TypeIEs__value),
-    offsetof(struct OTDOA_Information_TypeIEs__value, _asn_ctx),
-    offsetof(struct OTDOA_Information_TypeIEs__value, present),
-    sizeof(((struct OTDOA_Information_TypeIEs__value*) 0)->present),
+    sizeof(struct OTDOA_Information_Type_ItemIEs__value),
+    offsetof(struct OTDOA_Information_Type_ItemIEs__value, _asn_ctx),
+    offsetof(struct OTDOA_Information_Type_ItemIEs__value, present),
+    sizeof(((struct OTDOA_Information_Type_ItemIEs__value*) 0)->present),
     asn_MAP_value_tag2el_4,
     1, /* Count of tags in the map */
     0,
@@ -8379,10 +10981,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_4 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OTDOA_Information_TypeIEs_1[] = {
+asn_TYPE_member_t asn_MBR_OTDOA_Information_Type_ItemIEs_1[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct OTDOA_Information_TypeIEs, id),
+     offsetof(struct OTDOA_Information_Type_ItemIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -8393,59 +10995,59 @@ asn_TYPE_member_t asn_MBR_OTDOA_Information_TypeIEs_1[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct OTDOA_Information_TypeIEs, criticality),
+     offsetof(struct OTDOA_Information_Type_ItemIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
-     select_OTDOA_Information_TypeIEs_criticality_type,
+     select_OTDOA_Information_Type_ItemIEs_criticality_type,
      {0, &asn_PER_memb_criticality_constr_3, memb_criticality_constraint_1},
      0,
      0, /* No default value */
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct OTDOA_Information_TypeIEs, value),
+     offsetof(struct OTDOA_Information_Type_ItemIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_4,
-     select_OTDOA_Information_TypeIEs_value_type,
+     select_OTDOA_Information_Type_ItemIEs_value_type,
      {0, &asn_PER_memb_value_constr_4, memb_value_constraint_1},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_OTDOA_Information_TypeIEs_tags_1[] = {
+static const ber_tlv_tag_t asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_OTDOA_Information_TypeIEs_tag2el_1[] = {
+    asn_MAP_OTDOA_Information_Type_ItemIEs_tag2el_1[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_OTDOA_Information_TypeIEs_specs_1 = {
-    sizeof(struct OTDOA_Information_TypeIEs),
-    offsetof(struct OTDOA_Information_TypeIEs, _asn_ctx),
-    asn_MAP_OTDOA_Information_TypeIEs_tag2el_1,
+asn_SEQUENCE_specifics_t asn_SPC_OTDOA_Information_Type_ItemIEs_specs_1 = {
+    sizeof(struct OTDOA_Information_Type_ItemIEs),
+    offsetof(struct OTDOA_Information_Type_ItemIEs, _asn_ctx),
+    asn_MAP_OTDOA_Information_Type_ItemIEs_tag2el_1,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_OTDOA_Information_TypeIEs = {
-    "OTDOA-Information-TypeIEs",
-    "OTDOA-Information-TypeIEs",
+asn_TYPE_descriptor_t asn_DEF_OTDOA_Information_Type_ItemIEs = {
+    "OTDOA-Information-Type-ItemIEs",
+    "OTDOA-Information-Type-ItemIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_OTDOA_Information_TypeIEs_tags_1,
-    sizeof(asn_DEF_OTDOA_Information_TypeIEs_tags_1) /
-        sizeof(asn_DEF_OTDOA_Information_TypeIEs_tags_1[0]), /* 1 */
-    asn_DEF_OTDOA_Information_TypeIEs_tags_1,                /* Same as above */
-    sizeof(asn_DEF_OTDOA_Information_TypeIEs_tags_1) /
-        sizeof(asn_DEF_OTDOA_Information_TypeIEs_tags_1[0]), /* 1 */
+    asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1,
+    sizeof(asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1) /
+        sizeof(asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1[0]), /* 1 */
+    asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1, /* Same as above */
+    sizeof(asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1) /
+        sizeof(asn_DEF_OTDOA_Information_Type_ItemIEs_tags_1[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOA_Information_TypeIEs_1,
-    3,                                         /* Elements count */
-    &asn_SPC_OTDOA_Information_TypeIEs_specs_1 /* Additional specs */
+    asn_MBR_OTDOA_Information_Type_ItemIEs_1,
+    3,                                              /* Elements count */
+    &asn_SPC_OTDOA_Information_Type_ItemIEs_specs_1 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_8 = {
@@ -8638,10 +11240,10 @@ asn_TYPE_descriptor_t asn_DEF_AbortTransmission_ExtIEs = {
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_16 = {
-    sizeof(struct Cause_ExtensionIE__value),
-    offsetof(struct Cause_ExtensionIE__value, _asn_ctx),
-    offsetof(struct Cause_ExtensionIE__value, present),
-    sizeof(((struct Cause_ExtensionIE__value*) 0)->present),
+    sizeof(struct AngleMeasurementType_ExtIEs__value),
+    offsetof(struct AngleMeasurementType_ExtIEs__value, _asn_ctx),
+    offsetof(struct AngleMeasurementType_ExtIEs__value, present),
+    sizeof(((struct AngleMeasurementType_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -8663,10 +11265,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_16 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_13[] = {
+asn_TYPE_member_t asn_MBR_AngleMeasurementType_ExtIEs_13[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct Cause_ExtensionIE, id),
+     offsetof(struct AngleMeasurementType_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -8677,7 +11279,7 @@ asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_13[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct Cause_ExtensionIE, criticality),
+     offsetof(struct AngleMeasurementType_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -8688,7 +11290,7 @@ asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_13[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct Cause_ExtensionIE, value),
+     offsetof(struct AngleMeasurementType_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_16,
@@ -8698,44 +11300,45 @@ asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_13[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_Cause_ExtensionIE_tags_13[] = {
+static const ber_tlv_tag_t asn_DEF_AngleMeasurementType_ExtIEs_tags_13[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_Cause_ExtensionIE_tag2el_13[] = {
-    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+static const asn_TYPE_tag2member_t
+    asn_MAP_AngleMeasurementType_ExtIEs_tag2el_13[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Cause_ExtensionIE_specs_13 = {
-    sizeof(struct Cause_ExtensionIE),
-    offsetof(struct Cause_ExtensionIE, _asn_ctx),
-    asn_MAP_Cause_ExtensionIE_tag2el_13,
+asn_SEQUENCE_specifics_t asn_SPC_AngleMeasurementType_ExtIEs_specs_13 = {
+    sizeof(struct AngleMeasurementType_ExtIEs),
+    offsetof(struct AngleMeasurementType_ExtIEs, _asn_ctx),
+    asn_MAP_AngleMeasurementType_ExtIEs_tag2el_13,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_Cause_ExtensionIE = {
-    "Cause-ExtensionIE",
-    "Cause-ExtensionIE",
+asn_TYPE_descriptor_t asn_DEF_AngleMeasurementType_ExtIEs = {
+    "AngleMeasurementType-ExtIEs",
+    "AngleMeasurementType-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_Cause_ExtensionIE_tags_13,
-    sizeof(asn_DEF_Cause_ExtensionIE_tags_13) /
-        sizeof(asn_DEF_Cause_ExtensionIE_tags_13[0]), /* 1 */
-    asn_DEF_Cause_ExtensionIE_tags_13,                /* Same as above */
-    sizeof(asn_DEF_Cause_ExtensionIE_tags_13) /
-        sizeof(asn_DEF_Cause_ExtensionIE_tags_13[0]), /* 1 */
+    asn_DEF_AngleMeasurementType_ExtIEs_tags_13,
+    sizeof(asn_DEF_AngleMeasurementType_ExtIEs_tags_13) /
+        sizeof(asn_DEF_AngleMeasurementType_ExtIEs_tags_13[0]), /* 1 */
+    asn_DEF_AngleMeasurementType_ExtIEs_tags_13, /* Same as above */
+    sizeof(asn_DEF_AngleMeasurementType_ExtIEs_tags_13) /
+        sizeof(asn_DEF_AngleMeasurementType_ExtIEs_tags_13[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_Cause_ExtensionIE_13,
-    3,                                  /* Elements count */
-    &asn_SPC_Cause_ExtensionIE_specs_13 /* Additional specs */
+    asn_MBR_AngleMeasurementType_ExtIEs_13,
+    3,                                            /* Elements count */
+    &asn_SPC_AngleMeasurementType_ExtIEs_specs_13 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_20 = {
-    sizeof(struct DL_PRSMutingPattern_ExtIEs__value),
-    offsetof(struct DL_PRSMutingPattern_ExtIEs__value, _asn_ctx),
-    offsetof(struct DL_PRSMutingPattern_ExtIEs__value, present),
-    sizeof(((struct DL_PRSMutingPattern_ExtIEs__value*) 0)->present),
+    sizeof(struct ARPLocationType_ExtIEs__value),
+    offsetof(struct ARPLocationType_ExtIEs__value, _asn_ctx),
+    offsetof(struct ARPLocationType_ExtIEs__value, present),
+    sizeof(((struct ARPLocationType_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -8757,10 +11360,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_20 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_17[] = {
+asn_TYPE_member_t asn_MBR_ARPLocationType_ExtIEs_17[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSMutingPattern_ExtIEs, id),
+     offsetof(struct ARPLocationType_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -8771,7 +11374,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_17[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSMutingPattern_ExtIEs, criticality),
+     offsetof(struct ARPLocationType_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -8782,7 +11385,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_17[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSMutingPattern_ExtIEs, value),
+     offsetof(struct ARPLocationType_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_20,
@@ -8792,45 +11395,45 @@ asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_17[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17[] = {
+static const ber_tlv_tag_t asn_DEF_ARPLocationType_ExtIEs_tags_17[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_DL_PRSMutingPattern_ExtIEs_tag2el_17[] = {
+static const asn_TYPE_tag2member_t asn_MAP_ARPLocationType_ExtIEs_tag2el_17[] =
+    {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_17 = {
-    sizeof(struct DL_PRSMutingPattern_ExtIEs),
-    offsetof(struct DL_PRSMutingPattern_ExtIEs, _asn_ctx),
-    asn_MAP_DL_PRSMutingPattern_ExtIEs_tag2el_17,
+asn_SEQUENCE_specifics_t asn_SPC_ARPLocationType_ExtIEs_specs_17 = {
+    sizeof(struct ARPLocationType_ExtIEs),
+    offsetof(struct ARPLocationType_ExtIEs, _asn_ctx),
+    asn_MAP_ARPLocationType_ExtIEs_tag2el_17,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_DL_PRSMutingPattern_ExtIEs = {
-    "DL-PRSMutingPattern-ExtIEs",
-    "DL-PRSMutingPattern-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_ARPLocationType_ExtIEs = {
+    "ARPLocationType-ExtIEs",
+    "ARPLocationType-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17,
-    sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17) /
-        sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17[0]), /* 1 */
-    asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17, /* Same as above */
-    sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17) /
-        sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_17[0]), /* 1 */
+    asn_DEF_ARPLocationType_ExtIEs_tags_17,
+    sizeof(asn_DEF_ARPLocationType_ExtIEs_tags_17) /
+        sizeof(asn_DEF_ARPLocationType_ExtIEs_tags_17[0]), /* 1 */
+    asn_DEF_ARPLocationType_ExtIEs_tags_17,                /* Same as above */
+    sizeof(asn_DEF_ARPLocationType_ExtIEs_tags_17) /
+        sizeof(asn_DEF_ARPLocationType_ExtIEs_tags_17[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_DL_PRSMutingPattern_ExtIEs_17,
-    3,                                           /* Elements count */
-    &asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_17 /* Additional specs */
+    asn_MBR_ARPLocationType_ExtIEs_17,
+    3,                                       /* Elements count */
+    &asn_SPC_ARPLocationType_ExtIEs_specs_17 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_24 = {
-    sizeof(struct DL_PRSResourceSetARPLocation_ExtIEs__value),
-    offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs__value, _asn_ctx),
-    offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs__value, present),
-    sizeof(((struct DL_PRSResourceSetARPLocation_ExtIEs__value*) 0)->present),
+    sizeof(struct BandwidthSRS_ExtIEs__value),
+    offsetof(struct BandwidthSRS_ExtIEs__value, _asn_ctx),
+    offsetof(struct BandwidthSRS_ExtIEs__value, present),
+    sizeof(((struct BandwidthSRS_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -8852,10 +11455,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_24 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21[] = {
+asn_TYPE_member_t asn_MBR_BandwidthSRS_ExtIEs_21[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, id),
+     offsetof(struct BandwidthSRS_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -8866,7 +11469,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, criticality),
+     offsetof(struct BandwidthSRS_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -8877,7 +11480,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, value),
+     offsetof(struct BandwidthSRS_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_24,
@@ -8887,47 +11490,44 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t
-    asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_DL_PRSResourceSetARPLocation_ExtIEs_tag2el_21[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+static const ber_tlv_tag_t asn_DEF_BandwidthSRS_ExtIEs_tags_21[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t asn_MAP_BandwidthSRS_ExtIEs_tag2el_21[] = {
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_21 =
-    {
-        sizeof(struct DL_PRSResourceSetARPLocation_ExtIEs),
-        offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, _asn_ctx),
-        asn_MAP_DL_PRSResourceSetARPLocation_ExtIEs_tag2el_21,
-        3, /* Count of tags in the map */
-        0,
-        0,
-        0,  /* Optional elements (not needed) */
-        -1, /* First extension addition */
+asn_SEQUENCE_specifics_t asn_SPC_BandwidthSRS_ExtIEs_specs_21 = {
+    sizeof(struct BandwidthSRS_ExtIEs),
+    offsetof(struct BandwidthSRS_ExtIEs, _asn_ctx),
+    asn_MAP_BandwidthSRS_ExtIEs_tag2el_21,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs = {
-    "DL-PRSResourceSetARPLocation-ExtIEs",
-    "DL-PRSResourceSetARPLocation-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_BandwidthSRS_ExtIEs = {
+    "BandwidthSRS-ExtIEs",
+    "BandwidthSRS-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21,
-    sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21) /
-        sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21[0]), /* 1 */
-    asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21, /* Same as above */
-    sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21) /
-        sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_21[0]), /* 1 */
+    asn_DEF_BandwidthSRS_ExtIEs_tags_21,
+    sizeof(asn_DEF_BandwidthSRS_ExtIEs_tags_21) /
+        sizeof(asn_DEF_BandwidthSRS_ExtIEs_tags_21[0]), /* 1 */
+    asn_DEF_BandwidthSRS_ExtIEs_tags_21,                /* Same as above */
+    sizeof(asn_DEF_BandwidthSRS_ExtIEs_tags_21) /
+        sizeof(asn_DEF_BandwidthSRS_ExtIEs_tags_21[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21,
-    3,                                                    /* Elements count */
-    &asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_21 /* Additional specs */
+    asn_MBR_BandwidthSRS_ExtIEs_21,
+    3,                                    /* Elements count */
+    &asn_SPC_BandwidthSRS_ExtIEs_specs_21 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_28 = {
-    sizeof(struct DL_PRSResourceARPLocation_ExtIEs__value),
-    offsetof(struct DL_PRSResourceARPLocation_ExtIEs__value, _asn_ctx),
-    offsetof(struct DL_PRSResourceARPLocation_ExtIEs__value, present),
-    sizeof(((struct DL_PRSResourceARPLocation_ExtIEs__value*) 0)->present),
+    sizeof(struct Cause_ExtensionIE__value),
+    offsetof(struct Cause_ExtensionIE__value, _asn_ctx),
+    offsetof(struct Cause_ExtensionIE__value, present),
+    sizeof(((struct Cause_ExtensionIE__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -8949,10 +11549,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_28 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25[] = {
+asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_25[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSResourceARPLocation_ExtIEs, id),
+     offsetof(struct Cause_ExtensionIE, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -8963,7 +11563,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSResourceARPLocation_ExtIEs, criticality),
+     offsetof(struct Cause_ExtensionIE, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -8974,7 +11574,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct DL_PRSResourceARPLocation_ExtIEs, value),
+     offsetof(struct Cause_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_28,
@@ -8984,45 +11584,44 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_DL_PRSResourceARPLocation_ExtIEs_tag2el_25[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+static const ber_tlv_tag_t asn_DEF_Cause_ExtensionIE_tags_25[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t asn_MAP_Cause_ExtensionIE_tag2el_25[] = {
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_25 = {
-    sizeof(struct DL_PRSResourceARPLocation_ExtIEs),
-    offsetof(struct DL_PRSResourceARPLocation_ExtIEs, _asn_ctx),
-    asn_MAP_DL_PRSResourceARPLocation_ExtIEs_tag2el_25,
+asn_SEQUENCE_specifics_t asn_SPC_Cause_ExtensionIE_specs_25 = {
+    sizeof(struct Cause_ExtensionIE),
+    offsetof(struct Cause_ExtensionIE, _asn_ctx),
+    asn_MAP_Cause_ExtensionIE_tag2el_25,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_DL_PRSResourceARPLocation_ExtIEs = {
-    "DL-PRSResourceARPLocation-ExtIEs",
-    "DL-PRSResourceARPLocation-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_Cause_ExtensionIE = {
+    "Cause-ExtensionIE",
+    "Cause-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25,
-    sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25) /
-        sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25[0]), /* 1 */
-    asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25, /* Same as above */
-    sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25) /
-        sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_25[0]), /* 1 */
+    asn_DEF_Cause_ExtensionIE_tags_25,
+    sizeof(asn_DEF_Cause_ExtensionIE_tags_25) /
+        sizeof(asn_DEF_Cause_ExtensionIE_tags_25[0]), /* 1 */
+    asn_DEF_Cause_ExtensionIE_tags_25,                /* Same as above */
+    sizeof(asn_DEF_Cause_ExtensionIE_tags_25) /
+        sizeof(asn_DEF_Cause_ExtensionIE_tags_25[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25,
-    3,                                                 /* Elements count */
-    &asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_25 /* Additional specs */
+    asn_MBR_Cause_ExtensionIE_25,
+    3,                                  /* Elements count */
+    &asn_SPC_Cause_ExtensionIE_specs_25 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_32 = {
-    sizeof(struct GNBRxTxTimeDiffMeas_ExtIEs__value),
-    offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs__value, _asn_ctx),
-    offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs__value, present),
-    sizeof(((struct GNBRxTxTimeDiffMeas_ExtIEs__value*) 0)->present),
+    sizeof(struct DL_PRSMutingPattern_ExtIEs__value),
+    offsetof(struct DL_PRSMutingPattern_ExtIEs__value, _asn_ctx),
+    offsetof(struct DL_PRSMutingPattern_ExtIEs__value, present),
+    sizeof(((struct DL_PRSMutingPattern_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -9044,10 +11643,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_32 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29[] = {
+asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_29[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, id),
+     offsetof(struct DL_PRSMutingPattern_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -9058,7 +11657,7 @@ asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, criticality),
+     offsetof(struct DL_PRSMutingPattern_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -9069,7 +11668,7 @@ asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, value),
+     offsetof(struct DL_PRSMutingPattern_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_32,
@@ -9079,66 +11678,47 @@ asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29[] = {
+static const ber_tlv_tag_t asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_GNBRxTxTimeDiffMeas_ExtIEs_tag2el_29[] = {
+    asn_MAP_DL_PRSMutingPattern_ExtIEs_tag2el_29[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_29 = {
-    sizeof(struct GNBRxTxTimeDiffMeas_ExtIEs),
-    offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, _asn_ctx),
-    asn_MAP_GNBRxTxTimeDiffMeas_ExtIEs_tag2el_29,
+asn_SEQUENCE_specifics_t asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_29 = {
+    sizeof(struct DL_PRSMutingPattern_ExtIEs),
+    offsetof(struct DL_PRSMutingPattern_ExtIEs, _asn_ctx),
+    asn_MAP_DL_PRSMutingPattern_ExtIEs_tag2el_29,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs = {
-    "GNBRxTxTimeDiffMeas-ExtIEs",
-    "GNBRxTxTimeDiffMeas-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_DL_PRSMutingPattern_ExtIEs = {
+    "DL-PRSMutingPattern-ExtIEs",
+    "DL-PRSMutingPattern-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29,
-    sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29) /
-        sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29[0]), /* 1 */
-    asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29, /* Same as above */
-    sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29) /
-        sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_29[0]), /* 1 */
+    asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29,
+    sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29) /
+        sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29[0]), /* 1 */
+    asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29, /* Same as above */
+    sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29) /
+        sizeof(asn_DEF_DL_PRSMutingPattern_ExtIEs_tags_29[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29,
+    asn_MBR_DL_PRSMutingPattern_ExtIEs_29,
     3,                                           /* Elements count */
-    &asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_29 /* Additional specs */
+    &asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_29 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_36[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(
-         struct MeasurementQuantities_ItemIEs__value,
-         choice.MeasurementQuantities_Item),
-     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
-     0,
-     &asn_DEF_MeasurementQuantities_Item,
-     0,
-     {0, 0, 0},
-     0,
-     0, /* No default value */
-     "MeasurementQuantities-Item"},
-};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_36[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
-     0} /* MeasurementQuantities-Item */
-};
 static asn_CHOICE_specifics_t asn_SPC_value_specs_36 = {
-    sizeof(struct MeasurementQuantities_ItemIEs__value),
-    offsetof(struct MeasurementQuantities_ItemIEs__value, _asn_ctx),
-    offsetof(struct MeasurementQuantities_ItemIEs__value, present),
-    sizeof(((struct MeasurementQuantities_ItemIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_36,
-    1, /* Count of tags in the map */
+    sizeof(struct DL_PRSResourceSetARPLocation_ExtIEs__value),
+    offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs__value, _asn_ctx),
+    offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs__value, present),
+    sizeof(((struct DL_PRSResourceSetARPLocation_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
     0,
     0,
     -1 /* Extensions start */
@@ -9153,15 +11733,15 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_36,
-        1,                      /* Elements count */
+        0,
+        0,                      /* No members */
         &asn_SPC_value_specs_36 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementQuantities_ItemIEs_33[] = {
+asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_33[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct MeasurementQuantities_ItemIEs, id),
+     offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -9172,12 +11752,413 @@ asn_TYPE_member_t asn_MBR_MeasurementQuantities_ItemIEs_33[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
+     offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_35, memb_criticality_constraint_33},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_36,
+     0,
+     {0, &asn_PER_memb_value_constr_36, memb_value_constraint_33},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t
+    asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_DL_PRSResourceSetARPLocation_ExtIEs_tag2el_33[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_33 =
+    {
+        sizeof(struct DL_PRSResourceSetARPLocation_ExtIEs),
+        offsetof(struct DL_PRSResourceSetARPLocation_ExtIEs, _asn_ctx),
+        asn_MAP_DL_PRSResourceSetARPLocation_ExtIEs_tag2el_33,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs = {
+    "DL-PRSResourceSetARPLocation-ExtIEs",
+    "DL-PRSResourceSetARPLocation-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33,
+    sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33) /
+        sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33[0]), /* 1 */
+    asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33, /* Same as above */
+    sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33) /
+        sizeof(asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs_tags_33[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_33,
+    3,                                                    /* Elements count */
+    &asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_33 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_40 = {
+    sizeof(struct DL_PRSResourceARPLocation_ExtIEs__value),
+    offsetof(struct DL_PRSResourceARPLocation_ExtIEs__value, _asn_ctx),
+    offsetof(struct DL_PRSResourceARPLocation_ExtIEs__value, present),
+    sizeof(((struct DL_PRSResourceARPLocation_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_40 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                      /* No members */
+        &asn_SPC_value_specs_40 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_37[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct DL_PRSResourceARPLocation_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_38, memb_id_constraint_37},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct DL_PRSResourceARPLocation_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_39, memb_criticality_constraint_37},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct DL_PRSResourceARPLocation_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_40,
+     0,
+     {0, &asn_PER_memb_value_constr_40, memb_value_constraint_37},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_DL_PRSResourceARPLocation_ExtIEs_tag2el_37[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_37 = {
+    sizeof(struct DL_PRSResourceARPLocation_ExtIEs),
+    offsetof(struct DL_PRSResourceARPLocation_ExtIEs, _asn_ctx),
+    asn_MAP_DL_PRSResourceARPLocation_ExtIEs_tag2el_37,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_DL_PRSResourceARPLocation_ExtIEs = {
+    "DL-PRSResourceARPLocation-ExtIEs",
+    "DL-PRSResourceARPLocation-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37,
+    sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37) /
+        sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37[0]), /* 1 */
+    asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37, /* Same as above */
+    sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37) /
+        sizeof(asn_DEF_DL_PRSResourceARPLocation_ExtIEs_tags_37[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_DL_PRSResourceARPLocation_ExtIEs_37,
+    3,                                                 /* Elements count */
+    &asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_37 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_44 = {
+    sizeof(struct GNBRxTxTimeDiffMeas_ExtIEs__value),
+    offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs__value, _asn_ctx),
+    offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs__value, present),
+    sizeof(((struct GNBRxTxTimeDiffMeas_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_44 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                      /* No members */
+        &asn_SPC_value_specs_44 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_41[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_42, memb_id_constraint_41},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_43, memb_criticality_constraint_41},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_44,
+     0,
+     {0, &asn_PER_memb_value_constr_44, memb_value_constraint_41},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_GNBRxTxTimeDiffMeas_ExtIEs_tag2el_41[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_41 = {
+    sizeof(struct GNBRxTxTimeDiffMeas_ExtIEs),
+    offsetof(struct GNBRxTxTimeDiffMeas_ExtIEs, _asn_ctx),
+    asn_MAP_GNBRxTxTimeDiffMeas_ExtIEs_tag2el_41,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs = {
+    "GNBRxTxTimeDiffMeas-ExtIEs",
+    "GNBRxTxTimeDiffMeas-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41,
+    sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41) /
+        sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41[0]), /* 1 */
+    asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41, /* Same as above */
+    sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41) /
+        sizeof(asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs_tags_41[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_41,
+    3,                                           /* Elements count */
+    &asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_41 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_48 = {
+    sizeof(struct LoS_NLoSInformation_ExtIEs__value),
+    offsetof(struct LoS_NLoSInformation_ExtIEs__value, _asn_ctx),
+    offsetof(struct LoS_NLoSInformation_ExtIEs__value, present),
+    sizeof(((struct LoS_NLoSInformation_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_48 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                      /* No members */
+        &asn_SPC_value_specs_48 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_LoS_NLoSInformation_ExtIEs_45[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct LoS_NLoSInformation_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_46, memb_id_constraint_45},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct LoS_NLoSInformation_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_47, memb_criticality_constraint_45},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct LoS_NLoSInformation_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_48,
+     0,
+     {0, &asn_PER_memb_value_constr_48, memb_value_constraint_45},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_LoS_NLoSInformation_ExtIEs_tag2el_45[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_LoS_NLoSInformation_ExtIEs_specs_45 = {
+    sizeof(struct LoS_NLoSInformation_ExtIEs),
+    offsetof(struct LoS_NLoSInformation_ExtIEs, _asn_ctx),
+    asn_MAP_LoS_NLoSInformation_ExtIEs_tag2el_45,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_LoS_NLoSInformation_ExtIEs = {
+    "LoS-NLoSInformation-ExtIEs",
+    "LoS-NLoSInformation-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45,
+    sizeof(asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45) /
+        sizeof(asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45[0]), /* 1 */
+    asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45, /* Same as above */
+    sizeof(asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45) /
+        sizeof(asn_DEF_LoS_NLoSInformation_ExtIEs_tags_45[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_LoS_NLoSInformation_ExtIEs_45,
+    3,                                           /* Elements count */
+    &asn_SPC_LoS_NLoSInformation_ExtIEs_specs_45 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_52[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementQuantities_ItemIEs__value,
+         choice.MeasurementQuantities_Item),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_MeasurementQuantities_Item,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementQuantities-Item"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_52[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
+     0} /* MeasurementQuantities-Item */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_52 = {
+    sizeof(struct MeasurementQuantities_ItemIEs__value),
+    offsetof(struct MeasurementQuantities_ItemIEs__value, _asn_ctx),
+    offsetof(struct MeasurementQuantities_ItemIEs__value, present),
+    sizeof(((struct MeasurementQuantities_ItemIEs__value*) 0)->present),
+    asn_MAP_value_tag2el_52,
+    1, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_52 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_52,
+        1,                      /* Elements count */
+        &asn_SPC_value_specs_52 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_MeasurementQuantities_ItemIEs_49[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementQuantities_ItemIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_50, memb_id_constraint_49},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
      offsetof(struct MeasurementQuantities_ItemIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementQuantities_ItemIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_35, memb_criticality_constraint_33},
+     {0, &asn_PER_memb_criticality_constr_51, memb_criticality_constraint_49},
      0,
      0, /* No default value */
      "criticality"},
@@ -9186,25 +12167,25 @@ asn_TYPE_member_t asn_MBR_MeasurementQuantities_ItemIEs_33[] = {
      offsetof(struct MeasurementQuantities_ItemIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_36,
+     &asn_DEF_value_52,
      select_MeasurementQuantities_ItemIEs_value_type,
-     {0, &asn_PER_memb_value_constr_36, memb_value_constraint_33},
+     {0, &asn_PER_memb_value_constr_52, memb_value_constraint_49},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementQuantities_ItemIEs_tags_33[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementQuantities_ItemIEs_tags_49[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_MeasurementQuantities_ItemIEs_tag2el_33[] = {
+    asn_MAP_MeasurementQuantities_ItemIEs_tag2el_49[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_ItemIEs_specs_33 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_ItemIEs_specs_49 = {
     sizeof(struct MeasurementQuantities_ItemIEs),
     offsetof(struct MeasurementQuantities_ItemIEs, _asn_ctx),
-    asn_MAP_MeasurementQuantities_ItemIEs_tag2el_33,
+    asn_MAP_MeasurementQuantities_ItemIEs_tag2el_49,
     3, /* Count of tags in the map */
     0,
     0,
@@ -9215,19 +12196,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementQuantities_ItemIEs = {
     "MeasurementQuantities-ItemIEs",
     "MeasurementQuantities-ItemIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementQuantities_ItemIEs_tags_33,
-    sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_33) /
-        sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_33[0]), /* 1 */
-    asn_DEF_MeasurementQuantities_ItemIEs_tags_33, /* Same as above */
-    sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_33) /
-        sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_33[0]), /* 1 */
+    asn_DEF_MeasurementQuantities_ItemIEs_tags_49,
+    sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_49) /
+        sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_49[0]), /* 1 */
+    asn_DEF_MeasurementQuantities_ItemIEs_tags_49, /* Same as above */
+    sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_49) /
+        sizeof(asn_DEF_MeasurementQuantities_ItemIEs_tags_49[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementQuantities_ItemIEs_33,
+    asn_MBR_MeasurementQuantities_ItemIEs_49,
     3,                                              /* Elements count */
-    &asn_SPC_MeasurementQuantities_ItemIEs_specs_33 /* Additional specs */
+    &asn_SPC_MeasurementQuantities_ItemIEs_specs_49 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_40[] = {
+static asn_TYPE_member_t asn_MBR_value_56[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -9287,27 +12268,41 @@ static asn_TYPE_member_t asn_MBR_value_40[] = {
      0,
      0, /* No default value */
      "UL-AoA"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasuredResultsValue_ExtensionIE__value, choice.NR_TADV),
+     (ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+     0,
+     &asn_DEF_NR_TADV,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "NR-TADV"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_40[] = {
+static const unsigned asn_MAP_value_to_canonical_56[]   = {5, 0, 1, 2, 3, 4};
+static const unsigned asn_MAP_value_from_canonical_56[] = {1, 2, 3, 4, 5, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_56[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 5, 0, 0},   /* NR-TADV */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 4},  /* ResultSS-RSRP */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1, 3}, /* ResultSS-RSRQ */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -2, 2}, /* ResultCSI-RSRP */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -3, 1}, /* ResultCSI-RSRQ */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -4, 0}  /* UL-AoA */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_40 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_56 = {
     sizeof(struct MeasuredResultsValue_ExtensionIE__value),
     offsetof(struct MeasuredResultsValue_ExtensionIE__value, _asn_ctx),
     offsetof(struct MeasuredResultsValue_ExtensionIE__value, present),
     sizeof(((struct MeasuredResultsValue_ExtensionIE__value*) 0)->present),
-    asn_MAP_value_tag2el_40,
-    5, /* Count of tags in the map */
-    0,
-    0,
+    asn_MAP_value_tag2el_56,
+    6, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_56,
+    asn_MAP_value_from_canonical_56,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_40 = {
+    asn_TYPE_descriptor_t asn_DEF_value_56 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -9316,12 +12311,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_40,
-        5,                      /* Elements count */
-        &asn_SPC_value_specs_40 /* Additional specs */
+        asn_MBR_value_56,
+        6,                      /* Elements count */
+        &asn_SPC_value_specs_56 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_37[] = {
+asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_53[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasuredResultsValue_ExtensionIE, id),
@@ -9329,7 +12324,7 @@ asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_37[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_38, memb_id_constraint_37},
+     {0, &asn_PER_memb_id_constr_54, memb_id_constraint_53},
      0,
      0, /* No default value */
      "id"},
@@ -9340,7 +12335,7 @@ asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_37[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasuredResultsValue_ExtensionIE_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_39, memb_criticality_constraint_37},
+     {0, &asn_PER_memb_criticality_constr_55, memb_criticality_constraint_53},
      0,
      0, /* No default value */
      "criticality"},
@@ -9349,25 +12344,25 @@ asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_37[] = {
      offsetof(struct MeasuredResultsValue_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_40,
+     &asn_DEF_value_56,
      select_MeasuredResultsValue_ExtensionIE_value_type,
-     {0, &asn_PER_memb_value_constr_40, memb_value_constraint_37},
+     {0, &asn_PER_memb_value_constr_56, memb_value_constraint_53},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37[] =
+static const ber_tlv_tag_t asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_MeasuredResultsValue_ExtensionIE_tag2el_37[] = {
+    asn_MAP_MeasuredResultsValue_ExtensionIE_tag2el_53[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasuredResultsValue_ExtensionIE_specs_37 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasuredResultsValue_ExtensionIE_specs_53 = {
     sizeof(struct MeasuredResultsValue_ExtensionIE),
     offsetof(struct MeasuredResultsValue_ExtensionIE, _asn_ctx),
-    asn_MAP_MeasuredResultsValue_ExtensionIE_tag2el_37,
+    asn_MAP_MeasuredResultsValue_ExtensionIE_tag2el_53,
     3, /* Count of tags in the map */
     0,
     0,
@@ -9378,19 +12373,114 @@ asn_TYPE_descriptor_t asn_DEF_MeasuredResultsValue_ExtensionIE = {
     "MeasuredResultsValue-ExtensionIE",
     "MeasuredResultsValue-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37,
-    sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37) /
-        sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37[0]), /* 1 */
-    asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37, /* Same as above */
-    sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37) /
-        sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_37[0]), /* 1 */
+    asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53,
+    sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53) /
+        sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53[0]), /* 1 */
+    asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53, /* Same as above */
+    sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53) /
+        sizeof(asn_DEF_MeasuredResultsValue_ExtensionIE_tags_53[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasuredResultsValue_ExtensionIE_37,
+    asn_MBR_MeasuredResultsValue_ExtensionIE_53,
     3,                                                 /* Elements count */
-    &asn_SPC_MeasuredResultsValue_ExtensionIE_specs_37 /* Additional specs */
+    &asn_SPC_MeasuredResultsValue_ExtensionIE_specs_53 /* Additional specs */
 };
 
-static asn_CHOICE_specifics_t asn_SPC_value_specs_44 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_60 = {
+    sizeof(struct MultipleULAoA_Item_ExtIEs__value),
+    offsetof(struct MultipleULAoA_Item_ExtIEs__value, _asn_ctx),
+    offsetof(struct MultipleULAoA_Item_ExtIEs__value, present),
+    sizeof(((struct MultipleULAoA_Item_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_60 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                      /* No members */
+        &asn_SPC_value_specs_60 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_MultipleULAoA_Item_ExtIEs_57[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MultipleULAoA_Item_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_58, memb_id_constraint_57},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MultipleULAoA_Item_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_59, memb_criticality_constraint_57},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct MultipleULAoA_Item_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_60,
+     0,
+     {0, &asn_PER_memb_value_constr_60, memb_value_constraint_57},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_MultipleULAoA_Item_ExtIEs_tag2el_57[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_MultipleULAoA_Item_ExtIEs_specs_57 = {
+    sizeof(struct MultipleULAoA_Item_ExtIEs),
+    offsetof(struct MultipleULAoA_Item_ExtIEs, _asn_ctx),
+    asn_MAP_MultipleULAoA_Item_ExtIEs_tag2el_57,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_MultipleULAoA_Item_ExtIEs = {
+    "MultipleULAoA-Item-ExtIEs",
+    "MultipleULAoA-Item-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57,
+    sizeof(asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57) /
+        sizeof(asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57[0]), /* 1 */
+    asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57, /* Same as above */
+    sizeof(asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57) /
+        sizeof(asn_DEF_MultipleULAoA_Item_ExtIEs_tags_57[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MultipleULAoA_Item_ExtIEs_57,
+    3,                                          /* Elements count */
+    &asn_SPC_MultipleULAoA_Item_ExtIEs_specs_57 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_64 = {
     sizeof(struct NG_RANCell_ExtensionIE__value),
     offsetof(struct NG_RANCell_ExtensionIE__value, _asn_ctx),
     offsetof(struct NG_RANCell_ExtensionIE__value, present),
@@ -9402,7 +12492,7 @@ static asn_CHOICE_specifics_t asn_SPC_value_specs_44 = {
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_44 = {
+    asn_TYPE_descriptor_t asn_DEF_value_64 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -9413,10 +12503,10 @@ static /* Use -fall-defs-global to expose */
         {0, 0, OPEN_TYPE_constraint},
         0,
         0,                      /* No members */
-        &asn_SPC_value_specs_44 /* Additional specs */
+        &asn_SPC_value_specs_64 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_41[] = {
+asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_61[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct NG_RANCell_ExtensionIE, id),
@@ -9424,7 +12514,7 @@ asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_41[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_42, memb_id_constraint_41},
+     {0, &asn_PER_memb_id_constr_62, memb_id_constraint_61},
      0,
      0, /* No default value */
      "id"},
@@ -9435,7 +12525,7 @@ asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_41[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      0,
-     {0, &asn_PER_memb_criticality_constr_43, memb_criticality_constraint_41},
+     {0, &asn_PER_memb_criticality_constr_63, memb_criticality_constraint_61},
      0,
      0, /* No default value */
      "criticality"},
@@ -9444,25 +12534,25 @@ asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_41[] = {
      offsetof(struct NG_RANCell_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_44,
+     &asn_DEF_value_64,
      0,
-     {0, &asn_PER_memb_value_constr_44, memb_value_constraint_41},
+     {0, &asn_PER_memb_value_constr_64, memb_value_constraint_61},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_NG_RANCell_ExtensionIE_tags_41[] = {
+static const ber_tlv_tag_t asn_DEF_NG_RANCell_ExtensionIE_tags_61[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_NG_RANCell_ExtensionIE_tag2el_41[] =
+static const asn_TYPE_tag2member_t asn_MAP_NG_RANCell_ExtensionIE_tag2el_61[] =
     {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_NG_RANCell_ExtensionIE_specs_41 = {
+asn_SEQUENCE_specifics_t asn_SPC_NG_RANCell_ExtensionIE_specs_61 = {
     sizeof(struct NG_RANCell_ExtensionIE),
     offsetof(struct NG_RANCell_ExtensionIE, _asn_ctx),
-    asn_MAP_NG_RANCell_ExtensionIE_tag2el_41,
+    asn_MAP_NG_RANCell_ExtensionIE_tag2el_61,
     3, /* Count of tags in the map */
     0,
     0,
@@ -9473,19 +12563,19 @@ asn_TYPE_descriptor_t asn_DEF_NG_RANCell_ExtensionIE = {
     "NG-RANCell-ExtensionIE",
     "NG-RANCell-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_NG_RANCell_ExtensionIE_tags_41,
-    sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_41) /
-        sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_41[0]), /* 1 */
-    asn_DEF_NG_RANCell_ExtensionIE_tags_41,                /* Same as above */
-    sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_41) /
-        sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_41[0]), /* 1 */
+    asn_DEF_NG_RANCell_ExtensionIE_tags_61,
+    sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_61) /
+        sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_61[0]), /* 1 */
+    asn_DEF_NG_RANCell_ExtensionIE_tags_61,                /* Same as above */
+    sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_61) /
+        sizeof(asn_DEF_NG_RANCell_ExtensionIE_tags_61[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_NG_RANCell_ExtensionIE_41,
+    asn_MBR_NG_RANCell_ExtensionIE_61,
     3,                                       /* Elements count */
-    &asn_SPC_NG_RANCell_ExtensionIE_specs_41 /* Additional specs */
+    &asn_SPC_NG_RANCell_ExtensionIE_specs_61 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_48[] = {
+static asn_TYPE_member_t asn_MBR_value_68[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -9499,24 +12589,55 @@ static asn_TYPE_member_t asn_MBR_value_48[] = {
      0,
      0, /* No default value */
      "TDD-Config-EUTRA-Item"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct OTDOACell_Information_Item_ExtensionIE__value, choice.CGI_NR),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_CGI_NR,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "CGI-NR"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct OTDOACell_Information_Item_ExtensionIE__value,
+         choice.SFNInitialisationTime_EUTRA),
+     (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
+     0,
+     &asn_DEF_SFNInitialisationTime_EUTRA,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "SFNInitialisationTime-EUTRA"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_48[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0} /* TDD-Config-EUTRA-Item */
+static const unsigned asn_MAP_value_to_canonical_68[]        = {2, 0, 1};
+static const unsigned asn_MAP_value_from_canonical_68[]      = {1, 2, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_68[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 2, 0,
+     0}, /* SFNInitialisationTime-EUTRA */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
+     1}, /* TDD-Config-EUTRA-Item */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1, 0} /* CGI-NR */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_48 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_68 = {
     sizeof(struct OTDOACell_Information_Item_ExtensionIE__value),
     offsetof(struct OTDOACell_Information_Item_ExtensionIE__value, _asn_ctx),
     offsetof(struct OTDOACell_Information_Item_ExtensionIE__value, present),
     sizeof(
         ((struct OTDOACell_Information_Item_ExtensionIE__value*) 0)->present),
-    asn_MAP_value_tag2el_48,
-    1, /* Count of tags in the map */
-    0,
-    0,
+    asn_MAP_value_tag2el_68,
+    3, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_68,
+    asn_MAP_value_from_canonical_68,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_48 = {
+    asn_TYPE_descriptor_t asn_DEF_value_68 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -9525,12 +12646,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_48,
-        1,                      /* Elements count */
-        &asn_SPC_value_specs_48 /* Additional specs */
+        asn_MBR_value_68,
+        3,                      /* Elements count */
+        &asn_SPC_value_specs_68 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_45[] = {
+asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_65[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OTDOACell_Information_Item_ExtensionIE, id),
@@ -9538,7 +12659,7 @@ asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_45[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_46, memb_id_constraint_45},
+     {0, &asn_PER_memb_id_constr_66, memb_id_constraint_65},
      0,
      0, /* No default value */
      "id"},
@@ -9549,7 +12670,7 @@ asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_45[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_OTDOACell_Information_Item_ExtensionIE_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_47, memb_criticality_constraint_45},
+     {0, &asn_PER_memb_criticality_constr_67, memb_criticality_constraint_65},
      0,
      0, /* No default value */
      "criticality"},
@@ -9558,27 +12679,27 @@ asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_45[] = {
      offsetof(struct OTDOACell_Information_Item_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_48,
+     &asn_DEF_value_68,
      select_OTDOACell_Information_Item_ExtensionIE_value_type,
-     {0, &asn_PER_memb_value_constr_48, memb_value_constraint_45},
+     {0, &asn_PER_memb_value_constr_68, memb_value_constraint_65},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45[] = {
+    asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_OTDOACell_Information_Item_ExtensionIE_tag2el_45[] = {
+    asn_MAP_OTDOACell_Information_Item_ExtensionIE_tag2el_65[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_45 = {
+    asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_65 = {
         sizeof(struct OTDOACell_Information_Item_ExtensionIE),
         offsetof(struct OTDOACell_Information_Item_ExtensionIE, _asn_ctx),
-        asn_MAP_OTDOACell_Information_Item_ExtensionIE_tag2el_45,
+        asn_MAP_OTDOACell_Information_Item_ExtensionIE_tag2el_65,
         3, /* Count of tags in the map */
         0,
         0,
@@ -9589,22 +12710,22 @@ asn_TYPE_descriptor_t asn_DEF_OTDOACell_Information_Item_ExtensionIE = {
     "OTDOACell-Information-Item-ExtensionIE",
     "OTDOACell-Information-Item-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45,
-    sizeof(asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45) /
+    asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65,
+    sizeof(asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65) /
         sizeof(
-            asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45[0]), /* 1 */
-    asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45, /* Same as above */
-    sizeof(asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45) /
+            asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65[0]), /* 1 */
+    asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65, /* Same as above */
+    sizeof(asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65) /
         sizeof(
-            asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_45[0]), /* 1 */
+            asn_DEF_OTDOACell_Information_Item_ExtensionIE_tags_65[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOACell_Information_Item_ExtensionIE_45,
+    asn_MBR_OTDOACell_Information_Item_ExtensionIE_65,
     3, /* Elements count */
-    &asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_45 /* Additional specs
+    &asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_65 /* Additional specs
                                                               */
 };
 
-static asn_TYPE_member_t asn_MBR_value_52[] = {
+static asn_TYPE_member_t asn_MBR_value_72[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -9619,23 +12740,23 @@ static asn_TYPE_member_t asn_MBR_value_52[] = {
      0, /* No default value */
      "OtherRATMeasurementQuantities-Item"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_52[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_72[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
      0} /* OtherRATMeasurementQuantities-Item */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_52 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_72 = {
     sizeof(struct OtherRATMeasurementQuantities_ItemIEs__value),
     offsetof(struct OtherRATMeasurementQuantities_ItemIEs__value, _asn_ctx),
     offsetof(struct OtherRATMeasurementQuantities_ItemIEs__value, present),
     sizeof(((struct OtherRATMeasurementQuantities_ItemIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_52,
+    asn_MAP_value_tag2el_72,
     1, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_52 = {
+    asn_TYPE_descriptor_t asn_DEF_value_72 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -9644,12 +12765,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_52,
+        asn_MBR_value_72,
         1,                      /* Elements count */
-        &asn_SPC_value_specs_52 /* Additional specs */
+        &asn_SPC_value_specs_72 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49[] = {
+asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_69[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OtherRATMeasurementQuantities_ItemIEs, id),
@@ -9657,7 +12778,7 @@ asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_50, memb_id_constraint_49},
+     {0, &asn_PER_memb_id_constr_70, memb_id_constraint_69},
      0,
      0, /* No default value */
      "id"},
@@ -9668,7 +12789,7 @@ asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_OtherRATMeasurementQuantities_ItemIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_51, memb_criticality_constraint_49},
+     {0, &asn_PER_memb_criticality_constr_71, memb_criticality_constraint_69},
      0,
      0, /* No default value */
      "criticality"},
@@ -9677,27 +12798,27 @@ asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49[] = {
      offsetof(struct OtherRATMeasurementQuantities_ItemIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_52,
+     &asn_DEF_value_72,
      select_OtherRATMeasurementQuantities_ItemIEs_value_type,
-     {0, &asn_PER_memb_value_constr_52, memb_value_constraint_49},
+     {0, &asn_PER_memb_value_constr_72, memb_value_constraint_69},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49[] = {
+    asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_OtherRATMeasurementQuantities_ItemIEs_tag2el_49[] = {
+    asn_MAP_OtherRATMeasurementQuantities_ItemIEs_tag2el_69[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_49 = {
+    asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_69 = {
         sizeof(struct OtherRATMeasurementQuantities_ItemIEs),
         offsetof(struct OtherRATMeasurementQuantities_ItemIEs, _asn_ctx),
-        asn_MAP_OtherRATMeasurementQuantities_ItemIEs_tag2el_49,
+        asn_MAP_OtherRATMeasurementQuantities_ItemIEs_tag2el_69,
         3, /* Count of tags in the map */
         0,
         0,
@@ -9708,22 +12829,22 @@ asn_TYPE_descriptor_t asn_DEF_OtherRATMeasurementQuantities_ItemIEs = {
     "OtherRATMeasurementQuantities-ItemIEs",
     "OtherRATMeasurementQuantities-ItemIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49,
-    sizeof(asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49) /
+    asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69,
+    sizeof(asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69) /
         sizeof(
-            asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49[0]), /* 1 */
-    asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49, /* Same as above */
-    sizeof(asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49) /
+            asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69[0]), /* 1 */
+    asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69, /* Same as above */
+    sizeof(asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69) /
         sizeof(
-            asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_49[0]), /* 1 */
+            asn_DEF_OtherRATMeasurementQuantities_ItemIEs_tags_69[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49,
+    asn_MBR_OtherRATMeasurementQuantities_ItemIEs_69,
     3,                                                      /* Elements count */
-    &asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_49 /* Additional specs
+    &asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_69 /* Additional specs
                                                              */
 };
 
-static asn_TYPE_member_t asn_MBR_value_56[] = {
+static asn_TYPE_member_t asn_MBR_value_76[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -9751,512 +12872,18 @@ static asn_TYPE_member_t asn_MBR_value_56[] = {
      0, /* No default value */
      "ResultEUTRA"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_56[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_76[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1}, /* ResultNR */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1, 0} /* ResultEUTRA */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_56 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_76 = {
     sizeof(struct OtherRATMeasuredResultsValue_ExtensionIE__value),
     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE__value, _asn_ctx),
     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE__value, present),
     sizeof(
         ((struct OtherRATMeasuredResultsValue_ExtensionIE__value*) 0)->present),
-    asn_MAP_value_tag2el_56,
+    asn_MAP_value_tag2el_76,
     2, /* Count of tags in the map */
-    0,
-    0,
-    -1 /* Extensions start */
-};
-static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_56 = {
-        "value",
-        "value",
-        &asn_OP_OPEN_TYPE,
-        0, /* No effective tags (pointer) */
-        0, /* No effective tags (count) */
-        0, /* No tags (pointer) */
-        0, /* No tags (count) */
-        {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_56,
-        2,                      /* Elements count */
-        &asn_SPC_value_specs_56 /* Additional specs */
-};
-
-asn_TYPE_member_t asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_53[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, id),
-     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_ID,
-     0,
-     {0, &asn_PER_memb_id_constr_54, memb_id_constraint_53},
-     0,
-     0, /* No default value */
-     "id"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, criticality),
-     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_Criticality,
-     select_OtherRATMeasuredResultsValue_ExtensionIE_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_55, memb_criticality_constraint_53},
-     0,
-     0, /* No default value */
-     "criticality"},
-    {ATF_OPEN_TYPE | ATF_NOFLAGS,
-     0,
-     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, value),
-     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
-     +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_56,
-     select_OtherRATMeasuredResultsValue_ExtensionIE_value_type,
-     {0, &asn_PER_memb_value_constr_56, memb_value_constraint_53},
-     0,
-     0, /* No default value */
-     "value"},
-};
-static const ber_tlv_tag_t
-    asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_OtherRATMeasuredResultsValue_ExtensionIE_tag2el_53[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
-};
-asn_SEQUENCE_specifics_t
-    asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_53 = {
-        sizeof(struct OtherRATMeasuredResultsValue_ExtensionIE),
-        offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, _asn_ctx),
-        asn_MAP_OtherRATMeasuredResultsValue_ExtensionIE_tag2el_53,
-        3, /* Count of tags in the map */
-        0,
-        0,
-        0,  /* Optional elements (not needed) */
-        -1, /* First extension addition */
-};
-asn_TYPE_descriptor_t asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE = {
-    "OtherRATMeasuredResultsValue-ExtensionIE",
-    "OtherRATMeasuredResultsValue-ExtensionIE",
-    &asn_OP_SEQUENCE,
-    asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53,
-    sizeof(asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53) /
-        sizeof(
-            asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53[0]), /* 1
-                                                                           */
-    asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53, /* Same as above
-                                                               */
-    sizeof(asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53) /
-        sizeof(
-            asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_53[0]), /* 1
-                                                                           */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_53,
-    3, /* Elements count */
-    &asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_53 /* Additional
-                                                                  specs */
-};
-
-static asn_CHOICE_specifics_t asn_SPC_value_specs_60 = {
-    sizeof(struct PathlossReferenceSignal_ExtensionIE__value),
-    offsetof(struct PathlossReferenceSignal_ExtensionIE__value, _asn_ctx),
-    offsetof(struct PathlossReferenceSignal_ExtensionIE__value, present),
-    sizeof(((struct PathlossReferenceSignal_ExtensionIE__value*) 0)->present),
-    0, /* No top level tags */
-    0, /* No tags in the map */
-    0,
-    0,
-    -1 /* Extensions start */
-};
-static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_60 = {
-        "value",
-        "value",
-        &asn_OP_OPEN_TYPE,
-        0, /* No effective tags (pointer) */
-        0, /* No effective tags (count) */
-        0, /* No tags (pointer) */
-        0, /* No tags (count) */
-        {0, 0, OPEN_TYPE_constraint},
-        0,
-        0,                      /* No members */
-        &asn_SPC_value_specs_60 /* Additional specs */
-};
-
-asn_TYPE_member_t asn_MBR_PathlossReferenceSignal_ExtensionIE_57[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PathlossReferenceSignal_ExtensionIE, id),
-     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_ID,
-     0,
-     {0, &asn_PER_memb_id_constr_58, memb_id_constraint_57},
-     0,
-     0, /* No default value */
-     "id"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PathlossReferenceSignal_ExtensionIE, criticality),
-     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_Criticality,
-     0,
-     {0, &asn_PER_memb_criticality_constr_59, memb_criticality_constraint_57},
-     0,
-     0, /* No default value */
-     "criticality"},
-    {ATF_OPEN_TYPE | ATF_NOFLAGS,
-     0,
-     offsetof(struct PathlossReferenceSignal_ExtensionIE, value),
-     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
-     +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_60,
-     0,
-     {0, &asn_PER_memb_value_constr_60, memb_value_constraint_57},
-     0,
-     0, /* No default value */
-     "value"},
-};
-static const ber_tlv_tag_t
-    asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_PathlossReferenceSignal_ExtensionIE_tag2el_57[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
-};
-asn_SEQUENCE_specifics_t asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_57 =
-    {
-        sizeof(struct PathlossReferenceSignal_ExtensionIE),
-        offsetof(struct PathlossReferenceSignal_ExtensionIE, _asn_ctx),
-        asn_MAP_PathlossReferenceSignal_ExtensionIE_tag2el_57,
-        3, /* Count of tags in the map */
-        0,
-        0,
-        0,  /* Optional elements (not needed) */
-        -1, /* First extension addition */
-};
-asn_TYPE_descriptor_t asn_DEF_PathlossReferenceSignal_ExtensionIE = {
-    "PathlossReferenceSignal-ExtensionIE",
-    "PathlossReferenceSignal-ExtensionIE",
-    &asn_OP_SEQUENCE,
-    asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57,
-    sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57) /
-        sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57[0]), /* 1 */
-    asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57, /* Same as above */
-    sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57) /
-        sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_57[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_PathlossReferenceSignal_ExtensionIE_57,
-    3,                                                    /* Elements count */
-    &asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_57 /* Additional specs */
-};
-
-static asn_CHOICE_specifics_t asn_SPC_value_specs_64 = {
-    sizeof(struct PosResourceSetType_ExtIEs__value),
-    offsetof(struct PosResourceSetType_ExtIEs__value, _asn_ctx),
-    offsetof(struct PosResourceSetType_ExtIEs__value, present),
-    sizeof(((struct PosResourceSetType_ExtIEs__value*) 0)->present),
-    0, /* No top level tags */
-    0, /* No tags in the map */
-    0,
-    0,
-    -1 /* Extensions start */
-};
-static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_64 = {
-        "value",
-        "value",
-        &asn_OP_OPEN_TYPE,
-        0, /* No effective tags (pointer) */
-        0, /* No effective tags (count) */
-        0, /* No tags (pointer) */
-        0, /* No tags (count) */
-        {0, 0, OPEN_TYPE_constraint},
-        0,
-        0,                      /* No members */
-        &asn_SPC_value_specs_64 /* Additional specs */
-};
-
-asn_TYPE_member_t asn_MBR_PosResourceSetType_ExtIEs_61[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PosResourceSetType_ExtIEs, id),
-     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_ID,
-     0,
-     {0, &asn_PER_memb_id_constr_62, memb_id_constraint_61},
-     0,
-     0, /* No default value */
-     "id"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PosResourceSetType_ExtIEs, criticality),
-     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_Criticality,
-     0,
-     {0, &asn_PER_memb_criticality_constr_63, memb_criticality_constraint_61},
-     0,
-     0, /* No default value */
-     "criticality"},
-    {ATF_OPEN_TYPE | ATF_NOFLAGS,
-     0,
-     offsetof(struct PosResourceSetType_ExtIEs, value),
-     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
-     +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_64,
-     0,
-     {0, &asn_PER_memb_value_constr_64, memb_value_constraint_61},
-     0,
-     0, /* No default value */
-     "value"},
-};
-static const ber_tlv_tag_t asn_DEF_PosResourceSetType_ExtIEs_tags_61[] = {
-    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_PosResourceSetType_ExtIEs_tag2el_61[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
-};
-asn_SEQUENCE_specifics_t asn_SPC_PosResourceSetType_ExtIEs_specs_61 = {
-    sizeof(struct PosResourceSetType_ExtIEs),
-    offsetof(struct PosResourceSetType_ExtIEs, _asn_ctx),
-    asn_MAP_PosResourceSetType_ExtIEs_tag2el_61,
-    3, /* Count of tags in the map */
-    0,
-    0,
-    0,  /* Optional elements (not needed) */
-    -1, /* First extension addition */
-};
-asn_TYPE_descriptor_t asn_DEF_PosResourceSetType_ExtIEs = {
-    "PosResourceSetType-ExtIEs",
-    "PosResourceSetType-ExtIEs",
-    &asn_OP_SEQUENCE,
-    asn_DEF_PosResourceSetType_ExtIEs_tags_61,
-    sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_61) /
-        sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_61[0]), /* 1 */
-    asn_DEF_PosResourceSetType_ExtIEs_tags_61, /* Same as above */
-    sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_61) /
-        sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_61[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_PosResourceSetType_ExtIEs_61,
-    3,                                          /* Elements count */
-    &asn_SPC_PosResourceSetType_ExtIEs_specs_61 /* Additional specs */
-};
-
-static asn_CHOICE_specifics_t asn_SPC_value_specs_68 = {
-    sizeof(struct PRSMutingConfiguration_EUTRA_ExtensionIE__value),
-    offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE__value, _asn_ctx),
-    offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE__value, present),
-    sizeof(
-        ((struct PRSMutingConfiguration_EUTRA_ExtensionIE__value*) 0)->present),
-    0, /* No top level tags */
-    0, /* No tags in the map */
-    0,
-    0,
-    -1 /* Extensions start */
-};
-static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_68 = {
-        "value",
-        "value",
-        &asn_OP_OPEN_TYPE,
-        0, /* No effective tags (pointer) */
-        0, /* No effective tags (count) */
-        0, /* No tags (pointer) */
-        0, /* No tags (count) */
-        {0, 0, OPEN_TYPE_constraint},
-        0,
-        0,                      /* No members */
-        &asn_SPC_value_specs_68 /* Additional specs */
-};
-
-asn_TYPE_member_t asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_65[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, id),
-     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_ID,
-     0,
-     {0, &asn_PER_memb_id_constr_66, memb_id_constraint_65},
-     0,
-     0, /* No default value */
-     "id"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, criticality),
-     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_Criticality,
-     0,
-     {0, &asn_PER_memb_criticality_constr_67, memb_criticality_constraint_65},
-     0,
-     0, /* No default value */
-     "criticality"},
-    {ATF_OPEN_TYPE | ATF_NOFLAGS,
-     0,
-     offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, value),
-     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
-     +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_68,
-     0,
-     {0, &asn_PER_memb_value_constr_68, memb_value_constraint_65},
-     0,
-     0, /* No default value */
-     "value"},
-};
-static const ber_tlv_tag_t
-    asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_PRSMutingConfiguration_EUTRA_ExtensionIE_tag2el_65[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
-};
-asn_SEQUENCE_specifics_t
-    asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_65 = {
-        sizeof(struct PRSMutingConfiguration_EUTRA_ExtensionIE),
-        offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, _asn_ctx),
-        asn_MAP_PRSMutingConfiguration_EUTRA_ExtensionIE_tag2el_65,
-        3, /* Count of tags in the map */
-        0,
-        0,
-        0,  /* Optional elements (not needed) */
-        -1, /* First extension addition */
-};
-asn_TYPE_descriptor_t asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE = {
-    "PRSMutingConfiguration-EUTRA-ExtensionIE",
-    "PRSMutingConfiguration-EUTRA-ExtensionIE",
-    &asn_OP_SEQUENCE,
-    asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65,
-    sizeof(asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65) /
-        sizeof(
-            asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65[0]), /* 1
-                                                                           */
-    asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65, /* Same as above
-                                                               */
-    sizeof(asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65) /
-        sizeof(
-            asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_65[0]), /* 1
-                                                                           */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_65,
-    3, /* Elements count */
-    &asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_65 /* Additional
-                                                                  specs */
-};
-
-static asn_CHOICE_specifics_t asn_SPC_value_specs_72 = {
-    sizeof(struct ReferenceSignal_ExtensionIE__value),
-    offsetof(struct ReferenceSignal_ExtensionIE__value, _asn_ctx),
-    offsetof(struct ReferenceSignal_ExtensionIE__value, present),
-    sizeof(((struct ReferenceSignal_ExtensionIE__value*) 0)->present),
-    0, /* No top level tags */
-    0, /* No tags in the map */
-    0,
-    0,
-    -1 /* Extensions start */
-};
-static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_72 = {
-        "value",
-        "value",
-        &asn_OP_OPEN_TYPE,
-        0, /* No effective tags (pointer) */
-        0, /* No effective tags (count) */
-        0, /* No tags (pointer) */
-        0, /* No tags (count) */
-        {0, 0, OPEN_TYPE_constraint},
-        0,
-        0,                      /* No members */
-        &asn_SPC_value_specs_72 /* Additional specs */
-};
-
-asn_TYPE_member_t asn_MBR_ReferenceSignal_ExtensionIE_69[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct ReferenceSignal_ExtensionIE, id),
-     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_ID,
-     0,
-     {0, &asn_PER_memb_id_constr_70, memb_id_constraint_69},
-     0,
-     0, /* No default value */
-     "id"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct ReferenceSignal_ExtensionIE, criticality),
-     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_Criticality,
-     0,
-     {0, &asn_PER_memb_criticality_constr_71, memb_criticality_constraint_69},
-     0,
-     0, /* No default value */
-     "criticality"},
-    {ATF_OPEN_TYPE | ATF_NOFLAGS,
-     0,
-     offsetof(struct ReferenceSignal_ExtensionIE, value),
-     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
-     +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_72,
-     0,
-     {0, &asn_PER_memb_value_constr_72, memb_value_constraint_69},
-     0,
-     0, /* No default value */
-     "value"},
-};
-static const ber_tlv_tag_t asn_DEF_ReferenceSignal_ExtensionIE_tags_69[] = {
-    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_ReferenceSignal_ExtensionIE_tag2el_69[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
-};
-asn_SEQUENCE_specifics_t asn_SPC_ReferenceSignal_ExtensionIE_specs_69 = {
-    sizeof(struct ReferenceSignal_ExtensionIE),
-    offsetof(struct ReferenceSignal_ExtensionIE, _asn_ctx),
-    asn_MAP_ReferenceSignal_ExtensionIE_tag2el_69,
-    3, /* Count of tags in the map */
-    0,
-    0,
-    0,  /* Optional elements (not needed) */
-    -1, /* First extension addition */
-};
-asn_TYPE_descriptor_t asn_DEF_ReferenceSignal_ExtensionIE = {
-    "ReferenceSignal-ExtensionIE",
-    "ReferenceSignal-ExtensionIE",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ReferenceSignal_ExtensionIE_tags_69,
-    sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_69) /
-        sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_69[0]), /* 1 */
-    asn_DEF_ReferenceSignal_ExtensionIE_tags_69, /* Same as above */
-    sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_69) /
-        sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_69[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_ReferenceSignal_ExtensionIE_69,
-    3,                                            /* Elements count */
-    &asn_SPC_ReferenceSignal_ExtensionIE_specs_69 /* Additional specs */
-};
-
-static asn_CHOICE_specifics_t asn_SPC_value_specs_76 = {
-    sizeof(struct ReferencePoint_ExtIEs__value),
-    offsetof(struct ReferencePoint_ExtIEs__value, _asn_ctx),
-    offsetof(struct ReferencePoint_ExtIEs__value, present),
-    sizeof(((struct ReferencePoint_ExtIEs__value*) 0)->present),
-    0, /* No top level tags */
-    0, /* No tags in the map */
     0,
     0,
     -1 /* Extensions start */
@@ -10271,15 +12898,15 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        0,
-        0,                      /* No members */
+        asn_MBR_value_76,
+        2,                      /* Elements count */
         &asn_SPC_value_specs_76 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_ReferencePoint_ExtIEs_73[] = {
+asn_TYPE_member_t asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_73[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ReferencePoint_ExtIEs, id),
+     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10290,65 +12917,74 @@ asn_TYPE_member_t asn_MBR_ReferencePoint_ExtIEs_73[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ReferencePoint_ExtIEs, criticality),
+     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
-     0,
+     select_OtherRATMeasuredResultsValue_ExtensionIE_criticality_type,
      {0, &asn_PER_memb_criticality_constr_75, memb_criticality_constraint_73},
      0,
      0, /* No default value */
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct ReferencePoint_ExtIEs, value),
+     offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_76,
-     0,
+     select_OtherRATMeasuredResultsValue_ExtensionIE_value_type,
      {0, &asn_PER_memb_value_constr_76, memb_value_constraint_73},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_ReferencePoint_ExtIEs_tags_73[] = {
-    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_ReferencePoint_ExtIEs_tag2el_73[] = {
-    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+static const ber_tlv_tag_t
+    asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_OtherRATMeasuredResultsValue_ExtensionIE_tag2el_73[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_ReferencePoint_ExtIEs_specs_73 = {
-    sizeof(struct ReferencePoint_ExtIEs),
-    offsetof(struct ReferencePoint_ExtIEs, _asn_ctx),
-    asn_MAP_ReferencePoint_ExtIEs_tag2el_73,
-    3, /* Count of tags in the map */
-    0,
-    0,
-    0,  /* Optional elements (not needed) */
-    -1, /* First extension addition */
+asn_SEQUENCE_specifics_t
+    asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_73 = {
+        sizeof(struct OtherRATMeasuredResultsValue_ExtensionIE),
+        offsetof(struct OtherRATMeasuredResultsValue_ExtensionIE, _asn_ctx),
+        asn_MAP_OtherRATMeasuredResultsValue_ExtensionIE_tag2el_73,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_ReferencePoint_ExtIEs = {
-    "ReferencePoint-ExtIEs",
-    "ReferencePoint-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE = {
+    "OtherRATMeasuredResultsValue-ExtensionIE",
+    "OtherRATMeasuredResultsValue-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_ReferencePoint_ExtIEs_tags_73,
-    sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_73) /
-        sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_73[0]), /* 1 */
-    asn_DEF_ReferencePoint_ExtIEs_tags_73,                /* Same as above */
-    sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_73) /
-        sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_73[0]), /* 1 */
+    asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73,
+    sizeof(asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73) /
+        sizeof(
+            asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73[0]), /* 1
+                                                                           */
+    asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73, /* Same as above
+                                                               */
+    sizeof(asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73) /
+        sizeof(
+            asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE_tags_73[0]), /* 1
+                                                                           */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_ReferencePoint_ExtIEs_73,
-    3,                                      /* Elements count */
-    &asn_SPC_ReferencePoint_ExtIEs_specs_73 /* Additional specs */
+    asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_73,
+    3, /* Elements count */
+    &asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_73 /* Additional
+                                                                  specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_80 = {
-    sizeof(struct ResourceSetType_ExtIEs__value),
-    offsetof(struct ResourceSetType_ExtIEs__value, _asn_ctx),
-    offsetof(struct ResourceSetType_ExtIEs__value, present),
-    sizeof(((struct ResourceSetType_ExtIEs__value*) 0)->present),
+    sizeof(struct PathlossReferenceSignal_ExtensionIE__value),
+    offsetof(struct PathlossReferenceSignal_ExtensionIE__value, _asn_ctx),
+    offsetof(struct PathlossReferenceSignal_ExtensionIE__value, present),
+    sizeof(((struct PathlossReferenceSignal_ExtensionIE__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10370,10 +13006,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_80 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_77[] = {
+asn_TYPE_member_t asn_MBR_PathlossReferenceSignal_ExtensionIE_77[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceSetType_ExtIEs, id),
+     offsetof(struct PathlossReferenceSignal_ExtensionIE, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10384,7 +13020,7 @@ asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_77[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceSetType_ExtIEs, criticality),
+     offsetof(struct PathlossReferenceSignal_ExtensionIE, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10395,7 +13031,7 @@ asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_77[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceSetType_ExtIEs, value),
+     offsetof(struct PathlossReferenceSignal_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_80,
@@ -10405,45 +13041,47 @@ asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_77[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_ResourceSetType_ExtIEs_tags_77[] = {
-    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_ResourceSetType_ExtIEs_tag2el_77[] =
-    {
+static const ber_tlv_tag_t
+    asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_PathlossReferenceSignal_ExtensionIE_tag2el_77[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_ResourceSetType_ExtIEs_specs_77 = {
-    sizeof(struct ResourceSetType_ExtIEs),
-    offsetof(struct ResourceSetType_ExtIEs, _asn_ctx),
-    asn_MAP_ResourceSetType_ExtIEs_tag2el_77,
-    3, /* Count of tags in the map */
-    0,
-    0,
-    0,  /* Optional elements (not needed) */
-    -1, /* First extension addition */
+asn_SEQUENCE_specifics_t asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_77 =
+    {
+        sizeof(struct PathlossReferenceSignal_ExtensionIE),
+        offsetof(struct PathlossReferenceSignal_ExtensionIE, _asn_ctx),
+        asn_MAP_PathlossReferenceSignal_ExtensionIE_tag2el_77,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_ResourceSetType_ExtIEs = {
-    "ResourceSetType-ExtIEs",
-    "ResourceSetType-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_PathlossReferenceSignal_ExtensionIE = {
+    "PathlossReferenceSignal-ExtensionIE",
+    "PathlossReferenceSignal-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_ResourceSetType_ExtIEs_tags_77,
-    sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_77) /
-        sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_77[0]), /* 1 */
-    asn_DEF_ResourceSetType_ExtIEs_tags_77,                /* Same as above */
-    sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_77) /
-        sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_77[0]), /* 1 */
+    asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77,
+    sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77) /
+        sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77[0]), /* 1 */
+    asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77, /* Same as above */
+    sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77) /
+        sizeof(asn_DEF_PathlossReferenceSignal_ExtensionIE_tags_77[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_ResourceSetType_ExtIEs_77,
-    3,                                       /* Elements count */
-    &asn_SPC_ResourceSetType_ExtIEs_specs_77 /* Additional specs */
+    asn_MBR_PathlossReferenceSignal_ExtensionIE_77,
+    3,                                                    /* Elements count */
+    &asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_77 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_84 = {
-    sizeof(struct ResourceType_ExtIEs__value),
-    offsetof(struct ResourceType_ExtIEs__value, _asn_ctx),
-    offsetof(struct ResourceType_ExtIEs__value, present),
-    sizeof(((struct ResourceType_ExtIEs__value*) 0)->present),
+    sizeof(struct PosResourceSetType_ExtIEs__value),
+    offsetof(struct PosResourceSetType_ExtIEs__value, _asn_ctx),
+    offsetof(struct PosResourceSetType_ExtIEs__value, present),
+    sizeof(((struct PosResourceSetType_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10465,10 +13103,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_84 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_81[] = {
+asn_TYPE_member_t asn_MBR_PosResourceSetType_ExtIEs_81[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceType_ExtIEs, id),
+     offsetof(struct PosResourceSetType_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10479,7 +13117,7 @@ asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_81[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceType_ExtIEs, criticality),
+     offsetof(struct PosResourceSetType_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10490,7 +13128,7 @@ asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_81[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceType_ExtIEs, value),
+     offsetof(struct PosResourceSetType_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_84,
@@ -10500,44 +13138,46 @@ asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_81[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_ResourceType_ExtIEs_tags_81[] = {
+static const ber_tlv_tag_t asn_DEF_PosResourceSetType_ExtIEs_tags_81[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_ResourceType_ExtIEs_tag2el_81[] = {
-    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+static const asn_TYPE_tag2member_t
+    asn_MAP_PosResourceSetType_ExtIEs_tag2el_81[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_ResourceType_ExtIEs_specs_81 = {
-    sizeof(struct ResourceType_ExtIEs),
-    offsetof(struct ResourceType_ExtIEs, _asn_ctx),
-    asn_MAP_ResourceType_ExtIEs_tag2el_81,
+asn_SEQUENCE_specifics_t asn_SPC_PosResourceSetType_ExtIEs_specs_81 = {
+    sizeof(struct PosResourceSetType_ExtIEs),
+    offsetof(struct PosResourceSetType_ExtIEs, _asn_ctx),
+    asn_MAP_PosResourceSetType_ExtIEs_tag2el_81,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_ResourceType_ExtIEs = {
-    "ResourceType-ExtIEs",
-    "ResourceType-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_PosResourceSetType_ExtIEs = {
+    "PosResourceSetType-ExtIEs",
+    "PosResourceSetType-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_ResourceType_ExtIEs_tags_81,
-    sizeof(asn_DEF_ResourceType_ExtIEs_tags_81) /
-        sizeof(asn_DEF_ResourceType_ExtIEs_tags_81[0]), /* 1 */
-    asn_DEF_ResourceType_ExtIEs_tags_81,                /* Same as above */
-    sizeof(asn_DEF_ResourceType_ExtIEs_tags_81) /
-        sizeof(asn_DEF_ResourceType_ExtIEs_tags_81[0]), /* 1 */
+    asn_DEF_PosResourceSetType_ExtIEs_tags_81,
+    sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_81) /
+        sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_81[0]), /* 1 */
+    asn_DEF_PosResourceSetType_ExtIEs_tags_81, /* Same as above */
+    sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_81) /
+        sizeof(asn_DEF_PosResourceSetType_ExtIEs_tags_81[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_ResourceType_ExtIEs_81,
-    3,                                    /* Elements count */
-    &asn_SPC_ResourceType_ExtIEs_specs_81 /* Additional specs */
+    asn_MBR_PosResourceSetType_ExtIEs_81,
+    3,                                          /* Elements count */
+    &asn_SPC_PosResourceSetType_ExtIEs_specs_81 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_88 = {
-    sizeof(struct ResourceTypePos_ExtIEs__value),
-    offsetof(struct ResourceTypePos_ExtIEs__value, _asn_ctx),
-    offsetof(struct ResourceTypePos_ExtIEs__value, present),
-    sizeof(((struct ResourceTypePos_ExtIEs__value*) 0)->present),
+    sizeof(struct PRSMutingConfiguration_EUTRA_ExtensionIE__value),
+    offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE__value, _asn_ctx),
+    offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE__value, present),
+    sizeof(
+        ((struct PRSMutingConfiguration_EUTRA_ExtensionIE__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10559,10 +13199,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_88 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_85[] = {
+asn_TYPE_member_t asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_85[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceTypePos_ExtIEs, id),
+     offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10573,7 +13213,7 @@ asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_85[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceTypePos_ExtIEs, criticality),
+     offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10584,7 +13224,7 @@ asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_85[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct ResourceTypePos_ExtIEs, value),
+     offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_88,
@@ -10594,45 +13234,53 @@ asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_85[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_ResourceTypePos_ExtIEs_tags_85[] = {
-    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_ResourceTypePos_ExtIEs_tag2el_85[] =
-    {
+static const ber_tlv_tag_t
+    asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_PRSMutingConfiguration_EUTRA_ExtensionIE_tag2el_85[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_ResourceTypePos_ExtIEs_specs_85 = {
-    sizeof(struct ResourceTypePos_ExtIEs),
-    offsetof(struct ResourceTypePos_ExtIEs, _asn_ctx),
-    asn_MAP_ResourceTypePos_ExtIEs_tag2el_85,
-    3, /* Count of tags in the map */
-    0,
-    0,
-    0,  /* Optional elements (not needed) */
-    -1, /* First extension addition */
+asn_SEQUENCE_specifics_t
+    asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_85 = {
+        sizeof(struct PRSMutingConfiguration_EUTRA_ExtensionIE),
+        offsetof(struct PRSMutingConfiguration_EUTRA_ExtensionIE, _asn_ctx),
+        asn_MAP_PRSMutingConfiguration_EUTRA_ExtensionIE_tag2el_85,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_ResourceTypePos_ExtIEs = {
-    "ResourceTypePos-ExtIEs",
-    "ResourceTypePos-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE = {
+    "PRSMutingConfiguration-EUTRA-ExtensionIE",
+    "PRSMutingConfiguration-EUTRA-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_ResourceTypePos_ExtIEs_tags_85,
-    sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_85) /
-        sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_85[0]), /* 1 */
-    asn_DEF_ResourceTypePos_ExtIEs_tags_85,                /* Same as above */
-    sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_85) /
-        sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_85[0]), /* 1 */
+    asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85,
+    sizeof(asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85) /
+        sizeof(
+            asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85[0]), /* 1
+                                                                           */
+    asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85, /* Same as above
+                                                               */
+    sizeof(asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85) /
+        sizeof(
+            asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE_tags_85[0]), /* 1
+                                                                           */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_ResourceTypePos_ExtIEs_85,
-    3,                                       /* Elements count */
-    &asn_SPC_ResourceTypePos_ExtIEs_specs_85 /* Additional specs */
+    asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_85,
+    3, /* Elements count */
+    &asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_85 /* Additional
+                                                                  specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_92 = {
-    sizeof(struct SpatialInformationPos_ExtIEs__value),
-    offsetof(struct SpatialInformationPos_ExtIEs__value, _asn_ctx),
-    offsetof(struct SpatialInformationPos_ExtIEs__value, present),
-    sizeof(((struct SpatialInformationPos_ExtIEs__value*) 0)->present),
+    sizeof(struct PRSResource_QCLInfo_ExtIEs__value),
+    offsetof(struct PRSResource_QCLInfo_ExtIEs__value, _asn_ctx),
+    offsetof(struct PRSResource_QCLInfo_ExtIEs__value, present),
+    sizeof(((struct PRSResource_QCLInfo_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10654,10 +13302,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_92 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_89[] = {
+asn_TYPE_member_t asn_MBR_PRSResource_QCLInfo_ExtIEs_89[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct SpatialInformationPos_ExtIEs, id),
+     offsetof(struct PRSResource_QCLInfo_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10668,7 +13316,7 @@ asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_89[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct SpatialInformationPos_ExtIEs, criticality),
+     offsetof(struct PRSResource_QCLInfo_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10679,7 +13327,7 @@ asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_89[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct SpatialInformationPos_ExtIEs, value),
+     offsetof(struct PRSResource_QCLInfo_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_92,
@@ -10689,45 +13337,45 @@ asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_89[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_SpatialInformationPos_ExtIEs_tags_89[] = {
+static const ber_tlv_tag_t asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_SpatialInformationPos_ExtIEs_tag2el_89[] = {
+    asn_MAP_PRSResource_QCLInfo_ExtIEs_tag2el_89[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_SpatialInformationPos_ExtIEs_specs_89 = {
-    sizeof(struct SpatialInformationPos_ExtIEs),
-    offsetof(struct SpatialInformationPos_ExtIEs, _asn_ctx),
-    asn_MAP_SpatialInformationPos_ExtIEs_tag2el_89,
+asn_SEQUENCE_specifics_t asn_SPC_PRSResource_QCLInfo_ExtIEs_specs_89 = {
+    sizeof(struct PRSResource_QCLInfo_ExtIEs),
+    offsetof(struct PRSResource_QCLInfo_ExtIEs, _asn_ctx),
+    asn_MAP_PRSResource_QCLInfo_ExtIEs_tag2el_89,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_SpatialInformationPos_ExtIEs = {
-    "SpatialInformationPos-ExtIEs",
-    "SpatialInformationPos-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_PRSResource_QCLInfo_ExtIEs = {
+    "PRSResource-QCLInfo-ExtIEs",
+    "PRSResource-QCLInfo-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_SpatialInformationPos_ExtIEs_tags_89,
-    sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_89) /
-        sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_89[0]), /* 1 */
-    asn_DEF_SpatialInformationPos_ExtIEs_tags_89, /* Same as above */
-    sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_89) /
-        sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_89[0]), /* 1 */
+    asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89,
+    sizeof(asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89) /
+        sizeof(asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89[0]), /* 1 */
+    asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89, /* Same as above */
+    sizeof(asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89) /
+        sizeof(asn_DEF_PRSResource_QCLInfo_ExtIEs_tags_89[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_SpatialInformationPos_ExtIEs_89,
-    3,                                             /* Elements count */
-    &asn_SPC_SpatialInformationPos_ExtIEs_specs_89 /* Additional specs */
+    asn_MBR_PRSResource_QCLInfo_ExtIEs_89,
+    3,                                           /* Elements count */
+    &asn_SPC_PRSResource_QCLInfo_ExtIEs_specs_89 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_96 = {
-    sizeof(struct TimeStampSlotIndex_ExtIEs__value),
-    offsetof(struct TimeStampSlotIndex_ExtIEs__value, _asn_ctx),
-    offsetof(struct TimeStampSlotIndex_ExtIEs__value, present),
-    sizeof(((struct TimeStampSlotIndex_ExtIEs__value*) 0)->present),
+    sizeof(struct PRSTransmissionOffIndication_ExtIEs__value),
+    offsetof(struct PRSTransmissionOffIndication_ExtIEs__value, _asn_ctx),
+    offsetof(struct PRSTransmissionOffIndication_ExtIEs__value, present),
+    sizeof(((struct PRSTransmissionOffIndication_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10749,10 +13397,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_96 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_93[] = {
+asn_TYPE_member_t asn_MBR_PRSTransmissionOffIndication_ExtIEs_93[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TimeStampSlotIndex_ExtIEs, id),
+     offsetof(struct PRSTransmissionOffIndication_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10763,7 +13411,7 @@ asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_93[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TimeStampSlotIndex_ExtIEs, criticality),
+     offsetof(struct PRSTransmissionOffIndication_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10774,7 +13422,7 @@ asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_93[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TimeStampSlotIndex_ExtIEs, value),
+     offsetof(struct PRSTransmissionOffIndication_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_96,
@@ -10784,45 +13432,47 @@ asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_93[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93[] = {
-    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const ber_tlv_tag_t
+    asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TimeStampSlotIndex_ExtIEs_tag2el_93[] = {
+    asn_MAP_PRSTransmissionOffIndication_ExtIEs_tag2el_93[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TimeStampSlotIndex_ExtIEs_specs_93 = {
-    sizeof(struct TimeStampSlotIndex_ExtIEs),
-    offsetof(struct TimeStampSlotIndex_ExtIEs, _asn_ctx),
-    asn_MAP_TimeStampSlotIndex_ExtIEs_tag2el_93,
-    3, /* Count of tags in the map */
-    0,
-    0,
-    0,  /* Optional elements (not needed) */
-    -1, /* First extension addition */
+asn_SEQUENCE_specifics_t asn_SPC_PRSTransmissionOffIndication_ExtIEs_specs_93 =
+    {
+        sizeof(struct PRSTransmissionOffIndication_ExtIEs),
+        offsetof(struct PRSTransmissionOffIndication_ExtIEs, _asn_ctx),
+        asn_MAP_PRSTransmissionOffIndication_ExtIEs_tag2el_93,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TimeStampSlotIndex_ExtIEs = {
-    "TimeStampSlotIndex-ExtIEs",
-    "TimeStampSlotIndex-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_PRSTransmissionOffIndication_ExtIEs = {
+    "PRSTransmissionOffIndication-ExtIEs",
+    "PRSTransmissionOffIndication-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93,
-    sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93) /
-        sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93[0]), /* 1 */
-    asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93, /* Same as above */
-    sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93) /
-        sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_93[0]), /* 1 */
+    asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93,
+    sizeof(asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93) /
+        sizeof(asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93[0]), /* 1 */
+    asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93, /* Same as above */
+    sizeof(asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93) /
+        sizeof(asn_DEF_PRSTransmissionOffIndication_ExtIEs_tags_93[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TimeStampSlotIndex_ExtIEs_93,
-    3,                                          /* Elements count */
-    &asn_SPC_TimeStampSlotIndex_ExtIEs_specs_93 /* Additional specs */
+    asn_MBR_PRSTransmissionOffIndication_ExtIEs_93,
+    3,                                                    /* Elements count */
+    &asn_SPC_PRSTransmissionOffIndication_ExtIEs_specs_93 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_100 = {
-    sizeof(struct TransmissionComb_ExtIEs__value),
-    offsetof(struct TransmissionComb_ExtIEs__value, _asn_ctx),
-    offsetof(struct TransmissionComb_ExtIEs__value, present),
-    sizeof(((struct TransmissionComb_ExtIEs__value*) 0)->present),
+    sizeof(struct ReferenceSignal_ExtensionIE__value),
+    offsetof(struct ReferenceSignal_ExtensionIE__value, _asn_ctx),
+    offsetof(struct ReferenceSignal_ExtensionIE__value, present),
+    sizeof(((struct ReferenceSignal_ExtensionIE__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10844,10 +13494,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_100 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_97[] = {
+asn_TYPE_member_t asn_MBR_ReferenceSignal_ExtensionIE_97[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TransmissionComb_ExtIEs, id),
+     offsetof(struct ReferenceSignal_ExtensionIE, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10858,7 +13508,7 @@ asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_97[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TransmissionComb_ExtIEs, criticality),
+     offsetof(struct ReferenceSignal_ExtensionIE, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10869,7 +13519,7 @@ asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_97[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TransmissionComb_ExtIEs, value),
+     offsetof(struct ReferenceSignal_ExtensionIE, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_100,
@@ -10879,45 +13529,45 @@ asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_97[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TransmissionComb_ExtIEs_tags_97[] = {
+static const ber_tlv_tag_t asn_DEF_ReferenceSignal_ExtensionIE_tags_97[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_TransmissionComb_ExtIEs_tag2el_97[] =
-    {
+static const asn_TYPE_tag2member_t
+    asn_MAP_ReferenceSignal_ExtensionIE_tag2el_97[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TransmissionComb_ExtIEs_specs_97 = {
-    sizeof(struct TransmissionComb_ExtIEs),
-    offsetof(struct TransmissionComb_ExtIEs, _asn_ctx),
-    asn_MAP_TransmissionComb_ExtIEs_tag2el_97,
+asn_SEQUENCE_specifics_t asn_SPC_ReferenceSignal_ExtensionIE_specs_97 = {
+    sizeof(struct ReferenceSignal_ExtensionIE),
+    offsetof(struct ReferenceSignal_ExtensionIE, _asn_ctx),
+    asn_MAP_ReferenceSignal_ExtensionIE_tag2el_97,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TransmissionComb_ExtIEs = {
-    "TransmissionComb-ExtIEs",
-    "TransmissionComb-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_ReferenceSignal_ExtensionIE = {
+    "ReferenceSignal-ExtensionIE",
+    "ReferenceSignal-ExtensionIE",
     &asn_OP_SEQUENCE,
-    asn_DEF_TransmissionComb_ExtIEs_tags_97,
-    sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_97) /
-        sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_97[0]), /* 1 */
-    asn_DEF_TransmissionComb_ExtIEs_tags_97,                /* Same as above */
-    sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_97) /
-        sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_97[0]), /* 1 */
+    asn_DEF_ReferenceSignal_ExtensionIE_tags_97,
+    sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_97) /
+        sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_97[0]), /* 1 */
+    asn_DEF_ReferenceSignal_ExtensionIE_tags_97, /* Same as above */
+    sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_97) /
+        sizeof(asn_DEF_ReferenceSignal_ExtensionIE_tags_97[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TransmissionComb_ExtIEs_97,
-    3,                                        /* Elements count */
-    &asn_SPC_TransmissionComb_ExtIEs_specs_97 /* Additional specs */
+    asn_MBR_ReferenceSignal_ExtensionIE_97,
+    3,                                            /* Elements count */
+    &asn_SPC_ReferenceSignal_ExtensionIE_specs_97 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_104 = {
-    sizeof(struct TransmissionCombPos_ExtIEs__value),
-    offsetof(struct TransmissionCombPos_ExtIEs__value, _asn_ctx),
-    offsetof(struct TransmissionCombPos_ExtIEs__value, present),
-    sizeof(((struct TransmissionCombPos_ExtIEs__value*) 0)->present),
+    sizeof(struct ReferencePoint_ExtIEs__value),
+    offsetof(struct ReferencePoint_ExtIEs__value, _asn_ctx),
+    offsetof(struct ReferencePoint_ExtIEs__value, present),
+    sizeof(((struct ReferencePoint_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -10939,10 +13589,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_104 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_101[] = {
+asn_TYPE_member_t asn_MBR_ReferencePoint_ExtIEs_101[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TransmissionCombPos_ExtIEs, id),
+     offsetof(struct ReferencePoint_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -10953,7 +13603,7 @@ asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_101[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TransmissionCombPos_ExtIEs, criticality),
+     offsetof(struct ReferencePoint_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -10964,7 +13614,7 @@ asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_101[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TransmissionCombPos_ExtIEs, value),
+     offsetof(struct ReferencePoint_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_104,
@@ -10974,45 +13624,45 @@ asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_101[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TransmissionCombPos_ExtIEs_tags_101[] = {
+static const ber_tlv_tag_t asn_DEF_ReferencePoint_ExtIEs_tags_101[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_TransmissionCombPos_ExtIEs_tag2el_101[] = {
+static const asn_TYPE_tag2member_t asn_MAP_ReferencePoint_ExtIEs_tag2el_101[] =
+    {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TransmissionCombPos_ExtIEs_specs_101 = {
-    sizeof(struct TransmissionCombPos_ExtIEs),
-    offsetof(struct TransmissionCombPos_ExtIEs, _asn_ctx),
-    asn_MAP_TransmissionCombPos_ExtIEs_tag2el_101,
+asn_SEQUENCE_specifics_t asn_SPC_ReferencePoint_ExtIEs_specs_101 = {
+    sizeof(struct ReferencePoint_ExtIEs),
+    offsetof(struct ReferencePoint_ExtIEs, _asn_ctx),
+    asn_MAP_ReferencePoint_ExtIEs_tag2el_101,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TransmissionCombPos_ExtIEs = {
-    "TransmissionCombPos-ExtIEs",
-    "TransmissionCombPos-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_ReferencePoint_ExtIEs = {
+    "ReferencePoint-ExtIEs",
+    "ReferencePoint-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TransmissionCombPos_ExtIEs_tags_101,
-    sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_101) /
-        sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_101[0]), /* 1 */
-    asn_DEF_TransmissionCombPos_ExtIEs_tags_101, /* Same as above */
-    sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_101) /
-        sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_101[0]), /* 1 */
+    asn_DEF_ReferencePoint_ExtIEs_tags_101,
+    sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_101) /
+        sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_101[0]), /* 1 */
+    asn_DEF_ReferencePoint_ExtIEs_tags_101,                /* Same as above */
+    sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_101) /
+        sizeof(asn_DEF_ReferencePoint_ExtIEs_tags_101[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TransmissionCombPos_ExtIEs_101,
-    3,                                            /* Elements count */
-    &asn_SPC_TransmissionCombPos_ExtIEs_specs_101 /* Additional specs */
+    asn_MBR_ReferencePoint_ExtIEs_101,
+    3,                                       /* Elements count */
+    &asn_SPC_ReferencePoint_ExtIEs_specs_101 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_108 = {
-    sizeof(struct TrpMeasuredResultsValue_ExtIEs__value),
-    offsetof(struct TrpMeasuredResultsValue_ExtIEs__value, _asn_ctx),
-    offsetof(struct TrpMeasuredResultsValue_ExtIEs__value, present),
-    sizeof(((struct TrpMeasuredResultsValue_ExtIEs__value*) 0)->present),
+    sizeof(struct RelativePathDelay_ExtIEs__value),
+    offsetof(struct RelativePathDelay_ExtIEs__value, _asn_ctx),
+    offsetof(struct RelativePathDelay_ExtIEs__value, present),
+    sizeof(((struct RelativePathDelay_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -11034,10 +13684,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_108 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_105[] = {
+asn_TYPE_member_t asn_MBR_RelativePathDelay_ExtIEs_105[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TrpMeasuredResultsValue_ExtIEs, id),
+     offsetof(struct RelativePathDelay_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11048,7 +13698,7 @@ asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_105[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TrpMeasuredResultsValue_ExtIEs, criticality),
+     offsetof(struct RelativePathDelay_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -11059,7 +13709,7 @@ asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_105[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TrpMeasuredResultsValue_ExtIEs, value),
+     offsetof(struct RelativePathDelay_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_108,
@@ -11069,45 +13719,45 @@ asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_105[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105[] = {
+static const ber_tlv_tag_t asn_DEF_RelativePathDelay_ExtIEs_tags_105[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TrpMeasuredResultsValue_ExtIEs_tag2el_105[] = {
+    asn_MAP_RelativePathDelay_ExtIEs_tag2el_105[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_105 = {
-    sizeof(struct TrpMeasuredResultsValue_ExtIEs),
-    offsetof(struct TrpMeasuredResultsValue_ExtIEs, _asn_ctx),
-    asn_MAP_TrpMeasuredResultsValue_ExtIEs_tag2el_105,
+asn_SEQUENCE_specifics_t asn_SPC_RelativePathDelay_ExtIEs_specs_105 = {
+    sizeof(struct RelativePathDelay_ExtIEs),
+    offsetof(struct RelativePathDelay_ExtIEs, _asn_ctx),
+    asn_MAP_RelativePathDelay_ExtIEs_tag2el_105,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TrpMeasuredResultsValue_ExtIEs = {
-    "TrpMeasuredResultsValue-ExtIEs",
-    "TrpMeasuredResultsValue-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_RelativePathDelay_ExtIEs = {
+    "RelativePathDelay-ExtIEs",
+    "RelativePathDelay-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105,
-    sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105) /
-        sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105[0]), /* 1 */
-    asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105, /* Same as above */
-    sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105) /
-        sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_105[0]), /* 1 */
+    asn_DEF_RelativePathDelay_ExtIEs_tags_105,
+    sizeof(asn_DEF_RelativePathDelay_ExtIEs_tags_105) /
+        sizeof(asn_DEF_RelativePathDelay_ExtIEs_tags_105[0]), /* 1 */
+    asn_DEF_RelativePathDelay_ExtIEs_tags_105, /* Same as above */
+    sizeof(asn_DEF_RelativePathDelay_ExtIEs_tags_105) /
+        sizeof(asn_DEF_RelativePathDelay_ExtIEs_tags_105[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TrpMeasuredResultsValue_ExtIEs_105,
-    3,                                                /* Elements count */
-    &asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_105 /* Additional specs */
+    asn_MBR_RelativePathDelay_ExtIEs_105,
+    3,                                          /* Elements count */
+    &asn_SPC_RelativePathDelay_ExtIEs_specs_105 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_112 = {
-    sizeof(struct TrpMeasurementQuality_ExtIEs__value),
-    offsetof(struct TrpMeasurementQuality_ExtIEs__value, _asn_ctx),
-    offsetof(struct TrpMeasurementQuality_ExtIEs__value, present),
-    sizeof(((struct TrpMeasurementQuality_ExtIEs__value*) 0)->present),
+    sizeof(struct ResourceSetType_ExtIEs__value),
+    offsetof(struct ResourceSetType_ExtIEs__value, _asn_ctx),
+    offsetof(struct ResourceSetType_ExtIEs__value, present),
+    sizeof(((struct ResourceSetType_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -11129,10 +13779,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_112 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_109[] = {
+asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_109[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TrpMeasurementQuality_ExtIEs, id),
+     offsetof(struct ResourceSetType_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11143,7 +13793,7 @@ asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_109[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TrpMeasurementQuality_ExtIEs, criticality),
+     offsetof(struct ResourceSetType_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -11154,7 +13804,7 @@ asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_109[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TrpMeasurementQuality_ExtIEs, value),
+     offsetof(struct ResourceSetType_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_112,
@@ -11164,45 +13814,45 @@ asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_109[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109[] = {
+static const ber_tlv_tag_t asn_DEF_ResourceSetType_ExtIEs_tags_109[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_TrpMeasurementQuality_ExtIEs_tag2el_109[] = {
+static const asn_TYPE_tag2member_t asn_MAP_ResourceSetType_ExtIEs_tag2el_109[] =
+    {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TrpMeasurementQuality_ExtIEs_specs_109 = {
-    sizeof(struct TrpMeasurementQuality_ExtIEs),
-    offsetof(struct TrpMeasurementQuality_ExtIEs, _asn_ctx),
-    asn_MAP_TrpMeasurementQuality_ExtIEs_tag2el_109,
+asn_SEQUENCE_specifics_t asn_SPC_ResourceSetType_ExtIEs_specs_109 = {
+    sizeof(struct ResourceSetType_ExtIEs),
+    offsetof(struct ResourceSetType_ExtIEs, _asn_ctx),
+    asn_MAP_ResourceSetType_ExtIEs_tag2el_109,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TrpMeasurementQuality_ExtIEs = {
-    "TrpMeasurementQuality-ExtIEs",
-    "TrpMeasurementQuality-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_ResourceSetType_ExtIEs = {
+    "ResourceSetType-ExtIEs",
+    "ResourceSetType-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109,
-    sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109) /
-        sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109[0]), /* 1 */
-    asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109, /* Same as above */
-    sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109) /
-        sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_109[0]), /* 1 */
+    asn_DEF_ResourceSetType_ExtIEs_tags_109,
+    sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_109) /
+        sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_109[0]), /* 1 */
+    asn_DEF_ResourceSetType_ExtIEs_tags_109,                /* Same as above */
+    sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_109) /
+        sizeof(asn_DEF_ResourceSetType_ExtIEs_tags_109[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TrpMeasurementQuality_ExtIEs_109,
-    3,                                              /* Elements count */
-    &asn_SPC_TrpMeasurementQuality_ExtIEs_specs_109 /* Additional specs */
+    asn_MBR_ResourceSetType_ExtIEs_109,
+    3,                                        /* Elements count */
+    &asn_SPC_ResourceSetType_ExtIEs_specs_109 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_116 = {
-    sizeof(struct TRPInformationItem_ExtIEs__value),
-    offsetof(struct TRPInformationItem_ExtIEs__value, _asn_ctx),
-    offsetof(struct TRPInformationItem_ExtIEs__value, present),
-    sizeof(((struct TRPInformationItem_ExtIEs__value*) 0)->present),
+    sizeof(struct ResourceType_ExtIEs__value),
+    offsetof(struct ResourceType_ExtIEs__value, _asn_ctx),
+    offsetof(struct ResourceType_ExtIEs__value, present),
+    sizeof(((struct ResourceType_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -11224,10 +13874,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_116 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPInformationItem_ExtIEs_113[] = {
+asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_113[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPInformationItem_ExtIEs, id),
+     offsetof(struct ResourceType_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11238,7 +13888,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationItem_ExtIEs_113[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPInformationItem_ExtIEs, criticality),
+     offsetof(struct ResourceType_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -11249,7 +13899,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationItem_ExtIEs_113[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TRPInformationItem_ExtIEs, value),
+     offsetof(struct ResourceType_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_116,
@@ -11259,45 +13909,44 @@ asn_TYPE_member_t asn_MBR_TRPInformationItem_ExtIEs_113[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPInformationItem_ExtIEs_tags_113[] = {
+static const ber_tlv_tag_t asn_DEF_ResourceType_ExtIEs_tags_113[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_TRPInformationItem_ExtIEs_tag2el_113[] = {
-        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+static const asn_TYPE_tag2member_t asn_MAP_ResourceType_ExtIEs_tag2el_113[] = {
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPInformationItem_ExtIEs_specs_113 = {
-    sizeof(struct TRPInformationItem_ExtIEs),
-    offsetof(struct TRPInformationItem_ExtIEs, _asn_ctx),
-    asn_MAP_TRPInformationItem_ExtIEs_tag2el_113,
+asn_SEQUENCE_specifics_t asn_SPC_ResourceType_ExtIEs_specs_113 = {
+    sizeof(struct ResourceType_ExtIEs),
+    offsetof(struct ResourceType_ExtIEs, _asn_ctx),
+    asn_MAP_ResourceType_ExtIEs_tag2el_113,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TRPInformationItem_ExtIEs = {
-    "TRPInformationItem-ExtIEs",
-    "TRPInformationItem-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_ResourceType_ExtIEs = {
+    "ResourceType-ExtIEs",
+    "ResourceType-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPInformationItem_ExtIEs_tags_113,
-    sizeof(asn_DEF_TRPInformationItem_ExtIEs_tags_113) /
-        sizeof(asn_DEF_TRPInformationItem_ExtIEs_tags_113[0]), /* 1 */
-    asn_DEF_TRPInformationItem_ExtIEs_tags_113, /* Same as above */
-    sizeof(asn_DEF_TRPInformationItem_ExtIEs_tags_113) /
-        sizeof(asn_DEF_TRPInformationItem_ExtIEs_tags_113[0]), /* 1 */
+    asn_DEF_ResourceType_ExtIEs_tags_113,
+    sizeof(asn_DEF_ResourceType_ExtIEs_tags_113) /
+        sizeof(asn_DEF_ResourceType_ExtIEs_tags_113[0]), /* 1 */
+    asn_DEF_ResourceType_ExtIEs_tags_113,                /* Same as above */
+    sizeof(asn_DEF_ResourceType_ExtIEs_tags_113) /
+        sizeof(asn_DEF_ResourceType_ExtIEs_tags_113[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPInformationItem_ExtIEs_113,
-    3,                                           /* Elements count */
-    &asn_SPC_TRPInformationItem_ExtIEs_specs_113 /* Additional specs */
+    asn_MBR_ResourceType_ExtIEs_113,
+    3,                                     /* Elements count */
+    &asn_SPC_ResourceType_ExtIEs_specs_113 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_120 = {
-    sizeof(struct TRPPositionDefinitionType_ExtIEs__value),
-    offsetof(struct TRPPositionDefinitionType_ExtIEs__value, _asn_ctx),
-    offsetof(struct TRPPositionDefinitionType_ExtIEs__value, present),
-    sizeof(((struct TRPPositionDefinitionType_ExtIEs__value*) 0)->present),
+    sizeof(struct ResourceTypePos_ExtIEs__value),
+    offsetof(struct ResourceTypePos_ExtIEs__value, _asn_ctx),
+    offsetof(struct ResourceTypePos_ExtIEs__value, present),
+    sizeof(((struct ResourceTypePos_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -11319,10 +13968,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_120 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_117[] = {
+asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_117[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPPositionDefinitionType_ExtIEs, id),
+     offsetof(struct ResourceTypePos_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11333,7 +13982,7 @@ asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_117[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPPositionDefinitionType_ExtIEs, criticality),
+     offsetof(struct ResourceTypePos_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -11344,7 +13993,7 @@ asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_117[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TRPPositionDefinitionType_ExtIEs, value),
+     offsetof(struct ResourceTypePos_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_120,
@@ -11354,45 +14003,45 @@ asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_117[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t
-    asn_MAP_TRPPositionDefinitionType_ExtIEs_tag2el_117[] = {
+static const ber_tlv_tag_t asn_DEF_ResourceTypePos_ExtIEs_tags_117[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t asn_MAP_ResourceTypePos_ExtIEs_tag2el_117[] =
+    {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_117 = {
-    sizeof(struct TRPPositionDefinitionType_ExtIEs),
-    offsetof(struct TRPPositionDefinitionType_ExtIEs, _asn_ctx),
-    asn_MAP_TRPPositionDefinitionType_ExtIEs_tag2el_117,
+asn_SEQUENCE_specifics_t asn_SPC_ResourceTypePos_ExtIEs_specs_117 = {
+    sizeof(struct ResourceTypePos_ExtIEs),
+    offsetof(struct ResourceTypePos_ExtIEs, _asn_ctx),
+    asn_MAP_ResourceTypePos_ExtIEs_tag2el_117,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TRPPositionDefinitionType_ExtIEs = {
-    "TRPPositionDefinitionType-ExtIEs",
-    "TRPPositionDefinitionType-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_ResourceTypePos_ExtIEs = {
+    "ResourceTypePos-ExtIEs",
+    "ResourceTypePos-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117,
-    sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117) /
-        sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117[0]), /* 1 */
-    asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117, /* Same as above */
-    sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117) /
-        sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_117[0]), /* 1 */
+    asn_DEF_ResourceTypePos_ExtIEs_tags_117,
+    sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_117) /
+        sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_117[0]), /* 1 */
+    asn_DEF_ResourceTypePos_ExtIEs_tags_117,                /* Same as above */
+    sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_117) /
+        sizeof(asn_DEF_ResourceTypePos_ExtIEs_tags_117[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPPositionDefinitionType_ExtIEs_117,
-    3,                                                  /* Elements count */
-    &asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_117 /* Additional specs */
+    asn_MBR_ResourceTypePos_ExtIEs_117,
+    3,                                        /* Elements count */
+    &asn_SPC_ResourceTypePos_ExtIEs_specs_117 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_124 = {
-    sizeof(struct TRPPositionDirectAccuracy_ExtIEs__value),
-    offsetof(struct TRPPositionDirectAccuracy_ExtIEs__value, _asn_ctx),
-    offsetof(struct TRPPositionDirectAccuracy_ExtIEs__value, present),
-    sizeof(((struct TRPPositionDirectAccuracy_ExtIEs__value*) 0)->present),
+    sizeof(struct SpatialInformationPos_ExtIEs__value),
+    offsetof(struct SpatialInformationPos_ExtIEs__value, _asn_ctx),
+    offsetof(struct SpatialInformationPos_ExtIEs__value, present),
+    sizeof(((struct SpatialInformationPos_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -11414,10 +14063,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_124 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121[] = {
+asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_121[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPPositionDirectAccuracy_ExtIEs, id),
+     offsetof(struct SpatialInformationPos_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11428,7 +14077,7 @@ asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPPositionDirectAccuracy_ExtIEs, criticality),
+     offsetof(struct SpatialInformationPos_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -11439,7 +14088,7 @@ asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TRPPositionDirectAccuracy_ExtIEs, value),
+     offsetof(struct SpatialInformationPos_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_124,
@@ -11449,45 +14098,45 @@ asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const ber_tlv_tag_t asn_DEF_SpatialInformationPos_ExtIEs_tags_121[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TRPPositionDirectAccuracy_ExtIEs_tag2el_121[] = {
+    asn_MAP_SpatialInformationPos_ExtIEs_tag2el_121[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_121 = {
-    sizeof(struct TRPPositionDirectAccuracy_ExtIEs),
-    offsetof(struct TRPPositionDirectAccuracy_ExtIEs, _asn_ctx),
-    asn_MAP_TRPPositionDirectAccuracy_ExtIEs_tag2el_121,
+asn_SEQUENCE_specifics_t asn_SPC_SpatialInformationPos_ExtIEs_specs_121 = {
+    sizeof(struct SpatialInformationPos_ExtIEs),
+    offsetof(struct SpatialInformationPos_ExtIEs, _asn_ctx),
+    asn_MAP_SpatialInformationPos_ExtIEs_tag2el_121,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TRPPositionDirectAccuracy_ExtIEs = {
-    "TRPPositionDirectAccuracy-ExtIEs",
-    "TRPPositionDirectAccuracy-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_SpatialInformationPos_ExtIEs = {
+    "SpatialInformationPos-ExtIEs",
+    "SpatialInformationPos-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121,
-    sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121) /
-        sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121[0]), /* 1 */
-    asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121, /* Same as above */
-    sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121) /
-        sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_121[0]), /* 1 */
+    asn_DEF_SpatialInformationPos_ExtIEs_tags_121,
+    sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_121) /
+        sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_121[0]), /* 1 */
+    asn_DEF_SpatialInformationPos_ExtIEs_tags_121, /* Same as above */
+    sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_121) /
+        sizeof(asn_DEF_SpatialInformationPos_ExtIEs_tags_121[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121,
-    3,                                                  /* Elements count */
-    &asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_121 /* Additional specs */
+    asn_MBR_SpatialInformationPos_ExtIEs_121,
+    3,                                              /* Elements count */
+    &asn_SPC_SpatialInformationPos_ExtIEs_specs_121 /* Additional specs */
 };
 
 static asn_CHOICE_specifics_t asn_SPC_value_specs_128 = {
-    sizeof(struct TRPReferencePointType_ExtIEs__value),
-    offsetof(struct TRPReferencePointType_ExtIEs__value, _asn_ctx),
-    offsetof(struct TRPReferencePointType_ExtIEs__value, present),
-    sizeof(((struct TRPReferencePointType_ExtIEs__value*) 0)->present),
+    sizeof(struct SSBBurstPosition_ExtIEs__value),
+    offsetof(struct SSBBurstPosition_ExtIEs__value, _asn_ctx),
+    offsetof(struct SSBBurstPosition_ExtIEs__value, present),
+    sizeof(((struct SSBBurstPosition_ExtIEs__value*) 0)->present),
     0, /* No top level tags */
     0, /* No tags in the map */
     0,
@@ -11509,10 +14158,10 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_value_specs_128 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_125[] = {
+asn_TYPE_member_t asn_MBR_SSBBurstPosition_ExtIEs_125[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPReferencePointType_ExtIEs, id),
+     offsetof(struct SSBBurstPosition_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11523,7 +14172,7 @@ asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_125[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct TRPReferencePointType_ExtIEs, criticality),
+     offsetof(struct SSBBurstPosition_ExtIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
@@ -11534,7 +14183,7 @@ asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_125[] = {
      "criticality"},
     {ATF_OPEN_TYPE | ATF_NOFLAGS,
      0,
-     offsetof(struct TRPReferencePointType_ExtIEs, value),
+     offsetof(struct SSBBurstPosition_ExtIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
      &asn_DEF_value_128,
@@ -11544,66 +14193,47 @@ asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_125[] = {
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPReferencePointType_ExtIEs_tags_125[] = {
+static const ber_tlv_tag_t asn_DEF_SSBBurstPosition_ExtIEs_tags_125[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TRPReferencePointType_ExtIEs_tag2el_125[] = {
+    asn_MAP_SSBBurstPosition_ExtIEs_tag2el_125[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPReferencePointType_ExtIEs_specs_125 = {
-    sizeof(struct TRPReferencePointType_ExtIEs),
-    offsetof(struct TRPReferencePointType_ExtIEs, _asn_ctx),
-    asn_MAP_TRPReferencePointType_ExtIEs_tag2el_125,
+asn_SEQUENCE_specifics_t asn_SPC_SSBBurstPosition_ExtIEs_specs_125 = {
+    sizeof(struct SSBBurstPosition_ExtIEs),
+    offsetof(struct SSBBurstPosition_ExtIEs, _asn_ctx),
+    asn_MAP_SSBBurstPosition_ExtIEs_tag2el_125,
     3, /* Count of tags in the map */
     0,
     0,
     0,  /* Optional elements (not needed) */
     -1, /* First extension addition */
 };
-asn_TYPE_descriptor_t asn_DEF_TRPReferencePointType_ExtIEs = {
-    "TRPReferencePointType-ExtIEs",
-    "TRPReferencePointType-ExtIEs",
+asn_TYPE_descriptor_t asn_DEF_SSBBurstPosition_ExtIEs = {
+    "SSBBurstPosition-ExtIEs",
+    "SSBBurstPosition-ExtIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPReferencePointType_ExtIEs_tags_125,
-    sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_125) /
-        sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_125[0]), /* 1 */
-    asn_DEF_TRPReferencePointType_ExtIEs_tags_125, /* Same as above */
-    sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_125) /
-        sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_125[0]), /* 1 */
+    asn_DEF_SSBBurstPosition_ExtIEs_tags_125,
+    sizeof(asn_DEF_SSBBurstPosition_ExtIEs_tags_125) /
+        sizeof(asn_DEF_SSBBurstPosition_ExtIEs_tags_125[0]), /* 1 */
+    asn_DEF_SSBBurstPosition_ExtIEs_tags_125,                /* Same as above */
+    sizeof(asn_DEF_SSBBurstPosition_ExtIEs_tags_125) /
+        sizeof(asn_DEF_SSBBurstPosition_ExtIEs_tags_125[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPReferencePointType_ExtIEs_125,
-    3,                                              /* Elements count */
-    &asn_SPC_TRPReferencePointType_ExtIEs_specs_125 /* Additional specs */
+    asn_MBR_SSBBurstPosition_ExtIEs_125,
+    3,                                         /* Elements count */
+    &asn_SPC_SSBBurstPosition_ExtIEs_specs_125 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_132[] = {
-    {ATF_NOFLAGS,
-     0,
-     offsetof(
-         struct WLANMeasurementQuantities_ItemIEs__value,
-         choice.WLANMeasurementQuantities_Item),
-     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
-     0,
-     &asn_DEF_WLANMeasurementQuantities_Item,
-     0,
-     {0, 0, 0},
-     0,
-     0, /* No default value */
-     "WLANMeasurementQuantities-Item"},
-};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_132[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
-     0} /* WLANMeasurementQuantities-Item */
-};
 static asn_CHOICE_specifics_t asn_SPC_value_specs_132 = {
-    sizeof(struct WLANMeasurementQuantities_ItemIEs__value),
-    offsetof(struct WLANMeasurementQuantities_ItemIEs__value, _asn_ctx),
-    offsetof(struct WLANMeasurementQuantities_ItemIEs__value, present),
-    sizeof(((struct WLANMeasurementQuantities_ItemIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_132,
-    1, /* Count of tags in the map */
+    sizeof(struct TRPTEGInformation_ExtIEs__value),
+    offsetof(struct TRPTEGInformation_ExtIEs__value, _asn_ctx),
+    offsetof(struct TRPTEGInformation_ExtIEs__value, present),
+    sizeof(((struct TRPTEGInformation_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
     0,
     0,
     -1 /* Extensions start */
@@ -11618,15 +14248,15 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_132,
-        1,                       /* Elements count */
+        0,
+        0,                       /* No members */
         &asn_SPC_value_specs_132 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_WLANMeasurementQuantities_ItemIEs_129[] = {
+asn_TYPE_member_t asn_MBR_TRPTEGInformation_ExtIEs_129[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct WLANMeasurementQuantities_ItemIEs, id),
+     offsetof(struct TRPTEGInformation_ExtIEs, id),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
@@ -11637,12 +14267,1391 @@ asn_TYPE_member_t asn_MBR_WLANMeasurementQuantities_ItemIEs_129[] = {
      "id"},
     {ATF_NOFLAGS,
      0,
+     offsetof(struct TRPTEGInformation_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_131, memb_criticality_constraint_129},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPTEGInformation_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_132,
+     0,
+     {0, &asn_PER_memb_value_constr_132, memb_value_constraint_129},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TRPTEGInformation_ExtIEs_tags_129[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TRPTEGInformation_ExtIEs_tag2el_129[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TRPTEGInformation_ExtIEs_specs_129 = {
+    sizeof(struct TRPTEGInformation_ExtIEs),
+    offsetof(struct TRPTEGInformation_ExtIEs, _asn_ctx),
+    asn_MAP_TRPTEGInformation_ExtIEs_tag2el_129,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TRPTEGInformation_ExtIEs = {
+    "TRPTEGInformation-ExtIEs",
+    "TRPTEGInformation-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TRPTEGInformation_ExtIEs_tags_129,
+    sizeof(asn_DEF_TRPTEGInformation_ExtIEs_tags_129) /
+        sizeof(asn_DEF_TRPTEGInformation_ExtIEs_tags_129[0]), /* 1 */
+    asn_DEF_TRPTEGInformation_ExtIEs_tags_129, /* Same as above */
+    sizeof(asn_DEF_TRPTEGInformation_ExtIEs_tags_129) /
+        sizeof(asn_DEF_TRPTEGInformation_ExtIEs_tags_129[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPTEGInformation_ExtIEs_129,
+    3,                                          /* Elements count */
+    &asn_SPC_TRPTEGInformation_ExtIEs_specs_129 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_136 = {
+    sizeof(struct TimeStampSlotIndex_ExtIEs__value),
+    offsetof(struct TimeStampSlotIndex_ExtIEs__value, _asn_ctx),
+    offsetof(struct TimeStampSlotIndex_ExtIEs__value, present),
+    sizeof(((struct TimeStampSlotIndex_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_136 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_136 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_133[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TimeStampSlotIndex_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_134, memb_id_constraint_133},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TimeStampSlotIndex_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_135, memb_criticality_constraint_133},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TimeStampSlotIndex_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_136,
+     0,
+     {0, &asn_PER_memb_value_constr_136, memb_value_constraint_133},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TimeStampSlotIndex_ExtIEs_tag2el_133[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TimeStampSlotIndex_ExtIEs_specs_133 = {
+    sizeof(struct TimeStampSlotIndex_ExtIEs),
+    offsetof(struct TimeStampSlotIndex_ExtIEs, _asn_ctx),
+    asn_MAP_TimeStampSlotIndex_ExtIEs_tag2el_133,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TimeStampSlotIndex_ExtIEs = {
+    "TimeStampSlotIndex-ExtIEs",
+    "TimeStampSlotIndex-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133,
+    sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133) /
+        sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133[0]), /* 1 */
+    asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133, /* Same as above */
+    sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133) /
+        sizeof(asn_DEF_TimeStampSlotIndex_ExtIEs_tags_133[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TimeStampSlotIndex_ExtIEs_133,
+    3,                                           /* Elements count */
+    &asn_SPC_TimeStampSlotIndex_ExtIEs_specs_133 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_140 = {
+    sizeof(struct TransmissionComb_ExtIEs__value),
+    offsetof(struct TransmissionComb_ExtIEs__value, _asn_ctx),
+    offsetof(struct TransmissionComb_ExtIEs__value, present),
+    sizeof(((struct TransmissionComb_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_140 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_140 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_137[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TransmissionComb_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_138, memb_id_constraint_137},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TransmissionComb_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_139, memb_criticality_constraint_137},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TransmissionComb_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_140,
+     0,
+     {0, &asn_PER_memb_value_constr_140, memb_value_constraint_137},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TransmissionComb_ExtIEs_tags_137[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TransmissionComb_ExtIEs_tag2el_137[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TransmissionComb_ExtIEs_specs_137 = {
+    sizeof(struct TransmissionComb_ExtIEs),
+    offsetof(struct TransmissionComb_ExtIEs, _asn_ctx),
+    asn_MAP_TransmissionComb_ExtIEs_tag2el_137,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TransmissionComb_ExtIEs = {
+    "TransmissionComb-ExtIEs",
+    "TransmissionComb-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TransmissionComb_ExtIEs_tags_137,
+    sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_137) /
+        sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_137[0]), /* 1 */
+    asn_DEF_TransmissionComb_ExtIEs_tags_137,                /* Same as above */
+    sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_137) /
+        sizeof(asn_DEF_TransmissionComb_ExtIEs_tags_137[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TransmissionComb_ExtIEs_137,
+    3,                                         /* Elements count */
+    &asn_SPC_TransmissionComb_ExtIEs_specs_137 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_144 = {
+    sizeof(struct TransmissionCombPos_ExtIEs__value),
+    offsetof(struct TransmissionCombPos_ExtIEs__value, _asn_ctx),
+    offsetof(struct TransmissionCombPos_ExtIEs__value, present),
+    sizeof(((struct TransmissionCombPos_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_144 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_144 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_141[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TransmissionCombPos_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_142, memb_id_constraint_141},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TransmissionCombPos_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_143, memb_criticality_constraint_141},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TransmissionCombPos_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_144,
+     0,
+     {0, &asn_PER_memb_value_constr_144, memb_value_constraint_141},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TransmissionCombPos_ExtIEs_tags_141[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TransmissionCombPos_ExtIEs_tag2el_141[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TransmissionCombPos_ExtIEs_specs_141 = {
+    sizeof(struct TransmissionCombPos_ExtIEs),
+    offsetof(struct TransmissionCombPos_ExtIEs, _asn_ctx),
+    asn_MAP_TransmissionCombPos_ExtIEs_tag2el_141,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TransmissionCombPos_ExtIEs = {
+    "TransmissionCombPos-ExtIEs",
+    "TransmissionCombPos-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TransmissionCombPos_ExtIEs_tags_141,
+    sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_141) /
+        sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_141[0]), /* 1 */
+    asn_DEF_TransmissionCombPos_ExtIEs_tags_141, /* Same as above */
+    sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_141) /
+        sizeof(asn_DEF_TransmissionCombPos_ExtIEs_tags_141[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TransmissionCombPos_ExtIEs_141,
+    3,                                            /* Elements count */
+    &asn_SPC_TransmissionCombPos_ExtIEs_specs_141 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_148 = {
+    sizeof(struct Choice_TRP_Beam_Info_Item_ExtIEs__value),
+    offsetof(struct Choice_TRP_Beam_Info_Item_ExtIEs__value, _asn_ctx),
+    offsetof(struct Choice_TRP_Beam_Info_Item_ExtIEs__value, present),
+    sizeof(((struct Choice_TRP_Beam_Info_Item_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_148 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_148 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_Choice_TRP_Beam_Info_Item_ExtIEs_145[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct Choice_TRP_Beam_Info_Item_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_146, memb_id_constraint_145},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct Choice_TRP_Beam_Info_Item_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_147, memb_criticality_constraint_145},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct Choice_TRP_Beam_Info_Item_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_148,
+     0,
+     {0, &asn_PER_memb_value_constr_148, memb_value_constraint_145},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_Choice_TRP_Beam_Info_Item_ExtIEs_tag2el_145[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_Choice_TRP_Beam_Info_Item_ExtIEs_specs_145 = {
+    sizeof(struct Choice_TRP_Beam_Info_Item_ExtIEs),
+    offsetof(struct Choice_TRP_Beam_Info_Item_ExtIEs, _asn_ctx),
+    asn_MAP_Choice_TRP_Beam_Info_Item_ExtIEs_tag2el_145,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs = {
+    "Choice-TRP-Beam-Info-Item-ExtIEs",
+    "Choice-TRP-Beam-Info-Item-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145,
+    sizeof(asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145) /
+        sizeof(asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145[0]), /* 1 */
+    asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145, /* Same as above */
+    sizeof(asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145) /
+        sizeof(asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs_tags_145[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_Choice_TRP_Beam_Info_Item_ExtIEs_145,
+    3,                                                  /* Elements count */
+    &asn_SPC_Choice_TRP_Beam_Info_Item_ExtIEs_specs_145 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_152[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasuredResultsValue_ExtIEs__value, choice.ZoA),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_ZoA,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "ZoA"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TrpMeasuredResultsValue_ExtIEs__value, choice.MultipleULAoA),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_MultipleULAoA,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MultipleULAoA"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TrpMeasuredResultsValue_ExtIEs__value, choice.UL_SRS_RSRPP),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_UL_SRS_RSRPP,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "UL-SRS-RSRPP"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_152[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 2},  /* ZoA */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1, 1}, /* MultipleULAoA */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -2, 0}  /* UL-SRS-RSRPP */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_152 = {
+    sizeof(struct TrpMeasuredResultsValue_ExtIEs__value),
+    offsetof(struct TrpMeasuredResultsValue_ExtIEs__value, _asn_ctx),
+    offsetof(struct TrpMeasuredResultsValue_ExtIEs__value, present),
+    sizeof(((struct TrpMeasuredResultsValue_ExtIEs__value*) 0)->present),
+    asn_MAP_value_tag2el_152,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_152 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_152,
+        3,                       /* Elements count */
+        &asn_SPC_value_specs_152 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_149[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasuredResultsValue_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_150, memb_id_constraint_149},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasuredResultsValue_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_TrpMeasuredResultsValue_ExtIEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_151, memb_criticality_constraint_149},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasuredResultsValue_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_152,
+     select_TrpMeasuredResultsValue_ExtIEs_value_type,
+     {0, &asn_PER_memb_value_constr_152, memb_value_constraint_149},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TrpMeasuredResultsValue_ExtIEs_tag2el_149[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_149 = {
+    sizeof(struct TrpMeasuredResultsValue_ExtIEs),
+    offsetof(struct TrpMeasuredResultsValue_ExtIEs, _asn_ctx),
+    asn_MAP_TrpMeasuredResultsValue_ExtIEs_tag2el_149,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TrpMeasuredResultsValue_ExtIEs = {
+    "TrpMeasuredResultsValue-ExtIEs",
+    "TrpMeasuredResultsValue-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149,
+    sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149) /
+        sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149[0]), /* 1 */
+    asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149, /* Same as above */
+    sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149) /
+        sizeof(asn_DEF_TrpMeasuredResultsValue_ExtIEs_tags_149[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TrpMeasuredResultsValue_ExtIEs_149,
+    3,                                                /* Elements count */
+    &asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_149 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_156 = {
+    sizeof(struct TrpMeasurementQuality_ExtIEs__value),
+    offsetof(struct TrpMeasurementQuality_ExtIEs__value, _asn_ctx),
+    offsetof(struct TrpMeasurementQuality_ExtIEs__value, present),
+    sizeof(((struct TrpMeasurementQuality_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_156 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_156 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_153[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasurementQuality_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_154, memb_id_constraint_153},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasurementQuality_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_155, memb_criticality_constraint_153},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TrpMeasurementQuality_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_156,
+     0,
+     {0, &asn_PER_memb_value_constr_156, memb_value_constraint_153},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TrpMeasurementQuality_ExtIEs_tag2el_153[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TrpMeasurementQuality_ExtIEs_specs_153 = {
+    sizeof(struct TrpMeasurementQuality_ExtIEs),
+    offsetof(struct TrpMeasurementQuality_ExtIEs, _asn_ctx),
+    asn_MAP_TrpMeasurementQuality_ExtIEs_tag2el_153,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TrpMeasurementQuality_ExtIEs = {
+    "TrpMeasurementQuality-ExtIEs",
+    "TrpMeasurementQuality-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153,
+    sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153) /
+        sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153[0]), /* 1 */
+    asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153, /* Same as above */
+    sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153) /
+        sizeof(asn_DEF_TrpMeasurementQuality_ExtIEs_tags_153[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TrpMeasurementQuality_ExtIEs_153,
+    3,                                              /* Elements count */
+    &asn_SPC_TrpMeasurementQuality_ExtIEs_specs_153 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_160[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TRPInformationTypeResponseItem_ExtIEs__value, choice.TRPType),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_TRPType,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "TRPType"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TRPInformationTypeResponseItem_ExtIEs__value,
+         choice.OnDemandPRS_Info),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_OnDemandPRS_Info,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "OnDemandPRS-Info"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TRPInformationTypeResponseItem_ExtIEs__value,
+         choice.TRPTxTEGAssociation),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_TRPTxTEGAssociation,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "TRPTxTEGAssociation"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TRPInformationTypeResponseItem_ExtIEs__value,
+         choice.TRPBeamAntennaInformation),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_TRPBeamAntennaInformation,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "TRPBeamAntennaInformation"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_160[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0},  /* TRPType */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 2},  /* OnDemandPRS-Info */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1, 1}, /* TRPTxTEGAssociation */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -2,
+     0} /* TRPBeamAntennaInformation */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_160 = {
+    sizeof(struct TRPInformationTypeResponseItem_ExtIEs__value),
+    offsetof(struct TRPInformationTypeResponseItem_ExtIEs__value, _asn_ctx),
+    offsetof(struct TRPInformationTypeResponseItem_ExtIEs__value, present),
+    sizeof(((struct TRPInformationTypeResponseItem_ExtIEs__value*) 0)->present),
+    asn_MAP_value_tag2el_160,
+    4, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_160 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_160,
+        4,                       /* Elements count */
+        &asn_SPC_value_specs_160 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TRPInformationTypeResponseItem_ExtIEs_157[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPInformationTypeResponseItem_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_158, memb_id_constraint_157},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPInformationTypeResponseItem_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_TRPInformationTypeResponseItem_ExtIEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_159, memb_criticality_constraint_157},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPInformationTypeResponseItem_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_160,
+     select_TRPInformationTypeResponseItem_ExtIEs_value_type,
+     {0, &asn_PER_memb_value_constr_160, memb_value_constraint_157},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t
+    asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TRPInformationTypeResponseItem_ExtIEs_tag2el_157[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t
+    asn_SPC_TRPInformationTypeResponseItem_ExtIEs_specs_157 = {
+        sizeof(struct TRPInformationTypeResponseItem_ExtIEs),
+        offsetof(struct TRPInformationTypeResponseItem_ExtIEs, _asn_ctx),
+        asn_MAP_TRPInformationTypeResponseItem_ExtIEs_tag2el_157,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TRPInformationTypeResponseItem_ExtIEs = {
+    "TRPInformationTypeResponseItem-ExtIEs",
+    "TRPInformationTypeResponseItem-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157,
+    sizeof(asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157) /
+        sizeof(
+            asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157[0]), /* 1 */
+    asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157, /* Same as above */
+    sizeof(asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157) /
+        sizeof(
+            asn_DEF_TRPInformationTypeResponseItem_ExtIEs_tags_157[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPInformationTypeResponseItem_ExtIEs_157,
+    3, /* Elements count */
+    &asn_SPC_TRPInformationTypeResponseItem_ExtIEs_specs_157 /* Additional specs
+                                                              */
+};
+
+static asn_TYPE_member_t asn_MBR_value_164[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct TRPInformationTypeItemTRPReq__value,
+         choice.TRPInformationTypeItem),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_TRPInformationTypeItem,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "TRPInformationTypeItem"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_164[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0,
+     0} /* TRPInformationTypeItem */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_164 = {
+    sizeof(struct TRPInformationTypeItemTRPReq__value),
+    offsetof(struct TRPInformationTypeItemTRPReq__value, _asn_ctx),
+    offsetof(struct TRPInformationTypeItemTRPReq__value, present),
+    sizeof(((struct TRPInformationTypeItemTRPReq__value*) 0)->present),
+    asn_MAP_value_tag2el_164,
+    1, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_164 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_164,
+        1,                       /* Elements count */
+        &asn_SPC_value_specs_164 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TRPInformationTypeItemTRPReq_161[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPInformationTypeItemTRPReq, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_162, memb_id_constraint_161},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPInformationTypeItemTRPReq, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_TRPInformationTypeItemTRPReq_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_163, memb_criticality_constraint_161},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPInformationTypeItemTRPReq, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_164,
+     select_TRPInformationTypeItemTRPReq_value_type,
+     {0, &asn_PER_memb_value_constr_164, memb_value_constraint_161},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TRPInformationTypeItemTRPReq_tags_161[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TRPInformationTypeItemTRPReq_tag2el_161[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TRPInformationTypeItemTRPReq_specs_161 = {
+    sizeof(struct TRPInformationTypeItemTRPReq),
+    offsetof(struct TRPInformationTypeItemTRPReq, _asn_ctx),
+    asn_MAP_TRPInformationTypeItemTRPReq_tag2el_161,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TRPInformationTypeItemTRPReq = {
+    "TRPInformationTypeItemTRPReq",
+    "TRPInformationTypeItemTRPReq",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TRPInformationTypeItemTRPReq_tags_161,
+    sizeof(asn_DEF_TRPInformationTypeItemTRPReq_tags_161) /
+        sizeof(asn_DEF_TRPInformationTypeItemTRPReq_tags_161[0]), /* 1 */
+    asn_DEF_TRPInformationTypeItemTRPReq_tags_161, /* Same as above */
+    sizeof(asn_DEF_TRPInformationTypeItemTRPReq_tags_161) /
+        sizeof(asn_DEF_TRPInformationTypeItemTRPReq_tags_161[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPInformationTypeItemTRPReq_161,
+    3,                                              /* Elements count */
+    &asn_SPC_TRPInformationTypeItemTRPReq_specs_161 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_168 = {
+    sizeof(struct TRPPositionDefinitionType_ExtIEs__value),
+    offsetof(struct TRPPositionDefinitionType_ExtIEs__value, _asn_ctx),
+    offsetof(struct TRPPositionDefinitionType_ExtIEs__value, present),
+    sizeof(((struct TRPPositionDefinitionType_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_168 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_168 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_165[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPPositionDefinitionType_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_166, memb_id_constraint_165},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPPositionDefinitionType_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_167, memb_criticality_constraint_165},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPPositionDefinitionType_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_168,
+     0,
+     {0, &asn_PER_memb_value_constr_168, memb_value_constraint_165},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TRPPositionDefinitionType_ExtIEs_tag2el_165[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_165 = {
+    sizeof(struct TRPPositionDefinitionType_ExtIEs),
+    offsetof(struct TRPPositionDefinitionType_ExtIEs, _asn_ctx),
+    asn_MAP_TRPPositionDefinitionType_ExtIEs_tag2el_165,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TRPPositionDefinitionType_ExtIEs = {
+    "TRPPositionDefinitionType-ExtIEs",
+    "TRPPositionDefinitionType-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165,
+    sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165) /
+        sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165[0]), /* 1 */
+    asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165, /* Same as above */
+    sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165) /
+        sizeof(asn_DEF_TRPPositionDefinitionType_ExtIEs_tags_165[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPPositionDefinitionType_ExtIEs_165,
+    3,                                                  /* Elements count */
+    &asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_165 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_172 = {
+    sizeof(struct TRPPositionDirectAccuracy_ExtIEs__value),
+    offsetof(struct TRPPositionDirectAccuracy_ExtIEs__value, _asn_ctx),
+    offsetof(struct TRPPositionDirectAccuracy_ExtIEs__value, present),
+    sizeof(((struct TRPPositionDirectAccuracy_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_172 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_172 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_169[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPPositionDirectAccuracy_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_170, memb_id_constraint_169},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPPositionDirectAccuracy_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_171, memb_criticality_constraint_169},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPPositionDirectAccuracy_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_172,
+     0,
+     {0, &asn_PER_memb_value_constr_172, memb_value_constraint_169},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TRPPositionDirectAccuracy_ExtIEs_tag2el_169[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_169 = {
+    sizeof(struct TRPPositionDirectAccuracy_ExtIEs),
+    offsetof(struct TRPPositionDirectAccuracy_ExtIEs, _asn_ctx),
+    asn_MAP_TRPPositionDirectAccuracy_ExtIEs_tag2el_169,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TRPPositionDirectAccuracy_ExtIEs = {
+    "TRPPositionDirectAccuracy-ExtIEs",
+    "TRPPositionDirectAccuracy-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169,
+    sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169) /
+        sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169[0]), /* 1 */
+    asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169, /* Same as above */
+    sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169) /
+        sizeof(asn_DEF_TRPPositionDirectAccuracy_ExtIEs_tags_169[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPPositionDirectAccuracy_ExtIEs_169,
+    3,                                                  /* Elements count */
+    &asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_169 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_176 = {
+    sizeof(struct TRPReferencePointType_ExtIEs__value),
+    offsetof(struct TRPReferencePointType_ExtIEs__value, _asn_ctx),
+    offsetof(struct TRPReferencePointType_ExtIEs__value, present),
+    sizeof(((struct TRPReferencePointType_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_176 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_176 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_173[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPReferencePointType_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_174, memb_id_constraint_173},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPReferencePointType_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_175, memb_criticality_constraint_173},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct TRPReferencePointType_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_176,
+     0,
+     {0, &asn_PER_memb_value_constr_176, memb_value_constraint_173},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_TRPReferencePointType_ExtIEs_tags_173[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_TRPReferencePointType_ExtIEs_tag2el_173[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_TRPReferencePointType_ExtIEs_specs_173 = {
+    sizeof(struct TRPReferencePointType_ExtIEs),
+    offsetof(struct TRPReferencePointType_ExtIEs, _asn_ctx),
+    asn_MAP_TRPReferencePointType_ExtIEs_tag2el_173,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_TRPReferencePointType_ExtIEs = {
+    "TRPReferencePointType-ExtIEs",
+    "TRPReferencePointType-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_TRPReferencePointType_ExtIEs_tags_173,
+    sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_173) /
+        sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_173[0]), /* 1 */
+    asn_DEF_TRPReferencePointType_ExtIEs_tags_173, /* Same as above */
+    sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_173) /
+        sizeof(asn_DEF_TRPReferencePointType_ExtIEs_tags_173[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPReferencePointType_ExtIEs_173,
+    3,                                              /* Elements count */
+    &asn_SPC_TRPReferencePointType_ExtIEs_specs_173 /* Additional specs */
+};
+
+static asn_CHOICE_specifics_t asn_SPC_value_specs_180 = {
+    sizeof(struct ULRTOAMeas_ExtIEs__value),
+    offsetof(struct ULRTOAMeas_ExtIEs__value, _asn_ctx),
+    offsetof(struct ULRTOAMeas_ExtIEs__value, present),
+    sizeof(((struct ULRTOAMeas_ExtIEs__value*) 0)->present),
+    0, /* No top level tags */
+    0, /* No tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_180 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        0,
+        0,                       /* No members */
+        &asn_SPC_value_specs_180 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_ULRTOAMeas_ExtIEs_177[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct ULRTOAMeas_ExtIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_178, memb_id_constraint_177},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct ULRTOAMeas_ExtIEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     0,
+     {0, &asn_PER_memb_criticality_constr_179, memb_criticality_constraint_177},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct ULRTOAMeas_ExtIEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_180,
+     0,
+     {0, &asn_PER_memb_value_constr_180, memb_value_constraint_177},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_ULRTOAMeas_ExtIEs_tags_177[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t asn_MAP_ULRTOAMeas_ExtIEs_tag2el_177[] = {
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_ULRTOAMeas_ExtIEs_specs_177 = {
+    sizeof(struct ULRTOAMeas_ExtIEs),
+    offsetof(struct ULRTOAMeas_ExtIEs, _asn_ctx),
+    asn_MAP_ULRTOAMeas_ExtIEs_tag2el_177,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_ULRTOAMeas_ExtIEs = {
+    "ULRTOAMeas-ExtIEs",
+    "ULRTOAMeas-ExtIEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ULRTOAMeas_ExtIEs_tags_177,
+    sizeof(asn_DEF_ULRTOAMeas_ExtIEs_tags_177) /
+        sizeof(asn_DEF_ULRTOAMeas_ExtIEs_tags_177[0]), /* 1 */
+    asn_DEF_ULRTOAMeas_ExtIEs_tags_177,                /* Same as above */
+    sizeof(asn_DEF_ULRTOAMeas_ExtIEs_tags_177) /
+        sizeof(asn_DEF_ULRTOAMeas_ExtIEs_tags_177[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_ULRTOAMeas_ExtIEs_177,
+    3,                                   /* Elements count */
+    &asn_SPC_ULRTOAMeas_ExtIEs_specs_177 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_184[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct WLANMeasurementQuantities_ItemIEs__value,
+         choice.WLANMeasurementQuantities_Item),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_WLANMeasurementQuantities_Item,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "WLANMeasurementQuantities-Item"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_184[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
+     0} /* WLANMeasurementQuantities-Item */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_184 = {
+    sizeof(struct WLANMeasurementQuantities_ItemIEs__value),
+    offsetof(struct WLANMeasurementQuantities_ItemIEs__value, _asn_ctx),
+    offsetof(struct WLANMeasurementQuantities_ItemIEs__value, present),
+    sizeof(((struct WLANMeasurementQuantities_ItemIEs__value*) 0)->present),
+    asn_MAP_value_tag2el_184,
+    1, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_184 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_184,
+        1,                       /* Elements count */
+        &asn_SPC_value_specs_184 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_WLANMeasurementQuantities_ItemIEs_181[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct WLANMeasurementQuantities_ItemIEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_182, memb_id_constraint_181},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
      offsetof(struct WLANMeasurementQuantities_ItemIEs, criticality),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_WLANMeasurementQuantities_ItemIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_131, memb_criticality_constraint_129},
+     {0, &asn_PER_memb_criticality_constr_183, memb_criticality_constraint_181},
      0,
      0, /* No default value */
      "criticality"},
@@ -11651,26 +15660,26 @@ asn_TYPE_member_t asn_MBR_WLANMeasurementQuantities_ItemIEs_129[] = {
      offsetof(struct WLANMeasurementQuantities_ItemIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_132,
+     &asn_DEF_value_184,
      select_WLANMeasurementQuantities_ItemIEs_value_type,
-     {0, &asn_PER_memb_value_constr_132, memb_value_constraint_129},
+     {0, &asn_PER_memb_value_constr_184, memb_value_constraint_181},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129[] = {
+    asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_WLANMeasurementQuantities_ItemIEs_tag2el_129[] = {
+    asn_MAP_WLANMeasurementQuantities_ItemIEs_tag2el_181[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_129 = {
+asn_SEQUENCE_specifics_t asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_181 = {
     sizeof(struct WLANMeasurementQuantities_ItemIEs),
     offsetof(struct WLANMeasurementQuantities_ItemIEs, _asn_ctx),
-    asn_MAP_WLANMeasurementQuantities_ItemIEs_tag2el_129,
+    asn_MAP_WLANMeasurementQuantities_ItemIEs_tag2el_181,
     3, /* Count of tags in the map */
     0,
     0,
@@ -11681,19 +15690,19 @@ asn_TYPE_descriptor_t asn_DEF_WLANMeasurementQuantities_ItemIEs = {
     "WLANMeasurementQuantities-ItemIEs",
     "WLANMeasurementQuantities-ItemIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129,
-    sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129) /
-        sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129[0]), /* 1 */
-    asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129, /* Same as above */
-    sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129) /
-        sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_129[0]), /* 1 */
+    asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181,
+    sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181) /
+        sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181[0]), /* 1 */
+    asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181, /* Same as above */
+    sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181) /
+        sizeof(asn_DEF_WLANMeasurementQuantities_ItemIEs_tags_181[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_WLANMeasurementQuantities_ItemIEs_129,
+    asn_MBR_WLANMeasurementQuantities_ItemIEs_181,
     3,                                                   /* Elements count */
-    &asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_129 /* Additional specs */
+    &asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_181 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_136[] = {
+static asn_TYPE_member_t asn_MBR_value_188[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -11772,13 +15781,31 @@ static asn_TYPE_member_t asn_MBR_value_136[] = {
      0,
      0, /* No default value */
      "WLANMeasurementQuantities"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct E_CIDMeasurementInitiationRequest_IEs__value,
+         choice.MeasurementPeriodicityNR_AoA),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_MeasurementPeriodicityNR_AoA,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementPeriodicityNR-AoA"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_136[] = {
+static const unsigned asn_MAP_value_to_canonical_188[] = {0, 1, 2, 6, 3, 4, 5};
+static const unsigned asn_MAP_value_from_canonical_188[]      = {0, 1, 2, 4,
+                                                                 5, 6, 3};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_188[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0}, /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0,
-     1}, /* ReportCharacteristics */
+     2}, /* ReportCharacteristics */
     {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, -1,
-     0}, /* MeasurementPeriodicity */
+     1}, /* MeasurementPeriodicity */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 6, -2,
+     0}, /* MeasurementPeriodicityNR-AoA */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, 0,
      2}, /* MeasurementQuantities */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -1,
@@ -11786,19 +15813,19 @@ static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_136[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 5, -2,
      0} /* WLANMeasurementQuantities */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_136 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_188 = {
     sizeof(struct E_CIDMeasurementInitiationRequest_IEs__value),
     offsetof(struct E_CIDMeasurementInitiationRequest_IEs__value, _asn_ctx),
     offsetof(struct E_CIDMeasurementInitiationRequest_IEs__value, present),
     sizeof(((struct E_CIDMeasurementInitiationRequest_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_136,
-    6, /* Count of tags in the map */
-    0,
-    0,
+    asn_MAP_value_tag2el_188,
+    7, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_188,
+    asn_MAP_value_from_canonical_188,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_136 = {
+    asn_TYPE_descriptor_t asn_DEF_value_188 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -11807,12 +15834,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_136,
-        6,                       /* Elements count */
-        &asn_SPC_value_specs_136 /* Additional specs */
+        asn_MBR_value_188,
+        7,                       /* Elements count */
+        &asn_SPC_value_specs_188 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_133[] = {
+asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_185[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CIDMeasurementInitiationRequest_IEs, id),
@@ -11820,7 +15847,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_133[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_134, memb_id_constraint_133},
+     {0, &asn_PER_memb_id_constr_186, memb_id_constraint_185},
      0,
      0, /* No default value */
      "id"},
@@ -11831,7 +15858,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_133[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_E_CIDMeasurementInitiationRequest_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_135, memb_criticality_constraint_133},
+     {0, &asn_PER_memb_criticality_constr_187, memb_criticality_constraint_185},
      0,
      0, /* No default value */
      "criticality"},
@@ -11840,27 +15867,27 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_133[] = {
      offsetof(struct E_CIDMeasurementInitiationRequest_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_136,
+     &asn_DEF_value_188,
      select_E_CIDMeasurementInitiationRequest_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_136, memb_value_constraint_133},
+     {0, &asn_PER_memb_value_constr_188, memb_value_constraint_185},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133[] = {
+    asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_E_CIDMeasurementInitiationRequest_IEs_tag2el_133[] = {
+    asn_MAP_E_CIDMeasurementInitiationRequest_IEs_tag2el_185[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementInitiationRequest_IEs_specs_133 = {
+    asn_SPC_E_CIDMeasurementInitiationRequest_IEs_specs_185 = {
         sizeof(struct E_CIDMeasurementInitiationRequest_IEs),
         offsetof(struct E_CIDMeasurementInitiationRequest_IEs, _asn_ctx),
-        asn_MAP_E_CIDMeasurementInitiationRequest_IEs_tag2el_133,
+        asn_MAP_E_CIDMeasurementInitiationRequest_IEs_tag2el_185,
         3, /* Count of tags in the map */
         0,
         0,
@@ -11871,22 +15898,22 @@ asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementInitiationRequest_IEs = {
     "E-CIDMeasurementInitiationRequest-IEs",
     "E-CIDMeasurementInitiationRequest-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133,
-    sizeof(asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133) /
+    asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185,
+    sizeof(asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185) /
         sizeof(
-            asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133[0]), /* 1 */
-    asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133, /* Same as above */
-    sizeof(asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133) /
+            asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185, /* Same as above */
+    sizeof(asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185) /
         sizeof(
-            asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_133[0]), /* 1 */
+            asn_DEF_E_CIDMeasurementInitiationRequest_IEs_tags_185[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_E_CIDMeasurementInitiationRequest_IEs_133,
+    asn_MBR_E_CIDMeasurementInitiationRequest_IEs_185,
     3, /* Elements count */
-    &asn_SPC_E_CIDMeasurementInitiationRequest_IEs_specs_133 /* Additional specs
+    &asn_SPC_E_CIDMeasurementInitiationRequest_IEs_specs_185 /* Additional specs
                                                               */
 };
 
-static asn_TYPE_member_t asn_MBR_value_140[] = {
+static asn_TYPE_member_t asn_MBR_value_192[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -11979,10 +16006,10 @@ static asn_TYPE_member_t asn_MBR_value_140[] = {
      0, /* No default value */
      "WLANMeasurementResult"},
 };
-static const unsigned asn_MAP_value_to_canonical_140[] = {0, 1, 4, 2, 3, 5, 6};
-static const unsigned asn_MAP_value_from_canonical_140[]      = {0, 1, 3, 4,
+static const unsigned asn_MAP_value_to_canonical_192[] = {0, 1, 4, 2, 3, 5, 6};
+static const unsigned asn_MAP_value_from_canonical_192[]      = {0, 1, 3, 4,
                                                                  2, 5, 6};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_140[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_192[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2},  /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1}, /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 4, -2, 0}, /* Cell-Portion-ID */
@@ -11995,20 +16022,20 @@ static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_140[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 6, -3,
      0} /* WLANMeasurementResult */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_140 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_192 = {
     sizeof(struct E_CIDMeasurementInitiationResponse_IEs__value),
     offsetof(struct E_CIDMeasurementInitiationResponse_IEs__value, _asn_ctx),
     offsetof(struct E_CIDMeasurementInitiationResponse_IEs__value, present),
     sizeof(
         ((struct E_CIDMeasurementInitiationResponse_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_140,
+    asn_MAP_value_tag2el_192,
     7, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_140,
-    asn_MAP_value_from_canonical_140,
+    asn_MAP_value_to_canonical_192,
+    asn_MAP_value_from_canonical_192,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_140 = {
+    asn_TYPE_descriptor_t asn_DEF_value_192 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12017,12 +16044,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_140,
+        asn_MBR_value_192,
         7,                       /* Elements count */
-        &asn_SPC_value_specs_140 /* Additional specs */
+        &asn_SPC_value_specs_192 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_137[] = {
+asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_189[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CIDMeasurementInitiationResponse_IEs, id),
@@ -12030,7 +16057,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_137[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_138, memb_id_constraint_137},
+     {0, &asn_PER_memb_id_constr_190, memb_id_constraint_189},
      0,
      0, /* No default value */
      "id"},
@@ -12041,7 +16068,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_137[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_E_CIDMeasurementInitiationResponse_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_139, memb_criticality_constraint_137},
+     {0, &asn_PER_memb_criticality_constr_191, memb_criticality_constraint_189},
      0,
      0, /* No default value */
      "criticality"},
@@ -12050,27 +16077,27 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_137[] = {
      offsetof(struct E_CIDMeasurementInitiationResponse_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_140,
+     &asn_DEF_value_192,
      select_E_CIDMeasurementInitiationResponse_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_140, memb_value_constraint_137},
+     {0, &asn_PER_memb_value_constr_192, memb_value_constraint_189},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137[] = {
+    asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_E_CIDMeasurementInitiationResponse_IEs_tag2el_137[] = {
+    asn_MAP_E_CIDMeasurementInitiationResponse_IEs_tag2el_189[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementInitiationResponse_IEs_specs_137 = {
+    asn_SPC_E_CIDMeasurementInitiationResponse_IEs_specs_189 = {
         sizeof(struct E_CIDMeasurementInitiationResponse_IEs),
         offsetof(struct E_CIDMeasurementInitiationResponse_IEs, _asn_ctx),
-        asn_MAP_E_CIDMeasurementInitiationResponse_IEs_tag2el_137,
+        asn_MAP_E_CIDMeasurementInitiationResponse_IEs_tag2el_189,
         3, /* Count of tags in the map */
         0,
         0,
@@ -12081,22 +16108,22 @@ asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementInitiationResponse_IEs = {
     "E-CIDMeasurementInitiationResponse-IEs",
     "E-CIDMeasurementInitiationResponse-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137,
-    sizeof(asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137) /
+    asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189,
+    sizeof(asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189) /
         sizeof(
-            asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137[0]), /* 1 */
-    asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137, /* Same as above */
-    sizeof(asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137) /
+            asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189, /* Same as above */
+    sizeof(asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189) /
         sizeof(
-            asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_137[0]), /* 1 */
+            asn_DEF_E_CIDMeasurementInitiationResponse_IEs_tags_189[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_E_CIDMeasurementInitiationResponse_IEs_137,
+    asn_MBR_E_CIDMeasurementInitiationResponse_IEs_189,
     3, /* Elements count */
-    &asn_SPC_E_CIDMeasurementInitiationResponse_IEs_specs_137 /* Additional
+    &asn_SPC_E_CIDMeasurementInitiationResponse_IEs_specs_189 /* Additional
                                                                  specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_144[] = {
+static asn_TYPE_member_t asn_MBR_value_196[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -12136,30 +16163,30 @@ static asn_TYPE_member_t asn_MBR_value_144[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_144[]        = {0, 2, 1};
-static const unsigned asn_MAP_value_from_canonical_144[]      = {0, 2, 1};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_144[] = {
+static const unsigned asn_MAP_value_to_canonical_196[]        = {0, 2, 1};
+static const unsigned asn_MAP_value_from_canonical_196[]      = {0, 2, 1};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_196[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0}, /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_144 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_196 = {
     sizeof(struct E_CIDMeasurementInitiationFailure_IEs__value),
     offsetof(struct E_CIDMeasurementInitiationFailure_IEs__value, _asn_ctx),
     offsetof(struct E_CIDMeasurementInitiationFailure_IEs__value, present),
     sizeof(((struct E_CIDMeasurementInitiationFailure_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_144,
+    asn_MAP_value_tag2el_196,
     6, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_144,
-    asn_MAP_value_from_canonical_144,
+    asn_MAP_value_to_canonical_196,
+    asn_MAP_value_from_canonical_196,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_144 = {
+    asn_TYPE_descriptor_t asn_DEF_value_196 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12168,12 +16195,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_144,
+        asn_MBR_value_196,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_144 /* Additional specs */
+        &asn_SPC_value_specs_196 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_141[] = {
+asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_193[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CIDMeasurementInitiationFailure_IEs, id),
@@ -12181,7 +16208,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_141[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_142, memb_id_constraint_141},
+     {0, &asn_PER_memb_id_constr_194, memb_id_constraint_193},
      0,
      0, /* No default value */
      "id"},
@@ -12192,7 +16219,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_141[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_E_CIDMeasurementInitiationFailure_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_143, memb_criticality_constraint_141},
+     {0, &asn_PER_memb_criticality_constr_195, memb_criticality_constraint_193},
      0,
      0, /* No default value */
      "criticality"},
@@ -12201,27 +16228,27 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_141[] = {
      offsetof(struct E_CIDMeasurementInitiationFailure_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_144,
+     &asn_DEF_value_196,
      select_E_CIDMeasurementInitiationFailure_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_144, memb_value_constraint_141},
+     {0, &asn_PER_memb_value_constr_196, memb_value_constraint_193},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141[] = {
+    asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_E_CIDMeasurementInitiationFailure_IEs_tag2el_141[] = {
+    asn_MAP_E_CIDMeasurementInitiationFailure_IEs_tag2el_193[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementInitiationFailure_IEs_specs_141 = {
+    asn_SPC_E_CIDMeasurementInitiationFailure_IEs_specs_193 = {
         sizeof(struct E_CIDMeasurementInitiationFailure_IEs),
         offsetof(struct E_CIDMeasurementInitiationFailure_IEs, _asn_ctx),
-        asn_MAP_E_CIDMeasurementInitiationFailure_IEs_tag2el_141,
+        asn_MAP_E_CIDMeasurementInitiationFailure_IEs_tag2el_193,
         3, /* Count of tags in the map */
         0,
         0,
@@ -12232,22 +16259,22 @@ asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementInitiationFailure_IEs = {
     "E-CIDMeasurementInitiationFailure-IEs",
     "E-CIDMeasurementInitiationFailure-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141,
-    sizeof(asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141) /
+    asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193,
+    sizeof(asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193) /
         sizeof(
-            asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141[0]), /* 1 */
-    asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141, /* Same as above */
-    sizeof(asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141) /
+            asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193, /* Same as above */
+    sizeof(asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193) /
         sizeof(
-            asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_141[0]), /* 1 */
+            asn_DEF_E_CIDMeasurementInitiationFailure_IEs_tags_193[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_E_CIDMeasurementInitiationFailure_IEs_141,
+    asn_MBR_E_CIDMeasurementInitiationFailure_IEs_193,
     3, /* Elements count */
-    &asn_SPC_E_CIDMeasurementInitiationFailure_IEs_specs_141 /* Additional specs
+    &asn_SPC_E_CIDMeasurementInitiationFailure_IEs_specs_193 /* Additional specs
                                                               */
 };
 
-static asn_TYPE_member_t asn_MBR_value_148[] = {
+static asn_TYPE_member_t asn_MBR_value_200[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -12287,27 +16314,27 @@ static asn_TYPE_member_t asn_MBR_value_148[] = {
      0, /* No default value */
      "Cause"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_148[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_200[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1},  /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0}, /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0},    /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0},    /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0},    /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 2, 0, 0}     /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 2, 0, 0}     /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_148 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_200 = {
     sizeof(struct E_CIDMeasurementFailureIndication_IEs__value),
     offsetof(struct E_CIDMeasurementFailureIndication_IEs__value, _asn_ctx),
     offsetof(struct E_CIDMeasurementFailureIndication_IEs__value, present),
     sizeof(((struct E_CIDMeasurementFailureIndication_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_148,
+    asn_MAP_value_tag2el_200,
     6, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_148 = {
+    asn_TYPE_descriptor_t asn_DEF_value_200 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12316,12 +16343,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_148,
+        asn_MBR_value_200,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_148 /* Additional specs */
+        &asn_SPC_value_specs_200 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_145[] = {
+asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_197[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CIDMeasurementFailureIndication_IEs, id),
@@ -12329,7 +16356,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_145[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_146, memb_id_constraint_145},
+     {0, &asn_PER_memb_id_constr_198, memb_id_constraint_197},
      0,
      0, /* No default value */
      "id"},
@@ -12340,7 +16367,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_145[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_E_CIDMeasurementFailureIndication_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_147, memb_criticality_constraint_145},
+     {0, &asn_PER_memb_criticality_constr_199, memb_criticality_constraint_197},
      0,
      0, /* No default value */
      "criticality"},
@@ -12349,27 +16376,27 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_145[] = {
      offsetof(struct E_CIDMeasurementFailureIndication_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_148,
+     &asn_DEF_value_200,
      select_E_CIDMeasurementFailureIndication_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_148, memb_value_constraint_145},
+     {0, &asn_PER_memb_value_constr_200, memb_value_constraint_197},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145[] = {
+    asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_E_CIDMeasurementFailureIndication_IEs_tag2el_145[] = {
+    asn_MAP_E_CIDMeasurementFailureIndication_IEs_tag2el_197[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementFailureIndication_IEs_specs_145 = {
+    asn_SPC_E_CIDMeasurementFailureIndication_IEs_specs_197 = {
         sizeof(struct E_CIDMeasurementFailureIndication_IEs),
         offsetof(struct E_CIDMeasurementFailureIndication_IEs, _asn_ctx),
-        asn_MAP_E_CIDMeasurementFailureIndication_IEs_tag2el_145,
+        asn_MAP_E_CIDMeasurementFailureIndication_IEs_tag2el_197,
         3, /* Count of tags in the map */
         0,
         0,
@@ -12380,22 +16407,22 @@ asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementFailureIndication_IEs = {
     "E-CIDMeasurementFailureIndication-IEs",
     "E-CIDMeasurementFailureIndication-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145,
-    sizeof(asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145) /
+    asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197,
+    sizeof(asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197) /
         sizeof(
-            asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145[0]), /* 1 */
-    asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145, /* Same as above */
-    sizeof(asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145) /
+            asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197, /* Same as above */
+    sizeof(asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197) /
         sizeof(
-            asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_145[0]), /* 1 */
+            asn_DEF_E_CIDMeasurementFailureIndication_IEs_tags_197[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_E_CIDMeasurementFailureIndication_IEs_145,
+    asn_MBR_E_CIDMeasurementFailureIndication_IEs_197,
     3, /* Elements count */
-    &asn_SPC_E_CIDMeasurementFailureIndication_IEs_specs_145 /* Additional specs
+    &asn_SPC_E_CIDMeasurementFailureIndication_IEs_specs_197 /* Additional specs
                                                               */
 };
 
-static asn_TYPE_member_t asn_MBR_value_152[] = {
+static asn_TYPE_member_t asn_MBR_value_204[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -12445,28 +16472,28 @@ static asn_TYPE_member_t asn_MBR_value_152[] = {
      0, /* No default value */
      "Cell-Portion-ID"},
 };
-static const unsigned asn_MAP_value_to_canonical_152[]        = {0, 1, 3, 2};
-static const unsigned asn_MAP_value_from_canonical_152[]      = {0, 1, 3, 2};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_152[] = {
+static const unsigned asn_MAP_value_to_canonical_204[]        = {0, 1, 3, 2};
+static const unsigned asn_MAP_value_from_canonical_204[]      = {0, 1, 3, 2};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_204[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2},  /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 1}, /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 3, -2, 0}, /* Cell-Portion-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0,
      0} /* E-CID-MeasurementResult */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_152 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_204 = {
     sizeof(struct E_CIDMeasurementReport_IEs__value),
     offsetof(struct E_CIDMeasurementReport_IEs__value, _asn_ctx),
     offsetof(struct E_CIDMeasurementReport_IEs__value, present),
     sizeof(((struct E_CIDMeasurementReport_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_152,
+    asn_MAP_value_tag2el_204,
     4, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_152,
-    asn_MAP_value_from_canonical_152,
+    asn_MAP_value_to_canonical_204,
+    asn_MAP_value_from_canonical_204,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_152 = {
+    asn_TYPE_descriptor_t asn_DEF_value_204 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12475,12 +16502,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_152,
+        asn_MBR_value_204,
         4,                       /* Elements count */
-        &asn_SPC_value_specs_152 /* Additional specs */
+        &asn_SPC_value_specs_204 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_149[] = {
+asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_201[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CIDMeasurementReport_IEs, id),
@@ -12488,7 +16515,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_149[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_150, memb_id_constraint_149},
+     {0, &asn_PER_memb_id_constr_202, memb_id_constraint_201},
      0,
      0, /* No default value */
      "id"},
@@ -12499,7 +16526,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_149[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_E_CIDMeasurementReport_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_151, memb_criticality_constraint_149},
+     {0, &asn_PER_memb_criticality_constr_203, memb_criticality_constraint_201},
      0,
      0, /* No default value */
      "criticality"},
@@ -12508,25 +16535,25 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_149[] = {
      offsetof(struct E_CIDMeasurementReport_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_152,
+     &asn_DEF_value_204,
      select_E_CIDMeasurementReport_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_152, memb_value_constraint_149},
+     {0, &asn_PER_memb_value_constr_204, memb_value_constraint_201},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_E_CIDMeasurementReport_IEs_tags_149[] = {
+static const ber_tlv_tag_t asn_DEF_E_CIDMeasurementReport_IEs_tags_201[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_E_CIDMeasurementReport_IEs_tag2el_149[] = {
+    asn_MAP_E_CIDMeasurementReport_IEs_tag2el_201[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_E_CIDMeasurementReport_IEs_specs_149 = {
+asn_SEQUENCE_specifics_t asn_SPC_E_CIDMeasurementReport_IEs_specs_201 = {
     sizeof(struct E_CIDMeasurementReport_IEs),
     offsetof(struct E_CIDMeasurementReport_IEs, _asn_ctx),
-    asn_MAP_E_CIDMeasurementReport_IEs_tag2el_149,
+    asn_MAP_E_CIDMeasurementReport_IEs_tag2el_201,
     3, /* Count of tags in the map */
     0,
     0,
@@ -12537,19 +16564,19 @@ asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementReport_IEs = {
     "E-CIDMeasurementReport-IEs",
     "E-CIDMeasurementReport-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_E_CIDMeasurementReport_IEs_tags_149,
-    sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_149) /
-        sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_149[0]), /* 1 */
-    asn_DEF_E_CIDMeasurementReport_IEs_tags_149, /* Same as above */
-    sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_149) /
-        sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_149[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementReport_IEs_tags_201,
+    sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_201) /
+        sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_201[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementReport_IEs_tags_201, /* Same as above */
+    sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_201) /
+        sizeof(asn_DEF_E_CIDMeasurementReport_IEs_tags_201[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_E_CIDMeasurementReport_IEs_149,
+    asn_MBR_E_CIDMeasurementReport_IEs_201,
     3,                                            /* Elements count */
-    &asn_SPC_E_CIDMeasurementReport_IEs_specs_149 /* Additional specs */
+    &asn_SPC_E_CIDMeasurementReport_IEs_specs_201 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_156[] = {
+static asn_TYPE_member_t asn_MBR_value_208[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -12577,24 +16604,24 @@ static asn_TYPE_member_t asn_MBR_value_156[] = {
      0, /* No default value */
      "UE-Measurement-ID"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_156[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_208[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1}, /* UE-Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0} /* UE-Measurement-ID */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_156 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_208 = {
     sizeof(struct E_CIDMeasurementTerminationCommand_IEs__value),
     offsetof(struct E_CIDMeasurementTerminationCommand_IEs__value, _asn_ctx),
     offsetof(struct E_CIDMeasurementTerminationCommand_IEs__value, present),
     sizeof(
         ((struct E_CIDMeasurementTerminationCommand_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_156,
+    asn_MAP_value_tag2el_208,
     2, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_156 = {
+    asn_TYPE_descriptor_t asn_DEF_value_208 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12603,12 +16630,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_156,
+        asn_MBR_value_208,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_156 /* Additional specs */
+        &asn_SPC_value_specs_208 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_153[] = {
+asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_205[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CIDMeasurementTerminationCommand_IEs, id),
@@ -12616,7 +16643,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_153[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_154, memb_id_constraint_153},
+     {0, &asn_PER_memb_id_constr_206, memb_id_constraint_205},
      0,
      0, /* No default value */
      "id"},
@@ -12627,7 +16654,7 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_153[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_E_CIDMeasurementTerminationCommand_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_155, memb_criticality_constraint_153},
+     {0, &asn_PER_memb_criticality_constr_207, memb_criticality_constraint_205},
      0,
      0, /* No default value */
      "criticality"},
@@ -12636,27 +16663,27 @@ asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_153[] = {
      offsetof(struct E_CIDMeasurementTerminationCommand_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_156,
+     &asn_DEF_value_208,
      select_E_CIDMeasurementTerminationCommand_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_156, memb_value_constraint_153},
+     {0, &asn_PER_memb_value_constr_208, memb_value_constraint_205},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153[] = {
+    asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_E_CIDMeasurementTerminationCommand_IEs_tag2el_153[] = {
+    asn_MAP_E_CIDMeasurementTerminationCommand_IEs_tag2el_205[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
 asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementTerminationCommand_IEs_specs_153 = {
+    asn_SPC_E_CIDMeasurementTerminationCommand_IEs_specs_205 = {
         sizeof(struct E_CIDMeasurementTerminationCommand_IEs),
         offsetof(struct E_CIDMeasurementTerminationCommand_IEs, _asn_ctx),
-        asn_MAP_E_CIDMeasurementTerminationCommand_IEs_tag2el_153,
+        asn_MAP_E_CIDMeasurementTerminationCommand_IEs_tag2el_205,
         3, /* Count of tags in the map */
         0,
         0,
@@ -12667,22 +16694,22 @@ asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementTerminationCommand_IEs = {
     "E-CIDMeasurementTerminationCommand-IEs",
     "E-CIDMeasurementTerminationCommand-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153,
-    sizeof(asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153) /
+    asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205,
+    sizeof(asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205) /
         sizeof(
-            asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153[0]), /* 1 */
-    asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153, /* Same as above */
-    sizeof(asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153) /
+            asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205[0]), /* 1 */
+    asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205, /* Same as above */
+    sizeof(asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205) /
         sizeof(
-            asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_153[0]), /* 1 */
+            asn_DEF_E_CIDMeasurementTerminationCommand_IEs_tags_205[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_E_CIDMeasurementTerminationCommand_IEs_153,
+    asn_MBR_E_CIDMeasurementTerminationCommand_IEs_205,
     3, /* Elements count */
-    &asn_SPC_E_CIDMeasurementTerminationCommand_IEs_specs_153 /* Additional
+    &asn_SPC_E_CIDMeasurementTerminationCommand_IEs_specs_205 /* Additional
                                                                  specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_160[] = {
+static asn_TYPE_member_t asn_MBR_value_212[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -12697,23 +16724,23 @@ static asn_TYPE_member_t asn_MBR_value_160[] = {
      0, /* No default value */
      "OTDOA-Information-Type"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_160[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_212[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
      0} /* OTDOA-Information-Type */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_160 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_212 = {
     sizeof(struct OTDOAInformationRequest_IEs__value),
     offsetof(struct OTDOAInformationRequest_IEs__value, _asn_ctx),
     offsetof(struct OTDOAInformationRequest_IEs__value, present),
     sizeof(((struct OTDOAInformationRequest_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_160,
+    asn_MAP_value_tag2el_212,
     1, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_160 = {
+    asn_TYPE_descriptor_t asn_DEF_value_212 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12722,12 +16749,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_160,
+        asn_MBR_value_212,
         1,                       /* Elements count */
-        &asn_SPC_value_specs_160 /* Additional specs */
+        &asn_SPC_value_specs_212 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_157[] = {
+asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_209[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OTDOAInformationRequest_IEs, id),
@@ -12735,7 +16762,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_157[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_158, memb_id_constraint_157},
+     {0, &asn_PER_memb_id_constr_210, memb_id_constraint_209},
      0,
      0, /* No default value */
      "id"},
@@ -12746,7 +16773,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_157[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_OTDOAInformationRequest_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_159, memb_criticality_constraint_157},
+     {0, &asn_PER_memb_criticality_constr_211, memb_criticality_constraint_209},
      0,
      0, /* No default value */
      "criticality"},
@@ -12755,25 +16782,25 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_157[] = {
      offsetof(struct OTDOAInformationRequest_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_160,
+     &asn_DEF_value_212,
      select_OTDOAInformationRequest_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_160, memb_value_constraint_157},
+     {0, &asn_PER_memb_value_constr_212, memb_value_constraint_209},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_OTDOAInformationRequest_IEs_tags_157[] = {
+static const ber_tlv_tag_t asn_DEF_OTDOAInformationRequest_IEs_tags_209[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_OTDOAInformationRequest_IEs_tag2el_157[] = {
+    asn_MAP_OTDOAInformationRequest_IEs_tag2el_209[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationRequest_IEs_specs_157 = {
+asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationRequest_IEs_specs_209 = {
     sizeof(struct OTDOAInformationRequest_IEs),
     offsetof(struct OTDOAInformationRequest_IEs, _asn_ctx),
-    asn_MAP_OTDOAInformationRequest_IEs_tag2el_157,
+    asn_MAP_OTDOAInformationRequest_IEs_tag2el_209,
     3, /* Count of tags in the map */
     0,
     0,
@@ -12784,19 +16811,19 @@ asn_TYPE_descriptor_t asn_DEF_OTDOAInformationRequest_IEs = {
     "OTDOAInformationRequest-IEs",
     "OTDOAInformationRequest-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_OTDOAInformationRequest_IEs_tags_157,
-    sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_157) /
-        sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_157[0]), /* 1 */
-    asn_DEF_OTDOAInformationRequest_IEs_tags_157, /* Same as above */
-    sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_157) /
-        sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_157[0]), /* 1 */
+    asn_DEF_OTDOAInformationRequest_IEs_tags_209,
+    sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_209) /
+        sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_209[0]), /* 1 */
+    asn_DEF_OTDOAInformationRequest_IEs_tags_209, /* Same as above */
+    sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_209) /
+        sizeof(asn_DEF_OTDOAInformationRequest_IEs_tags_209[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOAInformationRequest_IEs_157,
+    asn_MBR_OTDOAInformationRequest_IEs_209,
     3,                                             /* Elements count */
-    &asn_SPC_OTDOAInformationRequest_IEs_specs_157 /* Additional specs */
+    &asn_SPC_OTDOAInformationRequest_IEs_specs_209 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_164[] = {
+static asn_TYPE_member_t asn_MBR_value_216[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OTDOAInformationResponse_IEs__value, choice.OTDOACells),
@@ -12822,24 +16849,24 @@ static asn_TYPE_member_t asn_MBR_value_164[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_164[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_216[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1}, /* OTDOACells */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
      0} /* CriticalityDiagnostics */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_164 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_216 = {
     sizeof(struct OTDOAInformationResponse_IEs__value),
     offsetof(struct OTDOAInformationResponse_IEs__value, _asn_ctx),
     offsetof(struct OTDOAInformationResponse_IEs__value, present),
     sizeof(((struct OTDOAInformationResponse_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_164,
+    asn_MAP_value_tag2el_216,
     2, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_164 = {
+    asn_TYPE_descriptor_t asn_DEF_value_216 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12848,12 +16875,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_164,
+        asn_MBR_value_216,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_164 /* Additional specs */
+        &asn_SPC_value_specs_216 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_161[] = {
+asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_213[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OTDOAInformationResponse_IEs, id),
@@ -12861,7 +16888,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_161[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_162, memb_id_constraint_161},
+     {0, &asn_PER_memb_id_constr_214, memb_id_constraint_213},
      0,
      0, /* No default value */
      "id"},
@@ -12872,7 +16899,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_161[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_OTDOAInformationResponse_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_163, memb_criticality_constraint_161},
+     {0, &asn_PER_memb_criticality_constr_215, memb_criticality_constraint_213},
      0,
      0, /* No default value */
      "criticality"},
@@ -12881,25 +16908,25 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_161[] = {
      offsetof(struct OTDOAInformationResponse_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_164,
+     &asn_DEF_value_216,
      select_OTDOAInformationResponse_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_164, memb_value_constraint_161},
+     {0, &asn_PER_memb_value_constr_216, memb_value_constraint_213},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_OTDOAInformationResponse_IEs_tags_161[] = {
+static const ber_tlv_tag_t asn_DEF_OTDOAInformationResponse_IEs_tags_213[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_OTDOAInformationResponse_IEs_tag2el_161[] = {
+    asn_MAP_OTDOAInformationResponse_IEs_tag2el_213[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationResponse_IEs_specs_161 = {
+asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationResponse_IEs_specs_213 = {
     sizeof(struct OTDOAInformationResponse_IEs),
     offsetof(struct OTDOAInformationResponse_IEs, _asn_ctx),
-    asn_MAP_OTDOAInformationResponse_IEs_tag2el_161,
+    asn_MAP_OTDOAInformationResponse_IEs_tag2el_213,
     3, /* Count of tags in the map */
     0,
     0,
@@ -12910,19 +16937,19 @@ asn_TYPE_descriptor_t asn_DEF_OTDOAInformationResponse_IEs = {
     "OTDOAInformationResponse-IEs",
     "OTDOAInformationResponse-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_OTDOAInformationResponse_IEs_tags_161,
-    sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_161) /
-        sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_161[0]), /* 1 */
-    asn_DEF_OTDOAInformationResponse_IEs_tags_161, /* Same as above */
-    sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_161) /
-        sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_161[0]), /* 1 */
+    asn_DEF_OTDOAInformationResponse_IEs_tags_213,
+    sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_213) /
+        sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_213[0]), /* 1 */
+    asn_DEF_OTDOAInformationResponse_IEs_tags_213, /* Same as above */
+    sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_213) /
+        sizeof(asn_DEF_OTDOAInformationResponse_IEs_tags_213[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOAInformationResponse_IEs_161,
+    asn_MBR_OTDOAInformationResponse_IEs_213,
     3,                                              /* Elements count */
-    &asn_SPC_OTDOAInformationResponse_IEs_specs_161 /* Additional specs */
+    &asn_SPC_OTDOAInformationResponse_IEs_specs_213 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_168[] = {
+static asn_TYPE_member_t asn_MBR_value_220[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OTDOAInformationFailure_IEs__value, choice.Cause),
@@ -12948,29 +16975,29 @@ static asn_TYPE_member_t asn_MBR_value_168[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_168[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_168[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_168[] = {
+static const unsigned asn_MAP_value_to_canonical_220[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_220[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_220[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_168 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_220 = {
     sizeof(struct OTDOAInformationFailure_IEs__value),
     offsetof(struct OTDOAInformationFailure_IEs__value, _asn_ctx),
     offsetof(struct OTDOAInformationFailure_IEs__value, present),
     sizeof(((struct OTDOAInformationFailure_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_168,
+    asn_MAP_value_tag2el_220,
     5, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_168,
-    asn_MAP_value_from_canonical_168,
+    asn_MAP_value_to_canonical_220,
+    asn_MAP_value_from_canonical_220,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_168 = {
+    asn_TYPE_descriptor_t asn_DEF_value_220 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -12979,12 +17006,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_168,
+        asn_MBR_value_220,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_168 /* Additional specs */
+        &asn_SPC_value_specs_220 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_165[] = {
+asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_217[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct OTDOAInformationFailure_IEs, id),
@@ -12992,7 +17019,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_165[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_166, memb_id_constraint_165},
+     {0, &asn_PER_memb_id_constr_218, memb_id_constraint_217},
      0,
      0, /* No default value */
      "id"},
@@ -13003,7 +17030,7 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_165[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_OTDOAInformationFailure_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_167, memb_criticality_constraint_165},
+     {0, &asn_PER_memb_criticality_constr_219, memb_criticality_constraint_217},
      0,
      0, /* No default value */
      "criticality"},
@@ -13012,25 +17039,25 @@ asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_165[] = {
      offsetof(struct OTDOAInformationFailure_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_168,
+     &asn_DEF_value_220,
      select_OTDOAInformationFailure_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_168, memb_value_constraint_165},
+     {0, &asn_PER_memb_value_constr_220, memb_value_constraint_217},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_OTDOAInformationFailure_IEs_tags_165[] = {
+static const ber_tlv_tag_t asn_DEF_OTDOAInformationFailure_IEs_tags_217[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_OTDOAInformationFailure_IEs_tag2el_165[] = {
+    asn_MAP_OTDOAInformationFailure_IEs_tag2el_217[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationFailure_IEs_specs_165 = {
+asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationFailure_IEs_specs_217 = {
     sizeof(struct OTDOAInformationFailure_IEs),
     offsetof(struct OTDOAInformationFailure_IEs, _asn_ctx),
-    asn_MAP_OTDOAInformationFailure_IEs_tag2el_165,
+    asn_MAP_OTDOAInformationFailure_IEs_tag2el_217,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13041,19 +17068,19 @@ asn_TYPE_descriptor_t asn_DEF_OTDOAInformationFailure_IEs = {
     "OTDOAInformationFailure-IEs",
     "OTDOAInformationFailure-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_OTDOAInformationFailure_IEs_tags_165,
-    sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_165) /
-        sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_165[0]), /* 1 */
-    asn_DEF_OTDOAInformationFailure_IEs_tags_165, /* Same as above */
-    sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_165) /
-        sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_165[0]), /* 1 */
+    asn_DEF_OTDOAInformationFailure_IEs_tags_217,
+    sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_217) /
+        sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_217[0]), /* 1 */
+    asn_DEF_OTDOAInformationFailure_IEs_tags_217, /* Same as above */
+    sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_217) /
+        sizeof(asn_DEF_OTDOAInformationFailure_IEs_tags_217[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOAInformationFailure_IEs_165,
+    asn_MBR_OTDOAInformationFailure_IEs_217,
     3,                                             /* Elements count */
-    &asn_SPC_OTDOAInformationFailure_IEs_specs_165 /* Additional specs */
+    &asn_SPC_OTDOAInformationFailure_IEs_specs_217 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_172[] = {
+static asn_TYPE_member_t asn_MBR_value_224[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -13092,28 +17119,28 @@ static asn_TYPE_member_t asn_MBR_value_172[] = {
      0, /* No default value */
      "PositioningBroadcastCells"},
 };
-static const unsigned asn_MAP_value_to_canonical_172[]        = {1, 0, 2};
-static const unsigned asn_MAP_value_from_canonical_172[]      = {1, 0, 2};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_172[] = {
+static const unsigned asn_MAP_value_to_canonical_224[]        = {1, 0, 2};
+static const unsigned asn_MAP_value_from_canonical_224[]      = {1, 0, 2};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_224[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 1, 0, 0}, /* Broadcast */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
      1}, /* Assistance-Information */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1,
      0} /* PositioningBroadcastCells */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_172 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_224 = {
     sizeof(struct AssistanceInformationControl_IEs__value),
     offsetof(struct AssistanceInformationControl_IEs__value, _asn_ctx),
     offsetof(struct AssistanceInformationControl_IEs__value, present),
     sizeof(((struct AssistanceInformationControl_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_172,
+    asn_MAP_value_tag2el_224,
     3, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_172,
-    asn_MAP_value_from_canonical_172,
+    asn_MAP_value_to_canonical_224,
+    asn_MAP_value_from_canonical_224,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_172 = {
+    asn_TYPE_descriptor_t asn_DEF_value_224 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13122,12 +17149,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_172,
+        asn_MBR_value_224,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_172 /* Additional specs */
+        &asn_SPC_value_specs_224 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_169[] = {
+asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_221[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct AssistanceInformationControl_IEs, id),
@@ -13135,7 +17162,7 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_169[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_170, memb_id_constraint_169},
+     {0, &asn_PER_memb_id_constr_222, memb_id_constraint_221},
      0,
      0, /* No default value */
      "id"},
@@ -13146,7 +17173,7 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_169[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_AssistanceInformationControl_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_171, memb_criticality_constraint_169},
+     {0, &asn_PER_memb_criticality_constr_223, memb_criticality_constraint_221},
      0,
      0, /* No default value */
      "criticality"},
@@ -13155,25 +17182,25 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_169[] = {
      offsetof(struct AssistanceInformationControl_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_172,
+     &asn_DEF_value_224,
      select_AssistanceInformationControl_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_172, memb_value_constraint_169},
+     {0, &asn_PER_memb_value_constr_224, memb_value_constraint_221},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_AssistanceInformationControl_IEs_tags_169[] =
+static const ber_tlv_tag_t asn_DEF_AssistanceInformationControl_IEs_tags_221[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_AssistanceInformationControl_IEs_tag2el_169[] = {
+    asn_MAP_AssistanceInformationControl_IEs_tag2el_221[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_AssistanceInformationControl_IEs_specs_169 = {
+asn_SEQUENCE_specifics_t asn_SPC_AssistanceInformationControl_IEs_specs_221 = {
     sizeof(struct AssistanceInformationControl_IEs),
     offsetof(struct AssistanceInformationControl_IEs, _asn_ctx),
-    asn_MAP_AssistanceInformationControl_IEs_tag2el_169,
+    asn_MAP_AssistanceInformationControl_IEs_tag2el_221,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13184,19 +17211,19 @@ asn_TYPE_descriptor_t asn_DEF_AssistanceInformationControl_IEs = {
     "AssistanceInformationControl-IEs",
     "AssistanceInformationControl-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_AssistanceInformationControl_IEs_tags_169,
-    sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_169) /
-        sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_169[0]), /* 1 */
-    asn_DEF_AssistanceInformationControl_IEs_tags_169, /* Same as above */
-    sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_169) /
-        sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_169[0]), /* 1 */
+    asn_DEF_AssistanceInformationControl_IEs_tags_221,
+    sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_221) /
+        sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_221[0]), /* 1 */
+    asn_DEF_AssistanceInformationControl_IEs_tags_221, /* Same as above */
+    sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_221) /
+        sizeof(asn_DEF_AssistanceInformationControl_IEs_tags_221[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_AssistanceInformationControl_IEs_169,
+    asn_MBR_AssistanceInformationControl_IEs_221,
     3,                                                  /* Elements count */
-    &asn_SPC_AssistanceInformationControl_IEs_specs_169 /* Additional specs */
+    &asn_SPC_AssistanceInformationControl_IEs_specs_221 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_176[] = {
+static asn_TYPE_member_t asn_MBR_value_228[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -13237,7 +17264,7 @@ static asn_TYPE_member_t asn_MBR_value_176[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_176[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_228[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
      2}, /* AssistanceInformationFailureList */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
@@ -13245,19 +17272,19 @@ static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_176[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -2,
      0} /* CriticalityDiagnostics */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_176 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_228 = {
     sizeof(struct AssistanceInformationFeedback_IEs__value),
     offsetof(struct AssistanceInformationFeedback_IEs__value, _asn_ctx),
     offsetof(struct AssistanceInformationFeedback_IEs__value, present),
     sizeof(((struct AssistanceInformationFeedback_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_176,
+    asn_MAP_value_tag2el_228,
     3, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_176 = {
+    asn_TYPE_descriptor_t asn_DEF_value_228 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13266,12 +17293,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_176,
+        asn_MBR_value_228,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_176 /* Additional specs */
+        &asn_SPC_value_specs_228 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_173[] = {
+asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_225[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct AssistanceInformationFeedback_IEs, id),
@@ -13279,7 +17306,7 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_173[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_174, memb_id_constraint_173},
+     {0, &asn_PER_memb_id_constr_226, memb_id_constraint_225},
      0,
      0, /* No default value */
      "id"},
@@ -13290,7 +17317,7 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_173[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_AssistanceInformationFeedback_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_175, memb_criticality_constraint_173},
+     {0, &asn_PER_memb_criticality_constr_227, memb_criticality_constraint_225},
      0,
      0, /* No default value */
      "criticality"},
@@ -13299,26 +17326,26 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_173[] = {
      offsetof(struct AssistanceInformationFeedback_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_176,
+     &asn_DEF_value_228,
      select_AssistanceInformationFeedback_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_176, memb_value_constraint_173},
+     {0, &asn_PER_memb_value_constr_228, memb_value_constraint_225},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_AssistanceInformationFeedback_IEs_tags_173[] = {
+    asn_DEF_AssistanceInformationFeedback_IEs_tags_225[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_AssistanceInformationFeedback_IEs_tag2el_173[] = {
+    asn_MAP_AssistanceInformationFeedback_IEs_tag2el_225[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_AssistanceInformationFeedback_IEs_specs_173 = {
+asn_SEQUENCE_specifics_t asn_SPC_AssistanceInformationFeedback_IEs_specs_225 = {
     sizeof(struct AssistanceInformationFeedback_IEs),
     offsetof(struct AssistanceInformationFeedback_IEs, _asn_ctx),
-    asn_MAP_AssistanceInformationFeedback_IEs_tag2el_173,
+    asn_MAP_AssistanceInformationFeedback_IEs_tag2el_225,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13329,19 +17356,19 @@ asn_TYPE_descriptor_t asn_DEF_AssistanceInformationFeedback_IEs = {
     "AssistanceInformationFeedback-IEs",
     "AssistanceInformationFeedback-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_AssistanceInformationFeedback_IEs_tags_173,
-    sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_173) /
-        sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_173[0]), /* 1 */
-    asn_DEF_AssistanceInformationFeedback_IEs_tags_173, /* Same as above */
-    sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_173) /
-        sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_173[0]), /* 1 */
+    asn_DEF_AssistanceInformationFeedback_IEs_tags_225,
+    sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_225) /
+        sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_225[0]), /* 1 */
+    asn_DEF_AssistanceInformationFeedback_IEs_tags_225, /* Same as above */
+    sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_225) /
+        sizeof(asn_DEF_AssistanceInformationFeedback_IEs_tags_225[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_AssistanceInformationFeedback_IEs_173,
+    asn_MBR_AssistanceInformationFeedback_IEs_225,
     3,                                                   /* Elements count */
-    &asn_SPC_AssistanceInformationFeedback_IEs_specs_173 /* Additional specs */
+    &asn_SPC_AssistanceInformationFeedback_IEs_specs_225 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_180[] = {
+static asn_TYPE_member_t asn_MBR_value_232[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct ErrorIndication_IEs__value, choice.Cause),
@@ -13365,29 +17392,29 @@ static asn_TYPE_member_t asn_MBR_value_180[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_180[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_180[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_180[] = {
+static const unsigned asn_MAP_value_to_canonical_232[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_232[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_232[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_180 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_232 = {
     sizeof(struct ErrorIndication_IEs__value),
     offsetof(struct ErrorIndication_IEs__value, _asn_ctx),
     offsetof(struct ErrorIndication_IEs__value, present),
     sizeof(((struct ErrorIndication_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_180,
+    asn_MAP_value_tag2el_232,
     5, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_180,
-    asn_MAP_value_from_canonical_180,
+    asn_MAP_value_to_canonical_232,
+    asn_MAP_value_from_canonical_232,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_180 = {
+    asn_TYPE_descriptor_t asn_DEF_value_232 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13396,12 +17423,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_180,
+        asn_MBR_value_232,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_180 /* Additional specs */
+        &asn_SPC_value_specs_232 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_177[] = {
+asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_229[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct ErrorIndication_IEs, id),
@@ -13409,7 +17436,7 @@ asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_177[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_178, memb_id_constraint_177},
+     {0, &asn_PER_memb_id_constr_230, memb_id_constraint_229},
      0,
      0, /* No default value */
      "id"},
@@ -13420,7 +17447,7 @@ asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_177[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_ErrorIndication_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_179, memb_criticality_constraint_177},
+     {0, &asn_PER_memb_criticality_constr_231, memb_criticality_constraint_229},
      0,
      0, /* No default value */
      "criticality"},
@@ -13429,24 +17456,24 @@ asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_177[] = {
      offsetof(struct ErrorIndication_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_180,
+     &asn_DEF_value_232,
      select_ErrorIndication_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_180, memb_value_constraint_177},
+     {0, &asn_PER_memb_value_constr_232, memb_value_constraint_229},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_ErrorIndication_IEs_tags_177[] = {
+static const ber_tlv_tag_t asn_DEF_ErrorIndication_IEs_tags_229[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_ErrorIndication_IEs_tag2el_177[] = {
+static const asn_TYPE_tag2member_t asn_MAP_ErrorIndication_IEs_tag2el_229[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_ErrorIndication_IEs_specs_177 = {
+asn_SEQUENCE_specifics_t asn_SPC_ErrorIndication_IEs_specs_229 = {
     sizeof(struct ErrorIndication_IEs),
     offsetof(struct ErrorIndication_IEs, _asn_ctx),
-    asn_MAP_ErrorIndication_IEs_tag2el_177,
+    asn_MAP_ErrorIndication_IEs_tag2el_229,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13457,19 +17484,19 @@ asn_TYPE_descriptor_t asn_DEF_ErrorIndication_IEs = {
     "ErrorIndication-IEs",
     "ErrorIndication-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_ErrorIndication_IEs_tags_177,
-    sizeof(asn_DEF_ErrorIndication_IEs_tags_177) /
-        sizeof(asn_DEF_ErrorIndication_IEs_tags_177[0]), /* 1 */
-    asn_DEF_ErrorIndication_IEs_tags_177,                /* Same as above */
-    sizeof(asn_DEF_ErrorIndication_IEs_tags_177) /
-        sizeof(asn_DEF_ErrorIndication_IEs_tags_177[0]), /* 1 */
+    asn_DEF_ErrorIndication_IEs_tags_229,
+    sizeof(asn_DEF_ErrorIndication_IEs_tags_229) /
+        sizeof(asn_DEF_ErrorIndication_IEs_tags_229[0]), /* 1 */
+    asn_DEF_ErrorIndication_IEs_tags_229,                /* Same as above */
+    sizeof(asn_DEF_ErrorIndication_IEs_tags_229) /
+        sizeof(asn_DEF_ErrorIndication_IEs_tags_229[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_ErrorIndication_IEs_177,
+    asn_MBR_ErrorIndication_IEs_229,
     3,                                     /* Elements count */
-    &asn_SPC_ErrorIndication_IEs_specs_177 /* Additional specs */
+    &asn_SPC_ErrorIndication_IEs_specs_229 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_184[] = {
+static asn_TYPE_member_t asn_MBR_value_236[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -13483,24 +17510,70 @@ static asn_TYPE_member_t asn_MBR_value_184[] = {
      0,
      0, /* No default value */
      "RequestedSRSTransmissionCharacteristics"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PositioningInformationRequest_IEs__value,
+         choice.UEReportingInformation),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_UEReportingInformation,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "UEReportingInformation"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PositioningInformationRequest_IEs__value,
+         choice.UE_TEG_Info_Request),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_UE_TEG_Info_Request,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "UE-TEG-Info-Request"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PositioningInformationRequest_IEs__value,
+         choice.UE_TEG_ReportingPeriodicity),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_UE_TEG_ReportingPeriodicity,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "UE-TEG-ReportingPeriodicity"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_184[] = {
+static const unsigned asn_MAP_value_to_canonical_236[]        = {2, 3, 0, 1};
+static const unsigned asn_MAP_value_from_canonical_236[]      = {2, 3, 0, 1};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_236[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0, 1}, /* UE-TEG-Info-Request */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1,
+     0}, /* UE-TEG-ReportingPeriodicity */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
-     0} /* RequestedSRSTransmissionCharacteristics */
+     1}, /* RequestedSRSTransmissionCharacteristics */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
+     0} /* UEReportingInformation */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_184 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_236 = {
     sizeof(struct PositioningInformationRequest_IEs__value),
     offsetof(struct PositioningInformationRequest_IEs__value, _asn_ctx),
     offsetof(struct PositioningInformationRequest_IEs__value, present),
     sizeof(((struct PositioningInformationRequest_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_184,
-    1, /* Count of tags in the map */
-    0,
-    0,
+    asn_MAP_value_tag2el_236,
+    4, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_236,
+    asn_MAP_value_from_canonical_236,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_184 = {
+    asn_TYPE_descriptor_t asn_DEF_value_236 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13509,12 +17582,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_184,
-        1,                       /* Elements count */
-        &asn_SPC_value_specs_184 /* Additional specs */
+        asn_MBR_value_236,
+        4,                       /* Elements count */
+        &asn_SPC_value_specs_236 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_181[] = {
+asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_233[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningInformationRequest_IEs, id),
@@ -13522,7 +17595,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_181[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_182, memb_id_constraint_181},
+     {0, &asn_PER_memb_id_constr_234, memb_id_constraint_233},
      0,
      0, /* No default value */
      "id"},
@@ -13533,7 +17606,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_181[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningInformationRequest_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_183, memb_criticality_constraint_181},
+     {0, &asn_PER_memb_criticality_constr_235, memb_criticality_constraint_233},
      0,
      0, /* No default value */
      "criticality"},
@@ -13542,26 +17615,26 @@ asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_181[] = {
      offsetof(struct PositioningInformationRequest_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_184,
+     &asn_DEF_value_236,
      select_PositioningInformationRequest_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_184, memb_value_constraint_181},
+     {0, &asn_PER_memb_value_constr_236, memb_value_constraint_233},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_PositioningInformationRequest_IEs_tags_181[] = {
+    asn_DEF_PositioningInformationRequest_IEs_tags_233[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningInformationRequest_IEs_tag2el_181[] = {
+    asn_MAP_PositioningInformationRequest_IEs_tag2el_233[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationRequest_IEs_specs_181 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationRequest_IEs_specs_233 = {
     sizeof(struct PositioningInformationRequest_IEs),
     offsetof(struct PositioningInformationRequest_IEs, _asn_ctx),
-    asn_MAP_PositioningInformationRequest_IEs_tag2el_181,
+    asn_MAP_PositioningInformationRequest_IEs_tag2el_233,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13572,19 +17645,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningInformationRequest_IEs = {
     "PositioningInformationRequest-IEs",
     "PositioningInformationRequest-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningInformationRequest_IEs_tags_181,
-    sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_181) /
-        sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_181[0]), /* 1 */
-    asn_DEF_PositioningInformationRequest_IEs_tags_181, /* Same as above */
-    sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_181) /
-        sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_181[0]), /* 1 */
+    asn_DEF_PositioningInformationRequest_IEs_tags_233,
+    sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_233) /
+        sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_233[0]), /* 1 */
+    asn_DEF_PositioningInformationRequest_IEs_tags_233, /* Same as above */
+    sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_233) /
+        sizeof(asn_DEF_PositioningInformationRequest_IEs_tags_233[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningInformationRequest_IEs_181,
+    asn_MBR_PositioningInformationRequest_IEs_233,
     3,                                                   /* Elements count */
-    &asn_SPC_PositioningInformationRequest_IEs_specs_181 /* Additional specs */
+    &asn_SPC_PositioningInformationRequest_IEs_specs_233 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_188[] = {
+static asn_TYPE_member_t asn_MBR_value_240[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -13602,15 +17675,15 @@ static asn_TYPE_member_t asn_MBR_value_188[] = {
      0,
      offsetof(
          struct PositioningInformationResponse_IEs__value,
-         choice.SFNInitialisationTime),
+         choice.RelativeTime1900),
      (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
      0,
-     &asn_DEF_SFNInitialisationTime,
+     &asn_DEF_RelativeTime1900,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "SFNInitialisationTime"},
+     "RelativeTime1900"},
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -13624,28 +17697,43 @@ static asn_TYPE_member_t asn_MBR_value_188[] = {
      0,
      0, /* No default value */
      "CriticalityDiagnostics"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PositioningInformationResponse_IEs__value,
+         choice.UETxTEGAssociationList),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_UETxTEGAssociationList,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "UETxTEGAssociationList"},
 };
-static const unsigned asn_MAP_value_to_canonical_188[]        = {1, 0, 2};
-static const unsigned asn_MAP_value_from_canonical_188[]      = {1, 0, 2};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_188[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 1, 0, 0}, /* SFNInitialisationTime */
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1}, /* SRSConfiguration */
+static const unsigned asn_MAP_value_to_canonical_240[]        = {1, 0, 2, 3};
+static const unsigned asn_MAP_value_from_canonical_240[]      = {1, 0, 2, 3};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_240[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 1, 0, 0},  /* RelativeTime1900 */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 2}, /* SRSConfiguration */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1,
-     0} /* CriticalityDiagnostics */
+     1}, /* CriticalityDiagnostics */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -2,
+     0} /* UETxTEGAssociationList */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_188 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_240 = {
     sizeof(struct PositioningInformationResponse_IEs__value),
     offsetof(struct PositioningInformationResponse_IEs__value, _asn_ctx),
     offsetof(struct PositioningInformationResponse_IEs__value, present),
     sizeof(((struct PositioningInformationResponse_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_188,
-    3, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_188,
-    asn_MAP_value_from_canonical_188,
+    asn_MAP_value_tag2el_240,
+    4, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_240,
+    asn_MAP_value_from_canonical_240,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_188 = {
+    asn_TYPE_descriptor_t asn_DEF_value_240 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13654,12 +17742,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_188,
-        3,                       /* Elements count */
-        &asn_SPC_value_specs_188 /* Additional specs */
+        asn_MBR_value_240,
+        4,                       /* Elements count */
+        &asn_SPC_value_specs_240 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_185[] = {
+asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_237[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningInformationResponse_IEs, id),
@@ -13667,7 +17755,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_185[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_186, memb_id_constraint_185},
+     {0, &asn_PER_memb_id_constr_238, memb_id_constraint_237},
      0,
      0, /* No default value */
      "id"},
@@ -13678,7 +17766,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_185[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningInformationResponse_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_187, memb_criticality_constraint_185},
+     {0, &asn_PER_memb_criticality_constr_239, memb_criticality_constraint_237},
      0,
      0, /* No default value */
      "criticality"},
@@ -13687,27 +17775,27 @@ asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_185[] = {
      offsetof(struct PositioningInformationResponse_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_188,
+     &asn_DEF_value_240,
      select_PositioningInformationResponse_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_188, memb_value_constraint_185},
+     {0, &asn_PER_memb_value_constr_240, memb_value_constraint_237},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_PositioningInformationResponse_IEs_tags_185[] = {
+    asn_DEF_PositioningInformationResponse_IEs_tags_237[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningInformationResponse_IEs_tag2el_185[] = {
+    asn_MAP_PositioningInformationResponse_IEs_tag2el_237[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationResponse_IEs_specs_185 =
+asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationResponse_IEs_specs_237 =
     {
         sizeof(struct PositioningInformationResponse_IEs),
         offsetof(struct PositioningInformationResponse_IEs, _asn_ctx),
-        asn_MAP_PositioningInformationResponse_IEs_tag2el_185,
+        asn_MAP_PositioningInformationResponse_IEs_tag2el_237,
         3, /* Count of tags in the map */
         0,
         0,
@@ -13718,19 +17806,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningInformationResponse_IEs = {
     "PositioningInformationResponse-IEs",
     "PositioningInformationResponse-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningInformationResponse_IEs_tags_185,
-    sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_185) /
-        sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_185[0]), /* 1 */
-    asn_DEF_PositioningInformationResponse_IEs_tags_185, /* Same as above */
-    sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_185) /
-        sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_185[0]), /* 1 */
+    asn_DEF_PositioningInformationResponse_IEs_tags_237,
+    sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_237) /
+        sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_237[0]), /* 1 */
+    asn_DEF_PositioningInformationResponse_IEs_tags_237, /* Same as above */
+    sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_237) /
+        sizeof(asn_DEF_PositioningInformationResponse_IEs_tags_237[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningInformationResponse_IEs_185,
+    asn_MBR_PositioningInformationResponse_IEs_237,
     3,                                                    /* Elements count */
-    &asn_SPC_PositioningInformationResponse_IEs_specs_185 /* Additional specs */
+    &asn_SPC_PositioningInformationResponse_IEs_specs_237 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_192[] = {
+static asn_TYPE_member_t asn_MBR_value_244[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningInformationFailure_IEs__value, choice.Cause),
@@ -13756,29 +17844,29 @@ static asn_TYPE_member_t asn_MBR_value_192[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_192[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_192[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_192[] = {
+static const unsigned asn_MAP_value_to_canonical_244[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_244[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_244[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_192 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_244 = {
     sizeof(struct PositioningInformationFailure_IEs__value),
     offsetof(struct PositioningInformationFailure_IEs__value, _asn_ctx),
     offsetof(struct PositioningInformationFailure_IEs__value, present),
     sizeof(((struct PositioningInformationFailure_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_192,
+    asn_MAP_value_tag2el_244,
     5, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_192,
-    asn_MAP_value_from_canonical_192,
+    asn_MAP_value_to_canonical_244,
+    asn_MAP_value_from_canonical_244,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_192 = {
+    asn_TYPE_descriptor_t asn_DEF_value_244 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13787,12 +17875,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_192,
+        asn_MBR_value_244,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_192 /* Additional specs */
+        &asn_SPC_value_specs_244 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_189[] = {
+asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_241[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningInformationFailure_IEs, id),
@@ -13800,7 +17888,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_189[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_190, memb_id_constraint_189},
+     {0, &asn_PER_memb_id_constr_242, memb_id_constraint_241},
      0,
      0, /* No default value */
      "id"},
@@ -13811,7 +17899,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_189[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningInformationFailure_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_191, memb_criticality_constraint_189},
+     {0, &asn_PER_memb_criticality_constr_243, memb_criticality_constraint_241},
      0,
      0, /* No default value */
      "criticality"},
@@ -13820,26 +17908,26 @@ asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_189[] = {
      offsetof(struct PositioningInformationFailure_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_192,
+     &asn_DEF_value_244,
      select_PositioningInformationFailure_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_192, memb_value_constraint_189},
+     {0, &asn_PER_memb_value_constr_244, memb_value_constraint_241},
      0,
      0, /* No default value */
      "value"},
 };
 static const ber_tlv_tag_t
-    asn_DEF_PositioningInformationFailure_IEs_tags_189[] = {
+    asn_DEF_PositioningInformationFailure_IEs_tags_241[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningInformationFailure_IEs_tag2el_189[] = {
+    asn_MAP_PositioningInformationFailure_IEs_tag2el_241[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationFailure_IEs_specs_189 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationFailure_IEs_specs_241 = {
     sizeof(struct PositioningInformationFailure_IEs),
     offsetof(struct PositioningInformationFailure_IEs, _asn_ctx),
-    asn_MAP_PositioningInformationFailure_IEs_tag2el_189,
+    asn_MAP_PositioningInformationFailure_IEs_tag2el_241,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13850,19 +17938,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningInformationFailure_IEs = {
     "PositioningInformationFailure-IEs",
     "PositioningInformationFailure-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningInformationFailure_IEs_tags_189,
-    sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_189) /
-        sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_189[0]), /* 1 */
-    asn_DEF_PositioningInformationFailure_IEs_tags_189, /* Same as above */
-    sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_189) /
-        sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_189[0]), /* 1 */
+    asn_DEF_PositioningInformationFailure_IEs_tags_241,
+    sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_241) /
+        sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_241[0]), /* 1 */
+    asn_DEF_PositioningInformationFailure_IEs_tags_241, /* Same as above */
+    sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_241) /
+        sizeof(asn_DEF_PositioningInformationFailure_IEs_tags_241[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningInformationFailure_IEs_189,
+    asn_MBR_PositioningInformationFailure_IEs_241,
     3,                                                   /* Elements count */
-    &asn_SPC_PositioningInformationFailure_IEs_specs_189 /* Additional specs */
+    &asn_SPC_PositioningInformationFailure_IEs_specs_241 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_196[] = {
+static asn_TYPE_member_t asn_MBR_value_248[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -13880,35 +17968,65 @@ static asn_TYPE_member_t asn_MBR_value_196[] = {
      0,
      offsetof(
          struct PositioningInformationUpdate_IEs__value,
-         choice.SFNInitialisationTime),
+         choice.RelativeTime1900),
      (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
      0,
-     &asn_DEF_SFNInitialisationTime,
+     &asn_DEF_RelativeTime1900,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "SFNInitialisationTime"},
+     "RelativeTime1900"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PositioningInformationUpdate_IEs__value,
+         choice.UETxTEGAssociationList),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_UETxTEGAssociationList,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "UETxTEGAssociationList"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PositioningInformationUpdate_IEs__value,
+         choice.SRSTransmissionStatus),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_SRSTransmissionStatus,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "SRSTransmissionStatus"},
 };
-static const unsigned asn_MAP_value_to_canonical_196[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_196[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_196[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 1, 0, 0}, /* SFNInitialisationTime */
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 0} /* SRSConfiguration */
+static const unsigned asn_MAP_value_to_canonical_248[]        = {1, 3, 0, 2};
+static const unsigned asn_MAP_value_from_canonical_248[]      = {2, 0, 3, 1};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_248[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 1, 0, 0}, /* RelativeTime1900 */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, 0,
+     0}, /* SRSTransmissionStatus */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1}, /* SRSConfiguration */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -1,
+     0} /* UETxTEGAssociationList */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_196 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_248 = {
     sizeof(struct PositioningInformationUpdate_IEs__value),
     offsetof(struct PositioningInformationUpdate_IEs__value, _asn_ctx),
     offsetof(struct PositioningInformationUpdate_IEs__value, present),
     sizeof(((struct PositioningInformationUpdate_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_196,
-    2, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_196,
-    asn_MAP_value_from_canonical_196,
+    asn_MAP_value_tag2el_248,
+    4, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_248,
+    asn_MAP_value_from_canonical_248,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_196 = {
+    asn_TYPE_descriptor_t asn_DEF_value_248 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -13917,12 +18035,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_196,
-        2,                       /* Elements count */
-        &asn_SPC_value_specs_196 /* Additional specs */
+        asn_MBR_value_248,
+        4,                       /* Elements count */
+        &asn_SPC_value_specs_248 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_193[] = {
+asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_245[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningInformationUpdate_IEs, id),
@@ -13930,7 +18048,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_193[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_194, memb_id_constraint_193},
+     {0, &asn_PER_memb_id_constr_246, memb_id_constraint_245},
      0,
      0, /* No default value */
      "id"},
@@ -13941,7 +18059,7 @@ asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_193[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningInformationUpdate_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_195, memb_criticality_constraint_193},
+     {0, &asn_PER_memb_criticality_constr_247, memb_criticality_constraint_245},
      0,
      0, /* No default value */
      "criticality"},
@@ -13950,25 +18068,25 @@ asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_193[] = {
      offsetof(struct PositioningInformationUpdate_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_196,
+     &asn_DEF_value_248,
      select_PositioningInformationUpdate_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_196, memb_value_constraint_193},
+     {0, &asn_PER_memb_value_constr_248, memb_value_constraint_245},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_PositioningInformationUpdate_IEs_tags_193[] =
+static const ber_tlv_tag_t asn_DEF_PositioningInformationUpdate_IEs_tags_245[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningInformationUpdate_IEs_tag2el_193[] = {
+    asn_MAP_PositioningInformationUpdate_IEs_tag2el_245[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationUpdate_IEs_specs_193 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningInformationUpdate_IEs_specs_245 = {
     sizeof(struct PositioningInformationUpdate_IEs),
     offsetof(struct PositioningInformationUpdate_IEs, _asn_ctx),
-    asn_MAP_PositioningInformationUpdate_IEs_tag2el_193,
+    asn_MAP_PositioningInformationUpdate_IEs_tag2el_245,
     3, /* Count of tags in the map */
     0,
     0,
@@ -13979,19 +18097,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningInformationUpdate_IEs = {
     "PositioningInformationUpdate-IEs",
     "PositioningInformationUpdate-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningInformationUpdate_IEs_tags_193,
-    sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_193) /
-        sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_193[0]), /* 1 */
-    asn_DEF_PositioningInformationUpdate_IEs_tags_193, /* Same as above */
-    sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_193) /
-        sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_193[0]), /* 1 */
+    asn_DEF_PositioningInformationUpdate_IEs_tags_245,
+    sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_245) /
+        sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_245[0]), /* 1 */
+    asn_DEF_PositioningInformationUpdate_IEs_tags_245, /* Same as above */
+    sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_245) /
+        sizeof(asn_DEF_PositioningInformationUpdate_IEs_tags_245[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningInformationUpdate_IEs_193,
+    asn_MBR_PositioningInformationUpdate_IEs_245,
     3,                                                  /* Elements count */
-    &asn_SPC_PositioningInformationUpdate_IEs_specs_193 /* Additional specs */
+    &asn_SPC_PositioningInformationUpdate_IEs_specs_245 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_200[] = {
+static asn_TYPE_member_t asn_MBR_value_252[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementRequest_IEs__value, choice.Measurement_ID),
@@ -14054,6 +18172,17 @@ static asn_TYPE_member_t asn_MBR_value_200[] = {
      "TRPMeasurementQuantities"},
     {ATF_NOFLAGS,
      0,
+     offsetof(struct MeasurementRequest_IEs__value, choice.RelativeTime1900),
+     (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
+     0,
+     &asn_DEF_RelativeTime1900,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "RelativeTime1900"},
+    {ATF_NOFLAGS,
+     0,
      offsetof(struct MeasurementRequest_IEs__value, choice.SRSConfiguration),
      (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
      0,
@@ -14063,18 +18192,6 @@ static asn_TYPE_member_t asn_MBR_value_200[] = {
      0,
      0, /* No default value */
      "SRSConfiguration"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(
-         struct MeasurementRequest_IEs__value, choice.SFNInitialisationTime),
-     (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
-     0,
-     &asn_DEF_SFNInitialisationTime,
-     0,
-     {0, 0, 0},
-     0,
-     0, /* No default value */
-     "SFNInitialisationTime"},
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -14110,41 +18227,109 @@ static asn_TYPE_member_t asn_MBR_value_200[] = {
      0,
      0, /* No default value */
      "SlotNumber"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementRequest_IEs__value,
+         choice.MeasurementPeriodicityExtended),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_MeasurementPeriodicityExtended,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementPeriodicityExtended"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementRequest_IEs__value, choice.ResponseTime),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_ResponseTime,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "ResponseTime"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementRequest_IEs__value,
+         choice.MeasurementCharacteristicsRequestIndicator),
+     (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
+     0,
+     &asn_DEF_MeasurementCharacteristicsRequestIndicator,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementCharacteristicsRequestIndicator"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementRequest_IEs__value, choice.MeasurementTimeOccasion),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_MeasurementTimeOccasion,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementTimeOccasion"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementRequest_IEs__value, choice.MeasurementAmount),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_MeasurementAmount,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementAmount"},
 };
-static const unsigned asn_MAP_value_to_canonical_200[]        = {0, 8, 9, 6, 2,
-                                                                 3, 7, 1, 4, 5};
-static const unsigned asn_MAP_value_from_canonical_200[]      = {0, 7, 4, 5, 8,
-                                                                 9, 3, 6, 1, 2};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_200[] = {
+static const unsigned asn_MAP_value_to_canonical_252[] = {
+    0, 8, 9, 5, 12, 2, 3, 7, 10, 13, 14, 1, 4, 6, 11};
+static const unsigned asn_MAP_value_from_canonical_252[] = {
+    0, 11, 5, 6, 12, 3, 13, 7, 1, 2, 8, 14, 4, 9, 10};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_252[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 2},  /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 8, -1, 1}, /* SystemFrameNumber */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 9, -2, 0}, /* SlotNumber */
-    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 6, 0, 0}, /* SFNInitialisationTime */
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 5, 0, 1},  /* RelativeTime1900 */
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 12, -1,
+     0}, /* MeasurementCharacteristicsRequestIndicator */
     {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 2, 0,
-     2}, /* ReportCharacteristics */
+     5}, /* ReportCharacteristics */
     {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 3, -1,
-     1}, /* MeasurementPeriodicity */
+     4}, /* MeasurementPeriodicity */
     {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 7, -2,
-     0}, /* MeasurementBeamInfoRequest */
+     3}, /* MeasurementBeamInfoRequest */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 10, -3,
+     2}, /* MeasurementPeriodicityExtended */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 13, -4,
+     1}, /* MeasurementTimeOccasion */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 14, -5, 0}, /* MeasurementAmount */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
-     2}, /* TRP-MeasurementRequestList */
+     3}, /* TRP-MeasurementRequestList */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -1,
-     1}, /* TRPMeasurementQuantities */
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 5, -2, 0} /* SRSConfiguration */
+     2}, /* TRPMeasurementQuantities */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 6, -2, 1}, /* SRSConfiguration */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 11, -3, 0} /* ResponseTime */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_200 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_252 = {
     sizeof(struct MeasurementRequest_IEs__value),
     offsetof(struct MeasurementRequest_IEs__value, _asn_ctx),
     offsetof(struct MeasurementRequest_IEs__value, present),
     sizeof(((struct MeasurementRequest_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_200,
-    10, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_200,
-    asn_MAP_value_from_canonical_200,
+    asn_MAP_value_tag2el_252,
+    15, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_252,
+    asn_MAP_value_from_canonical_252,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_200 = {
+    asn_TYPE_descriptor_t asn_DEF_value_252 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14153,12 +18338,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_200,
-        10,                      /* Elements count */
-        &asn_SPC_value_specs_200 /* Additional specs */
+        asn_MBR_value_252,
+        15,                      /* Elements count */
+        &asn_SPC_value_specs_252 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_197[] = {
+asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_249[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementRequest_IEs, id),
@@ -14166,7 +18351,7 @@ asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_197[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_198, memb_id_constraint_197},
+     {0, &asn_PER_memb_id_constr_250, memb_id_constraint_249},
      0,
      0, /* No default value */
      "id"},
@@ -14177,7 +18362,7 @@ asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_197[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementRequest_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_199, memb_criticality_constraint_197},
+     {0, &asn_PER_memb_criticality_constr_251, memb_criticality_constraint_249},
      0,
      0, /* No default value */
      "criticality"},
@@ -14186,25 +18371,25 @@ asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_197[] = {
      offsetof(struct MeasurementRequest_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_200,
+     &asn_DEF_value_252,
      select_MeasurementRequest_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_200, memb_value_constraint_197},
+     {0, &asn_PER_memb_value_constr_252, memb_value_constraint_249},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementRequest_IEs_tags_197[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementRequest_IEs_tags_249[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_MeasurementRequest_IEs_tag2el_197[] =
+static const asn_TYPE_tag2member_t asn_MAP_MeasurementRequest_IEs_tag2el_249[] =
     {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementRequest_IEs_specs_197 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementRequest_IEs_specs_249 = {
     sizeof(struct MeasurementRequest_IEs),
     offsetof(struct MeasurementRequest_IEs, _asn_ctx),
-    asn_MAP_MeasurementRequest_IEs_tag2el_197,
+    asn_MAP_MeasurementRequest_IEs_tag2el_249,
     3, /* Count of tags in the map */
     0,
     0,
@@ -14215,19 +18400,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementRequest_IEs = {
     "MeasurementRequest-IEs",
     "MeasurementRequest-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementRequest_IEs_tags_197,
-    sizeof(asn_DEF_MeasurementRequest_IEs_tags_197) /
-        sizeof(asn_DEF_MeasurementRequest_IEs_tags_197[0]), /* 1 */
-    asn_DEF_MeasurementRequest_IEs_tags_197,                /* Same as above */
-    sizeof(asn_DEF_MeasurementRequest_IEs_tags_197) /
-        sizeof(asn_DEF_MeasurementRequest_IEs_tags_197[0]), /* 1 */
+    asn_DEF_MeasurementRequest_IEs_tags_249,
+    sizeof(asn_DEF_MeasurementRequest_IEs_tags_249) /
+        sizeof(asn_DEF_MeasurementRequest_IEs_tags_249[0]), /* 1 */
+    asn_DEF_MeasurementRequest_IEs_tags_249,                /* Same as above */
+    sizeof(asn_DEF_MeasurementRequest_IEs_tags_249) /
+        sizeof(asn_DEF_MeasurementRequest_IEs_tags_249[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementRequest_IEs_197,
+    asn_MBR_MeasurementRequest_IEs_249,
     3,                                        /* Elements count */
-    &asn_SPC_MeasurementRequest_IEs_specs_197 /* Additional specs */
+    &asn_SPC_MeasurementRequest_IEs_specs_249 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_204[] = {
+static asn_TYPE_member_t asn_MBR_value_256[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementResponse_IEs__value, choice.Measurement_ID),
@@ -14276,7 +18461,7 @@ static asn_TYPE_member_t asn_MBR_value_204[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_204[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_256[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1},  /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0}, /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0,
@@ -14284,19 +18469,19 @@ static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_204[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -1,
      0} /* CriticalityDiagnostics */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_204 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_256 = {
     sizeof(struct MeasurementResponse_IEs__value),
     offsetof(struct MeasurementResponse_IEs__value, _asn_ctx),
     offsetof(struct MeasurementResponse_IEs__value, present),
     sizeof(((struct MeasurementResponse_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_204,
+    asn_MAP_value_tag2el_256,
     4, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_204 = {
+    asn_TYPE_descriptor_t asn_DEF_value_256 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14305,12 +18490,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_204,
+        asn_MBR_value_256,
         4,                       /* Elements count */
-        &asn_SPC_value_specs_204 /* Additional specs */
+        &asn_SPC_value_specs_256 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_201[] = {
+asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_253[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementResponse_IEs, id),
@@ -14318,7 +18503,7 @@ asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_201[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_202, memb_id_constraint_201},
+     {0, &asn_PER_memb_id_constr_254, memb_id_constraint_253},
      0,
      0, /* No default value */
      "id"},
@@ -14329,7 +18514,7 @@ asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_201[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementResponse_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_203, memb_criticality_constraint_201},
+     {0, &asn_PER_memb_criticality_constr_255, memb_criticality_constraint_253},
      0,
      0, /* No default value */
      "criticality"},
@@ -14338,25 +18523,25 @@ asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_201[] = {
      offsetof(struct MeasurementResponse_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_204,
+     &asn_DEF_value_256,
      select_MeasurementResponse_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_204, memb_value_constraint_201},
+     {0, &asn_PER_memb_value_constr_256, memb_value_constraint_253},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementResponse_IEs_tags_201[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementResponse_IEs_tags_253[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_MeasurementResponse_IEs_tag2el_201[] = {
+    asn_MAP_MeasurementResponse_IEs_tag2el_253[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementResponse_IEs_specs_201 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementResponse_IEs_specs_253 = {
     sizeof(struct MeasurementResponse_IEs),
     offsetof(struct MeasurementResponse_IEs, _asn_ctx),
-    asn_MAP_MeasurementResponse_IEs_tag2el_201,
+    asn_MAP_MeasurementResponse_IEs_tag2el_253,
     3, /* Count of tags in the map */
     0,
     0,
@@ -14367,19 +18552,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementResponse_IEs = {
     "MeasurementResponse-IEs",
     "MeasurementResponse-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementResponse_IEs_tags_201,
-    sizeof(asn_DEF_MeasurementResponse_IEs_tags_201) /
-        sizeof(asn_DEF_MeasurementResponse_IEs_tags_201[0]), /* 1 */
-    asn_DEF_MeasurementResponse_IEs_tags_201,                /* Same as above */
-    sizeof(asn_DEF_MeasurementResponse_IEs_tags_201) /
-        sizeof(asn_DEF_MeasurementResponse_IEs_tags_201[0]), /* 1 */
+    asn_DEF_MeasurementResponse_IEs_tags_253,
+    sizeof(asn_DEF_MeasurementResponse_IEs_tags_253) /
+        sizeof(asn_DEF_MeasurementResponse_IEs_tags_253[0]), /* 1 */
+    asn_DEF_MeasurementResponse_IEs_tags_253,                /* Same as above */
+    sizeof(asn_DEF_MeasurementResponse_IEs_tags_253) /
+        sizeof(asn_DEF_MeasurementResponse_IEs_tags_253[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementResponse_IEs_201,
+    asn_MBR_MeasurementResponse_IEs_253,
     3,                                         /* Elements count */
-    &asn_SPC_MeasurementResponse_IEs_specs_201 /* Additional specs */
+    &asn_SPC_MeasurementResponse_IEs_specs_253 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_208[] = {
+static asn_TYPE_member_t asn_MBR_value_260[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementFailure_IEs__value, choice.Measurement_ID),
@@ -14415,30 +18600,30 @@ static asn_TYPE_member_t asn_MBR_value_208[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_208[]        = {0, 2, 1};
-static const unsigned asn_MAP_value_from_canonical_208[]      = {0, 2, 1};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_208[] = {
+static const unsigned asn_MAP_value_to_canonical_260[]        = {0, 2, 1};
+static const unsigned asn_MAP_value_from_canonical_260[]      = {0, 2, 1};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_260[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 0}, /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 1, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 1, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 1, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_208 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_260 = {
     sizeof(struct MeasurementFailure_IEs__value),
     offsetof(struct MeasurementFailure_IEs__value, _asn_ctx),
     offsetof(struct MeasurementFailure_IEs__value, present),
     sizeof(((struct MeasurementFailure_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_208,
+    asn_MAP_value_tag2el_260,
     6, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_208,
-    asn_MAP_value_from_canonical_208,
+    asn_MAP_value_to_canonical_260,
+    asn_MAP_value_from_canonical_260,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_208 = {
+    asn_TYPE_descriptor_t asn_DEF_value_260 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14447,12 +18632,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_208,
+        asn_MBR_value_260,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_208 /* Additional specs */
+        &asn_SPC_value_specs_260 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_205[] = {
+asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_257[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementFailure_IEs, id),
@@ -14460,7 +18645,7 @@ asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_205[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_206, memb_id_constraint_205},
+     {0, &asn_PER_memb_id_constr_258, memb_id_constraint_257},
      0,
      0, /* No default value */
      "id"},
@@ -14471,7 +18656,7 @@ asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_205[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementFailure_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_207, memb_criticality_constraint_205},
+     {0, &asn_PER_memb_criticality_constr_259, memb_criticality_constraint_257},
      0,
      0, /* No default value */
      "criticality"},
@@ -14480,25 +18665,25 @@ asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_205[] = {
      offsetof(struct MeasurementFailure_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_208,
+     &asn_DEF_value_260,
      select_MeasurementFailure_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_208, memb_value_constraint_205},
+     {0, &asn_PER_memb_value_constr_260, memb_value_constraint_257},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementFailure_IEs_tags_205[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementFailure_IEs_tags_257[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_MeasurementFailure_IEs_tag2el_205[] =
+static const asn_TYPE_tag2member_t asn_MAP_MeasurementFailure_IEs_tag2el_257[] =
     {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementFailure_IEs_specs_205 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementFailure_IEs_specs_257 = {
     sizeof(struct MeasurementFailure_IEs),
     offsetof(struct MeasurementFailure_IEs, _asn_ctx),
-    asn_MAP_MeasurementFailure_IEs_tag2el_205,
+    asn_MAP_MeasurementFailure_IEs_tag2el_257,
     3, /* Count of tags in the map */
     0,
     0,
@@ -14509,19 +18694,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementFailure_IEs = {
     "MeasurementFailure-IEs",
     "MeasurementFailure-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementFailure_IEs_tags_205,
-    sizeof(asn_DEF_MeasurementFailure_IEs_tags_205) /
-        sizeof(asn_DEF_MeasurementFailure_IEs_tags_205[0]), /* 1 */
-    asn_DEF_MeasurementFailure_IEs_tags_205,                /* Same as above */
-    sizeof(asn_DEF_MeasurementFailure_IEs_tags_205) /
-        sizeof(asn_DEF_MeasurementFailure_IEs_tags_205[0]), /* 1 */
+    asn_DEF_MeasurementFailure_IEs_tags_257,
+    sizeof(asn_DEF_MeasurementFailure_IEs_tags_257) /
+        sizeof(asn_DEF_MeasurementFailure_IEs_tags_257[0]), /* 1 */
+    asn_DEF_MeasurementFailure_IEs_tags_257,                /* Same as above */
+    sizeof(asn_DEF_MeasurementFailure_IEs_tags_257) /
+        sizeof(asn_DEF_MeasurementFailure_IEs_tags_257[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementFailure_IEs_205,
+    asn_MBR_MeasurementFailure_IEs_257,
     3,                                        /* Elements count */
-    &asn_SPC_MeasurementFailure_IEs_specs_205 /* Additional specs */
+    &asn_SPC_MeasurementFailure_IEs_specs_257 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_212[] = {
+static asn_TYPE_member_t asn_MBR_value_264[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementReport_IEs__value, choice.Measurement_ID),
@@ -14558,25 +18743,25 @@ static asn_TYPE_member_t asn_MBR_value_212[] = {
      0, /* No default value */
      "TRP-MeasurementResponseList"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_212[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_264[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1},  /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0}, /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0,
      0} /* TRP-MeasurementResponseList */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_212 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_264 = {
     sizeof(struct MeasurementReport_IEs__value),
     offsetof(struct MeasurementReport_IEs__value, _asn_ctx),
     offsetof(struct MeasurementReport_IEs__value, present),
     sizeof(((struct MeasurementReport_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_212,
+    asn_MAP_value_tag2el_264,
     3, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_212 = {
+    asn_TYPE_descriptor_t asn_DEF_value_264 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14585,12 +18770,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_212,
+        asn_MBR_value_264,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_212 /* Additional specs */
+        &asn_SPC_value_specs_264 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_209[] = {
+asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_261[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementReport_IEs, id),
@@ -14598,7 +18783,7 @@ asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_209[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_210, memb_id_constraint_209},
+     {0, &asn_PER_memb_id_constr_262, memb_id_constraint_261},
      0,
      0, /* No default value */
      "id"},
@@ -14609,7 +18794,7 @@ asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_209[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementReport_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_211, memb_criticality_constraint_209},
+     {0, &asn_PER_memb_criticality_constr_263, memb_criticality_constraint_261},
      0,
      0, /* No default value */
      "criticality"},
@@ -14618,25 +18803,25 @@ asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_209[] = {
      offsetof(struct MeasurementReport_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_212,
+     &asn_DEF_value_264,
      select_MeasurementReport_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_212, memb_value_constraint_209},
+     {0, &asn_PER_memb_value_constr_264, memb_value_constraint_261},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementReport_IEs_tags_209[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementReport_IEs_tags_261[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_MeasurementReport_IEs_tag2el_209[] =
+static const asn_TYPE_tag2member_t asn_MAP_MeasurementReport_IEs_tag2el_261[] =
     {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementReport_IEs_specs_209 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementReport_IEs_specs_261 = {
     sizeof(struct MeasurementReport_IEs),
     offsetof(struct MeasurementReport_IEs, _asn_ctx),
-    asn_MAP_MeasurementReport_IEs_tag2el_209,
+    asn_MAP_MeasurementReport_IEs_tag2el_261,
     3, /* Count of tags in the map */
     0,
     0,
@@ -14647,19 +18832,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementReport_IEs = {
     "MeasurementReport-IEs",
     "MeasurementReport-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementReport_IEs_tags_209,
-    sizeof(asn_DEF_MeasurementReport_IEs_tags_209) /
-        sizeof(asn_DEF_MeasurementReport_IEs_tags_209[0]), /* 1 */
-    asn_DEF_MeasurementReport_IEs_tags_209,                /* Same as above */
-    sizeof(asn_DEF_MeasurementReport_IEs_tags_209) /
-        sizeof(asn_DEF_MeasurementReport_IEs_tags_209[0]), /* 1 */
+    asn_DEF_MeasurementReport_IEs_tags_261,
+    sizeof(asn_DEF_MeasurementReport_IEs_tags_261) /
+        sizeof(asn_DEF_MeasurementReport_IEs_tags_261[0]), /* 1 */
+    asn_DEF_MeasurementReport_IEs_tags_261,                /* Same as above */
+    sizeof(asn_DEF_MeasurementReport_IEs_tags_261) /
+        sizeof(asn_DEF_MeasurementReport_IEs_tags_261[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementReport_IEs_209,
+    asn_MBR_MeasurementReport_IEs_261,
     3,                                       /* Elements count */
-    &asn_SPC_MeasurementReport_IEs_specs_209 /* Additional specs */
+    &asn_SPC_MeasurementReport_IEs_specs_261 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_216[] = {
+static asn_TYPE_member_t asn_MBR_value_268[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementUpdate_IEs__value, choice.Measurement_ID),
@@ -14693,25 +18878,70 @@ static asn_TYPE_member_t asn_MBR_value_216[] = {
      0,
      0, /* No default value */
      "SRSConfiguration"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementUpdate_IEs__value, choice.TRP_MeasurementUpdateList),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_TRP_MeasurementUpdateList,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "TRP-MeasurementUpdateList"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementUpdate_IEs__value,
+         choice.MeasurementCharacteristicsRequestIndicator),
+     (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
+     0,
+     &asn_DEF_MeasurementCharacteristicsRequestIndicator,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementCharacteristicsRequestIndicator"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementUpdate_IEs__value, choice.MeasurementTimeOccasion),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_MeasurementTimeOccasion,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementTimeOccasion"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_216[] = {
+static const unsigned asn_MAP_value_to_canonical_268[]   = {0, 1, 4, 5, 2, 3};
+static const unsigned asn_MAP_value_from_canonical_268[] = {0, 1, 4, 5, 2, 3};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_268[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1},  /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0}, /* Measurement-ID */
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 0}  /* SRSConfiguration */
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 4, 0,
+     0}, /* MeasurementCharacteristicsRequestIndicator */
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 5, 0,
+     0}, /* MeasurementTimeOccasion */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, 0, 1}, /* SRSConfiguration */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -1,
+     0} /* TRP-MeasurementUpdateList */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_216 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_268 = {
     sizeof(struct MeasurementUpdate_IEs__value),
     offsetof(struct MeasurementUpdate_IEs__value, _asn_ctx),
     offsetof(struct MeasurementUpdate_IEs__value, present),
     sizeof(((struct MeasurementUpdate_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_216,
-    3, /* Count of tags in the map */
-    0,
-    0,
+    asn_MAP_value_tag2el_268,
+    6, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_268,
+    asn_MAP_value_from_canonical_268,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_216 = {
+    asn_TYPE_descriptor_t asn_DEF_value_268 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14720,12 +18950,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_216,
-        3,                       /* Elements count */
-        &asn_SPC_value_specs_216 /* Additional specs */
+        asn_MBR_value_268,
+        6,                       /* Elements count */
+        &asn_SPC_value_specs_268 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_213[] = {
+asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_265[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementUpdate_IEs, id),
@@ -14733,7 +18963,7 @@ asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_213[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_214, memb_id_constraint_213},
+     {0, &asn_PER_memb_id_constr_266, memb_id_constraint_265},
      0,
      0, /* No default value */
      "id"},
@@ -14744,7 +18974,7 @@ asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_213[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementUpdate_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_215, memb_criticality_constraint_213},
+     {0, &asn_PER_memb_criticality_constr_267, memb_criticality_constraint_265},
      0,
      0, /* No default value */
      "criticality"},
@@ -14753,25 +18983,25 @@ asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_213[] = {
      offsetof(struct MeasurementUpdate_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_216,
+     &asn_DEF_value_268,
      select_MeasurementUpdate_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_216, memb_value_constraint_213},
+     {0, &asn_PER_memb_value_constr_268, memb_value_constraint_265},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementUpdate_IEs_tags_213[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementUpdate_IEs_tags_265[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_MeasurementUpdate_IEs_tag2el_213[] =
+static const asn_TYPE_tag2member_t asn_MAP_MeasurementUpdate_IEs_tag2el_265[] =
     {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementUpdate_IEs_specs_213 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementUpdate_IEs_specs_265 = {
     sizeof(struct MeasurementUpdate_IEs),
     offsetof(struct MeasurementUpdate_IEs, _asn_ctx),
-    asn_MAP_MeasurementUpdate_IEs_tag2el_213,
+    asn_MAP_MeasurementUpdate_IEs_tag2el_265,
     3, /* Count of tags in the map */
     0,
     0,
@@ -14782,19 +19012,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementUpdate_IEs = {
     "MeasurementUpdate-IEs",
     "MeasurementUpdate-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementUpdate_IEs_tags_213,
-    sizeof(asn_DEF_MeasurementUpdate_IEs_tags_213) /
-        sizeof(asn_DEF_MeasurementUpdate_IEs_tags_213[0]), /* 1 */
-    asn_DEF_MeasurementUpdate_IEs_tags_213,                /* Same as above */
-    sizeof(asn_DEF_MeasurementUpdate_IEs_tags_213) /
-        sizeof(asn_DEF_MeasurementUpdate_IEs_tags_213[0]), /* 1 */
+    asn_DEF_MeasurementUpdate_IEs_tags_265,
+    sizeof(asn_DEF_MeasurementUpdate_IEs_tags_265) /
+        sizeof(asn_DEF_MeasurementUpdate_IEs_tags_265[0]), /* 1 */
+    asn_DEF_MeasurementUpdate_IEs_tags_265,                /* Same as above */
+    sizeof(asn_DEF_MeasurementUpdate_IEs_tags_265) /
+        sizeof(asn_DEF_MeasurementUpdate_IEs_tags_265[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementUpdate_IEs_213,
+    asn_MBR_MeasurementUpdate_IEs_265,
     3,                                       /* Elements count */
-    &asn_SPC_MeasurementUpdate_IEs_specs_213 /* Additional specs */
+    &asn_SPC_MeasurementUpdate_IEs_specs_265 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_220[] = {
+static asn_TYPE_member_t asn_MBR_value_272[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementAbort_IEs__value, choice.Measurement_ID),
@@ -14818,23 +19048,23 @@ static asn_TYPE_member_t asn_MBR_value_220[] = {
      0, /* No default value */
      "Measurement-ID"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_220[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_272[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1}, /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0} /* Measurement-ID */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_220 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_272 = {
     sizeof(struct MeasurementAbort_IEs__value),
     offsetof(struct MeasurementAbort_IEs__value, _asn_ctx),
     offsetof(struct MeasurementAbort_IEs__value, present),
     sizeof(((struct MeasurementAbort_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_220,
+    asn_MAP_value_tag2el_272,
     2, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_220 = {
+    asn_TYPE_descriptor_t asn_DEF_value_272 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14843,12 +19073,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_220,
+        asn_MBR_value_272,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_220 /* Additional specs */
+        &asn_SPC_value_specs_272 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_217[] = {
+asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_269[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementAbort_IEs, id),
@@ -14856,7 +19086,7 @@ asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_217[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_218, memb_id_constraint_217},
+     {0, &asn_PER_memb_id_constr_270, memb_id_constraint_269},
      0,
      0, /* No default value */
      "id"},
@@ -14867,7 +19097,7 @@ asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_217[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementAbort_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_219, memb_criticality_constraint_217},
+     {0, &asn_PER_memb_criticality_constr_271, memb_criticality_constraint_269},
      0,
      0, /* No default value */
      "criticality"},
@@ -14876,24 +19106,24 @@ asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_217[] = {
      offsetof(struct MeasurementAbort_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_220,
+     &asn_DEF_value_272,
      select_MeasurementAbort_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_220, memb_value_constraint_217},
+     {0, &asn_PER_memb_value_constr_272, memb_value_constraint_269},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementAbort_IEs_tags_217[] = {
+static const ber_tlv_tag_t asn_DEF_MeasurementAbort_IEs_tags_269[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static const asn_TYPE_tag2member_t asn_MAP_MeasurementAbort_IEs_tag2el_217[] = {
+static const asn_TYPE_tag2member_t asn_MAP_MeasurementAbort_IEs_tag2el_269[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementAbort_IEs_specs_217 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementAbort_IEs_specs_269 = {
     sizeof(struct MeasurementAbort_IEs),
     offsetof(struct MeasurementAbort_IEs, _asn_ctx),
-    asn_MAP_MeasurementAbort_IEs_tag2el_217,
+    asn_MAP_MeasurementAbort_IEs_tag2el_269,
     3, /* Count of tags in the map */
     0,
     0,
@@ -14904,19 +19134,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementAbort_IEs = {
     "MeasurementAbort-IEs",
     "MeasurementAbort-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementAbort_IEs_tags_217,
-    sizeof(asn_DEF_MeasurementAbort_IEs_tags_217) /
-        sizeof(asn_DEF_MeasurementAbort_IEs_tags_217[0]), /* 1 */
-    asn_DEF_MeasurementAbort_IEs_tags_217,                /* Same as above */
-    sizeof(asn_DEF_MeasurementAbort_IEs_tags_217) /
-        sizeof(asn_DEF_MeasurementAbort_IEs_tags_217[0]), /* 1 */
+    asn_DEF_MeasurementAbort_IEs_tags_269,
+    sizeof(asn_DEF_MeasurementAbort_IEs_tags_269) /
+        sizeof(asn_DEF_MeasurementAbort_IEs_tags_269[0]), /* 1 */
+    asn_DEF_MeasurementAbort_IEs_tags_269,                /* Same as above */
+    sizeof(asn_DEF_MeasurementAbort_IEs_tags_269) /
+        sizeof(asn_DEF_MeasurementAbort_IEs_tags_269[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementAbort_IEs_217,
+    asn_MBR_MeasurementAbort_IEs_269,
     3,                                      /* Elements count */
-    &asn_SPC_MeasurementAbort_IEs_specs_217 /* Additional specs */
+    &asn_SPC_MeasurementAbort_IEs_specs_269 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_224[] = {
+static asn_TYPE_member_t asn_MBR_value_276[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -14954,27 +19184,27 @@ static asn_TYPE_member_t asn_MBR_value_224[] = {
      0, /* No default value */
      "Cause"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_224[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_276[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 0, 0, 1},  /* Measurement-ID */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, -1, 0}, /* Measurement-ID */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 2, 0, 0},    /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 2, 0, 0},    /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0},    /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 2, 0, 0}     /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 2, 0, 0}     /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_224 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_276 = {
     sizeof(struct MeasurementFailureIndication_IEs__value),
     offsetof(struct MeasurementFailureIndication_IEs__value, _asn_ctx),
     offsetof(struct MeasurementFailureIndication_IEs__value, present),
     sizeof(((struct MeasurementFailureIndication_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_224,
+    asn_MAP_value_tag2el_276,
     6, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_224 = {
+    asn_TYPE_descriptor_t asn_DEF_value_276 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -14983,12 +19213,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_224,
+        asn_MBR_value_276,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_224 /* Additional specs */
+        &asn_SPC_value_specs_276 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_221[] = {
+asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_273[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementFailureIndication_IEs, id),
@@ -14996,7 +19226,7 @@ asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_221[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_222, memb_id_constraint_221},
+     {0, &asn_PER_memb_id_constr_274, memb_id_constraint_273},
      0,
      0, /* No default value */
      "id"},
@@ -15007,7 +19237,7 @@ asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_221[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_MeasurementFailureIndication_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_223, memb_criticality_constraint_221},
+     {0, &asn_PER_memb_criticality_constr_275, memb_criticality_constraint_273},
      0,
      0, /* No default value */
      "criticality"},
@@ -15016,25 +19246,25 @@ asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_221[] = {
      offsetof(struct MeasurementFailureIndication_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_224,
+     &asn_DEF_value_276,
      select_MeasurementFailureIndication_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_224, memb_value_constraint_221},
+     {0, &asn_PER_memb_value_constr_276, memb_value_constraint_273},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_MeasurementFailureIndication_IEs_tags_221[] =
+static const ber_tlv_tag_t asn_DEF_MeasurementFailureIndication_IEs_tags_273[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_MeasurementFailureIndication_IEs_tag2el_221[] = {
+    asn_MAP_MeasurementFailureIndication_IEs_tag2el_273[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementFailureIndication_IEs_specs_221 = {
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementFailureIndication_IEs_specs_273 = {
     sizeof(struct MeasurementFailureIndication_IEs),
     offsetof(struct MeasurementFailureIndication_IEs, _asn_ctx),
-    asn_MAP_MeasurementFailureIndication_IEs_tag2el_221,
+    asn_MAP_MeasurementFailureIndication_IEs_tag2el_273,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15045,19 +19275,19 @@ asn_TYPE_descriptor_t asn_DEF_MeasurementFailureIndication_IEs = {
     "MeasurementFailureIndication-IEs",
     "MeasurementFailureIndication-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_MeasurementFailureIndication_IEs_tags_221,
-    sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_221) /
-        sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_221[0]), /* 1 */
-    asn_DEF_MeasurementFailureIndication_IEs_tags_221, /* Same as above */
-    sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_221) /
-        sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_221[0]), /* 1 */
+    asn_DEF_MeasurementFailureIndication_IEs_tags_273,
+    sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_273) /
+        sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_273[0]), /* 1 */
+    asn_DEF_MeasurementFailureIndication_IEs_tags_273, /* Same as above */
+    sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_273) /
+        sizeof(asn_DEF_MeasurementFailureIndication_IEs_tags_273[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementFailureIndication_IEs_221,
+    asn_MBR_MeasurementFailureIndication_IEs_273,
     3,                                                  /* Elements count */
-    &asn_SPC_MeasurementFailureIndication_IEs_specs_221 /* Additional specs */
+    &asn_SPC_MeasurementFailureIndication_IEs_specs_273 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_228[] = {
+static asn_TYPE_member_t asn_MBR_value_280[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct TRPInformationRequest_IEs__value, choice.TRPList),
@@ -15073,34 +19303,34 @@ static asn_TYPE_member_t asn_MBR_value_228[] = {
      0,
      offsetof(
          struct TRPInformationRequest_IEs__value,
-         choice.TRPInformationTypeList),
+         choice.TRPInformationTypeListTRPReq),
      (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
      0,
-     &asn_DEF_TRPInformationTypeList,
+     &asn_DEF_TRPInformationTypeListTRPReq,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "TRPInformationTypeList"},
+     "TRPInformationTypeListTRPReq"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_228[] = {
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_280[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1}, /* TRPList */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
-     0} /* TRPInformationTypeList */
+     0} /* TRPInformationTypeListTRPReq */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_228 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_280 = {
     sizeof(struct TRPInformationRequest_IEs__value),
     offsetof(struct TRPInformationRequest_IEs__value, _asn_ctx),
     offsetof(struct TRPInformationRequest_IEs__value, present),
     sizeof(((struct TRPInformationRequest_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_228,
+    asn_MAP_value_tag2el_280,
     2, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_228 = {
+    asn_TYPE_descriptor_t asn_DEF_value_280 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15109,12 +19339,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_228,
+        asn_MBR_value_280,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_228 /* Additional specs */
+        &asn_SPC_value_specs_280 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_225[] = {
+asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_277[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct TRPInformationRequest_IEs, id),
@@ -15122,7 +19352,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_225[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_226, memb_id_constraint_225},
+     {0, &asn_PER_memb_id_constr_278, memb_id_constraint_277},
      0,
      0, /* No default value */
      "id"},
@@ -15133,7 +19363,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_225[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_TRPInformationRequest_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_227, memb_criticality_constraint_225},
+     {0, &asn_PER_memb_criticality_constr_279, memb_criticality_constraint_277},
      0,
      0, /* No default value */
      "criticality"},
@@ -15142,25 +19372,25 @@ asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_225[] = {
      offsetof(struct TRPInformationRequest_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_228,
+     &asn_DEF_value_280,
      select_TRPInformationRequest_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_228, memb_value_constraint_225},
+     {0, &asn_PER_memb_value_constr_280, memb_value_constraint_277},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPInformationRequest_IEs_tags_225[] = {
+static const ber_tlv_tag_t asn_DEF_TRPInformationRequest_IEs_tags_277[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TRPInformationRequest_IEs_tag2el_225[] = {
+    asn_MAP_TRPInformationRequest_IEs_tag2el_277[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPInformationRequest_IEs_specs_225 = {
+asn_SEQUENCE_specifics_t asn_SPC_TRPInformationRequest_IEs_specs_277 = {
     sizeof(struct TRPInformationRequest_IEs),
     offsetof(struct TRPInformationRequest_IEs, _asn_ctx),
-    asn_MAP_TRPInformationRequest_IEs_tag2el_225,
+    asn_MAP_TRPInformationRequest_IEs_tag2el_277,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15171,31 +19401,32 @@ asn_TYPE_descriptor_t asn_DEF_TRPInformationRequest_IEs = {
     "TRPInformationRequest-IEs",
     "TRPInformationRequest-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPInformationRequest_IEs_tags_225,
-    sizeof(asn_DEF_TRPInformationRequest_IEs_tags_225) /
-        sizeof(asn_DEF_TRPInformationRequest_IEs_tags_225[0]), /* 1 */
-    asn_DEF_TRPInformationRequest_IEs_tags_225, /* Same as above */
-    sizeof(asn_DEF_TRPInformationRequest_IEs_tags_225) /
-        sizeof(asn_DEF_TRPInformationRequest_IEs_tags_225[0]), /* 1 */
+    asn_DEF_TRPInformationRequest_IEs_tags_277,
+    sizeof(asn_DEF_TRPInformationRequest_IEs_tags_277) /
+        sizeof(asn_DEF_TRPInformationRequest_IEs_tags_277[0]), /* 1 */
+    asn_DEF_TRPInformationRequest_IEs_tags_277, /* Same as above */
+    sizeof(asn_DEF_TRPInformationRequest_IEs_tags_277) /
+        sizeof(asn_DEF_TRPInformationRequest_IEs_tags_277[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPInformationRequest_IEs_225,
+    asn_MBR_TRPInformationRequest_IEs_277,
     3,                                           /* Elements count */
-    &asn_SPC_TRPInformationRequest_IEs_specs_225 /* Additional specs */
+    &asn_SPC_TRPInformationRequest_IEs_specs_277 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_232[] = {
+static asn_TYPE_member_t asn_MBR_value_284[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
-         struct TRPInformationResponse_IEs__value, choice.TRPInformationList),
+         struct TRPInformationResponse_IEs__value,
+         choice.TRPInformationListTRPResp),
      (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
      0,
-     &asn_DEF_TRPInformationList,
+     &asn_DEF_TRPInformationListTRPResp,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "TRPInformationList"},
+     "TRPInformationListTRPResp"},
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -15210,24 +19441,25 @@ static asn_TYPE_member_t asn_MBR_value_232[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_232[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0, 1}, /* TRPInformationList */
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_284[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
+     1}, /* TRPInformationListTRPResp */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
      0} /* CriticalityDiagnostics */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_232 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_284 = {
     sizeof(struct TRPInformationResponse_IEs__value),
     offsetof(struct TRPInformationResponse_IEs__value, _asn_ctx),
     offsetof(struct TRPInformationResponse_IEs__value, present),
     sizeof(((struct TRPInformationResponse_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_232,
+    asn_MAP_value_tag2el_284,
     2, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_232 = {
+    asn_TYPE_descriptor_t asn_DEF_value_284 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15236,12 +19468,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_232,
+        asn_MBR_value_284,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_232 /* Additional specs */
+        &asn_SPC_value_specs_284 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_229[] = {
+asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_281[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct TRPInformationResponse_IEs, id),
@@ -15249,7 +19481,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_229[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_230, memb_id_constraint_229},
+     {0, &asn_PER_memb_id_constr_282, memb_id_constraint_281},
      0,
      0, /* No default value */
      "id"},
@@ -15260,7 +19492,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_229[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_TRPInformationResponse_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_231, memb_criticality_constraint_229},
+     {0, &asn_PER_memb_criticality_constr_283, memb_criticality_constraint_281},
      0,
      0, /* No default value */
      "criticality"},
@@ -15269,25 +19501,25 @@ asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_229[] = {
      offsetof(struct TRPInformationResponse_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_232,
+     &asn_DEF_value_284,
      select_TRPInformationResponse_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_232, memb_value_constraint_229},
+     {0, &asn_PER_memb_value_constr_284, memb_value_constraint_281},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPInformationResponse_IEs_tags_229[] = {
+static const ber_tlv_tag_t asn_DEF_TRPInformationResponse_IEs_tags_281[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TRPInformationResponse_IEs_tag2el_229[] = {
+    asn_MAP_TRPInformationResponse_IEs_tag2el_281[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPInformationResponse_IEs_specs_229 = {
+asn_SEQUENCE_specifics_t asn_SPC_TRPInformationResponse_IEs_specs_281 = {
     sizeof(struct TRPInformationResponse_IEs),
     offsetof(struct TRPInformationResponse_IEs, _asn_ctx),
-    asn_MAP_TRPInformationResponse_IEs_tag2el_229,
+    asn_MAP_TRPInformationResponse_IEs_tag2el_281,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15298,19 +19530,19 @@ asn_TYPE_descriptor_t asn_DEF_TRPInformationResponse_IEs = {
     "TRPInformationResponse-IEs",
     "TRPInformationResponse-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPInformationResponse_IEs_tags_229,
-    sizeof(asn_DEF_TRPInformationResponse_IEs_tags_229) /
-        sizeof(asn_DEF_TRPInformationResponse_IEs_tags_229[0]), /* 1 */
-    asn_DEF_TRPInformationResponse_IEs_tags_229, /* Same as above */
-    sizeof(asn_DEF_TRPInformationResponse_IEs_tags_229) /
-        sizeof(asn_DEF_TRPInformationResponse_IEs_tags_229[0]), /* 1 */
+    asn_DEF_TRPInformationResponse_IEs_tags_281,
+    sizeof(asn_DEF_TRPInformationResponse_IEs_tags_281) /
+        sizeof(asn_DEF_TRPInformationResponse_IEs_tags_281[0]), /* 1 */
+    asn_DEF_TRPInformationResponse_IEs_tags_281, /* Same as above */
+    sizeof(asn_DEF_TRPInformationResponse_IEs_tags_281) /
+        sizeof(asn_DEF_TRPInformationResponse_IEs_tags_281[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPInformationResponse_IEs_229,
+    asn_MBR_TRPInformationResponse_IEs_281,
     3,                                            /* Elements count */
-    &asn_SPC_TRPInformationResponse_IEs_specs_229 /* Additional specs */
+    &asn_SPC_TRPInformationResponse_IEs_specs_281 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_236[] = {
+static asn_TYPE_member_t asn_MBR_value_288[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct TRPInformationFailure_IEs__value, choice.Cause),
@@ -15336,29 +19568,29 @@ static asn_TYPE_member_t asn_MBR_value_236[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_236[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_236[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_236[] = {
+static const unsigned asn_MAP_value_to_canonical_288[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_288[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_288[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_236 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_288 = {
     sizeof(struct TRPInformationFailure_IEs__value),
     offsetof(struct TRPInformationFailure_IEs__value, _asn_ctx),
     offsetof(struct TRPInformationFailure_IEs__value, present),
     sizeof(((struct TRPInformationFailure_IEs__value*) 0)->present),
-    asn_MAP_value_tag2el_236,
+    asn_MAP_value_tag2el_288,
     5, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_236,
-    asn_MAP_value_from_canonical_236,
+    asn_MAP_value_to_canonical_288,
+    asn_MAP_value_from_canonical_288,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_236 = {
+    asn_TYPE_descriptor_t asn_DEF_value_288 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15367,12 +19599,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_236,
+        asn_MBR_value_288,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_236 /* Additional specs */
+        &asn_SPC_value_specs_288 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_233[] = {
+asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_285[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct TRPInformationFailure_IEs, id),
@@ -15380,7 +19612,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_233[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_234, memb_id_constraint_233},
+     {0, &asn_PER_memb_id_constr_286, memb_id_constraint_285},
      0,
      0, /* No default value */
      "id"},
@@ -15391,7 +19623,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_233[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_TRPInformationFailure_IEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_235, memb_criticality_constraint_233},
+     {0, &asn_PER_memb_criticality_constr_287, memb_criticality_constraint_285},
      0,
      0, /* No default value */
      "criticality"},
@@ -15400,25 +19632,25 @@ asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_233[] = {
      offsetof(struct TRPInformationFailure_IEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_236,
+     &asn_DEF_value_288,
      select_TRPInformationFailure_IEs_value_type,
-     {0, &asn_PER_memb_value_constr_236, memb_value_constraint_233},
+     {0, &asn_PER_memb_value_constr_288, memb_value_constraint_285},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_TRPInformationFailure_IEs_tags_233[] = {
+static const ber_tlv_tag_t asn_DEF_TRPInformationFailure_IEs_tags_285[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_TRPInformationFailure_IEs_tag2el_233[] = {
+    asn_MAP_TRPInformationFailure_IEs_tag2el_285[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TRPInformationFailure_IEs_specs_233 = {
+asn_SEQUENCE_specifics_t asn_SPC_TRPInformationFailure_IEs_specs_285 = {
     sizeof(struct TRPInformationFailure_IEs),
     offsetof(struct TRPInformationFailure_IEs, _asn_ctx),
-    asn_MAP_TRPInformationFailure_IEs_tag2el_233,
+    asn_MAP_TRPInformationFailure_IEs_tag2el_285,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15429,19 +19661,19 @@ asn_TYPE_descriptor_t asn_DEF_TRPInformationFailure_IEs = {
     "TRPInformationFailure-IEs",
     "TRPInformationFailure-IEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_TRPInformationFailure_IEs_tags_233,
-    sizeof(asn_DEF_TRPInformationFailure_IEs_tags_233) /
-        sizeof(asn_DEF_TRPInformationFailure_IEs_tags_233[0]), /* 1 */
-    asn_DEF_TRPInformationFailure_IEs_tags_233, /* Same as above */
-    sizeof(asn_DEF_TRPInformationFailure_IEs_tags_233) /
-        sizeof(asn_DEF_TRPInformationFailure_IEs_tags_233[0]), /* 1 */
+    asn_DEF_TRPInformationFailure_IEs_tags_285,
+    sizeof(asn_DEF_TRPInformationFailure_IEs_tags_285) /
+        sizeof(asn_DEF_TRPInformationFailure_IEs_tags_285[0]), /* 1 */
+    asn_DEF_TRPInformationFailure_IEs_tags_285, /* Same as above */
+    sizeof(asn_DEF_TRPInformationFailure_IEs_tags_285) /
+        sizeof(asn_DEF_TRPInformationFailure_IEs_tags_285[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPInformationFailure_IEs_233,
+    asn_MBR_TRPInformationFailure_IEs_285,
     3,                                           /* Elements count */
-    &asn_SPC_TRPInformationFailure_IEs_specs_233 /* Additional specs */
+    &asn_SPC_TRPInformationFailure_IEs_specs_285 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_240[] = {
+static asn_TYPE_member_t asn_MBR_value_292[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningActivationRequestIEs__value, choice.SRSType),
@@ -15456,37 +19688,38 @@ static asn_TYPE_member_t asn_MBR_value_240[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
-         struct PositioningActivationRequestIEs__value, choice.ActivationTime),
+         struct PositioningActivationRequestIEs__value,
+         choice.RelativeTime1900),
      (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
      0,
-     &asn_DEF_ActivationTime,
+     &asn_DEF_RelativeTime1900,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "ActivationTime"},
+     "RelativeTime1900"},
 };
-static const unsigned asn_MAP_value_to_canonical_240[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_240[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_240[] = {
-    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 1, 0, 0}, /* ActivationTime */
+static const unsigned asn_MAP_value_to_canonical_292[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_292[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_292[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 1, 0, 0}, /* RelativeTime1900 */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0},   /* semipersistentSRS */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0},   /* aperiodicSRS */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}    /* sRSType-extension */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}    /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_240 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_292 = {
     sizeof(struct PositioningActivationRequestIEs__value),
     offsetof(struct PositioningActivationRequestIEs__value, _asn_ctx),
     offsetof(struct PositioningActivationRequestIEs__value, present),
     sizeof(((struct PositioningActivationRequestIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_240,
+    asn_MAP_value_tag2el_292,
     4, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_240,
-    asn_MAP_value_from_canonical_240,
+    asn_MAP_value_to_canonical_292,
+    asn_MAP_value_from_canonical_292,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_240 = {
+    asn_TYPE_descriptor_t asn_DEF_value_292 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15495,12 +19728,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_240,
+        asn_MBR_value_292,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_240 /* Additional specs */
+        &asn_SPC_value_specs_292 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_237[] = {
+asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_289[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningActivationRequestIEs, id),
@@ -15508,7 +19741,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_237[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_238, memb_id_constraint_237},
+     {0, &asn_PER_memb_id_constr_290, memb_id_constraint_289},
      0,
      0, /* No default value */
      "id"},
@@ -15519,7 +19752,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_237[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningActivationRequestIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_239, memb_criticality_constraint_237},
+     {0, &asn_PER_memb_criticality_constr_291, memb_criticality_constraint_289},
      0,
      0, /* No default value */
      "criticality"},
@@ -15528,25 +19761,25 @@ asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_237[] = {
      offsetof(struct PositioningActivationRequestIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_240,
+     &asn_DEF_value_292,
      select_PositioningActivationRequestIEs_value_type,
-     {0, &asn_PER_memb_value_constr_240, memb_value_constraint_237},
+     {0, &asn_PER_memb_value_constr_292, memb_value_constraint_289},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_PositioningActivationRequestIEs_tags_237[] =
+static const ber_tlv_tag_t asn_DEF_PositioningActivationRequestIEs_tags_289[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningActivationRequestIEs_tag2el_237[] = {
+    asn_MAP_PositioningActivationRequestIEs_tag2el_289[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningActivationRequestIEs_specs_237 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningActivationRequestIEs_specs_289 = {
     sizeof(struct PositioningActivationRequestIEs),
     offsetof(struct PositioningActivationRequestIEs, _asn_ctx),
-    asn_MAP_PositioningActivationRequestIEs_tag2el_237,
+    asn_MAP_PositioningActivationRequestIEs_tag2el_289,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15557,19 +19790,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningActivationRequestIEs = {
     "PositioningActivationRequestIEs",
     "PositioningActivationRequestIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningActivationRequestIEs_tags_237,
-    sizeof(asn_DEF_PositioningActivationRequestIEs_tags_237) /
-        sizeof(asn_DEF_PositioningActivationRequestIEs_tags_237[0]), /* 1 */
-    asn_DEF_PositioningActivationRequestIEs_tags_237, /* Same as above */
-    sizeof(asn_DEF_PositioningActivationRequestIEs_tags_237) /
-        sizeof(asn_DEF_PositioningActivationRequestIEs_tags_237[0]), /* 1 */
+    asn_DEF_PositioningActivationRequestIEs_tags_289,
+    sizeof(asn_DEF_PositioningActivationRequestIEs_tags_289) /
+        sizeof(asn_DEF_PositioningActivationRequestIEs_tags_289[0]), /* 1 */
+    asn_DEF_PositioningActivationRequestIEs_tags_289, /* Same as above */
+    sizeof(asn_DEF_PositioningActivationRequestIEs_tags_289) /
+        sizeof(asn_DEF_PositioningActivationRequestIEs_tags_289[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningActivationRequestIEs_237,
+    asn_MBR_PositioningActivationRequestIEs_289,
     3,                                                 /* Elements count */
-    &asn_SPC_PositioningActivationRequestIEs_specs_237 /* Additional specs */
+    &asn_SPC_PositioningActivationRequestIEs_specs_289 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_244[] = {
+static asn_TYPE_member_t asn_MBR_value_296[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -15609,27 +19842,27 @@ static asn_TYPE_member_t asn_MBR_value_244[] = {
      0, /* No default value */
      "SlotNumber"},
 };
-static const unsigned asn_MAP_value_to_canonical_244[]        = {1, 2, 0};
-static const unsigned asn_MAP_value_from_canonical_244[]      = {2, 0, 1};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_244[] = {
+static const unsigned asn_MAP_value_to_canonical_296[]        = {1, 2, 0};
+static const unsigned asn_MAP_value_from_canonical_296[]      = {2, 0, 1};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_296[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 1, 0, 1},  /* SystemFrameNumber */
     {(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)), 2, -1, 0}, /* SlotNumber */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
      0} /* CriticalityDiagnostics */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_244 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_296 = {
     sizeof(struct PositioningActivationResponseIEs__value),
     offsetof(struct PositioningActivationResponseIEs__value, _asn_ctx),
     offsetof(struct PositioningActivationResponseIEs__value, present),
     sizeof(((struct PositioningActivationResponseIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_244,
+    asn_MAP_value_tag2el_296,
     3, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_244,
-    asn_MAP_value_from_canonical_244,
+    asn_MAP_value_to_canonical_296,
+    asn_MAP_value_from_canonical_296,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_244 = {
+    asn_TYPE_descriptor_t asn_DEF_value_296 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15638,12 +19871,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_244,
+        asn_MBR_value_296,
         3,                       /* Elements count */
-        &asn_SPC_value_specs_244 /* Additional specs */
+        &asn_SPC_value_specs_296 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_241[] = {
+asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_293[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningActivationResponseIEs, id),
@@ -15651,7 +19884,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_241[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_242, memb_id_constraint_241},
+     {0, &asn_PER_memb_id_constr_294, memb_id_constraint_293},
      0,
      0, /* No default value */
      "id"},
@@ -15662,7 +19895,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_241[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningActivationResponseIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_243, memb_criticality_constraint_241},
+     {0, &asn_PER_memb_criticality_constr_295, memb_criticality_constraint_293},
      0,
      0, /* No default value */
      "criticality"},
@@ -15671,25 +19904,25 @@ asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_241[] = {
      offsetof(struct PositioningActivationResponseIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_244,
+     &asn_DEF_value_296,
      select_PositioningActivationResponseIEs_value_type,
-     {0, &asn_PER_memb_value_constr_244, memb_value_constraint_241},
+     {0, &asn_PER_memb_value_constr_296, memb_value_constraint_293},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_PositioningActivationResponseIEs_tags_241[] =
+static const ber_tlv_tag_t asn_DEF_PositioningActivationResponseIEs_tags_293[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningActivationResponseIEs_tag2el_241[] = {
+    asn_MAP_PositioningActivationResponseIEs_tag2el_293[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningActivationResponseIEs_specs_241 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningActivationResponseIEs_specs_293 = {
     sizeof(struct PositioningActivationResponseIEs),
     offsetof(struct PositioningActivationResponseIEs, _asn_ctx),
-    asn_MAP_PositioningActivationResponseIEs_tag2el_241,
+    asn_MAP_PositioningActivationResponseIEs_tag2el_293,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15700,19 +19933,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningActivationResponseIEs = {
     "PositioningActivationResponseIEs",
     "PositioningActivationResponseIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningActivationResponseIEs_tags_241,
-    sizeof(asn_DEF_PositioningActivationResponseIEs_tags_241) /
-        sizeof(asn_DEF_PositioningActivationResponseIEs_tags_241[0]), /* 1 */
-    asn_DEF_PositioningActivationResponseIEs_tags_241, /* Same as above */
-    sizeof(asn_DEF_PositioningActivationResponseIEs_tags_241) /
-        sizeof(asn_DEF_PositioningActivationResponseIEs_tags_241[0]), /* 1 */
+    asn_DEF_PositioningActivationResponseIEs_tags_293,
+    sizeof(asn_DEF_PositioningActivationResponseIEs_tags_293) /
+        sizeof(asn_DEF_PositioningActivationResponseIEs_tags_293[0]), /* 1 */
+    asn_DEF_PositioningActivationResponseIEs_tags_293, /* Same as above */
+    sizeof(asn_DEF_PositioningActivationResponseIEs_tags_293) /
+        sizeof(asn_DEF_PositioningActivationResponseIEs_tags_293[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningActivationResponseIEs_241,
+    asn_MBR_PositioningActivationResponseIEs_293,
     3,                                                  /* Elements count */
-    &asn_SPC_PositioningActivationResponseIEs_specs_241 /* Additional specs */
+    &asn_SPC_PositioningActivationResponseIEs_specs_293 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_248[] = {
+static asn_TYPE_member_t asn_MBR_value_300[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningActivationFailureIEs__value, choice.Cause),
@@ -15738,29 +19971,29 @@ static asn_TYPE_member_t asn_MBR_value_248[] = {
      0, /* No default value */
      "CriticalityDiagnostics"},
 };
-static const unsigned asn_MAP_value_to_canonical_248[]        = {1, 0};
-static const unsigned asn_MAP_value_from_canonical_248[]      = {1, 0};
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_248[] = {
+static const unsigned asn_MAP_value_to_canonical_300[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_300[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_300[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
      0},                                           /* CriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_248 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_300 = {
     sizeof(struct PositioningActivationFailureIEs__value),
     offsetof(struct PositioningActivationFailureIEs__value, _asn_ctx),
     offsetof(struct PositioningActivationFailureIEs__value, present),
     sizeof(((struct PositioningActivationFailureIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_248,
+    asn_MAP_value_tag2el_300,
     5, /* Count of tags in the map */
-    asn_MAP_value_to_canonical_248,
-    asn_MAP_value_from_canonical_248,
+    asn_MAP_value_to_canonical_300,
+    asn_MAP_value_from_canonical_300,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_248 = {
+    asn_TYPE_descriptor_t asn_DEF_value_300 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15769,12 +20002,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_248,
+        asn_MBR_value_300,
         2,                       /* Elements count */
-        &asn_SPC_value_specs_248 /* Additional specs */
+        &asn_SPC_value_specs_300 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_245[] = {
+asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_297[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningActivationFailureIEs, id),
@@ -15782,7 +20015,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_245[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_246, memb_id_constraint_245},
+     {0, &asn_PER_memb_id_constr_298, memb_id_constraint_297},
      0,
      0, /* No default value */
      "id"},
@@ -15793,7 +20026,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_245[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningActivationFailureIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_247, memb_criticality_constraint_245},
+     {0, &asn_PER_memb_criticality_constr_299, memb_criticality_constraint_297},
      0,
      0, /* No default value */
      "criticality"},
@@ -15802,25 +20035,25 @@ asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_245[] = {
      offsetof(struct PositioningActivationFailureIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_248,
+     &asn_DEF_value_300,
      select_PositioningActivationFailureIEs_value_type,
-     {0, &asn_PER_memb_value_constr_248, memb_value_constraint_245},
+     {0, &asn_PER_memb_value_constr_300, memb_value_constraint_297},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_PositioningActivationFailureIEs_tags_245[] =
+static const ber_tlv_tag_t asn_DEF_PositioningActivationFailureIEs_tags_297[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningActivationFailureIEs_tag2el_245[] = {
+    asn_MAP_PositioningActivationFailureIEs_tag2el_297[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningActivationFailureIEs_specs_245 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningActivationFailureIEs_specs_297 = {
     sizeof(struct PositioningActivationFailureIEs),
     offsetof(struct PositioningActivationFailureIEs, _asn_ctx),
-    asn_MAP_PositioningActivationFailureIEs_tag2el_245,
+    asn_MAP_PositioningActivationFailureIEs_tag2el_297,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15831,19 +20064,19 @@ asn_TYPE_descriptor_t asn_DEF_PositioningActivationFailureIEs = {
     "PositioningActivationFailureIEs",
     "PositioningActivationFailureIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningActivationFailureIEs_tags_245,
-    sizeof(asn_DEF_PositioningActivationFailureIEs_tags_245) /
-        sizeof(asn_DEF_PositioningActivationFailureIEs_tags_245[0]), /* 1 */
-    asn_DEF_PositioningActivationFailureIEs_tags_245, /* Same as above */
-    sizeof(asn_DEF_PositioningActivationFailureIEs_tags_245) /
-        sizeof(asn_DEF_PositioningActivationFailureIEs_tags_245[0]), /* 1 */
+    asn_DEF_PositioningActivationFailureIEs_tags_297,
+    sizeof(asn_DEF_PositioningActivationFailureIEs_tags_297) /
+        sizeof(asn_DEF_PositioningActivationFailureIEs_tags_297[0]), /* 1 */
+    asn_DEF_PositioningActivationFailureIEs_tags_297, /* Same as above */
+    sizeof(asn_DEF_PositioningActivationFailureIEs_tags_297) /
+        sizeof(asn_DEF_PositioningActivationFailureIEs_tags_297[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningActivationFailureIEs_245,
+    asn_MBR_PositioningActivationFailureIEs_297,
     3,                                                 /* Elements count */
-    &asn_SPC_PositioningActivationFailureIEs_specs_245 /* Additional specs */
+    &asn_SPC_PositioningActivationFailureIEs_specs_297 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_value_252[] = {
+static asn_TYPE_member_t asn_MBR_value_304[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -15857,24 +20090,25 @@ static asn_TYPE_member_t asn_MBR_value_252[] = {
      0, /* No default value */
      "AbortTransmission"},
 };
-static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_252[] = {
-    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* sRSResourceSetID */
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_304[] = {
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0,
+     0}, /* deactivateSRSResourceSetID */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* releaseALL */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}  /* choice-extension */
 };
-static asn_CHOICE_specifics_t asn_SPC_value_specs_252 = {
+static asn_CHOICE_specifics_t asn_SPC_value_specs_304 = {
     sizeof(struct PositioningDeactivationIEs__value),
     offsetof(struct PositioningDeactivationIEs__value, _asn_ctx),
     offsetof(struct PositioningDeactivationIEs__value, present),
     sizeof(((struct PositioningDeactivationIEs__value*) 0)->present),
-    asn_MAP_value_tag2el_252,
+    asn_MAP_value_tag2el_304,
     3, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_value_252 = {
+    asn_TYPE_descriptor_t asn_DEF_value_304 = {
         "value",
         "value",
         &asn_OP_OPEN_TYPE,
@@ -15883,12 +20117,12 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (pointer) */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
-        asn_MBR_value_252,
+        asn_MBR_value_304,
         1,                       /* Elements count */
-        &asn_SPC_value_specs_252 /* Additional specs */
+        &asn_SPC_value_specs_304 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_249[] = {
+asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_301[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct PositioningDeactivationIEs, id),
@@ -15896,7 +20130,7 @@ asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_249[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_ProtocolIE_ID,
      0,
-     {0, &asn_PER_memb_id_constr_250, memb_id_constraint_249},
+     {0, &asn_PER_memb_id_constr_302, memb_id_constraint_301},
      0,
      0, /* No default value */
      "id"},
@@ -15907,7 +20141,7 @@ asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_249[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_Criticality,
      select_PositioningDeactivationIEs_criticality_type,
-     {0, &asn_PER_memb_criticality_constr_251, memb_criticality_constraint_249},
+     {0, &asn_PER_memb_criticality_constr_303, memb_criticality_constraint_301},
      0,
      0, /* No default value */
      "criticality"},
@@ -15916,25 +20150,25 @@ asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_249[] = {
      offsetof(struct PositioningDeactivationIEs, value),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      +1, /* EXPLICIT tag at current level */
-     &asn_DEF_value_252,
+     &asn_DEF_value_304,
      select_PositioningDeactivationIEs_value_type,
-     {0, &asn_PER_memb_value_constr_252, memb_value_constraint_249},
+     {0, &asn_PER_memb_value_constr_304, memb_value_constraint_301},
      0,
      0, /* No default value */
      "value"},
 };
-static const ber_tlv_tag_t asn_DEF_PositioningDeactivationIEs_tags_249[] = {
+static const ber_tlv_tag_t asn_DEF_PositioningDeactivationIEs_tags_301[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
-    asn_MAP_PositioningDeactivationIEs_tag2el_249[] = {
+    asn_MAP_PositioningDeactivationIEs_tag2el_301[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
 };
-asn_SEQUENCE_specifics_t asn_SPC_PositioningDeactivationIEs_specs_249 = {
+asn_SEQUENCE_specifics_t asn_SPC_PositioningDeactivationIEs_specs_301 = {
     sizeof(struct PositioningDeactivationIEs),
     offsetof(struct PositioningDeactivationIEs, _asn_ctx),
-    asn_MAP_PositioningDeactivationIEs_tag2el_249,
+    asn_MAP_PositioningDeactivationIEs_tag2el_301,
     3, /* Count of tags in the map */
     0,
     0,
@@ -15945,14 +20179,920 @@ asn_TYPE_descriptor_t asn_DEF_PositioningDeactivationIEs = {
     "PositioningDeactivationIEs",
     "PositioningDeactivationIEs",
     &asn_OP_SEQUENCE,
-    asn_DEF_PositioningDeactivationIEs_tags_249,
-    sizeof(asn_DEF_PositioningDeactivationIEs_tags_249) /
-        sizeof(asn_DEF_PositioningDeactivationIEs_tags_249[0]), /* 1 */
-    asn_DEF_PositioningDeactivationIEs_tags_249, /* Same as above */
-    sizeof(asn_DEF_PositioningDeactivationIEs_tags_249) /
-        sizeof(asn_DEF_PositioningDeactivationIEs_tags_249[0]), /* 1 */
+    asn_DEF_PositioningDeactivationIEs_tags_301,
+    sizeof(asn_DEF_PositioningDeactivationIEs_tags_301) /
+        sizeof(asn_DEF_PositioningDeactivationIEs_tags_301[0]), /* 1 */
+    asn_DEF_PositioningDeactivationIEs_tags_301, /* Same as above */
+    sizeof(asn_DEF_PositioningDeactivationIEs_tags_301) /
+        sizeof(asn_DEF_PositioningDeactivationIEs_tags_301[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PositioningDeactivationIEs_249,
+    asn_MBR_PositioningDeactivationIEs_301,
     3,                                            /* Elements count */
-    &asn_SPC_PositioningDeactivationIEs_specs_249 /* Additional specs */
+    &asn_SPC_PositioningDeactivationIEs_specs_301 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_308[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PRSConfigurationRequest_IEs__value,
+         choice.PRSConfigRequestType),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_PRSConfigRequestType,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "PRSConfigRequestType"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationRequest_IEs__value, choice.PRSTRPList),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_PRSTRPList,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "PRSTRPList"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_308[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0}, /* PRSConfigRequestType */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0, 0}  /* PRSTRPList */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_308 = {
+    sizeof(struct PRSConfigurationRequest_IEs__value),
+    offsetof(struct PRSConfigurationRequest_IEs__value, _asn_ctx),
+    offsetof(struct PRSConfigurationRequest_IEs__value, present),
+    sizeof(((struct PRSConfigurationRequest_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_308,
+    2, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_308 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_308,
+        2,                       /* Elements count */
+        &asn_SPC_value_specs_308 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_PRSConfigurationRequest_IEs_305[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationRequest_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_306, memb_id_constraint_305},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationRequest_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_PRSConfigurationRequest_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_307, memb_criticality_constraint_305},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationRequest_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_308,
+     select_PRSConfigurationRequest_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_308, memb_value_constraint_305},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_PRSConfigurationRequest_IEs_tags_305[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_PRSConfigurationRequest_IEs_tag2el_305[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_PRSConfigurationRequest_IEs_specs_305 = {
+    sizeof(struct PRSConfigurationRequest_IEs),
+    offsetof(struct PRSConfigurationRequest_IEs, _asn_ctx),
+    asn_MAP_PRSConfigurationRequest_IEs_tag2el_305,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_PRSConfigurationRequest_IEs = {
+    "PRSConfigurationRequest-IEs",
+    "PRSConfigurationRequest-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_PRSConfigurationRequest_IEs_tags_305,
+    sizeof(asn_DEF_PRSConfigurationRequest_IEs_tags_305) /
+        sizeof(asn_DEF_PRSConfigurationRequest_IEs_tags_305[0]), /* 1 */
+    asn_DEF_PRSConfigurationRequest_IEs_tags_305, /* Same as above */
+    sizeof(asn_DEF_PRSConfigurationRequest_IEs_tags_305) /
+        sizeof(asn_DEF_PRSConfigurationRequest_IEs_tags_305[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_PRSConfigurationRequest_IEs_305,
+    3,                                             /* Elements count */
+    &asn_SPC_PRSConfigurationRequest_IEs_specs_305 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_312[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PRSConfigurationResponse_IEs__value,
+         choice.PRSTransmissionTRPList),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_PRSTransmissionTRPList,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "PRSTransmissionTRPList"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PRSConfigurationResponse_IEs__value,
+         choice.CriticalityDiagnostics),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_CriticalityDiagnostics,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "CriticalityDiagnostics"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_312[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
+     1}, /* PRSTransmissionTRPList */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
+     0} /* CriticalityDiagnostics */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_312 = {
+    sizeof(struct PRSConfigurationResponse_IEs__value),
+    offsetof(struct PRSConfigurationResponse_IEs__value, _asn_ctx),
+    offsetof(struct PRSConfigurationResponse_IEs__value, present),
+    sizeof(((struct PRSConfigurationResponse_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_312,
+    2, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_312 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_312,
+        2,                       /* Elements count */
+        &asn_SPC_value_specs_312 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_PRSConfigurationResponse_IEs_309[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationResponse_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_310, memb_id_constraint_309},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationResponse_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_PRSConfigurationResponse_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_311, memb_criticality_constraint_309},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationResponse_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_312,
+     select_PRSConfigurationResponse_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_312, memb_value_constraint_309},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_PRSConfigurationResponse_IEs_tags_309[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_PRSConfigurationResponse_IEs_tag2el_309[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_PRSConfigurationResponse_IEs_specs_309 = {
+    sizeof(struct PRSConfigurationResponse_IEs),
+    offsetof(struct PRSConfigurationResponse_IEs, _asn_ctx),
+    asn_MAP_PRSConfigurationResponse_IEs_tag2el_309,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_PRSConfigurationResponse_IEs = {
+    "PRSConfigurationResponse-IEs",
+    "PRSConfigurationResponse-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_PRSConfigurationResponse_IEs_tags_309,
+    sizeof(asn_DEF_PRSConfigurationResponse_IEs_tags_309) /
+        sizeof(asn_DEF_PRSConfigurationResponse_IEs_tags_309[0]), /* 1 */
+    asn_DEF_PRSConfigurationResponse_IEs_tags_309, /* Same as above */
+    sizeof(asn_DEF_PRSConfigurationResponse_IEs_tags_309) /
+        sizeof(asn_DEF_PRSConfigurationResponse_IEs_tags_309[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_PRSConfigurationResponse_IEs_309,
+    3,                                              /* Elements count */
+    &asn_SPC_PRSConfigurationResponse_IEs_specs_309 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_316[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationFailure_IEs__value, choice.Cause),
+     -1 /* Ambiguous tag (CHOICE?) */,
+     0,
+     &asn_DEF_Cause,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "Cause"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct PRSConfigurationFailure_IEs__value,
+         choice.CriticalityDiagnostics),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_CriticalityDiagnostics,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "CriticalityDiagnostics"},
+};
+static const unsigned asn_MAP_value_to_canonical_316[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_316[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_316[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
+     0},                                           /* CriticalityDiagnostics */
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_316 = {
+    sizeof(struct PRSConfigurationFailure_IEs__value),
+    offsetof(struct PRSConfigurationFailure_IEs__value, _asn_ctx),
+    offsetof(struct PRSConfigurationFailure_IEs__value, present),
+    sizeof(((struct PRSConfigurationFailure_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_316,
+    5, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_316,
+    asn_MAP_value_from_canonical_316,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_316 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_316,
+        2,                       /* Elements count */
+        &asn_SPC_value_specs_316 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_PRSConfigurationFailure_IEs_313[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationFailure_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_314, memb_id_constraint_313},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationFailure_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_PRSConfigurationFailure_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_315, memb_criticality_constraint_313},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct PRSConfigurationFailure_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_316,
+     select_PRSConfigurationFailure_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_316, memb_value_constraint_313},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_PRSConfigurationFailure_IEs_tags_313[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_PRSConfigurationFailure_IEs_tag2el_313[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_PRSConfigurationFailure_IEs_specs_313 = {
+    sizeof(struct PRSConfigurationFailure_IEs),
+    offsetof(struct PRSConfigurationFailure_IEs, _asn_ctx),
+    asn_MAP_PRSConfigurationFailure_IEs_tag2el_313,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_PRSConfigurationFailure_IEs = {
+    "PRSConfigurationFailure-IEs",
+    "PRSConfigurationFailure-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_PRSConfigurationFailure_IEs_tags_313,
+    sizeof(asn_DEF_PRSConfigurationFailure_IEs_tags_313) /
+        sizeof(asn_DEF_PRSConfigurationFailure_IEs_tags_313[0]), /* 1 */
+    asn_DEF_PRSConfigurationFailure_IEs_tags_313, /* Same as above */
+    sizeof(asn_DEF_PRSConfigurationFailure_IEs_tags_313) /
+        sizeof(asn_DEF_PRSConfigurationFailure_IEs_tags_313[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_PRSConfigurationFailure_IEs_313,
+    3,                                             /* Elements count */
+    &asn_SPC_PRSConfigurationFailure_IEs_specs_313 /* Additional specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_320[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementPreconfigurationRequired_IEs__value,
+         choice.TRP_PRS_Information_List),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_TRP_PRS_Information_List,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "TRP-PRS-Information-List"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_320[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
+     0} /* TRP-PRS-Information-List */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_320 = {
+    sizeof(struct MeasurementPreconfigurationRequired_IEs__value),
+    offsetof(struct MeasurementPreconfigurationRequired_IEs__value, _asn_ctx),
+    offsetof(struct MeasurementPreconfigurationRequired_IEs__value, present),
+    sizeof(
+        ((struct MeasurementPreconfigurationRequired_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_320,
+    1, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_320 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_320,
+        1,                       /* Elements count */
+        &asn_SPC_value_specs_320 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_MeasurementPreconfigurationRequired_IEs_317[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationRequired_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_318, memb_id_constraint_317},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationRequired_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_MeasurementPreconfigurationRequired_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_319, memb_criticality_constraint_317},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationRequired_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_320,
+     select_MeasurementPreconfigurationRequired_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_320, memb_value_constraint_317},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t
+    asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_MeasurementPreconfigurationRequired_IEs_tag2el_317[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t
+    asn_SPC_MeasurementPreconfigurationRequired_IEs_specs_317 = {
+        sizeof(struct MeasurementPreconfigurationRequired_IEs),
+        offsetof(struct MeasurementPreconfigurationRequired_IEs, _asn_ctx),
+        asn_MAP_MeasurementPreconfigurationRequired_IEs_tag2el_317,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_MeasurementPreconfigurationRequired_IEs = {
+    "MeasurementPreconfigurationRequired-IEs",
+    "MeasurementPreconfigurationRequired-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317,
+    sizeof(asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317) /
+        sizeof(
+            asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317[0]), /* 1
+                                                                           */
+    asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317, /* Same as above
+                                                               */
+    sizeof(asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317) /
+        sizeof(
+            asn_DEF_MeasurementPreconfigurationRequired_IEs_tags_317[0]), /* 1
+                                                                           */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MeasurementPreconfigurationRequired_IEs_317,
+    3, /* Elements count */
+    &asn_SPC_MeasurementPreconfigurationRequired_IEs_specs_317 /* Additional
+                                                                  specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_324[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementPreconfigurationConfirm_IEs__value,
+         choice.PreconfigurationResult),
+     (ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
+     0,
+     &asn_DEF_PreconfigurationResult,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "PreconfigurationResult"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementPreconfigurationConfirm_IEs__value,
+         choice.CriticalityDiagnostics),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_CriticalityDiagnostics,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "CriticalityDiagnostics"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_324[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)), 0, 0,
+     0}, /* PreconfigurationResult */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
+     0} /* CriticalityDiagnostics */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_324 = {
+    sizeof(struct MeasurementPreconfigurationConfirm_IEs__value),
+    offsetof(struct MeasurementPreconfigurationConfirm_IEs__value, _asn_ctx),
+    offsetof(struct MeasurementPreconfigurationConfirm_IEs__value, present),
+    sizeof(
+        ((struct MeasurementPreconfigurationConfirm_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_324,
+    2, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_324 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_324,
+        2,                       /* Elements count */
+        &asn_SPC_value_specs_324 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_MeasurementPreconfigurationConfirm_IEs_321[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationConfirm_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_322, memb_id_constraint_321},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationConfirm_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_MeasurementPreconfigurationConfirm_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_323, memb_criticality_constraint_321},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationConfirm_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_324,
+     select_MeasurementPreconfigurationConfirm_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_324, memb_value_constraint_321},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t
+    asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_MeasurementPreconfigurationConfirm_IEs_tag2el_321[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t
+    asn_SPC_MeasurementPreconfigurationConfirm_IEs_specs_321 = {
+        sizeof(struct MeasurementPreconfigurationConfirm_IEs),
+        offsetof(struct MeasurementPreconfigurationConfirm_IEs, _asn_ctx),
+        asn_MAP_MeasurementPreconfigurationConfirm_IEs_tag2el_321,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_MeasurementPreconfigurationConfirm_IEs = {
+    "MeasurementPreconfigurationConfirm-IEs",
+    "MeasurementPreconfigurationConfirm-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321,
+    sizeof(asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321) /
+        sizeof(
+            asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321[0]), /* 1 */
+    asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321, /* Same as above */
+    sizeof(asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321) /
+        sizeof(
+            asn_DEF_MeasurementPreconfigurationConfirm_IEs_tags_321[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MeasurementPreconfigurationConfirm_IEs_321,
+    3, /* Elements count */
+    &asn_SPC_MeasurementPreconfigurationConfirm_IEs_specs_321 /* Additional
+                                                                 specs */
+};
+
+static asn_TYPE_member_t asn_MBR_value_328[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementPreconfigurationRefuse_IEs__value, choice.Cause),
+     -1 /* Ambiguous tag (CHOICE?) */,
+     0,
+     &asn_DEF_Cause,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "Cause"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementPreconfigurationRefuse_IEs__value,
+         choice.CriticalityDiagnostics),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_CriticalityDiagnostics,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "CriticalityDiagnostics"},
+};
+static const unsigned asn_MAP_value_to_canonical_328[]        = {1, 0};
+static const unsigned asn_MAP_value_from_canonical_328[]      = {1, 0};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_328[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
+     0},                                           /* CriticalityDiagnostics */
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 0, 0, 0}, /* protocol */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 0, 0, 0}, /* misc */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 0, 0, 0}  /* choice-Extension */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_328 = {
+    sizeof(struct MeasurementPreconfigurationRefuse_IEs__value),
+    offsetof(struct MeasurementPreconfigurationRefuse_IEs__value, _asn_ctx),
+    offsetof(struct MeasurementPreconfigurationRefuse_IEs__value, present),
+    sizeof(((struct MeasurementPreconfigurationRefuse_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_328,
+    5, /* Count of tags in the map */
+    asn_MAP_value_to_canonical_328,
+    asn_MAP_value_from_canonical_328,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_328 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_328,
+        2,                       /* Elements count */
+        &asn_SPC_value_specs_328 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_MeasurementPreconfigurationRefuse_IEs_325[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationRefuse_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_326, memb_id_constraint_325},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationRefuse_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_MeasurementPreconfigurationRefuse_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_327, memb_criticality_constraint_325},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementPreconfigurationRefuse_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_328,
+     select_MeasurementPreconfigurationRefuse_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_328, memb_value_constraint_325},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t
+    asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_MeasurementPreconfigurationRefuse_IEs_tag2el_325[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t
+    asn_SPC_MeasurementPreconfigurationRefuse_IEs_specs_325 = {
+        sizeof(struct MeasurementPreconfigurationRefuse_IEs),
+        offsetof(struct MeasurementPreconfigurationRefuse_IEs, _asn_ctx),
+        asn_MAP_MeasurementPreconfigurationRefuse_IEs_tag2el_325,
+        3, /* Count of tags in the map */
+        0,
+        0,
+        0,  /* Optional elements (not needed) */
+        -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_MeasurementPreconfigurationRefuse_IEs = {
+    "MeasurementPreconfigurationRefuse-IEs",
+    "MeasurementPreconfigurationRefuse-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325,
+    sizeof(asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325) /
+        sizeof(
+            asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325[0]), /* 1 */
+    asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325, /* Same as above */
+    sizeof(asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325) /
+        sizeof(
+            asn_DEF_MeasurementPreconfigurationRefuse_IEs_tags_325[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MeasurementPreconfigurationRefuse_IEs_325,
+    3, /* Elements count */
+    &asn_SPC_MeasurementPreconfigurationRefuse_IEs_specs_325 /* Additional specs
+                                                              */
+};
+
+static asn_TYPE_member_t asn_MBR_value_332[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementActivation_IEs__value, choice.RequestType),
+     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
+     0,
+     &asn_DEF_RequestType,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "RequestType"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct MeasurementActivation_IEs__value,
+         choice.PRS_Measurements_Info_List),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_PRS_Measurements_Info_List,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "PRS-Measurements-Info-List"},
+};
+static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_332[] = {
+    {(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)), 0, 0, 0}, /* RequestType */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, 0,
+     0} /* PRS-Measurements-Info-List */
+};
+static asn_CHOICE_specifics_t asn_SPC_value_specs_332 = {
+    sizeof(struct MeasurementActivation_IEs__value),
+    offsetof(struct MeasurementActivation_IEs__value, _asn_ctx),
+    offsetof(struct MeasurementActivation_IEs__value, present),
+    sizeof(((struct MeasurementActivation_IEs__value*) 0)->present),
+    asn_MAP_value_tag2el_332,
+    2, /* Count of tags in the map */
+    0,
+    0,
+    -1 /* Extensions start */
+};
+static /* Use -fall-defs-global to expose */
+    asn_TYPE_descriptor_t asn_DEF_value_332 = {
+        "value",
+        "value",
+        &asn_OP_OPEN_TYPE,
+        0, /* No effective tags (pointer) */
+        0, /* No effective tags (count) */
+        0, /* No tags (pointer) */
+        0, /* No tags (count) */
+        {0, 0, OPEN_TYPE_constraint},
+        asn_MBR_value_332,
+        2,                       /* Elements count */
+        &asn_SPC_value_specs_332 /* Additional specs */
+};
+
+asn_TYPE_member_t asn_MBR_MeasurementActivation_IEs_329[] = {
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementActivation_IEs, id),
+     (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_ID,
+     0,
+     {0, &asn_PER_memb_id_constr_330, memb_id_constraint_329},
+     0,
+     0, /* No default value */
+     "id"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementActivation_IEs, criticality),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_Criticality,
+     select_MeasurementActivation_IEs_criticality_type,
+     {0, &asn_PER_memb_criticality_constr_331, memb_criticality_constraint_329},
+     0,
+     0, /* No default value */
+     "criticality"},
+    {ATF_OPEN_TYPE | ATF_NOFLAGS,
+     0,
+     offsetof(struct MeasurementActivation_IEs, value),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     +1, /* EXPLICIT tag at current level */
+     &asn_DEF_value_332,
+     select_MeasurementActivation_IEs_value_type,
+     {0, &asn_PER_memb_value_constr_332, memb_value_constraint_329},
+     0,
+     0, /* No default value */
+     "value"},
+};
+static const ber_tlv_tag_t asn_DEF_MeasurementActivation_IEs_tags_329[] = {
+    (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+static const asn_TYPE_tag2member_t
+    asn_MAP_MeasurementActivation_IEs_tag2el_329[] = {
+        {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* id */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* criticality */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* value */
+};
+asn_SEQUENCE_specifics_t asn_SPC_MeasurementActivation_IEs_specs_329 = {
+    sizeof(struct MeasurementActivation_IEs),
+    offsetof(struct MeasurementActivation_IEs, _asn_ctx),
+    asn_MAP_MeasurementActivation_IEs_tag2el_329,
+    3, /* Count of tags in the map */
+    0,
+    0,
+    0,  /* Optional elements (not needed) */
+    -1, /* First extension addition */
+};
+asn_TYPE_descriptor_t asn_DEF_MeasurementActivation_IEs = {
+    "MeasurementActivation-IEs",
+    "MeasurementActivation-IEs",
+    &asn_OP_SEQUENCE,
+    asn_DEF_MeasurementActivation_IEs_tags_329,
+    sizeof(asn_DEF_MeasurementActivation_IEs_tags_329) /
+        sizeof(asn_DEF_MeasurementActivation_IEs_tags_329[0]), /* 1 */
+    asn_DEF_MeasurementActivation_IEs_tags_329, /* Same as above */
+    sizeof(asn_DEF_MeasurementActivation_IEs_tags_329) /
+        sizeof(asn_DEF_MeasurementActivation_IEs_tags_329[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MeasurementActivation_IEs_329,
+    3,                                           /* Elements count */
+    &asn_SPC_MeasurementActivation_IEs_specs_329 /* Additional specs */
 };

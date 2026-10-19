@@ -12,19 +12,26 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <asn_SEQUENCE_OF.h>
-#include <constr_SEQUENCE_OF.h>
+#include "TRP-ID.h"
+#include "TRPInformationTypeResponseList.h"
+#include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Forward declarations */
-struct TRPInformationItem;
+struct ProtocolExtensionContainer;
 
 /* TRPInformation */
 typedef struct TRPInformation {
-  A_SEQUENCE_OF(struct TRPInformationItem) list;
+  TRP_ID_t tRP_ID;
+  TRPInformationTypeResponseList_t tRPInformationTypeResponseList;
+  struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
+  /*
+   * This type is extensible,
+   * possible extensions are below.
+   */
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
@@ -32,9 +39,8 @@ typedef struct TRPInformation {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_TRPInformation;
-extern asn_SET_OF_specifics_t asn_SPC_TRPInformation_specs_1;
-extern asn_TYPE_member_t asn_MBR_TRPInformation_1[1];
-extern asn_per_constraints_t asn_PER_type_TRPInformation_constr_1;
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformation_specs_1;
+extern asn_TYPE_member_t asn_MBR_TRPInformation_1[3];
 
 #ifdef __cplusplus
 }

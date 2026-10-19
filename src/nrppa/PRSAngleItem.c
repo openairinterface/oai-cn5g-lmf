@@ -8,31 +8,7 @@
 
 #include "PRSAngleItem.h"
 
-static int memb_pRSresourceAngleID_constraint_1(
-    const asn_TYPE_descriptor_t* td, const void* sptr,
-    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
-  long value;
-
-  if (!sptr) {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-
-  value = *(const long*) sptr;
-
-  if ((value >= 0 && value <= 63)) {
-    /* Constraint check succeeded */
-    return 0;
-  } else {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-}
-
+#include "ProtocolExtensionContainer.h"
 static int memb_nRPRSAzimuth_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -133,33 +109,26 @@ static int memb_nRPRSElevationFine_constraint_1(
   }
 }
 
-static asn_per_constraints_t asn_PER_memb_pRSresourceAngleID_constr_2
-    CC_NOTUSED = {
-        {APC_CONSTRAINED, 6, 6, 0, 63} /* (0..63) */,
-        {APC_UNCONSTRAINED, -1, -1, 0, 0},
-        0,
-        0 /* No PER value map */
-};
-static asn_per_constraints_t asn_PER_memb_nRPRSAzimuth_constr_3 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_memb_nRPRSAzimuth_constr_2 CC_NOTUSED = {
     {APC_CONSTRAINED, 9, 9, 0, 359} /* (0..359) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_nRPRSAzimuthFine_constr_4
+static asn_per_constraints_t asn_PER_memb_nRPRSAzimuthFine_constr_3
     CC_NOTUSED = {
         {APC_CONSTRAINED, 4, 4, 0, 9} /* (0..9) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_nRPRSElevation_constr_5 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_memb_nRPRSElevation_constr_4 CC_NOTUSED = {
     {APC_CONSTRAINED, 8, 8, 0, 180} /* (0..180) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_nRPRSElevationFine_constr_6
+static asn_per_constraints_t asn_PER_memb_nRPRSElevationFine_constr_5
     CC_NOTUSED = {
         {APC_CONSTRAINED, 4, 4, 0, 9} /* (0..9) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -169,73 +138,72 @@ static asn_per_constraints_t asn_PER_memb_nRPRSElevationFine_constr_6
 asn_TYPE_member_t asn_MBR_PRSAngleItem_1[] = {
     {ATF_NOFLAGS,
      0,
-     offsetof(struct PRSAngleItem, pRSresourceAngleID),
+     offsetof(struct PRSAngleItem, nRPRSAzimuth),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_pRSresourceAngleID_constr_2,
-      memb_pRSresourceAngleID_constraint_1},
-     0,
-     0, /* No default value */
-     "pRSresourceAngleID"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct PRSAngleItem, nRPRSAzimuth),
-     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NativeInteger,
-     0,
-     {0, &asn_PER_memb_nRPRSAzimuth_constr_3, memb_nRPRSAzimuth_constraint_1},
+     {0, &asn_PER_memb_nRPRSAzimuth_constr_2, memb_nRPRSAzimuth_constraint_1},
      0,
      0, /* No default value */
      "nRPRSAzimuth"},
     {ATF_POINTER,
-     3,
+     4,
      offsetof(struct PRSAngleItem, nRPRSAzimuthFine),
-     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_nRPRSAzimuthFine_constr_4,
+     {0, &asn_PER_memb_nRPRSAzimuthFine_constr_3,
       memb_nRPRSAzimuthFine_constraint_1},
      0,
      0, /* No default value */
      "nRPRSAzimuthFine"},
     {ATF_POINTER,
-     2,
+     3,
      offsetof(struct PRSAngleItem, nRPRSElevation),
-     (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_nRPRSElevation_constr_5,
+     {0, &asn_PER_memb_nRPRSElevation_constr_4,
       memb_nRPRSElevation_constraint_1},
      0,
      0, /* No default value */
      "nRPRSElevation"},
     {ATF_POINTER,
-     1,
+     2,
      offsetof(struct PRSAngleItem, nRPRSElevationFine),
-     (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
+     (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_nRPRSElevationFine_constr_6,
+     {0, &asn_PER_memb_nRPRSElevationFine_constr_5,
       memb_nRPRSElevationFine_constraint_1},
      0,
      0, /* No default value */
      "nRPRSElevationFine"},
+    {ATF_POINTER,
+     1,
+     offsetof(struct PRSAngleItem, iE_Extensions),
+     (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolExtensionContainer_4889P49,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "iE-Extensions"},
 };
-static const int asn_MAP_PRSAngleItem_oms_1[]            = {2, 3, 4};
+static const int asn_MAP_PRSAngleItem_oms_1[]            = {1, 2, 3, 4};
 static const ber_tlv_tag_t asn_DEF_PRSAngleItem_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t asn_MAP_PRSAngleItem_tag2el_1[] = {
-    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* pRSresourceAngleID */
-    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* nRPRSAzimuth */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* nRPRSAzimuthFine */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* nRPRSElevation */
-    {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}  /* nRPRSElevationFine */
+    {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* nRPRSAzimuth */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* nRPRSAzimuthFine */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* nRPRSElevation */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* nRPRSElevationFine */
+    {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}  /* iE-Extensions */
 };
 asn_SEQUENCE_specifics_t asn_SPC_PRSAngleItem_specs_1 = {
     sizeof(struct PRSAngleItem),
@@ -243,7 +211,7 @@ asn_SEQUENCE_specifics_t asn_SPC_PRSAngleItem_specs_1 = {
     asn_MAP_PRSAngleItem_tag2el_1,
     5,                          /* Count of tags in the map */
     asn_MAP_PRSAngleItem_oms_1, /* Optional members */
-    3,
+    4,
     0, /* Root/Additions */
     5, /* First extension addition */
 };

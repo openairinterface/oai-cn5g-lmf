@@ -23,6 +23,7 @@ extern "C" {
 struct PeriodicityList;
 struct SpatialRelationInfo;
 struct PathlossReferenceInformation;
+struct ProtocolExtensionContainer;
 
 /* SRSResourceSet-Item */
 typedef struct SRSResourceSet_Item {
@@ -30,7 +31,8 @@ typedef struct SRSResourceSet_Item {
   struct PeriodicityList* periodicityList;                /* OPTIONAL */
   struct SpatialRelationInfo* spatialRelationInformation; /* OPTIONAL */
   struct PathlossReferenceInformation*
-      pathlossReferenceInformation; /* OPTIONAL */
+      pathlossReferenceInformation;                 /* OPTIONAL */
+  struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -43,7 +45,7 @@ typedef struct SRSResourceSet_Item {
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_SRSResourceSet_Item;
 extern asn_SEQUENCE_specifics_t asn_SPC_SRSResourceSet_Item_specs_1;
-extern asn_TYPE_member_t asn_MBR_SRSResourceSet_Item_1[4];
+extern asn_TYPE_member_t asn_MBR_SRSResourceSet_Item_1[5];
 
 #ifdef __cplusplus
 }

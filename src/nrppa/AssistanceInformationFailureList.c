@@ -9,8 +9,8 @@
 #include "AssistanceInformationFailureList.h"
 
 #include "ProtocolExtensionContainer.h"
-asn_per_constraints_t asn_PER_type_AssistanceInformationFailureList_constr_1
-    CC_NOTUSED = {
+static asn_per_constraints_t
+    asn_PER_type_AssistanceInformationFailureList_constr_1 CC_NOTUSED = {
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         {APC_CONSTRAINED, 5, 5, 1, 32} /* (SIZE(1..32)) */,
         0,
@@ -44,7 +44,7 @@ static asn_TYPE_member_t asn_MBR_Member_2[] = {
      offsetof(struct AssistanceInformationFailureList__Member, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P6,
+     &asn_DEF_ProtocolExtensionContainer_4889P13,
      0,
      {0, 0, 0},
      0,
@@ -86,7 +86,7 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_Member_specs_2 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_AssistanceInformationFailureList_1[] = {
+static asn_TYPE_member_t asn_MBR_AssistanceInformationFailureList_1[] = {
     {ATF_POINTER,
      0,
      0,
@@ -101,10 +101,11 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationFailureList_1[] = {
 };
 static const ber_tlv_tag_t asn_DEF_AssistanceInformationFailureList_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_SET_OF_specifics_t asn_SPC_AssistanceInformationFailureList_specs_1 = {
-    sizeof(struct AssistanceInformationFailureList),
-    offsetof(struct AssistanceInformationFailureList, _asn_ctx),
-    0, /* XER encoding is XMLDelimitedItemList */
+static asn_SET_OF_specifics_t asn_SPC_AssistanceInformationFailureList_specs_1 =
+    {
+        sizeof(struct AssistanceInformationFailureList),
+        offsetof(struct AssistanceInformationFailureList, _asn_ctx),
+        0, /* XER encoding is XMLDelimitedItemList */
 };
 asn_TYPE_descriptor_t asn_DEF_AssistanceInformationFailureList = {
     "AssistanceInformationFailureList",

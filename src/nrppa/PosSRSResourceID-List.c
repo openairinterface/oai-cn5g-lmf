@@ -10,7 +10,7 @@
 
 asn_per_constraints_t asn_PER_type_PosSRSResourceID_List_constr_1 CC_NOTUSED = {
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
-    {APC_CONSTRAINED, 4, 4, 1, 16} /* (SIZE(1..16)) */,
+    {APC_CONSTRAINED, 6, 6, 1, 64} /* (SIZE(1..64)) */,
     0,
     0 /* No PER value map */
 };

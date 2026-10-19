@@ -24,15 +24,19 @@ static const asn_INTEGER_enum_map_t
         {0, 16, "gNB-RxTxTimeDiff"},
         {1, 11, "uL-SRS-RSRP"},
         {2, 6, "uL-AoA"},
-        {3, 7, "uL-RTOA"}
+        {3, 7, "uL-RTOA"},
+        {4, 15, "multiple-UL-AoA"},
+        {5, 12, "uL-SRS-RSRPP"}
         /* This list is extensible */
 };
 static const unsigned int asn_MAP_TRPMeasurementQuantities_Item_enum2value_1[] =
     {
         0, /* gNB-RxTxTimeDiff(0) */
+        4, /* multiple-UL-AoA(4) */
         2, /* uL-AoA(2) */
         3, /* uL-RTOA(3) */
-        1  /* uL-SRS-RSRP(1) */
+        1, /* uL-SRS-RSRP(1) */
+        5  /* uL-SRS-RSRPP(5) */
            /* This list is extensible */
 };
 const asn_INTEGER_specifics_t asn_SPC_TRPMeasurementQuantities_Item_specs_1 = {
@@ -40,7 +44,7 @@ const asn_INTEGER_specifics_t asn_SPC_TRPMeasurementQuantities_Item_specs_1 = {
                                                            tag */
     asn_MAP_TRPMeasurementQuantities_Item_enum2value_1, /* N => "tag"; sorted by
                                                            N */
-    4, /* Number of elements in the maps */
+    6, /* Number of elements in the maps */
     5, /* Extensions before this member */
     1, /* Strict enumeration */
     0, /* Native long size */

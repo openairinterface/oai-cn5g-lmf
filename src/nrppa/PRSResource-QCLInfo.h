@@ -12,26 +12,33 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
-#include <constr_SEQUENCE.h>
+#include <constr_CHOICE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/* Dependencies */
+typedef enum PRSResource_QCLInfo_PR {
+  PRSResource_QCLInfo_PR_NOTHING, /* No components present */
+  PRSResource_QCLInfo_PR_qCLSourceSSB,
+  PRSResource_QCLInfo_PR_qCLSourcePRS,
+  PRSResource_QCLInfo_PR_choice_Extension
+} PRSResource_QCLInfo_PR;
+
 /* Forward declarations */
-struct PRSResource_QCLSourcePRSInfo;
-struct ProtocolExtensionContainer;
+struct PRSResource_QCLSourceSSB;
+struct PRSResource_QCLSourcePRS;
+struct ProtocolIE_Single_Container;
 
 /* PRSResource-QCLInfo */
 typedef struct PRSResource_QCLInfo {
-  long* qCLSourceSSBIndex;                               /* OPTIONAL */
-  struct PRSResource_QCLSourcePRSInfo* qCLSourcePRSInfo; /* OPTIONAL */
-  struct ProtocolExtensionContainer* iE_Extensions;      /* OPTIONAL */
-  /*
-   * This type is extensible,
-   * possible extensions are below.
-   */
+  PRSResource_QCLInfo_PR present;
+  union PRSResource_QCLInfo_u {
+    struct PRSResource_QCLSourceSSB* qCLSourceSSB;
+    struct PRSResource_QCLSourcePRS* qCLSourcePRS;
+    struct ProtocolIE_Single_Container* choice_Extension;
+  } choice;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
@@ -39,8 +46,9 @@ typedef struct PRSResource_QCLInfo {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_PRSResource_QCLInfo;
-extern asn_SEQUENCE_specifics_t asn_SPC_PRSResource_QCLInfo_specs_1;
+extern asn_CHOICE_specifics_t asn_SPC_PRSResource_QCLInfo_specs_1;
 extern asn_TYPE_member_t asn_MBR_PRSResource_QCLInfo_1[3];
+extern asn_per_constraints_t asn_PER_type_PRSResource_QCLInfo_constr_1;
 
 #ifdef __cplusplus
 }

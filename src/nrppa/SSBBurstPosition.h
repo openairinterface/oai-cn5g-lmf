@@ -24,10 +24,12 @@ typedef enum SSBBurstPosition_PR {
   SSBBurstPosition_PR_NOTHING, /* No components present */
   SSBBurstPosition_PR_shortBitmap,
   SSBBurstPosition_PR_mediumBitmap,
-  SSBBurstPosition_PR_longBitmap
-  /* Extensions may appear below */
-
+  SSBBurstPosition_PR_longBitmap,
+  SSBBurstPosition_PR_choice_extension
 } SSBBurstPosition_PR;
+
+/* Forward declarations */
+struct ProtocolIE_Single_Container;
 
 /* SSBBurstPosition */
 typedef struct SSBBurstPosition {
@@ -36,10 +38,7 @@ typedef struct SSBBurstPosition {
     BIT_STRING_t shortBitmap;
     BIT_STRING_t mediumBitmap;
     BIT_STRING_t longBitmap;
-    /*
-     * This type is extensible,
-     * possible extensions are below.
-     */
+    struct ProtocolIE_Single_Container* choice_extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */
@@ -49,7 +48,7 @@ typedef struct SSBBurstPosition {
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_SSBBurstPosition;
 extern asn_CHOICE_specifics_t asn_SPC_SSBBurstPosition_specs_1;
-extern asn_TYPE_member_t asn_MBR_SSBBurstPosition_1[3];
+extern asn_TYPE_member_t asn_MBR_SSBBurstPosition_1[4];
 extern asn_per_constraints_t asn_PER_type_SSBBurstPosition_constr_1;
 
 #ifdef __cplusplus

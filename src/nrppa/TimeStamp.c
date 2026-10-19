@@ -37,7 +37,7 @@ asn_TYPE_member_t asn_MBR_TimeStamp_1[] = {
      offsetof(struct TimeStamp, measurementTime),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_SFNInitialisationTime,
+     &asn_DEF_RelativeTime1900,
      0,
      {0, 0, 0},
      0,
@@ -48,7 +48,7 @@ asn_TYPE_member_t asn_MBR_TimeStamp_1[] = {
      offsetof(struct TimeStamp, iE_Extension),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P91,
+     &asn_DEF_ProtocolExtensionContainer_4889P121,
      0,
      {0, 0, 0},
      0,

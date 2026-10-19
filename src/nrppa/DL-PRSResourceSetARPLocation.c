@@ -48,7 +48,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_1[] = {
      offsetof(struct DL_PRSResourceSetARPLocation, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P5,
+     &asn_DEF_ProtocolIE_Single_Container_4863P8,
      0,
      {0, 0, 0},
      0,

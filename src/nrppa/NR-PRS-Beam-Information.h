@@ -23,7 +23,7 @@ extern "C" {
 /* Forward declarations */
 struct ProtocolExtensionContainer;
 struct NR_PRS_Beam_InformationItem;
-struct LCG_to_GCS_TranslationItem;
+struct LCS_to_GCS_TranslationItem;
 
 /* NR-PRS-Beam-Information */
 typedef struct NR_PRS_Beam_Information {
@@ -33,12 +33,12 @@ typedef struct NR_PRS_Beam_Information {
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
   } nR_PRS_Beam_InformationList;
-  struct NR_PRS_Beam_Information__lCG_to_GCS_TranslationList {
-    A_SEQUENCE_OF(struct LCG_to_GCS_TranslationItem) list;
+  struct NR_PRS_Beam_Information__lCS_to_GCS_TranslationList {
+    A_SEQUENCE_OF(struct LCS_to_GCS_TranslationItem) list;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } lCG_to_GCS_TranslationList;
+  }* lCS_to_GCS_TranslationList;
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,

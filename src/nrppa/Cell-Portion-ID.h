@@ -22,7 +22,6 @@ extern "C" {
 typedef long Cell_Portion_ID_t;
 
 /* Implementation */
-extern asn_per_constraints_t asn_PER_type_Cell_Portion_ID_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_Cell_Portion_ID;
 asn_struct_free_f Cell_Portion_ID_free;
 asn_struct_print_f Cell_Portion_ID_print;

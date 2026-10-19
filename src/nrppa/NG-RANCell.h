@@ -25,7 +25,7 @@ typedef enum NG_RANCell_PR {
   NG_RANCell_PR_NOTHING, /* No components present */
   NG_RANCell_PR_eUTRA_CellID,
   NG_RANCell_PR_nR_CellID,
-  NG_RANCell_PR_nG_RANCell_Extension
+  NG_RANCell_PR_choice_Extension
 } NG_RANCell_PR;
 
 /* Forward declarations */
@@ -37,7 +37,7 @@ typedef struct NG_RANCell {
   union NG_RANCell_u {
     EUTRACellIdentifier_t eUTRA_CellID;
     NRCellIdentifier_t nR_CellID;
-    struct ProtocolIE_Single_Container* nG_RANCell_Extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */

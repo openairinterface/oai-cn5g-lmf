@@ -22,7 +22,7 @@ int UL_SRS_RSRP_constraint(
 
   value = *(const long*) sptr;
 
-  if ((value >= 0 && value <= 127)) {
+  if ((value >= 0 && value <= 126)) {
     /* Constraint check succeeded */
     return 0;
   } else {
@@ -38,7 +38,7 @@ int UL_SRS_RSRP_constraint(
  * so here we adjust the DEF accordingly.
  */
 asn_per_constraints_t asn_PER_type_UL_SRS_RSRP_constr_1 CC_NOTUSED = {
-    {APC_CONSTRAINED, 7, 7, 0, 127} /* (0..127) */,
+    {APC_CONSTRAINED, 7, 7, 0, 126} /* (0..126) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */

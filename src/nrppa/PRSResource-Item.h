@@ -12,6 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
+#include "PRS-Resource-ID.h"
 #include <NativeInteger.h>
 #include <constr_SEQUENCE.h>
 
@@ -25,7 +26,7 @@ struct ProtocolExtensionContainer;
 
 /* PRSResource-Item */
 typedef struct PRSResource_Item {
-  long pRSResourceID;
+  PRS_Resource_ID_t pRSResourceID;
   long sequenceID;
   long rEOffset;
   long resourceSlotOffset;

@@ -9,7 +9,7 @@
 #include "OtherRATMeasurementQuantities-Item.h"
 
 #include "ProtocolExtensionContainer.h"
-asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_Item_1[] = {
+static asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_Item_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(
@@ -28,7 +28,7 @@ asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_Item_1[] = {
      offsetof(struct OtherRATMeasurementQuantities_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P27,
+     &asn_DEF_ProtocolExtensionContainer_4889P40,
      0,
      {0, 0, 0},
      0,
@@ -44,15 +44,16 @@ static const asn_TYPE_tag2member_t
          0}, /* otherRATMeasurementQuantitiesValue */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0} /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_OtherRATMeasurementQuantities_Item_specs_1 = {
-    sizeof(struct OtherRATMeasurementQuantities_Item),
-    offsetof(struct OtherRATMeasurementQuantities_Item, _asn_ctx),
-    asn_MAP_OtherRATMeasurementQuantities_Item_tag2el_1,
-    2, /* Count of tags in the map */
-    asn_MAP_OtherRATMeasurementQuantities_Item_oms_1, /* Optional members */
-    1,
-    0, /* Root/Additions */
-    2, /* First extension addition */
+static asn_SEQUENCE_specifics_t
+    asn_SPC_OtherRATMeasurementQuantities_Item_specs_1 = {
+        sizeof(struct OtherRATMeasurementQuantities_Item),
+        offsetof(struct OtherRATMeasurementQuantities_Item, _asn_ctx),
+        asn_MAP_OtherRATMeasurementQuantities_Item_tag2el_1,
+        2, /* Count of tags in the map */
+        asn_MAP_OtherRATMeasurementQuantities_Item_oms_1, /* Optional members */
+        1,
+        0, /* Root/Additions */
+        2, /* First extension addition */
 };
 asn_TYPE_descriptor_t asn_DEF_OtherRATMeasurementQuantities_Item = {
     "OtherRATMeasurementQuantities-Item",

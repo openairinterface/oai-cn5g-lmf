@@ -8,7 +8,7 @@
 
 #include "ResultCSI-RSRQ-Item.h"
 
-#include "NG-RAN-CGI.h"
+#include "CGI-NR.h"
 #include "ResultCSI-RSRQ-PerCSI-RS.h"
 #include "ProtocolExtensionContainer.h"
 asn_TYPE_member_t asn_MBR_ResultCSI_RSRQ_Item_1[] = {
@@ -36,15 +36,15 @@ asn_TYPE_member_t asn_MBR_ResultCSI_RSRQ_Item_1[] = {
      "nR-ARFCN"},
     {ATF_POINTER,
      4,
-     offsetof(struct ResultCSI_RSRQ_Item, nG_RAN_CGI),
+     offsetof(struct ResultCSI_RSRQ_Item, cGI_NR),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NG_RAN_CGI,
+     &asn_DEF_CGI_NR,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "nG-RAN-CGI"},
+     "cGI-NR"},
     {ATF_POINTER,
      3,
      offsetof(struct ResultCSI_RSRQ_Item, valueCSI_RSRQ_Cell),
@@ -72,7 +72,7 @@ asn_TYPE_member_t asn_MBR_ResultCSI_RSRQ_Item_1[] = {
      offsetof(struct ResultCSI_RSRQ_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P60,
+     &asn_DEF_ProtocolExtensionContainer_4889P86,
      0,
      {0, 0, 0},
      0,
@@ -85,7 +85,7 @@ static const ber_tlv_tag_t asn_DEF_ResultCSI_RSRQ_Item_tags_1[] = {
 static const asn_TYPE_tag2member_t asn_MAP_ResultCSI_RSRQ_Item_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* nR-PCI */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* nR-ARFCN */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* nG-RAN-CGI */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* cGI-NR */
     {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* valueCSI-RSRQ-Cell */
     {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}, /* cSI-RSRQ-PerCSI-RS */
     {(ASN_TAG_CLASS_CONTEXT | (5 << 2)), 5, 0, 0}  /* iE-Extensions */

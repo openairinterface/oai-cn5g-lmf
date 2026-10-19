@@ -37,7 +37,7 @@ int SlotNumber_constraint(
  * This type is implemented using NativeInteger,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_SlotNumber_constr_1 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_type_SlotNumber_constr_1 CC_NOTUSED = {
     {APC_CONSTRAINED, 7, 7, 0, 79} /* (0..79) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,

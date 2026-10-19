@@ -22,7 +22,7 @@ int AperiodicSRSResourceTrigger_constraint(
 
   value = *(const long*) sptr;
 
-  if ((value >= 0 && value <= 3)) {
+  if ((value >= 1 && value <= 3)) {
     /* Constraint check succeeded */
     return 0;
   } else {
@@ -39,7 +39,7 @@ int AperiodicSRSResourceTrigger_constraint(
  */
 asn_per_constraints_t asn_PER_type_AperiodicSRSResourceTrigger_constr_1
     CC_NOTUSED = {
-        {APC_CONSTRAINED | APC_EXTENSIBLE, 2, 2, 0, 3} /* (0..3,...) */,
+        {APC_CONSTRAINED, 2, 2, 1, 3} /* (1..3) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */

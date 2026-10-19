@@ -23,10 +23,12 @@ typedef enum TRPMeasurementQuantities_Item {
   TRPMeasurementQuantities_Item_gNB_RxTxTimeDiff = 0,
   TRPMeasurementQuantities_Item_uL_SRS_RSRP      = 1,
   TRPMeasurementQuantities_Item_uL_AoA           = 2,
-  TRPMeasurementQuantities_Item_uL_RTOA          = 3
+  TRPMeasurementQuantities_Item_uL_RTOA          = 3,
   /*
    * Enumeration is extensible
    */
+  TRPMeasurementQuantities_Item_multiple_UL_AoA = 4,
+  TRPMeasurementQuantities_Item_uL_SRS_RSRPP    = 5
 } e_TRPMeasurementQuantities_Item;
 
 /* TRPMeasurementQuantities-Item */

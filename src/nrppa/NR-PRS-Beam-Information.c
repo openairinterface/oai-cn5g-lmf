@@ -10,7 +10,7 @@
 
 #include "ProtocolExtensionContainer.h"
 #include "NR-PRS-Beam-InformationItem.h"
-#include "LCG-to-GCS-TranslationItem.h"
+#include "LCS-to-GCS-TranslationItem.h"
 static int memb_nR_PRS_Beam_InformationList_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -28,8 +28,7 @@ static int memb_nR_PRS_Beam_InformationList_constraint_1(
 
   if ((size >= 1 && size <= 2)) {
     /* Perform validation of the inner elements */
-    return td->encoding_constraints.general_constraints(
-        td, sptr, ctfailcb, app_key);
+    return SEQUENCE_OF_constraint(td, sptr, ctfailcb, app_key);
   } else {
     ASN__CTFAIL(
         app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
@@ -38,7 +37,7 @@ static int memb_nR_PRS_Beam_InformationList_constraint_1(
   }
 }
 
-static int memb_lCG_to_GCS_TranslationList_constraint_1(
+static int memb_lCS_to_GCS_TranslationList_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
   size_t size;
@@ -55,8 +54,7 @@ static int memb_lCG_to_GCS_TranslationList_constraint_1(
 
   if ((size >= 1 && size <= 3)) {
     /* Perform validation of the inner elements */
-    return td->encoding_constraints.general_constraints(
-        td, sptr, ctfailcb, app_key);
+    return SEQUENCE_OF_constraint(td, sptr, ctfailcb, app_key);
   } else {
     ASN__CTFAIL(
         app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
@@ -72,7 +70,7 @@ static asn_per_constraints_t asn_PER_type_nR_PRS_Beam_InformationList_constr_2
         0,
         0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_type_lCG_to_GCS_TranslationList_constr_4
+static asn_per_constraints_t asn_PER_type_lCS_to_GCS_TranslationList_constr_4
     CC_NOTUSED = {
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         {APC_CONSTRAINED, 2, 2, 1, 3} /* (SIZE(1..3)) */,
@@ -86,7 +84,7 @@ static asn_per_constraints_t asn_PER_memb_nR_PRS_Beam_InformationList_constr_2
         0,
         0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_lCG_to_GCS_TranslationList_constr_4
+static asn_per_constraints_t asn_PER_memb_lCS_to_GCS_TranslationList_constr_4
     CC_NOTUSED = {
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         {APC_CONSTRAINED, 2, 2, 1, 3} /* (SIZE(1..3)) */,
@@ -133,44 +131,44 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_nR_PRS_Beam_InformationList_specs_2 /* Additional specs */
 };
 
-static asn_TYPE_member_t asn_MBR_lCG_to_GCS_TranslationList_4[] = {
+static asn_TYPE_member_t asn_MBR_lCS_to_GCS_TranslationList_4[] = {
     {ATF_POINTER,
      0,
      0,
      (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
      0,
-     &asn_DEF_LCG_to_GCS_TranslationItem,
+     &asn_DEF_LCS_to_GCS_TranslationItem,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
      ""},
 };
-static const ber_tlv_tag_t asn_DEF_lCG_to_GCS_TranslationList_tags_4[] = {
+static const ber_tlv_tag_t asn_DEF_lCS_to_GCS_TranslationList_tags_4[] = {
     (ASN_TAG_CLASS_CONTEXT | (1 << 2)), (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static asn_SET_OF_specifics_t asn_SPC_lCG_to_GCS_TranslationList_specs_4 = {
-    sizeof(struct NR_PRS_Beam_Information__lCG_to_GCS_TranslationList),
+static asn_SET_OF_specifics_t asn_SPC_lCS_to_GCS_TranslationList_specs_4 = {
+    sizeof(struct NR_PRS_Beam_Information__lCS_to_GCS_TranslationList),
     offsetof(
-        struct NR_PRS_Beam_Information__lCG_to_GCS_TranslationList, _asn_ctx),
+        struct NR_PRS_Beam_Information__lCS_to_GCS_TranslationList, _asn_ctx),
     0, /* XER encoding is XMLDelimitedItemList */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_lCG_to_GCS_TranslationList_4 = {
-        "lCG-to-GCS-TranslationList",
-        "lCG-to-GCS-TranslationList",
+    asn_TYPE_descriptor_t asn_DEF_lCS_to_GCS_TranslationList_4 = {
+        "lCS-to-GCS-TranslationList",
+        "lCS-to-GCS-TranslationList",
         &asn_OP_SEQUENCE_OF,
-        asn_DEF_lCG_to_GCS_TranslationList_tags_4,
-        sizeof(asn_DEF_lCG_to_GCS_TranslationList_tags_4) /
-                sizeof(asn_DEF_lCG_to_GCS_TranslationList_tags_4[0]) -
+        asn_DEF_lCS_to_GCS_TranslationList_tags_4,
+        sizeof(asn_DEF_lCS_to_GCS_TranslationList_tags_4) /
+                sizeof(asn_DEF_lCS_to_GCS_TranslationList_tags_4[0]) -
             1,                                     /* 1 */
-        asn_DEF_lCG_to_GCS_TranslationList_tags_4, /* Same as above */
-        sizeof(asn_DEF_lCG_to_GCS_TranslationList_tags_4) /
-            sizeof(asn_DEF_lCG_to_GCS_TranslationList_tags_4[0]), /* 2 */
-        {0, &asn_PER_type_lCG_to_GCS_TranslationList_constr_4,
+        asn_DEF_lCS_to_GCS_TranslationList_tags_4, /* Same as above */
+        sizeof(asn_DEF_lCS_to_GCS_TranslationList_tags_4) /
+            sizeof(asn_DEF_lCS_to_GCS_TranslationList_tags_4[0]), /* 2 */
+        {0, &asn_PER_type_lCS_to_GCS_TranslationList_constr_4,
          SEQUENCE_OF_constraint},
-        asn_MBR_lCG_to_GCS_TranslationList_4,
+        asn_MBR_lCS_to_GCS_TranslationList_4,
         1,                                          /* Single element */
-        &asn_SPC_lCG_to_GCS_TranslationList_specs_4 /* Additional specs */
+        &asn_SPC_lCS_to_GCS_TranslationList_specs_4 /* Additional specs */
 };
 
 asn_TYPE_member_t asn_MBR_NR_PRS_Beam_Information_1[] = {
@@ -186,31 +184,31 @@ asn_TYPE_member_t asn_MBR_NR_PRS_Beam_Information_1[] = {
      0,
      0, /* No default value */
      "nR-PRS-Beam-InformationList"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct NR_PRS_Beam_Information, lCG_to_GCS_TranslationList),
+    {ATF_POINTER,
+     2,
+     offsetof(struct NR_PRS_Beam_Information, lCS_to_GCS_TranslationList),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      0,
-     &asn_DEF_lCG_to_GCS_TranslationList_4,
+     &asn_DEF_lCS_to_GCS_TranslationList_4,
      0,
-     {0, &asn_PER_memb_lCG_to_GCS_TranslationList_constr_4,
-      memb_lCG_to_GCS_TranslationList_constraint_1},
+     {0, &asn_PER_memb_lCS_to_GCS_TranslationList_constr_4,
+      memb_lCS_to_GCS_TranslationList_constraint_1},
      0,
      0, /* No default value */
-     "lCG-to-GCS-TranslationList"},
+     "lCS-to-GCS-TranslationList"},
     {ATF_POINTER,
      1,
      offsetof(struct NR_PRS_Beam_Information, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P25,
+     &asn_DEF_ProtocolExtensionContainer_4889P36,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
      "iE-Extensions"},
 };
-static const int asn_MAP_NR_PRS_Beam_Information_oms_1[]            = {2};
+static const int asn_MAP_NR_PRS_Beam_Information_oms_1[]            = {1, 2};
 static const ber_tlv_tag_t asn_DEF_NR_PRS_Beam_Information_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t asn_MAP_NR_PRS_Beam_Information_tag2el_1[] =
@@ -218,7 +216,7 @@ static const asn_TYPE_tag2member_t asn_MAP_NR_PRS_Beam_Information_tag2el_1[] =
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0,
          0}, /* nR-PRS-Beam-InformationList */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0,
-         0}, /* lCG-to-GCS-TranslationList */
+         0}, /* lCS-to-GCS-TranslationList */
         {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0} /* iE-Extensions */
 };
 asn_SEQUENCE_specifics_t asn_SPC_NR_PRS_Beam_Information_specs_1 = {
@@ -227,7 +225,7 @@ asn_SEQUENCE_specifics_t asn_SPC_NR_PRS_Beam_Information_specs_1 = {
     asn_MAP_NR_PRS_Beam_Information_tag2el_1,
     3,                                     /* Count of tags in the map */
     asn_MAP_NR_PRS_Beam_Information_oms_1, /* Optional members */
-    1,
+    2,
     0, /* Root/Additions */
     3, /* First extension addition */
 };

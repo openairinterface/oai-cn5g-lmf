@@ -22,7 +22,6 @@ extern "C" {
 typedef long UE_Measurement_ID_t;
 
 /* Implementation */
-extern asn_per_constraints_t asn_PER_type_UE_Measurement_ID_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_UE_Measurement_ID;
 asn_struct_free_f UE_Measurement_ID_free;
 asn_struct_print_f UE_Measurement_ID_print;

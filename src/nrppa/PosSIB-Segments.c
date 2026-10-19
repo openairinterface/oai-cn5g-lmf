@@ -32,7 +32,7 @@ static asn_TYPE_member_t asn_MBR_Member_2[] = {
      offsetof(struct PosSIB_Segments__Member, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P30,
+     &asn_DEF_ProtocolExtensionContainer_4889P43,
      0,
      {0, 0, 0},
      0,

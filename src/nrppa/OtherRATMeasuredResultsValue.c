@@ -43,24 +43,21 @@ asn_TYPE_member_t asn_MBR_OtherRATMeasuredResultsValue_1[] = {
      "resultUTRAN"},
     {ATF_POINTER,
      0,
-     offsetof(
-         struct OtherRATMeasuredResultsValue,
-         choice.otherRATMeasuredResultsValue_Extension),
+     offsetof(struct OtherRATMeasuredResultsValue, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P13,
+     &asn_DEF_ProtocolIE_Single_Container_4863P18,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "otherRATMeasuredResultsValue-Extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t
     asn_MAP_OtherRATMeasuredResultsValue_tag2el_1[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* resultGERAN */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* resultUTRAN */
-        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0,
-         0} /* otherRATMeasuredResultsValue-Extension */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* choice-Extension */
 };
 asn_CHOICE_specifics_t asn_SPC_OtherRATMeasuredResultsValue_specs_1 = {
     sizeof(struct OtherRATMeasuredResultsValue),

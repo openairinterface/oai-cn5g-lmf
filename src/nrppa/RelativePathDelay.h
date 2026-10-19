@@ -27,10 +27,12 @@ typedef enum RelativePathDelay_PR {
   RelativePathDelay_PR_k2,
   RelativePathDelay_PR_k3,
   RelativePathDelay_PR_k4,
-  RelativePathDelay_PR_k5
-  /* Extensions may appear below */
-
+  RelativePathDelay_PR_k5,
+  RelativePathDelay_PR_choice_Extension
 } RelativePathDelay_PR;
+
+/* Forward declarations */
+struct ProtocolIE_Single_Container;
 
 /* RelativePathDelay */
 typedef struct RelativePathDelay {
@@ -42,10 +44,7 @@ typedef struct RelativePathDelay {
     long k3;
     long k4;
     long k5;
-    /*
-     * This type is extensible,
-     * possible extensions are below.
-     */
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */
@@ -55,7 +54,7 @@ typedef struct RelativePathDelay {
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_RelativePathDelay;
 extern asn_CHOICE_specifics_t asn_SPC_RelativePathDelay_specs_1;
-extern asn_TYPE_member_t asn_MBR_RelativePathDelay_1[6];
+extern asn_TYPE_member_t asn_MBR_RelativePathDelay_1[7];
 extern asn_per_constraints_t asn_PER_type_RelativePathDelay_constr_1;
 
 #ifdef __cplusplus

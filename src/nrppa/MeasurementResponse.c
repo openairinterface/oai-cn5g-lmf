@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_MeasurementResponse_1[] = {
      offsetof(struct MeasurementResponse, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P17,
+     &asn_DEF_ProtocolIE_Container_4860P17,
      0,
      {0, 0, 0},
      0,

@@ -37,7 +37,7 @@ asn_TYPE_member_t asn_MBR_TRPPositionReferenced_1[] = {
      offsetof(struct TRPPositionReferenced, iE_extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P98,
+     &asn_DEF_ProtocolExtensionContainer_4889P138,
      0,
      {0, 0, 0},
      0,

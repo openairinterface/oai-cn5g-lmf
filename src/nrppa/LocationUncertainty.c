@@ -191,7 +191,7 @@ asn_TYPE_member_t asn_MBR_LocationUncertainty_1[] = {
      offsetof(struct LocationUncertainty, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P19,
+     &asn_DEF_ProtocolExtensionContainer_4889P29,
      0,
      {0, 0, 0},
      0,

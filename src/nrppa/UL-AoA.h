@@ -13,28 +13,22 @@
 
 /* Including external dependencies */
 #include <NativeInteger.h>
-#include <NativeEnumerated.h>
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* Dependencies */
-typedef enum UL_AoA__angleCoordinateSystem {
-  UL_AoA__angleCoordinateSystem_lCS = 0,
-  UL_AoA__angleCoordinateSystem_gCS = 1
-} e_UL_AoA__angleCoordinateSystem;
-
 /* Forward declarations */
+struct LCS_to_GCS_Translation;
 struct ProtocolExtensionContainer;
 
 /* UL-AoA */
 typedef struct UL_AoA {
   long azimuthAoA;
-  long* zenithAoA;                                  /* OPTIONAL */
-  long* angleCoordinateSystem;                      /* OPTIONAL */
-  struct ProtocolExtensionContainer* iE_extensions; /* OPTIONAL */
+  long* zenithAoA;                                       /* OPTIONAL */
+  struct LCS_to_GCS_Translation* lCS_to_GCS_Translation; /* OPTIONAL */
+  struct ProtocolExtensionContainer* iE_extensions;      /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -45,8 +39,6 @@ typedef struct UL_AoA {
 } UL_AoA_t;
 
 /* Implementation */
-/* extern asn_TYPE_descriptor_t asn_DEF_angleCoordinateSystem_4;	// (Use
- * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_UL_AoA;
 extern asn_SEQUENCE_specifics_t asn_SPC_UL_AoA_specs_1;
 extern asn_TYPE_member_t asn_MBR_UL_AoA_1[4];

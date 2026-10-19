@@ -47,9 +47,6 @@ typedef struct OTDOACells {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_OTDOACells;
-extern asn_SET_OF_specifics_t asn_SPC_OTDOACells_specs_1;
-extern asn_TYPE_member_t asn_MBR_OTDOACells_1[1];
-extern asn_per_constraints_t asn_PER_type_OTDOACells_constr_1;
 
 #ifdef __cplusplus
 }

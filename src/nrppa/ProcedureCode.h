@@ -54,6 +54,9 @@ per_type_encoder_f ProcedureCode_encode_aper;
 #define ProcedureCode_id_tRPInformationExchange ((ProcedureCode_t) 16)
 #define ProcedureCode_id_positioningActivation ((ProcedureCode_t) 17)
 #define ProcedureCode_id_positioningDeactivation ((ProcedureCode_t) 18)
+#define ProcedureCode_id_pRSConfigurationExchange ((ProcedureCode_t) 19)
+#define ProcedureCode_id_measurementPreconfiguration ((ProcedureCode_t) 20)
+#define ProcedureCode_id_measurementActivation ((ProcedureCode_t) 21)
 
 #ifdef __cplusplus
 }

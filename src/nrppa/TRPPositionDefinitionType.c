@@ -46,7 +46,7 @@ asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_1[] = {
      offsetof(struct TRPPositionDefinitionType, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P29,
+     &asn_DEF_ProtocolIE_Single_Container_4863P41,
      0,
      {0, 0, 0},
      0,

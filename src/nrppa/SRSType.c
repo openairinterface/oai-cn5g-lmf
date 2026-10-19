@@ -11,13 +11,13 @@
 #include "SemipersistentSRS.h"
 #include "AperiodicSRS.h"
 #include "ProtocolIE-Single-Container.h"
-asn_per_constraints_t asn_PER_type_SRSType_constr_1 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_type_SRSType_constr_1 CC_NOTUSED = {
     {APC_CONSTRAINED, 2, 2, 0, 2} /* (0..2) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
-asn_TYPE_member_t asn_MBR_SRSType_1[] = {
+static asn_TYPE_member_t asn_MBR_SRSType_1[] = {
     {ATF_POINTER,
      0,
      offsetof(struct SRSType, choice.semipersistentSRS),
@@ -42,22 +42,22 @@ asn_TYPE_member_t asn_MBR_SRSType_1[] = {
      "aperiodicSRS"},
     {ATF_POINTER,
      0,
-     offsetof(struct SRSType, choice.sRSType_extension),
+     offsetof(struct SRSType, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P1,
+     &asn_DEF_ProtocolIE_Single_Container_4863P1,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "sRSType-extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t asn_MAP_SRSType_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* semipersistentSRS */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* aperiodicSRS */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* sRSType-extension */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* choice-Extension */
 };
-asn_CHOICE_specifics_t asn_SPC_SRSType_specs_1 = {
+static asn_CHOICE_specifics_t asn_SPC_SRSType_specs_1 = {
     sizeof(struct SRSType),
     offsetof(struct SRSType, _asn_ctx),
     offsetof(struct SRSType, present),

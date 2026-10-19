@@ -11,7 +11,7 @@
 #include "NG-RANAccessPointPosition.h"
 #include "MeasuredResults.h"
 #include "ProtocolExtensionContainer.h"
-asn_TYPE_member_t asn_MBR_E_CID_MeasurementResult_1[] = {
+static asn_TYPE_member_t asn_MBR_E_CID_MeasurementResult_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct E_CID_MeasurementResult, servingCell_ID),
@@ -61,7 +61,7 @@ asn_TYPE_member_t asn_MBR_E_CID_MeasurementResult_1[] = {
      offsetof(struct E_CID_MeasurementResult, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P16,
+     &asn_DEF_ProtocolExtensionContainer_4889P24,
      0,
      {0, 0, 0},
      0,
@@ -80,7 +80,7 @@ static const asn_TYPE_tag2member_t asn_MAP_E_CID_MeasurementResult_tag2el_1[] =
         {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* measuredResults */
         {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}  /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_E_CID_MeasurementResult_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_E_CID_MeasurementResult_specs_1 = {
     sizeof(struct E_CID_MeasurementResult),
     offsetof(struct E_CID_MeasurementResult, _asn_ctx),
     asn_MAP_E_CID_MeasurementResult_tag2el_1,

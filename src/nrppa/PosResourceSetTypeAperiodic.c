@@ -59,7 +59,7 @@ asn_TYPE_member_t asn_MBR_PosResourceSetTypeAperiodic_1[] = {
      offsetof(struct PosResourceSetTypeAperiodic, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P35,
+     &asn_DEF_ProtocolExtensionContainer_4889P48,
      0,
      {0, 0, 0},
      0,

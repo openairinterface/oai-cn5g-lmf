@@ -23,18 +23,18 @@ extern "C" {
 struct PrivateMessage_IEs;
 
 /* PrivateIE-Container */
-typedef struct PrivateIE_Container_2833P0 {
+typedef struct PrivateIE_Container_4905P0 {
   A_SEQUENCE_OF(struct PrivateMessage_IEs) list;
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
-} PrivateIE_Container_2833P0_t;
+} PrivateIE_Container_4905P0_t;
 
 /* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_PrivateIE_Container_2833P0;
-extern asn_SET_OF_specifics_t asn_SPC_PrivateIE_Container_2833P0_specs_1;
-extern asn_TYPE_member_t asn_MBR_PrivateIE_Container_2833P0_1[1];
-extern asn_per_constraints_t asn_PER_type_PrivateIE_Container_2833P0_constr_1;
+extern asn_TYPE_descriptor_t asn_DEF_PrivateIE_Container_4905P0;
+extern asn_SET_OF_specifics_t asn_SPC_PrivateIE_Container_4905P0_specs_1;
+extern asn_TYPE_member_t asn_MBR_PrivateIE_Container_4905P0_1[1];
+extern asn_per_constraints_t asn_PER_type_PrivateIE_Container_4905P0_constr_1;
 
 #ifdef __cplusplus
 }

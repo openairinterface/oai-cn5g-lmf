@@ -31,7 +31,8 @@ static const asn_INTEGER_enum_map_t
         {7, 7, "sS-RSRQ"},
         {8, 8, "cSI-RSRP"},
         {9, 8, "cSI-RSRQ"},
-        {10, 16, "angleOfArrivalNR"}
+        {10, 16, "angleOfArrivalNR"},
+        {11, 15, "timingAdvanceNR"}
         /* This list is extensible */
 };
 static const unsigned int asn_MAP_MeasurementQuantitiesValue_enum2value_1[] = {
@@ -44,6 +45,7 @@ static const unsigned int asn_MAP_MeasurementQuantitiesValue_enum2value_1[] = {
     5,  /* rSRQ(5) */
     6,  /* sS-RSRP(6) */
     7,  /* sS-RSRQ(7) */
+    11, /* timingAdvanceNR(11) */
     2,  /* timingAdvanceType1(2) */
     3   /* timingAdvanceType2(3) */
         /* This list is extensible */
@@ -53,7 +55,7 @@ const asn_INTEGER_specifics_t asn_SPC_MeasurementQuantitiesValue_specs_1 = {
                                                         tag */
     asn_MAP_MeasurementQuantitiesValue_enum2value_1, /* N => "tag"; sorted by N
                                                       */
-    11, /* Number of elements in the maps */
+    12, /* Number of elements in the maps */
     7,  /* Extensions before this member */
     1,  /* Strict enumeration */
     0,  /* Native long size */

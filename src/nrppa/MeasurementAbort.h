@@ -21,7 +21,7 @@ extern "C" {
 
 /* MeasurementAbort */
 typedef struct MeasurementAbort {
-  ProtocolIE_Container_2789P21_t protocolIEs;
+  ProtocolIE_Container_4860P21_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

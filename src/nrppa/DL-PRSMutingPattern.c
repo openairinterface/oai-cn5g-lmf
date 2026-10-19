@@ -309,7 +309,7 @@ asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_1[] = {
      offsetof(struct DL_PRSMutingPattern, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (6 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P4,
+     &asn_DEF_ProtocolIE_Single_Container_4863P7,
      0,
      {0, 0, 0},
      0,

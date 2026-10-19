@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningDeactivation */
 typedef struct PositioningDeactivation {
-  ProtocolIE_Container_2789P29_t protocolIEs;
+  ProtocolIE_Container_4860P29_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

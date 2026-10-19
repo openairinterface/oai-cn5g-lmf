@@ -27,19 +27,21 @@ typedef enum TRPInformationTypeItem {
   TRPInformationTypeItem_sSBInfo           = 4,
   TRPInformationTypeItem_sFNInitTime       = 5,
   TRPInformationTypeItem_spatialDirectInfo = 6,
-  TRPInformationTypeItem_geoCoord          = 7
+  TRPInformationTypeItem_geoCoord          = 7,
   /*
    * Enumeration is extensible
    */
+  TRPInformationTypeItem_trp_type          = 8,
+  TRPInformationTypeItem_ondemandPRSInfo   = 9,
+  TRPInformationTypeItem_trpTxTeg          = 10,
+  TRPInformationTypeItem_beam_antenna_info = 11
 } e_TRPInformationTypeItem;
 
 /* TRPInformationTypeItem */
 typedef long TRPInformationTypeItem_t;
 
 /* Implementation */
-extern asn_per_constraints_t asn_PER_type_TRPInformationTypeItem_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_TRPInformationTypeItem;
-extern const asn_INTEGER_specifics_t asn_SPC_TRPInformationTypeItem_specs_1;
 asn_struct_free_f TRPInformationTypeItem_free;
 asn_struct_print_f TRPInformationTypeItem_print;
 asn_constr_check_f TRPInformationTypeItem_constraint;

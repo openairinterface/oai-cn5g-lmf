@@ -21,7 +21,7 @@ extern "C" {
 
 /* E-CIDMeasurementTerminationCommand */
 typedef struct E_CIDMeasurementTerminationCommand {
-  ProtocolIE_Container_2789P5_t protocolIEs;
+  ProtocolIE_Container_4860P5_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

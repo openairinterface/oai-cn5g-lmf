@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationResponse_1[] = {
      offsetof(struct TRPInformationResponse, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P24,
+     &asn_DEF_ProtocolIE_Container_4860P24,
      0,
      {0, 0, 0},
      0,

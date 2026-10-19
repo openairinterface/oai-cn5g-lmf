@@ -24,7 +24,7 @@
 #include "SemipersistentSRS.h"
 #include "TRP-MeasurementRequestItem.h"
 #include "TRP-MeasurementResponseItem.h"
-#include "TRPInformationItem.h"
+#include "TRPInformationTypeResponseItem.h"
 #include "TrpMeasuredResultsValue.h"
 #include "TrpMeasurementResultItem.h"
 #include "UL-RTOAMeasurement.h"
@@ -430,7 +430,7 @@ LocationDetermination::positioning_information_request() {
                                   {
                                       .present = BandwidthSRS_PR_fR1,
                                       .choice =
-                                          {.fR1 = BandwidthSRS__fR1_kHz100},
+                                          {.fR1 = BandwidthSRS__fR1_mHz100},
                                   },
                           },
                   },

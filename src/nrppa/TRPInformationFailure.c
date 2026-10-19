@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_TRPInformationFailure_1[] = {
      offsetof(struct TRPInformationFailure, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P25,
+     &asn_DEF_ProtocolIE_Container_4860P25,
      0,
      {0, 0, 0},
      0,

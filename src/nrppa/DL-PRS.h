@@ -13,6 +13,8 @@
 
 /* Including external dependencies */
 #include <NativeInteger.h>
+#include "PRS-Resource-Set-ID.h"
+#include "PRS-Resource-ID.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -25,8 +27,8 @@ struct ProtocolExtensionContainer;
 /* DL-PRS */
 typedef struct DL_PRS {
   long prsid;
-  long dl_PRSResourceSetID;
-  long* dl_PRSResourceID;                           /* OPTIONAL */
+  PRS_Resource_Set_ID_t dl_PRSResourceSetID;
+  PRS_Resource_ID_t* dl_PRSResourceID;              /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,

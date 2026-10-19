@@ -105,8 +105,8 @@ static asn_per_constraints_t asn_PER_memb_pRS_Resource_IDPos_constr_4
         0 /* No PER value map */
 };
 asn_TYPE_member_t asn_MBR_PRSInformationPos_1[] = {
-    {ATF_POINTER,
-     1,
+    {ATF_NOFLAGS,
+     0,
      offsetof(struct PRSInformationPos, pRS_IDPos),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
@@ -128,8 +128,8 @@ asn_TYPE_member_t asn_MBR_PRSInformationPos_1[] = {
      0,
      0, /* No default value */
      "pRS-Resource-Set-IDPos"},
-    {ATF_NOFLAGS,
-     0,
+    {ATF_POINTER,
+     2,
      offsetof(struct PRSInformationPos, pRS_Resource_IDPos),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
@@ -145,14 +145,14 @@ asn_TYPE_member_t asn_MBR_PRSInformationPos_1[] = {
      offsetof(struct PRSInformationPos, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P36,
+     &asn_DEF_ProtocolExtensionContainer_4889P50,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
      "iE-Extensions"},
 };
-static const int asn_MAP_PRSInformationPos_oms_1[]            = {0, 3};
+static const int asn_MAP_PRSInformationPos_oms_1[]            = {2, 3};
 static const ber_tlv_tag_t asn_DEF_PRSInformationPos_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t asn_MAP_PRSInformationPos_tag2el_1[] = {

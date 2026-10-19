@@ -19,30 +19,55 @@ asn_per_constraints_t asn_PER_type_PosSIB_Type_constr_1 CC_NOTUSED = {
     0 /* No PER value map */
 };
 static const asn_INTEGER_enum_map_t asn_MAP_PosSIB_Type_value2enum_1[] = {
-    {0, 13, "posSibType1-1"},   {1, 13, "posSibType1-2"},
-    {2, 13, "posSibType1-3"},   {3, 13, "posSibType1-4"},
-    {4, 13, "posSibType1-5"},   {5, 13, "posSibType1-6"},
-    {6, 13, "posSibType1-7"},   {7, 13, "posSibType1-8"},
-    {8, 13, "posSibType2-1"},   {9, 13, "posSibType2-2"},
-    {10, 13, "posSibType2-3"},  {11, 13, "posSibType2-4"},
-    {12, 13, "posSibType2-5"},  {13, 13, "posSibType2-6"},
-    {14, 13, "posSibType2-7"},  {15, 13, "posSibType2-8"},
-    {16, 13, "posSibType2-9"},  {17, 14, "posSibType2-10"},
-    {18, 14, "posSibType2-11"}, {19, 14, "posSibType2-12"},
-    {20, 14, "posSibType2-13"}, {21, 14, "posSibType2-14"},
-    {22, 14, "posSibType2-15"}, {23, 14, "posSibType2-16"},
-    {24, 14, "posSibType2-17"}, {25, 14, "posSibType2-18"},
-    {26, 14, "posSibType2-19"}, {27, 14, "posSibType2-20"},
-    {28, 14, "posSibType2-21"}, {29, 14, "posSibType2-22"},
-    {30, 14, "posSibType2-23"}, {31, 14, "posSibType2-24"},
-    {32, 14, "posSibType2-25"}, {33, 13, "posSibType3-1"},
-    {34, 13, "posSibType4-1"},  {35, 13, "posSibType5-1"},
-    {36, 13, "posSibType6-1"},  {37, 13, "posSibType6-2"},
-    {38, 13, "posSibType6-3"}
+    {0, 13, "posSibType1-1"},
+    {1, 13, "posSibType1-2"},
+    {2, 13, "posSibType1-3"},
+    {3, 13, "posSibType1-4"},
+    {4, 13, "posSibType1-5"},
+    {5, 13, "posSibType1-6"},
+    {6, 13, "posSibType1-7"},
+    {7, 13, "posSibType1-8"},
+    {8, 13, "posSibType2-1"},
+    {9, 13, "posSibType2-2"},
+    {10, 13, "posSibType2-3"},
+    {11, 13, "posSibType2-4"},
+    {12, 13, "posSibType2-5"},
+    {13, 13, "posSibType2-6"},
+    {14, 13, "posSibType2-7"},
+    {15, 13, "posSibType2-8"},
+    {16, 13, "posSibType2-9"},
+    {17, 14, "posSibType2-10"},
+    {18, 14, "posSibType2-11"},
+    {19, 14, "posSibType2-12"},
+    {20, 14, "posSibType2-13"},
+    {21, 14, "posSibType2-14"},
+    {22, 14, "posSibType2-15"},
+    {23, 14, "posSibType2-16"},
+    {24, 14, "posSibType2-17"},
+    {25, 14, "posSibType2-18"},
+    {26, 14, "posSibType2-19"},
+    {27, 14, "posSibType2-20"},
+    {28, 14, "posSibType2-21"},
+    {29, 14, "posSibType2-22"},
+    {30, 14, "posSibType2-23"},
+    {31, 14, "posSibType2-24"},
+    {32, 14, "posSibType2-25"},
+    {33, 13, "posSibType3-1"},
+    {34, 13, "posSibType4-1"},
+    {35, 13, "posSibType5-1"},
+    {36, 13, "posSibType6-1"},
+    {37, 13, "posSibType6-2"},
+    {38, 13, "posSibType6-3"},
+    {39, 13, "posSibType1-9"},
+    {40, 14, "posSibType1-10"},
+    {41, 13, "posSibType6-4"},
+    {42, 13, "posSibType6-5"},
+    {43, 13, "posSibType6-6"}
     /* This list is extensible */
 };
 static const unsigned int asn_MAP_PosSIB_Type_enum2value_1[] = {
     0,  /* posSibType1-1(0) */
+    40, /* posSibType1-10(40) */
     1,  /* posSibType1-2(1) */
     2,  /* posSibType1-3(2) */
     3,  /* posSibType1-4(3) */
@@ -50,6 +75,7 @@ static const unsigned int asn_MAP_PosSIB_Type_enum2value_1[] = {
     5,  /* posSibType1-6(5) */
     6,  /* posSibType1-7(6) */
     7,  /* posSibType1-8(7) */
+    39, /* posSibType1-9(39) */
     8,  /* posSibType2-1(8) */
     17, /* posSibType2-10(17) */
     18, /* posSibType2-11(18) */
@@ -80,13 +106,16 @@ static const unsigned int asn_MAP_PosSIB_Type_enum2value_1[] = {
     35, /* posSibType5-1(35) */
     36, /* posSibType6-1(36) */
     37, /* posSibType6-2(37) */
-    38  /* posSibType6-3(38) */
+    38, /* posSibType6-3(38) */
+    41, /* posSibType6-4(41) */
+    42, /* posSibType6-5(42) */
+    43  /* posSibType6-6(43) */
         /* This list is extensible */
 };
 const asn_INTEGER_specifics_t asn_SPC_PosSIB_Type_specs_1 = {
     asn_MAP_PosSIB_Type_value2enum_1, /* "tag" => N; sorted by tag */
     asn_MAP_PosSIB_Type_enum2value_1, /* N => "tag"; sorted by N */
-    39,                               /* Number of elements in the maps */
+    44,                               /* Number of elements in the maps */
     40,                               /* Extensions before this member */
     1,                                /* Strict enumeration */
     0,                                /* Native long size */

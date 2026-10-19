@@ -33,7 +33,8 @@ typedef enum MeasurementQuantitiesValue {
   MeasurementQuantitiesValue_sS_RSRQ          = 7,
   MeasurementQuantitiesValue_cSI_RSRP         = 8,
   MeasurementQuantitiesValue_cSI_RSRQ         = 9,
-  MeasurementQuantitiesValue_angleOfArrivalNR = 10
+  MeasurementQuantitiesValue_angleOfArrivalNR = 10,
+  MeasurementQuantitiesValue_timingAdvanceNR  = 11
 } e_MeasurementQuantitiesValue;
 
 /* MeasurementQuantitiesValue */

@@ -196,7 +196,7 @@ asn_TYPE_member_t asn_MBR_AssistanceInformationMetaData_1[] = {
      offsetof(struct AssistanceInformationMetaData, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P7,
+     &asn_DEF_ProtocolExtensionContainer_4889P14,
      0,
      {0, 0, 0},
      0,

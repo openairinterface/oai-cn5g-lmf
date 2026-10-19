@@ -273,7 +273,7 @@ asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_1[] = {
      offsetof(struct GNBRxTxTimeDiffMeas, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (6 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P7,
+     &asn_DEF_ProtocolIE_Single_Container_4863P10,
      0,
      {0, 0, 0},
      0,

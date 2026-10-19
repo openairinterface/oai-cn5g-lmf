@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningActivationResponse */
 typedef struct PositioningActivationResponse {
-  ProtocolIE_Container_2789P27_t protocolIEs;
+  ProtocolIE_Container_4860P27_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

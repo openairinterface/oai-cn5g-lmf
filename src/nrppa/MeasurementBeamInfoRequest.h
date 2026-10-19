@@ -30,9 +30,7 @@ typedef enum MeasurementBeamInfoRequest {
 typedef long MeasurementBeamInfoRequest_t;
 
 /* Implementation */
-extern asn_per_constraints_t asn_PER_type_MeasurementBeamInfoRequest_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementBeamInfoRequest;
-extern const asn_INTEGER_specifics_t asn_SPC_MeasurementBeamInfoRequest_specs_1;
 asn_struct_free_f MeasurementBeamInfoRequest_free;
 asn_struct_print_f MeasurementBeamInfoRequest_print;
 asn_constr_check_f MeasurementBeamInfoRequest_constraint;

@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 /* Forward declarations */
-struct NG_RAN_CGI;
+struct CGI_NR;
 struct ResultCSI_RSRP_PerCSI_RS;
 struct ProtocolExtensionContainer;
 
@@ -30,7 +30,7 @@ struct ProtocolExtensionContainer;
 typedef struct ResultCSI_RSRP_Item {
   NR_PCI_t nR_PCI;
   NR_ARFCN_t nR_ARFCN;
-  struct NG_RAN_CGI* nG_RAN_CGI;                       /* OPTIONAL */
+  struct CGI_NR* cGI_NR;                               /* OPTIONAL */
   ValueRSRP_NR_t* valueCSI_RSRP_Cell;                  /* OPTIONAL */
   struct ResultCSI_RSRP_PerCSI_RS* cSI_RSRP_PerCSI_RS; /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions;    /* OPTIONAL */
