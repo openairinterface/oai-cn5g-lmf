@@ -53,8 +53,6 @@ typedef struct TDD_Config_EUTRA_Item {
 /* extern asn_TYPE_descriptor_t asn_DEF_subframeAssignment_2;	// (Use
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_TDD_Config_EUTRA_Item;
-extern asn_SEQUENCE_specifics_t asn_SPC_TDD_Config_EUTRA_Item_specs_1;
-extern asn_TYPE_member_t asn_MBR_TDD_Config_EUTRA_Item_1[2];
 
 #ifdef __cplusplus
 }

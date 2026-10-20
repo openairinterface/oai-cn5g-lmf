@@ -39,12 +39,12 @@ static int memb_offset_constraint_1(
 }
 
 static asn_per_constraints_t asn_PER_type_periodicity_constr_2 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 5, 5, 0, 21} /* (0..21,...) */,
+    {APC_CONSTRAINED | APC_EXTENSIBLE, 5, 5, 0, 20} /* (0..20,...) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_offset_constr_26 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_memb_offset_constr_29 CC_NOTUSED = {
     {APC_CONSTRAINED | APC_EXTENSIBLE, 17, -1, 0, 81919} /* (0..81919,...) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
@@ -57,40 +57,44 @@ static const asn_INTEGER_enum_map_t asn_MAP_periodicity_value2enum_2[] = {
     {9, 6, "slot40"},     {10, 6, "slot64"},    {11, 6, "slot80"},
     {12, 7, "slot160"},   {13, 7, "slot320"},   {14, 7, "slot640"},
     {15, 8, "slot1280"},  {16, 8, "slot2560"},  {17, 8, "slot5120"},
-    {18, 9, "slot10240"}, {19, 9, "slot20480"}, {20, 9, "slot40960"},
-    {21, 9, "slot81920"}
+    {18, 9, "slot10240"}, {19, 9, "slot40960"}, {20, 9, "slot81920"},
+    {21, 7, "slot128"},   {22, 7, "slot256"},   {23, 7, "slot512"},
+    {24, 9, "slot20480"}
     /* This list is extensible */
 };
 static const unsigned int asn_MAP_periodicity_enum2value_2[] = {
     0,  /* slot1(0) */
     5,  /* slot10(5) */
     18, /* slot10240(18) */
+    21, /* slot128(21) */
     15, /* slot1280(15) */
     6,  /* slot16(6) */
     12, /* slot160(12) */
     1,  /* slot2(1) */
     7,  /* slot20(7) */
-    19, /* slot20480(19) */
+    24, /* slot20480(24) */
+    22, /* slot256(22) */
     16, /* slot2560(16) */
     8,  /* slot32(8) */
     13, /* slot320(13) */
     2,  /* slot4(2) */
     9,  /* slot40(9) */
-    20, /* slot40960(20) */
+    19, /* slot40960(19) */
     3,  /* slot5(3) */
+    23, /* slot512(23) */
     17, /* slot5120(17) */
     10, /* slot64(10) */
     14, /* slot640(14) */
     4,  /* slot8(4) */
     11, /* slot80(11) */
-    21  /* slot81920(21) */
+    20  /* slot81920(20) */
         /* This list is extensible */
 };
 static const asn_INTEGER_specifics_t asn_SPC_periodicity_specs_2 = {
     asn_MAP_periodicity_value2enum_2, /* "tag" => N; sorted by tag */
     asn_MAP_periodicity_enum2value_2, /* N => "tag"; sorted by N */
-    22,                               /* Number of elements in the maps */
-    23,                               /* Extensions before this member */
+    25,                               /* Number of elements in the maps */
+    22,                               /* Extensions before this member */
     1,                                /* Strict enumeration */
     0,                                /* Native long size */
     0};
@@ -133,7 +137,7 @@ asn_TYPE_member_t asn_MBR_ResourceTypePeriodicPos_1[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_offset_constr_26, memb_offset_constraint_1},
+     {0, &asn_PER_memb_offset_constr_29, memb_offset_constraint_1},
      0,
      0, /* No default value */
      "offset"},
@@ -142,7 +146,7 @@ asn_TYPE_member_t asn_MBR_ResourceTypePeriodicPos_1[] = {
      offsetof(struct ResourceTypePeriodicPos, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P55,
+     &asn_DEF_ProtocolExtensionContainer_4889P80,
      0,
      {0, 0, 0},
      0,

@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_ErrorIndication_1[] = {
      offsetof(struct ErrorIndication, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P11,
+     &asn_DEF_ProtocolIE_Container_4860P11,
      0,
      {0, 0, 0},
      0,

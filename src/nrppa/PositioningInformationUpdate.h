@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningInformationUpdate */
 typedef struct PositioningInformationUpdate {
-  ProtocolIE_Container_2789P15_t protocolIEs;
+  ProtocolIE_Container_4860P15_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

@@ -34,7 +34,7 @@ static int memb_pointA_constraint_1(
   }
 }
 
-static int memb_pCI_constraint_1(
+static int memb_pCI_NR_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
   long value;
@@ -60,13 +60,12 @@ static int memb_pCI_constraint_1(
 }
 
 static asn_per_constraints_t asn_PER_memb_pointA_constr_2 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 22, -1, 0,
-     3279165} /* (0..3279165,...) */,
+    {APC_CONSTRAINED, 22, -1, 0, 3279165} /* (0..3279165) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_pCI_constr_5 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_memb_pCI_NR_constr_5 CC_NOTUSED = {
     {APC_CONSTRAINED, 10, 10, 0, 1007} /* (0..1007) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
@@ -108,21 +107,21 @@ asn_TYPE_member_t asn_MBR_SRSCarrier_List_Item_1[] = {
      "activeULBWP"},
     {ATF_POINTER,
      2,
-     offsetof(struct SRSCarrier_List_Item, pCI),
+     offsetof(struct SRSCarrier_List_Item, pCI_NR),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_pCI_constr_5, memb_pCI_constraint_1},
+     {0, &asn_PER_memb_pCI_NR_constr_5, memb_pCI_NR_constraint_1},
      0,
      0, /* No default value */
-     "pCI"},
+     "pCI-NR"},
     {ATF_POINTER,
      1,
      offsetof(struct SRSCarrier_List_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P78,
+     &asn_DEF_ProtocolExtensionContainer_4889P106,
      0,
      {0, 0, 0},
      0,
@@ -137,7 +136,7 @@ static const asn_TYPE_tag2member_t asn_MAP_SRSCarrier_List_Item_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0,
      0}, /* uplinkChannelBW-PerSCS-List */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* activeULBWP */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* pCI */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* pCI-NR */
     {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}  /* iE-Extensions */
 };
 asn_SEQUENCE_specifics_t asn_SPC_SRSCarrier_List_Item_specs_1 = {

@@ -32,19 +32,20 @@ typedef enum MeasurementPeriodicity {
   MeasurementPeriodicity_min6    = 9,
   MeasurementPeriodicity_min12   = 10,
   MeasurementPeriodicity_min30   = 11,
-  MeasurementPeriodicity_min60   = 12
+  MeasurementPeriodicity_min60   = 12,
   /*
    * Enumeration is extensible
    */
+  MeasurementPeriodicity_ms20480  = 13,
+  MeasurementPeriodicity_ms40960  = 14,
+  MeasurementPeriodicity_extended = 15
 } e_MeasurementPeriodicity;
 
 /* MeasurementPeriodicity */
 typedef long MeasurementPeriodicity_t;
 
 /* Implementation */
-extern asn_per_constraints_t asn_PER_type_MeasurementPeriodicity_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementPeriodicity;
-extern const asn_INTEGER_specifics_t asn_SPC_MeasurementPeriodicity_specs_1;
 asn_struct_free_f MeasurementPeriodicity_free;
 asn_struct_print_f MeasurementPeriodicity_print;
 asn_constr_check_f MeasurementPeriodicity_constraint;

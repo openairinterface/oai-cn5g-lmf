@@ -14,7 +14,7 @@
 /* Including external dependencies */
 #include <NativeInteger.h>
 #include <NativeEnumerated.h>
-#include "SFNInitialisationTime.h"
+#include "RelativeTime1900.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -26,10 +26,11 @@ typedef enum TF_Configuration__sSB_subcarrier_spacing {
   TF_Configuration__sSB_subcarrier_spacing_kHz15  = 0,
   TF_Configuration__sSB_subcarrier_spacing_kHz30  = 1,
   TF_Configuration__sSB_subcarrier_spacing_kHz120 = 2,
-  TF_Configuration__sSB_subcarrier_spacing_kHz240 = 3
+  TF_Configuration__sSB_subcarrier_spacing_kHz240 = 3,
   /*
    * Enumeration is extensible
    */
+  TF_Configuration__sSB_subcarrier_spacing_kHz60 = 4
 } e_TF_Configuration__sSB_subcarrier_spacing;
 typedef enum TF_Configuration__sSB_periodicity {
   TF_Configuration__sSB_periodicity_ms5   = 0,
@@ -56,7 +57,7 @@ typedef struct TF_Configuration {
   long sSB_half_frame_offset;
   long sSB_SFN_offset;
   struct SSBBurstPosition* sSB_BurstPosition;       /* OPTIONAL */
-  SFNInitialisationTime_t* sFN_initialisation_time; /* OPTIONAL */
+  RelativeTime1900_t* sFN_initialisation_time;      /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,
@@ -70,7 +71,7 @@ typedef struct TF_Configuration {
 /* Implementation */
 /* extern asn_TYPE_descriptor_t asn_DEF_sSB_subcarrier_spacing_3;	// (Use
  * -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_sSB_periodicity_10;	// (Use
+/* extern asn_TYPE_descriptor_t asn_DEF_sSB_periodicity_11;	// (Use
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_TF_Configuration;
 extern asn_SEQUENCE_specifics_t asn_SPC_TF_Configuration_specs_1;

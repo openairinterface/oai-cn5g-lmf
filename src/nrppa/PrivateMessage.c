@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_PrivateMessage_1[] = {
      offsetof(struct PrivateMessage, privateIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_PrivateIE_Container_2833P0,
+     &asn_DEF_PrivateIE_Container_4905P0,
      0,
      {0, 0, 0},
      0,

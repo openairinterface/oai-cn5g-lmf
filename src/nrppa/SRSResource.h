@@ -63,7 +63,6 @@ typedef struct SRSResource {
   long b_hop;
   long groupOrSequenceHopping;
   ResourceType_t resourceType;
-  long slotOffset;
   long sequenceId;
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
@@ -86,7 +85,7 @@ typedef struct SRSResource {
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_SRSResource;
 extern asn_SEQUENCE_specifics_t asn_SPC_SRSResource_specs_1;
-extern asn_TYPE_member_t asn_MBR_SRSResource_1[16];
+extern asn_TYPE_member_t asn_MBR_SRSResource_1[15];
 
 #ifdef __cplusplus
 }

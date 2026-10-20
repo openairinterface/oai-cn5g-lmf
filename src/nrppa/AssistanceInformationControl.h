@@ -21,7 +21,7 @@ extern "C" {
 
 /* AssistanceInformationControl */
 typedef struct AssistanceInformationControl {
-  ProtocolIE_Container_2789P9_t protocolIEs;
+  ProtocolIE_Container_4860P9_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

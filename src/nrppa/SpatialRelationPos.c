@@ -8,7 +8,7 @@
 
 #include "SpatialRelationPos.h"
 
-#include "SSBPos.h"
+#include "SSB.h"
 #include "PRSInformationPos.h"
 #include "ProtocolIE-Single-Container.h"
 asn_per_constraints_t asn_PER_type_SpatialRelationPos_constr_1 CC_NOTUSED = {
@@ -23,7 +23,7 @@ asn_TYPE_member_t asn_MBR_SpatialRelationPos_1[] = {
      offsetof(struct SpatialRelationPos, choice.sSBPos),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_SSBPos,
+     &asn_DEF_SSB,
      0,
      {0, 0, 0},
      0,
@@ -45,7 +45,7 @@ asn_TYPE_member_t asn_MBR_SpatialRelationPos_1[] = {
      offsetof(struct SpatialRelationPos, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P22,
+     &asn_DEF_ProtocolIE_Single_Container_4863P30,
      0,
      {0, 0, 0},
      0,

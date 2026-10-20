@@ -175,31 +175,6 @@ static int memb_b_hop_constraint_1(
   }
 }
 
-static int memb_slotOffset_constraint_1(
-    const asn_TYPE_descriptor_t* td, const void* sptr,
-    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
-  long value;
-
-  if (!sptr) {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-
-  value = *(const long*) sptr;
-
-  if ((value >= 0 && value <= 2559)) {
-    /* Constraint check succeeded */
-    return 0;
-  } else {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-}
-
 static int memb_sequenceId_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -289,13 +264,7 @@ static asn_per_constraints_t asn_PER_memb_b_hop_constr_21 CC_NOTUSED = {
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_slotOffset_constr_27 CC_NOTUSED = {
-    {APC_CONSTRAINED, 12, 12, 0, 2559} /* (0..2559) */,
-    {APC_UNCONSTRAINED, -1, -1, 0, 0},
-    0,
-    0 /* No PER value map */
-};
-static asn_per_constraints_t asn_PER_memb_sequenceId_constr_28 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_memb_sequenceId_constr_27 CC_NOTUSED = {
     {APC_CONSTRAINED, 10, 10, 0, 1023} /* (0..1023) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
@@ -601,39 +570,28 @@ asn_TYPE_member_t asn_MBR_SRSResource_1[] = {
      "resourceType"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct SRSResource, slotOffset),
+     offsetof(struct SRSResource, sequenceId),
      (ASN_TAG_CLASS_CONTEXT | (13 << 2)),
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_slotOffset_constr_27, memb_slotOffset_constraint_1},
-     0,
-     0, /* No default value */
-     "slotOffset"},
-    {ATF_NOFLAGS,
-     0,
-     offsetof(struct SRSResource, sequenceId),
-     (ASN_TAG_CLASS_CONTEXT | (14 << 2)),
-     -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NativeInteger,
-     0,
-     {0, &asn_PER_memb_sequenceId_constr_28, memb_sequenceId_constraint_1},
+     {0, &asn_PER_memb_sequenceId_constr_27, memb_sequenceId_constraint_1},
      0,
      0, /* No default value */
      "sequenceId"},
     {ATF_POINTER,
      1,
      offsetof(struct SRSResource, iE_Extensions),
-     (ASN_TAG_CLASS_CONTEXT | (15 << 2)),
+     (ASN_TAG_CLASS_CONTEXT | (14 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P80,
+     &asn_DEF_ProtocolExtensionContainer_4889P108,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
      "iE-Extensions"},
 };
-static const int asn_MAP_SRSResource_oms_1[]            = {15};
+static const int asn_MAP_SRSResource_oms_1[]            = {14};
 static const ber_tlv_tag_t asn_DEF_SRSResource_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t asn_MAP_SRSResource_tag2el_1[] = {
@@ -651,19 +609,18 @@ static const asn_TYPE_tag2member_t asn_MAP_SRSResource_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (11 << 2)), 11, 0,
      0}, /* groupOrSequenceHopping */
     {(ASN_TAG_CLASS_CONTEXT | (12 << 2)), 12, 0, 0}, /* resourceType */
-    {(ASN_TAG_CLASS_CONTEXT | (13 << 2)), 13, 0, 0}, /* slotOffset */
-    {(ASN_TAG_CLASS_CONTEXT | (14 << 2)), 14, 0, 0}, /* sequenceId */
-    {(ASN_TAG_CLASS_CONTEXT | (15 << 2)), 15, 0, 0}  /* iE-Extensions */
+    {(ASN_TAG_CLASS_CONTEXT | (13 << 2)), 13, 0, 0}, /* sequenceId */
+    {(ASN_TAG_CLASS_CONTEXT | (14 << 2)), 14, 0, 0}  /* iE-Extensions */
 };
 asn_SEQUENCE_specifics_t asn_SPC_SRSResource_specs_1 = {
     sizeof(struct SRSResource),
     offsetof(struct SRSResource, _asn_ctx),
     asn_MAP_SRSResource_tag2el_1,
-    16,                        /* Count of tags in the map */
+    15,                        /* Count of tags in the map */
     asn_MAP_SRSResource_oms_1, /* Optional members */
     1,
     0,  /* Root/Additions */
-    16, /* First extension addition */
+    15, /* First extension addition */
 };
 asn_TYPE_descriptor_t asn_DEF_SRSResource = {
     "SRSResource",
@@ -677,6 +634,6 @@ asn_TYPE_descriptor_t asn_DEF_SRSResource = {
         sizeof(asn_DEF_SRSResource_tags_1[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
     asn_MBR_SRSResource_1,
-    16,                          /* Elements count */
+    15,                          /* Elements count */
     &asn_SPC_SRSResource_specs_1 /* Additional specs */
 };

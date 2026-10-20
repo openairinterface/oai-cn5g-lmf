@@ -19,13 +19,16 @@
 extern "C" {
 #endif
 
+/* Forward declarations */
+struct ProtocolExtensionContainer;
+
 /* PRSAngleItem */
 typedef struct PRSAngleItem {
-  long pRSresourceAngleID;
   long nRPRSAzimuth;
-  long* nRPRSAzimuthFine;   /* OPTIONAL */
-  long* nRPRSElevation;     /* OPTIONAL */
-  long* nRPRSElevationFine; /* OPTIONAL */
+  long* nRPRSAzimuthFine;                           /* OPTIONAL */
+  long* nRPRSElevation;                             /* OPTIONAL */
+  long* nRPRSElevationFine;                         /* OPTIONAL */
+  struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.

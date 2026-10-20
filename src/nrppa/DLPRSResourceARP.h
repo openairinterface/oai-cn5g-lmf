@@ -12,7 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
+#include "PRS-Resource-ID.h"
 #include "DL-PRSResourceARPLocation.h"
 #include <constr_SEQUENCE.h>
 
@@ -25,7 +25,7 @@ struct ProtocolExtensionContainer;
 
 /* DLPRSResourceARP */
 typedef struct DLPRSResourceARP {
-  long dl_PRSResourceID;
+  PRS_Resource_ID_t dl_PRSResourceID;
   DL_PRSResourceARPLocation_t dL_PRSResourceARPLocation;
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*

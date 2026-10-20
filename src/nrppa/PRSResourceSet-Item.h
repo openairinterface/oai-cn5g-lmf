@@ -12,8 +12,9 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
+#include "PRS-Resource-Set-ID.h"
 #include <NativeEnumerated.h>
+#include <NativeInteger.h>
 #include "PRSResource-List.h"
 #include <constr_SEQUENCE.h>
 
@@ -111,7 +112,7 @@ struct ProtocolExtensionContainer;
 
 /* PRSResourceSet-Item */
 typedef struct PRSResourceSet_Item {
-  long pRSResourceSetID;
+  PRS_Resource_Set_ID_t pRSResourceSetID;
   long subcarrierSpacing;
   long pRSbandwidth;
   long startPRB;
@@ -145,8 +146,8 @@ typedef struct PRSResourceSet_Item {
  * -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_resourceSetPeriodicity_22;	// (Use
  * -fall-defs-global to expose) */
-/* extern asn_TYPE_descriptor_t asn_DEF_resourceRepetitionFactor_45;	//
- * (Use -fall-defs-global to expose) */
+/* extern asn_TYPE_descriptor_t asn_DEF_resourceRepetitionFactor_45;	// (Use
+ * -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_resourceTimeGap_54;	// (Use
  * -fall-defs-global to expose) */
 /* extern asn_TYPE_descriptor_t asn_DEF_resourceNumberofSymbols_62;	// (Use

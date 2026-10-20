@@ -27,10 +27,21 @@
 #include "ResultCSI-RSRP.h"
 #include "ResultCSI-RSRQ.h"
 #include "UL-AoA.h"
+#include "NR-TADV.h"
 #include "TDD-Config-EUTRA-Item.h"
+#include "CGI-NR.h"
+#include "SFNInitialisationTime-EUTRA.h"
 #include "OtherRATMeasurementQuantities-Item.h"
 #include "ResultNR.h"
 #include "ResultEUTRA.h"
+#include "ZoA.h"
+#include "MultipleULAoA.h"
+#include "UL-SRS-RSRPP.h"
+#include "TRPType.h"
+#include "OnDemandPRS-Info.h"
+#include "TRPTxTEGAssociation.h"
+#include "TRPBeamAntennaInformation.h"
+#include "TRPInformationTypeItem.h"
 #include "WLANMeasurementQuantities-Item.h"
 #include "UE-Measurement-ID.h"
 #include "ReportCharacteristics.h"
@@ -38,6 +49,7 @@
 #include "MeasurementQuantities.h"
 #include "OtherRATMeasurementQuantities.h"
 #include "WLANMeasurementQuantities.h"
+#include "MeasurementPeriodicityNR-AoA.h"
 #include "E-CID-MeasurementResult.h"
 #include "CriticalityDiagnostics.h"
 #include "Cell-Portion-ID.h"
@@ -51,31 +63,48 @@
 #include "PositioningBroadcastCells.h"
 #include "AssistanceInformationFailureList.h"
 #include "RequestedSRSTransmissionCharacteristics.h"
+#include "UEReportingInformation.h"
+#include "UE-TEG-Info-Request.h"
+#include "UE-TEG-ReportingPeriodicity.h"
 #include "SRSConfiguration.h"
-#include "SFNInitialisationTime.h"
+#include "RelativeTime1900.h"
+#include "UETxTEGAssociationList.h"
+#include "SRSTransmissionStatus.h"
 #include "Measurement-ID.h"
 #include "TRP-MeasurementRequestList.h"
 #include "TRPMeasurementQuantities.h"
 #include "MeasurementBeamInfoRequest.h"
 #include "SystemFrameNumber.h"
 #include "SlotNumber.h"
+#include "MeasurementPeriodicityExtended.h"
+#include "ResponseTime.h"
+#include "MeasurementCharacteristicsRequestIndicator.h"
+#include "MeasurementTimeOccasion.h"
+#include "MeasurementAmount.h"
 #include "TRP-MeasurementResponseList.h"
+#include "TRP-MeasurementUpdateList.h"
 #include "TRPList.h"
-#include "TRPInformationTypeList.h"
-#include "TRPInformationList.h"
+#include "TRPInformationTypeListTRPReq.h"
+#include "TRPInformationListTRPResp.h"
 #include "SRSType.h"
-#include "ActivationTime.h"
 #include "AbortTransmission.h"
+#include "PRSConfigRequestType.h"
+#include "PRSTRPList.h"
+#include "PRSTransmissionTRPList.h"
+#include "TRP-PRS-Information-List.h"
+#include "PreconfigurationResult.h"
+#include "RequestType.h"
+#include "PRS-Measurements-Info-List.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /* Dependencies */
-typedef enum OTDOA_Information_TypeIEs__value_PR {
-  OTDOA_Information_TypeIEs__value_PR_NOTHING, /* No components present */
-  OTDOA_Information_TypeIEs__value_PR_OTDOA_Information_Type_Item
-} OTDOA_Information_TypeIEs__value_PR;
+typedef enum OTDOA_Information_Type_ItemIEs__value_PR {
+  OTDOA_Information_Type_ItemIEs__value_PR_NOTHING, /* No components present */
+  OTDOA_Information_Type_ItemIEs__value_PR_OTDOA_Information_Type_Item
+} OTDOA_Information_Type_ItemIEs__value_PR;
 typedef enum SRSType_ExtIEs__value_PR {
   SRSType_ExtIEs__value_PR_NOTHING /* No components present */
 
@@ -84,6 +113,18 @@ typedef enum AbortTransmission_ExtIEs__value_PR {
   AbortTransmission_ExtIEs__value_PR_NOTHING /* No components present */
 
 } AbortTransmission_ExtIEs__value_PR;
+typedef enum AngleMeasurementType_ExtIEs__value_PR {
+  AngleMeasurementType_ExtIEs__value_PR_NOTHING /* No components present */
+
+} AngleMeasurementType_ExtIEs__value_PR;
+typedef enum ARPLocationType_ExtIEs__value_PR {
+  ARPLocationType_ExtIEs__value_PR_NOTHING /* No components present */
+
+} ARPLocationType_ExtIEs__value_PR;
+typedef enum BandwidthSRS_ExtIEs__value_PR {
+  BandwidthSRS_ExtIEs__value_PR_NOTHING /* No components present */
+
+} BandwidthSRS_ExtIEs__value_PR;
 typedef enum Cause_ExtensionIE__value_PR {
   Cause_ExtensionIE__value_PR_NOTHING /* No components present */
 
@@ -105,6 +146,10 @@ typedef enum GNBRxTxTimeDiffMeas_ExtIEs__value_PR {
   GNBRxTxTimeDiffMeas_ExtIEs__value_PR_NOTHING /* No components present */
 
 } GNBRxTxTimeDiffMeas_ExtIEs__value_PR;
+typedef enum LoS_NLoSInformation_ExtIEs__value_PR {
+  LoS_NLoSInformation_ExtIEs__value_PR_NOTHING /* No components present */
+
+} LoS_NLoSInformation_ExtIEs__value_PR;
 typedef enum MeasurementQuantities_ItemIEs__value_PR {
   MeasurementQuantities_ItemIEs__value_PR_NOTHING, /* No components present */
   MeasurementQuantities_ItemIEs__value_PR_MeasurementQuantities_Item
@@ -116,8 +161,13 @@ typedef enum MeasuredResultsValue_ExtensionIE__value_PR {
   MeasuredResultsValue_ExtensionIE__value_PR_ResultSS_RSRQ,
   MeasuredResultsValue_ExtensionIE__value_PR_ResultCSI_RSRP,
   MeasuredResultsValue_ExtensionIE__value_PR_ResultCSI_RSRQ,
-  MeasuredResultsValue_ExtensionIE__value_PR_UL_AoA
+  MeasuredResultsValue_ExtensionIE__value_PR_UL_AoA,
+  MeasuredResultsValue_ExtensionIE__value_PR_NR_TADV
 } MeasuredResultsValue_ExtensionIE__value_PR;
+typedef enum MultipleULAoA_Item_ExtIEs__value_PR {
+  MultipleULAoA_Item_ExtIEs__value_PR_NOTHING /* No components present */
+
+} MultipleULAoA_Item_ExtIEs__value_PR;
 typedef enum NG_RANCell_ExtensionIE__value_PR {
   NG_RANCell_ExtensionIE__value_PR_NOTHING /* No components present */
 
@@ -125,7 +175,9 @@ typedef enum NG_RANCell_ExtensionIE__value_PR {
 typedef enum OTDOACell_Information_Item_ExtensionIE__value_PR {
   OTDOACell_Information_Item_ExtensionIE__value_PR_NOTHING, /* No components
                                                                present */
-  OTDOACell_Information_Item_ExtensionIE__value_PR_TDD_Config_EUTRA_Item
+  OTDOACell_Information_Item_ExtensionIE__value_PR_TDD_Config_EUTRA_Item,
+  OTDOACell_Information_Item_ExtensionIE__value_PR_CGI_NR,
+  OTDOACell_Information_Item_ExtensionIE__value_PR_SFNInitialisationTime_EUTRA
 } OTDOACell_Information_Item_ExtensionIE__value_PR;
 typedef enum OtherRATMeasurementQuantities_ItemIEs__value_PR {
   OtherRATMeasurementQuantities_ItemIEs__value_PR_NOTHING, /* No components
@@ -152,6 +204,15 @@ typedef enum PRSMutingConfiguration_EUTRA_ExtensionIE__value_PR {
                                                                 present */
 
 } PRSMutingConfiguration_EUTRA_ExtensionIE__value_PR;
+typedef enum PRSResource_QCLInfo_ExtIEs__value_PR {
+  PRSResource_QCLInfo_ExtIEs__value_PR_NOTHING /* No components present */
+
+} PRSResource_QCLInfo_ExtIEs__value_PR;
+typedef enum PRSTransmissionOffIndication_ExtIEs__value_PR {
+  PRSTransmissionOffIndication_ExtIEs__value_PR_NOTHING /* No components present
+                                                         */
+
+} PRSTransmissionOffIndication_ExtIEs__value_PR;
 typedef enum ReferenceSignal_ExtensionIE__value_PR {
   ReferenceSignal_ExtensionIE__value_PR_NOTHING /* No components present */
 
@@ -160,6 +221,10 @@ typedef enum ReferencePoint_ExtIEs__value_PR {
   ReferencePoint_ExtIEs__value_PR_NOTHING /* No components present */
 
 } ReferencePoint_ExtIEs__value_PR;
+typedef enum RelativePathDelay_ExtIEs__value_PR {
+  RelativePathDelay_ExtIEs__value_PR_NOTHING /* No components present */
+
+} RelativePathDelay_ExtIEs__value_PR;
 typedef enum ResourceSetType_ExtIEs__value_PR {
   ResourceSetType_ExtIEs__value_PR_NOTHING /* No components present */
 
@@ -176,6 +241,14 @@ typedef enum SpatialInformationPos_ExtIEs__value_PR {
   SpatialInformationPos_ExtIEs__value_PR_NOTHING /* No components present */
 
 } SpatialInformationPos_ExtIEs__value_PR;
+typedef enum SSBBurstPosition_ExtIEs__value_PR {
+  SSBBurstPosition_ExtIEs__value_PR_NOTHING /* No components present */
+
+} SSBBurstPosition_ExtIEs__value_PR;
+typedef enum TRPTEGInformation_ExtIEs__value_PR {
+  TRPTEGInformation_ExtIEs__value_PR_NOTHING /* No components present */
+
+} TRPTEGInformation_ExtIEs__value_PR;
 typedef enum TimeStampSlotIndex_ExtIEs__value_PR {
   TimeStampSlotIndex_ExtIEs__value_PR_NOTHING /* No components present */
 
@@ -188,18 +261,32 @@ typedef enum TransmissionCombPos_ExtIEs__value_PR {
   TransmissionCombPos_ExtIEs__value_PR_NOTHING /* No components present */
 
 } TransmissionCombPos_ExtIEs__value_PR;
-typedef enum TrpMeasuredResultsValue_ExtIEs__value_PR {
-  TrpMeasuredResultsValue_ExtIEs__value_PR_NOTHING /* No components present */
+typedef enum Choice_TRP_Beam_Info_Item_ExtIEs__value_PR {
+  Choice_TRP_Beam_Info_Item_ExtIEs__value_PR_NOTHING /* No components present */
 
+} Choice_TRP_Beam_Info_Item_ExtIEs__value_PR;
+typedef enum TrpMeasuredResultsValue_ExtIEs__value_PR {
+  TrpMeasuredResultsValue_ExtIEs__value_PR_NOTHING, /* No components present */
+  TrpMeasuredResultsValue_ExtIEs__value_PR_ZoA,
+  TrpMeasuredResultsValue_ExtIEs__value_PR_MultipleULAoA,
+  TrpMeasuredResultsValue_ExtIEs__value_PR_UL_SRS_RSRPP
 } TrpMeasuredResultsValue_ExtIEs__value_PR;
 typedef enum TrpMeasurementQuality_ExtIEs__value_PR {
   TrpMeasurementQuality_ExtIEs__value_PR_NOTHING /* No components present */
 
 } TrpMeasurementQuality_ExtIEs__value_PR;
-typedef enum TRPInformationItem_ExtIEs__value_PR {
-  TRPInformationItem_ExtIEs__value_PR_NOTHING /* No components present */
-
-} TRPInformationItem_ExtIEs__value_PR;
+typedef enum TRPInformationTypeResponseItem_ExtIEs__value_PR {
+  TRPInformationTypeResponseItem_ExtIEs__value_PR_NOTHING, /* No components
+                                                              present */
+  TRPInformationTypeResponseItem_ExtIEs__value_PR_TRPType,
+  TRPInformationTypeResponseItem_ExtIEs__value_PR_OnDemandPRS_Info,
+  TRPInformationTypeResponseItem_ExtIEs__value_PR_TRPTxTEGAssociation,
+  TRPInformationTypeResponseItem_ExtIEs__value_PR_TRPBeamAntennaInformation
+} TRPInformationTypeResponseItem_ExtIEs__value_PR;
+typedef enum TRPInformationTypeItemTRPReq__value_PR {
+  TRPInformationTypeItemTRPReq__value_PR_NOTHING, /* No components present */
+  TRPInformationTypeItemTRPReq__value_PR_TRPInformationTypeItem
+} TRPInformationTypeItemTRPReq__value_PR;
 typedef enum TRPPositionDefinitionType_ExtIEs__value_PR {
   TRPPositionDefinitionType_ExtIEs__value_PR_NOTHING /* No components present */
 
@@ -212,6 +299,10 @@ typedef enum TRPReferencePointType_ExtIEs__value_PR {
   TRPReferencePointType_ExtIEs__value_PR_NOTHING /* No components present */
 
 } TRPReferencePointType_ExtIEs__value_PR;
+typedef enum ULRTOAMeas_ExtIEs__value_PR {
+  ULRTOAMeas_ExtIEs__value_PR_NOTHING /* No components present */
+
+} ULRTOAMeas_ExtIEs__value_PR;
 typedef enum WLANMeasurementQuantities_ItemIEs__value_PR {
   WLANMeasurementQuantities_ItemIEs__value_PR_NOTHING, /* No components present
                                                         */
@@ -225,7 +316,8 @@ typedef enum E_CIDMeasurementInitiationRequest_IEs__value_PR {
   E_CIDMeasurementInitiationRequest_IEs__value_PR_MeasurementPeriodicity,
   E_CIDMeasurementInitiationRequest_IEs__value_PR_MeasurementQuantities,
   E_CIDMeasurementInitiationRequest_IEs__value_PR_OtherRATMeasurementQuantities,
-  E_CIDMeasurementInitiationRequest_IEs__value_PR_WLANMeasurementQuantities
+  E_CIDMeasurementInitiationRequest_IEs__value_PR_WLANMeasurementQuantities,
+  E_CIDMeasurementInitiationRequest_IEs__value_PR_MeasurementPeriodicityNR_AoA
 } E_CIDMeasurementInitiationRequest_IEs__value_PR;
 typedef enum E_CIDMeasurementInitiationResponse_IEs__value_PR {
   E_CIDMeasurementInitiationResponse_IEs__value_PR_NOTHING, /* No components
@@ -301,14 +393,18 @@ typedef enum ErrorIndication_IEs__value_PR {
 typedef enum PositioningInformationRequest_IEs__value_PR {
   PositioningInformationRequest_IEs__value_PR_NOTHING, /* No components present
                                                         */
-  PositioningInformationRequest_IEs__value_PR_RequestedSRSTransmissionCharacteristics
+  PositioningInformationRequest_IEs__value_PR_RequestedSRSTransmissionCharacteristics,
+  PositioningInformationRequest_IEs__value_PR_UEReportingInformation,
+  PositioningInformationRequest_IEs__value_PR_UE_TEG_Info_Request,
+  PositioningInformationRequest_IEs__value_PR_UE_TEG_ReportingPeriodicity
 } PositioningInformationRequest_IEs__value_PR;
 typedef enum PositioningInformationResponse_IEs__value_PR {
   PositioningInformationResponse_IEs__value_PR_NOTHING, /* No components present
                                                          */
   PositioningInformationResponse_IEs__value_PR_SRSConfiguration,
-  PositioningInformationResponse_IEs__value_PR_SFNInitialisationTime,
-  PositioningInformationResponse_IEs__value_PR_CriticalityDiagnostics
+  PositioningInformationResponse_IEs__value_PR_RelativeTime1900,
+  PositioningInformationResponse_IEs__value_PR_CriticalityDiagnostics,
+  PositioningInformationResponse_IEs__value_PR_UETxTEGAssociationList
 } PositioningInformationResponse_IEs__value_PR;
 typedef enum PositioningInformationFailure_IEs__value_PR {
   PositioningInformationFailure_IEs__value_PR_NOTHING, /* No components present
@@ -320,7 +416,9 @@ typedef enum PositioningInformationUpdate_IEs__value_PR {
   PositioningInformationUpdate_IEs__value_PR_NOTHING, /* No components present
                                                        */
   PositioningInformationUpdate_IEs__value_PR_SRSConfiguration,
-  PositioningInformationUpdate_IEs__value_PR_SFNInitialisationTime
+  PositioningInformationUpdate_IEs__value_PR_RelativeTime1900,
+  PositioningInformationUpdate_IEs__value_PR_UETxTEGAssociationList,
+  PositioningInformationUpdate_IEs__value_PR_SRSTransmissionStatus
 } PositioningInformationUpdate_IEs__value_PR;
 typedef enum MeasurementRequest_IEs__value_PR {
   MeasurementRequest_IEs__value_PR_NOTHING, /* No components present */
@@ -329,11 +427,16 @@ typedef enum MeasurementRequest_IEs__value_PR {
   MeasurementRequest_IEs__value_PR_ReportCharacteristics,
   MeasurementRequest_IEs__value_PR_MeasurementPeriodicity,
   MeasurementRequest_IEs__value_PR_TRPMeasurementQuantities,
+  MeasurementRequest_IEs__value_PR_RelativeTime1900,
   MeasurementRequest_IEs__value_PR_SRSConfiguration,
-  MeasurementRequest_IEs__value_PR_SFNInitialisationTime,
   MeasurementRequest_IEs__value_PR_MeasurementBeamInfoRequest,
   MeasurementRequest_IEs__value_PR_SystemFrameNumber,
-  MeasurementRequest_IEs__value_PR_SlotNumber
+  MeasurementRequest_IEs__value_PR_SlotNumber,
+  MeasurementRequest_IEs__value_PR_MeasurementPeriodicityExtended,
+  MeasurementRequest_IEs__value_PR_ResponseTime,
+  MeasurementRequest_IEs__value_PR_MeasurementCharacteristicsRequestIndicator,
+  MeasurementRequest_IEs__value_PR_MeasurementTimeOccasion,
+  MeasurementRequest_IEs__value_PR_MeasurementAmount
 } MeasurementRequest_IEs__value_PR;
 typedef enum MeasurementResponse_IEs__value_PR {
   MeasurementResponse_IEs__value_PR_NOTHING, /* No components present */
@@ -358,7 +461,10 @@ typedef enum MeasurementUpdate_IEs__value_PR {
   MeasurementUpdate_IEs__value_PR_NOTHING, /* No components present */
   MeasurementUpdate_IEs__value_PR_Measurement_ID,
   MeasurementUpdate_IEs__value_PR_Measurement_ID_1,
-  MeasurementUpdate_IEs__value_PR_SRSConfiguration
+  MeasurementUpdate_IEs__value_PR_SRSConfiguration,
+  MeasurementUpdate_IEs__value_PR_TRP_MeasurementUpdateList,
+  MeasurementUpdate_IEs__value_PR_MeasurementCharacteristicsRequestIndicator,
+  MeasurementUpdate_IEs__value_PR_MeasurementTimeOccasion
 } MeasurementUpdate_IEs__value_PR;
 typedef enum MeasurementAbort_IEs__value_PR {
   MeasurementAbort_IEs__value_PR_NOTHING, /* No components present */
@@ -375,11 +481,11 @@ typedef enum MeasurementFailureIndication_IEs__value_PR {
 typedef enum TRPInformationRequest_IEs__value_PR {
   TRPInformationRequest_IEs__value_PR_NOTHING, /* No components present */
   TRPInformationRequest_IEs__value_PR_TRPList,
-  TRPInformationRequest_IEs__value_PR_TRPInformationTypeList
+  TRPInformationRequest_IEs__value_PR_TRPInformationTypeListTRPReq
 } TRPInformationRequest_IEs__value_PR;
 typedef enum TRPInformationResponse_IEs__value_PR {
   TRPInformationResponse_IEs__value_PR_NOTHING, /* No components present */
-  TRPInformationResponse_IEs__value_PR_TRPInformationList,
+  TRPInformationResponse_IEs__value_PR_TRPInformationListTRPResp,
   TRPInformationResponse_IEs__value_PR_CriticalityDiagnostics
 } TRPInformationResponse_IEs__value_PR;
 typedef enum TRPInformationFailure_IEs__value_PR {
@@ -390,7 +496,7 @@ typedef enum TRPInformationFailure_IEs__value_PR {
 typedef enum PositioningActivationRequestIEs__value_PR {
   PositioningActivationRequestIEs__value_PR_NOTHING, /* No components present */
   PositioningActivationRequestIEs__value_PR_SRSType,
-  PositioningActivationRequestIEs__value_PR_ActivationTime
+  PositioningActivationRequestIEs__value_PR_RelativeTime1900
 } PositioningActivationRequestIEs__value_PR;
 typedef enum PositioningActivationResponseIEs__value_PR {
   PositioningActivationResponseIEs__value_PR_NOTHING, /* No components present
@@ -408,14 +514,51 @@ typedef enum PositioningDeactivationIEs__value_PR {
   PositioningDeactivationIEs__value_PR_NOTHING, /* No components present */
   PositioningDeactivationIEs__value_PR_AbortTransmission
 } PositioningDeactivationIEs__value_PR;
+typedef enum PRSConfigurationRequest_IEs__value_PR {
+  PRSConfigurationRequest_IEs__value_PR_NOTHING, /* No components present */
+  PRSConfigurationRequest_IEs__value_PR_PRSConfigRequestType,
+  PRSConfigurationRequest_IEs__value_PR_PRSTRPList
+} PRSConfigurationRequest_IEs__value_PR;
+typedef enum PRSConfigurationResponse_IEs__value_PR {
+  PRSConfigurationResponse_IEs__value_PR_NOTHING, /* No components present */
+  PRSConfigurationResponse_IEs__value_PR_PRSTransmissionTRPList,
+  PRSConfigurationResponse_IEs__value_PR_CriticalityDiagnostics
+} PRSConfigurationResponse_IEs__value_PR;
+typedef enum PRSConfigurationFailure_IEs__value_PR {
+  PRSConfigurationFailure_IEs__value_PR_NOTHING, /* No components present */
+  PRSConfigurationFailure_IEs__value_PR_Cause,
+  PRSConfigurationFailure_IEs__value_PR_CriticalityDiagnostics
+} PRSConfigurationFailure_IEs__value_PR;
+typedef enum MeasurementPreconfigurationRequired_IEs__value_PR {
+  MeasurementPreconfigurationRequired_IEs__value_PR_NOTHING, /* No components
+                                                                present */
+  MeasurementPreconfigurationRequired_IEs__value_PR_TRP_PRS_Information_List
+} MeasurementPreconfigurationRequired_IEs__value_PR;
+typedef enum MeasurementPreconfigurationConfirm_IEs__value_PR {
+  MeasurementPreconfigurationConfirm_IEs__value_PR_NOTHING, /* No components
+                                                               present */
+  MeasurementPreconfigurationConfirm_IEs__value_PR_PreconfigurationResult,
+  MeasurementPreconfigurationConfirm_IEs__value_PR_CriticalityDiagnostics
+} MeasurementPreconfigurationConfirm_IEs__value_PR;
+typedef enum MeasurementPreconfigurationRefuse_IEs__value_PR {
+  MeasurementPreconfigurationRefuse_IEs__value_PR_NOTHING, /* No components
+                                                              present */
+  MeasurementPreconfigurationRefuse_IEs__value_PR_Cause,
+  MeasurementPreconfigurationRefuse_IEs__value_PR_CriticalityDiagnostics
+} MeasurementPreconfigurationRefuse_IEs__value_PR;
+typedef enum MeasurementActivation_IEs__value_PR {
+  MeasurementActivation_IEs__value_PR_NOTHING, /* No components present */
+  MeasurementActivation_IEs__value_PR_RequestType,
+  MeasurementActivation_IEs__value_PR_PRS_Measurements_Info_List
+} MeasurementActivation_IEs__value_PR;
 
 /* ProtocolIE-Field */
-typedef struct OTDOA_Information_TypeIEs {
+typedef struct OTDOA_Information_Type_ItemIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
-  struct OTDOA_Information_TypeIEs__value {
-    OTDOA_Information_TypeIEs__value_PR present;
-    union OTDOA_Information_TypeIEs__value_u {
+  struct OTDOA_Information_Type_ItemIEs__value {
+    OTDOA_Information_Type_ItemIEs__value_PR present;
+    union OTDOA_Information_Type_ItemIEs__value_u {
       OTDOA_Information_Type_Item_t OTDOA_Information_Type_Item;
     } choice;
 
@@ -425,7 +568,7 @@ typedef struct OTDOA_Information_TypeIEs {
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
-} OTDOA_Information_TypeIEs_t;
+} OTDOA_Information_Type_ItemIEs_t;
 typedef struct SRSType_ExtIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -456,6 +599,51 @@ typedef struct AbortTransmission_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } AbortTransmission_ExtIEs_t;
+typedef struct AngleMeasurementType_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct AngleMeasurementType_ExtIEs__value {
+    AngleMeasurementType_ExtIEs__value_PR present;
+    union AngleMeasurementType_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} AngleMeasurementType_ExtIEs_t;
+typedef struct ARPLocationType_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct ARPLocationType_ExtIEs__value {
+    ARPLocationType_ExtIEs__value_PR present;
+    union ARPLocationType_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} ARPLocationType_ExtIEs_t;
+typedef struct BandwidthSRS_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct BandwidthSRS_ExtIEs__value {
+    BandwidthSRS_ExtIEs__value_PR present;
+    union BandwidthSRS_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} BandwidthSRS_ExtIEs_t;
 typedef struct Cause_ExtensionIE {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -531,6 +719,21 @@ typedef struct GNBRxTxTimeDiffMeas_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } GNBRxTxTimeDiffMeas_ExtIEs_t;
+typedef struct LoS_NLoSInformation_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct LoS_NLoSInformation_ExtIEs__value {
+    LoS_NLoSInformation_ExtIEs__value_PR present;
+    union LoS_NLoSInformation_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} LoS_NLoSInformation_ExtIEs_t;
 typedef struct MeasurementQuantities_ItemIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -558,6 +761,7 @@ typedef struct MeasuredResultsValue_ExtensionIE {
       ResultCSI_RSRP_t ResultCSI_RSRP;
       ResultCSI_RSRQ_t ResultCSI_RSRQ;
       UL_AoA_t UL_AoA;
+      NR_TADV_t NR_TADV;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -567,6 +771,21 @@ typedef struct MeasuredResultsValue_ExtensionIE {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } MeasuredResultsValue_ExtensionIE_t;
+typedef struct MultipleULAoA_Item_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct MultipleULAoA_Item_ExtIEs__value {
+    MultipleULAoA_Item_ExtIEs__value_PR present;
+    union MultipleULAoA_Item_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} MultipleULAoA_Item_ExtIEs_t;
 typedef struct NG_RANCell_ExtensionIE {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -589,6 +808,8 @@ typedef struct OTDOACell_Information_Item_ExtensionIE {
     OTDOACell_Information_Item_ExtensionIE__value_PR present;
     union OTDOACell_Information_Item_ExtensionIE__value_u {
       TDD_Config_EUTRA_Item_t TDD_Config_EUTRA_Item;
+      CGI_NR_t CGI_NR;
+      SFNInitialisationTime_EUTRA_t SFNInitialisationTime_EUTRA;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -676,6 +897,36 @@ typedef struct PRSMutingConfiguration_EUTRA_ExtensionIE {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } PRSMutingConfiguration_EUTRA_ExtensionIE_t;
+typedef struct PRSResource_QCLInfo_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct PRSResource_QCLInfo_ExtIEs__value {
+    PRSResource_QCLInfo_ExtIEs__value_PR present;
+    union PRSResource_QCLInfo_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} PRSResource_QCLInfo_ExtIEs_t;
+typedef struct PRSTransmissionOffIndication_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct PRSTransmissionOffIndication_ExtIEs__value {
+    PRSTransmissionOffIndication_ExtIEs__value_PR present;
+    union PRSTransmissionOffIndication_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} PRSTransmissionOffIndication_ExtIEs_t;
 typedef struct ReferenceSignal_ExtensionIE {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -706,6 +957,21 @@ typedef struct ReferencePoint_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } ReferencePoint_ExtIEs_t;
+typedef struct RelativePathDelay_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct RelativePathDelay_ExtIEs__value {
+    RelativePathDelay_ExtIEs__value_PR present;
+    union RelativePathDelay_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} RelativePathDelay_ExtIEs_t;
 typedef struct ResourceSetType_ExtIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -766,6 +1032,36 @@ typedef struct SpatialInformationPos_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } SpatialInformationPos_ExtIEs_t;
+typedef struct SSBBurstPosition_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct SSBBurstPosition_ExtIEs__value {
+    SSBBurstPosition_ExtIEs__value_PR present;
+    union SSBBurstPosition_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} SSBBurstPosition_ExtIEs_t;
+typedef struct TRPTEGInformation_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct TRPTEGInformation_ExtIEs__value {
+    TRPTEGInformation_ExtIEs__value_PR present;
+    union TRPTEGInformation_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} TRPTEGInformation_ExtIEs_t;
 typedef struct TimeStampSlotIndex_ExtIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -811,12 +1107,30 @@ typedef struct TransmissionCombPos_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } TransmissionCombPos_ExtIEs_t;
+typedef struct Choice_TRP_Beam_Info_Item_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct Choice_TRP_Beam_Info_Item_ExtIEs__value {
+    Choice_TRP_Beam_Info_Item_ExtIEs__value_PR present;
+    union Choice_TRP_Beam_Info_Item_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} Choice_TRP_Beam_Info_Item_ExtIEs_t;
 typedef struct TrpMeasuredResultsValue_ExtIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
   struct TrpMeasuredResultsValue_ExtIEs__value {
     TrpMeasuredResultsValue_ExtIEs__value_PR present;
     union TrpMeasuredResultsValue_ExtIEs__value_u {
+      ZoA_t ZoA;
+      MultipleULAoA_t MultipleULAoA;
+      UL_SRS_RSRPP_t UL_SRS_RSRPP;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -841,12 +1155,16 @@ typedef struct TrpMeasurementQuality_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } TrpMeasurementQuality_ExtIEs_t;
-typedef struct TRPInformationItem_ExtIEs {
+typedef struct TRPInformationTypeResponseItem_ExtIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
-  struct TRPInformationItem_ExtIEs__value {
-    TRPInformationItem_ExtIEs__value_PR present;
-    union TRPInformationItem_ExtIEs__value_u {
+  struct TRPInformationTypeResponseItem_ExtIEs__value {
+    TRPInformationTypeResponseItem_ExtIEs__value_PR present;
+    union TRPInformationTypeResponseItem_ExtIEs__value_u {
+      TRPType_t TRPType;
+      OnDemandPRS_Info_t OnDemandPRS_Info;
+      TRPTxTEGAssociation_t TRPTxTEGAssociation;
+      TRPBeamAntennaInformation_t TRPBeamAntennaInformation;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -855,7 +1173,23 @@ typedef struct TRPInformationItem_ExtIEs {
 
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
-} TRPInformationItem_ExtIEs_t;
+} TRPInformationTypeResponseItem_ExtIEs_t;
+typedef struct TRPInformationTypeItemTRPReq {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct TRPInformationTypeItemTRPReq__value {
+    TRPInformationTypeItemTRPReq__value_PR present;
+    union TRPInformationTypeItemTRPReq__value_u {
+      TRPInformationTypeItem_t TRPInformationTypeItem;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} TRPInformationTypeItemTRPReq_t;
 typedef struct TRPPositionDefinitionType_ExtIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -901,6 +1235,21 @@ typedef struct TRPReferencePointType_ExtIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } TRPReferencePointType_ExtIEs_t;
+typedef struct ULRTOAMeas_ExtIEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct ULRTOAMeas_ExtIEs__value {
+    ULRTOAMeas_ExtIEs__value_PR present;
+    union ULRTOAMeas_ExtIEs__value_u {
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} ULRTOAMeas_ExtIEs_t;
 typedef struct WLANMeasurementQuantities_ItemIEs {
   ProtocolIE_ID_t id;
   Criticality_t criticality;
@@ -929,6 +1278,7 @@ typedef struct E_CIDMeasurementInitiationRequest_IEs {
       MeasurementQuantities_t MeasurementQuantities;
       OtherRATMeasurementQuantities_t OtherRATMeasurementQuantities;
       WLANMeasurementQuantities_t WLANMeasurementQuantities;
+      MeasurementPeriodicityNR_AoA_t MeasurementPeriodicityNR_AoA;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1143,6 +1493,9 @@ typedef struct PositioningInformationRequest_IEs {
     union PositioningInformationRequest_IEs__value_u {
       RequestedSRSTransmissionCharacteristics_t
           RequestedSRSTransmissionCharacteristics;
+      UEReportingInformation_t UEReportingInformation;
+      UE_TEG_Info_Request_t UE_TEG_Info_Request;
+      UE_TEG_ReportingPeriodicity_t UE_TEG_ReportingPeriodicity;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1159,8 +1512,9 @@ typedef struct PositioningInformationResponse_IEs {
     PositioningInformationResponse_IEs__value_PR present;
     union PositioningInformationResponse_IEs__value_u {
       SRSConfiguration_t SRSConfiguration;
-      SFNInitialisationTime_t SFNInitialisationTime;
+      RelativeTime1900_t RelativeTime1900;
       CriticalityDiagnostics_t CriticalityDiagnostics;
+      UETxTEGAssociationList_t UETxTEGAssociationList;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1194,7 +1548,9 @@ typedef struct PositioningInformationUpdate_IEs {
     PositioningInformationUpdate_IEs__value_PR present;
     union PositioningInformationUpdate_IEs__value_u {
       SRSConfiguration_t SRSConfiguration;
-      SFNInitialisationTime_t SFNInitialisationTime;
+      RelativeTime1900_t RelativeTime1900;
+      UETxTEGAssociationList_t UETxTEGAssociationList;
+      SRSTransmissionStatus_t SRSTransmissionStatus;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1215,11 +1571,17 @@ typedef struct MeasurementRequest_IEs {
       ReportCharacteristics_t ReportCharacteristics;
       MeasurementPeriodicity_t MeasurementPeriodicity;
       TRPMeasurementQuantities_t TRPMeasurementQuantities;
+      RelativeTime1900_t RelativeTime1900;
       SRSConfiguration_t SRSConfiguration;
-      SFNInitialisationTime_t SFNInitialisationTime;
       MeasurementBeamInfoRequest_t MeasurementBeamInfoRequest;
       SystemFrameNumber_t SystemFrameNumber;
       SlotNumber_t SlotNumber;
+      MeasurementPeriodicityExtended_t MeasurementPeriodicityExtended;
+      ResponseTime_t ResponseTime;
+      MeasurementCharacteristicsRequestIndicator_t
+          MeasurementCharacteristicsRequestIndicator;
+      MeasurementTimeOccasion_t MeasurementTimeOccasion;
+      MeasurementAmount_t MeasurementAmount;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1293,6 +1655,10 @@ typedef struct MeasurementUpdate_IEs {
       Measurement_ID_t Measurement_ID;
       Measurement_ID_t Measurement_ID_1;
       SRSConfiguration_t SRSConfiguration;
+      TRP_MeasurementUpdateList_t TRP_MeasurementUpdateList;
+      MeasurementCharacteristicsRequestIndicator_t
+          MeasurementCharacteristicsRequestIndicator;
+      MeasurementTimeOccasion_t MeasurementTimeOccasion;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1344,7 +1710,7 @@ typedef struct TRPInformationRequest_IEs {
     TRPInformationRequest_IEs__value_PR present;
     union TRPInformationRequest_IEs__value_u {
       TRPList_t TRPList;
-      TRPInformationTypeList_t TRPInformationTypeList;
+      TRPInformationTypeListTRPReq_t TRPInformationTypeListTRPReq;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1360,7 +1726,7 @@ typedef struct TRPInformationResponse_IEs {
   struct TRPInformationResponse_IEs__value {
     TRPInformationResponse_IEs__value_PR present;
     union TRPInformationResponse_IEs__value_u {
-      TRPInformationList_t TRPInformationList;
+      TRPInformationListTRPResp_t TRPInformationListTRPResp;
       CriticalityDiagnostics_t CriticalityDiagnostics;
     } choice;
 
@@ -1395,7 +1761,7 @@ typedef struct PositioningActivationRequestIEs {
     PositioningActivationRequestIEs__value_PR present;
     union PositioningActivationRequestIEs__value_u {
       SRSType_t SRSType;
-      ActivationTime_t ActivationTime;
+      RelativeTime1900_t RelativeTime1900;
     } choice;
 
     /* Context for parsing across buffer boundaries */
@@ -1456,224 +1822,408 @@ typedef struct PositioningDeactivationIEs {
   /* Context for parsing across buffer boundaries */
   asn_struct_ctx_t _asn_ctx;
 } PositioningDeactivationIEs_t;
+typedef struct PRSConfigurationRequest_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct PRSConfigurationRequest_IEs__value {
+    PRSConfigurationRequest_IEs__value_PR present;
+    union PRSConfigurationRequest_IEs__value_u {
+      PRSConfigRequestType_t PRSConfigRequestType;
+      PRSTRPList_t PRSTRPList;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} PRSConfigurationRequest_IEs_t;
+typedef struct PRSConfigurationResponse_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct PRSConfigurationResponse_IEs__value {
+    PRSConfigurationResponse_IEs__value_PR present;
+    union PRSConfigurationResponse_IEs__value_u {
+      PRSTransmissionTRPList_t PRSTransmissionTRPList;
+      CriticalityDiagnostics_t CriticalityDiagnostics;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} PRSConfigurationResponse_IEs_t;
+typedef struct PRSConfigurationFailure_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct PRSConfigurationFailure_IEs__value {
+    PRSConfigurationFailure_IEs__value_PR present;
+    union PRSConfigurationFailure_IEs__value_u {
+      Cause_t Cause;
+      CriticalityDiagnostics_t CriticalityDiagnostics;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} PRSConfigurationFailure_IEs_t;
+typedef struct MeasurementPreconfigurationRequired_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct MeasurementPreconfigurationRequired_IEs__value {
+    MeasurementPreconfigurationRequired_IEs__value_PR present;
+    union MeasurementPreconfigurationRequired_IEs__value_u {
+      TRP_PRS_Information_List_t TRP_PRS_Information_List;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} MeasurementPreconfigurationRequired_IEs_t;
+typedef struct MeasurementPreconfigurationConfirm_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct MeasurementPreconfigurationConfirm_IEs__value {
+    MeasurementPreconfigurationConfirm_IEs__value_PR present;
+    union MeasurementPreconfigurationConfirm_IEs__value_u {
+      PreconfigurationResult_t PreconfigurationResult;
+      CriticalityDiagnostics_t CriticalityDiagnostics;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} MeasurementPreconfigurationConfirm_IEs_t;
+typedef struct MeasurementPreconfigurationRefuse_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct MeasurementPreconfigurationRefuse_IEs__value {
+    MeasurementPreconfigurationRefuse_IEs__value_PR present;
+    union MeasurementPreconfigurationRefuse_IEs__value_u {
+      Cause_t Cause;
+      CriticalityDiagnostics_t CriticalityDiagnostics;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} MeasurementPreconfigurationRefuse_IEs_t;
+typedef struct MeasurementActivation_IEs {
+  ProtocolIE_ID_t id;
+  Criticality_t criticality;
+  struct MeasurementActivation_IEs__value {
+    MeasurementActivation_IEs__value_PR present;
+    union MeasurementActivation_IEs__value_u {
+      RequestType_t RequestType;
+      PRS_Measurements_Info_List_t PRS_Measurements_Info_List;
+    } choice;
+
+    /* Context for parsing across buffer boundaries */
+    asn_struct_ctx_t _asn_ctx;
+  } value;
+
+  /* Context for parsing across buffer boundaries */
+  asn_struct_ctx_t _asn_ctx;
+} MeasurementActivation_IEs_t;
 
 /* Implementation */
-extern asn_TYPE_descriptor_t asn_DEF_OTDOA_Information_TypeIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_OTDOA_Information_TypeIEs_specs_1;
-extern asn_TYPE_member_t asn_MBR_OTDOA_Information_TypeIEs_1[3];
+extern asn_TYPE_descriptor_t asn_DEF_OTDOA_Information_Type_ItemIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_OTDOA_Information_Type_ItemIEs_specs_1;
+extern asn_TYPE_member_t asn_MBR_OTDOA_Information_Type_ItemIEs_1[3];
 extern asn_TYPE_descriptor_t asn_DEF_SRSType_ExtIEs;
 extern asn_SEQUENCE_specifics_t asn_SPC_SRSType_ExtIEs_specs_5;
 extern asn_TYPE_member_t asn_MBR_SRSType_ExtIEs_5[3];
 extern asn_TYPE_descriptor_t asn_DEF_AbortTransmission_ExtIEs;
 extern asn_SEQUENCE_specifics_t asn_SPC_AbortTransmission_ExtIEs_specs_9;
 extern asn_TYPE_member_t asn_MBR_AbortTransmission_ExtIEs_9[3];
+extern asn_TYPE_descriptor_t asn_DEF_AngleMeasurementType_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_AngleMeasurementType_ExtIEs_specs_13;
+extern asn_TYPE_member_t asn_MBR_AngleMeasurementType_ExtIEs_13[3];
+extern asn_TYPE_descriptor_t asn_DEF_ARPLocationType_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_ARPLocationType_ExtIEs_specs_17;
+extern asn_TYPE_member_t asn_MBR_ARPLocationType_ExtIEs_17[3];
+extern asn_TYPE_descriptor_t asn_DEF_BandwidthSRS_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_BandwidthSRS_ExtIEs_specs_21;
+extern asn_TYPE_member_t asn_MBR_BandwidthSRS_ExtIEs_21[3];
 extern asn_TYPE_descriptor_t asn_DEF_Cause_ExtensionIE;
-extern asn_SEQUENCE_specifics_t asn_SPC_Cause_ExtensionIE_specs_13;
-extern asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_13[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_Cause_ExtensionIE_specs_25;
+extern asn_TYPE_member_t asn_MBR_Cause_ExtensionIE_25[3];
 extern asn_TYPE_descriptor_t asn_DEF_DL_PRSMutingPattern_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_17;
-extern asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_17[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_29;
+extern asn_TYPE_member_t asn_MBR_DL_PRSMutingPattern_ExtIEs_29[3];
 extern asn_TYPE_descriptor_t asn_DEF_DL_PRSResourceSetARPLocation_ExtIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_21;
-extern asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21[3];
+    asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_33;
+extern asn_TYPE_member_t asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_33[3];
 extern asn_TYPE_descriptor_t asn_DEF_DL_PRSResourceARPLocation_ExtIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_25;
-extern asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25[3];
+    asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_37;
+extern asn_TYPE_member_t asn_MBR_DL_PRSResourceARPLocation_ExtIEs_37[3];
 extern asn_TYPE_descriptor_t asn_DEF_GNBRxTxTimeDiffMeas_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_29;
-extern asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_41;
+extern asn_TYPE_member_t asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_41[3];
+extern asn_TYPE_descriptor_t asn_DEF_LoS_NLoSInformation_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_LoS_NLoSInformation_ExtIEs_specs_45;
+extern asn_TYPE_member_t asn_MBR_LoS_NLoSInformation_ExtIEs_45[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementQuantities_ItemIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_ItemIEs_specs_33;
-extern asn_TYPE_member_t asn_MBR_MeasurementQuantities_ItemIEs_33[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_ItemIEs_specs_49;
+extern asn_TYPE_member_t asn_MBR_MeasurementQuantities_ItemIEs_49[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasuredResultsValue_ExtensionIE;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_MeasuredResultsValue_ExtensionIE_specs_37;
-extern asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_37[3];
+    asn_SPC_MeasuredResultsValue_ExtensionIE_specs_53;
+extern asn_TYPE_member_t asn_MBR_MeasuredResultsValue_ExtensionIE_53[3];
+extern asn_TYPE_descriptor_t asn_DEF_MultipleULAoA_Item_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_MultipleULAoA_Item_ExtIEs_specs_57;
+extern asn_TYPE_member_t asn_MBR_MultipleULAoA_Item_ExtIEs_57[3];
 extern asn_TYPE_descriptor_t asn_DEF_NG_RANCell_ExtensionIE;
-extern asn_SEQUENCE_specifics_t asn_SPC_NG_RANCell_ExtensionIE_specs_41;
-extern asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_41[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_NG_RANCell_ExtensionIE_specs_61;
+extern asn_TYPE_member_t asn_MBR_NG_RANCell_ExtensionIE_61[3];
 extern asn_TYPE_descriptor_t asn_DEF_OTDOACell_Information_Item_ExtensionIE;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_45;
-extern asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_45[3];
+    asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_65;
+extern asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_ExtensionIE_65[3];
 extern asn_TYPE_descriptor_t asn_DEF_OtherRATMeasurementQuantities_ItemIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_49;
-extern asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49[3];
+    asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_69;
+extern asn_TYPE_member_t asn_MBR_OtherRATMeasurementQuantities_ItemIEs_69[3];
 extern asn_TYPE_descriptor_t asn_DEF_OtherRATMeasuredResultsValue_ExtensionIE;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_53;
-extern asn_TYPE_member_t asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_53[3];
+    asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_73;
+extern asn_TYPE_member_t asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_73[3];
 extern asn_TYPE_descriptor_t asn_DEF_PathlossReferenceSignal_ExtensionIE;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_57;
-extern asn_TYPE_member_t asn_MBR_PathlossReferenceSignal_ExtensionIE_57[3];
+    asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_77;
+extern asn_TYPE_member_t asn_MBR_PathlossReferenceSignal_ExtensionIE_77[3];
 extern asn_TYPE_descriptor_t asn_DEF_PosResourceSetType_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_PosResourceSetType_ExtIEs_specs_61;
-extern asn_TYPE_member_t asn_MBR_PosResourceSetType_ExtIEs_61[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_PosResourceSetType_ExtIEs_specs_81;
+extern asn_TYPE_member_t asn_MBR_PosResourceSetType_ExtIEs_81[3];
 extern asn_TYPE_descriptor_t asn_DEF_PRSMutingConfiguration_EUTRA_ExtensionIE;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_65;
-extern asn_TYPE_member_t asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_65[3];
+    asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_85;
+extern asn_TYPE_member_t asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_85[3];
+extern asn_TYPE_descriptor_t asn_DEF_PRSResource_QCLInfo_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_PRSResource_QCLInfo_ExtIEs_specs_89;
+extern asn_TYPE_member_t asn_MBR_PRSResource_QCLInfo_ExtIEs_89[3];
+extern asn_TYPE_descriptor_t asn_DEF_PRSTransmissionOffIndication_ExtIEs;
+extern asn_SEQUENCE_specifics_t
+    asn_SPC_PRSTransmissionOffIndication_ExtIEs_specs_93;
+extern asn_TYPE_member_t asn_MBR_PRSTransmissionOffIndication_ExtIEs_93[3];
 extern asn_TYPE_descriptor_t asn_DEF_ReferenceSignal_ExtensionIE;
-extern asn_SEQUENCE_specifics_t asn_SPC_ReferenceSignal_ExtensionIE_specs_69;
-extern asn_TYPE_member_t asn_MBR_ReferenceSignal_ExtensionIE_69[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_ReferenceSignal_ExtensionIE_specs_97;
+extern asn_TYPE_member_t asn_MBR_ReferenceSignal_ExtensionIE_97[3];
 extern asn_TYPE_descriptor_t asn_DEF_ReferencePoint_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_ReferencePoint_ExtIEs_specs_73;
-extern asn_TYPE_member_t asn_MBR_ReferencePoint_ExtIEs_73[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_ReferencePoint_ExtIEs_specs_101;
+extern asn_TYPE_member_t asn_MBR_ReferencePoint_ExtIEs_101[3];
+extern asn_TYPE_descriptor_t asn_DEF_RelativePathDelay_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_RelativePathDelay_ExtIEs_specs_105;
+extern asn_TYPE_member_t asn_MBR_RelativePathDelay_ExtIEs_105[3];
 extern asn_TYPE_descriptor_t asn_DEF_ResourceSetType_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_ResourceSetType_ExtIEs_specs_77;
-extern asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_77[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_ResourceSetType_ExtIEs_specs_109;
+extern asn_TYPE_member_t asn_MBR_ResourceSetType_ExtIEs_109[3];
 extern asn_TYPE_descriptor_t asn_DEF_ResourceType_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_ResourceType_ExtIEs_specs_81;
-extern asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_81[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_ResourceType_ExtIEs_specs_113;
+extern asn_TYPE_member_t asn_MBR_ResourceType_ExtIEs_113[3];
 extern asn_TYPE_descriptor_t asn_DEF_ResourceTypePos_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_ResourceTypePos_ExtIEs_specs_85;
-extern asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_85[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_ResourceTypePos_ExtIEs_specs_117;
+extern asn_TYPE_member_t asn_MBR_ResourceTypePos_ExtIEs_117[3];
 extern asn_TYPE_descriptor_t asn_DEF_SpatialInformationPos_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_SpatialInformationPos_ExtIEs_specs_89;
-extern asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_89[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_SpatialInformationPos_ExtIEs_specs_121;
+extern asn_TYPE_member_t asn_MBR_SpatialInformationPos_ExtIEs_121[3];
+extern asn_TYPE_descriptor_t asn_DEF_SSBBurstPosition_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_SSBBurstPosition_ExtIEs_specs_125;
+extern asn_TYPE_member_t asn_MBR_SSBBurstPosition_ExtIEs_125[3];
+extern asn_TYPE_descriptor_t asn_DEF_TRPTEGInformation_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPTEGInformation_ExtIEs_specs_129;
+extern asn_TYPE_member_t asn_MBR_TRPTEGInformation_ExtIEs_129[3];
 extern asn_TYPE_descriptor_t asn_DEF_TimeStampSlotIndex_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TimeStampSlotIndex_ExtIEs_specs_93;
-extern asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_93[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TimeStampSlotIndex_ExtIEs_specs_133;
+extern asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_ExtIEs_133[3];
 extern asn_TYPE_descriptor_t asn_DEF_TransmissionComb_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TransmissionComb_ExtIEs_specs_97;
-extern asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_97[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TransmissionComb_ExtIEs_specs_137;
+extern asn_TYPE_member_t asn_MBR_TransmissionComb_ExtIEs_137[3];
 extern asn_TYPE_descriptor_t asn_DEF_TransmissionCombPos_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TransmissionCombPos_ExtIEs_specs_101;
-extern asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_101[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TransmissionCombPos_ExtIEs_specs_141;
+extern asn_TYPE_member_t asn_MBR_TransmissionCombPos_ExtIEs_141[3];
+extern asn_TYPE_descriptor_t asn_DEF_Choice_TRP_Beam_Info_Item_ExtIEs;
+extern asn_SEQUENCE_specifics_t
+    asn_SPC_Choice_TRP_Beam_Info_Item_ExtIEs_specs_145;
+extern asn_TYPE_member_t asn_MBR_Choice_TRP_Beam_Info_Item_ExtIEs_145[3];
 extern asn_TYPE_descriptor_t asn_DEF_TrpMeasuredResultsValue_ExtIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_105;
-extern asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_105[3];
+    asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_149;
+extern asn_TYPE_member_t asn_MBR_TrpMeasuredResultsValue_ExtIEs_149[3];
 extern asn_TYPE_descriptor_t asn_DEF_TrpMeasurementQuality_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TrpMeasurementQuality_ExtIEs_specs_109;
-extern asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_109[3];
-extern asn_TYPE_descriptor_t asn_DEF_TRPInformationItem_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationItem_ExtIEs_specs_113;
-extern asn_TYPE_member_t asn_MBR_TRPInformationItem_ExtIEs_113[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TrpMeasurementQuality_ExtIEs_specs_153;
+extern asn_TYPE_member_t asn_MBR_TrpMeasurementQuality_ExtIEs_153[3];
+extern asn_TYPE_descriptor_t asn_DEF_TRPInformationTypeResponseItem_ExtIEs;
+extern asn_SEQUENCE_specifics_t
+    asn_SPC_TRPInformationTypeResponseItem_ExtIEs_specs_157;
+extern asn_TYPE_member_t asn_MBR_TRPInformationTypeResponseItem_ExtIEs_157[3];
+extern asn_TYPE_descriptor_t asn_DEF_TRPInformationTypeItemTRPReq;
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationTypeItemTRPReq_specs_161;
+extern asn_TYPE_member_t asn_MBR_TRPInformationTypeItemTRPReq_161[3];
 extern asn_TYPE_descriptor_t asn_DEF_TRPPositionDefinitionType_ExtIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_117;
-extern asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_117[3];
+    asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_165;
+extern asn_TYPE_member_t asn_MBR_TRPPositionDefinitionType_ExtIEs_165[3];
 extern asn_TYPE_descriptor_t asn_DEF_TRPPositionDirectAccuracy_ExtIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_121;
-extern asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121[3];
+    asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_169;
+extern asn_TYPE_member_t asn_MBR_TRPPositionDirectAccuracy_ExtIEs_169[3];
 extern asn_TYPE_descriptor_t asn_DEF_TRPReferencePointType_ExtIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TRPReferencePointType_ExtIEs_specs_125;
-extern asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_125[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPReferencePointType_ExtIEs_specs_173;
+extern asn_TYPE_member_t asn_MBR_TRPReferencePointType_ExtIEs_173[3];
+extern asn_TYPE_descriptor_t asn_DEF_ULRTOAMeas_ExtIEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_ULRTOAMeas_ExtIEs_specs_177;
+extern asn_TYPE_member_t asn_MBR_ULRTOAMeas_ExtIEs_177[3];
 extern asn_TYPE_descriptor_t asn_DEF_WLANMeasurementQuantities_ItemIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_129;
-extern asn_TYPE_member_t asn_MBR_WLANMeasurementQuantities_ItemIEs_129[3];
+    asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_181;
+extern asn_TYPE_member_t asn_MBR_WLANMeasurementQuantities_ItemIEs_181[3];
 extern asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementInitiationRequest_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementInitiationRequest_IEs_specs_133;
-extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_133[3];
+    asn_SPC_E_CIDMeasurementInitiationRequest_IEs_specs_185;
+extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationRequest_IEs_185[3];
 extern asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementInitiationResponse_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementInitiationResponse_IEs_specs_137;
-extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_137[3];
+    asn_SPC_E_CIDMeasurementInitiationResponse_IEs_specs_189;
+extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationResponse_IEs_189[3];
 extern asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementInitiationFailure_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementInitiationFailure_IEs_specs_141;
-extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_141[3];
+    asn_SPC_E_CIDMeasurementInitiationFailure_IEs_specs_193;
+extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementInitiationFailure_IEs_193[3];
 extern asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementFailureIndication_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementFailureIndication_IEs_specs_145;
-extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_145[3];
+    asn_SPC_E_CIDMeasurementFailureIndication_IEs_specs_197;
+extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementFailureIndication_IEs_197[3];
 extern asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementReport_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_E_CIDMeasurementReport_IEs_specs_149;
-extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_149[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_E_CIDMeasurementReport_IEs_specs_201;
+extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementReport_IEs_201[3];
 extern asn_TYPE_descriptor_t asn_DEF_E_CIDMeasurementTerminationCommand_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_E_CIDMeasurementTerminationCommand_IEs_specs_153;
-extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_153[3];
+    asn_SPC_E_CIDMeasurementTerminationCommand_IEs_specs_205;
+extern asn_TYPE_member_t asn_MBR_E_CIDMeasurementTerminationCommand_IEs_205[3];
 extern asn_TYPE_descriptor_t asn_DEF_OTDOAInformationRequest_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationRequest_IEs_specs_157;
-extern asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_157[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationRequest_IEs_specs_209;
+extern asn_TYPE_member_t asn_MBR_OTDOAInformationRequest_IEs_209[3];
 extern asn_TYPE_descriptor_t asn_DEF_OTDOAInformationResponse_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationResponse_IEs_specs_161;
-extern asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_161[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationResponse_IEs_specs_213;
+extern asn_TYPE_member_t asn_MBR_OTDOAInformationResponse_IEs_213[3];
 extern asn_TYPE_descriptor_t asn_DEF_OTDOAInformationFailure_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationFailure_IEs_specs_165;
-extern asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_165[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_OTDOAInformationFailure_IEs_specs_217;
+extern asn_TYPE_member_t asn_MBR_OTDOAInformationFailure_IEs_217[3];
 extern asn_TYPE_descriptor_t asn_DEF_AssistanceInformationControl_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_AssistanceInformationControl_IEs_specs_169;
-extern asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_169[3];
+    asn_SPC_AssistanceInformationControl_IEs_specs_221;
+extern asn_TYPE_member_t asn_MBR_AssistanceInformationControl_IEs_221[3];
 extern asn_TYPE_descriptor_t asn_DEF_AssistanceInformationFeedback_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_AssistanceInformationFeedback_IEs_specs_173;
-extern asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_173[3];
+    asn_SPC_AssistanceInformationFeedback_IEs_specs_225;
+extern asn_TYPE_member_t asn_MBR_AssistanceInformationFeedback_IEs_225[3];
 extern asn_TYPE_descriptor_t asn_DEF_ErrorIndication_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_ErrorIndication_IEs_specs_177;
-extern asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_177[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_ErrorIndication_IEs_specs_229;
+extern asn_TYPE_member_t asn_MBR_ErrorIndication_IEs_229[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningInformationRequest_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningInformationRequest_IEs_specs_181;
-extern asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_181[3];
+    asn_SPC_PositioningInformationRequest_IEs_specs_233;
+extern asn_TYPE_member_t asn_MBR_PositioningInformationRequest_IEs_233[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningInformationResponse_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningInformationResponse_IEs_specs_185;
-extern asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_185[3];
+    asn_SPC_PositioningInformationResponse_IEs_specs_237;
+extern asn_TYPE_member_t asn_MBR_PositioningInformationResponse_IEs_237[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningInformationFailure_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningInformationFailure_IEs_specs_189;
-extern asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_189[3];
+    asn_SPC_PositioningInformationFailure_IEs_specs_241;
+extern asn_TYPE_member_t asn_MBR_PositioningInformationFailure_IEs_241[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningInformationUpdate_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningInformationUpdate_IEs_specs_193;
-extern asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_193[3];
+    asn_SPC_PositioningInformationUpdate_IEs_specs_245;
+extern asn_TYPE_member_t asn_MBR_PositioningInformationUpdate_IEs_245[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementRequest_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementRequest_IEs_specs_197;
-extern asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_197[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementRequest_IEs_specs_249;
+extern asn_TYPE_member_t asn_MBR_MeasurementRequest_IEs_249[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementResponse_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementResponse_IEs_specs_201;
-extern asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_201[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementResponse_IEs_specs_253;
+extern asn_TYPE_member_t asn_MBR_MeasurementResponse_IEs_253[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementFailure_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementFailure_IEs_specs_205;
-extern asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_205[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementFailure_IEs_specs_257;
+extern asn_TYPE_member_t asn_MBR_MeasurementFailure_IEs_257[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementReport_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementReport_IEs_specs_209;
-extern asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_209[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementReport_IEs_specs_261;
+extern asn_TYPE_member_t asn_MBR_MeasurementReport_IEs_261[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementUpdate_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementUpdate_IEs_specs_213;
-extern asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_213[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementUpdate_IEs_specs_265;
+extern asn_TYPE_member_t asn_MBR_MeasurementUpdate_IEs_265[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementAbort_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementAbort_IEs_specs_217;
-extern asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_217[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementAbort_IEs_specs_269;
+extern asn_TYPE_member_t asn_MBR_MeasurementAbort_IEs_269[3];
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementFailureIndication_IEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_MeasurementFailureIndication_IEs_specs_221;
-extern asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_221[3];
+    asn_SPC_MeasurementFailureIndication_IEs_specs_273;
+extern asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_IEs_273[3];
 extern asn_TYPE_descriptor_t asn_DEF_TRPInformationRequest_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationRequest_IEs_specs_225;
-extern asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_225[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationRequest_IEs_specs_277;
+extern asn_TYPE_member_t asn_MBR_TRPInformationRequest_IEs_277[3];
 extern asn_TYPE_descriptor_t asn_DEF_TRPInformationResponse_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationResponse_IEs_specs_229;
-extern asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_229[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationResponse_IEs_specs_281;
+extern asn_TYPE_member_t asn_MBR_TRPInformationResponse_IEs_281[3];
 extern asn_TYPE_descriptor_t asn_DEF_TRPInformationFailure_IEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationFailure_IEs_specs_233;
-extern asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_233[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_TRPInformationFailure_IEs_specs_285;
+extern asn_TYPE_member_t asn_MBR_TRPInformationFailure_IEs_285[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningActivationRequestIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningActivationRequestIEs_specs_237;
-extern asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_237[3];
+    asn_SPC_PositioningActivationRequestIEs_specs_289;
+extern asn_TYPE_member_t asn_MBR_PositioningActivationRequestIEs_289[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningActivationResponseIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningActivationResponseIEs_specs_241;
-extern asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_241[3];
+    asn_SPC_PositioningActivationResponseIEs_specs_293;
+extern asn_TYPE_member_t asn_MBR_PositioningActivationResponseIEs_293[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningActivationFailureIEs;
 extern asn_SEQUENCE_specifics_t
-    asn_SPC_PositioningActivationFailureIEs_specs_245;
-extern asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_245[3];
+    asn_SPC_PositioningActivationFailureIEs_specs_297;
+extern asn_TYPE_member_t asn_MBR_PositioningActivationFailureIEs_297[3];
 extern asn_TYPE_descriptor_t asn_DEF_PositioningDeactivationIEs;
-extern asn_SEQUENCE_specifics_t asn_SPC_PositioningDeactivationIEs_specs_249;
-extern asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_249[3];
+extern asn_SEQUENCE_specifics_t asn_SPC_PositioningDeactivationIEs_specs_301;
+extern asn_TYPE_member_t asn_MBR_PositioningDeactivationIEs_301[3];
+extern asn_TYPE_descriptor_t asn_DEF_PRSConfigurationRequest_IEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_PRSConfigurationRequest_IEs_specs_305;
+extern asn_TYPE_member_t asn_MBR_PRSConfigurationRequest_IEs_305[3];
+extern asn_TYPE_descriptor_t asn_DEF_PRSConfigurationResponse_IEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_PRSConfigurationResponse_IEs_specs_309;
+extern asn_TYPE_member_t asn_MBR_PRSConfigurationResponse_IEs_309[3];
+extern asn_TYPE_descriptor_t asn_DEF_PRSConfigurationFailure_IEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_PRSConfigurationFailure_IEs_specs_313;
+extern asn_TYPE_member_t asn_MBR_PRSConfigurationFailure_IEs_313[3];
+extern asn_TYPE_descriptor_t asn_DEF_MeasurementPreconfigurationRequired_IEs;
+extern asn_SEQUENCE_specifics_t
+    asn_SPC_MeasurementPreconfigurationRequired_IEs_specs_317;
+extern asn_TYPE_member_t asn_MBR_MeasurementPreconfigurationRequired_IEs_317[3];
+extern asn_TYPE_descriptor_t asn_DEF_MeasurementPreconfigurationConfirm_IEs;
+extern asn_SEQUENCE_specifics_t
+    asn_SPC_MeasurementPreconfigurationConfirm_IEs_specs_321;
+extern asn_TYPE_member_t asn_MBR_MeasurementPreconfigurationConfirm_IEs_321[3];
+extern asn_TYPE_descriptor_t asn_DEF_MeasurementPreconfigurationRefuse_IEs;
+extern asn_SEQUENCE_specifics_t
+    asn_SPC_MeasurementPreconfigurationRefuse_IEs_specs_325;
+extern asn_TYPE_member_t asn_MBR_MeasurementPreconfigurationRefuse_IEs_325[3];
+extern asn_TYPE_descriptor_t asn_DEF_MeasurementActivation_IEs;
+extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementActivation_IEs_specs_329;
+extern asn_TYPE_member_t asn_MBR_MeasurementActivation_IEs_329[3];
 
 #ifdef __cplusplus
 }

@@ -35,6 +35,12 @@
 #include "PositioningActivationRequest.h"
 #include "PositioningActivationResponse.h"
 #include "PositioningActivationFailure.h"
+#include "PRSConfigurationRequest.h"
+#include "PRSConfigurationResponse.h"
+#include "PRSConfigurationFailure.h"
+#include "MeasurementPreconfigurationRequired.h"
+#include "MeasurementPreconfigurationConfirm.h"
+#include "MeasurementPreconfigurationRefuse.h"
 #include "E-CIDMeasurementFailureIndication.h"
 #include "E-CIDMeasurementReport.h"
 #include "E-CIDMeasurementTerminationCommand.h"
@@ -48,6 +54,7 @@
 #include "MeasurementAbort.h"
 #include "MeasurementFailureIndication.h"
 #include "PositioningDeactivation.h"
+#include "MeasurementActivation.h"
 #include <OPEN_TYPE.h>
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
@@ -65,6 +72,8 @@ typedef enum InitiatingMessage__value_PR {
   InitiatingMessage__value_PR_MeasurementRequest,
   InitiatingMessage__value_PR_TRPInformationRequest,
   InitiatingMessage__value_PR_PositioningActivationRequest,
+  InitiatingMessage__value_PR_PRSConfigurationRequest,
+  InitiatingMessage__value_PR_MeasurementPreconfigurationRequired,
   InitiatingMessage__value_PR_E_CIDMeasurementFailureIndication,
   InitiatingMessage__value_PR_E_CIDMeasurementReport,
   InitiatingMessage__value_PR_E_CIDMeasurementTerminationCommand,
@@ -77,7 +86,8 @@ typedef enum InitiatingMessage__value_PR {
   InitiatingMessage__value_PR_MeasurementUpdate,
   InitiatingMessage__value_PR_MeasurementAbort,
   InitiatingMessage__value_PR_MeasurementFailureIndication,
-  InitiatingMessage__value_PR_PositioningDeactivation
+  InitiatingMessage__value_PR_PositioningDeactivation,
+  InitiatingMessage__value_PR_MeasurementActivation
 } InitiatingMessage__value_PR;
 
 /* InitiatingMessage */
@@ -94,6 +104,8 @@ typedef struct InitiatingMessage {
       MeasurementRequest_t MeasurementRequest;
       TRPInformationRequest_t TRPInformationRequest;
       PositioningActivationRequest_t PositioningActivationRequest;
+      PRSConfigurationRequest_t PRSConfigurationRequest;
+      MeasurementPreconfigurationRequired_t MeasurementPreconfigurationRequired;
       E_CIDMeasurementFailureIndication_t E_CIDMeasurementFailureIndication;
       E_CIDMeasurementReport_t E_CIDMeasurementReport;
       E_CIDMeasurementTerminationCommand_t E_CIDMeasurementTerminationCommand;
@@ -107,6 +119,7 @@ typedef struct InitiatingMessage {
       MeasurementAbort_t MeasurementAbort;
       MeasurementFailureIndication_t MeasurementFailureIndication;
       PositioningDeactivation_t PositioningDeactivation;
+      MeasurementActivation_t MeasurementActivation;
     } choice;
 
     /* Context for parsing across buffer boundaries */

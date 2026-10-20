@@ -37,8 +37,6 @@ typedef struct Assistance_Information {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_Assistance_Information;
-extern asn_SEQUENCE_specifics_t asn_SPC_Assistance_Information_specs_1;
-extern asn_TYPE_member_t asn_MBR_Assistance_Information_1[2];
 
 #ifdef __cplusplus
 }

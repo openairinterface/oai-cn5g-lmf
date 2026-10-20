@@ -29,7 +29,7 @@ typedef struct SRSCarrier_List_Item {
   long pointA;
   UplinkChannelBW_PerSCS_List_t uplinkChannelBW_PerSCS_List;
   ActiveULBWP_t activeULBWP;
-  long* pCI;                                        /* OPTIONAL */
+  long* pCI_NR;                                     /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,

@@ -10,31 +10,6 @@
 
 #include "ProtocolExtensionContainer.h"
 #include "DLPRSResourceARP.h"
-static int memb_dl_PRSResourceSetID_constraint_1(
-    const asn_TYPE_descriptor_t* td, const void* sptr,
-    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
-  long value;
-
-  if (!sptr) {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-
-  value = *(const long*) sptr;
-
-  if ((value >= 0 && value <= 7)) {
-    /* Constraint check succeeded */
-    return 0;
-  } else {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-}
-
 static int memb_listofDL_PRSResourceARP_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -52,8 +27,7 @@ static int memb_listofDL_PRSResourceARP_constraint_1(
 
   if ((size >= 1 && size <= 64)) {
     /* Perform validation of the inner elements */
-    return td->encoding_constraints.general_constraints(
-        td, sptr, ctfailcb, app_key);
+    return SEQUENCE_OF_constraint(td, sptr, ctfailcb, app_key);
   } else {
     ASN__CTFAIL(
         app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
@@ -66,13 +40,6 @@ static asn_per_constraints_t asn_PER_type_listofDL_PRSResourceARP_constr_4
     CC_NOTUSED = {
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         {APC_CONSTRAINED, 6, 6, 1, 64} /* (SIZE(1..64)) */,
-        0,
-        0 /* No PER value map */
-};
-static asn_per_constraints_t asn_PER_memb_dl_PRSResourceSetID_constr_2
-    CC_NOTUSED = {
-        {APC_CONSTRAINED, 3, 3, 0, 7} /* (0..7) */,
-        {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
 };
@@ -128,10 +95,9 @@ asn_TYPE_member_t asn_MBR_DLPRSResourceSetARP_1[] = {
      offsetof(struct DLPRSResourceSetARP, dl_PRSResourceSetID),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NativeInteger,
+     &asn_DEF_PRS_Resource_Set_ID,
      0,
-     {0, &asn_PER_memb_dl_PRSResourceSetID_constr_2,
-      memb_dl_PRSResourceSetID_constraint_1},
+     {0, 0, 0},
      0,
      0, /* No default value */
      "dl-PRSResourceSetID"},
@@ -163,7 +129,7 @@ asn_TYPE_member_t asn_MBR_DLPRSResourceSetARP_1[] = {
      offsetof(struct DLPRSResourceSetARP, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P14,
+     &asn_DEF_ProtocolExtensionContainer_4889P22,
      0,
      {0, 0, 0},
      0,

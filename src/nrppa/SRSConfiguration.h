@@ -37,8 +37,6 @@ typedef struct SRSConfiguration {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_SRSConfiguration;
-extern asn_SEQUENCE_specifics_t asn_SPC_SRSConfiguration_specs_1;
-extern asn_TYPE_member_t asn_MBR_SRSConfiguration_1[2];
 
 #ifdef __cplusplus
 }

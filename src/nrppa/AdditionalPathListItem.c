@@ -38,7 +38,7 @@ asn_TYPE_member_t asn_MBR_AdditionalPathListItem_1[] = {
      offsetof(struct AdditionalPathListItem, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P4,
+     &asn_DEF_ProtocolExtensionContainer_4889P4,
      0,
      {0, 0, 0},
      0,

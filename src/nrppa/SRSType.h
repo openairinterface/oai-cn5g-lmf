@@ -23,7 +23,7 @@ typedef enum SRSType_PR {
   SRSType_PR_NOTHING, /* No components present */
   SRSType_PR_semipersistentSRS,
   SRSType_PR_aperiodicSRS,
-  SRSType_PR_sRSType_extension
+  SRSType_PR_choice_Extension
 } SRSType_PR;
 
 /* Forward declarations */
@@ -37,7 +37,7 @@ typedef struct SRSType {
   union SRSType_u {
     struct SemipersistentSRS* semipersistentSRS;
     struct AperiodicSRS* aperiodicSRS;
-    struct ProtocolIE_Single_Container* sRSType_extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */
@@ -46,9 +46,6 @@ typedef struct SRSType {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_SRSType;
-extern asn_CHOICE_specifics_t asn_SPC_SRSType_specs_1;
-extern asn_TYPE_member_t asn_MBR_SRSType_1[3];
-extern asn_per_constraints_t asn_PER_type_SRSType_constr_1;
 
 #ifdef __cplusplus
 }

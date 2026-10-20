@@ -20,32 +20,38 @@ static const long asn_VAL_5_id_tRPInformationExchange                    = 16;
 static const long asn_VAL_5_reject                                       = 0;
 static const long asn_VAL_6_id_positioningActivation                     = 17;
 static const long asn_VAL_6_reject                                       = 0;
-static const long asn_VAL_7_id_e_CIDMeasurementFailureIndication         = 3;
-static const long asn_VAL_7_ignore                                       = 1;
-static const long asn_VAL_8_id_e_CIDMeasurementReport                    = 4;
-static const long asn_VAL_8_ignore                                       = 1;
-static const long asn_VAL_9_id_e_CIDMeasurementTermination               = 5;
-static const long asn_VAL_9_reject                                       = 0;
-static const long asn_VAL_10_id_errorIndication                          = 0;
+static const long asn_VAL_7_id_pRSConfigurationExchange                  = 19;
+static const long asn_VAL_7_reject                                       = 0;
+static const long asn_VAL_8_id_measurementPreconfiguration               = 20;
+static const long asn_VAL_8_reject                                       = 0;
+static const long asn_VAL_9_id_e_CIDMeasurementFailureIndication         = 3;
+static const long asn_VAL_9_ignore                                       = 1;
+static const long asn_VAL_10_id_e_CIDMeasurementReport                   = 4;
 static const long asn_VAL_10_ignore                                      = 1;
-static const long asn_VAL_11_id_privateMessage                           = 1;
-static const long asn_VAL_11_ignore                                      = 1;
-static const long asn_VAL_12_id_assistanceInformationControl             = 7;
-static const long asn_VAL_12_reject                                      = 0;
-static const long asn_VAL_13_id_assistanceInformationFeedback            = 8;
-static const long asn_VAL_13_reject                                      = 0;
-static const long asn_VAL_14_id_positioningInformationUpdate             = 10;
-static const long asn_VAL_14_ignore                                      = 1;
-static const long asn_VAL_15_id_MeasurementReport                        = 12;
-static const long asn_VAL_15_ignore                                      = 1;
-static const long asn_VAL_16_id_MeasurementUpdate                        = 13;
+static const long asn_VAL_11_id_e_CIDMeasurementTermination              = 5;
+static const long asn_VAL_11_reject                                      = 0;
+static const long asn_VAL_12_id_errorIndication                          = 0;
+static const long asn_VAL_12_ignore                                      = 1;
+static const long asn_VAL_13_id_privateMessage                           = 1;
+static const long asn_VAL_13_ignore                                      = 1;
+static const long asn_VAL_14_id_assistanceInformationControl             = 7;
+static const long asn_VAL_14_reject                                      = 0;
+static const long asn_VAL_15_id_assistanceInformationFeedback            = 8;
+static const long asn_VAL_15_reject                                      = 0;
+static const long asn_VAL_16_id_positioningInformationUpdate             = 10;
 static const long asn_VAL_16_ignore                                      = 1;
-static const long asn_VAL_17_id_MeasurementAbort                         = 14;
+static const long asn_VAL_17_id_MeasurementReport                        = 12;
 static const long asn_VAL_17_ignore                                      = 1;
-static const long asn_VAL_18_id_MeasurementFailureIndication             = 15;
+static const long asn_VAL_18_id_MeasurementUpdate                        = 13;
 static const long asn_VAL_18_ignore                                      = 1;
-static const long asn_VAL_19_id_positioningDeactivation                  = 18;
+static const long asn_VAL_19_id_MeasurementAbort                         = 14;
 static const long asn_VAL_19_ignore                                      = 1;
+static const long asn_VAL_20_id_MeasurementFailureIndication             = 15;
+static const long asn_VAL_20_ignore                                      = 1;
+static const long asn_VAL_21_id_positioningDeactivation                  = 18;
+static const long asn_VAL_21_ignore                                      = 1;
+static const long asn_VAL_22_id_measurementActivation                    = 21;
+static const long asn_VAL_22_ignore                                      = 1;
 static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
     {"&InitiatingMessage", aioc__type,
      &asn_DEF_E_CIDMeasurementInitiationRequest},
@@ -87,6 +93,21 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
      &asn_VAL_6_id_positioningActivation},
     {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_6_reject},
+    {"&InitiatingMessage", aioc__type, &asn_DEF_PRSConfigurationRequest},
+    {"&SuccessfulOutcome", aioc__type, &asn_DEF_PRSConfigurationResponse},
+    {"&UnsuccessfulOutcome", aioc__type, &asn_DEF_PRSConfigurationFailure},
+    {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
+     &asn_VAL_7_id_pRSConfigurationExchange},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_7_reject},
+    {"&InitiatingMessage", aioc__type,
+     &asn_DEF_MeasurementPreconfigurationRequired},
+    {"&SuccessfulOutcome", aioc__type,
+     &asn_DEF_MeasurementPreconfigurationConfirm},
+    {"&UnsuccessfulOutcome", aioc__type,
+     &asn_DEF_MeasurementPreconfigurationRefuse},
+    {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
+     &asn_VAL_8_id_measurementPreconfiguration},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_8_reject},
     {"&InitiatingMessage", aioc__type,
      &asn_DEF_E_CIDMeasurementFailureIndication},
     {
@@ -96,8 +117,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_7_id_e_CIDMeasurementFailureIndication},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_7_ignore},
+     &asn_VAL_9_id_e_CIDMeasurementFailureIndication},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_9_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_E_CIDMeasurementReport},
     {
         "&SuccessfulOutcome",
@@ -106,8 +127,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_8_id_e_CIDMeasurementReport},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_8_ignore},
+     &asn_VAL_10_id_e_CIDMeasurementReport},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_10_ignore},
     {"&InitiatingMessage", aioc__type,
      &asn_DEF_E_CIDMeasurementTerminationCommand},
     {
@@ -117,8 +138,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_9_id_e_CIDMeasurementTermination},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_9_reject},
+     &asn_VAL_11_id_e_CIDMeasurementTermination},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_11_reject},
     {"&InitiatingMessage", aioc__type, &asn_DEF_ErrorIndication},
     {
         "&SuccessfulOutcome",
@@ -127,8 +148,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_10_id_errorIndication},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_10_ignore},
+     &asn_VAL_12_id_errorIndication},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_12_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_PrivateMessage},
     {
         "&SuccessfulOutcome",
@@ -137,8 +158,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_11_id_privateMessage},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_11_ignore},
+     &asn_VAL_13_id_privateMessage},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_13_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_AssistanceInformationControl},
     {
         "&SuccessfulOutcome",
@@ -147,8 +168,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_12_id_assistanceInformationControl},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_12_reject},
+     &asn_VAL_14_id_assistanceInformationControl},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_14_reject},
     {"&InitiatingMessage", aioc__type, &asn_DEF_AssistanceInformationFeedback},
     {
         "&SuccessfulOutcome",
@@ -157,8 +178,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_13_id_assistanceInformationFeedback},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_13_reject},
+     &asn_VAL_15_id_assistanceInformationFeedback},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_15_reject},
     {"&InitiatingMessage", aioc__type, &asn_DEF_PositioningInformationUpdate},
     {
         "&SuccessfulOutcome",
@@ -167,8 +188,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_14_id_positioningInformationUpdate},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_14_ignore},
+     &asn_VAL_16_id_positioningInformationUpdate},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_16_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_MeasurementReport},
     {
         "&SuccessfulOutcome",
@@ -177,8 +198,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_15_id_MeasurementReport},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_15_ignore},
+     &asn_VAL_17_id_MeasurementReport},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_17_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_MeasurementUpdate},
     {
         "&SuccessfulOutcome",
@@ -187,8 +208,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_16_id_MeasurementUpdate},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_16_ignore},
+     &asn_VAL_18_id_MeasurementUpdate},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_18_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_MeasurementAbort},
     {
         "&SuccessfulOutcome",
@@ -197,8 +218,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_17_id_MeasurementAbort},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_17_ignore},
+     &asn_VAL_19_id_MeasurementAbort},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_19_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_MeasurementFailureIndication},
     {
         "&SuccessfulOutcome",
@@ -207,8 +228,8 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_18_id_MeasurementFailureIndication},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_18_ignore},
+     &asn_VAL_20_id_MeasurementFailureIndication},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_20_ignore},
     {"&InitiatingMessage", aioc__type, &asn_DEF_PositioningDeactivation},
     {
         "&SuccessfulOutcome",
@@ -217,10 +238,20 @@ static const asn_ioc_cell_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows[] = {
         "&UnsuccessfulOutcome",
     },
     {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
-     &asn_VAL_19_id_positioningDeactivation},
-    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_19_ignore}};
+     &asn_VAL_21_id_positioningDeactivation},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_21_ignore},
+    {"&InitiatingMessage", aioc__type, &asn_DEF_MeasurementActivation},
+    {
+        "&SuccessfulOutcome",
+    },
+    {
+        "&UnsuccessfulOutcome",
+    },
+    {"&procedureCode", aioc__value, &asn_DEF_ProcedureCode,
+     &asn_VAL_22_id_measurementActivation},
+    {"&criticality", aioc__value, &asn_DEF_Criticality, &asn_VAL_22_ignore}};
 static const asn_ioc_set_t asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1[] = {
-    {19, 5, asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows}};
+    {22, 5, asn_IOS_NRPPA_ELEMENTARY_PROCEDURES_1_rows}};
 static int memb_procedureCode_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -436,19 +467,47 @@ static asn_TYPE_member_t asn_MBR_value_5[] = {
      0,
      0, /* No default value */
      "PositioningActivationResponse"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(struct SuccessfulOutcome__value, choice.PRSConfigurationResponse),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_PRSConfigurationResponse,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "PRSConfigurationResponse"},
+    {ATF_NOFLAGS,
+     0,
+     offsetof(
+         struct SuccessfulOutcome__value,
+         choice.MeasurementPreconfigurationConfirm),
+     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+     0,
+     &asn_DEF_MeasurementPreconfigurationConfirm,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "MeasurementPreconfigurationConfirm"},
 };
 static const asn_TYPE_tag2member_t asn_MAP_value_tag2el_5[] = {
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 0, 0,
-     5}, /* E-CIDMeasurementInitiationResponse */
+     7}, /* E-CIDMeasurementInitiationResponse */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 1, -1,
-     4}, /* OTDOAInformationResponse */
+     6}, /* OTDOAInformationResponse */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 2, -2,
-     3}, /* PositioningInformationResponse */
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -3, 2}, /* MeasurementResponse */
+     5}, /* PositioningInformationResponse */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 3, -3, 4}, /* MeasurementResponse */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 4, -4,
-     1}, /* TRPInformationResponse */
+     3}, /* TRPInformationResponse */
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 5, -5,
-     0} /* PositioningActivationResponse */
+     2}, /* PositioningActivationResponse */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 6, -6,
+     1}, /* PRSConfigurationResponse */
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)), 7, -7,
+     0} /* MeasurementPreconfigurationConfirm */
 };
 static asn_CHOICE_specifics_t asn_SPC_value_specs_5 = {
     sizeof(struct SuccessfulOutcome__value),
@@ -456,7 +515,7 @@ static asn_CHOICE_specifics_t asn_SPC_value_specs_5 = {
     offsetof(struct SuccessfulOutcome__value, present),
     sizeof(((struct SuccessfulOutcome__value*) 0)->present),
     asn_MAP_value_tag2el_5,
-    6, /* Count of tags in the map */
+    8, /* Count of tags in the map */
     0,
     0,
     -1 /* Extensions start */
@@ -472,7 +531,7 @@ static /* Use -fall-defs-global to expose */
         0, /* No tags (count) */
         {0, 0, OPEN_TYPE_constraint},
         asn_MBR_value_5,
-        6,                     /* Elements count */
+        8,                     /* Elements count */
         &asn_SPC_value_specs_5 /* Additional specs */
 };
 

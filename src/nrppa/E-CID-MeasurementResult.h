@@ -43,8 +43,6 @@ typedef struct E_CID_MeasurementResult {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_E_CID_MeasurementResult;
-extern asn_SEQUENCE_specifics_t asn_SPC_E_CID_MeasurementResult_specs_1;
-extern asn_TYPE_member_t asn_MBR_E_CID_MeasurementResult_1[5];
 
 #ifdef __cplusplus
 }

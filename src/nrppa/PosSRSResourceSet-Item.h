@@ -13,7 +13,7 @@
 
 /* Including external dependencies */
 #include <NativeInteger.h>
-#include "PosSRSResourceID-List.h"
+#include "PosSRSResourceIDPerSet-List.h"
 #include "PosResourceSetType.h"
 #include <constr_SEQUENCE.h>
 
@@ -27,7 +27,7 @@ struct ProtocolExtensionContainer;
 /* PosSRSResourceSet-Item */
 typedef struct PosSRSResourceSet_Item {
   long possrsResourceSetID;
-  PosSRSResourceID_List_t possRSResourceID_List;
+  PosSRSResourceIDPerSet_List_t possRSResourceIDPerSet_List;
   PosResourceSetType_t posresourceSetType;
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*

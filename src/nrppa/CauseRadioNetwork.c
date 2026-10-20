@@ -21,19 +21,23 @@ asn_per_constraints_t asn_PER_type_CauseRadioNetwork_constr_1 CC_NOTUSED = {
 static const asn_INTEGER_enum_map_t asn_MAP_CauseRadioNetwork_value2enum_1[] = {
     {0, 11, "unspecified"},
     {1, 28, "requested-item-not-supported"},
-    {2, 40, "requested-item-temporarily-not-available"}
+    {2, 40, "requested-item-temporarily-not-available"},
+    {3, 27, "serving-NG-RAN-node-changed"},
+    {4, 36, "requested-item-not-supported-on-time"}
     /* This list is extensible */
 };
 static const unsigned int asn_MAP_CauseRadioNetwork_enum2value_1[] = {
     1, /* requested-item-not-supported(1) */
+    4, /* requested-item-not-supported-on-time(4) */
     2, /* requested-item-temporarily-not-available(2) */
+    3, /* serving-NG-RAN-node-changed(3) */
     0  /* unspecified(0) */
        /* This list is extensible */
 };
 const asn_INTEGER_specifics_t asn_SPC_CauseRadioNetwork_specs_1 = {
     asn_MAP_CauseRadioNetwork_value2enum_1, /* "tag" => N; sorted by tag */
     asn_MAP_CauseRadioNetwork_enum2value_1, /* N => "tag"; sorted by N */
-    3,                                      /* Number of elements in the maps */
+    5,                                      /* Number of elements in the maps */
     4,                                      /* Extensions before this member */
     1,                                      /* Strict enumeration */
     0,                                      /* Native long size */

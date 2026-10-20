@@ -350,7 +350,7 @@ asn_TYPE_member_t asn_MBR_PosSRSResource_Item_1[] = {
      offsetof(struct PosSRSResource_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (10 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P31,
+     &asn_DEF_ProtocolExtensionContainer_4889P44,
      0,
      {0, 0, 0},
      0,

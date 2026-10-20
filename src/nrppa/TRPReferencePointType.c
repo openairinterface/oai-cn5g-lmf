@@ -46,7 +46,7 @@ asn_TYPE_member_t asn_MBR_TRPReferencePointType_1[] = {
      offsetof(struct TRPReferencePointType, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P31,
+     &asn_DEF_ProtocolIE_Single_Container_4863P43,
      0,
      {0, 0, 0},
      0,

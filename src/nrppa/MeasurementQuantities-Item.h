@@ -37,8 +37,6 @@ typedef struct MeasurementQuantities_Item {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_MeasurementQuantities_Item;
-extern asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_Item_specs_1;
-extern asn_TYPE_member_t asn_MBR_MeasurementQuantities_Item_1[2];
 
 #ifdef __cplusplus
 }

@@ -21,7 +21,7 @@ extern "C" {
 
 /* MeasurementReport */
 typedef struct MeasurementReport {
-  ProtocolIE_Container_2789P19_t protocolIEs;
+  ProtocolIE_Container_4860P19_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

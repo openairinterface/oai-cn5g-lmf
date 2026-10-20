@@ -8,10 +8,12 @@
 
 #include "PRSMuting.h"
 
+#include "PRSMutingOption1.h"
+#include "PRSMutingOption2.h"
 #include "ProtocolExtensionContainer.h"
 asn_TYPE_member_t asn_MBR_PRSMuting_1[] = {
-    {ATF_NOFLAGS,
-     0,
+    {ATF_POINTER,
+     3,
      offsetof(struct PRSMuting, pRSMutingOption1),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
@@ -21,8 +23,8 @@ asn_TYPE_member_t asn_MBR_PRSMuting_1[] = {
      0,
      0, /* No default value */
      "pRSMutingOption1"},
-    {ATF_NOFLAGS,
-     0,
+    {ATF_POINTER,
+     2,
      offsetof(struct PRSMuting, pRSMutingOption2),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
@@ -37,14 +39,14 @@ asn_TYPE_member_t asn_MBR_PRSMuting_1[] = {
      offsetof(struct PRSMuting, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P39,
+     &asn_DEF_ProtocolExtensionContainer_4889P54,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
      "iE-Extensions"},
 };
-static const int asn_MAP_PRSMuting_oms_1[]            = {2};
+static const int asn_MAP_PRSMuting_oms_1[]            = {0, 1, 2};
 static const ber_tlv_tag_t asn_DEF_PRSMuting_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t asn_MAP_PRSMuting_tag2el_1[] = {
@@ -58,7 +60,7 @@ asn_SEQUENCE_specifics_t asn_SPC_PRSMuting_specs_1 = {
     asn_MAP_PRSMuting_tag2el_1,
     3,                       /* Count of tags in the map */
     asn_MAP_PRSMuting_oms_1, /* Optional members */
-    1,
+    3,
     0, /* Root/Additions */
     3, /* First extension addition */
 };

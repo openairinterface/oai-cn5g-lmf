@@ -40,20 +40,20 @@ asn_TYPE_member_t asn_MBR_NG_RANCell_1[] = {
      "nR-CellID"},
     {ATF_POINTER,
      0,
-     offsetof(struct NG_RANCell, choice.nG_RANCell_Extension),
+     offsetof(struct NG_RANCell, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P10,
+     &asn_DEF_ProtocolIE_Single_Container_4863P15,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "nG-RANCell-Extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t asn_MAP_NG_RANCell_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* eUTRA-CellID */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* nR-CellID */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* nG-RANCell-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* choice-Extension */
 };
 asn_CHOICE_specifics_t asn_SPC_NG_RANCell_specs_1 = {
     sizeof(struct NG_RANCell),

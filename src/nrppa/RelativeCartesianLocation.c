@@ -212,7 +212,7 @@ asn_TYPE_member_t asn_MBR_RelativeCartesianLocation_1[] = {
      offsetof(struct RelativeCartesianLocation, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P47,
+     &asn_DEF_ProtocolExtensionContainer_4889P68,
      0,
      {0, 0, 0},
      0,

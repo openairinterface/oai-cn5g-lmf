@@ -27,7 +27,7 @@ typedef enum MeasuredResultsValue_PR {
   MeasuredResultsValue_PR_valueTimingAdvanceType2_EUTRA,
   MeasuredResultsValue_PR_resultRSRP_EUTRA,
   MeasuredResultsValue_PR_resultRSRQ_EUTRA,
-  MeasuredResultsValue_PR_measuredResultsValue_Extension
+  MeasuredResultsValue_PR_choice_Extension
 } MeasuredResultsValue_PR;
 
 /* Forward declarations */
@@ -44,7 +44,7 @@ typedef struct MeasuredResultsValue {
     long valueTimingAdvanceType2_EUTRA;
     struct ResultRSRP_EUTRA* resultRSRP_EUTRA;
     struct ResultRSRQ_EUTRA* resultRSRQ_EUTRA;
-    struct ProtocolIE_Single_Container* measuredResultsValue_Extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */

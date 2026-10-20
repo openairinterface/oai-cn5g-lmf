@@ -38,7 +38,7 @@ int NZP_CSI_RS_ResourceID_constraint(
  * so here we adjust the DEF accordingly.
  */
 asn_per_constraints_t asn_PER_type_NZP_CSI_RS_ResourceID_constr_1 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 8, 8, 0, 191} /* (0..191,...) */,
+    {APC_CONSTRAINED, 8, 8, 0, 191} /* (0..191) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */

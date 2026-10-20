@@ -27,7 +27,7 @@ typedef enum SpatialRelationPos_PR {
 } SpatialRelationPos_PR;
 
 /* Forward declarations */
-struct SSBPos;
+struct SSB;
 struct PRSInformationPos;
 struct ProtocolIE_Single_Container;
 
@@ -35,7 +35,7 @@ struct ProtocolIE_Single_Container;
 typedef struct SpatialRelationPos {
   SpatialRelationPos_PR present;
   union SpatialRelationPos_u {
-    struct SSBPos* sSBPos;
+    struct SSB* sSBPos;
     struct PRSInformationPos* pRSInformationPos;
     struct ProtocolIE_Single_Container* choice_extension;
   } choice;

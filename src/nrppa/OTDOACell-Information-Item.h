@@ -56,7 +56,7 @@ typedef enum OTDOACell_Information_Item_PR {
   OTDOACell_Information_Item_PR_dL_Bandwidth_EUTRA,
   OTDOACell_Information_Item_PR_pRSOccasionGroup_EUTRA,
   OTDOACell_Information_Item_PR_pRSFrequencyHoppingConfiguration_EUTRA,
-  OTDOACell_Information_Item_PR_oTDOACell_Information_Item_Extension
+  OTDOACell_Information_Item_PR_choice_Extension
 } OTDOACell_Information_Item_PR;
 
 /* Forward declarations */
@@ -91,7 +91,7 @@ typedef struct OTDOACell_Information_Item {
     PRSOccasionGroup_EUTRA_t pRSOccasionGroup_EUTRA;
     struct PRSFrequencyHoppingConfiguration_EUTRA*
         pRSFrequencyHoppingConfiguration_EUTRA;
-    struct ProtocolIE_Single_Container* oTDOACell_Information_Item_Extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */

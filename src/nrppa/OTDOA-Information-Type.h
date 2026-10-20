@@ -32,9 +32,6 @@ typedef struct OTDOA_Information_Type {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_OTDOA_Information_Type;
-extern asn_SET_OF_specifics_t asn_SPC_OTDOA_Information_Type_specs_1;
-extern asn_TYPE_member_t asn_MBR_OTDOA_Information_Type_1[1];
-extern asn_per_constraints_t asn_PER_type_OTDOA_Information_Type_constr_1;
 
 #ifdef __cplusplus
 }

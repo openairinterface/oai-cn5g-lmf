@@ -23,7 +23,7 @@ extern "C" {
 /* Dependencies */
 typedef enum AbortTransmission_PR {
   AbortTransmission_PR_NOTHING, /* No components present */
-  AbortTransmission_PR_sRSResourceSetID,
+  AbortTransmission_PR_deactivateSRSResourceSetID,
   AbortTransmission_PR_releaseALL,
   AbortTransmission_PR_choice_extension
 } AbortTransmission_PR;
@@ -35,7 +35,7 @@ struct ProtocolIE_Single_Container;
 typedef struct AbortTransmission {
   AbortTransmission_PR present;
   union AbortTransmission_u {
-    SRSResourceSetID_t sRSResourceSetID;
+    SRSResourceSetID_t deactivateSRSResourceSetID;
     NULL_t releaseALL;
     struct ProtocolIE_Single_Container* choice_extension;
   } choice;
@@ -46,9 +46,6 @@ typedef struct AbortTransmission {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_AbortTransmission;
-extern asn_CHOICE_specifics_t asn_SPC_AbortTransmission_specs_1;
-extern asn_TYPE_member_t asn_MBR_AbortTransmission_1[3];
-extern asn_per_constraints_t asn_PER_type_AbortTransmission_constr_1;
 
 #ifdef __cplusplus
 }

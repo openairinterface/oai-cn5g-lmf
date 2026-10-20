@@ -61,7 +61,7 @@ asn_TYPE_member_t asn_MBR_TrpMeasurementResultItem_1[] = {
      offsetof(struct TrpMeasurementResultItem, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P93,
+     &asn_DEF_ProtocolExtensionContainer_4889P128,
      0,
      {0, 0, 0},
      0,

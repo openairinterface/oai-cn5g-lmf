@@ -10,31 +10,6 @@
 
 #include "PRSResource-QCLInfo.h"
 #include "ProtocolExtensionContainer.h"
-static int memb_pRSResourceID_constraint_1(
-    const asn_TYPE_descriptor_t* td, const void* sptr,
-    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
-  long value;
-
-  if (!sptr) {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-
-  value = *(const long*) sptr;
-
-  if ((value >= 0 && value <= 63)) {
-    /* Constraint check succeeded */
-    return 0;
-  } else {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-}
-
 static int memb_sequenceID_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -135,34 +110,28 @@ static int memb_resourceSymbolOffset_constraint_1(
   }
 }
 
-static asn_per_constraints_t asn_PER_memb_pRSResourceID_constr_2 CC_NOTUSED = {
-    {APC_CONSTRAINED, 6, 6, 0, 63} /* (0..63) */,
-    {APC_UNCONSTRAINED, -1, -1, 0, 0},
-    0,
-    0 /* No PER value map */
-};
 static asn_per_constraints_t asn_PER_memb_sequenceID_constr_3 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 12, 12, 0, 4095} /* (0..4095,...) */,
+    {APC_CONSTRAINED, 12, 12, 0, 4095} /* (0..4095) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
 static asn_per_constraints_t asn_PER_memb_rEOffset_constr_4 CC_NOTUSED = {
-    {APC_CONSTRAINED, 4, 4, 0, 11} /* (0..11) */,
+    {APC_CONSTRAINED | APC_EXTENSIBLE, 4, 4, 0, 11} /* (0..11,...) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
 static asn_per_constraints_t asn_PER_memb_resourceSlotOffset_constr_5
     CC_NOTUSED = {
-        {APC_CONSTRAINED | APC_EXTENSIBLE, 9, 9, 0, 511} /* (0..511,...) */,
+        {APC_CONSTRAINED, 9, 9, 0, 511} /* (0..511) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
 };
 static asn_per_constraints_t asn_PER_memb_resourceSymbolOffset_constr_6
     CC_NOTUSED = {
-        {APC_CONSTRAINED | APC_EXTENSIBLE, 4, 4, 0, 12} /* (0..12,...) */,
+        {APC_CONSTRAINED, 4, 4, 0, 12} /* (0..12) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
@@ -173,9 +142,9 @@ asn_TYPE_member_t asn_MBR_PRSResource_Item_1[] = {
      offsetof(struct PRSResource_Item, pRSResourceID),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NativeInteger,
+     &asn_DEF_PRS_Resource_ID,
      0,
-     {0, &asn_PER_memb_pRSResourceID_constr_2, memb_pRSResourceID_constraint_1},
+     {0, 0, 0},
      0,
      0, /* No default value */
      "pRSResourceID"},
@@ -229,7 +198,7 @@ asn_TYPE_member_t asn_MBR_PRSResource_Item_1[] = {
      2,
      offsetof(struct PRSResource_Item, qCLInfo),
      (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
-     -1, /* IMPLICIT tag at current level */
+     +1, /* EXPLICIT tag at current level */
      &asn_DEF_PRSResource_QCLInfo,
      0,
      {0, 0, 0},
@@ -241,7 +210,7 @@ asn_TYPE_member_t asn_MBR_PRSResource_Item_1[] = {
      offsetof(struct PRSResource_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (6 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P42,
+     &asn_DEF_ProtocolExtensionContainer_4889P57,
      0,
      {0, 0, 0},
      0,

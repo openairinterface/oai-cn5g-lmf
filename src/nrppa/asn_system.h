@@ -73,8 +73,10 @@ typedef unsigned int uint32_t;
 #include <types/vxTypes.h>
 #else /* !defined(__vxworks) */
 
-#include <inttypes.h>   /* C99 specifies this file */
+#include <inttypes.h> /* C99 specifies this file */
+#ifdef HAVE_NETINET_IN_H
 #include <netinet/in.h> /* for ntohl() */
+#endif
 #define sys_ntohl(foo) ntohl(foo)
 #endif /* defined(__vxworks) */
 
@@ -88,7 +90,11 @@ typedef unsigned int uint32_t;
 #define CC_PRINTFLIKE(fmt, var) CC_ATTRIBUTE(format(printf, fmt, var))
 #define CC_NOTUSED CC_ATTRIBUTE(unused)
 #ifndef CC_ATTR_NO_SANITIZE
+#if __GNUC__ < 8
+#define CC_ATTR_NO_SANITIZE(what)
+#else
 #define CC_ATTR_NO_SANITIZE(what) CC_ATTRIBUTE(no_sanitize(what))
+#endif
 #endif
 
 /* Figure out if thread safety is requested */

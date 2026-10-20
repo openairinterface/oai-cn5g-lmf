@@ -13,6 +13,7 @@
 
 /* Including external dependencies */
 #include <NativeInteger.h>
+#include "SSB-Index.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -25,7 +26,7 @@ struct ProtocolExtensionContainer;
 /* SSB */
 typedef struct SSB {
   long pCI_NR;
-  long* ssb_index;                                  /* OPTIONAL */
+  SSB_Index_t* ssb_index;                           /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,

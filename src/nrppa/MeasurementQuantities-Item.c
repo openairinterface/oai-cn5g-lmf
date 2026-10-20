@@ -9,7 +9,7 @@
 #include "MeasurementQuantities-Item.h"
 
 #include "ProtocolExtensionContainer.h"
-asn_TYPE_member_t asn_MBR_MeasurementQuantities_Item_1[] = {
+static asn_TYPE_member_t asn_MBR_MeasurementQuantities_Item_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct MeasurementQuantities_Item, measurementQuantitiesValue),
@@ -26,7 +26,7 @@ asn_TYPE_member_t asn_MBR_MeasurementQuantities_Item_1[] = {
      offsetof(struct MeasurementQuantities_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P21,
+     &asn_DEF_ProtocolExtensionContainer_4889P31,
      0,
      {0, 0, 0},
      0,
@@ -42,7 +42,7 @@ static const asn_TYPE_tag2member_t
          0}, /* measurementQuantitiesValue */
         {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0} /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_Item_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_MeasurementQuantities_Item_specs_1 = {
     sizeof(struct MeasurementQuantities_Item),
     offsetof(struct MeasurementQuantities_Item, _asn_ctx),
     asn_MAP_MeasurementQuantities_Item_tag2el_1,

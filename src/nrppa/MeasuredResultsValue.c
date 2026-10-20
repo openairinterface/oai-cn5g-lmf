@@ -176,16 +176,15 @@ asn_TYPE_member_t asn_MBR_MeasuredResultsValue_1[] = {
      "resultRSRQ-EUTRA"},
     {ATF_POINTER,
      0,
-     offsetof(
-         struct MeasuredResultsValue, choice.measuredResultsValue_Extension),
+     offsetof(struct MeasuredResultsValue, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P9,
+     &asn_DEF_ProtocolIE_Single_Container_4863P13,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "measuredResultsValue-Extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t asn_MAP_MeasuredResultsValue_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0,
@@ -196,8 +195,7 @@ static const asn_TYPE_tag2member_t asn_MAP_MeasuredResultsValue_tag2el_1[] = {
      0}, /* valueTimingAdvanceType2-EUTRA */
     {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}, /* resultRSRP-EUTRA */
     {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}, /* resultRSRQ-EUTRA */
-    {(ASN_TAG_CLASS_CONTEXT | (5 << 2)), 5, 0,
-     0} /* measuredResultsValue-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (5 << 2)), 5, 0, 0}  /* choice-Extension */
 };
 asn_CHOICE_specifics_t asn_SPC_MeasuredResultsValue_specs_1 = {
     sizeof(struct MeasuredResultsValue),

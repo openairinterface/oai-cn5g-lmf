@@ -12,7 +12,7 @@
  * This type is implemented using NativeEnumerated,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_MeasurementPeriodicity_constr_1
+static asn_per_constraints_t asn_PER_type_MeasurementPeriodicity_constr_1
     CC_NOTUSED = {
         {APC_CONSTRAINED | APC_EXTENSIBLE, 4, 4, 0, 12} /* (0..12,...) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -21,13 +21,16 @@ asn_per_constraints_t asn_PER_type_MeasurementPeriodicity_constr_1
 };
 static const asn_INTEGER_enum_map_t
     asn_MAP_MeasurementPeriodicity_value2enum_1[] = {
-        {0, 5, "ms120"},  {1, 5, "ms240"},  {2, 5, "ms480"},  {3, 5, "ms640"},
-        {4, 6, "ms1024"}, {5, 6, "ms2048"}, {6, 6, "ms5120"}, {7, 7, "ms10240"},
-        {8, 4, "min1"},   {9, 4, "min6"},   {10, 5, "min12"}, {11, 5, "min30"},
-        {12, 5, "min60"}
+        {0, 5, "ms120"},    {1, 5, "ms240"},    {2, 5, "ms480"},
+        {3, 5, "ms640"},    {4, 6, "ms1024"},   {5, 6, "ms2048"},
+        {6, 6, "ms5120"},   {7, 7, "ms10240"},  {8, 4, "min1"},
+        {9, 4, "min6"},     {10, 5, "min12"},   {11, 5, "min30"},
+        {12, 5, "min60"},   {13, 7, "ms20480"}, {14, 7, "ms40960"},
+        {15, 8, "extended"}
         /* This list is extensible */
 };
 static const unsigned int asn_MAP_MeasurementPeriodicity_enum2value_1[] = {
+    15, /* extended(15) */
     8,  /* min1(8) */
     10, /* min12(10) */
     11, /* min30(11) */
@@ -37,16 +40,18 @@ static const unsigned int asn_MAP_MeasurementPeriodicity_enum2value_1[] = {
     7,  /* ms10240(7) */
     0,  /* ms120(0) */
     5,  /* ms2048(5) */
+    13, /* ms20480(13) */
     1,  /* ms240(1) */
+    14, /* ms40960(14) */
     2,  /* ms480(2) */
     6,  /* ms5120(6) */
     3   /* ms640(3) */
         /* This list is extensible */
 };
-const asn_INTEGER_specifics_t asn_SPC_MeasurementPeriodicity_specs_1 = {
+static const asn_INTEGER_specifics_t asn_SPC_MeasurementPeriodicity_specs_1 = {
     asn_MAP_MeasurementPeriodicity_value2enum_1, /* "tag" => N; sorted by tag */
     asn_MAP_MeasurementPeriodicity_enum2value_1, /* N => "tag"; sorted by N */
-    13, /* Number of elements in the maps */
+    16, /* Number of elements in the maps */
     14, /* Extensions before this member */
     1,  /* Strict enumeration */
     0,  /* Native long size */

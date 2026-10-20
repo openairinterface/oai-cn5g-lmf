@@ -21,7 +21,7 @@ extern "C" {
 
 /* TRPInformationRequest */
 typedef struct TRPInformationRequest {
-  ProtocolIE_Container_2789P23_t protocolIEs;
+  ProtocolIE_Container_4860P23_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

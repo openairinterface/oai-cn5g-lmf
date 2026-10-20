@@ -42,7 +42,7 @@
 #include "ProtocolIE-Field.h"
 #include "SuccessfulOutcome.h"
 #include "TRP-MeasurementResponseItem.h"
-#include "TRPInformationItem.h"
+#include "TRPInformationTypeResponseItem.h"
 #include "TRPItem.h"
 #include "TrpMeasuredResultsValue.h"
 #include "TrpMeasurementResultItem.h"
@@ -440,22 +440,26 @@ void lmf_app::handle_trp_information_response(
   std::scoped_lock lk{this->cv_m_gnb};
 
   for (auto const& trpInformationIE : trpInformation.protocolIEs) {
-    if (trpInformationIE->id == ProtocolIE_ID_id_TRPInformationList) {
+    if (trpInformationIE->id == ProtocolIE_ID_id_TRPInformationListTRPResp) {
       auto const& value              = trpInformationIE->value;
       auto const& trpInformationList = getPR(
-          value.choice.TRPInformationList, value,
-          TRPInformationResponse_IEs__value_PR_TRPInformationList);
+          value.choice.TRPInformationListTRPResp, value,
+          TRPInformationResponse_IEs__value_PR_TRPInformationListTRPResp);
       for (auto const& trpInformationListMember : trpInformationList) {
-        auto const& trpId = trpInformationListMember->tRP_ID;
+        // Rel-17: the TRP ID is inside TRPInformation
+        auto const& trpId = trpInformationListMember->tRPInformation.tRP_ID;
         std::optional<GnbId> gnbId;
         Trp trp;
 
         for (auto const& trpInformationItem :
-             trpInformationListMember->tRPInformation) {
+             trpInformationListMember->tRPInformation
+                 .tRPInformationTypeResponseList) {
           switch (trpInformationItem->present) {
-            case TRPInformationItem_PR_nG_RAN_CGI: {
-              auto const& ngRanCgi      = trpInformationItem->choice.nG_RAN_CGI;
-              auto const& plmnnIdentity = ngRanCgi->pLMN_Identity;
+            case TRPInformationTypeResponseItem_PR_cGI_NR: {
+              // Rel-17: CGI-NR carries the NR cell identity directly (no
+              // NR/E-UTRA choice)
+              auto const& cgiNr         = trpInformationItem->choice.cGI_NR;
+              auto const& plmnnIdentity = cgiNr->pLMN_Identity;
               if (plmnnIdentity.size != 3) {
                 oai::lmf::api::lmf_sbi_helper::throwHttpError(
                     "trp information response",
@@ -463,8 +467,8 @@ void lmf_app::handle_trp_information_response(
                         std::to_string(plmnnIdentity.size));
               }
 
-              if (ngRanCgi->nG_RANcell.present == NG_RANCell_PR_nR_CellID) {
-                auto const& ngRanCell = ngRanCgi->nG_RANcell.choice.nR_CellID;
+              {
+                auto const& ngRanCell = cgiNr->nRcellIdentifier;
                 if (ngRanCell.size != 5 || ngRanCell.bits_unused != 4) {
                   oai::lmf::api::lmf_sbi_helper::throwHttpError(
                       "trp information response",
@@ -540,16 +544,11 @@ void lmf_app::handle_trp_information_response(
                             " already inserted"s);
                   }
                 }
-              } else {
-                oai::lmf::api::lmf_sbi_helper::throwHttpError(
-                    "trp information response",
-                    "TRPInformationItem_PR_nG_RAN_CGI not present, but: "s +
-                        std::to_string(ngRanCgi->nG_RANcell.present));
               }
 
             } break;
 
-            case TRPInformationItem_PR_geographicalCoordinates: {
+            case TRPInformationTypeResponseItem_PR_geographicalCoordinates: {
               auto const& geographicalCoordinates =
                   trpInformationItem->choice.geographicalCoordinates;
               auto const& trpPositionDefinitionType =

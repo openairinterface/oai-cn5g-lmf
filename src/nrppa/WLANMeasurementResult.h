@@ -32,9 +32,6 @@ typedef struct WLANMeasurementResult {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_WLANMeasurementResult;
-extern asn_SET_OF_specifics_t asn_SPC_WLANMeasurementResult_specs_1;
-extern asn_TYPE_member_t asn_MBR_WLANMeasurementResult_1[1];
-extern asn_per_constraints_t asn_PER_type_WLANMeasurementResult_constr_1;
 
 #ifdef __cplusplus
 }

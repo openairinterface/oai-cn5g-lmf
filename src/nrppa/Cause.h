@@ -27,7 +27,7 @@ typedef enum Cause_PR {
   Cause_PR_radioNetwork,
   Cause_PR_protocol,
   Cause_PR_misc,
-  Cause_PR_cause_Extension
+  Cause_PR_choice_Extension
 } Cause_PR;
 
 /* Forward declarations */
@@ -40,7 +40,7 @@ typedef struct Cause {
     CauseRadioNetwork_t radioNetwork;
     CauseProtocol_t protocol;
     CauseMisc_t misc;
-    struct ProtocolIE_Single_Container* cause_Extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */
@@ -49,9 +49,6 @@ typedef struct Cause {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_Cause;
-extern asn_CHOICE_specifics_t asn_SPC_Cause_specs_1;
-extern asn_TYPE_member_t asn_MBR_Cause_1[4];
-extern asn_per_constraints_t asn_PER_type_Cause_constr_1;
 
 #ifdef __cplusplus
 }

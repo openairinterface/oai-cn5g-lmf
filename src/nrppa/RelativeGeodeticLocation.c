@@ -280,7 +280,7 @@ asn_TYPE_member_t asn_MBR_RelativeGeodeticLocation_1[] = {
      offsetof(struct RelativeGeodeticLocation, iE_extensions),
      (ASN_TAG_CLASS_CONTEXT | (6 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P46,
+     &asn_DEF_ProtocolExtensionContainer_4889P67,
      0,
      {0, 0, 0},
      0,

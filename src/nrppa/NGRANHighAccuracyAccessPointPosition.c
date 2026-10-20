@@ -411,7 +411,7 @@ asn_TYPE_member_t asn_MBR_NGRANHighAccuracyAccessPointPosition_1[] = {
      offsetof(struct NGRANHighAccuracyAccessPointPosition, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (9 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P23,
+     &asn_DEF_ProtocolExtensionContainer_4889P34,
      0,
      {0, 0, 0},
      0,

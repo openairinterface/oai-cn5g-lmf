@@ -23,7 +23,7 @@ static int memb_slotOffset_constraint_1(
 
   value = *(const long*) sptr;
 
-  if ((value >= 1 && value <= 32)) {
+  if ((value >= 0 && value <= 32)) {
     /* Constraint check succeeded */
     return 0;
   } else {
@@ -35,7 +35,7 @@ static int memb_slotOffset_constraint_1(
 }
 
 static asn_per_constraints_t asn_PER_memb_slotOffset_constr_2 CC_NOTUSED = {
-    {APC_CONSTRAINED, 5, 5, 1, 32} /* (1..32) */,
+    {APC_CONSTRAINED, 6, 6, 0, 32} /* (0..32) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
@@ -57,7 +57,7 @@ asn_TYPE_member_t asn_MBR_ResourceTypeAperiodicPos_1[] = {
      offsetof(struct ResourceTypeAperiodicPos, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P57,
+     &asn_DEF_ProtocolExtensionContainer_4889P82,
      0,
      {0, 0, 0},
      0,

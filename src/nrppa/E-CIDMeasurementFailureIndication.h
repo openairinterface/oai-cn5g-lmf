@@ -21,7 +21,7 @@ extern "C" {
 
 /* E-CIDMeasurementFailureIndication */
 typedef struct E_CIDMeasurementFailureIndication {
-  ProtocolIE_Container_2789P3_t protocolIEs;
+  ProtocolIE_Container_4860P3_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

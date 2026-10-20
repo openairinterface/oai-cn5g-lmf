@@ -14,7 +14,7 @@
 /* Including external dependencies */
 #include "SystemFrameNumber.h"
 #include "TimeStampSlotIndex.h"
-#include "SFNInitialisationTime.h"
+#include "RelativeTime1900.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -28,7 +28,7 @@ struct ProtocolExtensionContainer;
 typedef struct TimeStamp {
   SystemFrameNumber_t systemFrameNumber;
   TimeStampSlotIndex_t slotIndex;
-  SFNInitialisationTime_t* measurementTime;        /* OPTIONAL */
+  RelativeTime1900_t* measurementTime;             /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extension; /* OPTIONAL */
   /*
    * This type is extensible,

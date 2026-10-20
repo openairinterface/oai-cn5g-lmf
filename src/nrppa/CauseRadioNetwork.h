@@ -22,10 +22,12 @@ extern "C" {
 typedef enum CauseRadioNetwork {
   CauseRadioNetwork_unspecified                              = 0,
   CauseRadioNetwork_requested_item_not_supported             = 1,
-  CauseRadioNetwork_requested_item_temporarily_not_available = 2
+  CauseRadioNetwork_requested_item_temporarily_not_available = 2,
   /*
    * Enumeration is extensible
    */
+  CauseRadioNetwork_serving_NG_RAN_node_changed          = 3,
+  CauseRadioNetwork_requested_item_not_supported_on_time = 4
 } e_CauseRadioNetwork;
 
 /* CauseRadioNetwork */

@@ -56,15 +56,15 @@ asn_TYPE_member_t asn_MBR_PosSRSResourceSet_Item_1[] = {
      "possrsResourceSetID"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct PosSRSResourceSet_Item, possRSResourceID_List),
+     offsetof(struct PosSRSResourceSet_Item, possRSResourceIDPerSet_List),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_PosSRSResourceID_List,
+     &asn_DEF_PosSRSResourceIDPerSet_List,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "possRSResourceID-List"},
+     "possRSResourceIDPerSet-List"},
     {ATF_NOFLAGS,
      0,
      offsetof(struct PosSRSResourceSet_Item, posresourceSetType),
@@ -81,7 +81,7 @@ asn_TYPE_member_t asn_MBR_PosSRSResourceSet_Item_1[] = {
      offsetof(struct PosSRSResourceSet_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P32,
+     &asn_DEF_ProtocolExtensionContainer_4889P45,
      0,
      {0, 0, 0},
      0,
@@ -93,7 +93,8 @@ static const ber_tlv_tag_t asn_DEF_PosSRSResourceSet_Item_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t asn_MAP_PosSRSResourceSet_Item_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* possrsResourceSetID */
-    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* possRSResourceID-List */
+    {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0,
+     0}, /* possRSResourceIDPerSet-List */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* posresourceSetType */
     {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}  /* iE-Extensions */
 };

@@ -41,12 +41,15 @@ typedef enum ResourceTypePeriodicPos__periodicity {
   ResourceTypePeriodicPos__periodicity_slot2560  = 16,
   ResourceTypePeriodicPos__periodicity_slot5120  = 17,
   ResourceTypePeriodicPos__periodicity_slot10240 = 18,
-  ResourceTypePeriodicPos__periodicity_slot20480 = 19,
-  ResourceTypePeriodicPos__periodicity_slot40960 = 20,
-  ResourceTypePeriodicPos__periodicity_slot81920 = 21
+  ResourceTypePeriodicPos__periodicity_slot40960 = 19,
+  ResourceTypePeriodicPos__periodicity_slot81920 = 20,
   /*
    * Enumeration is extensible
    */
+  ResourceTypePeriodicPos__periodicity_slot128   = 21,
+  ResourceTypePeriodicPos__periodicity_slot256   = 22,
+  ResourceTypePeriodicPos__periodicity_slot512   = 23,
+  ResourceTypePeriodicPos__periodicity_slot20480 = 24
 } e_ResourceTypePeriodicPos__periodicity;
 
 /* Forward declarations */

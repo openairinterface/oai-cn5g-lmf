@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_PositioningActivationRequest_1[] = {
      offsetof(struct PositioningActivationRequest, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P26,
+     &asn_DEF_ProtocolIE_Container_4860P26,
      0,
      {0, 0, 0},
      0,

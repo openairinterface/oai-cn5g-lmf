@@ -513,17 +513,15 @@ asn_TYPE_member_t asn_MBR_PRSMutingConfiguration_EUTRA_1[] = {
      "one-thousand-and-twenty-four"},
     {ATF_POINTER,
      0,
-     offsetof(
-         struct PRSMutingConfiguration_EUTRA,
-         choice.pRSMutingConfiguration_EUTRA_Extension),
+     offsetof(struct PRSMutingConfiguration_EUTRA, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (10 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P16,
+     &asn_DEF_ProtocolIE_Single_Container_4863P21,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "pRSMutingConfiguration-EUTRA-Extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t
     asn_MAP_PRSMutingConfiguration_EUTRA_tag2el_1[] = {
@@ -541,8 +539,7 @@ static const asn_TYPE_tag2member_t
          0}, /* five-hundred-and-twelve */
         {(ASN_TAG_CLASS_CONTEXT | (9 << 2)), 9, 0,
          0}, /* one-thousand-and-twenty-four */
-        {(ASN_TAG_CLASS_CONTEXT | (10 << 2)), 10, 0,
-         0} /* pRSMutingConfiguration-EUTRA-Extension */
+        {(ASN_TAG_CLASS_CONTEXT | (10 << 2)), 10, 0, 0} /* choice-Extension */
 };
 asn_CHOICE_specifics_t asn_SPC_PRSMutingConfiguration_EUTRA_specs_1 = {
     sizeof(struct PRSMutingConfiguration_EUTRA),

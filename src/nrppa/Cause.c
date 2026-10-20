@@ -9,13 +9,13 @@
 #include "Cause.h"
 
 #include "ProtocolIE-Single-Container.h"
-asn_per_constraints_t asn_PER_type_Cause_constr_1 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_type_Cause_constr_1 CC_NOTUSED = {
     {APC_CONSTRAINED, 2, 2, 0, 3} /* (0..3) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
 };
-asn_TYPE_member_t asn_MBR_Cause_1[] = {
+static asn_TYPE_member_t asn_MBR_Cause_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct Cause, choice.radioNetwork),
@@ -51,23 +51,23 @@ asn_TYPE_member_t asn_MBR_Cause_1[] = {
      "misc"},
     {ATF_POINTER,
      0,
-     offsetof(struct Cause, choice.cause_Extension),
+     offsetof(struct Cause, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P3,
+     &asn_DEF_ProtocolIE_Single_Container_4863P6,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "cause-Extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t asn_MAP_Cause_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* radioNetwork */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* protocol */
     {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* misc */
-    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}  /* cause-Extension */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}  /* choice-Extension */
 };
-asn_CHOICE_specifics_t asn_SPC_Cause_specs_1 = {
+static asn_CHOICE_specifics_t asn_SPC_Cause_specs_1 = {
     sizeof(struct Cause),
     offsetof(struct Cause, _asn_ctx),
     offsetof(struct Cause, present),

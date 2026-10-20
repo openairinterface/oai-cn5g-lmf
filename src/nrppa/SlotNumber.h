@@ -22,7 +22,6 @@ extern "C" {
 typedef long SlotNumber_t;
 
 /* Implementation */
-extern asn_per_constraints_t asn_PER_type_SlotNumber_constr_1;
 extern asn_TYPE_descriptor_t asn_DEF_SlotNumber;
 asn_struct_free_f SlotNumber_free;
 asn_struct_print_f SlotNumber_print;

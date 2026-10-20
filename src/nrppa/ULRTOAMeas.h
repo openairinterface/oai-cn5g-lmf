@@ -27,10 +27,12 @@ typedef enum ULRTOAMeas_PR {
   ULRTOAMeas_PR_k2,
   ULRTOAMeas_PR_k3,
   ULRTOAMeas_PR_k4,
-  ULRTOAMeas_PR_k5
-  /* Extensions may appear below */
-
+  ULRTOAMeas_PR_k5,
+  ULRTOAMeas_PR_choice_extension
 } ULRTOAMeas_PR;
+
+/* Forward declarations */
+struct ProtocolIE_Single_Container;
 
 /* ULRTOAMeas */
 typedef struct ULRTOAMeas {
@@ -42,10 +44,7 @@ typedef struct ULRTOAMeas {
     long k3;
     long k4;
     long k5;
-    /*
-     * This type is extensible,
-     * possible extensions are below.
-     */
+    struct ProtocolIE_Single_Container* choice_extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */
@@ -55,7 +54,7 @@ typedef struct ULRTOAMeas {
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_ULRTOAMeas;
 extern asn_CHOICE_specifics_t asn_SPC_ULRTOAMeas_specs_1;
-extern asn_TYPE_member_t asn_MBR_ULRTOAMeas_1[6];
+extern asn_TYPE_member_t asn_MBR_ULRTOAMeas_1[7];
 extern asn_per_constraints_t asn_PER_type_ULRTOAMeas_constr_1;
 
 #ifdef __cplusplus
