@@ -57,8 +57,7 @@ static int memb_listOfSRSResourceSet_constraint_1(
 
   if ((size >= 1 && size <= 16)) {
     /* Perform validation of the inner elements */
-    return td->encoding_constraints.general_constraints(
-        td, sptr, ctfailcb, app_key);
+    return SEQUENCE_OF_constraint(td, sptr, ctfailcb, app_key);
   } else {
     ASN__CTFAIL(
         app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
@@ -176,7 +175,7 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_listOfSRSResourceSet_specs_9 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_RequestedSRSTransmissionCharacteristics_1[] = {
+static asn_TYPE_member_t asn_MBR_RequestedSRSTransmissionCharacteristics_1[] = {
     {ATF_POINTER,
      1,
      offsetof(
@@ -241,7 +240,7 @@ asn_TYPE_member_t asn_MBR_RequestedSRSTransmissionCharacteristics_1[] = {
      offsetof(struct RequestedSRSTransmissionCharacteristics, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P48,
+     &asn_DEF_ProtocolExtensionContainer_4889P72,
      0,
      {0, 0, 0},
      0,
@@ -264,7 +263,7 @@ static const asn_TYPE_tag2member_t
         {(ASN_TAG_CLASS_CONTEXT | (4 << 2)), 4, 0, 0}, /* sSBInformation */
         {(ASN_TAG_CLASS_CONTEXT | (5 << 2)), 5, 0, 0}  /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t
+static asn_SEQUENCE_specifics_t
     asn_SPC_RequestedSRSTransmissionCharacteristics_specs_1 = {
         sizeof(struct RequestedSRSTransmissionCharacteristics),
         offsetof(struct RequestedSRSTransmissionCharacteristics, _asn_ctx),

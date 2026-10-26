@@ -21,7 +21,7 @@ extern "C" {
 
 /* OTDOAInformationFailure */
 typedef struct OTDOAInformationFailure {
-  ProtocolIE_Container_2789P8_t protocolIEs;
+  ProtocolIE_Container_4860P8_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

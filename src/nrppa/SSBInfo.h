@@ -22,12 +22,12 @@ extern "C" {
 
 /* Forward declarations */
 struct ProtocolExtensionContainer;
-struct SSBInfoList;
+struct SSBInfoItem;
 
 /* SSBInfo */
 typedef struct SSBInfo {
   struct SSBInfo__listOfSSBInfo {
-    A_SEQUENCE_OF(struct SSBInfoList) list;
+    A_SEQUENCE_OF(struct SSBInfoItem) list;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;

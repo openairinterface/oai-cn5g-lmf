@@ -32,9 +32,6 @@ typedef struct ResultCSI_RSRP {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_ResultCSI_RSRP;
-extern asn_SET_OF_specifics_t asn_SPC_ResultCSI_RSRP_specs_1;
-extern asn_TYPE_member_t asn_MBR_ResultCSI_RSRP_1[1];
-extern asn_per_constraints_t asn_PER_type_ResultCSI_RSRP_constr_1;
 
 #ifdef __cplusplus
 }

@@ -63,7 +63,7 @@ asn_TYPE_member_t asn_MBR_SRSConfig_1[] = {
      offsetof(struct SRSConfig, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P77,
+     &asn_DEF_ProtocolExtensionContainer_4889P105,
      0,
      {0, 0, 0},
      0,

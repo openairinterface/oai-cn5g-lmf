@@ -8,6 +8,7 @@
 
 #include "SSBBurstPosition.h"
 
+#include "ProtocolIE-Single-Container.h"
 static int memb_shortBitmap_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -120,7 +121,7 @@ static asn_per_constraints_t asn_PER_memb_longBitmap_constr_4 CC_NOTUSED = {
     0 /* No PER value map */
 };
 asn_per_constraints_t asn_PER_type_SSBBurstPosition_constr_1 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 2, 2, 0, 2} /* (0..2,...) */,
+    {APC_CONSTRAINED, 2, 2, 0, 3} /* (0..3) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */
@@ -159,11 +160,23 @@ asn_TYPE_member_t asn_MBR_SSBBurstPosition_1[] = {
      0,
      0, /* No default value */
      "longBitmap"},
+    {ATF_POINTER,
+     0,
+     offsetof(struct SSBBurstPosition, choice.choice_extension),
+     (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolIE_Single_Container_4863P31,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "choice-extension"},
 };
 static const asn_TYPE_tag2member_t asn_MAP_SSBBurstPosition_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* shortBitmap */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* mediumBitmap */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* longBitmap */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* longBitmap */
+    {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}  /* choice-extension */
 };
 asn_CHOICE_specifics_t asn_SPC_SSBBurstPosition_specs_1 = {
     sizeof(struct SSBBurstPosition),
@@ -171,10 +184,10 @@ asn_CHOICE_specifics_t asn_SPC_SSBBurstPosition_specs_1 = {
     offsetof(struct SSBBurstPosition, present),
     sizeof(((struct SSBBurstPosition*) 0)->present),
     asn_MAP_SSBBurstPosition_tag2el_1,
-    3, /* Count of tags in the map */
+    4, /* Count of tags in the map */
     0,
     0,
-    3 /* Extensions start */
+    -1 /* Extensions start */
 };
 asn_TYPE_descriptor_t asn_DEF_SSBBurstPosition = {
     "SSBBurstPosition",
@@ -186,6 +199,6 @@ asn_TYPE_descriptor_t asn_DEF_SSBBurstPosition = {
     0, /* No tags (count) */
     {0, &asn_PER_type_SSBBurstPosition_constr_1, CHOICE_constraint},
     asn_MBR_SSBBurstPosition_1,
-    3,                                /* Elements count */
+    4,                                /* Elements count */
     &asn_SPC_SSBBurstPosition_specs_1 /* Additional specs */
 };

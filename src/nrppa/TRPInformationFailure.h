@@ -21,7 +21,7 @@ extern "C" {
 
 /* TRPInformationFailure */
 typedef struct TRPInformationFailure {
-  ProtocolIE_Container_2789P25_t protocolIEs;
+  ProtocolIE_Container_4860P25_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

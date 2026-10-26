@@ -68,7 +68,7 @@ asn_TYPE_member_t asn_MBR_ResultCSI_RSRP_PerCSI_RS_Item_1[] = {
      offsetof(struct ResultCSI_RSRP_PerCSI_RS_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P59,
+     &asn_DEF_ProtocolExtensionContainer_4889P85,
      0,
      {0, 0, 0},
      0,

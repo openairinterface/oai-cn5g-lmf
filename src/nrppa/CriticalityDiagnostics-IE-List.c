@@ -55,7 +55,7 @@ static asn_TYPE_member_t asn_MBR_Member_2[] = {
      offsetof(struct CriticalityDiagnostics_IE_List__Member, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P11,
+     &asn_DEF_ProtocolExtensionContainer_4889P19,
      0,
      {0, 0, 0},
      0,

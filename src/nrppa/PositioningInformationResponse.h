@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningInformationResponse */
 typedef struct PositioningInformationResponse {
-  ProtocolIE_Container_2789P13_t protocolIEs;
+  ProtocolIE_Container_4860P13_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

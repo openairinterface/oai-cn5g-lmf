@@ -35,6 +35,12 @@
 #include "PositioningActivationRequest.h"
 #include "PositioningActivationResponse.h"
 #include "PositioningActivationFailure.h"
+#include "PRSConfigurationRequest.h"
+#include "PRSConfigurationResponse.h"
+#include "PRSConfigurationFailure.h"
+#include "MeasurementPreconfigurationRequired.h"
+#include "MeasurementPreconfigurationConfirm.h"
+#include "MeasurementPreconfigurationRefuse.h"
 #include "E-CIDMeasurementFailureIndication.h"
 #include "E-CIDMeasurementReport.h"
 #include "E-CIDMeasurementTerminationCommand.h"
@@ -48,6 +54,7 @@
 #include "MeasurementAbort.h"
 #include "MeasurementFailureIndication.h"
 #include "PositioningDeactivation.h"
+#include "MeasurementActivation.h"
 #include <OPEN_TYPE.h>
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
@@ -64,7 +71,9 @@ typedef enum SuccessfulOutcome__value_PR {
   SuccessfulOutcome__value_PR_PositioningInformationResponse,
   SuccessfulOutcome__value_PR_MeasurementResponse,
   SuccessfulOutcome__value_PR_TRPInformationResponse,
-  SuccessfulOutcome__value_PR_PositioningActivationResponse
+  SuccessfulOutcome__value_PR_PositioningActivationResponse,
+  SuccessfulOutcome__value_PR_PRSConfigurationResponse,
+  SuccessfulOutcome__value_PR_MeasurementPreconfigurationConfirm
 } SuccessfulOutcome__value_PR;
 
 /* SuccessfulOutcome */
@@ -81,6 +90,8 @@ typedef struct SuccessfulOutcome {
       MeasurementResponse_t MeasurementResponse;
       TRPInformationResponse_t TRPInformationResponse;
       PositioningActivationResponse_t PositioningActivationResponse;
+      PRSConfigurationResponse_t PRSConfigurationResponse;
+      MeasurementPreconfigurationConfirm_t MeasurementPreconfigurationConfirm;
     } choice;
 
     /* Context for parsing across buffer boundaries */

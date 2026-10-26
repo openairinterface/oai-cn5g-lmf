@@ -23,31 +23,33 @@ extern "C" {
 typedef enum BandwidthSRS_PR {
   BandwidthSRS_PR_NOTHING, /* No components present */
   BandwidthSRS_PR_fR1,
-  BandwidthSRS_PR_fR2
-  /* Extensions may appear below */
-
+  BandwidthSRS_PR_fR2,
+  BandwidthSRS_PR_choice_extension
 } BandwidthSRS_PR;
 typedef enum BandwidthSRS__fR1 {
-  BandwidthSRS__fR1_kHz5   = 0,
-  BandwidthSRS__fR1_kHz10  = 1,
-  BandwidthSRS__fR1_kHz20  = 2,
-  BandwidthSRS__fR1_kHz40  = 3,
-  BandwidthSRS__fR1_kHz50  = 4,
-  BandwidthSRS__fR1_kHz80  = 5,
-  BandwidthSRS__fR1_kHz100 = 6
+  BandwidthSRS__fR1_mHz5   = 0,
+  BandwidthSRS__fR1_mHz10  = 1,
+  BandwidthSRS__fR1_mHz20  = 2,
+  BandwidthSRS__fR1_mHz40  = 3,
+  BandwidthSRS__fR1_mHz50  = 4,
+  BandwidthSRS__fR1_mHz80  = 5,
+  BandwidthSRS__fR1_mHz100 = 6
   /*
    * Enumeration is extensible
    */
 } e_BandwidthSRS__fR1;
 typedef enum BandwidthSRS__fR2 {
-  BandwidthSRS__fR2_kHz50  = 0,
-  BandwidthSRS__fR2_kHz100 = 1,
-  BandwidthSRS__fR2_kHz200 = 2,
-  BandwidthSRS__fR2_kHz400 = 3
+  BandwidthSRS__fR2_mHz50  = 0,
+  BandwidthSRS__fR2_mHz100 = 1,
+  BandwidthSRS__fR2_mHz200 = 2,
+  BandwidthSRS__fR2_mHz400 = 3
   /*
    * Enumeration is extensible
    */
 } e_BandwidthSRS__fR2;
+
+/* Forward declarations */
+struct ProtocolIE_Single_Container;
 
 /* BandwidthSRS */
 typedef struct BandwidthSRS {
@@ -55,10 +57,7 @@ typedef struct BandwidthSRS {
   union BandwidthSRS_u {
     long fR1;
     long fR2;
-    /*
-     * This type is extensible,
-     * possible extensions are below.
-     */
+    struct ProtocolIE_Single_Container* choice_extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */
@@ -72,7 +71,7 @@ typedef struct BandwidthSRS {
  * expose) */
 extern asn_TYPE_descriptor_t asn_DEF_BandwidthSRS;
 extern asn_CHOICE_specifics_t asn_SPC_BandwidthSRS_specs_1;
-extern asn_TYPE_member_t asn_MBR_BandwidthSRS_1[2];
+extern asn_TYPE_member_t asn_MBR_BandwidthSRS_1[3];
 extern asn_per_constraints_t asn_PER_type_BandwidthSRS_constr_1;
 
 #ifdef __cplusplus

@@ -12,11 +12,12 @@
  * This type is implemented using NativeEnumerated,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_ReportCharacteristics_constr_1 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 1, 1, 0, 1} /* (0..1,...) */,
-    {APC_UNCONSTRAINED, -1, -1, 0, 0},
-    0,
-    0 /* No PER value map */
+static asn_per_constraints_t asn_PER_type_ReportCharacteristics_constr_1
+    CC_NOTUSED = {
+        {APC_CONSTRAINED | APC_EXTENSIBLE, 1, 1, 0, 1} /* (0..1,...) */,
+        {APC_UNCONSTRAINED, -1, -1, 0, 0},
+        0,
+        0 /* No PER value map */
 };
 static const asn_INTEGER_enum_map_t
     asn_MAP_ReportCharacteristics_value2enum_1[] = {
@@ -29,7 +30,7 @@ static const unsigned int asn_MAP_ReportCharacteristics_enum2value_1[] = {
     1  /* periodic(1) */
        /* This list is extensible */
 };
-const asn_INTEGER_specifics_t asn_SPC_ReportCharacteristics_specs_1 = {
+static const asn_INTEGER_specifics_t asn_SPC_ReportCharacteristics_specs_1 = {
     asn_MAP_ReportCharacteristics_value2enum_1, /* "tag" => N; sorted by tag */
     asn_MAP_ReportCharacteristics_enum2value_1, /* N => "tag"; sorted by N */
     2, /* Number of elements in the maps */

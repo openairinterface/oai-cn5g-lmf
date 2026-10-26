@@ -24,9 +24,9 @@ struct ProtocolExtensionContainer;
 
 /* PRSInformationPos */
 typedef struct PRSInformationPos {
-  long* pRS_IDPos; /* OPTIONAL */
+  long pRS_IDPos;
   long pRS_Resource_Set_IDPos;
-  long pRS_Resource_IDPos;
+  long* pRS_Resource_IDPos;                         /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,

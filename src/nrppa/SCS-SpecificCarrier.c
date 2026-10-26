@@ -52,7 +52,7 @@ static int memb_carrierBandwidth_constraint_1(
 
   value = *(const long*) sptr;
 
-  if ((value >= 0 && value <= 275)) {
+  if ((value >= 1 && value <= 275)) {
     /* Constraint check succeeded */
     return 0;
   } else {
@@ -79,7 +79,7 @@ static asn_per_constraints_t asn_PER_memb_offsetToCarrier_constr_2
 };
 static asn_per_constraints_t asn_PER_memb_carrierBandwidth_constr_9
     CC_NOTUSED = {
-        {APC_CONSTRAINED | APC_EXTENSIBLE, 9, 9, 0, 275} /* (0..275,...) */,
+        {APC_CONSTRAINED | APC_EXTENSIBLE, 9, 9, 1, 275} /* (1..275,...) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
@@ -168,7 +168,7 @@ asn_TYPE_member_t asn_MBR_SCS_SpecificCarrier_1[] = {
      offsetof(struct SCS_SpecificCarrier, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P72,
+     &asn_DEF_ProtocolExtensionContainer_4889P98,
      0,
      {0, 0, 0},
      0,

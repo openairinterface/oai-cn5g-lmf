@@ -12,7 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
+#include "PRS-Resource-Set-ID.h"
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
 #include <constr_SEQUENCE.h>
@@ -22,17 +22,19 @@ extern "C" {
 #endif
 
 /* Forward declarations */
+struct ProtocolExtensionContainer;
 struct PRSAngleItem;
 
 /* NR-PRS-Beam-InformationItem */
 typedef struct NR_PRS_Beam_InformationItem {
-  long pRSresourceSetID;
-  struct NR_PRS_Beam_InformationItem__pRSAngleItem {
+  PRS_Resource_Set_ID_t pRSresourceSetID;
+  struct NR_PRS_Beam_InformationItem__pRSAngle {
     A_SEQUENCE_OF(struct PRSAngleItem) list;
 
     /* Context for parsing across buffer boundaries */
     asn_struct_ctx_t _asn_ctx;
-  } pRSAngleItem;
+  } pRSAngle;
+  struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -45,7 +47,7 @@ typedef struct NR_PRS_Beam_InformationItem {
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_NR_PRS_Beam_InformationItem;
 extern asn_SEQUENCE_specifics_t asn_SPC_NR_PRS_Beam_InformationItem_specs_1;
-extern asn_TYPE_member_t asn_MBR_NR_PRS_Beam_InformationItem_1[2];
+extern asn_TYPE_member_t asn_MBR_NR_PRS_Beam_InformationItem_1[3];
 
 #ifdef __cplusplus
 }

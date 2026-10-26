@@ -8,11 +8,8 @@
 
 #include "UL-AoA.h"
 
+#include "LCS-to-GCS-Translation.h"
 #include "ProtocolExtensionContainer.h"
-/*
- * This type is implemented using NativeEnumerated,
- * so here we adjust the DEF accordingly.
- */
 static int memb_azimuthAoA_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -63,13 +60,6 @@ static int memb_zenithAoA_constraint_1(
   }
 }
 
-static asn_per_constraints_t asn_PER_type_angleCoordinateSystem_constr_4
-    CC_NOTUSED = {
-        {APC_CONSTRAINED, 1, 1, 0, 1} /* (0..1) */,
-        {APC_UNCONSTRAINED, -1, -1, 0, 0},
-        0,
-        0 /* No PER value map */
-};
 static asn_per_constraints_t asn_PER_memb_azimuthAoA_constr_2 CC_NOTUSED = {
     {APC_CONSTRAINED, 12, 12, 0, 3599} /* (0..3599) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -82,43 +72,6 @@ static asn_per_constraints_t asn_PER_memb_zenithAoA_constr_3 CC_NOTUSED = {
     0,
     0 /* No PER value map */
 };
-static const asn_INTEGER_enum_map_t
-    asn_MAP_angleCoordinateSystem_value2enum_4[] = {
-        {0, 3, "lCS"},
-        {1, 3, "gCS"}};
-static const unsigned int asn_MAP_angleCoordinateSystem_enum2value_4[] = {
-    1, /* gCS(1) */
-    0  /* lCS(0) */
-};
-static const asn_INTEGER_specifics_t asn_SPC_angleCoordinateSystem_specs_4 = {
-    asn_MAP_angleCoordinateSystem_value2enum_4, /* "tag" => N; sorted by tag */
-    asn_MAP_angleCoordinateSystem_enum2value_4, /* N => "tag"; sorted by N */
-    2, /* Number of elements in the maps */
-    0, /* Enumeration is not extensible */
-    1, /* Strict enumeration */
-    0, /* Native long size */
-    0};
-static const ber_tlv_tag_t asn_DEF_angleCoordinateSystem_tags_4[] = {
-    (ASN_TAG_CLASS_CONTEXT | (2 << 2)), (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
-static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_angleCoordinateSystem_4 = {
-        "angleCoordinateSystem",
-        "angleCoordinateSystem",
-        &asn_OP_NativeEnumerated,
-        asn_DEF_angleCoordinateSystem_tags_4,
-        sizeof(asn_DEF_angleCoordinateSystem_tags_4) /
-                sizeof(asn_DEF_angleCoordinateSystem_tags_4[0]) -
-            1,                                /* 1 */
-        asn_DEF_angleCoordinateSystem_tags_4, /* Same as above */
-        sizeof(asn_DEF_angleCoordinateSystem_tags_4) /
-            sizeof(asn_DEF_angleCoordinateSystem_tags_4[0]), /* 2 */
-        {0, &asn_PER_type_angleCoordinateSystem_constr_4,
-         NativeEnumerated_constraint},
-        0,
-        0,                                     /* Defined elsewhere */
-        &asn_SPC_angleCoordinateSystem_specs_4 /* Additional specs */
-};
-
 asn_TYPE_member_t asn_MBR_UL_AoA_1[] = {
     {ATF_NOFLAGS,
      0,
@@ -144,21 +97,21 @@ asn_TYPE_member_t asn_MBR_UL_AoA_1[] = {
      "zenithAoA"},
     {ATF_POINTER,
      2,
-     offsetof(struct UL_AoA, angleCoordinateSystem),
+     offsetof(struct UL_AoA, lCS_to_GCS_Translation),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_angleCoordinateSystem_4,
+     &asn_DEF_LCS_to_GCS_Translation,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "angleCoordinateSystem"},
+     "lCS-to-GCS-Translation"},
     {ATF_POINTER,
      1,
      offsetof(struct UL_AoA, iE_extensions),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P99,
+     &asn_DEF_ProtocolExtensionContainer_4889P148,
      0,
      {0, 0, 0},
      0,
@@ -171,7 +124,7 @@ static const ber_tlv_tag_t asn_DEF_UL_AoA_tags_1[] = {
 static const asn_TYPE_tag2member_t asn_MAP_UL_AoA_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* azimuthAoA */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* zenithAoA */
-    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* angleCoordinateSystem */
+    {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}, /* lCS-to-GCS-Translation */
     {(ASN_TAG_CLASS_CONTEXT | (3 << 2)), 3, 0, 0}  /* iE-extensions */
 };
 asn_SEQUENCE_specifics_t asn_SPC_UL_AoA_specs_1 = {

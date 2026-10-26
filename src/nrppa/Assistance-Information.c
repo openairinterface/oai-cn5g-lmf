@@ -9,7 +9,7 @@
 #include "Assistance-Information.h"
 
 #include "ProtocolExtensionContainer.h"
-asn_TYPE_member_t asn_MBR_Assistance_Information_1[] = {
+static asn_TYPE_member_t asn_MBR_Assistance_Information_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct Assistance_Information, systemInformation),
@@ -26,7 +26,7 @@ asn_TYPE_member_t asn_MBR_Assistance_Information_1[] = {
      offsetof(struct Assistance_Information, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P5,
+     &asn_DEF_ProtocolExtensionContainer_4889P12,
      0,
      {0, 0, 0},
      0,
@@ -40,7 +40,7 @@ static const asn_TYPE_tag2member_t asn_MAP_Assistance_Information_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* systemInformation */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}  /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_Assistance_Information_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_Assistance_Information_specs_1 = {
     sizeof(struct Assistance_Information),
     offsetof(struct Assistance_Information, _asn_ctx),
     asn_MAP_Assistance_Information_tag2el_1,

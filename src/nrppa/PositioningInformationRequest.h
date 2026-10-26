@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningInformationRequest */
 typedef struct PositioningInformationRequest {
-  ProtocolIE_Container_2789P12_t protocolIEs;
+  ProtocolIE_Container_4860P12_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

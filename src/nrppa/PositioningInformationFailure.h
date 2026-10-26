@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningInformationFailure */
 typedef struct PositioningInformationFailure {
-  ProtocolIE_Container_2789P14_t protocolIEs;
+  ProtocolIE_Container_4860P14_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

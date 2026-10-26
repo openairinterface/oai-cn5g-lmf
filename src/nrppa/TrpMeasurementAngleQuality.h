@@ -28,11 +28,15 @@ typedef enum TrpMeasurementAngleQuality__resolution {
    */
 } e_TrpMeasurementAngleQuality__resolution;
 
+/* Forward declarations */
+struct ProtocolExtensionContainer;
+
 /* TrpMeasurementAngleQuality */
 typedef struct TrpMeasurementAngleQuality {
   long azimuthQuality;
   long* zenithQuality; /* OPTIONAL */
   long resolution;
+  struct ProtocolExtensionContainer* iE_extensions; /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -47,7 +51,7 @@ typedef struct TrpMeasurementAngleQuality {
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_TrpMeasurementAngleQuality;
 extern asn_SEQUENCE_specifics_t asn_SPC_TrpMeasurementAngleQuality_specs_1;
-extern asn_TYPE_member_t asn_MBR_TrpMeasurementAngleQuality_1[3];
+extern asn_TYPE_member_t asn_MBR_TrpMeasurementAngleQuality_1[4];
 
 #ifdef __cplusplus
 }

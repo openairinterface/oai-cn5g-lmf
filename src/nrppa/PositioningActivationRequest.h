@@ -21,7 +21,7 @@ extern "C" {
 
 /* PositioningActivationRequest */
 typedef struct PositioningActivationRequest {
-  ProtocolIE_Container_2789P26_t protocolIEs;
+  ProtocolIE_Container_4860P26_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

@@ -35,6 +35,12 @@
 #include "PositioningActivationRequest.h"
 #include "PositioningActivationResponse.h"
 #include "PositioningActivationFailure.h"
+#include "PRSConfigurationRequest.h"
+#include "PRSConfigurationResponse.h"
+#include "PRSConfigurationFailure.h"
+#include "MeasurementPreconfigurationRequired.h"
+#include "MeasurementPreconfigurationConfirm.h"
+#include "MeasurementPreconfigurationRefuse.h"
 #include "E-CIDMeasurementFailureIndication.h"
 #include "E-CIDMeasurementReport.h"
 #include "E-CIDMeasurementTerminationCommand.h"
@@ -48,6 +54,7 @@
 #include "MeasurementAbort.h"
 #include "MeasurementFailureIndication.h"
 #include "PositioningDeactivation.h"
+#include "MeasurementActivation.h"
 #include <OPEN_TYPE.h>
 #include <constr_CHOICE.h>
 #include <constr_SEQUENCE.h>
@@ -64,7 +71,9 @@ typedef enum UnsuccessfulOutcome__value_PR {
   UnsuccessfulOutcome__value_PR_PositioningInformationFailure,
   UnsuccessfulOutcome__value_PR_MeasurementFailure,
   UnsuccessfulOutcome__value_PR_TRPInformationFailure,
-  UnsuccessfulOutcome__value_PR_PositioningActivationFailure
+  UnsuccessfulOutcome__value_PR_PositioningActivationFailure,
+  UnsuccessfulOutcome__value_PR_PRSConfigurationFailure,
+  UnsuccessfulOutcome__value_PR_MeasurementPreconfigurationRefuse
 } UnsuccessfulOutcome__value_PR;
 
 /* UnsuccessfulOutcome */
@@ -81,6 +90,8 @@ typedef struct UnsuccessfulOutcome {
       MeasurementFailure_t MeasurementFailure;
       TRPInformationFailure_t TRPInformationFailure;
       PositioningActivationFailure_t PositioningActivationFailure;
+      PRSConfigurationFailure_t PRSConfigurationFailure;
+      MeasurementPreconfigurationRefuse_t MeasurementPreconfigurationRefuse;
     } choice;
 
     /* Context for parsing across buffer boundaries */

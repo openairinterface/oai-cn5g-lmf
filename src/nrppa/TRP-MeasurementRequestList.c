@@ -9,14 +9,14 @@
 #include "TRP-MeasurementRequestList.h"
 
 #include "TRP-MeasurementRequestItem.h"
-asn_per_constraints_t asn_PER_type_TRP_MeasurementRequestList_constr_1
+static asn_per_constraints_t asn_PER_type_TRP_MeasurementRequestList_constr_1
     CC_NOTUSED = {
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         {APC_CONSTRAINED, 6, 6, 1, 64} /* (SIZE(1..64)) */,
         0,
         0 /* No PER value map */
 };
-asn_TYPE_member_t asn_MBR_TRP_MeasurementRequestList_1[] = {
+static asn_TYPE_member_t asn_MBR_TRP_MeasurementRequestList_1[] = {
     {ATF_POINTER,
      0,
      0,
@@ -31,7 +31,7 @@ asn_TYPE_member_t asn_MBR_TRP_MeasurementRequestList_1[] = {
 };
 static const ber_tlv_tag_t asn_DEF_TRP_MeasurementRequestList_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_SET_OF_specifics_t asn_SPC_TRP_MeasurementRequestList_specs_1 = {
+static asn_SET_OF_specifics_t asn_SPC_TRP_MeasurementRequestList_specs_1 = {
     sizeof(struct TRP_MeasurementRequestList),
     offsetof(struct TRP_MeasurementRequestList, _asn_ctx),
     0, /* XER encoding is XMLDelimitedItemList */

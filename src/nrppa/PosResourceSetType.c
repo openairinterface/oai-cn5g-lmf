@@ -57,7 +57,7 @@ asn_TYPE_member_t asn_MBR_PosResourceSetType_1[] = {
      offsetof(struct PosResourceSetType, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P15,
+     &asn_DEF_ProtocolIE_Single_Container_4863P20,
      0,
      {0, 0, 0},
      0,

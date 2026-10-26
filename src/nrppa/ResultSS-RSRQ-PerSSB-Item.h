@@ -12,7 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
+#include "SSB-Index.h"
 #include "ValueRSRQ-NR.h"
 #include <constr_SEQUENCE.h>
 
@@ -25,7 +25,7 @@ struct ProtocolExtensionContainer;
 
 /* ResultSS-RSRQ-PerSSB-Item */
 typedef struct ResultSS_RSRQ_PerSSB_Item {
-  long sSB_Index;
+  SSB_Index_t sSB_Index;
   ValueRSRQ_NR_t valueSS_RSRQ;
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*

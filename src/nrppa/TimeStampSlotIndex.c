@@ -189,7 +189,7 @@ asn_TYPE_member_t asn_MBR_TimeStampSlotIndex_1[] = {
      offsetof(struct TimeStampSlotIndex, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (4 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P23,
+     &asn_DEF_ProtocolIE_Single_Container_4863P33,
      0,
      {0, 0, 0},
      0,

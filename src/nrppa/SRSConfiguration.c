@@ -9,7 +9,7 @@
 #include "SRSConfiguration.h"
 
 #include "ProtocolExtensionContainer.h"
-asn_TYPE_member_t asn_MBR_SRSConfiguration_1[] = {
+static asn_TYPE_member_t asn_MBR_SRSConfiguration_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct SRSConfiguration, sRSCarrier_List),
@@ -26,7 +26,7 @@ asn_TYPE_member_t asn_MBR_SRSConfiguration_1[] = {
      offsetof(struct SRSConfiguration, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P79,
+     &asn_DEF_ProtocolExtensionContainer_4889P107,
      0,
      {0, 0, 0},
      0,
@@ -40,7 +40,7 @@ static const asn_TYPE_tag2member_t asn_MAP_SRSConfiguration_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* sRSCarrier-List */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}  /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_SRSConfiguration_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_SRSConfiguration_specs_1 = {
     sizeof(struct SRSConfiguration),
     offsetof(struct SRSConfiguration, _asn_ctx),
     asn_MAP_SRSConfiguration_tag2el_1,

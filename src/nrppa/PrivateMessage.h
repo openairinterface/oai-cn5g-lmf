@@ -21,7 +21,7 @@ extern "C" {
 
 /* PrivateMessage */
 typedef struct PrivateMessage {
-  PrivateIE_Container_2833P0_t privateIEs;
+  PrivateIE_Container_4905P0_t privateIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

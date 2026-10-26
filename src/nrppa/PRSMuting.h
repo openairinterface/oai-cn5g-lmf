@@ -12,8 +12,6 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include "PRSMutingOption1.h"
-#include "PRSMutingOption2.h"
 #include <constr_SEQUENCE.h>
 
 #ifdef __cplusplus
@@ -21,12 +19,14 @@ extern "C" {
 #endif
 
 /* Forward declarations */
+struct PRSMutingOption1;
+struct PRSMutingOption2;
 struct ProtocolExtensionContainer;
 
 /* PRSMuting */
 typedef struct PRSMuting {
-  PRSMutingOption1_t pRSMutingOption1;
-  PRSMutingOption2_t pRSMutingOption2;
+  struct PRSMutingOption1* pRSMutingOption1;        /* OPTIONAL */
+  struct PRSMutingOption2* pRSMutingOption2;        /* OPTIONAL */
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,

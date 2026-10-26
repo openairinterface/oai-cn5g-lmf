@@ -37,8 +37,8 @@ int Measurement_ID_constraint(
  * This type is implemented using NativeInteger,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_Measurement_ID_constr_1 CC_NOTUSED = {
-    {APC_CONSTRAINED, 16, -1, 1, 65536} /* (1..65536) */,
+static asn_per_constraints_t asn_PER_type_Measurement_ID_constr_1 CC_NOTUSED = {
+    {APC_CONSTRAINED | APC_EXTENSIBLE, 16, -1, 1, 65536} /* (1..65536,...) */,
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     0,
     0 /* No PER value map */

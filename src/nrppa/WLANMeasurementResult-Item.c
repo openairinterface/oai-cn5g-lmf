@@ -104,7 +104,7 @@ asn_TYPE_member_t asn_MBR_WLANMeasurementResult_Item_1[] = {
      offsetof(struct WLANMeasurementResult_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (8 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P101,
+     &asn_DEF_ProtocolExtensionContainer_4889P152,
      0,
      {0, 0, 0},
      0,

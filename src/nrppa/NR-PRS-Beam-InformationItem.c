@@ -8,33 +8,9 @@
 
 #include "NR-PRS-Beam-InformationItem.h"
 
+#include "ProtocolExtensionContainer.h"
 #include "PRSAngleItem.h"
-static int memb_pRSresourceSetID_constraint_1(
-    const asn_TYPE_descriptor_t* td, const void* sptr,
-    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
-  long value;
-
-  if (!sptr) {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-
-  value = *(const long*) sptr;
-
-  if ((value >= 0 && value <= 7)) {
-    /* Constraint check succeeded */
-    return 0;
-  } else {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-}
-
-static int memb_pRSAngleItem_constraint_1(
+static int memb_pRSAngle_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
   size_t size;
@@ -51,8 +27,7 @@ static int memb_pRSAngleItem_constraint_1(
 
   if ((size >= 1 && size <= 64)) {
     /* Perform validation of the inner elements */
-    return td->encoding_constraints.general_constraints(
-        td, sptr, ctfailcb, app_key);
+    return SEQUENCE_OF_constraint(td, sptr, ctfailcb, app_key);
   } else {
     ASN__CTFAIL(
         app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
@@ -61,26 +36,19 @@ static int memb_pRSAngleItem_constraint_1(
   }
 }
 
-static asn_per_constraints_t asn_PER_type_pRSAngleItem_constr_3 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_type_pRSAngle_constr_3 CC_NOTUSED = {
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     {APC_CONSTRAINED, 6, 6, 1, 64} /* (SIZE(1..64)) */,
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_pRSresourceSetID_constr_2
-    CC_NOTUSED = {
-        {APC_CONSTRAINED, 3, 3, 0, 7} /* (0..7) */,
-        {APC_UNCONSTRAINED, -1, -1, 0, 0},
-        0,
-        0 /* No PER value map */
-};
-static asn_per_constraints_t asn_PER_memb_pRSAngleItem_constr_3 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_memb_pRSAngle_constr_3 CC_NOTUSED = {
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     {APC_CONSTRAINED, 6, 6, 1, 64} /* (SIZE(1..64)) */,
     0,
     0 /* No PER value map */
 };
-static asn_TYPE_member_t asn_MBR_pRSAngleItem_3[] = {
+static asn_TYPE_member_t asn_MBR_pRSAngle_3[] = {
     {ATF_POINTER,
      0,
      0,
@@ -93,29 +61,28 @@ static asn_TYPE_member_t asn_MBR_pRSAngleItem_3[] = {
      0, /* No default value */
      ""},
 };
-static const ber_tlv_tag_t asn_DEF_pRSAngleItem_tags_3[] = {
+static const ber_tlv_tag_t asn_DEF_pRSAngle_tags_3[] = {
     (ASN_TAG_CLASS_CONTEXT | (1 << 2)), (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-static asn_SET_OF_specifics_t asn_SPC_pRSAngleItem_specs_3 = {
-    sizeof(struct NR_PRS_Beam_InformationItem__pRSAngleItem),
-    offsetof(struct NR_PRS_Beam_InformationItem__pRSAngleItem, _asn_ctx),
+static asn_SET_OF_specifics_t asn_SPC_pRSAngle_specs_3 = {
+    sizeof(struct NR_PRS_Beam_InformationItem__pRSAngle),
+    offsetof(struct NR_PRS_Beam_InformationItem__pRSAngle, _asn_ctx),
     0, /* XER encoding is XMLDelimitedItemList */
 };
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_pRSAngleItem_3 = {
-        "pRSAngleItem",
-        "pRSAngleItem",
+    asn_TYPE_descriptor_t asn_DEF_pRSAngle_3 = {
+        "pRSAngle",
+        "pRSAngle",
         &asn_OP_SEQUENCE_OF,
-        asn_DEF_pRSAngleItem_tags_3,
-        sizeof(asn_DEF_pRSAngleItem_tags_3) /
-                sizeof(asn_DEF_pRSAngleItem_tags_3[0]) -
-            1,                       /* 1 */
-        asn_DEF_pRSAngleItem_tags_3, /* Same as above */
-        sizeof(asn_DEF_pRSAngleItem_tags_3) /
-            sizeof(asn_DEF_pRSAngleItem_tags_3[0]), /* 2 */
-        {0, &asn_PER_type_pRSAngleItem_constr_3, SEQUENCE_OF_constraint},
-        asn_MBR_pRSAngleItem_3,
-        1,                            /* Single element */
-        &asn_SPC_pRSAngleItem_specs_3 /* Additional specs */
+        asn_DEF_pRSAngle_tags_3,
+        sizeof(asn_DEF_pRSAngle_tags_3) / sizeof(asn_DEF_pRSAngle_tags_3[0]) -
+            1,                   /* 1 */
+        asn_DEF_pRSAngle_tags_3, /* Same as above */
+        sizeof(asn_DEF_pRSAngle_tags_3) /
+            sizeof(asn_DEF_pRSAngle_tags_3[0]), /* 2 */
+        {0, &asn_PER_type_pRSAngle_constr_3, SEQUENCE_OF_constraint},
+        asn_MBR_pRSAngle_3,
+        1,                        /* Single element */
+        &asn_SPC_pRSAngle_specs_3 /* Additional specs */
 };
 
 asn_TYPE_member_t asn_MBR_NR_PRS_Beam_InformationItem_1[] = {
@@ -124,41 +91,53 @@ asn_TYPE_member_t asn_MBR_NR_PRS_Beam_InformationItem_1[] = {
      offsetof(struct NR_PRS_Beam_InformationItem, pRSresourceSetID),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NativeInteger,
+     &asn_DEF_PRS_Resource_Set_ID,
      0,
-     {0, &asn_PER_memb_pRSresourceSetID_constr_2,
-      memb_pRSresourceSetID_constraint_1},
+     {0, 0, 0},
      0,
      0, /* No default value */
      "pRSresourceSetID"},
     {ATF_NOFLAGS,
      0,
-     offsetof(struct NR_PRS_Beam_InformationItem, pRSAngleItem),
+     offsetof(struct NR_PRS_Beam_InformationItem, pRSAngle),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      0,
-     &asn_DEF_pRSAngleItem_3,
+     &asn_DEF_pRSAngle_3,
      0,
-     {0, &asn_PER_memb_pRSAngleItem_constr_3, memb_pRSAngleItem_constraint_1},
+     {0, &asn_PER_memb_pRSAngle_constr_3, memb_pRSAngle_constraint_1},
      0,
      0, /* No default value */
-     "pRSAngleItem"},
+     "pRSAngle"},
+    {ATF_POINTER,
+     1,
+     offsetof(struct NR_PRS_Beam_InformationItem, iE_Extensions),
+     (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
+     -1, /* IMPLICIT tag at current level */
+     &asn_DEF_ProtocolExtensionContainer_4889P37,
+     0,
+     {0, 0, 0},
+     0,
+     0, /* No default value */
+     "iE-Extensions"},
 };
+static const int asn_MAP_NR_PRS_Beam_InformationItem_oms_1[]            = {2};
 static const ber_tlv_tag_t asn_DEF_NR_PRS_Beam_InformationItem_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
 static const asn_TYPE_tag2member_t
     asn_MAP_NR_PRS_Beam_InformationItem_tag2el_1[] = {
         {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* pRSresourceSetID */
-        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}  /* pRSAngleItem */
+        {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}, /* pRSAngle */
+        {(ASN_TAG_CLASS_CONTEXT | (2 << 2)), 2, 0, 0}  /* iE-Extensions */
 };
 asn_SEQUENCE_specifics_t asn_SPC_NR_PRS_Beam_InformationItem_specs_1 = {
     sizeof(struct NR_PRS_Beam_InformationItem),
     offsetof(struct NR_PRS_Beam_InformationItem, _asn_ctx),
     asn_MAP_NR_PRS_Beam_InformationItem_tag2el_1,
-    2, /* Count of tags in the map */
-    0,
-    0,
-    0, /* Optional elements (not needed) */
-    2, /* First extension addition */
+    3,                                         /* Count of tags in the map */
+    asn_MAP_NR_PRS_Beam_InformationItem_oms_1, /* Optional members */
+    1,
+    0, /* Root/Additions */
+    3, /* First extension addition */
 };
 asn_TYPE_descriptor_t asn_DEF_NR_PRS_Beam_InformationItem = {
     "NR-PRS-Beam-InformationItem",
@@ -172,6 +151,6 @@ asn_TYPE_descriptor_t asn_DEF_NR_PRS_Beam_InformationItem = {
         sizeof(asn_DEF_NR_PRS_Beam_InformationItem_tags_1[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
     asn_MBR_NR_PRS_Beam_InformationItem_1,
-    2,                                           /* Elements count */
+    3,                                           /* Elements count */
     &asn_SPC_NR_PRS_Beam_InformationItem_specs_1 /* Additional specs */
 };

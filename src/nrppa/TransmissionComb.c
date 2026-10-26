@@ -279,7 +279,7 @@ asn_TYPE_member_t asn_MBR_TransmissionComb_1[] = {
      offsetof(struct TransmissionComb, choice.choice_extension),
      (ASN_TAG_CLASS_CONTEXT | (2 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P24,
+     &asn_DEF_ProtocolIE_Single_Container_4863P34,
      0,
      {0, 0, 0},
      0,

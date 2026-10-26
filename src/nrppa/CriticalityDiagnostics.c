@@ -10,7 +10,7 @@
 
 #include "CriticalityDiagnostics-IE-List.h"
 #include "ProtocolExtensionContainer.h"
-asn_TYPE_member_t asn_MBR_CriticalityDiagnostics_1[] = {
+static asn_TYPE_member_t asn_MBR_CriticalityDiagnostics_1[] = {
     {ATF_POINTER,
      6,
      offsetof(struct CriticalityDiagnostics, procedureCode),
@@ -71,7 +71,7 @@ asn_TYPE_member_t asn_MBR_CriticalityDiagnostics_1[] = {
      offsetof(struct CriticalityDiagnostics, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (5 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P10,
+     &asn_DEF_ProtocolExtensionContainer_4889P18,
      0,
      {0, 0, 0},
      0,
@@ -90,7 +90,7 @@ static const asn_TYPE_tag2member_t asn_MAP_CriticalityDiagnostics_tag2el_1[] = {
      0}, /* iEsCriticalityDiagnostics */
     {(ASN_TAG_CLASS_CONTEXT | (5 << 2)), 5, 0, 0} /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_CriticalityDiagnostics_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_CriticalityDiagnostics_specs_1 = {
     sizeof(struct CriticalityDiagnostics),
     offsetof(struct CriticalityDiagnostics, _asn_ctx),
     asn_MAP_CriticalityDiagnostics_tag2el_1,

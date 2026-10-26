@@ -58,10 +58,15 @@ typedef enum PosSIB_Type {
   PosSIB_Type_posSibType5_1  = 35,
   PosSIB_Type_posSibType6_1  = 36,
   PosSIB_Type_posSibType6_2  = 37,
-  PosSIB_Type_posSibType6_3  = 38
+  PosSIB_Type_posSibType6_3  = 38,
   /*
    * Enumeration is extensible
    */
+  PosSIB_Type_posSibType1_9  = 39,
+  PosSIB_Type_posSibType1_10 = 40,
+  PosSIB_Type_posSibType6_4  = 41,
+  PosSIB_Type_posSibType6_5  = 42,
+  PosSIB_Type_posSibType6_6  = 43
 } e_PosSIB_Type;
 
 /* PosSIB-Type */

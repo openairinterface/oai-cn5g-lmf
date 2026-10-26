@@ -254,17 +254,15 @@ asn_TYPE_member_t asn_MBR_OTDOACell_Information_Item_1[] = {
      "pRSFrequencyHoppingConfiguration-EUTRA"},
     {ATF_POINTER,
      0,
-     offsetof(
-         struct OTDOACell_Information_Item,
-         choice.oTDOACell_Information_Item_Extension),
+     offsetof(struct OTDOACell_Information_Item, choice.choice_Extension),
      (ASN_TAG_CLASS_CONTEXT | (20 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Single_Container_2792P11,
+     &asn_DEF_ProtocolIE_Single_Container_4863P16,
      0,
      {0, 0, 0},
      0,
      0, /* No default value */
-     "oTDOACell-Information-Item-Extension"},
+     "choice-Extension"},
 };
 static const asn_TYPE_tag2member_t
     asn_MAP_OTDOACell_Information_Item_tag2el_1[] = {
@@ -298,8 +296,7 @@ static const asn_TYPE_tag2member_t
          0}, /* pRSOccasionGroup-EUTRA */
         {(ASN_TAG_CLASS_CONTEXT | (19 << 2)), 19, 0,
          0}, /* pRSFrequencyHoppingConfiguration-EUTRA */
-        {(ASN_TAG_CLASS_CONTEXT | (20 << 2)), 20, 0,
-         0} /* oTDOACell-Information-Item-Extension */
+        {(ASN_TAG_CLASS_CONTEXT | (20 << 2)), 20, 0, 0} /* choice-Extension */
 };
 asn_CHOICE_specifics_t asn_SPC_OTDOACell_Information_Item_specs_1 = {
     sizeof(struct OTDOACell_Information_Item),

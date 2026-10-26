@@ -38,31 +38,6 @@
  * This type is implemented using NativeEnumerated,
  * so here we adjust the DEF accordingly.
  */
-static int memb_pRSResourceSetID_constraint_1(
-    const asn_TYPE_descriptor_t* td, const void* sptr,
-    asn_app_constraint_failed_f* ctfailcb, void* app_key) {
-  long value;
-
-  if (!sptr) {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: value not given (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-
-  value = *(const long*) sptr;
-
-  if ((value >= 0 && value <= 7)) {
-    /* Constraint check succeeded */
-    return 0;
-  } else {
-    ASN__CTFAIL(
-        app_key, td, sptr, "%s: constraint failed (%s:%d)", td->name, __FILE__,
-        __LINE__);
-    return -1;
-  }
-}
-
 static int memb_pRSbandwidth_constraint_1(
     const asn_TYPE_descriptor_t* td, const void* sptr,
     asn_app_constraint_failed_f* ctfailcb, void* app_key) {
@@ -231,13 +206,6 @@ static asn_per_constraints_t asn_PER_type_resourceTimeGap_constr_54
 static asn_per_constraints_t asn_PER_type_resourceNumberofSymbols_constr_62
     CC_NOTUSED = {
         {APC_CONSTRAINED | APC_EXTENSIBLE, 2, 2, 0, 3} /* (0..3,...) */,
-        {APC_UNCONSTRAINED, -1, -1, 0, 0},
-        0,
-        0 /* No PER value map */
-};
-static asn_per_constraints_t asn_PER_memb_pRSResourceSetID_constr_2
-    CC_NOTUSED = {
-        {APC_CONSTRAINED, 3, 3, 0, 7} /* (0..7) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
@@ -602,10 +570,9 @@ asn_TYPE_member_t asn_MBR_PRSResourceSet_Item_1[] = {
      offsetof(struct PRSResourceSet_Item, pRSResourceSetID),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_NativeInteger,
+     &asn_DEF_PRS_Resource_Set_ID,
      0,
-     {0, &asn_PER_memb_pRSResourceSetID_constr_2,
-      memb_pRSResourceSetID_constraint_1},
+     {0, 0, 0},
      0,
      0, /* No default value */
      "pRSResourceSetID"},
@@ -770,7 +737,7 @@ asn_TYPE_member_t asn_MBR_PRSResourceSet_Item_1[] = {
      offsetof(struct PRSResourceSet_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (15 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P45,
+     &asn_DEF_ProtocolExtensionContainer_4889P60,
      0,
      {0, 0, 0},
      0,

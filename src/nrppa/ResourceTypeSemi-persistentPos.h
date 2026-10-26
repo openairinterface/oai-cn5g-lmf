@@ -41,12 +41,15 @@ typedef enum ResourceTypeSemi_persistentPos__periodicity {
   ResourceTypeSemi_persistentPos__periodicity_slot2560  = 16,
   ResourceTypeSemi_persistentPos__periodicity_slot5120  = 17,
   ResourceTypeSemi_persistentPos__periodicity_slot10240 = 18,
-  ResourceTypeSemi_persistentPos__periodicity_slot20480 = 19,
-  ResourceTypeSemi_persistentPos__periodicity_slot40960 = 20,
-  ResourceTypeSemi_persistentPos__periodicity_slot81920 = 21
+  ResourceTypeSemi_persistentPos__periodicity_slot40960 = 19,
+  ResourceTypeSemi_persistentPos__periodicity_slot81920 = 20,
   /*
    * Enumeration is extensible
    */
+  ResourceTypeSemi_persistentPos__periodicity_slot128   = 21,
+  ResourceTypeSemi_persistentPos__periodicity_slot256   = 22,
+  ResourceTypeSemi_persistentPos__periodicity_slot512   = 23,
+  ResourceTypeSemi_persistentPos__periodicity_slot20480 = 24
 } e_ResourceTypeSemi_persistentPos__periodicity;
 
 /* Forward declarations */

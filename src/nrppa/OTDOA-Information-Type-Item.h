@@ -24,7 +24,7 @@ struct ProtocolExtensionContainer;
 
 /* OTDOA-Information-Type-Item */
 typedef struct OTDOA_Information_Type_Item {
-  OTDOA_Information_Item_t oTDOA_Information_Type_Item;
+  OTDOA_Information_Item_t oTDOA_Information_Item;
   struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,
@@ -37,8 +37,6 @@ typedef struct OTDOA_Information_Type_Item {
 
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_OTDOA_Information_Type_Item;
-extern asn_SEQUENCE_specifics_t asn_SPC_OTDOA_Information_Type_Item_specs_1;
-extern asn_TYPE_member_t asn_MBR_OTDOA_Information_Type_Item_1[2];
 
 #ifdef __cplusplus
 }

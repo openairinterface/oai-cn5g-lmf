@@ -9,7 +9,7 @@
 #include "OTDOACells.h"
 
 #include "ProtocolExtensionContainer.h"
-asn_per_constraints_t asn_PER_type_OTDOACells_constr_1 CC_NOTUSED = {
+static asn_per_constraints_t asn_PER_type_OTDOACells_constr_1 CC_NOTUSED = {
     {APC_UNCONSTRAINED, -1, -1, 0, 0},
     {APC_CONSTRAINED, 12, 12, 1, 3840} /* (SIZE(1..3840)) */,
     0,
@@ -32,7 +32,7 @@ static asn_TYPE_member_t asn_MBR_Member_2[] = {
      offsetof(struct OTDOACells__Member, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P26,
+     &asn_DEF_ProtocolExtensionContainer_4889P39,
      0,
      {0, 0, 0},
      0,
@@ -73,7 +73,7 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_Member_specs_2 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_OTDOACells_1[] = {
+static asn_TYPE_member_t asn_MBR_OTDOACells_1[] = {
     {ATF_POINTER,
      0,
      0,
@@ -88,7 +88,7 @@ asn_TYPE_member_t asn_MBR_OTDOACells_1[] = {
 };
 static const ber_tlv_tag_t asn_DEF_OTDOACells_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_SET_OF_specifics_t asn_SPC_OTDOACells_specs_1 = {
+static asn_SET_OF_specifics_t asn_SPC_OTDOACells_specs_1 = {
     sizeof(struct OTDOACells), offsetof(struct OTDOACells, _asn_ctx),
     0, /* XER encoding is XMLDelimitedItemList */
 };

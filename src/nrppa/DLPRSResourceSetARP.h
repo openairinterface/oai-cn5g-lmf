@@ -12,7 +12,7 @@
 #include <asn_application.h>
 
 /* Including external dependencies */
-#include <NativeInteger.h>
+#include "PRS-Resource-Set-ID.h"
 #include "DL-PRSResourceSetARPLocation.h"
 #include <asn_SEQUENCE_OF.h>
 #include <constr_SEQUENCE_OF.h>
@@ -28,7 +28,7 @@ struct DLPRSResourceARP;
 
 /* DLPRSResourceSetARP */
 typedef struct DLPRSResourceSetARP {
-  long dl_PRSResourceSetID;
+  PRS_Resource_Set_ID_t dl_PRSResourceSetID;
   DL_PRSResourceSetARPLocation_t dL_PRSResourceSetARPLocation;
   struct DLPRSResourceSetARP__listofDL_PRSResourceARP {
     A_SEQUENCE_OF(struct DLPRSResourceARP) list;

@@ -12,7 +12,7 @@
  * This type is implemented using NativeEnumerated,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_TRPInformationTypeItem_constr_1
+static asn_per_constraints_t asn_PER_type_TRPInformationTypeItem_constr_1
     CC_NOTUSED = {
         {APC_CONSTRAINED | APC_EXTENSIBLE, 3, 3, 0, 7} /* (0..7,...) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -28,27 +28,35 @@ static const asn_INTEGER_enum_map_t
         {4, 7, "sSBInfo"},
         {5, 11, "sFNInitTime"},
         {6, 17, "spatialDirectInfo"},
-        {7, 8, "geoCoord"}
+        {7, 8, "geoCoord"},
+        {8, 8, "trp-type"},
+        {9, 15, "ondemandPRSInfo"},
+        {10, 8, "trpTxTeg"},
+        {11, 17, "beam-antenna-info"}
         /* This list is extensible */
 };
 static const unsigned int asn_MAP_TRPInformationTypeItem_enum2value_1[] = {
-    2, /* arfcn(2) */
-    7, /* geoCoord(7) */
-    1, /* nG-RAN-CGI(1) */
-    0, /* nrPCI(0) */
-    3, /* pRSConfig(3) */
-    5, /* sFNInitTime(5) */
-    4, /* sSBInfo(4) */
-    6  /* spatialDirectInfo(6) */
-       /* This list is extensible */
+    2,  /* arfcn(2) */
+    11, /* beam-antenna-info(11) */
+    7,  /* geoCoord(7) */
+    1,  /* nG-RAN-CGI(1) */
+    0,  /* nrPCI(0) */
+    9,  /* ondemandPRSInfo(9) */
+    3,  /* pRSConfig(3) */
+    5,  /* sFNInitTime(5) */
+    4,  /* sSBInfo(4) */
+    6,  /* spatialDirectInfo(6) */
+    8,  /* trp-type(8) */
+    10  /* trpTxTeg(10) */
+        /* This list is extensible */
 };
-const asn_INTEGER_specifics_t asn_SPC_TRPInformationTypeItem_specs_1 = {
+static const asn_INTEGER_specifics_t asn_SPC_TRPInformationTypeItem_specs_1 = {
     asn_MAP_TRPInformationTypeItem_value2enum_1, /* "tag" => N; sorted by tag */
     asn_MAP_TRPInformationTypeItem_enum2value_1, /* N => "tag"; sorted by N */
-    8, /* Number of elements in the maps */
-    9, /* Extensions before this member */
-    1, /* Strict enumeration */
-    0, /* Native long size */
+    12, /* Number of elements in the maps */
+    9,  /* Extensions before this member */
+    1,  /* Strict enumeration */
+    0,  /* Native long size */
     0};
 static const ber_tlv_tag_t asn_DEF_TRPInformationTypeItem_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};

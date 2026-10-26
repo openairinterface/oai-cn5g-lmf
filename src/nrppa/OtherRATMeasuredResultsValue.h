@@ -23,7 +23,7 @@ typedef enum OtherRATMeasuredResultsValue_PR {
   OtherRATMeasuredResultsValue_PR_NOTHING, /* No components present */
   OtherRATMeasuredResultsValue_PR_resultGERAN,
   OtherRATMeasuredResultsValue_PR_resultUTRAN,
-  OtherRATMeasuredResultsValue_PR_otherRATMeasuredResultsValue_Extension
+  OtherRATMeasuredResultsValue_PR_choice_Extension
 } OtherRATMeasuredResultsValue_PR;
 
 /* Forward declarations */
@@ -37,7 +37,7 @@ typedef struct OtherRATMeasuredResultsValue {
   union OtherRATMeasuredResultsValue_u {
     struct ResultGERAN* resultGERAN;
     struct ResultUTRAN* resultUTRAN;
-    struct ProtocolIE_Single_Container* otherRATMeasuredResultsValue_Extension;
+    struct ProtocolIE_Single_Container* choice_Extension;
   } choice;
 
   /* Context for parsing across buffer boundaries */

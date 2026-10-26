@@ -21,7 +21,7 @@ extern "C" {
 
 /* OTDOAInformationRequest */
 typedef struct OTDOAInformationRequest {
-  ProtocolIE_Container_2789P6_t protocolIEs;
+  ProtocolIE_Container_4860P6_t protocolIEs;
   /*
    * This type is extensible,
    * possible extensions are below.

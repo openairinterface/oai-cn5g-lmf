@@ -125,7 +125,7 @@ static asn_per_constraints_t asn_PER_type_sSB_subcarrier_spacing_constr_3
         0,
         0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_type_sSB_periodicity_constr_10
+static asn_per_constraints_t asn_PER_type_sSB_periodicity_constr_11
     CC_NOTUSED = {
         {APC_CONSTRAINED | APC_EXTENSIBLE, 3, 3, 0, 5} /* (0..5,...) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -138,21 +138,21 @@ static asn_per_constraints_t asn_PER_memb_sSB_frequency_constr_2 CC_NOTUSED = {
     0,
     0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_sSB_Transmit_power_constr_9
+static asn_per_constraints_t asn_PER_memb_sSB_Transmit_power_constr_10
     CC_NOTUSED = {
         {APC_CONSTRAINED, 7, 7, -60, 50} /* (-60..50) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_sSB_half_frame_offset_constr_18
+static asn_per_constraints_t asn_PER_memb_sSB_half_frame_offset_constr_19
     CC_NOTUSED = {
         {APC_CONSTRAINED, 1, 1, 0, 1} /* (0..1) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
         0,
         0 /* No PER value map */
 };
-static asn_per_constraints_t asn_PER_memb_sSB_SFN_offset_constr_19
+static asn_per_constraints_t asn_PER_memb_sSB_SFN_offset_constr_20
     CC_NOTUSED = {
         {APC_CONSTRAINED, 4, 4, 0, 15} /* (0..15) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -164,20 +164,22 @@ static const asn_INTEGER_enum_map_t
         {0, 5, "kHz15"},
         {1, 5, "kHz30"},
         {2, 6, "kHz120"},
-        {3, 6, "kHz240"}
+        {3, 6, "kHz240"},
+        {4, 5, "kHz60"}
         /* This list is extensible */
 };
 static const unsigned int asn_MAP_sSB_subcarrier_spacing_enum2value_3[] = {
     2, /* kHz120(2) */
     0, /* kHz15(0) */
     3, /* kHz240(3) */
-    1  /* kHz30(1) */
+    1, /* kHz30(1) */
+    4  /* kHz60(4) */
        /* This list is extensible */
 };
 static const asn_INTEGER_specifics_t asn_SPC_sSB_subcarrier_spacing_specs_3 = {
     asn_MAP_sSB_subcarrier_spacing_value2enum_3, /* "tag" => N; sorted by tag */
     asn_MAP_sSB_subcarrier_spacing_enum2value_3, /* N => "tag"; sorted by N */
-    4, /* Number of elements in the maps */
+    5, /* Number of elements in the maps */
     5, /* Extensions before this member */
     1, /* Strict enumeration */
     0, /* Native long size */
@@ -203,12 +205,12 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_sSB_subcarrier_spacing_specs_3 /* Additional specs */
 };
 
-static const asn_INTEGER_enum_map_t asn_MAP_sSB_periodicity_value2enum_10[] = {
+static const asn_INTEGER_enum_map_t asn_MAP_sSB_periodicity_value2enum_11[] = {
     {0, 3, "ms5"},  {1, 4, "ms10"}, {2, 4, "ms20"}, {3, 4, "ms40"},
     {4, 4, "ms80"}, {5, 5, "ms160"}
     /* This list is extensible */
 };
-static const unsigned int asn_MAP_sSB_periodicity_enum2value_10[] = {
+static const unsigned int asn_MAP_sSB_periodicity_enum2value_11[] = {
     1, /* ms10(1) */
     5, /* ms160(5) */
     2, /* ms20(2) */
@@ -217,33 +219,33 @@ static const unsigned int asn_MAP_sSB_periodicity_enum2value_10[] = {
     4  /* ms80(4) */
        /* This list is extensible */
 };
-static const asn_INTEGER_specifics_t asn_SPC_sSB_periodicity_specs_10 = {
-    asn_MAP_sSB_periodicity_value2enum_10, /* "tag" => N; sorted by tag */
-    asn_MAP_sSB_periodicity_enum2value_10, /* N => "tag"; sorted by N */
+static const asn_INTEGER_specifics_t asn_SPC_sSB_periodicity_specs_11 = {
+    asn_MAP_sSB_periodicity_value2enum_11, /* "tag" => N; sorted by tag */
+    asn_MAP_sSB_periodicity_enum2value_11, /* N => "tag"; sorted by N */
     6,                                     /* Number of elements in the maps */
     7,                                     /* Extensions before this member */
     1,                                     /* Strict enumeration */
     0,                                     /* Native long size */
     0};
-static const ber_tlv_tag_t asn_DEF_sSB_periodicity_tags_10[] = {
+static const ber_tlv_tag_t asn_DEF_sSB_periodicity_tags_11[] = {
     (ASN_TAG_CLASS_CONTEXT | (3 << 2)), (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 static /* Use -fall-defs-global to expose */
-    asn_TYPE_descriptor_t asn_DEF_sSB_periodicity_10 = {
+    asn_TYPE_descriptor_t asn_DEF_sSB_periodicity_11 = {
         "sSB-periodicity",
         "sSB-periodicity",
         &asn_OP_NativeEnumerated,
-        asn_DEF_sSB_periodicity_tags_10,
-        sizeof(asn_DEF_sSB_periodicity_tags_10) /
-                sizeof(asn_DEF_sSB_periodicity_tags_10[0]) -
+        asn_DEF_sSB_periodicity_tags_11,
+        sizeof(asn_DEF_sSB_periodicity_tags_11) /
+                sizeof(asn_DEF_sSB_periodicity_tags_11[0]) -
             1,                           /* 1 */
-        asn_DEF_sSB_periodicity_tags_10, /* Same as above */
-        sizeof(asn_DEF_sSB_periodicity_tags_10) /
-            sizeof(asn_DEF_sSB_periodicity_tags_10[0]), /* 2 */
-        {0, &asn_PER_type_sSB_periodicity_constr_10,
+        asn_DEF_sSB_periodicity_tags_11, /* Same as above */
+        sizeof(asn_DEF_sSB_periodicity_tags_11) /
+            sizeof(asn_DEF_sSB_periodicity_tags_11[0]), /* 2 */
+        {0, &asn_PER_type_sSB_periodicity_constr_11,
          NativeEnumerated_constraint},
         0,
         0,                                /* Defined elsewhere */
-        &asn_SPC_sSB_periodicity_specs_10 /* Additional specs */
+        &asn_SPC_sSB_periodicity_specs_11 /* Additional specs */
 };
 
 asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
@@ -276,7 +278,7 @@ asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_sSB_Transmit_power_constr_9,
+     {0, &asn_PER_memb_sSB_Transmit_power_constr_10,
       memb_sSB_Transmit_power_constraint_1},
      0,
      0, /* No default value */
@@ -286,7 +288,7 @@ asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
      offsetof(struct TF_Configuration, sSB_periodicity),
      (ASN_TAG_CLASS_CONTEXT | (3 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_sSB_periodicity_10,
+     &asn_DEF_sSB_periodicity_11,
      0,
      {0, 0, 0},
      0,
@@ -299,7 +301,7 @@ asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_sSB_half_frame_offset_constr_18,
+     {0, &asn_PER_memb_sSB_half_frame_offset_constr_19,
       memb_sSB_half_frame_offset_constraint_1},
      0,
      0, /* No default value */
@@ -311,7 +313,7 @@ asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
      -1, /* IMPLICIT tag at current level */
      &asn_DEF_NativeInteger,
      0,
-     {0, &asn_PER_memb_sSB_SFN_offset_constr_19,
+     {0, &asn_PER_memb_sSB_SFN_offset_constr_20,
       memb_sSB_SFN_offset_constraint_1},
      0,
      0, /* No default value */
@@ -332,7 +334,7 @@ asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
      offsetof(struct TF_Configuration, sFN_initialisation_time),
      (ASN_TAG_CLASS_CONTEXT | (7 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_SFNInitialisationTime,
+     &asn_DEF_RelativeTime1900,
      0,
      {0, 0, 0},
      0,
@@ -343,7 +345,7 @@ asn_TYPE_member_t asn_MBR_TF_Configuration_1[] = {
      offsetof(struct TF_Configuration, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (8 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P90,
+     &asn_DEF_ProtocolExtensionContainer_4889P120,
      0,
      {0, 0, 0},
      0,

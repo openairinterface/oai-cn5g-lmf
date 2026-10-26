@@ -65,7 +65,7 @@ static /* Use -fall-defs-global to expose */
         &asn_SPC_subframeAssignment_specs_2 /* Additional specs */
 };
 
-asn_TYPE_member_t asn_MBR_TDD_Config_EUTRA_Item_1[] = {
+static asn_TYPE_member_t asn_MBR_TDD_Config_EUTRA_Item_1[] = {
     {ATF_NOFLAGS,
      0,
      offsetof(struct TDD_Config_EUTRA_Item, subframeAssignment),
@@ -82,7 +82,7 @@ asn_TYPE_member_t asn_MBR_TDD_Config_EUTRA_Item_1[] = {
      offsetof(struct TDD_Config_EUTRA_Item, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P89,
+     &asn_DEF_ProtocolExtensionContainer_4889P117,
      0,
      {0, 0, 0},
      0,
@@ -96,7 +96,7 @@ static const asn_TYPE_tag2member_t asn_MAP_TDD_Config_EUTRA_Item_tag2el_1[] = {
     {(ASN_TAG_CLASS_CONTEXT | (0 << 2)), 0, 0, 0}, /* subframeAssignment */
     {(ASN_TAG_CLASS_CONTEXT | (1 << 2)), 1, 0, 0}  /* iE-Extensions */
 };
-asn_SEQUENCE_specifics_t asn_SPC_TDD_Config_EUTRA_Item_specs_1 = {
+static asn_SEQUENCE_specifics_t asn_SPC_TDD_Config_EUTRA_Item_specs_1 = {
     sizeof(struct TDD_Config_EUTRA_Item),
     offsetof(struct TDD_Config_EUTRA_Item, _asn_ctx),
     asn_MAP_TDD_Config_EUTRA_Item_tag2el_1,

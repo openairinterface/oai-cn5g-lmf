@@ -31,10 +31,14 @@ typedef enum TrpMeasurementTimingQuality__resolution {
    */
 } e_TrpMeasurementTimingQuality__resolution;
 
+/* Forward declarations */
+struct ProtocolExtensionContainer;
+
 /* TrpMeasurementTimingQuality */
 typedef struct TrpMeasurementTimingQuality {
   long measurementQuality;
   long resolution;
+  struct ProtocolExtensionContainer* iE_extensions; /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -49,7 +53,7 @@ typedef struct TrpMeasurementTimingQuality {
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_TrpMeasurementTimingQuality;
 extern asn_SEQUENCE_specifics_t asn_SPC_TrpMeasurementTimingQuality_specs_1;
-extern asn_TYPE_member_t asn_MBR_TrpMeasurementTimingQuality_1[2];
+extern asn_TYPE_member_t asn_MBR_TrpMeasurementTimingQuality_1[3];
 
 #ifdef __cplusplus
 }

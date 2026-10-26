@@ -12,7 +12,7 @@
  * This type is implemented using NativeEnumerated,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_MeasurementBeamInfoRequest_constr_1
+static asn_per_constraints_t asn_PER_type_MeasurementBeamInfoRequest_constr_1
     CC_NOTUSED = {
         {APC_CONSTRAINED | APC_EXTENSIBLE, 0, 0, 0, 0} /* (0..0,...) */,
         {APC_UNCONSTRAINED, -1, -1, 0, 0},
@@ -28,16 +28,17 @@ static const unsigned int asn_MAP_MeasurementBeamInfoRequest_enum2value_1[] = {
     0 /* true(0) */
       /* This list is extensible */
 };
-const asn_INTEGER_specifics_t asn_SPC_MeasurementBeamInfoRequest_specs_1 = {
-    asn_MAP_MeasurementBeamInfoRequest_value2enum_1, /* "tag" => N; sorted by
-                                                        tag */
-    asn_MAP_MeasurementBeamInfoRequest_enum2value_1, /* N => "tag"; sorted by N
-                                                      */
-    1, /* Number of elements in the maps */
-    2, /* Extensions before this member */
-    1, /* Strict enumeration */
-    0, /* Native long size */
-    0};
+static const asn_INTEGER_specifics_t
+    asn_SPC_MeasurementBeamInfoRequest_specs_1 = {
+        asn_MAP_MeasurementBeamInfoRequest_value2enum_1, /* "tag" => N; sorted
+                                                            by tag */
+        asn_MAP_MeasurementBeamInfoRequest_enum2value_1, /* N => "tag"; sorted
+                                                            by N */
+        1, /* Number of elements in the maps */
+        2, /* Extensions before this member */
+        1, /* Strict enumeration */
+        0, /* Native long size */
+        0};
 static const ber_tlv_tag_t asn_DEF_MeasurementBeamInfoRequest_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (10 << 2))};
 asn_TYPE_descriptor_t asn_DEF_MeasurementBeamInfoRequest = {

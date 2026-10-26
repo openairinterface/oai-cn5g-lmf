@@ -14,7 +14,7 @@ asn_TYPE_member_t asn_MBR_MeasurementFailureIndication_1[] = {
      offsetof(struct MeasurementFailureIndication, protocolIEs),
      (ASN_TAG_CLASS_CONTEXT | (0 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolIE_Container_2789P22,
+     &asn_DEF_ProtocolIE_Container_4860P22,
      0,
      {0, 0, 0},
      0,

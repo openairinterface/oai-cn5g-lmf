@@ -19,9 +19,13 @@
 extern "C" {
 #endif
 
+/* Forward declarations */
+struct ProtocolExtensionContainer;
+
 /* TRPItem */
 typedef struct TRPItem {
   TRP_ID_t tRP_ID;
+  struct ProtocolExtensionContainer* iE_Extensions; /* OPTIONAL */
   /*
    * This type is extensible,
    * possible extensions are below.
@@ -34,7 +38,7 @@ typedef struct TRPItem {
 /* Implementation */
 extern asn_TYPE_descriptor_t asn_DEF_TRPItem;
 extern asn_SEQUENCE_specifics_t asn_SPC_TRPItem_specs_1;
-extern asn_TYPE_member_t asn_MBR_TRPItem_1[1];
+extern asn_TYPE_member_t asn_MBR_TRPItem_1[2];
 
 #ifdef __cplusplus
 }

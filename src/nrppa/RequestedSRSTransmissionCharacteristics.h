@@ -64,9 +64,6 @@ typedef struct RequestedSRSTransmissionCharacteristics {
 /* extern asn_TYPE_descriptor_t asn_DEF_resourceType_3;	// (Use
  * -fall-defs-global to expose) */
 extern asn_TYPE_descriptor_t asn_DEF_RequestedSRSTransmissionCharacteristics;
-extern asn_SEQUENCE_specifics_t
-    asn_SPC_RequestedSRSTransmissionCharacteristics_specs_1;
-extern asn_TYPE_member_t asn_MBR_RequestedSRSTransmissionCharacteristics_1[6];
 
 #ifdef __cplusplus
 }

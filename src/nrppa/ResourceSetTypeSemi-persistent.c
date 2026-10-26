@@ -75,7 +75,7 @@ asn_TYPE_member_t asn_MBR_ResourceSetTypeSemi_persistent_1[] = {
      offsetof(struct ResourceSetTypeSemi_persistent, iE_Extensions),
      (ASN_TAG_CLASS_CONTEXT | (1 << 2)),
      -1, /* IMPLICIT tag at current level */
-     &asn_DEF_ProtocolExtensionContainer_2816P50,
+     &asn_DEF_ProtocolExtensionContainer_4889P75,
      0,
      {0, 0, 0},
      0,

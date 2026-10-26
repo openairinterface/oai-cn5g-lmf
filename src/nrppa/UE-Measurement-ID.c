@@ -22,7 +22,7 @@ int UE_Measurement_ID_constraint(
 
   value = *(const long*) sptr;
 
-  if (((value >= 1 && value <= 15) || (value == 256))) {
+  if ((value >= 1 && value <= 256)) {
     /* Constraint check succeeded */
     return 0;
   } else {
@@ -37,11 +37,12 @@ int UE_Measurement_ID_constraint(
  * This type is implemented using NativeInteger,
  * so here we adjust the DEF accordingly.
  */
-asn_per_constraints_t asn_PER_type_UE_Measurement_ID_constr_1 CC_NOTUSED = {
-    {APC_CONSTRAINED | APC_EXTENSIBLE, 8, 8, 1, 256} /* (1..256,...) */,
-    {APC_UNCONSTRAINED, -1, -1, 0, 0},
-    0,
-    0 /* No PER value map */
+static asn_per_constraints_t asn_PER_type_UE_Measurement_ID_constr_1
+    CC_NOTUSED = {
+        {APC_CONSTRAINED | APC_EXTENSIBLE, 8, 8, 1, 256} /* (1..256,...) */,
+        {APC_UNCONSTRAINED, -1, -1, 0, 0},
+        0,
+        0 /* No PER value map */
 };
 static const ber_tlv_tag_t asn_DEF_UE_Measurement_ID_tags_1[] = {
     (ASN_TAG_CLASS_UNIVERSAL | (2 << 2))};

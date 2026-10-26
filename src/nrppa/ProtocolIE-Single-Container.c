@@ -9,7 +9,7 @@
 #include "ProtocolIE-Single-Container.h"
 
 /*
- * This type is implemented using OTDOA_Information_TypeIEs,
+ * This type is implemented using OTDOA_Information_Type_ItemIEs,
  * so here we adjust the DEF accordingly.
  */
 /*
@@ -18,6 +18,18 @@
  */
 /*
  * This type is implemented using AbortTransmission_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using AngleMeasurementType_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using ARPLocationType_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using BandwidthSRS_ExtIEs,
  * so here we adjust the DEF accordingly.
  */
 /*
@@ -41,11 +53,19 @@
  * so here we adjust the DEF accordingly.
  */
 /*
+ * This type is implemented using LoS_NLoSInformation_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
  * This type is implemented using MeasurementQuantities_ItemIEs,
  * so here we adjust the DEF accordingly.
  */
 /*
  * This type is implemented using MeasuredResultsValue_ExtensionIE,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using MultipleULAoA_Item_ExtIEs,
  * so here we adjust the DEF accordingly.
  */
 /*
@@ -77,11 +97,23 @@
  * so here we adjust the DEF accordingly.
  */
 /*
+ * This type is implemented using PRSResource_QCLInfo_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using PRSTransmissionOffIndication_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
  * This type is implemented using ReferenceSignal_ExtensionIE,
  * so here we adjust the DEF accordingly.
  */
 /*
  * This type is implemented using ReferencePoint_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using RelativePathDelay_ExtIEs,
  * so here we adjust the DEF accordingly.
  */
 /*
@@ -101,6 +133,14 @@
  * so here we adjust the DEF accordingly.
  */
 /*
+ * This type is implemented using SSBBurstPosition_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using TRPTEGInformation_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
  * This type is implemented using TimeStampSlotIndex_ExtIEs,
  * so here we adjust the DEF accordingly.
  */
@@ -113,6 +153,10 @@
  * so here we adjust the DEF accordingly.
  */
 /*
+ * This type is implemented using Choice_TRP_Beam_Info_Item_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
  * This type is implemented using TrpMeasuredResultsValue_ExtIEs,
  * so here we adjust the DEF accordingly.
  */
@@ -121,7 +165,11 @@
  * so here we adjust the DEF accordingly.
  */
 /*
- * This type is implemented using TRPInformationItem_ExtIEs,
+ * This type is implemented using TRPInformationTypeResponseItem_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
+ * This type is implemented using TRPInformationTypeItemTRPReq,
  * so here we adjust the DEF accordingly.
  */
 /*
@@ -137,627 +185,879 @@
  * so here we adjust the DEF accordingly.
  */
 /*
+ * This type is implemented using ULRTOAMeas_ExtIEs,
+ * so here we adjust the DEF accordingly.
+ */
+/*
  * This type is implemented using WLANMeasurementQuantities_ItemIEs,
  * so here we adjust the DEF accordingly.
  */
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1[] =
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P0 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P0 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P0_tags_1[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P0_tags_1[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOA_Information_TypeIEs_1,
-    3,                                         /* Elements count */
-    &asn_SPC_OTDOA_Information_TypeIEs_specs_1 /* Additional specs */
+    asn_MBR_OTDOA_Information_Type_ItemIEs_1,
+    3,                                              /* Elements count */
+    &asn_SPC_OTDOA_Information_Type_ItemIEs_specs_1 /* Additional specs */
 };
 
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2[] =
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P1 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P1 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P1_tags_2[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P1_tags_2[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
     asn_MBR_SRSType_ExtIEs_5,
     3,                              /* Elements count */
     &asn_SPC_SRSType_ExtIEs_specs_5 /* Additional specs */
 };
 
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3[] =
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P2 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P2 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P2_tags_3[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P2_tags_3[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
     asn_MBR_AbortTransmission_ExtIEs_9,
     3,                                        /* Elements count */
     &asn_SPC_AbortTransmission_ExtIEs_specs_9 /* Additional specs */
 };
 
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4[] =
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P3 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P3 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P3_tags_4[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P3_tags_4[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_Cause_ExtensionIE_13,
-    3,                                  /* Elements count */
-    &asn_SPC_Cause_ExtensionIE_specs_13 /* Additional specs */
+    asn_MBR_AngleMeasurementType_ExtIEs_13,
+    3,                                            /* Elements count */
+    &asn_SPC_AngleMeasurementType_ExtIEs_specs_13 /* Additional specs */
 };
 
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5[] =
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5[] =
     {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P4 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P4 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P4_tags_5[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P4_tags_5[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_DL_PRSMutingPattern_ExtIEs_17,
-    3,                                           /* Elements count */
-    &asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_17 /* Additional specs */
-};
-
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P5 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P5_tags_6[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_21,
-    3,                                                    /* Elements count */
-    &asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_21 /* Additional specs */
-};
-
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P6 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P6_tags_7[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_DL_PRSResourceARPLocation_ExtIEs_25,
-    3,                                                 /* Elements count */
-    &asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_25 /* Additional specs */
-};
-
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P7 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P7_tags_8[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_29,
-    3,                                           /* Elements count */
-    &asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_29 /* Additional specs */
-};
-
-static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9[] =
-    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P8 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P8_tags_9[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasurementQuantities_ItemIEs_33,
-    3,                                              /* Elements count */
-    &asn_SPC_MeasurementQuantities_ItemIEs_specs_33 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P9 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P9_tags_10[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_MeasuredResultsValue_ExtensionIE_37,
-    3,                                                 /* Elements count */
-    &asn_SPC_MeasuredResultsValue_ExtensionIE_specs_37 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P10 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P10_tags_11[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_NG_RANCell_ExtensionIE_41,
+    asn_MBR_ARPLocationType_ExtIEs_17,
     3,                                       /* Elements count */
-    &asn_SPC_NG_RANCell_ExtensionIE_specs_41 /* Additional specs */
+    &asn_SPC_ARPLocationType_ExtIEs_specs_17 /* Additional specs */
 };
 
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P11 = {
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P5 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P11_tags_12[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P5_tags_6[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OTDOACell_Information_Item_ExtensionIE_45,
+    asn_MBR_BandwidthSRS_ExtIEs_21,
+    3,                                    /* Elements count */
+    &asn_SPC_BandwidthSRS_ExtIEs_specs_21 /* Additional specs */
+};
+
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P6 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P6_tags_7[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_Cause_ExtensionIE_25,
+    3,                                  /* Elements count */
+    &asn_SPC_Cause_ExtensionIE_specs_25 /* Additional specs */
+};
+
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P7 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P7_tags_8[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_DL_PRSMutingPattern_ExtIEs_29,
+    3,                                           /* Elements count */
+    &asn_SPC_DL_PRSMutingPattern_ExtIEs_specs_29 /* Additional specs */
+};
+
+static const ber_tlv_tag_t asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9[] =
+    {(ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P8 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P8_tags_9[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_DL_PRSResourceSetARPLocation_ExtIEs_33,
+    3,                                                    /* Elements count */
+    &asn_SPC_DL_PRSResourceSetARPLocation_ExtIEs_specs_33 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P9 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P9_tags_10[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_DL_PRSResourceARPLocation_ExtIEs_37,
+    3,                                                 /* Elements count */
+    &asn_SPC_DL_PRSResourceARPLocation_ExtIEs_specs_37 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P10 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P10_tags_11[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_GNBRxTxTimeDiffMeas_ExtIEs_41,
+    3,                                           /* Elements count */
+    &asn_SPC_GNBRxTxTimeDiffMeas_ExtIEs_specs_41 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P11 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P11_tags_12[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_LoS_NLoSInformation_ExtIEs_45,
+    3,                                           /* Elements count */
+    &asn_SPC_LoS_NLoSInformation_ExtIEs_specs_45 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P12 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P12_tags_13[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MeasurementQuantities_ItemIEs_49,
+    3,                                              /* Elements count */
+    &asn_SPC_MeasurementQuantities_ItemIEs_specs_49 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P13 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P13_tags_14[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MeasuredResultsValue_ExtensionIE_53,
+    3,                                                 /* Elements count */
+    &asn_SPC_MeasuredResultsValue_ExtensionIE_specs_53 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P14 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P14_tags_15[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_MultipleULAoA_Item_ExtIEs_57,
+    3,                                          /* Elements count */
+    &asn_SPC_MultipleULAoA_Item_ExtIEs_specs_57 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P15 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P15_tags_16[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_NG_RANCell_ExtensionIE_61,
+    3,                                       /* Elements count */
+    &asn_SPC_NG_RANCell_ExtensionIE_specs_61 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P16 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P16_tags_17[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_OTDOACell_Information_Item_ExtensionIE_65,
     3, /* Elements count */
-    &asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_45 /* Additional specs
+    &asn_SPC_OTDOACell_Information_Item_ExtensionIE_specs_65 /* Additional specs
                                                               */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P12 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P17 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P12_tags_13[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P17_tags_18[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OtherRATMeasurementQuantities_ItemIEs_49,
+    asn_MBR_OtherRATMeasurementQuantities_ItemIEs_69,
     3,                                                      /* Elements count */
-    &asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_49 /* Additional specs
+    &asn_SPC_OtherRATMeasurementQuantities_ItemIEs_specs_69 /* Additional specs
                                                              */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P13 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P18 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P13_tags_14[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P18_tags_19[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_53,
+    asn_MBR_OtherRATMeasuredResultsValue_ExtensionIE_73,
     3, /* Elements count */
-    &asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_53 /* Additional
+    &asn_SPC_OtherRATMeasuredResultsValue_ExtensionIE_specs_73 /* Additional
                                                                   specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P14 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P19 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P14_tags_15[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P19_tags_20[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PathlossReferenceSignal_ExtensionIE_57,
+    asn_MBR_PathlossReferenceSignal_ExtensionIE_77,
     3,                                                    /* Elements count */
-    &asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_57 /* Additional specs */
+    &asn_SPC_PathlossReferenceSignal_ExtensionIE_specs_77 /* Additional specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P15 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P20 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P15_tags_16[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P20_tags_21[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PosResourceSetType_ExtIEs_61,
+    asn_MBR_PosResourceSetType_ExtIEs_81,
     3,                                          /* Elements count */
-    &asn_SPC_PosResourceSetType_ExtIEs_specs_61 /* Additional specs */
+    &asn_SPC_PosResourceSetType_ExtIEs_specs_81 /* Additional specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P16 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P21 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P16_tags_17[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P21_tags_22[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_65,
+    asn_MBR_PRSMutingConfiguration_EUTRA_ExtensionIE_85,
     3, /* Elements count */
-    &asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_65 /* Additional
+    &asn_SPC_PRSMutingConfiguration_EUTRA_ExtensionIE_specs_85 /* Additional
                                                                   specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P17 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P22 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P17_tags_18[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P22_tags_23[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_ReferenceSignal_ExtensionIE_69,
-    3,                                            /* Elements count */
-    &asn_SPC_ReferenceSignal_ExtensionIE_specs_69 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P18 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P18_tags_19[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_ReferencePoint_ExtIEs_73,
-    3,                                      /* Elements count */
-    &asn_SPC_ReferencePoint_ExtIEs_specs_73 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P19 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P19_tags_20[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_ResourceSetType_ExtIEs_77,
-    3,                                       /* Elements count */
-    &asn_SPC_ResourceSetType_ExtIEs_specs_77 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P20 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P20_tags_21[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_ResourceType_ExtIEs_81,
-    3,                                    /* Elements count */
-    &asn_SPC_ResourceType_ExtIEs_specs_81 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P21 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P21_tags_22[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_ResourceTypePos_ExtIEs_85,
-    3,                                       /* Elements count */
-    &asn_SPC_ResourceTypePos_ExtIEs_specs_85 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P22 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P22_tags_23[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_SpatialInformationPos_ExtIEs_89,
-    3,                                             /* Elements count */
-    &asn_SPC_SpatialInformationPos_ExtIEs_specs_89 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P23 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P23_tags_24[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_TimeStampSlotIndex_ExtIEs_93,
-    3,                                          /* Elements count */
-    &asn_SPC_TimeStampSlotIndex_ExtIEs_specs_93 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P24 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P24_tags_25[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_TransmissionComb_ExtIEs_97,
-    3,                                        /* Elements count */
-    &asn_SPC_TransmissionComb_ExtIEs_specs_97 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P25 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P25_tags_26[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_TransmissionCombPos_ExtIEs_101,
-    3,                                            /* Elements count */
-    &asn_SPC_TransmissionCombPos_ExtIEs_specs_101 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P26 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P26_tags_27[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_TrpMeasuredResultsValue_ExtIEs_105,
-    3,                                                /* Elements count */
-    &asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_105 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P27 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P27_tags_28[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_TrpMeasurementQuality_ExtIEs_109,
-    3,                                              /* Elements count */
-    &asn_SPC_TrpMeasurementQuality_ExtIEs_specs_109 /* Additional specs */
-};
-
-static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29[] = {
-        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P28 = {
-    "ProtocolIE-Single-Container",
-    "ProtocolIE-Single-Container",
-    &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P28_tags_29[0]), /* 1 */
-    {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPInformationItem_ExtIEs_113,
+    asn_MBR_PRSResource_QCLInfo_ExtIEs_89,
     3,                                           /* Elements count */
-    &asn_SPC_TRPInformationItem_ExtIEs_specs_113 /* Additional specs */
+    &asn_SPC_PRSResource_QCLInfo_ExtIEs_specs_89 /* Additional specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P29 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P23 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P29_tags_30[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P23_tags_24[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPPositionDefinitionType_ExtIEs_117,
-    3,                                                  /* Elements count */
-    &asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_117 /* Additional specs */
+    asn_MBR_PRSTransmissionOffIndication_ExtIEs_93,
+    3,                                                    /* Elements count */
+    &asn_SPC_PRSTransmissionOffIndication_ExtIEs_specs_93 /* Additional specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P30 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P24 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P30_tags_31[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P24_tags_25[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPPositionDirectAccuracy_ExtIEs_121,
-    3,                                                  /* Elements count */
-    &asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_121 /* Additional specs */
+    asn_MBR_ReferenceSignal_ExtensionIE_97,
+    3,                                            /* Elements count */
+    &asn_SPC_ReferenceSignal_ExtensionIE_specs_97 /* Additional specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P31 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P25 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P31_tags_32[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P25_tags_26[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_TRPReferencePointType_ExtIEs_125,
+    asn_MBR_ReferencePoint_ExtIEs_101,
+    3,                                       /* Elements count */
+    &asn_SPC_ReferencePoint_ExtIEs_specs_101 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P26 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P26_tags_27[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_RelativePathDelay_ExtIEs_105,
+    3,                                          /* Elements count */
+    &asn_SPC_RelativePathDelay_ExtIEs_specs_105 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P27 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P27_tags_28[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_ResourceSetType_ExtIEs_109,
+    3,                                        /* Elements count */
+    &asn_SPC_ResourceSetType_ExtIEs_specs_109 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P28 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P28_tags_29[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_ResourceType_ExtIEs_113,
+    3,                                     /* Elements count */
+    &asn_SPC_ResourceType_ExtIEs_specs_113 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P29 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P29_tags_30[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_ResourceTypePos_ExtIEs_117,
+    3,                                        /* Elements count */
+    &asn_SPC_ResourceTypePos_ExtIEs_specs_117 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P30 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P30_tags_31[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_SpatialInformationPos_ExtIEs_121,
     3,                                              /* Elements count */
-    &asn_SPC_TRPReferencePointType_ExtIEs_specs_125 /* Additional specs */
+    &asn_SPC_SpatialInformationPos_ExtIEs_specs_121 /* Additional specs */
 };
 
 static const ber_tlv_tag_t
-    asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33[] = {
+    asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32[] = {
         (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
-asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_2792P32 = {
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P31 = {
     "ProtocolIE-Single-Container",
     "ProtocolIE-Single-Container",
     &asn_OP_SEQUENCE,
-    asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33,
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33[0]), /* 1 */
-    asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33, /* Same as above */
-    sizeof(asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33) /
-        sizeof(asn_DEF_ProtocolIE_Single_Container_2792P32_tags_33[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P31_tags_32[0]), /* 1 */
     {0, 0, SEQUENCE_constraint},
-    asn_MBR_WLANMeasurementQuantities_ItemIEs_129,
+    asn_MBR_SSBBurstPosition_ExtIEs_125,
+    3,                                         /* Elements count */
+    &asn_SPC_SSBBurstPosition_ExtIEs_specs_125 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P32 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P32_tags_33[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPTEGInformation_ExtIEs_129,
+    3,                                          /* Elements count */
+    &asn_SPC_TRPTEGInformation_ExtIEs_specs_129 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P33 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P33_tags_34[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TimeStampSlotIndex_ExtIEs_133,
+    3,                                           /* Elements count */
+    &asn_SPC_TimeStampSlotIndex_ExtIEs_specs_133 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P34 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P34_tags_35[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TransmissionComb_ExtIEs_137,
+    3,                                         /* Elements count */
+    &asn_SPC_TransmissionComb_ExtIEs_specs_137 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P35 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P35_tags_36[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TransmissionCombPos_ExtIEs_141,
+    3,                                            /* Elements count */
+    &asn_SPC_TransmissionCombPos_ExtIEs_specs_141 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P36 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P36_tags_37[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_Choice_TRP_Beam_Info_Item_ExtIEs_145,
+    3,                                                  /* Elements count */
+    &asn_SPC_Choice_TRP_Beam_Info_Item_ExtIEs_specs_145 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P37 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P37_tags_38[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TrpMeasuredResultsValue_ExtIEs_149,
+    3,                                                /* Elements count */
+    &asn_SPC_TrpMeasuredResultsValue_ExtIEs_specs_149 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P38 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P38_tags_39[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TrpMeasurementQuality_ExtIEs_153,
+    3,                                              /* Elements count */
+    &asn_SPC_TrpMeasurementQuality_ExtIEs_specs_153 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P39 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P39_tags_40[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPInformationTypeResponseItem_ExtIEs_157,
+    3, /* Elements count */
+    &asn_SPC_TRPInformationTypeResponseItem_ExtIEs_specs_157 /* Additional specs
+                                                              */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P40 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P40_tags_41[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPInformationTypeItemTRPReq_161,
+    3,                                              /* Elements count */
+    &asn_SPC_TRPInformationTypeItemTRPReq_specs_161 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P41 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P41_tags_42[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPPositionDefinitionType_ExtIEs_165,
+    3,                                                  /* Elements count */
+    &asn_SPC_TRPPositionDefinitionType_ExtIEs_specs_165 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P42 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P42_tags_43[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPPositionDirectAccuracy_ExtIEs_169,
+    3,                                                  /* Elements count */
+    &asn_SPC_TRPPositionDirectAccuracy_ExtIEs_specs_169 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P43 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P43_tags_44[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_TRPReferencePointType_ExtIEs_173,
+    3,                                              /* Elements count */
+    &asn_SPC_TRPReferencePointType_ExtIEs_specs_173 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P44 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P44_tags_45[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_ULRTOAMeas_ExtIEs_177,
+    3,                                   /* Elements count */
+    &asn_SPC_ULRTOAMeas_ExtIEs_specs_177 /* Additional specs */
+};
+
+static const ber_tlv_tag_t
+    asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46[] = {
+        (ASN_TAG_CLASS_UNIVERSAL | (16 << 2))};
+asn_TYPE_descriptor_t asn_DEF_ProtocolIE_Single_Container_4863P45 = {
+    "ProtocolIE-Single-Container",
+    "ProtocolIE-Single-Container",
+    &asn_OP_SEQUENCE,
+    asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46,
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46[0]), /* 1 */
+    asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46, /* Same as above */
+    sizeof(asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46) /
+        sizeof(asn_DEF_ProtocolIE_Single_Container_4863P45_tags_46[0]), /* 1 */
+    {0, 0, SEQUENCE_constraint},
+    asn_MBR_WLANMeasurementQuantities_ItemIEs_181,
     3,                                                   /* Elements count */
-    &asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_129 /* Additional specs */
+    &asn_SPC_WLANMeasurementQuantities_ItemIEs_specs_181 /* Additional specs */
 };
