@@ -36,11 +36,12 @@ void N2InfoNotifyApiImpl::receive_n2info_nrppa_notification(
 
   Logger::lmf_server().debug("SUPI %s", ueContextId);
 
-  auto nrppa = lmf_app::parse_n2_info_container_nrppa(
+  auto nrppa = oai::lmf::app::lmf_app::parse_n2_info_container_nrppa(
       n2InformationNotification, parts.at(1));
 
   if (!m_lmf_app->handle_n2info_nrppa_notification(ueContextId, nrppa)) {
-    N1N2MessageSubscription::unsubscribe(ueContextId, n2NotifySubscriptionId);
+    oai::lmf::app::N1N2MessageSubscription::unsubscribe(
+        ueContextId, n2NotifySubscriptionId);
   }
 }
 

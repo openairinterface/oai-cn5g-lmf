@@ -46,7 +46,7 @@ using namespace oai::lmf::app;
 using namespace oai::lmf::api;
 using namespace oai::_3gpp::model;
 
-extern std::shared_ptr<oai::http::http_client> http_client_inst;
+extern std::shared_ptr<oai::sba::http_client> http_client_inst;
 
 namespace {
 std::optional<double> relative_cartesian_unit_to_meters(long const xYZunit) {
@@ -194,7 +194,7 @@ bool LocationDetermination::n1_n2_message_transfer(
   }
 
   // Send HTTP request
-  oai::http::request http_request =
+  oai::sba::request http_request =
       http_client_inst->prepare_multipart_request(amf_uri, body);
   auto http_response = http_client_inst->send_http_request(
       oai::common::sbi::method_e::POST, http_request);
@@ -328,7 +328,7 @@ bool LocationDetermination::non_ue_n2_message_transfer(
   lmf_app_inst->insert_nrppaTxnId2supi(txnId, this->supi);
 
   // Send HTTP request
-  oai::http::request http_request =
+  oai::sba::request http_request =
       http_client_inst->prepare_multipart_request(amf_uri, body);
   auto http_response = http_client_inst->send_http_request(
       oai::common::sbi::method_e::POST, http_request);

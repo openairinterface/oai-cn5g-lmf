@@ -7,84 +7,30 @@
 
 #include "lmf_event.hpp"
 #include "lmf_profile.hpp"
+#include "../common-src/sba/nf_service.hpp"
 
 namespace oai::lmf::app {
 
-class lmf_nrf {
- private:
+class lmf_nrf : public oai::sba::nf_service {
  public:
-  lmf_profile lmf_nf_profile;   // LMF profile
-  std::string lmf_instance_id;  // LMF instance id
-  // timer_id_t timer_lmf_heartbeat;
-
-  lmf_nrf(lmf_event& ev);
-  lmf_nrf(lmf_nrf const&) = delete;
-  virtual ~lmf_nrf();
+  explicit lmf_nrf(const std::shared_ptr<lmf_event>& ev);
+  lmf_nrf(lmf_nrf const&)        = delete;
+  ~lmf_nrf() override            = default;
   void operator=(lmf_nrf const&) = delete;
 
-  void generate_uuid();
+  bool register_to_nrf();
+  bool deregister_to_nrf();
+  std::string get_nf_instance_id() const;
 
-  /*
-   * Start event NF heartbeat procedure
-   * @param [void]
-   * @return void
-   */
-  void start_event_nf_heartbeat(std::string& remoteURI);
+  void generate_lmf_profile();
 
-  /*
-   * Trigger NF heartbeat procedure
-   * @param [void]
-   * @return void
-   */
-  void trigger_nf_heartbeat_procedure(uint64_t ms);
+  lmf_profile lmf_nf_profile;
 
-  /*
-   * Start event NRF registration retry
-   * @param [void]
-   * @return void
-   */
-  void start_nrf_registration_retry();
-
-  /*
-   * Trigger NF registration procedure
-   * @param [void]
-   * @return void
-   */
-  void trigger_nrf_registration_retry_procedure(uint64_t ms);
-
-  /*
-   * Stop event NRF registration retry
-   * @param [void]
-   * @return void
-   */
-  void stop_nrf_registration_retry();
-
-  /*
-   * Trigger NF instance registration to NRF
-   * @param [void]
-   * @return void
-   */
-  void register_to_nrf();
-
-  /*
-   * Trigger NF instance deregistration to NRF
-   * @param [void]
-   * @return void
-   */
-  void deregister_to_nrf();
-
-  /*
-   * Generate a LMF profile for this instance
-   * @param [void]
-   * @return void
-   */
-  void generate_lmf_profile(
-      lmf_profile& lmf_nf_profile, std::string& lmf_instance_id);
-
- private:
-  lmf_event& m_event_sub;
-  bs2::connection task_connection;
-  bs2::connection retry_nrf_registration_task_connection;
+ protected:
+  bool nrf_registration_enabled() const override;
+  uint64_t nrf_registration_retry_seconds() const override;
+  void on_registration_outcome(
+      bool success, const oai::sba::response& resp) override;
 };
 
 }  // namespace oai::lmf::app

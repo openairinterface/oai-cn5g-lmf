@@ -225,6 +225,13 @@ include(CheckTypeSize)
 
 add_boolean_option( DISPLAY_LICENCE_INFO            False    "If a module has a licence banner to show")
 add_boolean_option( LOG_OAI                         False    "Thread safe logging utility")
+add_boolean_option( USE_NGHTTP2_CLIENT              False    "Use the nghttp2 HTTP client instead of the CPR HTTP client")
+
+if(USE_NGHTTP2_CLIENT)
+  set(LMF_HTTP_CLIENT_DIR nghttp)
+else()
+  set(LMF_HTTP_CLIENT_DIR http)
+endif()
 
 # System packages that are required
 # We use either the cmake buildin, in ubuntu are in: /usr/share/cmake*/Modules/
@@ -265,9 +272,10 @@ include_directories(${SRC_TOP_DIR}/api_server)
 include_directories(${SRC_TOP_DIR}/api_server/api)
 include_directories(${SRC_TOP_DIR}/api_server/impl)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/common)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON})
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/config)
-include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/3gpp)
-include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http)
+include_directories(BEFORE ${SRC_TOP_DIR}/${MOUNTED_COMMON}/3gpp)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/${LMF_HTTP_CLIENT_DIR})
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/pfcp)
@@ -284,7 +292,11 @@ add_executable(lmf
 # Including common modules
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/common/common.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/config/config.cmake)
-include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http/http.cmake)
+if(USE_NGHTTP2_CLIENT)
+  include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/nghttp/nghttp.cmake)
+else()
+  include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http/http.cmake)
+endif()
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger/logger.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model/lmf.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/utils.cmake)
@@ -299,4 +311,8 @@ ENDIF(STATIC_LINKING)
 # LMF_API LPP NRPPA
 target_link_libraries (lmf ${ASAN} 
     -Wl,--start-group LMF 3GPP_COMMON_TYPES LMF_API NRPPA -lnettle ${NETTLE_LIBRARIES} ${CRYPTO_LIBRARIES} -lnghttp2_asio -lboost_system -lboost_thread -lboost_date_time -lssl -lcrypto -lfmt -lgmp -lstdc++fs -Wl,--end-group pthread m rt config++ boost_system pistache curl yaml-cpp cpr::cpr)
+
+if(USE_NGHTTP2_CLIENT)
+  target_link_libraries(lmf nghttp2 boost_system boost_thread boost_date_time)
+endif()
     

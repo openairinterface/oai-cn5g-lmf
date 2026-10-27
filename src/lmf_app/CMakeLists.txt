@@ -11,17 +11,23 @@ include_directories(${SRC_TOP_DIR}/common/libngap)
 include_directories(${SRC_TOP_DIR}/nrppa)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/common)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/config)
-include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http)
+include_directories(BEFORE ${SRC_TOP_DIR}/${MOUNTED_COMMON}/3gpp)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/${LMF_HTTP_CLIENT_DIR})
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model)
+include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/sba)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils)
 include_directories(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/bstr)
 
-include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http/http.cmake)
+if(USE_NGHTTP2_CLIENT)
+  include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/nghttp/nghttp.cmake)
+else()
+  include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/http/http.cmake)
+endif()
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/logger/logger.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/model/lmf.cmake)
 include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/utils/utils.cmake)
-
+include(${SRC_TOP_DIR}/${MOUNTED_COMMON}/sba/sba.cmake)
 
 # Find the LAPACK and BLAS packages
 pkg_check_modules(blas REQUIRED blas)
@@ -30,12 +36,10 @@ pkg_check_modules(lapacke REQUIRED lapacke)
 # `cblas_INCLUDE_DIRS` will be empty for Ubuntu, a no-op
 pkg_check_modules(cblas cblas)
 
-
 file(GLOB LMF_src_files
   lmf_app.cpp
   lmf_config.cpp
   lmf_config_yaml.cpp 
-  task_manager.cpp
   lmf_event.cpp
   lmf_profile.cpp
   lmf_nrf.cpp 
@@ -45,9 +49,11 @@ file(GLOB LMF_src_files
   position_estimation.cpp
 )
 
-
 # Add library
-add_library(LMF STATIC ${LMF_src_files})
+add_library(LMF STATIC
+  ${LMF_src_files}
+)
+
 target_include_directories(LMF PRIVATE ${blas_INCLUDE_DIRS} ${cblas_INCLUDE_DIRS} ${lapacke_INCLUDE_DIRS})
 
 # Link libraries

@@ -21,6 +21,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <memory>
 #include <thread>
 
 #include "http_client.hpp"
@@ -35,6 +36,8 @@
 #include "pistache/endpoint.h"
 #include "pistache/http.h"
 #include "pistache/router.h"
+#include "sba/nf_service.hpp"
+#include "sba/task_manager.hpp"
 
 using namespace oai::lmf::app;
 using namespace oai::utils;
@@ -43,12 +46,12 @@ using namespace std;
 using namespace oai::lmf::config;
 
 lmf_config lmf_cfg;
-lmf_app* lmf_app_inst              = nullptr;
-LMFApiServer* api_server           = nullptr;
-lmf_http2_server* lmf_api_server_2 = nullptr;
-task_manager* tm_inst              = nullptr;
+lmf_app* lmf_app_inst                           = nullptr;
+LMFApiServer* api_server                        = nullptr;
+lmf_http2_server* lmf_api_server_2              = nullptr;
+std::unique_ptr<oai::sba::task_manager> tm_inst = nullptr;
 std::unique_ptr<oai::config::lmf_config_yaml> lmf_cfg_yaml;
-std::shared_ptr<oai::http::http_client> http_client_inst = nullptr;
+std::shared_ptr<oai::sba::http_client> http_client_inst = nullptr;
 
 //------------------------------------------------------------------------------
 void my_app_signal_handler(int s) {
@@ -79,8 +82,7 @@ void my_app_signal_handler(int s) {
   Logger::system().debug("LMF API Server memory done");
 
   if (tm_inst) {
-    delete tm_inst;
-    tm_inst = nullptr;
+    tm_inst.reset();
   }
   Logger::system().debug("Stopped the LMF Task Manager.");
 
@@ -116,7 +118,7 @@ int main(int argc, char** argv) {
   std::signal(SIGINT, my_app_signal_handler);
 
   // Event subsystem
-  lmf_event ev;
+  auto ev = std::make_shared<lmf_event>();
 
   // Config
   std::string conf_file_name = Options::getlibconfigConfig();
@@ -136,7 +138,7 @@ int main(int argc, char** argv) {
 
   // HTTP Client
   uint8_t http_version = lmf_cfg.use_http2 ? 2 : 1;
-  http_client_inst     = oai::http::http_client::create_instance(
+  http_client_inst     = oai::sba::http_client::create_instance(
       Logger::lmf_client(), lmf_cfg.http_request_timeout, lmf_cfg.sbi.if_name,
       http_version);
 
@@ -154,8 +156,8 @@ int main(int argc, char** argv) {
   }
 
   // Task Manager
-  tm_inst = new task_manager(ev);
-  std::thread task_manager_thread(&task_manager::run, tm_inst);
+  tm_inst = std::make_unique<oai::sba::task_manager>(ev);
+  std::thread task_manager_thread(&oai::sba::task_manager::run, tm_inst.get());
 
   // PID file
   string pid_file_name =

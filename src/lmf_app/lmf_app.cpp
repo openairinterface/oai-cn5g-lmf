@@ -77,7 +77,8 @@ auto end(T const& container) {
 }
 
 //------------------------------------------------------------------------------
-lmf_app::lmf_app(const std::string& config_file, lmf_event& ev)
+lmf_app::lmf_app(
+    const std::string& config_file, const std::shared_ptr<lmf_event>& ev)
     : event_sub(ev) {}
 
 //------------------------------------------------------------------------------
@@ -824,10 +825,10 @@ NrppaPduShared lmf_app::parse_n2_info_container_nrppa(
   }
   auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
 
-  if (nrppaInfo.getNfId() != lmf_nrf_inst->lmf_instance_id) {
+  if (nrppaInfo.getNfId() != lmf_nrf_inst->get_nf_instance_id()) {
     Logger::lmf_server().warn(
-        "nfId != '%s': '%s'", lmf_nrf_inst->lmf_instance_id,
-        nrppaInfo.getNfId());
+        "nfId != '%s': '%s'", lmf_nrf_inst->get_nf_instance_id().c_str(),
+        nrppaInfo.getNfId().c_str());
   }
 
   auto const& nrppaPdu = nrppaInfo.getNrppaPdu();

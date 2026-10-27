@@ -22,8 +22,9 @@ using namespace std::string_literals;
 
 using namespace oai::_3gpp::model;
 using namespace oai::lmf::api;
+using namespace oai::lmf::app;
 
-extern std::shared_ptr<oai::http::http_client> http_client_inst;
+extern std::shared_ptr<oai::sba::http_client> http_client_inst;
 
 //------------------------------------------------------------------------------
 // 5.2.2.4.3 NonUeN2InfoUnsubscribe
@@ -38,7 +39,7 @@ void NonUeN2MessageSubscription::unsubscribe(std::string const& id) {
   // 2. 204 No Content
   std::string response;
   // Send HTTP request
-  oai::http::request http_request =
+  oai::sba::request http_request =
       http_client_inst->prepare_json_request(amf_uri);
   auto http_response = http_client_inst->send_http_request(
       oai::common::sbi::method_e::DELETE, http_request);
@@ -79,12 +80,12 @@ std::string NonUeN2MessageSubscription::subscribe() {
   // setGlobalRanNodeList / setAnTypeList
   nonUeN2InfoSubscriptionCreateData.setN2InformationClass(n2InformationClass);
   nonUeN2InfoSubscriptionCreateData.setN2NotifyCallbackUri(n2NotifyCallbackUri);
-  nonUeN2InfoSubscriptionCreateData.setNfId(lmf_nrf_inst->lmf_instance_id);
+  nonUeN2InfoSubscriptionCreateData.setNfId(lmf_nrf_inst->get_nf_instance_id());
 
   // 2. 201 Created (nonUeN2InfoSubscriptionCreateData)
   std::string response;
   // Send HTTP request
-  oai::http::request http_request = http_client_inst->prepare_json_request(
+  oai::sba::request http_request = http_client_inst->prepare_json_request(
       amf_uri, nlohmann::json(nonUeN2InfoSubscriptionCreateData).dump());
   auto http_response = http_client_inst->send_http_request(
       oai::common::sbi::method_e::POST, http_request);
