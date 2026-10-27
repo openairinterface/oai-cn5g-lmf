@@ -66,10 +66,10 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
   }
   auto const& nrppaInfo = n2InfoContainer.getNrppaInfo();
 
-  if (nrppaInfo.getNfId() != lmf_nrf_inst->lmf_instance_id) {
+  if (nrppaInfo.getNfId() != lmf_nrf_inst->get_nf_instance_id()) {
     Logger::lmf_server().warn(
-        "nfId != '%s': '%s'", lmf_nrf_inst->lmf_instance_id,
-        nrppaInfo.getNfId());
+        "nfId != '%s': '%s'", lmf_nrf_inst->get_nf_instance_id().c_str(),
+        nrppaInfo.getNfId().c_str());
   }
 
   auto const& nrppaPdu = nrppaInfo.getNrppaPdu();
@@ -114,7 +114,7 @@ void NonUeN2InfoNotifyApiImpl::receive_non_ue_n2info_nrppa_notification(
   uint8_t http_code              = 0;
 
   if (m_lmf_app->handle_non_ue_n2info_nrppa_notification(
-          share_nrppa_pdu(nrppa))) {
+          oai::lmf::app::share_nrppa_pdu(nrppa))) {
     response.send(Pistache::Http::Code(204));
   }
 }

@@ -36,7 +36,8 @@ namespace oai::lmf::app {
 
 class lmf_app {
  public:
-  explicit lmf_app(const std::string& config_file, lmf_event& ev);
+  explicit lmf_app(
+      const std::string& config_file, const std::shared_ptr<lmf_event>& ev);
   lmf_app(lmf_app const&)        = delete;
   void operator=(lmf_app const&) = delete;
 
@@ -104,7 +105,7 @@ class lmf_app {
   void handle_trp_information_response(
       NrppaPduShared nrppaPdu, NRPPATransactionID_t const& tId,
       TRPInformationResponse_t const& trpInformation);
-  lmf_event& event_sub;
+  std::shared_ptr<lmf_event> event_sub;
 
   bool _is_supi_2_context(const std::string& supi) const;
 
